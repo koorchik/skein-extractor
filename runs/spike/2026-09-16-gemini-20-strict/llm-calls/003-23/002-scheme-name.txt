@@ -1,0 +1,45 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You maintain a small, growing set of CONCEPT SCHEMES (entity categories) for a knowledge registry built from cybersecurity incident reports. A group of entities extracted from several reports has just been found to be close to each other and far from every existing scheme. Decide whether the group is a genuinely new scheme or an alias of an existing one, and name it.
+
+### EXISTING SCHEMES ###
+- Software Product: A commercial, open-source, or proprietary software application, suite, tool, or component used for computing tasks.
+- Software Vendor: A company or organization that develops, publishes, or sells software or technology products and services.
+- Security Advisory: An official public notice or document providing information, remediation, or patches regarding cybersecurity vulnerabilities or threats.
+
+### THE GROUP ###
+Each line is one entity with the description written at extraction time:
+- CVE-2020-7048 [vulnerability identifier] — A critical vulnerability allowing unauthorized users to reset database tables in the WP Database Reset plugin.
+- CVE-2020-7047 [vulnerability identifier] — A high-severity vulnerability allowing authenticated users to escalate privileges in the WP Database Reset plugin.
+- CVE-2020-3111 [vulnerability identifier] — A vulnerability in Cisco IP Phone CDP implementation allowing remote code execution with root privileges or device reload.
+- CVE-2020-3110 [vulnerability identifier] — A vulnerability in Cisco 8000 Series IP Cameras CDP implementation allowing remote code execution or denial of service.
+- CVE-2020-3120 [vulnerability identifier] — A denial-of-service and memory exhaustion vulnerability affecting Cisco FXOS, IOS XR, and NX-OS implementations of CDP.
+- CVE-2020-3119 [vulnerability identifier] — A stack overflow vulnerability in Cisco NX-OS CDP implementation allowing remote administrative code execution.
+- CVE-2020-3118 [vulnerability identifier] — A stack overflow vulnerability in Cisco IOS XR CDP implementation allowing remote administrative code execution.
+- CVE-2020-3741 [vulnerability identifier] — A high-severity denial-of-service vulnerability affecting Adobe Experience Manager.
+- CVE-2020-3757 [vulnerability identifier] — A critical remote code execution vulnerability affecting Adobe Flash Player.
+- CVE-2020-3760 [vulnerability identifier] — A critical command execution vulnerability affecting Adobe Digital Editions.
+- CVE-2020-3759 [vulnerability identifier] — A high-severity buffer error vulnerability leading to information disclosure in Adobe Digital Editions.
+
+### RULES ###
+- A scheme is a KIND of entity (e.g. "Hacker group", "Malware family", "Software product", "Government body", "Internet domain", "Country"), never a role in an incident and never a single entity.
+- Return `"verdict": "alias-of"` with `"target"` set to an existing scheme's label when the group is the same kind as that scheme (different wording, same meaning). Judge by MEANING of the descriptions, not by surface words.
+- Return `"verdict": "new"` when no existing scheme covers the group. Then give:
+  - `prefLabel`: a short English noun phrase, 1–3 words, singular, Title Case (e.g. "Malware Family").
+  - `definition`: one sentence, at most 25 words, stating what belongs to the scheme, general enough to hold across reports.
+  - `altLabels`: 0–3 alternative English labels.
+- If the group mixes clearly different kinds, name the kind of the MAJORITY and list the minority entity names in `outliers`.
+- If uncertain between alias and new, prefer `new`: an extra scheme can be merged later; a wrong merge cannot be undone cheaply.
+
+### OUTPUT ###
+A single raw JSON object, no markdown fences, no commentary:
+{ "verdict": "new" | "alias-of", "target": "<existing label or null>", "prefLabel": "...", "definition": "...", "altLabels": [...], "outliers": [...] }
+
+--- text ---
+Decide and name the group now.
+
+=== RESPONSE (4.0s, in 914 / out 67 tok, STOP) ===
+{"verdict": "new", "target": null, "prefLabel": "Security Vulnerability", "definition": "A flaw or weakness in software, hardware, or system design that can be exploited to compromise security.", "altLabels": ["Software Vulnerability", "Vulnerability", "CVE"], "outliers": []}

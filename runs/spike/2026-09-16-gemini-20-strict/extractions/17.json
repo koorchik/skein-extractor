@@ -1,0 +1,65 @@
+{
+  "entities": [
+    {
+      "name": "WP Data Reset",
+      "kind": "software product",
+      "gloss": "An open-source WordPress plugin designed to reset database tables to default settings."
+    },
+    {
+      "name": "WordPress",
+      "kind": "software product",
+      "gloss": "A widely used open-source content management system."
+    },
+    {
+      "name": "WebFactory Ltd",
+      "kind": "software vendor",
+      "gloss": "A software development company that maintains WordPress plugins."
+    },
+    {
+      "name": "CVE-2020-7048",
+      "kind": "vulnerability identifier",
+      "gloss": "A critical vulnerability allowing unauthorized users to reset database tables in the WP Database Reset plugin."
+    },
+    {
+      "name": "CVE-2020-7047",
+      "kind": "vulnerability identifier",
+      "gloss": "A high-severity vulnerability allowing authenticated users to escalate privileges in the WP Database Reset plugin."
+    },
+    {
+      "name": "WP Dataset Reset 3.15",
+      "kind": "software update",
+      "gloss": "A patched release of the WP Database Reset plugin that addresses security vulnerabilities."
+    },
+    {
+      "name": "WordFence",
+      "kind": "cybersecurity company",
+      "gloss": "A cybersecurity firm specializing in WordPress security research and protection solutions."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2020-7048",
+      "type": "affects",
+      "tail": "WP Data Reset",
+      "evidence": "Критичні помилки, знайдені у використовуваному понад 80 000 сайтів плагін для скидання бази даних"
+    },
+    {
+      "head": "CVE-2020-7047",
+      "type": "affects",
+      "tail": "WP Data Reset",
+      "evidence": "Критичні помилки, знайдені у використовуваному понад 80 000 сайтів плагін для скидання бази даних"
+    },
+    {
+      "head": "WP Dataset Reset 3.15",
+      "type": "mitigates-vulnerability-in",
+      "tail": "WP Data Reset",
+      "evidence": "були виправлені з випуском програми WP Dataset Reset 3.15"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "affects",
+      "definition": "The subject security flaw or vulnerability impacts or exists within the target software product or system."
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+{
+  "docId": 25,
+  "date": "24.03.2020",
+  "title": "Фішингові листи на тему коронавірусу, що приховують у собі ШПЗ",
+  "entities": [
+    {
+      "id": "25:0",
+      "name": "CoronaMap.exe",
+      "kind": "malware",
+      "gloss": "A malicious executable disguised as a coronavirus tracking map that executes the AZORult trojan.",
+      "scheme": null,
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "25:1",
+      "name": "AZORult",
+      "kind": "malware family",
+      "gloss": "An information-stealing Trojan designed to harvest user credentials, cookies, browser data, and cryptocurrency information.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "25:2",
+      "name": "Corona-virus-Map.com.exe",
+      "kind": "malware",
+      "gloss": "A malicious executable file used to distribute malware under the guise of a coronavirus map.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "25:3",
+      "name": "Університет Джона Хопкінса",
+      "kind": "educational institution",
+      "gloss": "A private research university in the United States whose COVID-19 dashboard was mimicked by malware.",
+      "scheme": null,
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "25:4",
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A family of proprietary graphical operating systems developed and marketed by Microsoft.",
+      "scheme": "S4",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "25:5",
+      "name": "Java",
+      "kind": "software platform",
+      "gloss": "A set of computer software and specifications developed by Sun Microsystems and later acquired by Oracle.",
+      "scheme": "S1",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "25:6",
+      "name": "MS Office",
+      "kind": "software suite",
+      "gloss": "A suite of productivity software developed and marketed by Microsoft.",
+      "scheme": "S1",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "25:7",
+      "name": ".NET",
+      "kind": "software framework",
+      "gloss": "A software development framework created by Microsoft for building and running applications on Windows.",
+      "scheme": "S1",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "25:8",
+      "name": "VirusTotal",
+      "kind": "online service",
+      "gloss": "An online service that analyzes suspicious files and URLs to detect malware using antivirus engines.",
+      "scheme": null,
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "25:9",
+      "name": "Державного центру кіберзахисту та протидії кіберзагрозам Держспецзв’язку",
+      "kind": "government body",
+      "gloss": "A Ukrainian state cybersecurity center operating under SSSCIP to protect state information resources.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "25:10",
+      "name": "Держспецзв’язку",
+      "kind": "government body",
+      "gloss": "A Ukrainian central executive body responsible for state communication, cyber defense, and information protection.",
+      "scheme": null,
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "25:11",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "CoronaMap.exe",
+      "type": "delivers",
+      "tail": "AZORult",
+      "evidence": "при запуску зловмисної програми CoronaMap.exe ... ініціюється запуск шкідливого програмного забезпечення, відомого як AZORult"
+    },
+    {
+      "head": "Державного центру кіберзахисту та протидії кіберзагрозам Держспецзв’язку",
+      "type": "part-of",
+      "tail": "Держспецзв’язку",
+      "evidence": "Державного центру кіберзахисту та протидії кіберзагрозам Держспецзв’язку"
+    },
+    {
+      "head": "Держспецзв’язку",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "урядової команди реагування на комп’ютерні надзвичайні події України CERT-UA"
+    }
+  ],
+  "unclassified": [
+    "25:0",
+    "25:1",
+    "25:2",
+    "25:3",
+    "25:8",
+    "25:9",
+    "25:10"
+  ]
+}

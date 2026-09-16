@@ -1,0 +1,157 @@
+{
+  "docId": 1229152,
+  "date": "10.08.2022",
+  "title": "Кібератаки групи UAC-0010 (Armageddon): шкідливі програми GammaLoad, GammaSteel (CERT-UA#5134)",
+  "entities": [
+    {
+      "id": "1229152:0",
+      "name": "UAC-0010",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage threat group also known as Armageddon or Gamaredon.",
+      "scheme": "S2",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "1229152:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "1229152:2",
+      "name": "GammaLoad.PS1",
+      "kind": "malware family",
+      "gloss": "A PowerShell-based reconnaissance and downloader script utilized by the Gamaredon group.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "1229152:3",
+      "name": "GammaSteel.PS1",
+      "kind": "malware family",
+      "gloss": "A PowerShell-based information stealing malware family used to harvest user files.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "1229152:4",
+      "name": "GammaSteel.NET",
+      "kind": "malware family",
+      "gloss": "A .NET-based stealer malware designed to exfiltrate browser authentication credentials.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "1229152:5",
+      "name": "HarvesterX",
+      "kind": "malware family",
+      "gloss": "An information stealer malware previously used by the Gamaredon threat actor.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "1229152:6",
+      "name": "Normal.dotm",
+      "kind": "file",
+      "gloss": "The default macro-enabled Microsoft Word template file.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "1229152:7",
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework from Microsoft comprising a command-line shell.",
+      "scheme": "S8",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "1229152:8",
+      "name": "wscript.exe",
+      "kind": "software product",
+      "gloss": "A built-in Windows executable used to run VBScript and JScript scripts.",
+      "scheme": "S8",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "1229152:9",
+      "name": "mshta.exe",
+      "kind": "software product",
+      "gloss": "A Windows utility that executes Microsoft HTML Application files.",
+      "scheme": "S8",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "1229152:10",
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cloud-based, cross-platform instant messaging service.",
+      "scheme": "S8",
+      "category": null,
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "GammaLoad.PS1",
+      "evidence": "ланцюг доставки GammaLoad.PS1 на комп'ютер жертви"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "GammaSteel.PS1",
+      "evidence": "для чого застосовується GammaSteel.PS1"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "GammaSteel.NET",
+      "evidence": "GammaSteel.PS1 та GammaSteel.NET, відповідно"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "HarvesterX",
+      "evidence": "PowerShell-реалізацією раніше використовуваного HarvesterX"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "PowerShell",
+      "evidence": "Активно використовується PowerShell (powershell.exe)"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "wscript.exe",
+      "evidence": "а також wscript.exe, mshta.exe"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "mshta.exe",
+      "evidence": "а також wscript.exe, mshta.exe"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "Telegram",
+      "evidence": "Telegram-акаунти, що використовуються для публікації IP-адреси"
+    }
+  ],
+  "unclassified": []
+}

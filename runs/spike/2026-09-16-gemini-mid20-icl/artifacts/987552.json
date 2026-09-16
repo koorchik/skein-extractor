@@ -1,0 +1,103 @@
+{
+  "docId": 987552,
+  "date": "27.07.2022",
+  "title": "Онлайн-шахрайство з використанням тематики \"допомоги від Червоного Хреста\" (CERT-UA#5063) ",
+  "entities": [
+    {
+      "id": "987552:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country located in Eastern Europe.",
+      "scheme": "S2",
+      "category": "Country",
+      "role": "related"
+    },
+    {
+      "id": "987552:1",
+      "name": "UAC-0100",
+      "kind": "threat actor",
+      "gloss": "A threat group tracked by CERT-UA associated with financial fraud and phishing campaigns targeting Ukrainian banking users.",
+      "scheme": "S3",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "987552:2",
+      "name": "mono.gg-pay.me",
+      "kind": "domain name",
+      "gloss": "A malicious phishing domain used to mimic Ukrainian online banking services.",
+      "scheme": "S4",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "987552:3",
+      "name": "next24.gg-pay.me",
+      "kind": "domain name",
+      "gloss": "A malicious phishing domain used to steal online banking credentials.",
+      "scheme": "S4",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "987552:4",
+      "name": "privat24.ua-wallet.pw",
+      "kind": "domain name",
+      "gloss": "A malicious phishing domain used to spoof Ukrainian banking services.",
+      "scheme": "S4",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "987552:5",
+      "name": "Мінсоцполітики",
+      "kind": "government agency",
+      "gloss": "The Ministry of Social Policy of Ukraine, a central government agency.",
+      "scheme": "S9",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "987552:6",
+      "name": "Національний банк України",
+      "kind": "government agency",
+      "gloss": "The central bank of Ukraine responsible for monetary policy and financial system stability.",
+      "scheme": "S9",
+      "category": "Government Body",
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0100",
+      "type": "uses",
+      "tail": "mono.gg-pay.me",
+      "evidence": "активність має систематичний характер та відстежується за ідентифікатором UAC-0100. Індикатори компрометації hXXps://mono.gg-pay[.]me/"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses",
+      "tail": "next24.gg-pay.me",
+      "evidence": "активність має систематичний характер та відстежується за ідентифікатором UAC-0100. Індикатори компрометації hXXps://next24.gg-pay[.]me/"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses",
+      "tail": "privat24.ua-wallet.pw",
+      "evidence": "активність має систематичний характер та відстежується за ідентифікатором UAC-0100. Індикатори компрометації hXXps://privat24.ua-wallet[.]pw/"
+    },
+    {
+      "head": "Мінсоцполітики",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Відповіді Мінсоцполітики"
+    },
+    {
+      "head": "Національний банк України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Національного банку України"
+    }
+  ],
+  "unclassified": []
+}

@@ -1,0 +1,291 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Email Address: A unique electronic mail identifier used to send, receive, or route digital messages across networks. (also: Email, E-mail Address)
+- Country: A distinct sovereign nation, state, or territorial body with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Threat Actor: An individual or organized group responsible for conducting malicious cyber activities, espionage, or computer network attacks. (also: Threat Group, Cyber Threat Actor, Hacking Group)
+- Domain Name: A human-readable string identifying a specific network address or resource within the Domain Name System. (also: Domain, Internet Domain, FQDN)
+- IP Address: A numerical label assigned to a device or interface connected to a computer network using the Internet Protocol. (also: IP, Internet Protocol Address)
+- Malware Family: A malicious software program, variant, or family designed to compromise systems, exfiltrate data, or disrupt computer operations. (also: Malware, Malicious Software)
+
+### KNOWN RELATION TYPES ###
+- located-in: Specifies the geographical country or territory where an organization or entity is located or based.
+- part-of: Indicates that an entity is a structural component, agency, or division of another entity.
+- uses: Indicates that an organization or actor employs a specific tool, platform, standard, or contact mechanism.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p class="ql-align-justify"><strong>Загальна інформація</strong></p><p class="ql-align-justify">Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA у соціальній мережі Facebook виявлено шахрайську сторінку, що імітує ресурс телеканалу "ТСН".</p><p class="ql-align-justify">На сторінці пропонується взяти участь в опитуванні, перейшовши за посиланням, та отримати "грошову допомогу в рамках соціальної програми ООН". Надалі, користувачеві буде запропоновано надати персональні дані та здійснити додатковий платіж, в результаті чого дані платіжної картки буде скомпрометовано.</p><p><br></p><p class="ql-align-justify"><strong>Індикатори компрометації</strong></p><pre class="ql-syntax" spellcheck="false">https://www.facebook.com/111851358189177/posts/111855418188771/ (Фішингова сторінка FB)
+159.65.18.143 (провайдер: @digitalocean[.]com)
+hxxps://awa-opros[.]top (реєстратор: @namesilo[.]com)
+hxxps://oon24oprosy[.]yolasite[.]com/ (реєстратор: @safenames[.]net)
+ais-gos[.]top
+ao-opros[.]top
+awa-opros[.]top
+eti-opros[.]top
+eu-opros[.]top
+ev-gos[.]top
+ew-gos[.]top
+for-gos[.]top
+fori-opros[.]top
+jar-gos[.]top
+jel-gos[.]top
+jo-opros[.]top
+job-opros[.]top
+pre-opros[.]top
+rea-gos[.]top
+tas-gos[.]top
+tense-gos[.]top
+tio-gos[.]top
+top-opros[.]top
+ui-opros[.]top
+uz-gos[.]top
+wers-gos[.]top
+wi-opros[.]top
+wm-gos[.]top
+world-opros[.]top
+ws-gos[.]top
+ye-gos[.]top
+yi-gos[.]top
+</pre><p><br></p><p><strong>Рекомендації</strong></p><p>1. Ніколи не вводьте реквізити платіжних карток на незнайомих та підозрілих веб-сайтах, а також налаштуйте контроль руху коштів (підключіть SMS-інформування, встановіть ліміти на операції).</p><p>2. Якщо дані платіжної картки помилково введено на шахрайському веб-сайті - НЕГАЙНО заблокувати платіжну картку за допомогою мобільного застосунку, гарячої лінії банку (телефон зазначено на&nbsp;</p><p>звороті картки) або через Інтернет-банкінг.</p><p>3. Скористайтеся основними порадами платіжної безпеки Національного банку України <a href="https://bank.gov.ua/promo/stopfraud/ " rel="noopener noreferrer" target="_blank">https://bank.gov.ua/promo/stopfraud/ </a>та правилами кібергігієни <a href="https://cert.gov.ua/recommendation/31" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/recommendation/31</a>.</p><p><br></p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (7.4s, in 2073 / out 1845 tok, STOP) ===
+```json
+{
+  "entities": [
+    {
+      "name": "України",
+      "kind": "Country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "Facebook",
+      "kind": "online platform",
+      "gloss": "An online social media and social networking service operated by Meta Platforms."
+    },
+    {
+      "name": "ТСН",
+      "kind": "media organization",
+      "gloss": "A popular Ukrainian television news program broadcast on the 1+1 channel."
+    },
+    {
+      "name": "ООН",
+      "kind": "international organization",
+      "gloss": "An intergovernmental organization whose stated purposes are to maintain international peace and security."
+    },
+    {
+      "name": "Національного банку України",
+      "kind": "central bank",
+      "gloss": "The central bank of Ukraine responsible for monetary policy and financial stability."
+    },
+    {
+      "name": "digitalocean.com",
+      "kind": "Domain Name",
+      "gloss": "The domain name of an American cloud infrastructure and hosting provider."
+    },
+    {
+      "name": "namesilo.com",
+      "kind": "Domain Name",
+      "gloss": "The domain name of an American domain name registrar."
+    },
+    {
+      "name": "safenames.net",
+      "kind": "Domain Name",
+      "gloss": "The domain name of an international domain name management and registration service provider."
+    },
+    {
+      "name": "159.65.18.143",
+      "kind": "IP Address",
+      "gloss": "An IP address associated with malicious phishing infrastructure hosted on DigitalOcean."
+    },
+    {
+      "name": "https://www.facebook.com/111851358189177/posts/111855418188771/",
+      "kind": "Domain Name",
+      "gloss": "A phishing URL on Facebook used to lure users into a financial scam."
+    },
+    {
+      "name": "oon24oprosy[.]yolasite[.]com",
+      "kind": "Domain Name",
+      "gloss": "A phishing domain used to host fraudulent surveys targeting Ukrainian users."
+    },
+    {
+      "name": "awa-opros[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in a financial assistance phishing campaign."
+    },
+    {
+      "name": "ais-gos[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    },
+    {
+      "name": "ao-opros[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    },
+    {
+      "name": "eti-opros[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    },
+    {
+      "name": "eu-opros[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    },
+    {
+      "name": "ev-gos[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    },
+    {
+      "name": "ew-gos[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    },
+    {
+      "name": "for-gos[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    },
+    {
+      "name": "fori-opros[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    },
+    {
+      "name": "jar-gos[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    },
+    {
+      "name": "jel-gos[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    },
+    {
+      "name": "jo-opros[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    },
+    {
+      "name": "job-opros[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    },
+    {
+      "name": "pre-opros[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    },
+    {
+      "name": "rea-gos[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    },
+    {
+      "name": "tas-gos[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    },
+    {
+      "name": "tense-gos[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    },
+    {
+      "name": "tio-gos[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    },
+    {
+      "name": "top-opros[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    },
+    {
+      "name": "ui-opros[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    },
+    {
+      "name": "uz-gos[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    },
+    {
+      "name": "wers-gos[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    },
+    {
+      "name": "wi-opros[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    },
+    {
+      "name": "wm-gos[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    },
+    {
+      "name": "world-opros[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    },
+    {
+      "name": "ws-gos[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    },
+    {
+      "name": "ye-gos[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    },
+    {
+      "name": "yi-gos[.]top",
+      "kind": "Domain Name",
+      "gloss": "A fraudulent domain used in financial phishing schemes."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Національного банку України",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "Національного банку України"
+    }
+  ],
+  "newRelationTypes": []
+}
+```

@@ -1,0 +1,150 @@
+{
+  "docId": 24,
+  "date": "21.02.2020",
+  "title": "УВАГА! Спостерігається масова розсилка фішингових листів, які використовують вразливість CVE-2017-11882",
+  "entities": [
+    {
+      "id": "24:0",
+      "name": "CVE-2017-11882",
+      "kind": "vulnerability identifier",
+      "gloss": "A memory corruption vulnerability in Microsoft Equation Editor allowing arbitrary remote code execution.",
+      "scheme": "S4",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "24:1",
+      "name": "MS Equation",
+      "kind": "software product",
+      "gloss": "A component in Microsoft Office used for inserting and editing mathematical equations.",
+      "scheme": "S1",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "24:2",
+      "name": "Microsoft Office 2016",
+      "kind": "software product",
+      "gloss": "A version of the Microsoft Office productivity suite.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "24:3",
+      "name": "MS Office",
+      "kind": "software product",
+      "gloss": "A widely used suite of productivity software developed by Microsoft.",
+      "scheme": "S1",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "24:4",
+      "name": "PowerShell",
+      "kind": "software tool",
+      "gloss": "A task automation and configuration management framework developed by Microsoft.",
+      "scheme": "S1",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "24:5",
+      "name": "major[.]exe",
+      "kind": "malware file",
+      "gloss": "A malicious executable payload downloaded onto the target system following vulnerability exploitation.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "24:6",
+      "name": "216.170.123.111",
+      "kind": "ip address",
+      "gloss": "An IP address used to host and deliver the malicious executable major[.]exe.",
+      "scheme": null,
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "24:7",
+      "name": "PGMB New Order 18-2077[.]xlsx",
+      "kind": "malicious file",
+      "gloss": "A malicious spreadsheet document used as an indicator of compromise.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "24:8",
+      "name": "Security Update 4011604",
+      "kind": "security patch",
+      "gloss": "A Microsoft security update addressing vulnerabilities in Microsoft Office 2007 Service Pack 3.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "24:9",
+      "name": "Security Update 4011618",
+      "kind": "security patch",
+      "gloss": "A Microsoft security update addressing vulnerabilities in Microsoft Office 2010 Service Pack 2.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "24:10",
+      "name": "Security Update 3162047",
+      "kind": "security patch",
+      "gloss": "A Microsoft security update addressing vulnerabilities in Microsoft Office 2013 Service Pack 1.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "24:11",
+      "name": "Security Update 4011262",
+      "kind": "security patch",
+      "gloss": "A Microsoft security update addressing vulnerabilities in Microsoft Office 2016.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2017-11882",
+      "type": "affects",
+      "tail": "MS Equation",
+      "evidence": "вразливість надає можливість виконання віддаленого коду, коли програмне забезпечення MS Equation не обробляє належним чином"
+    },
+    {
+      "head": "CVE-2017-11882",
+      "type": "affects",
+      "tail": "Microsoft Office 2016",
+      "evidence": "Дана вразливість може використовуватись в Microsoft Office 2016"
+    },
+    {
+      "head": "216.170.123.111",
+      "type": "hosts",
+      "tail": "major[.]exe",
+      "evidence": "завантажується файл major[.]exe з адреси hххp[:]//216.170.123.111/major[.]exe"
+    },
+    {
+      "head": "Security Update 4011262",
+      "type": "mitigates-vulnerability-in",
+      "tail": "Microsoft Office 2016",
+      "evidence": "Microsoft Office 2016 (32-bit edition) – Security Update 4011262"
+    }
+  ],
+  "unclassified": [
+    "24:5",
+    "24:6",
+    "24:7",
+    "24:8",
+    "24:9",
+    "24:10",
+    "24:11"
+  ]
+}

@@ -1,0 +1,250 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- deploys: Indicates that an organization sets up, runs, or operates an instance of a software system or platform.
+- part-of: Indicates that an entity is a structural division, subunit, or member of another organization.
+- uses-email: Indicates that an organization or individual uses a specific email address as a point of contact.
+- uses: Indicates that a threat actor employs a specific malware, tool, or infrastructure.
+- targets: Indicates that a threat actor directs malicious activities against a country, sector, or organization.
+- delivers: Indicates that a file, email, or process drops, extracts, or transmits another payload.
+- exfiltrates-to: Indicates that a malware transmits stolen data to a remote address or domain.
+- hosted-on: Indicates that an internet resource or domain is hosted or deployed on a specific service platform.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA виявлено факт масового розповсюдження електронних листів з тематикою "хімічної атаки" та посиланням на XLS-документ з макросом.</p><p>У разі відкриття документу та активації макросу, останній здійснить завантаження і запуск EXE-файлу, що, в подальшому, призведе до ураження комп'ютера шкідливою програмою JesterStealer. Зауважимо, що завантаження виконуваних файлів здійснюється зі скомпрометованих веб-ресурсів.</p><p>За функціоналом згадана програма є стілером, що забезпечує викрадення автентифікаційних та інших даних з Інтернет-браузерів, MAIL/FTP/VPN-клієнтів, криптовалютних гаманців, менеджерів паролів, месенджерів, ігрових програм тощо. Викрадені дані через статично визначені адреси проксі (в т.ч., в мережі TOR) передаються зловмиснику в Telegram. Також, реалізовано функціонал протидії аналізу (anti-VM/debug/sandbox). Механізм забезпечення пересистентності відсутній - після завершення роботи програма видаляється.</p><p>Активність тимчасово відстежується за ідентифікатором UAC-0104.</p><p><br></p><p><strong>Індикатори компрометації</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">d5c9fd40738ac33f59467811c1ceb30b&nbsp; &nbsp; 5df051b418cd3d51cfcfe17685275e03b0efdf9a80ce237d2deccb3749576092&nbsp; &nbsp; Map023.xlsb
+d80f1d64e07909d29d7a2a1888931af9&nbsp; &nbsp; f963ed8559ade984e81a95238c4875d4c0a6ff14a7695630429bf98d4235d596&nbsp; &nbsp; Map021.xlsb
+4742c9d0a6b5b3b10ae7eb8f6b3e2fe6&nbsp; &nbsp; ef7ddd544267a8781c99f08146d455aa08beab867e0453b07f1131edcbef92b2&nbsp; &nbsp; Map026.xlsb
+70ef45cb31af0b6f37be051de4170839&nbsp; &nbsp; a2234ee40097fa832eb3a533840e86de3933cf216fbf8445d2946cb7b61c887b&nbsp; &nbsp; Updater-Microsoft.exe
+8f32a69ecd777f99d67bd18363afa25d&nbsp; &nbsp; da0de03004e3ec2711ddc71e119ecc252568b2c9300b98dd2434b8e83ce02dc9&nbsp; &nbsp; a1.exe
+31600c8891e3902a0fe2d2985d25ca34&nbsp; &nbsp; f7477c153f861d8c57d4794481445134426d634b9f4ca58d4d8519c4b0cd0085&nbsp; &nbsp; ckloc (JesterStealer)
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">tachikawaobs@sv5206.xserver.jp
+157[.]112.183.47
+igshop[.]net (Скомпрометований веб-ресурс)
+dcshost[.]net (Скомпрометований веб-ресурс)
+marmaris.com[.]ua (Скомпрометований веб-ресурс)
+autodoka.com[.]ua (Скомпрометований веб-ресурс)
+lightnogu5owjjllyo4tj2sfos6fchnmcidlgo6c7e6fz2hgryhfhoyd[.]onion
+wasabiwallet[.]online
+ip-api[.]com (Легітимний сервіс)
+hxxps://igshop[.]net/uploads/Map026.xlsb
+hxxps://igshop[.]net/uploads/Map023.xlsb
+hxxps://igshop[.]net/uploads/Map021.xlsb
+hxxps://igshop[.]net/uploads/Updater-Microsoft.exe
+hxxps://dcshost[.]net/mail/OfficeUpdaterNew.exe
+hxxps://marmaris.com[.]ua/misc/Updater-Microsoft.exe
+hxxps://autodoka.com[.]ua/extra/Updater-Microsoft.exe
+hxxp://lightnogu5owjjllyo4tj2sfos6fchnmcidlgo6c7e6fz2hgryhfhoyd[.]onion/stealer/1026977440
+hxxp://ip-api[.]com/json (Легітимний сервіс)
+tcp://wasabiwallet[.]online:7777
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">HKCU\SOFTWARE\kxialunboq\state
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (6.8s, in 2609 / out 1789 tok, STOP) ===
+```json
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0104",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA associated with cyberattacks delivering info-stealing malware."
+    },
+    {
+      "name": "JesterStealer",
+      "kind": "malware family",
+      "gloss": "An information-stealing malware capable of harvesting credentials, crypto wallet keys, and session data."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cloud-based instant messaging service used by threat actors for command, control, and data exfiltration."
+    },
+    {
+      "name": "TOR",
+      "kind": "software product",
+      "gloss": "An open-source anonymity network that enables private communication through onion routing."
+    },
+    {
+      "name": "Map023.xlsb",
+      "kind": "file",
+      "gloss": "A malicious Excel spreadsheet used to download and execute secondary malware payloads."
+    },
+    {
+      "name": "Map021.xlsb",
+      "kind": "file",
+      "gloss": "A malicious Excel spreadsheet used as an infection vector to drop executable malware."
+    },
+    {
+      "name": "Map026.xlsb",
+      "kind": "file",
+      "gloss": "A malicious Excel spreadsheet designed to initiate the download of executable malware."
+    },
+    {
+      "name": "Updater-Microsoft.exe",
+      "kind": "file",
+      "gloss": "A malicious executable file masquerading as a legitimate Microsoft update to deploy JesterStealer."
+    },
+    {
+      "name": "a1.exe",
+      "kind": "file",
+      "gloss": "A malicious executable payload associated with the distribution of JesterStealer."
+    },
+    {
+      "name": "ckloc",
+      "kind": "file",
+      "gloss": "A malicious executable file identified as a component or sample of JesterStealer."
+    },
+    {
+      "name": "OfficeUpdaterNew.exe",
+      "kind": "file",
+      "gloss": "A malicious executable payload hosted on compromised infrastructure."
+    },
+    {
+      "name": "tachikawaobs@sv5206.xserver.jp",
+      "kind": "email address",
+      "gloss": "An email address observed sending malicious messages in the cyber attack campaign."
+    },
+    {
+      "name": "157[.]112.183.47",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the malicious network infrastructure."
+    },
+    {
+      "name": "igshop[.]net",
+      "kind": "internet domain",
+      "gloss": "A compromised website domain used to host malicious files and payloads."
+    },
+    {
+      "name": "dcshost[.]net",
+      "kind": "internet domain",
+      "gloss": "A compromised website domain utilized by attackers to host malware executables."
+    },
+    {
+      "name": "marmaris.com[.]ua",
+      "kind": "internet domain",
+      "gloss": "A compromised Ukrainian website domain used to host malicious executables."
+    },
+    {
+      "name": "autodoka.com[.]ua",
+      "kind": "internet domain",
+      "gloss": "A compromised Ukrainian domain used to distribute malicious executable files."
+    },
+    {
+      "name": "lightnogu5owjjllyo4tj2sfos6fchnmcidlgo6c7e6fz2hgryhfhoyd[.]onion",
+      "kind": "internet domain",
+      "gloss": "A Tor onion service address used by the threat actor for C2 or exfiltration."
+    },
+    {
+      "name": "wasabiwallet[.]online",
+      "kind": "internet domain",
+      "gloss": "A malicious domain name masquerading as cryptocurrency software infrastructure."
+    },
+    {
+      "name": "ip-api[.]com",
+      "kind": "internet domain",
+      "gloss": "A legitimate IP geolocation lookup service queried by malware."
+    },
+    {
+      "name": "HKCU\\SOFTWARE\\kxialunboq\\state",
+      "kind": "registry key",
+      "gloss": "A Windows registry key artifact associated with the execution of JesterStealer."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0104",
+      "type": "uses",
+      "tail": "JesterStealer",
+      "evidence": "ураження комп'ютера шкідливою програмою JesterStealer... Активність тимчасово відстежується за ідентифікатором UAC-0104"
+    },
+    {
+      "head": "JesterStealer",
+      "type": "exfiltrates-to",
+      "tail": "Telegram",
+      "evidence": "Викрадені дані через статично визначені адреси проксі... передаються зловмиснику в Telegram."
+    },
+    {
+      "head": "JesterStealer",
+      "type": "uses",
+      "tail": "TOR",
+      "evidence": "через статично визначені адреси проксі (в т.ч., в мережі TOR)"
+    },
+    {
+      "head": "igshop[.]net",
+      "type": "delivers",
+      "tail": "Map026.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map026.xlsb"
+    },
+    {
+      "head": "igshop[.]net",
+      "type": "delivers",
+      "tail": "Map023.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map023.xlsb"
+    },
+    {
+      "head": "igshop[.]net",
+      "type": "delivers",
+      "tail": "Map021.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map021.xlsb"
+    },
+    {
+      "head": "igshop[.]net",
+      "type": "delivers",
+      "tail": "Updater-Microsoft.exe",
+      "evidence": "hxxps://igshop[.]net/uploads/Updater-Microsoft.exe"
+    },
+    {
+      "head": "dcshost[.]net",
+      "type": "delivers",
+      "tail": "OfficeUpdaterNew.exe",
+      "evidence": "hxxps://dcshost[.]net/mail/OfficeUpdaterNew.exe"
+    },
+    {
+      "head": "marmaris.com[.]ua",
+      "type": "delivers",
+      "tail": "Updater-Microsoft.exe",
+      "evidence": "hxxps://marmaris.com[.]ua/misc/Updater-Microsoft.exe"
+    },
+    {
+      "head": "autodoka.com[.]ua",
+      "type": "delivers",
+      "tail": "Updater-Microsoft.exe",
+      "evidence": "hxxps://autodoka.com[.]ua/extra/Updater-Microsoft.exe"
+    }
+  ],
+  "newRelationTypes": []
+}
+```

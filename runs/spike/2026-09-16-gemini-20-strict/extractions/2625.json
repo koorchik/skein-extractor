@@ -1,0 +1,208 @@
+{
+  "entities": [
+    {
+      "name": "CISA",
+      "kind": "government body",
+      "gloss": "The Cybersecurity and Infrastructure Security Agency of the United States."
+    },
+    {
+      "name": "Директиву щодо надзвичайних ситуацій 20-02",
+      "kind": "security directive",
+      "gloss": "An emergency cybersecurity directive issued by CISA regarding critical Windows vulnerabilities."
+    },
+    {
+      "name": "Microsoft",
+      "kind": "software vendor",
+      "gloss": "A multinational technology corporation producing software, including the Windows operating system."
+    },
+    {
+      "name": "Microsoft Windows",
+      "kind": "operating system family",
+      "gloss": "A family of proprietary graphical operating systems developed and marketed by Microsoft."
+    },
+    {
+      "name": "CryptoAPI Windows",
+      "kind": "software component",
+      "gloss": "A cryptographic application programming interface included in Microsoft Windows operating systems."
+    },
+    {
+      "name": "Windows Remote Desktop Client",
+      "kind": "software application",
+      "gloss": "A client software tool used to connect to remote computers using Remote Desktop Protocol."
+    },
+    {
+      "name": "Remote Desktop Gateway",
+      "kind": "software component",
+      "gloss": "A Windows Server role service that enables authorized remote users to connect to resources on an internal network."
+    },
+    {
+      "name": "Windows 10",
+      "kind": "operating system",
+      "gloss": "A major release of the Microsoft Windows NT operating system."
+    },
+    {
+      "name": "Windows Server 2016",
+      "kind": "operating system",
+      "gloss": "A server operating system developed by Microsoft as part of the Windows NT family."
+    },
+    {
+      "name": "Windows Server 2019",
+      "kind": "operating system",
+      "gloss": "A server operating system developed by Microsoft as part of the Windows NT family."
+    },
+    {
+      "name": "Windows Server 2012",
+      "kind": "operating system",
+      "gloss": "A server operating system developed by Microsoft as part of the Windows NT family."
+    },
+    {
+      "name": "Windows 7",
+      "kind": "operating system",
+      "gloss": "A major release of the Microsoft Windows operating system released in 2009."
+    },
+    {
+      "name": "Windows 2008 R2",
+      "kind": "operating system",
+      "gloss": "A server operating system produced by Microsoft based on Windows 7."
+    },
+    {
+      "name": "CVE-2020-0601",
+      "kind": "vulnerability identifier",
+      "gloss": "A vulnerability in Windows CryptoAPI certificate validation flaw affecting elliptic curve cryptography."
+    },
+    {
+      "name": "CVE-2020-0609",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in Windows Remote Desktop Gateway Server."
+    },
+    {
+      "name": "CVE-2020-0610",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in Windows Remote Desktop Gateway Server."
+    },
+    {
+      "name": "CVE-2020-0611",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in Windows Remote Desktop Client."
+    },
+    {
+      "name": "January 2020 Security Updates",
+      "kind": "software update",
+      "gloss": "A collection of security patches released by Microsoft on January 15, 2020."
+    },
+    {
+      "name": "US-CERT",
+      "kind": "government body",
+      "gloss": "The United States Computer Emergency Readiness Team."
+    },
+    {
+      "name": "AA20-014A",
+      "kind": "security advisory",
+      "gloss": "A security alert issued by US-CERT addressing critical vulnerabilities in Microsoft Windows."
+    },
+    {
+      "name": "NSA",
+      "kind": "government body",
+      "gloss": "The National Security Agency, a national intelligence agency of the United States."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CISA",
+      "type": "releases",
+      "tail": "Директиву щодо надзвичайних ситуацій 20-02",
+      "evidence": "(CISA) видало Директиву щодо надзвичайних ситуацій 20-02"
+    },
+    {
+      "head": "CVE-2020-0601",
+      "type": "affects",
+      "tail": "Windows 10",
+      "evidence": "CVE-2020-0601 є у MS Windows 10"
+    },
+    {
+      "head": "CVE-2020-0601",
+      "type": "affects",
+      "tail": "Windows Server 2016",
+      "evidence": "CVE-2020-0601 є у MS Windows 10, MS Server 2016"
+    },
+    {
+      "head": "CVE-2020-0601",
+      "type": "affects",
+      "tail": "Windows Server 2019",
+      "evidence": "CVE-2020-0601 є у MS Windows 10, MS Server 2016 та MS Server 2019"
+    },
+    {
+      "head": "CVE-2020-0609",
+      "type": "affects",
+      "tail": "Windows Server 2012",
+      "evidence": "RDP Gateway Server (є на Windows Server 2012"
+    },
+    {
+      "head": "CVE-2020-0609",
+      "type": "affects",
+      "tail": "Windows Server 2016",
+      "evidence": "RDP Gateway Server (є на Windows Server 2012, 2016"
+    },
+    {
+      "head": "CVE-2020-0609",
+      "type": "affects",
+      "tail": "Windows Server 2019",
+      "evidence": "RDP Gateway Server (є на Windows Server 2012, 2016, 2019)"
+    },
+    {
+      "head": "CVE-2020-0610",
+      "type": "affects",
+      "tail": "Windows Server 2012",
+      "evidence": "RDP Gateway Server (є на Windows Server 2012"
+    },
+    {
+      "head": "CVE-2020-0610",
+      "type": "affects",
+      "tail": "Windows Server 2016",
+      "evidence": "RDP Gateway Server (є на Windows Server 2012, 2016"
+    },
+    {
+      "head": "CVE-2020-0610",
+      "type": "affects",
+      "tail": "Windows Server 2019",
+      "evidence": "RDP Gateway Server (є на Windows Server 2012, 2016, 2019)"
+    },
+    {
+      "head": "CVE-2020-0611",
+      "type": "affects",
+      "tail": "Windows 7",
+      "evidence": "а також Windows 7 та Windows 2008 R2"
+    },
+    {
+      "head": "CVE-2020-0611",
+      "type": "affects",
+      "tail": "Windows 2008 R2",
+      "evidence": "Windows 7 та Windows 2008 R2"
+    },
+    {
+      "head": "CVE-2020-0611",
+      "type": "affects",
+      "tail": "Windows Remote Desktop Client",
+      "evidence": "CVE-2020-0611 вразливість віддаленого виконання коду, яка існує в Windows Remote Desktop Client"
+    },
+    {
+      "head": "Microsoft",
+      "type": "releases",
+      "tail": "January 2020 Security Updates",
+      "evidence": "випущені компанією Microsoft як частина оновлення January 2020 Security Updates"
+    },
+    {
+      "head": "January 2020 Security Updates",
+      "type": "mitigates-vulnerability-in",
+      "tail": "Microsoft Windows",
+      "evidence": "Патчі для цих вразливостей вже випущені компанією Microsoft як частина оновлення January 2020 Security Updates"
+    },
+    {
+      "head": "US-CERT",
+      "type": "releases",
+      "tail": "AA20-014A",
+      "evidence": "US-CERT Alert AA20-014A - Critical Vulnerabilities in Microsoft Windows Operating Systems"
+    }
+  ],
+  "newRelationTypes": []
+}

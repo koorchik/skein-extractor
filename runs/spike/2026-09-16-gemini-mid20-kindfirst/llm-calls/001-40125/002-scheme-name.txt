@@ -1,0 +1,35 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You maintain a small, growing set of CONCEPT SCHEMES (entity categories) for a knowledge registry built from cybersecurity incident reports. A group of entities extracted from several reports has just been found to be close to each other and far from every existing scheme. Decide whether the group is a genuinely new scheme or an alias of an existing one, and name it.
+
+### EXISTING SCHEMES ###
+- Email Address: A unique identifier for an electronic mailbox used to send and receive messages over a network.
+
+### THE GROUP ###
+Each line is one entity with the description written at extraction time:
+- APT28 (UAC-0028) [threat actor] — A Russian state-sponsored cyber espionage threat group known as APT28 or Fancy Bear.
+- UAC-0010 [threat actor] — A cyber threat group tracked by Ukrainian authorities, also known as Armageddon or Gamaredon.
+- UAC-0104 [threat actor] — A threat actor tracked by CERT-UA associated with cyberattacks delivering info-stealing malware.
+
+### RULES ###
+- A scheme is a KIND of entity (e.g. "Hacker group", "Malware family", "Software product", "Government body", "Internet domain", "Country"), never a role in an incident and never a single entity.
+- Return `"verdict": "alias-of"` with `"target"` set to an existing scheme's label when the group is the same kind as that scheme (different wording, same meaning). Judge by MEANING of the descriptions, not by surface words.
+- Return `"verdict": "new"` when no existing scheme covers the group. Then give:
+  - `prefLabel`: a short English noun phrase, 1–3 words, singular, Title Case (e.g. "Malware Family").
+  - `definition`: one sentence, at most 25 words, stating what belongs to the scheme, general enough to hold across reports.
+  - `altLabels`: 0–3 alternative English labels.
+- If the group mixes clearly different kinds, name the kind of the MAJORITY and list the minority entity names in `outliers`.
+- If uncertain between alias and new, prefer `new`: an extra scheme can be merged later; a wrong merge cannot be undone cheaply.
+
+### OUTPUT ###
+A single raw JSON object, no markdown fences, no commentary:
+{ "verdict": "new" | "alias-of", "target": "<existing label or null>", "prefLabel": "...", "definition": "...", "altLabels": [...], "outliers": [...] }
+
+--- text ---
+Decide and name the group now.
+
+=== RESPONSE (4.2s, in 567 / out 65 tok, STOP) ===
+{"verdict": "new", "target": null, "prefLabel": "Threat Actor", "definition": "An individual or organized group responsible for malicious or espionage activities against computer systems and networks.", "altLabels": ["Threat Group", "Adversary", "Hacker Group"], "outliers": []}

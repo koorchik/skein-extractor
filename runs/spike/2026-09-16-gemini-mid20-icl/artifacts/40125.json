@@ -1,0 +1,226 @@
+{
+  "docId": 40125,
+  "date": "07.05.2022",
+  "title": "Масове розповсюдження шкідливої програми JesterStealer з використанням тематики хімічної атаки (CERT-UA#4625)",
+  "entities": [
+    {
+      "id": "40125:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S2",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40125:1",
+      "name": "UAC-0104",
+      "kind": "threat actor",
+      "gloss": "A threat actor group tracked by CERT-UA associated with the distribution of JesterStealer malware.",
+      "scheme": "S3",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "40125:2",
+      "name": "JesterStealer",
+      "kind": "malware",
+      "gloss": "An information stealing malware family designed to extract credentials, browser history, cryptocurrency wallets, and messaging data.",
+      "scheme": null,
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "40125:3",
+      "name": "Telegram",
+      "kind": "software application",
+      "gloss": "A cloud-based messaging platform used by threat actors for command and control and data exfiltration.",
+      "scheme": null,
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "40125:4",
+      "name": "TOR",
+      "kind": "anonymity network",
+      "gloss": "An open-source network protocol designed for anonymous communication over the internet.",
+      "scheme": null,
+      "category": "Infrastructure",
+      "role": "related"
+    },
+    {
+      "id": "40125:5",
+      "name": "Map023.xlsb",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet binary file used to deliver malware payloads.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40125:6",
+      "name": "Map021.xlsb",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet binary file used to deliver malware payloads.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40125:7",
+      "name": "Map026.xlsb",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet binary file used to deliver malware payloads.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40125:8",
+      "name": "Updater-Microsoft.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file masquerading as a Microsoft update tool.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40125:9",
+      "name": "a1.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file used in the distribution of malware.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40125:10",
+      "name": "ckloc",
+      "kind": "malicious file",
+      "gloss": "An executable payload identified as a component or build of JesterStealer malware.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40125:11",
+      "name": "tachikawaobs@sv5206.xserver.jp",
+      "kind": "email address",
+      "gloss": "An email address used to send phishing emails during the cyberattack campaign.",
+      "scheme": "S1",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "40125:12",
+      "name": "157[.]112.183.47",
+      "kind": "ip address",
+      "gloss": "An IP address observed as part of the malicious network infrastructure.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40125:13",
+      "name": "igshop[.]net",
+      "kind": "domain name",
+      "gloss": "A compromised website domain used to host malicious dropper files.",
+      "scheme": null,
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "40125:14",
+      "name": "dcshost[.]net",
+      "kind": "domain name",
+      "gloss": "A compromised website domain used to host malicious executable files.",
+      "scheme": null,
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "40125:15",
+      "name": "marmaris.com[.]ua",
+      "kind": "domain name",
+      "gloss": "A compromised domain used to distribute malicious executable files.",
+      "scheme": null,
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "40125:16",
+      "name": "autodoka.com[.]ua",
+      "kind": "domain name",
+      "gloss": "A compromised domain used to distribute malicious executable files.",
+      "scheme": null,
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "40125:17",
+      "name": "lightnogu5owjjllyo4tj2sfos6fchnmcidlgo6c7e6fz2hgryhfhoyd[.]onion",
+      "kind": "domain name",
+      "gloss": "A Tor hidden service onion address used for malware communication and data exfiltration.",
+      "scheme": null,
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "40125:18",
+      "name": "wasabiwallet[.]online",
+      "kind": "domain name",
+      "gloss": "A network domain used in connection with malicious cyber operations.",
+      "scheme": null,
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "40125:19",
+      "name": "ip-api[.]com",
+      "kind": "domain name",
+      "gloss": "A legitimate IP geolocation lookup service leveraged by malware for victim reconnaissance.",
+      "scheme": null,
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0104",
+      "type": "uses",
+      "tail": "JesterStealer",
+      "evidence": "призведе до ураження комп'ютера шкідливою програмою JesterStealer. Зауважимо... Активність тимчасово відстежується за ідентифікатором UAC-0104."
+    },
+    {
+      "head": "JesterStealer",
+      "type": "uses",
+      "tail": "Telegram",
+      "evidence": "Викрадені дані через статично визначені адреси проксі (в т.ч., в мережі TOR) передаються зловмиснику в Telegram."
+    },
+    {
+      "head": "JesterStealer",
+      "type": "uses",
+      "tail": "TOR",
+      "evidence": "Викрадені дані через статично визначені адреси проксі (в т.ч., в мережі TOR)"
+    }
+  ],
+  "unclassified": [
+    "40125:2",
+    "40125:3",
+    "40125:4",
+    "40125:5",
+    "40125:6",
+    "40125:7",
+    "40125:8",
+    "40125:9",
+    "40125:10",
+    "40125:12",
+    "40125:13",
+    "40125:14",
+    "40125:15",
+    "40125:16",
+    "40125:17",
+    "40125:18",
+    "40125:19"
+  ]
+}

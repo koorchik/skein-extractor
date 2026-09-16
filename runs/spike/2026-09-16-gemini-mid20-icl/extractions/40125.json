@@ -1,0 +1,125 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0104",
+      "kind": "threat actor",
+      "gloss": "A threat actor group tracked by CERT-UA associated with the distribution of JesterStealer malware."
+    },
+    {
+      "name": "JesterStealer",
+      "kind": "malware",
+      "gloss": "An information stealing malware family designed to extract credentials, browser history, cryptocurrency wallets, and messaging data."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software application",
+      "gloss": "A cloud-based messaging platform used by threat actors for command and control and data exfiltration."
+    },
+    {
+      "name": "TOR",
+      "kind": "anonymity network",
+      "gloss": "An open-source network protocol designed for anonymous communication over the internet."
+    },
+    {
+      "name": "Map023.xlsb",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet binary file used to deliver malware payloads."
+    },
+    {
+      "name": "Map021.xlsb",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet binary file used to deliver malware payloads."
+    },
+    {
+      "name": "Map026.xlsb",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet binary file used to deliver malware payloads."
+    },
+    {
+      "name": "Updater-Microsoft.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file masquerading as a Microsoft update tool."
+    },
+    {
+      "name": "a1.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file used in the distribution of malware."
+    },
+    {
+      "name": "ckloc",
+      "kind": "malicious file",
+      "gloss": "An executable payload identified as a component or build of JesterStealer malware."
+    },
+    {
+      "name": "tachikawaobs@sv5206.xserver.jp",
+      "kind": "email address",
+      "gloss": "An email address used to send phishing emails during the cyberattack campaign."
+    },
+    {
+      "name": "157[.]112.183.47",
+      "kind": "ip address",
+      "gloss": "An IP address observed as part of the malicious network infrastructure."
+    },
+    {
+      "name": "igshop[.]net",
+      "kind": "domain name",
+      "gloss": "A compromised website domain used to host malicious dropper files."
+    },
+    {
+      "name": "dcshost[.]net",
+      "kind": "domain name",
+      "gloss": "A compromised website domain used to host malicious executable files."
+    },
+    {
+      "name": "marmaris.com[.]ua",
+      "kind": "domain name",
+      "gloss": "A compromised domain used to distribute malicious executable files."
+    },
+    {
+      "name": "autodoka.com[.]ua",
+      "kind": "domain name",
+      "gloss": "A compromised domain used to distribute malicious executable files."
+    },
+    {
+      "name": "lightnogu5owjjllyo4tj2sfos6fchnmcidlgo6c7e6fz2hgryhfhoyd[.]onion",
+      "kind": "domain name",
+      "gloss": "A Tor hidden service onion address used for malware communication and data exfiltration."
+    },
+    {
+      "name": "wasabiwallet[.]online",
+      "kind": "domain name",
+      "gloss": "A network domain used in connection with malicious cyber operations."
+    },
+    {
+      "name": "ip-api[.]com",
+      "kind": "domain name",
+      "gloss": "A legitimate IP geolocation lookup service leveraged by malware for victim reconnaissance."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0104",
+      "type": "uses",
+      "tail": "JesterStealer",
+      "evidence": "призведе до ураження комп'ютера шкідливою програмою JesterStealer. Зауважимо... Активність тимчасово відстежується за ідентифікатором UAC-0104."
+    },
+    {
+      "head": "JesterStealer",
+      "type": "uses",
+      "tail": "Telegram",
+      "evidence": "Викрадені дані через статично визначені адреси проксі (в т.ч., в мережі TOR) передаються зловмиснику в Telegram."
+    },
+    {
+      "head": "JesterStealer",
+      "type": "uses",
+      "tail": "TOR",
+      "evidence": "Викрадені дані через статично визначені адреси проксі (в т.ч., в мережі TOR)"
+    }
+  ],
+  "newRelationTypes": []
+}

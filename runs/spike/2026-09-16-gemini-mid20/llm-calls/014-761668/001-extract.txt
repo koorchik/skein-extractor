@@ -1,0 +1,223 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- deploys: Indicates that an organization sets up, runs, or operates an instance of a software system or platform.
+- part-of: Indicates that an entity is a structural division, subunit, or member of another organization.
+- uses-email: Indicates that an organization or individual uses a specific email address as a point of contact.
+- uses: Indicates that a threat actor employs a specific malware, tool, or infrastructure.
+- targets: Indicates that a threat actor directs malicious activities against a country, sector, or organization.
+- delivers: Indicates that a file, email, or process drops, extracts, or transmits another payload.
+- exfiltrates-to: Indicates that a malware transmits stolen data to a remote address or domain.
+- hosted-on: Indicates that an internet resource or domain is hosted or deployed on a specific service platform.
+- exploits: Indicates that a malicious file, tool, or threat actor leverages a software vulnerability to execute code or gain access.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA у соціальній мережі Facebook виявлено низку шахрайських сторінок, що містять посилання на так званий "Єдиний Компенсаційний Центр Повернення Невиплачених Грошових Коштів". На згаданому ресурсі пропонується надати персональну інформацію та здійснити додатковий платіж, в результаті чого дані платіжної картки буде скомпрометовано.</p><p>Згадана шахрайська активність має систематичний характер та відстежується за ідентифікатором UAC-0100.</p><p>&nbsp;</p><p><strong>Індикатори компрометації</strong></p><pre class="ql-syntax" spellcheck="false">hXXp://kohhd[.]com/
+hXXps://rivierafamily[.]com/
+hXXps://compensationukr[.]com/
+hXXps://compensations-ukrain[.]bar/
+hXXps://compensation-ukr[.]com/
+hXXps://europadonnaireland[.]org/
+hXXps://foundpomoshi[.]com/
+hXXps://peer-gos[.]top/
+hXXps://helpzzfound[.]site/
+hXXps://uacompensation[.]xyz/
+hXXps://pay.uacompensation[.]xyz/
+</pre><p><br></p><p><strong>Рекомендації</strong></p><p>1. Ніколи&nbsp;не&nbsp;вводьте&nbsp;реквізити&nbsp;платіжних&nbsp;карток&nbsp;на&nbsp;незнайомих&nbsp;та&nbsp;підозрілих&nbsp;веб-сайтах, а&nbsp;також&nbsp;налаштуйте&nbsp;контроль&nbsp;руху&nbsp;коштів&nbsp;(підключіть&nbsp;SMS-інформування, встановіть&nbsp;ліміти&nbsp;на&nbsp;операції).</p><p>2. Якщо дані платіжної картки помилково введено на шахрайському веб-сайті - НЕГАЙНО заблокувати платіжну картку за допомогою мобільного застосунку, гарячої лінії банку (телефон зазначено на звороті картки) або через Інтернет-банкінг.</p><p>3. Скористайтеся основними порадами платіжної безпеки Національного банку України <a href="https://bank.gov.ua/promo/stopfraud/" rel="noopener noreferrer" target="_blank">https://bank.gov.ua/promo/stopfraud/</a> та правилами кібергігієни <a href="https://cert.gov.ua/recommendation/31" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/recommendation/31</a>.</p><p><br></p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (11.7s, in 1819 / out 2085 tok, STOP) ===
+The text describes financial fraud and phishing activity tracked under the identifier UAC-0100. The threat actor creates fraudulent pages on the Facebook social network referencing a fake entity named "Єдиний Компенсаційний Центр Повернення Невиплачених Грошових Коштів" to deceive victims into submitting payment card details and personal information. Several malicious indicator URLs associated with this activity are listed. Recommendations include security advice from the National Bank of Ukraine.
+
+{
+  "entities": [
+    {
+      "name": "Facebook",
+      "kind": "social network",
+      "gloss": "An online social media and networking platform."
+    },
+    {
+      "name": "Єдиний Компенсаційний Центр Повернення Невиплачених Грошових Коштів",
+      "kind": "phishing campaign",
+      "gloss": "A fraudulent scheme and lure used to compromise payment card information under the guise of financial compensations."
+    },
+    {
+      "name": "UAC-0100",
+      "kind": "threat actor",
+      "gloss": "A threat activity cluster tracked by CERT-UA associated with financial fraud and phishing operations."
+    },
+    {
+      "name": "hXXp://kohhd[.]com/",
+      "kind": "malicious url",
+      "gloss": "A malicious URL used in phishing and fraud campaigns."
+    },
+    {
+      "name": "hXXps://rivierafamily[.]com/",
+      "kind": "malicious url",
+      "gloss": "A malicious URL used in phishing and fraud campaigns."
+    },
+    {
+      "name": "hXXps://compensationukr[.]com/",
+      "kind": "malicious url",
+      "gloss": "A malicious URL used in phishing and fraud campaigns."
+    },
+    {
+      "name": "hXXps://compensations-ukrain[.]bar/",
+      "kind": "malicious url",
+      "gloss": "A malicious URL used in phishing and fraud campaigns."
+    },
+    {
+      "name": "hXXps://compensation-ukr[.]com/",
+      "kind": "malicious url",
+      "gloss": "A malicious URL used in phishing and fraud campaigns."
+    },
+    {
+      "name": "hXXps://europadonnaireland[.]org/",
+      "kind": "malicious url",
+      "gloss": "A malicious URL used in phishing and fraud campaigns."
+    },
+    {
+      "name": "foundpomoshi[.]com",
+      "kind": "malicious domain",
+      "gloss": "A domain used for hosting fraudulent and phishing content."
+    },
+    {
+      "name": "hXXps://foundpomoshi[.]com/",
+      "kind": "malicious url",
+      "gloss": "A malicious URL used in phishing and fraud campaigns."
+    },
+    {
+      "name": "hXXps://peer-gos[.]top/",
+      "kind": "malicious url",
+      "gloss": "A malicious URL used in phishing and fraud campaigns."
+    },
+    {
+      "name": "hXXps://helpzzfound[.]site/",
+      "kind": "malicious url",
+      "gloss": "A malicious URL used in phishing and fraud campaigns."
+    },
+    {
+      "name": "hXXps://uacompensation[.]xyz/",
+      "kind": "malicious url",
+      "gloss": "A malicious URL used in phishing and fraud campaigns."
+    },
+    {
+      "name": "hXXps://pay.uacompensation[.]xyz/",
+      "kind": "malicious url",
+      "gloss": "A malicious URL used in phishing and fraud campaigns."
+    },
+    {
+      "name": "Національного банку України",
+      "kind": "central bank",
+      "gloss": "The central bank of Ukraine responsible for monetary policy and banking system supervision."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0100",
+      "type": "uses",
+      "tail": "Facebook",
+      "evidence": "соціальній мережі Facebook виявлено низку шахрайських сторінок... відстежується за ідентифікатором UAC-0100"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses",
+      "tail": "hXXp://kohhd[.]com/",
+      "evidence": "шахрайська активність... відстежується за ідентифікатором UAC-0100. Індикатори компрометації hXXp://kohhd[.]com/"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses",
+      "tail": "hXXps://rivierafamily[.]com/",
+      "evidence": "шахрайська активність... відстежується за ідентифікатором UAC-0100. Індикатори компрометації hXXps://rivierafamily[.]com/"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses",
+      "tail": "hXXps://compensationukr[.]com/",
+      "evidence": "шахрайська активність... відстежується за ідентифікатором UAC-0100. Індикатори компрометації hXXps://compensationukr[.]com/"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses",
+      "tail": "hXXps://compensations-ukrain[.]bar/",
+      "evidence": "шахрайська активність... відстежується за ідентифікатором UAC-0100. Індикатори компрометації hXXps://compensations-ukrain[.]bar/"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses",
+      "tail": "hXXps://compensation-ukr[.]com/",
+      "evidence": "шахрайська активність... відстежується за ідентифікатором UAC-0100. Індикатори компрометації hXXps://compensation-ukr[.]com/"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses",
+      "tail": "hXXps://europadonnaireland[.]org/",
+      "evidence": "шахрайська активність... відстежується за ідентифікатором UAC-0100. Індикатори компрометації hXXps://europadonnaireland[.]org/"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses",
+      "tail": "hXXps://foundpomoshi[.]com/",
+      "evidence": "шахрайська активність... відстежується за ідентифікатором UAC-0100. Індикатори компрометації hXXps://foundpomoshi[.]com/"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses",
+      "tail": "hXXps://peer-gos[.]top/",
+      "evidence": "шахрайська активність... відстежується за ідентифікатором UAC-0100. Індикатори компрометації hXXps://peer-gos[.]top/"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses",
+      "tail": "hXXps://helpzzfound[.]site/",
+      "evidence": "шахрайська активність... відстежується за ідентифікатором UAC-0100. Індикатори компрометації hXXps://helpzzfound[.]site/"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses",
+      "tail": "hXXps://uacompensation[.]xyz/",
+      "evidence": "шахрайська активність... відстежується за ідентифікатором UAC-0100. Індикатори компрометації hXXps://uacompensation[.]xyz/"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses",
+      "tail": "hXXps://pay.uacompensation[.]xyz/",
+      "evidence": "шахрайська активність... відстежується за ідентифікатором UAC-0100. Індикатори компрометації hXXps://pay.uacompensation[.]xyz/"
+    }
+  ],
+  "newRelationTypes": []
+}

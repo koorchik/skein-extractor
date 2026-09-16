@@ -1,0 +1,96 @@
+{
+  "entities": [
+    {
+      "name": "CVE-2017-11882",
+      "kind": "vulnerability identifier",
+      "gloss": "A memory corruption vulnerability in Microsoft Equation Editor allowing arbitrary remote code execution."
+    },
+    {
+      "name": "MS Equation",
+      "kind": "software product",
+      "gloss": "A component in Microsoft Office used for inserting and editing mathematical equations."
+    },
+    {
+      "name": "Microsoft Office 2016",
+      "kind": "software product",
+      "gloss": "A version of the Microsoft Office productivity suite."
+    },
+    {
+      "name": "MS Office",
+      "kind": "software product",
+      "gloss": "A widely used suite of productivity software developed by Microsoft."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software tool",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "major[.]exe",
+      "kind": "malware file",
+      "gloss": "A malicious executable payload downloaded onto the target system following vulnerability exploitation."
+    },
+    {
+      "name": "216.170.123.111",
+      "kind": "ip address",
+      "gloss": "An IP address used to host and deliver the malicious executable major[.]exe."
+    },
+    {
+      "name": "PGMB New Order 18-2077[.]xlsx",
+      "kind": "malicious file",
+      "gloss": "A malicious spreadsheet document used as an indicator of compromise."
+    },
+    {
+      "name": "Security Update 4011604",
+      "kind": "security patch",
+      "gloss": "A Microsoft security update addressing vulnerabilities in Microsoft Office 2007 Service Pack 3."
+    },
+    {
+      "name": "Security Update 4011618",
+      "kind": "security patch",
+      "gloss": "A Microsoft security update addressing vulnerabilities in Microsoft Office 2010 Service Pack 2."
+    },
+    {
+      "name": "Security Update 3162047",
+      "kind": "security patch",
+      "gloss": "A Microsoft security update addressing vulnerabilities in Microsoft Office 2013 Service Pack 1."
+    },
+    {
+      "name": "Security Update 4011262",
+      "kind": "security patch",
+      "gloss": "A Microsoft security update addressing vulnerabilities in Microsoft Office 2016."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2017-11882",
+      "type": "affects",
+      "tail": "MS Equation",
+      "evidence": "вразливість надає можливість виконання віддаленого коду, коли програмне забезпечення MS Equation не обробляє належним чином"
+    },
+    {
+      "head": "CVE-2017-11882",
+      "type": "affects",
+      "tail": "Microsoft Office 2016",
+      "evidence": "Дана вразливість може використовуватись в Microsoft Office 2016"
+    },
+    {
+      "head": "216.170.123.111",
+      "type": "hosts",
+      "tail": "major[.]exe",
+      "evidence": "завантажується файл major[.]exe з адреси hххp[:]//216.170.123.111/major[.]exe"
+    },
+    {
+      "head": "Security Update 4011262",
+      "type": "mitigates-vulnerability-in",
+      "tail": "Microsoft Office 2016",
+      "evidence": "Microsoft Office 2016 (32-bit edition) – Security Update 4011262"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "hosts",
+      "definition": "The subject infrastructure, server, domain, or IP address hosts the target file, resource, or service."
+    }
+  ]
+}

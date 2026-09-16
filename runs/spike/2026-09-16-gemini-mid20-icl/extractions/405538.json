@@ -1,0 +1,118 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "gov.ua",
+      "kind": "domain name",
+      "gloss": "The official top-level domain zone designated for Ukrainian government entities."
+    },
+    {
+      "name": "Алгоритм дій членів сім’ї безвісти відсутнього військовослужбовця LegalAid.rar",
+      "kind": "file",
+      "gloss": "A password-protected RAR archive containing a malicious macro-enabled spreadsheet."
+    },
+    {
+      "name": "Алгоритм_LegalAid.xlsm",
+      "kind": "file",
+      "gloss": "A malicious macro-enabled Excel document used to download and execute payload stages."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework and command-line shell by Microsoft."
+    },
+    {
+      "name": "MSCommondll.exe",
+      "kind": "file",
+      "gloss": "A malicious .NET executable loader used to download and execute DarkCrystal RAT."
+    },
+    {
+      "name": "MSCommonDriver.exe",
+      "kind": "file",
+      "gloss": "A malicious executable loader file associated with cyberattack campaigns."
+    },
+    {
+      "name": "MSCommonDriver.DCRat.exe",
+      "kind": "file",
+      "gloss": "An executable payload delivering the DarkCrystal RAT malware."
+    },
+    {
+      "name": "DarkCrystal RAT",
+      "kind": "malware family",
+      "gloss": "A commercial remote access trojan that allows threat actors to remotely control infected systems."
+    },
+    {
+      "name": "UAC-0113",
+      "kind": "threat actor",
+      "gloss": "A threat actor group tracked for conducting cyberattacks against Ukrainian organizations."
+    },
+    {
+      "name": "plexbd.net",
+      "kind": "domain name",
+      "gloss": "A network domain used by threat actors to host malicious payloads."
+    },
+    {
+      "name": "datagroup.ddns.net",
+      "kind": "domain name",
+      "gloss": "A dynamic DNS domain used as command and control infrastructure for DarkCrystal RAT."
+    },
+    {
+      "name": "103.27.202.127",
+      "kind": "ip address",
+      "gloss": "An IP address identified in malicious network activity."
+    },
+    {
+      "name": "203.96.191.70",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor infrastructure."
+    },
+    {
+      "name": "31.7.58.82",
+      "kind": "ip address",
+      "gloss": "An IP address identified in malicious infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Алгоритм дій членів сім’ї безвісти відсутнього військовослужбовця LegalAid.rar",
+      "type": "delivers",
+      "tail": "Алгоритм_LegalAid.xlsm",
+      "evidence": "Зазначений RAR-архів містить документ \"Алгоритм_LegalAid.xlsm\""
+    },
+    {
+      "head": "Алгоритм_LegalAid.xlsm",
+      "type": "delivers",
+      "tail": "MSCommondll.exe",
+      "evidence": "забезпечить завантаження та запуск .NET-завантажувача \"MSCommondll.exe\""
+    },
+    {
+      "head": "MSCommondll.exe",
+      "type": "delivers",
+      "tail": "DarkCrystal RAT",
+      "evidence": "здійснить завантаження та запуск шкідливої програми DarkCrystal RAT"
+    },
+    {
+      "head": "UAC-0113",
+      "type": "uses",
+      "tail": "DarkCrystal RAT",
+      "evidence": "домену управління DarkCrystal RAT припускаємо... Активність відстежується за ідентифікатором UAC-0113."
+    },
+    {
+      "head": "plexbd.net",
+      "type": "hosts",
+      "tail": "MSCommonDriver.exe",
+      "evidence": "hXXp://plexbd[.]net/MSCommonDriver.exe"
+    },
+    {
+      "head": "plexbd.net",
+      "type": "hosts",
+      "tail": "MSCommondll.exe",
+      "evidence": "hXXp://plexbd[.]net/MSCommondll.exe"
+    }
+  ],
+  "newRelationTypes": []
+}

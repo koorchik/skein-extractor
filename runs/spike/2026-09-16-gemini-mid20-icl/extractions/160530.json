@@ -1,0 +1,139 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country located in Eastern Europe."
+    },
+    {
+      "name": "UAC-0113",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracking identifier associated with cyber espionage attacks against Ukraine."
+    },
+    {
+      "name": "Sandworm",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage and sabotage group associated with the GRU."
+    },
+    {
+      "name": "CrescentImp",
+      "kind": "malware family",
+      "gloss": "A malicious software program delivered to compromise target systems."
+    },
+    {
+      "name": "CVE-2022-30190",
+      "kind": "vulnerability",
+      "gloss": "A remote code execution vulnerability in Microsoft Windows Support Diagnostic Tool (MSDT)."
+    },
+    {
+      "name": "DarkCrystal RAT",
+      "kind": "malware family",
+      "gloss": "A commercial remote access trojan providing remote control and data theft capabilities."
+    },
+    {
+      "name": "СПИСОК_посилань_на_інтерактивні_карти.docx",
+      "kind": "malicious file",
+      "gloss": "A malicious Microsoft Word document distributed as an email attachment lure."
+    },
+    {
+      "name": "update.html",
+      "kind": "malicious file",
+      "gloss": "A malicious HTML file containing JavaScript code downloaded during exploitation."
+    },
+    {
+      "name": "2.txt",
+      "kind": "malicious file",
+      "gloss": "An executable payload disguised as a text file classified as CrescentImp malware."
+    },
+    {
+      "name": "СПИСОК посилань на інтерактивні карти.xlsm",
+      "kind": "malicious file",
+      "gloss": "A malicious macro-enabled Microsoft Excel workbook used in phishing campaigns."
+    },
+    {
+      "name": "MSDriverLoader.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious loader executable file associated with the threat campaign."
+    },
+    {
+      "name": "MSDriverMonitor.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file identified as an indicator of compromise."
+    },
+    {
+      "name": "dcrat.exe",
+      "kind": "malicious file",
+      "gloss": "An executable file delivering DarkCrystal RAT malware."
+    },
+    {
+      "name": "185.80.92.143",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious HTML and executable payloads."
+    },
+    {
+      "name": "87.236.161.43",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious network infrastructure."
+    },
+    {
+      "name": "72.167.223.219",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious executable files."
+    },
+    {
+      "name": "203.96.191.70",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious executable files."
+    },
+    {
+      "name": "star-cz.ddns.net",
+      "kind": "domain name",
+      "gloss": "A dynamic DNS domain name utilized for malicious network communications."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0113",
+      "type": "exploits",
+      "tail": "CVE-2022-30190",
+      "evidence": "Зловмисники продовжують використовувати вразливість CVE-2022-30190"
+    },
+    {
+      "head": "СПИСОК_посилань_на_інтерактивні_карти.docx",
+      "type": "delivers",
+      "tail": "update.html",
+      "evidence": "відкриття якого призведе до завантаження HTML-файлу"
+    },
+    {
+      "head": "update.html",
+      "type": "delivers",
+      "tail": "2.txt",
+      "evidence": "забезпечить завантаження та виконання EXE-файлу 2.txt"
+    },
+    {
+      "head": "185.80.92.143",
+      "type": "hosts",
+      "tail": "update.html",
+      "evidence": "hxxp://185[.]80.92.143:8998/update.html"
+    },
+    {
+      "head": "185.80.92.143",
+      "type": "hosts",
+      "tail": "2.txt",
+      "evidence": "hxxp://185[.]80.92.143:8998/2.txt"
+    },
+    {
+      "head": "72.167.223.219",
+      "type": "hosts",
+      "tail": "MSDriverLoader.exe",
+      "evidence": "hXXp://72[.]167.223.219/MSDriverLoader[.]exe"
+    },
+    {
+      "head": "203.96.191.70",
+      "type": "hosts",
+      "tail": "MSDriverMonitor.exe",
+      "evidence": "hXXp://203[.]96.191.70/MSDriverMonitor[.]exe"
+    }
+  ],
+  "newRelationTypes": []
+}

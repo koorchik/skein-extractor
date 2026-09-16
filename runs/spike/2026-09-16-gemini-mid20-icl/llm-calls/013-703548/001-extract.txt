@@ -1,0 +1,141 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Email Address: A unique electronic mail identifier used to send, receive, or route digital messages across networks. (also: Email, E-mail Address)
+- Country: A distinct sovereign nation, state, or territorial body with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Threat Actor: An individual or organized group responsible for conducting malicious cyber activities, espionage, or computer network attacks. (also: Threat Group, Cyber Threat Actor, Hacking Group)
+- Domain Name: A human-readable string identifying a specific network address or resource within the Domain Name System. (also: Domain, Internet Domain, FQDN)
+- IP Address: A numerical label assigned to a device or interface connected to a computer network using the Internet Protocol. (also: IP, Internet Protocol Address)
+- Malware Family: A malicious software program, variant, or family designed to compromise systems, exfiltrate data, or disrupt computer operations. (also: Malware, Malicious Software)
+- Software Vulnerability: A security flaw or weakness in software, hardware, or system architecture that can be exploited by threat actors. (also: Vulnerability, Security Flaw, CVE)
+- Software Product: A legitimate software program, application, operating system, or utility used for computational tasks or system administration. (also: Software Application, Software Tool)
+
+### KNOWN RELATION TYPES ###
+- located-in: Specifies the geographical country or territory where an organization or entity is located or based.
+- part-of: Indicates that an entity is a structural component, agency, or division of another entity.
+- uses: Indicates that an organization or actor employs a specific tool, platform, standard, or contact mechanism.
+- exploits: Indicates that an entity takes advantage of a specific security vulnerability.
+- hosts: Indicates that network infrastructure or a domain stores and serves a file or service.
+- delivers: Indicates that a file, program, or channel drops, downloads, or installs a payload.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA зафіксовано факт масового розповсюдження електронних листів з темою "Об'єднаний офіційний звіт про гуманітарну ситуацію. Україна" та вкладенням у вигляді XLS-документу "Гуманітарна катастрофа України з 24 лютого 2022 року.xls". При цьому електронні листи розсилаються зі скомпрометованих електронних адрес державних органів України.</p><p>Згаданий документ містить макрос, активація якого призведе до запуску файлу "baseupd.exe", виконання якого призведе до ураження комп'ютера шкідливою програмою Cobalt Strike Beacon.</p><p>CERT-UA вживаються заходи зі встановлення обставин компрометації облікових записів електронної пошти, а також блокування серверу управління шкідливою програмою.</p><p>Виходячи з використаних тактик, активність асоційовано з діяльністю групи UAC-0056.</p><p>Наполегливо рекомендуємо запровадити використання багатофакторної автентифікації для електронної пошти.</p><p><br></p><p><strong>Індикатори компрометації</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">c73d42d7546fe049f63115635c092288&nbsp; &nbsp; 73e1f2762ffe8e674f08d83c1308362bd96ccd4f64c307ee0a568bc66faf45bb&nbsp; &nbsp; Гуманітарна катастрофа України з 24 лютого 2022 року.xls
+169b38e089926371592a5ef66ae5c52b&nbsp; &nbsp; 501d4741a0aa8784e9feeb9f960f259c09cbceccb206f355209c851b7f094eff&nbsp; &nbsp; baseupd.exe
+23cf0517359c014a8d25085eceb2cb25&nbsp; &nbsp; f3f43f3f4d55c0382f9045fd8093eef66074ca7d97dad066746ace47cc47319a&nbsp; &nbsp; oYUuQbXu
+f063766d0481194829be3c5db209bfcf&nbsp; &nbsp; df4724e21d9dea9b3e7f38b1ad905ad1922d30b6142da01c0218ed80644ca22a&nbsp; &nbsp; stage1.ps1
+6cac251512ecd9f0627cf0da5d0a0ff7&nbsp; &nbsp; e390d3d9004124616a18d10dc5b9f6eeab6b01bd167fac4d783036af574a4278&nbsp; &nbsp; stage2.ps1
+a3cf45b6206bedee45c45b6ccdc8be98&nbsp; &nbsp; 2ed48e578a522a4e718510572056c5cd86d11bdf7e71a52c68a55ebb823771da&nbsp; &nbsp; shellcode.x86.bin (Cobalt Strike Beacon)
+3f29f5c1733b3ea1c1cfe36826e33a2a&nbsp; &nbsp; 00ae9c36c0ebce87efcd63852716ed88599d0ba8bf117ad1771a35b9c67e3402&nbsp; &nbsp; shellcode.x64.bin (Cobalt Strike Beacon)
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">136[.]144.41.177
+hXXp://136[.]144.41.177/s/Xnk75JwUcIebkrmENtufIiiKEmoqBN/field-keywords/
+hXXp://136[.]144.41.177/nzXlLVas-VALvDh9lopkC/avp/amznussraps/
+Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36/e4ECaCzC-37
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">C:\ProgramData\oYUuQbXu
+HKCU\Software\Microsoft\Windows\CurrentVersion\Run\Check License
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (5.4s, in 2712 / out 708 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "Country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0056",
+      "kind": "Threat Actor",
+      "gloss": "A cyberespionage threat actor targeting Ukrainian organizations and government entities."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "Malware Family",
+      "gloss": "A commercial penetration testing payload frequently abused by threat actors for post-exploitation."
+    },
+    {
+      "name": "Гуманітарна катастрофа України з 24 лютого 2022 року.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet containing a macro designed to drop and execute malware."
+    },
+    {
+      "name": "baseupd.exe",
+      "kind": "malicious executable",
+      "gloss": "A malicious executable file used to execute Cobalt Strike Beacon."
+    },
+    {
+      "name": "oYUuQbXu",
+      "kind": "file",
+      "gloss": "A file dropped during the malicious execution chain."
+    },
+    {
+      "name": "stage1.ps1",
+      "kind": "malicious script",
+      "gloss": "A PowerShell script representing the first stage of the payload deployment."
+    },
+    {
+      "name": "stage2.ps1",
+      "kind": "malicious script",
+      "gloss": "A PowerShell script representing the second stage of the payload deployment."
+    },
+    {
+      "name": "shellcode.x86.bin",
+      "kind": "payload file",
+      "gloss": "A 32-bit shellcode payload associated with Cobalt Strike Beacon."
+    },
+    {
+      "name": "shellcode.x64.bin",
+      "kind": "payload file",
+      "gloss": "A 64-bit shellcode payload associated with Cobalt Strike Beacon."
+    },
+    {
+      "name": "136.144.41.177",
+      "kind": "IP Address",
+      "gloss": "An IP address used for malicious command and control infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Гуманітарна катастрофа України з 24 лютого 2022 року.xls",
+      "type": "delivers",
+      "tail": "baseupd.exe",
+      "evidence": "активація якого призведе до запуску файлу \"baseupd.exe\""
+    },
+    {
+      "head": "baseupd.exe",
+      "type": "delivers",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "виконання якого призведе до ураження комп'ютера шкідливою програмою Cobalt Strike Beacon"
+    }
+  ],
+  "newRelationTypes": []
+}

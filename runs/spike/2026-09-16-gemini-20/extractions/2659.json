@@ -1,0 +1,28 @@
+{
+  "entities": [
+    {
+      "name": "перевірити діяльність.html",
+      "kind": "malicious file",
+      "gloss": "A malicious HTML attachment containing encoded script used in a phishing campaign."
+    },
+    {
+      "name": "decpded_page.html",
+      "kind": "malicious file",
+      "gloss": "A decoded HTML script extracted from a malicious attachment that redirects users to a credential phishing page."
+    },
+    {
+      "name": "cautionphenomenon[.]co[.]kr",
+      "kind": "internet domain",
+      "gloss": "A malicious internet domain hosting a phishing landing page targeting user credentials."
+    }
+  ],
+  "relations": [
+    {
+      "head": "перевірити діяльність.html",
+      "type": "delivers",
+      "tail": "decpded_page.html",
+      "evidence": "файл містить закодований скрипт"
+    }
+  ],
+  "newRelationTypes": []
+}

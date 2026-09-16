@@ -1,0 +1,74 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyberespionage threat actor targeting Ukrainian organizations and government entities."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware family",
+      "gloss": "A commercial penetration testing payload frequently abused by threat actors for post-exploitation."
+    },
+    {
+      "name": "Гуманітарна катастрофа України з 24 лютого 2022 року.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet containing a macro designed to drop and execute malware."
+    },
+    {
+      "name": "baseupd.exe",
+      "kind": "malicious executable",
+      "gloss": "A malicious executable file used to execute Cobalt Strike Beacon."
+    },
+    {
+      "name": "oYUuQbXu",
+      "kind": "file",
+      "gloss": "A file dropped during the malicious execution chain."
+    },
+    {
+      "name": "stage1.ps1",
+      "kind": "malicious script",
+      "gloss": "A PowerShell script representing the first stage of the payload deployment."
+    },
+    {
+      "name": "stage2.ps1",
+      "kind": "malicious script",
+      "gloss": "A PowerShell script representing the second stage of the payload deployment."
+    },
+    {
+      "name": "shellcode.x86.bin",
+      "kind": "payload file",
+      "gloss": "A 32-bit shellcode payload associated with Cobalt Strike Beacon."
+    },
+    {
+      "name": "shellcode.x64.bin",
+      "kind": "payload file",
+      "gloss": "A 64-bit shellcode payload associated with Cobalt Strike Beacon."
+    },
+    {
+      "name": "136.144.41.177",
+      "kind": "ip address",
+      "gloss": "An IP address used for malicious command and control infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Гуманітарна катастрофа України з 24 лютого 2022 року.xls",
+      "type": "delivers",
+      "tail": "baseupd.exe",
+      "evidence": "активація якого призведе до запуску файлу \"baseupd.exe\""
+    },
+    {
+      "head": "baseupd.exe",
+      "type": "delivers",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "виконання якого призведе до ураження комп'ютера шкідливою програмою Cobalt Strike Beacon"
+    }
+  ],
+  "newRelationTypes": []
+}

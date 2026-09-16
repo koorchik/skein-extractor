@@ -1,0 +1,288 @@
+{
+  "docId": 40125,
+  "date": "07.05.2022",
+  "title": "Масове розповсюдження шкідливої програми JesterStealer з використанням тематики хімічної атаки (CERT-UA#4625)",
+  "entities": [
+    {
+      "id": "40125:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40125:1",
+      "name": "UAC-0104",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA associated with cyberattacks delivering info-stealing malware.",
+      "scheme": "S2",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "40125:2",
+      "name": "JesterStealer",
+      "kind": "malware family",
+      "gloss": "An information-stealing malware capable of harvesting credentials, crypto wallet keys, and session data.",
+      "scheme": null,
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "40125:3",
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cloud-based instant messaging service used by threat actors for command, control, and data exfiltration.",
+      "scheme": null,
+      "category": "Organization",
+      "role": "target"
+    },
+    {
+      "id": "40125:4",
+      "name": "TOR",
+      "kind": "software product",
+      "gloss": "An open-source anonymity network that enables private communication through onion routing.",
+      "scheme": null,
+      "category": "Infrastructure",
+      "role": "related"
+    },
+    {
+      "id": "40125:5",
+      "name": "Map023.xlsb",
+      "kind": "file",
+      "gloss": "A malicious Excel spreadsheet used to download and execute secondary malware payloads.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "40125:6",
+      "name": "Map021.xlsb",
+      "kind": "file",
+      "gloss": "A malicious Excel spreadsheet used as an infection vector to drop executable malware.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "40125:7",
+      "name": "Map026.xlsb",
+      "kind": "file",
+      "gloss": "A malicious Excel spreadsheet designed to initiate the download of executable malware.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "40125:8",
+      "name": "Updater-Microsoft.exe",
+      "kind": "file",
+      "gloss": "A malicious executable file masquerading as a legitimate Microsoft update to deploy JesterStealer.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "40125:9",
+      "name": "a1.exe",
+      "kind": "file",
+      "gloss": "A malicious executable payload associated with the distribution of JesterStealer.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40125:10",
+      "name": "ckloc",
+      "kind": "file",
+      "gloss": "A malicious executable file identified as a component or sample of JesterStealer.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40125:11",
+      "name": "OfficeUpdaterNew.exe",
+      "kind": "file",
+      "gloss": "A malicious executable payload hosted on compromised infrastructure.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "40125:12",
+      "name": "tachikawaobs@sv5206.xserver.jp",
+      "kind": "email address",
+      "gloss": "An email address observed sending malicious messages in the cyber attack campaign.",
+      "scheme": "S1",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "40125:13",
+      "name": "157[.]112.183.47",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the malicious network infrastructure.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40125:14",
+      "name": "igshop[.]net",
+      "kind": "internet domain",
+      "gloss": "A compromised website domain used to host malicious files and payloads.",
+      "scheme": null,
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "40125:15",
+      "name": "dcshost[.]net",
+      "kind": "internet domain",
+      "gloss": "A compromised website domain utilized by attackers to host malware executables.",
+      "scheme": null,
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "40125:16",
+      "name": "marmaris.com[.]ua",
+      "kind": "internet domain",
+      "gloss": "A compromised Ukrainian website domain used to host malicious executables.",
+      "scheme": null,
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "40125:17",
+      "name": "autodoka.com[.]ua",
+      "kind": "internet domain",
+      "gloss": "A compromised Ukrainian domain used to distribute malicious executable files.",
+      "scheme": null,
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "40125:18",
+      "name": "lightnogu5owjjllyo4tj2sfos6fchnmcidlgo6c7e6fz2hgryhfhoyd[.]onion",
+      "kind": "internet domain",
+      "gloss": "A Tor onion service address used by the threat actor for C2 or exfiltration.",
+      "scheme": null,
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "40125:19",
+      "name": "wasabiwallet[.]online",
+      "kind": "internet domain",
+      "gloss": "A malicious domain name masquerading as cryptocurrency software infrastructure.",
+      "scheme": null,
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "40125:20",
+      "name": "ip-api[.]com",
+      "kind": "internet domain",
+      "gloss": "A legitimate IP geolocation lookup service queried by malware.",
+      "scheme": null,
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "40125:21",
+      "name": "HKCU\\SOFTWARE\\kxialunboq\\state",
+      "kind": "registry key",
+      "gloss": "A Windows registry key artifact associated with the execution of JesterStealer.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0104",
+      "type": "uses",
+      "tail": "JesterStealer",
+      "evidence": "ураження комп'ютера шкідливою програмою JesterStealer... Активність тимчасово відстежується за ідентифікатором UAC-0104"
+    },
+    {
+      "head": "JesterStealer",
+      "type": "exfiltrates-to",
+      "tail": "Telegram",
+      "evidence": "Викрадені дані через статично визначені адреси проксі... передаються зловмиснику в Telegram."
+    },
+    {
+      "head": "JesterStealer",
+      "type": "uses",
+      "tail": "TOR",
+      "evidence": "через статично визначені адреси проксі (в т.ч., в мережі TOR)"
+    },
+    {
+      "head": "igshop[.]net",
+      "type": "delivers",
+      "tail": "Map026.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map026.xlsb"
+    },
+    {
+      "head": "igshop[.]net",
+      "type": "delivers",
+      "tail": "Map023.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map023.xlsb"
+    },
+    {
+      "head": "igshop[.]net",
+      "type": "delivers",
+      "tail": "Map021.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map021.xlsb"
+    },
+    {
+      "head": "igshop[.]net",
+      "type": "delivers",
+      "tail": "Updater-Microsoft.exe",
+      "evidence": "hxxps://igshop[.]net/uploads/Updater-Microsoft.exe"
+    },
+    {
+      "head": "dcshost[.]net",
+      "type": "delivers",
+      "tail": "OfficeUpdaterNew.exe",
+      "evidence": "hxxps://dcshost[.]net/mail/OfficeUpdaterNew.exe"
+    },
+    {
+      "head": "marmaris.com[.]ua",
+      "type": "delivers",
+      "tail": "Updater-Microsoft.exe",
+      "evidence": "hxxps://marmaris.com[.]ua/misc/Updater-Microsoft.exe"
+    },
+    {
+      "head": "autodoka.com[.]ua",
+      "type": "delivers",
+      "tail": "Updater-Microsoft.exe",
+      "evidence": "hxxps://autodoka.com[.]ua/extra/Updater-Microsoft.exe"
+    }
+  ],
+  "unclassified": [
+    "40125:2",
+    "40125:3",
+    "40125:4",
+    "40125:5",
+    "40125:6",
+    "40125:7",
+    "40125:8",
+    "40125:9",
+    "40125:10",
+    "40125:11",
+    "40125:13",
+    "40125:14",
+    "40125:15",
+    "40125:16",
+    "40125:17",
+    "40125:18",
+    "40125:19",
+    "40125:20",
+    "40125:21"
+  ]
+}

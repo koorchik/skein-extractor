@@ -1,0 +1,66 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyber threat actor group tracked by CERT-UA that conducts cyberattacks against Ukrainian targets."
+    },
+    {
+      "name": "Інформація щодо наявності вакансій та їх укомплектування.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious XLS document containing a macro that drops and executes an executable payload."
+    },
+    {
+      "name": "write.exe",
+      "kind": "malicious file",
+      "gloss": "An executable dropper file that establishes persistence and launches a PowerShell script."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware family",
+      "gloss": "A post-exploitation agent and payload of the Cobalt Strike adversary simulation software."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A cross-platform task automation solution consisting of a command-line shell and a scripting language."
+    },
+    {
+      "name": "Windows",
+      "kind": "software product",
+      "gloss": "A family of proprietary graphical operating systems developed by Microsoft."
+    },
+    {
+      "name": "skreatortemp.site",
+      "kind": "domain name",
+      "gloss": "An internet domain used as network infrastructure during the cyberattack."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Інформація щодо наявності вакансій та їх укомплектування.xls",
+      "type": "delivers",
+      "tail": "write.exe",
+      "evidence": "призведе до створення на комп'ютері та запуску файлу \"write.exe\""
+    },
+    {
+      "head": "write.exe",
+      "type": "uses",
+      "tail": "Windows",
+      "evidence": "створюючи ключ \"Check License\" в гілці \"Run\" реєстру Windows"
+    },
+    {
+      "head": "write.exe",
+      "type": "uses",
+      "tail": "PowerShell",
+      "evidence": "подальший запуск PowerShell-скрипта"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "забезпечить виконання шкідливої програми Cobalt Strike Beacon. З середнім рівнем впевненості виявлену активність асоціюємо з діяльністю групи UAC-0056"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,90 @@
+{
+  "entities": [
+    {
+      "name": "CoronaMap.exe",
+      "kind": "malware",
+      "gloss": "A malicious executable disguised as a coronavirus tracking map that executes the AZORult trojan."
+    },
+    {
+      "name": "AZORult",
+      "kind": "malware family",
+      "gloss": "An information-stealing Trojan designed to harvest user credentials, cookies, browser data, and cryptocurrency information."
+    },
+    {
+      "name": "Corona-virus-Map.com.exe",
+      "kind": "malware",
+      "gloss": "A malicious executable file used to distribute malware under the guise of a coronavirus map."
+    },
+    {
+      "name": "Університет Джона Хопкінса",
+      "kind": "educational institution",
+      "gloss": "A private research university in the United States whose COVID-19 dashboard was mimicked by malware."
+    },
+    {
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A family of proprietary graphical operating systems developed and marketed by Microsoft."
+    },
+    {
+      "name": "Java",
+      "kind": "software platform",
+      "gloss": "A set of computer software and specifications developed by Sun Microsystems and later acquired by Oracle."
+    },
+    {
+      "name": "MS Office",
+      "kind": "software suite",
+      "gloss": "A suite of productivity software developed and marketed by Microsoft."
+    },
+    {
+      "name": ".NET",
+      "kind": "software framework",
+      "gloss": "A software development framework created by Microsoft for building and running applications on Windows."
+    },
+    {
+      "name": "VirusTotal",
+      "kind": "online service",
+      "gloss": "An online service that analyzes suspicious files and URLs to detect malware using antivirus engines."
+    },
+    {
+      "name": "Державного центру кіберзахисту та протидії кіберзагрозам Держспецзв’язку",
+      "kind": "government body",
+      "gloss": "A Ukrainian state cybersecurity center operating under SSSCIP to protect state information resources."
+    },
+    {
+      "name": "Держспецзв’язку",
+      "kind": "government body",
+      "gloss": "A Ukrainian central executive body responsible for state communication, cyber defense, and information protection."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CoronaMap.exe",
+      "type": "delivers",
+      "tail": "AZORult",
+      "evidence": "при запуску зловмисної програми CoronaMap.exe ... ініціюється запуск шкідливого програмного забезпечення, відомого як AZORult"
+    },
+    {
+      "head": "Державного центру кіберзахисту та протидії кіберзагрозам Держспецзв’язку",
+      "type": "part-of",
+      "tail": "Держспецзв’язку",
+      "evidence": "Державного центру кіберзахисту та протидії кіберзагрозам Держспецзв’язку"
+    },
+    {
+      "head": "Держспецзв’язку",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "урядової команди реагування на комп’ютерні надзвичайні події України CERT-UA"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "delivers",
+      "definition": "The subject malware, file, or campaign drops, executes, or installs the target payload or malware."
+    }
+  ]
+}

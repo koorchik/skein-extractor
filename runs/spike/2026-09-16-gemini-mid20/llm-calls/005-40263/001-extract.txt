@@ -1,0 +1,308 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- deploys: Indicates that an organization sets up, runs, or operates an instance of a software system or platform.
+- part-of: Indicates that an entity is a structural division, subunit, or member of another organization.
+- uses-email: Indicates that an organization or individual uses a specific email address as a point of contact.
+- uses: Indicates that a threat actor employs a specific malware, tool, or infrastructure.
+- targets: Indicates that a threat actor directs malicious activities against a country, sector, or organization.
+- delivers: Indicates that a file, email, or process drops, extracts, or transmits another payload.
+- exfiltrates-to: Indicates that a malware transmits stolen data to a remote address or domain.
+- hosted-on: Indicates that an internet resource or domain is hosted or deployed on a specific service platform.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p class="ql-align-justify"><strong>Загальна інформація</strong></p><p class="ql-align-justify">Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA у соціальній мережі Facebook виявлено шахрайську сторінку, що імітує ресурс телеканалу "ТСН".</p><p class="ql-align-justify">На сторінці пропонується взяти участь в опитуванні, перейшовши за посиланням, та отримати "грошову допомогу в рамках соціальної програми ООН". Надалі, користувачеві буде запропоновано надати персональні дані та здійснити додатковий платіж, в результаті чого дані платіжної картки буде скомпрометовано.</p><p><br></p><p class="ql-align-justify"><strong>Індикатори компрометації</strong></p><pre class="ql-syntax" spellcheck="false">https://www.facebook.com/111851358189177/posts/111855418188771/ (Фішингова сторінка FB)
+159.65.18.143 (провайдер: @digitalocean[.]com)
+hxxps://awa-opros[.]top (реєстратор: @namesilo[.]com)
+hxxps://oon24oprosy[.]yolasite[.]com/ (реєстратор: @safenames[.]net)
+ais-gos[.]top
+ao-opros[.]top
+awa-opros[.]top
+eti-opros[.]top
+eu-opros[.]top
+ev-gos[.]top
+ew-gos[.]top
+for-gos[.]top
+fori-opros[.]top
+jar-gos[.]top
+jel-gos[.]top
+jo-opros[.]top
+job-opros[.]top
+pre-opros[.]top
+rea-gos[.]top
+tas-gos[.]top
+tense-gos[.]top
+tio-gos[.]top
+top-opros[.]top
+ui-opros[.]top
+uz-gos[.]top
+wers-gos[.]top
+wi-opros[.]top
+wm-gos[.]top
+world-opros[.]top
+ws-gos[.]top
+ye-gos[.]top
+yi-gos[.]top
+</pre><p><br></p><p><strong>Рекомендації</strong></p><p>1. Ніколи не вводьте реквізити платіжних карток на незнайомих та підозрілих веб-сайтах, а також налаштуйте контроль руху коштів (підключіть SMS-інформування, встановіть ліміти на операції).</p><p>2. Якщо дані платіжної картки помилково введено на шахрайському веб-сайті - НЕГАЙНО заблокувати платіжну картку за допомогою мобільного застосунку, гарячої лінії банку (телефон зазначено на&nbsp;</p><p>звороті картки) або через Інтернет-банкінг.</p><p>3. Скористайтеся основними порадами платіжної безпеки Національного банку України <a href="https://bank.gov.ua/promo/stopfraud/ " rel="noopener noreferrer" target="_blank">https://bank.gov.ua/promo/stopfraud/ </a>та правилами кібергігієни <a href="https://cert.gov.ua/recommendation/31" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/recommendation/31</a>.</p><p><br></p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (8.2s, in 1958 / out 2158 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Facebook",
+      "kind": "social network",
+      "gloss": "An online social media and social networking service platform."
+    },
+    {
+      "name": "ТСН",
+      "kind": "television news program",
+      "gloss": "A daily news program on the Ukrainian 1+1 TV channel."
+    },
+    {
+      "name": "ООН",
+      "kind": "international organization",
+      "gloss": "An intergovernmental organization aiming to maintain international peace and security."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "Національний банк України",
+      "kind": "central bank",
+      "gloss": "The central bank of Ukraine responsible for monetary policy and financial stability."
+    },
+    {
+      "name": "digitalocean.com",
+      "kind": "cloud hosting provider",
+      "gloss": "An American cloud infrastructure provider providing cloud services and virtual private servers."
+    },
+    {
+      "name": "namesilo.com",
+      "kind": "domain registrar",
+      "gloss": "An American ICANN-accredited domain name registrar."
+    },
+    {
+      "name": "safenames.net",
+      "kind": "domain registrar",
+      "gloss": "A global domain name registrar and online brand protection service provider."
+    },
+    {
+      "name": "https://www.facebook.com/111851358189177/posts/111855418188771/",
+      "kind": "url",
+      "gloss": "A malicious Facebook post URL used in a fraudulent campaign."
+    },
+    {
+      "name": "159.65.18.143",
+      "kind": "ip address",
+      "gloss": "An IP address associated with fraudulent infrastructure hosted on DigitalOcean."
+    },
+    {
+      "name": "hxxps://awa-opros[.]top",
+      "kind": "url",
+      "gloss": "A phishing URL used to collect financial and personal data."
+    },
+    {
+      "name": "hxxps://oon24oprosy[.]yolasite[.]com/",
+      "kind": "url",
+      "gloss": "A phishing URL mimicking a UN social program survey."
+    },
+    {
+      "name": "ais-gos.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "ao-opros.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "awa-opros.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "eti-opros.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "eu-opros.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "ev-gos.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "ew-gos.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "for-gos.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "fori-opros.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "jar-gos.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "jel-gos.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "jo-opros.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "job-opros.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "pre-opros.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "rea-gos.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "tas-gos.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "tense-gos.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "tio-gos.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "top-opros.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "ui-opros.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "uz-gos.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "wers-gos.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "wi-opros.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "wm-gos.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "world-opros.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "ws-gos.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "ye-gos.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    },
+    {
+      "name": "yi-gos.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in a financial phishing campaign."
+    }
+  ],
+  "relations": [
+    {
+      "head": "159.65.18.143",
+      "type": "hosted-on",
+      "tail": "digitalocean.com",
+      "evidence": "159.65.18.143 (провайдер: @digitalocean[.]com)"
+    },
+    {
+      "head": "hxxps://awa-opros[.]top",
+      "type": "hosted-on",
+      "tail": "namesilo.com",
+      "evidence": "hxxps://awa-opros[.]top (реєстратор: @namesilo[.]com)"
+    },
+    {
+      "head": "hxxps://oon24oprosy[.]yolasite[.]com/",
+      "type": "hosted-on",
+      "tail": "safenames.net",
+      "evidence": "hxxps://oon24oprosy[.]yolasite[.]com/ (реєстратор: @safenames[.]net)"
+    },
+    {
+      "head": "https://www.facebook.com/111851358189177/posts/111855418188771/",
+      "type": "hosted-on",
+      "tail": "Facebook",
+      "evidence": "соціальній мережі Facebook виявлено шахрайську сторінку"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,187 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0010",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyberespionage group targeting Ukrainian entities, also known as Armageddon or Gamaredon."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "Національна академія СБ України",
+      "kind": "government body",
+      "gloss": "A higher educational institution of the Security Service of Ukraine preparing specialists for state security."
+    },
+    {
+      "name": "Департамент контррозвідки Служби безпеки України",
+      "kind": "government body",
+      "gloss": "A key counterintelligence department of the Security Service of Ukraine."
+    },
+    {
+      "name": "Служба безпеки України",
+      "kind": "government body",
+      "gloss": "The national security agency and main counterintelligence and counterterrorism service of Ukraine."
+    },
+    {
+      "name": "43 оабр",
+      "kind": "military unit",
+      "gloss": "A brigade-sized artillery formation of the Ukrainian Ground Forces."
+    },
+    {
+      "name": "GammaLoad.PS1_v2",
+      "kind": "malware family",
+      "gloss": "A PowerShell-based reconnaissance and downloader malware associated with threat actor UAC-0010."
+    },
+    {
+      "name": "cloudflare-dns.com",
+      "kind": "internet domain",
+      "gloss": "A legitimate DNS-over-HTTPS service provided by Cloudflare."
+    },
+    {
+      "name": "whoer.net",
+      "kind": "internet domain",
+      "gloss": "A legitimate public online service used to check IP addresses and connection parameters."
+    },
+    {
+      "name": "a0695487.xsph.ru",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious payload distribution in UAC-0010 campaigns."
+    },
+    {
+      "name": "a0698262.xsph.ru",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious payload distribution in UAC-0010 campaigns."
+    },
+    {
+      "name": "a0698649.xsph.ru",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious payload distribution in UAC-0010 campaigns."
+    },
+    {
+      "name": "fishitor.ru",
+      "kind": "internet domain",
+      "gloss": "A domain associated with UAC-0010 cyber attacks."
+    },
+    {
+      "name": "leonardis.ru",
+      "kind": "internet domain",
+      "gloss": "A domain associated with UAC-0010 cyber attacks."
+    },
+    {
+      "name": "mail-box.site",
+      "kind": "internet domain",
+      "gloss": "A domain used for phishing email delivery by UAC-0010."
+    },
+    {
+      "name": "fast-mail.site",
+      "kind": "internet domain",
+      "gloss": "A domain used for phishing email delivery by UAC-0010."
+    },
+    {
+      "name": "your-mail.press",
+      "kind": "internet domain",
+      "gloss": "A domain used for phishing email delivery by UAC-0010."
+    },
+    {
+      "name": "visnik-ssu@mail-box.site",
+      "kind": "email address",
+      "gloss": "A spoofed email address used in malicious spear-phishing distribution."
+    },
+    {
+      "name": "dnipro@fast-mail.site",
+      "kind": "email address",
+      "gloss": "An email address used in malicious spear-phishing distribution."
+    },
+    {
+      "name": "visnik-ssu@your-mail.press",
+      "kind": "email address",
+      "gloss": "A spoofed email address used in malicious spear-phishing distribution."
+    },
+    {
+      "name": "164.92.166.107",
+      "kind": "ip address",
+      "gloss": "An IP address used in UAC-0010 network infrastructure."
+    },
+    {
+      "name": "45.63.114.110",
+      "kind": "ip address",
+      "gloss": "An IP address used in UAC-0010 network infrastructure."
+    },
+    {
+      "name": "159.223.218.10",
+      "kind": "ip address",
+      "gloss": "An IP address used in UAC-0010 network infrastructure."
+    },
+    {
+      "name": "194.67.87.33",
+      "kind": "ip address",
+      "gloss": "An IP address used in UAC-0010 network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "GammaLoad.PS1_v2",
+      "evidence": "Описана активність здійснюється групою UAC-0010 (Armageddon)."
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-email",
+      "tail": "visnik-ssu@mail-box.site",
+      "evidence": "visnik-ssu@mail-box[.]site"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-email",
+      "tail": "dnipro@fast-mail.site",
+      "evidence": "dnipro@fast-mail[.]site"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-email",
+      "tail": "visnik-ssu@your-mail.press",
+      "evidence": "visnik-ssu@your-mail[.]press"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "a0695487.xsph.ru",
+      "evidence": "a0695487.xsph[.]ru"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "a0698262.xsph.ru",
+      "evidence": "a0698262.xsph[.]ru"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "a0698649.xsph.ru",
+      "evidence": "a0698649.xsph[.]ru"
+    },
+    {
+      "head": "Національна академія СБ України",
+      "type": "part-of",
+      "tail": "Служба безпеки України",
+      "evidence": "Національної академії СБ України"
+    },
+    {
+      "head": "Департамент контррозвідки Служби безпеки України",
+      "type": "part-of",
+      "tail": "Служба безпеки України",
+      "evidence": "Департаменту контрозвідки Служби безпеки України"
+    },
+    {
+      "head": "Служба безпеки України",
+      "type": "part-of",
+      "tail": "Україна",
+      "evidence": "Служби безпеки України"
+    }
+  ],
+  "newRelationTypes": []
+}

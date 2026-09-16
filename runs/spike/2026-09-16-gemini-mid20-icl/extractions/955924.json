@@ -1,0 +1,104 @@
+{
+  "entities": [
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0041",
+      "kind": "threat actor",
+      "gloss": "A cyber threat actor known for conducting systematic phishing campaigns distributing stealer malware."
+    },
+    {
+      "name": "RelicRace",
+      "kind": "malware family",
+      "gloss": "A .NET downloader malware designed to fetch and execute secondary malicious payloads in memory."
+    },
+    {
+      "name": "RelicSource",
+      "kind": "malware family",
+      "gloss": "A .NET installer and dropper malware that decrypts and executes embedded payloads such as stealers."
+    },
+    {
+      "name": "Formbook",
+      "kind": "malware family",
+      "gloss": "An info-stealing malware family that captures keystrokes, clipboard data, and stored credentials."
+    },
+    {
+      "name": "Snake Keylogger",
+      "kind": "malware family",
+      "gloss": "A modular .NET-based keylogger and credential stealer that exfiltrates captured victim data."
+    },
+    {
+      "name": "OneDrive",
+      "kind": "software product",
+      "gloss": "A cloud storage and file synchronization service developed by Microsoft."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cross-platform cloud-based instant messaging service and application."
+    },
+    {
+      "name": "clientes@taximadridclass.com",
+      "kind": "email address",
+      "gloss": "An email address observed sending malicious phishing messages."
+    },
+    {
+      "name": "info@kivanclardokum.com.tr",
+      "kind": "email address",
+      "gloss": "An email address observed sending malicious phishing messages."
+    },
+    {
+      "name": "barbacoalosmartinez.com",
+      "kind": "domain name",
+      "gloss": "An internet domain name used for malicious network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0041",
+      "type": "uses",
+      "tail": "RelicRace",
+      "evidence": "Активність має систематичний, масовий та географічно розосереджений характер і відстежується за ідентифікатором UAC-0041."
+    },
+    {
+      "head": "RelicRace",
+      "type": "delivers",
+      "tail": "RelicSource",
+      "evidence": "RelicRace, призначений для завантаження (здебільшого з OneDrive), декодування та запуску в пам'яті шкідливої .NET-програми RelicSource."
+    },
+    {
+      "head": "RelicRace",
+      "type": "uses",
+      "tail": "OneDrive",
+      "evidence": "призначений для завантаження (здебільшого з OneDrive)"
+    },
+    {
+      "head": "RelicSource",
+      "type": "delivers",
+      "tail": "Formbook",
+      "evidence": "Як пейлоад використовуються програми-стілери, а саме: Formbook"
+    },
+    {
+      "head": "RelicSource",
+      "type": "delivers",
+      "tail": "Snake Keylogger",
+      "evidence": "Як пейлоад використовуються програми-стілери, а саме: Formbook та Snake Keylogger"
+    },
+    {
+      "head": "RelicSource",
+      "type": "uses",
+      "tail": "Telegram",
+      "evidence": "відправка нотифікацій до Telegram"
+    },
+    {
+      "head": "Snake Keylogger",
+      "type": "uses",
+      "tail": "Telegram",
+      "evidence": "Snake Keylogger (ексфільтрація за допомогою API Telegram)"
+    }
+  ],
+  "newRelationTypes": []
+}

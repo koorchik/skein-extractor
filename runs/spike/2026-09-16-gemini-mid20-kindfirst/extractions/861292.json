@@ -1,0 +1,103 @@
+{
+  "entities": [
+    {
+      "name": "Доповідь_050722_4.ppt",
+      "kind": "malicious file",
+      "gloss": "A malicious PowerPoint presentation used as a lure to deliver malware."
+    },
+    {
+      "name": "оперативне командування \"Південь\"",
+      "kind": "military command",
+      "gloss": "An operational command of the Ukrainian Ground Forces in southern Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "gksg023ig.lnk",
+      "kind": "malicious file",
+      "gloss": "A malicious shortcut file created to trigger executable execution via rundll32.exe."
+    },
+    {
+      "name": "sgegkseg23mjl.exe",
+      "kind": "malware",
+      "gloss": "An obfuscated .NET executable that downloads a steganographic payload."
+    },
+    {
+      "name": "rundll32.exe",
+      "kind": "software product",
+      "gloss": "A built-in Windows executable that runs 32-bit dynamic-link libraries."
+    },
+    {
+      "name": "ConfuserEx",
+      "kind": "software product",
+      "gloss": "An open-source protector and obfuscator for .NET applications."
+    },
+    {
+      "name": "thumb_d_F3D14F4982A256B5CDAE9BD579429AE7.jpg",
+      "kind": "malicious file",
+      "gloss": "A JPEG image containing hidden encrypted and compressed malware payload data."
+    },
+    {
+      "name": "MCMDiction.exe",
+      "kind": "malware",
+      "gloss": "A .NET payload decrypted from an image file that ultimately executes AgentTesla."
+    },
+    {
+      "name": "AgentTesla",
+      "kind": "malware family",
+      "gloss": "A commercial .NET-based infostealer malware family used to harvest credentials and keystrokes."
+    },
+    {
+      "name": "onyangdol[.]site",
+      "kind": "domain name",
+      "gloss": "A malicious domain used to host steganographic payload files."
+    },
+    {
+      "name": "ftp.artrsllc[.]com",
+      "kind": "domain name",
+      "gloss": "A domain with an FTP server used in the malware campaign infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Доповідь_050722_4.ppt",
+      "type": "delivers",
+      "tail": "gksg023ig.lnk",
+      "evidence": "активації макросу останній забезпечить створення файлів \"gksg023ig.lnk\""
+    },
+    {
+      "head": "Доповідь_050722_4.ppt",
+      "type": "delivers",
+      "tail": "sgegkseg23mjl.exe",
+      "evidence": "створення файлів \"gksg023ig.lnk\" та \"sgegkseg23mjl.exe\""
+    },
+    {
+      "head": "sgegkseg23mjl.exe",
+      "type": "uses",
+      "tail": "ConfuserEx",
+      "evidence": "є .NET-програмою, обфускованою за допомогою ConfuserEx"
+    },
+    {
+      "head": "sgegkseg23mjl.exe",
+      "type": "delivers",
+      "tail": "MCMDiction.exe",
+      "evidence": "декомпресію даних і запуск отриманої в результаті .NET-програми MCMDiction.exe"
+    },
+    {
+      "head": "MCMDiction.exe",
+      "type": "delivers",
+      "tail": "AgentTesla",
+      "evidence": "на комп'ютері буде виконано шкідливу програму-стілер AgentTesla"
+    },
+    {
+      "head": "оперативне командування \"Південь\"",
+      "type": "part-of",
+      "tail": "Україна",
+      "evidence": "на якій згадєуться оперативне командування \"Південь\""
+    }
+  ],
+  "newRelationTypes": []
+}

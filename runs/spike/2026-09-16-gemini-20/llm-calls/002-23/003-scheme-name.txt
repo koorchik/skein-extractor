@@ -1,0 +1,41 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You maintain a small, growing set of CONCEPT SCHEMES (entity categories) for a knowledge registry built from cybersecurity incident reports. A group of entities extracted from several reports has just been found to be close to each other and far from every existing scheme. Decide whether the group is a genuinely new scheme or an alias of an existing one, and name it.
+
+### EXISTING SCHEMES ###
+- Software Product: A software application, plugin, utility, or platform developed for end users or computing infrastructure.
+- Security Advisory: An official public notice issued by an organization detailing cybersecurity vulnerabilities, patches, or mitigation recommendations.
+- Security Vulnerability: A flaw or weakness in software, firmware, or hardware that can be exploited to compromise system security.
+
+### THE GROUP ###
+Each line is one entity with the description written at extraction time:
+- Linux [operating system] — A family of open-source Unix-like operating systems based on the Linux kernel.
+- Mac [operating system] — A series of proprietary graphical operating systems developed and marketed by Apple.
+- Windows [operating system] — A group of proprietary graphical operating system families developed and marketed by Microsoft.
+- Windows [operating system] — A group of proprietary graphical operating system families developed and marketed by Microsoft.
+- Cisco NX-OS [operating system] — A network operating system for the Cisco Nexus-series Ethernet switches and Cisco MDS 9000-series storage networking switches.
+- Cisco FXOS [operating system] — An operating system developed by Cisco for its Firepower series security appliances.
+- Cisco IOS XR [operating system] — A train of Cisco Systems' network operating systems designed for service provider routers.
+
+### RULES ###
+- A scheme is a KIND of entity (e.g. "Hacker group", "Malware family", "Software product", "Government body", "Internet domain", "Country"), never a role in an incident and never a single entity.
+- Return `"verdict": "alias-of"` with `"target"` set to an existing scheme's label when the group is the same kind as that scheme (different wording, same meaning). Judge by MEANING of the descriptions, not by surface words.
+- Return `"verdict": "new"` when no existing scheme covers the group. Then give:
+  - `prefLabel`: a short English noun phrase, 1–3 words, singular, Title Case (e.g. "Malware Family").
+  - `definition`: one sentence, at most 25 words, stating what belongs to the scheme, general enough to hold across reports.
+  - `altLabels`: 0–3 alternative English labels.
+- If the group mixes clearly different kinds, name the kind of the MAJORITY and list the minority entity names in `outliers`.
+- If uncertain between alias and new, prefer `new`: an extra scheme can be merged later; a wrong merge cannot be undone cheaply.
+
+### OUTPUT ###
+A single raw JSON object, no markdown fences, no commentary:
+{ "verdict": "new" | "alias-of", "target": "<existing label or null>", "prefLabel": "...", "definition": "...", "altLabels": [...], "outliers": [...] }
+
+--- text ---
+Decide and name the group now.
+
+=== RESPONSE (2.8s, in 690 / out 57 tok, STOP) ===
+{"verdict": "new", "target": null, "prefLabel": "Operating System", "definition": "System software that manages computer hardware and software resources and provides common services for computer programs.", "altLabels": ["OS", "Platform"], "outliers": []}

@@ -1,0 +1,51 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You maintain a small, growing set of CONCEPT SCHEMES (entity categories) for a knowledge registry built from cybersecurity incident reports. A group of entities extracted from several reports has just been found to be close to each other and far from every existing scheme. Decide whether the group is a genuinely new scheme or an alias of an existing one, and name it.
+
+### EXISTING SCHEMES ###
+- Email Address: A unique electronic mail identifier used to send, receive, or route messages across computer networks.
+- Threat Actor: An individual or organized group responsible for conducting malicious cyber activities or attacks.
+- Country: A distinct territorial body or sovereign state with its own government, borders, and national identity.
+- Domain Name: A textual identifier used to locate and access resources or infrastructure across computer networks via the Domain Name System.
+- IP Address: A numerical label assigned to a device or network interface communicating across networks using the Internet Protocol.
+- Malware: A malicious software program or code family designed to compromise, damage, or gain unauthorized access to computer systems.
+- Vulnerability: A flaw or weakness in software, hardware, or system components that can be exploited to compromise security.
+- Software Product: A legitimate program, application, or platform used to perform specific computational tasks, communications, or operations.
+- Organization: A formal group of people, such as a company, government agency, or institution, operating for a specific purpose.
+
+### THE GROUP ###
+Each line is one entity with the description written at extraction time:
+- CISA [government body] — The Cybersecurity and Infrastructure Security Agency of the United States.
+- Адміністрація Держспецзв'язку [government body] — The central executive administration of the State Service of Special Communications and Information Protection of Ukraine.
+- КМУ [government body] — The highest body of executive power in Ukraine.
+- Державної податкової служби України [government body] — The central government body responsible for implementing state tax policy in Ukraine.
+- Національний координаційний центр кібербезпеки РНБО України [government body] — A working body of the National Security and Defense Council of Ukraine coordinating cybersecurity activities.
+- РНБО України [government body] — The state coordinating body on national security and defense under the President of Ukraine.
+- Національна академія СБ України [government body] — A higher educational institution of the Security Service of Ukraine preparing specialists for state security.
+- Держспецзв'язку [government body] — A Ukrainian state authority responsible for specialized telecommunications and cybersecurity.
+- Департамент контррозвідки Служби безпеки України [government body] — A key counterintelligence department of the Security Service of Ukraine.
+- Служба безпеки України [government body] — The state intelligence and security service of Ukraine.
+- Служба безпеки України [government body] — The national security agency and main counterintelligence and counterterrorism service of Ukraine.
+
+### RULES ###
+- A scheme is a KIND of entity (e.g. "Hacker group", "Malware family", "Software product", "Government body", "Internet domain", "Country"), never a role in an incident and never a single entity.
+- Return `"verdict": "alias-of"` with `"target"` set to an existing scheme's label when the group is the same kind as that scheme (different wording, same meaning). Judge by MEANING of the descriptions, not by surface words.
+- Return `"verdict": "new"` when no existing scheme covers the group. Then give:
+  - `prefLabel`: a short English noun phrase, 1–3 words, singular, Title Case (e.g. "Malware Family").
+  - `definition`: one sentence, at most 25 words, stating what belongs to the scheme, general enough to hold across reports.
+  - `altLabels`: 0–3 alternative English labels.
+- If the group mixes clearly different kinds, name the kind of the MAJORITY and list the minority entity names in `outliers`.
+- If uncertain between alias and new, prefer `new`: an extra scheme can be merged later; a wrong merge cannot be undone cheaply.
+
+### OUTPUT ###
+A single raw JSON object, no markdown fences, no commentary:
+{ "verdict": "new" | "alias-of", "target": "<existing label or null>", "prefLabel": "...", "definition": "...", "altLabels": [...], "outliers": [...] }
+
+--- text ---
+Decide and name the group now.
+
+=== RESPONSE (2.1s, in 956 / out 70 tok, STOP) ===
+{"verdict": "alias-of", "target": "Organization", "prefLabel": "Organization", "definition": "A formal group of people, such as a company, government agency, or institution, operating for a specific purpose.", "altLabels": ["Government Agency", "Government Body", "Institution"], "outliers": []}

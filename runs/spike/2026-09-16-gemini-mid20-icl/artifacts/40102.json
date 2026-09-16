@@ -1,0 +1,139 @@
+{
+  "docId": 40102,
+  "date": "06.05.2022",
+  "title": "Кібератака групи APT28 із застосуванням шкідливої програми CredoMap_v2 (CERT-UA#4622)",
+  "entities": [
+    {
+      "id": "40102:0",
+      "name": "APT28 (UAC-0028)",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage threat actor affiliated with Russian military intelligence.",
+      "scheme": null,
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "40102:1",
+      "name": "CredoMap_v2",
+      "kind": "malware",
+      "gloss": "An information stealer malware family used to extract and exfiltrate authentication credentials.",
+      "scheme": null,
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "40102:2",
+      "name": "Pipedream",
+      "kind": "cloud service",
+      "gloss": "An integration and automation cloud platform that allows users to build and run workflows connected to webhooks.",
+      "scheme": null,
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "40102:3",
+      "name": "UkrScanner.rar",
+      "kind": "malicious archive",
+      "gloss": "A password-protected RAR archive file used as an attachment to deliver malware.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "40102:4",
+      "name": "UkrScanner.exe",
+      "kind": "malicious file",
+      "gloss": "A self-extracting executable archive file used to extract and execute malware.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "40102:5",
+      "name": "scan.exe",
+      "kind": "malicious file",
+      "gloss": "An executable file containing the CredoMap_v2 credential stealer malware.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "40102:6",
+      "name": "SQLite.Interop.dll",
+      "kind": "software library",
+      "gloss": "A legitimate dynamic link library file used for SQLite database interoperability.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "40102:7",
+      "name": "mariachandran@ginaengg.com",
+      "kind": "email address",
+      "gloss": "An email address observed sending malicious messages in the cyber attack.",
+      "scheme": null,
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "40102:8",
+      "name": "69.16.243.33",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious email delivery infrastructure.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40102:9",
+      "name": "eo2mxtqmeqzafqi.m.pipedream.net",
+      "kind": "domain name",
+      "gloss": "A Pipedream subdomain used by attackers to receive exfiltrated credentials.",
+      "scheme": null,
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "40102:10",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "APT28 (UAC-0028)",
+      "type": "uses",
+      "tail": "CredoMap_v2",
+      "evidence": "Активність асоційовано з діяльністю групи APT28 (UAC-0028)."
+    },
+    {
+      "head": "CredoMap_v2",
+      "type": "uses",
+      "tail": "Pipedream",
+      "evidence": "викрадені автентифікаційні дані надсилаються на веб-ресурс, розгорнутий на платформі Pipedream."
+    },
+    {
+      "head": "CredoMap_v2",
+      "type": "uses",
+      "tail": "eo2mxtqmeqzafqi.m.pipedream.net",
+      "evidence": "викрадені автентифікаційні дані надсилаються на веб-ресурс, розгорнутий на платформі Pipedream."
+    }
+  ],
+  "unclassified": [
+    "40102:0",
+    "40102:1",
+    "40102:2",
+    "40102:3",
+    "40102:4",
+    "40102:5",
+    "40102:6",
+    "40102:7",
+    "40102:8",
+    "40102:9",
+    "40102:10"
+  ]
+}

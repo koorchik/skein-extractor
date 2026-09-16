@@ -1,0 +1,135 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0113",
+      "kind": "threat actor",
+      "gloss": "A threat actor group tracked by CERT-UA targeting Ukrainian organizations and critical infrastructure."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "DarkCrystal RAT",
+      "kind": "malware family",
+      "gloss": "A commercial remote access trojan also known as DCRat used for espionage and remote control."
+    },
+    {
+      "name": "Алгоритм дій членів сім’ї безвісти відсутнього військовослужбовця LegalAid.rar",
+      "kind": "malicious archive",
+      "gloss": "A password-protected RAR archive attached to phishing emails to deliver malicious documents."
+    },
+    {
+      "name": "Алгоритм_LegalAid.xlsm",
+      "kind": "malicious file",
+      "gloss": "A macro-enabled Excel document used to execute PowerShell commands and download secondary payloads."
+    },
+    {
+      "name": "MSCommondll.exe",
+      "kind": "malware loader",
+      "gloss": "A .NET loader responsible for downloading and executing DarkCrystal RAT."
+    },
+    {
+      "name": "MSCommonDriver.exe",
+      "kind": "malware",
+      "gloss": "An executable payload associated with the DarkCrystal RAT deployment chain."
+    },
+    {
+      "name": "MSCommonDriver.DCRat.exe",
+      "kind": "malware",
+      "gloss": "An executable payload containing DarkCrystal RAT."
+    },
+    {
+      "name": "оператори та провайдери телекомунікацій України",
+      "kind": "target sector",
+      "gloss": "Telecommunication operators and internet service providers in Ukraine targeted in the cyberattack."
+    },
+    {
+      "name": "медійні організації України",
+      "kind": "target sector",
+      "gloss": "Ukrainian media organizations targeted in cyberattacks."
+    },
+    {
+      "name": "gov.ua",
+      "kind": "internet domain",
+      "gloss": "The top-level government domain of Ukraine."
+    },
+    {
+      "name": "plexbd.net",
+      "kind": "internet domain",
+      "gloss": "A domain used by attackers to host malicious executable payloads."
+    },
+    {
+      "name": "datagroup.ddns.net",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS domain used as a command and control server for DarkCrystal RAT."
+    },
+    {
+      "name": "103.27.202.127",
+      "kind": "ip address",
+      "gloss": "An IP address observed in the network activity of the attack campaign."
+    },
+    {
+      "name": "203.96.191.70",
+      "kind": "ip address",
+      "gloss": "An IP address identified in the campaign's network indicators."
+    },
+    {
+      "name": "31.7.58.82",
+      "kind": "ip address",
+      "gloss": "An IP address identified in the campaign's network indicators."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0113",
+      "type": "targets",
+      "tail": "оператори та провайдери телекомунікацій України",
+      "evidence": "атака спрямована у відношенні операторів та провайдерів телекомунікацій України. Під час попередньої атаки"
+    },
+    {
+      "head": "UAC-0113",
+      "type": "targets",
+      "tail": "медійні організації України",
+      "evidence": "об'єктами заінтересованості зловмисників були медійні організації України"
+    },
+    {
+      "head": "UAC-0113",
+      "type": "uses",
+      "tail": "DarkCrystal RAT",
+      "evidence": "запуск шкідливої програми DarkCrystal RAT. Виходячи з email-адрес... Активність відстежується за ідентифікатором UAC-0113"
+    },
+    {
+      "head": "UAC-0113",
+      "type": "uses",
+      "tail": "MSCommondll.exe",
+      "evidence": "завантаження та запуск .NET-завантажувача \"MSCommondll.exe\""
+    },
+    {
+      "head": "UAC-0113",
+      "type": "uses",
+      "tail": "datagroup.ddns.net",
+      "evidence": "домену управління DarkCrystal RAT"
+    },
+    {
+      "head": "Алгоритм дій членів сім’ї безвісти відсутнього військовослужбовця LegalAid.rar",
+      "type": "delivers",
+      "tail": "Алгоритм_LegalAid.xlsm",
+      "evidence": "Зазначений RAR-архів містить документ \"Алгоритм_LegalAid.xlsm\""
+    },
+    {
+      "head": "Алгоритм_LegalAid.xlsm",
+      "type": "delivers",
+      "tail": "MSCommondll.exe",
+      "evidence": "забезпечить завантаження та запуск .NET-завантажувача \"MSCommondll.exe\""
+    },
+    {
+      "head": "MSCommondll.exe",
+      "type": "delivers",
+      "tail": "DarkCrystal RAT",
+      "evidence": "здійснить завантаження та запуск шкідливої програми DarkCrystal RAT"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,169 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "Закон України \"Про основні засади забезпечення кібербезпеки України\"",
+      "kind": "law",
+      "gloss": "The basic Ukrainian legislation defining legal and organizational frameworks for cybersecurity."
+    },
+    {
+      "name": "https://cert.gov.ua",
+      "kind": "url",
+      "gloss": "The official web portal of the Computer Emergency Response Team of Ukraine."
+    },
+    {
+      "name": "MISP",
+      "kind": "software product",
+      "gloss": "An open-source threat intelligence and information sharing platform."
+    },
+    {
+      "name": "Служба безпеки України",
+      "kind": "government body",
+      "gloss": "The state intelligence and security service of Ukraine."
+    },
+    {
+      "name": "Національний координаційний центр кібербезпеки РНБО України",
+      "kind": "government body",
+      "gloss": "A working body of the National Security and Defense Council of Ukraine coordinating cybersecurity activities."
+    },
+    {
+      "name": "РНБО України",
+      "kind": "government body",
+      "gloss": "The state coordinating body on national security and defense under the President of Ukraine."
+    },
+    {
+      "name": "Національний банк України",
+      "kind": "central bank",
+      "gloss": "The central bank and national monetary authority of Ukraine."
+    },
+    {
+      "name": "Держспецзв'язку",
+      "kind": "government body",
+      "gloss": "A Ukrainian state authority responsible for specialized telecommunications and cybersecurity."
+    },
+    {
+      "name": "КМУ",
+      "kind": "government body",
+      "gloss": "The highest body of executive power in Ukraine."
+    },
+    {
+      "name": "Адміністрація Держспецзв'язку",
+      "kind": "government body",
+      "gloss": "The central executive administration of the State Service of Special Communications and Information Protection of Ukraine."
+    },
+    {
+      "name": "support@dis.gov.ua",
+      "kind": "email address",
+      "gloss": "A contact email address associated with the Security Service of Ukraine for threat intelligence exchange."
+    },
+    {
+      "name": "csirt-nbu@bank.gov.ua",
+      "kind": "email address",
+      "gloss": "The official incident response contact email address of the National Bank of Ukraine."
+    },
+    {
+      "name": "report@ncscc.gov.ua",
+      "kind": "email address",
+      "gloss": "The threat reporting email address of the National Cyber Security Coordination Center of Ukraine."
+    },
+    {
+      "name": "cert@cert.gov.ua",
+      "kind": "email address",
+      "gloss": "An official incident response and coordination email address of CERT-UA."
+    },
+    {
+      "name": "https://misp.cert.gov.ua/",
+      "kind": "url",
+      "gloss": "The web interface of CERT-UA's MISP instance for cybersecurity information exchange."
+    },
+    {
+      "name": "CISA",
+      "kind": "government body",
+      "gloss": "The Cybersecurity and Infrastructure Security Agency of the United States."
+    },
+    {
+      "name": "OpenPGP",
+      "kind": "software product",
+      "gloss": "A standard and encryption software suite used for secure email communication."
+    },
+    {
+      "name": "UAC-0010",
+      "kind": "threat actor",
+      "gloss": "A cyber threat group tracked by Ukrainian authorities, also known as Armageddon or Gamaredon."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Служба безпеки України",
+      "type": "deploys",
+      "tail": "MISP",
+      "evidence": "вузлів MISP, розгорнутих в Службі безпеки України"
+    },
+    {
+      "head": "Національний координаційний центр кібербезпеки РНБО України",
+      "type": "deploys",
+      "tail": "MISP",
+      "evidence": "вузлів MISP, розгорнутих в... Національному координаційному центрі кібербезпеки РНБО України"
+    },
+    {
+      "head": "Національний банк України",
+      "type": "deploys",
+      "tail": "MISP",
+      "evidence": "вузлів MISP, розгорнутих в... Національному банку України"
+    },
+    {
+      "head": "Держспецзв'язку",
+      "type": "deploys",
+      "tail": "MISP",
+      "evidence": "вузлів MISP, розгорнутих в... Держспецзв'язку"
+    },
+    {
+      "head": "Національний координаційний центр кібербезпеки РНБО України",
+      "type": "part-of",
+      "tail": "РНБО України",
+      "evidence": "Національному координаційному центрі кібербезпеки РНБО України"
+    },
+    {
+      "head": "Служба безпеки України",
+      "type": "uses-email",
+      "tail": "support@dis.gov.ua",
+      "evidence": "СБУ: support@dis.gov[.]ua"
+    },
+    {
+      "head": "Національний банк України",
+      "type": "uses-email",
+      "tail": "csirt-nbu@bank.gov.ua",
+      "evidence": "НБУ: csirt-nbu@bank.gov[.]ua"
+    },
+    {
+      "head": "Національний координаційний центр кібербезпеки РНБО України",
+      "type": "uses-email",
+      "tail": "report@ncscc.gov.ua",
+      "evidence": "НКЦК: report@ncscc.gov[.]ua"
+    },
+    {
+      "head": "Держспецзв'язку",
+      "type": "uses-email",
+      "tail": "cert@cert.gov.ua",
+      "evidence": "Держспецзв'язку: cert@cert.gov[.]ua"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "deploys",
+      "definition": "Indicates that an organization sets up, runs, or operates an instance of a software system or platform."
+    },
+    {
+      "name": "part-of",
+      "definition": "Indicates that an entity is a structural division, subunit, or member of another organization."
+    },
+    {
+      "name": "uses-email",
+      "definition": "Indicates that an organization or individual uses a specific email address as a point of contact."
+    }
+  ]
+}

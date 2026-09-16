@@ -1,0 +1,109 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0010 (Armageddon)",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group associated with the FSB, targeting Ukrainian organizations."
+    },
+    {
+      "name": "GammaLoad.PS1_v2",
+      "kind": "malware",
+      "gloss": "A PowerShell-based malware family used by UAC-0010 to capture screenshots and exfiltrate data to C2 servers."
+    },
+    {
+      "name": "Генеральний штаб Збройних Сил України",
+      "kind": "military organization",
+      "gloss": "The central military administration body of the Armed Forces of Ukraine."
+    },
+    {
+      "name": "military-ukraine@sendmail.website",
+      "kind": "email address",
+      "gloss": "A malicious email address used to distribute phishing emails."
+    },
+    {
+      "name": "coyote@sendmail.website",
+      "kind": "email address",
+      "gloss": "A malicious email address used to distribute phishing emails."
+    },
+    {
+      "name": "sendmail.website",
+      "kind": "domain",
+      "gloss": "A domain name used by attackers for sending phishing emails."
+    },
+    {
+      "name": "a0671524.xsph.ru",
+      "kind": "domain",
+      "gloss": "A domain name hosting malicious payloads used in the cyberattack."
+    },
+    {
+      "name": "a0667987.xsph.ru",
+      "kind": "domain",
+      "gloss": "A domain name hosting malicious payloads used in the cyberattack."
+    },
+    {
+      "name": "qiwardos.ru",
+      "kind": "domain",
+      "gloss": "A command and control domain used by GammaLoad malware."
+    },
+    {
+      "name": "nitikora.ru",
+      "kind": "domain",
+      "gloss": "A malicious domain name associated with the threat actor's infrastructure."
+    },
+    {
+      "name": "milotraf.ru",
+      "kind": "domain",
+      "gloss": "A malicious domain name associated with the threat actor's infrastructure."
+    },
+    {
+      "name": "nikotod.ru",
+      "kind": "domain",
+      "gloss": "A malicious domain name associated with the threat actor's infrastructure."
+    },
+    {
+      "name": "icanhazip.com",
+      "kind": "domain",
+      "gloss": "A legitimate public IP address lookup service abused by malware."
+    },
+    {
+      "name": "194.58.121.198",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure."
+    },
+    {
+      "name": "92.53.116.145",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure."
+    },
+    {
+      "name": "216.128.131.233",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure."
+    },
+    {
+      "name": "66.42.95.123",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0010 (Armageddon)",
+      "type": "uses",
+      "tail": "GammaLoad.PS1_v2",
+      "evidence": "Активність здійснюється групою UAC-0010 (Armageddon)."
+    },
+    {
+      "head": "Генеральний штаб Збройних Сил України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Генерального штабу Збройних Сил України"
+    }
+  ],
+  "newRelationTypes": []
+}

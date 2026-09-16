@@ -1,0 +1,196 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0010",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage threat group also known as Armageddon or Gamaredon."
+    },
+    {
+      "name": "GammaLoad.PS1_v2",
+      "kind": "malware family",
+      "gloss": "A PowerShell-based reconnaissance and payload-delivery malware family used by UAC-0010."
+    },
+    {
+      "name": "План Херсон.htm",
+      "kind": "malicious file",
+      "gloss": "A malicious HTML attachment used to decode and drop a compressed archive."
+    },
+    {
+      "name": "Herson.rar",
+      "kind": "malicious archive",
+      "gloss": "A RAR archive dropped by an HTML file containing a malicious LNK shortcut."
+    },
+    {
+      "name": "План підходу та закладання вибухівки на об'єктах критичної інфростурктури Херсона.lnk",
+      "kind": "malicious file",
+      "gloss": "A malicious Windows shortcut file that downloads and executes remote HTA payloads."
+    },
+    {
+      "name": "precarious.xml",
+      "kind": "malicious file",
+      "gloss": "An HTA XML file downloaded and executed to drop and run script files."
+    },
+    {
+      "name": "rejection.xml",
+      "kind": "malicious file",
+      "gloss": "An HTA XML payload used to stage further script execution."
+    },
+    {
+      "name": "desktop.txt",
+      "kind": "malicious file",
+      "gloss": "A VBScript script file dropped by an HTA payload to facilitate malware download."
+    },
+    {
+      "name": "user.txt",
+      "kind": "malicious file",
+      "gloss": "A script file created during the execution of an HTA payload."
+    },
+    {
+      "name": "get.php",
+      "kind": "malicious file",
+      "gloss": "A remote server script associated with GammaLoad.PS1_v2 payload hosting and communication."
+    },
+    {
+      "name": "Витяг з наказу.htm",
+      "kind": "malicious file",
+      "gloss": "A malicious HTML file used as an initial lure attachment."
+    },
+    {
+      "name": "768_08.05.2022.rar",
+      "kind": "malicious archive",
+      "gloss": "A RAR archive containing a malicious LNK shortcut lure."
+    },
+    {
+      "name": "Витяг з наказу Генерального штабу Збройних Сил України від 08.05.2022 №768.lnk",
+      "kind": "malicious file",
+      "gloss": "A malicious Windows shortcut lure masquerading as an order from the General Staff of Ukraine."
+    },
+    {
+      "name": "sendmail.website",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious email infrastructure."
+    },
+    {
+      "name": "a0671524.xsph.ru",
+      "kind": "internet domain",
+      "gloss": "A domain used to host malicious HTA files and lure resources."
+    },
+    {
+      "name": "a0667987.xsph.ru",
+      "kind": "internet domain",
+      "gloss": "A domain used to host malicious HTA files and lure resources."
+    },
+    {
+      "name": "qiwardos.ru",
+      "kind": "internet domain",
+      "gloss": "A command-and-control domain used by GammaLoad.PS1_v2."
+    },
+    {
+      "name": "nitikora.ru",
+      "kind": "internet domain",
+      "gloss": "A network infrastructure domain associated with UAC-0010 activity."
+    },
+    {
+      "name": "milotraf.ru",
+      "kind": "internet domain",
+      "gloss": "A network infrastructure domain associated with UAC-0010 activity."
+    },
+    {
+      "name": "nikotod.ru",
+      "kind": "internet domain",
+      "gloss": "A network infrastructure domain associated with UAC-0010 activity."
+    },
+    {
+      "name": "icanhazip.com",
+      "kind": "web service",
+      "gloss": "A legitimate external IP address lookup service abused by malware to discover public IPs."
+    },
+    {
+      "name": "military-ukraine@sendmail.website",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors to distribute phishing emails."
+    },
+    {
+      "name": "coyote@sendmail.website",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors to distribute phishing emails."
+    },
+    {
+      "name": "194.58.121.198",
+      "kind": "ip address",
+      "gloss": "An IP address observed in malicious mail infrastructure."
+    },
+    {
+      "name": "92.53.116.145",
+      "kind": "ip address",
+      "gloss": "An IP address observed in malicious mail infrastructure."
+    },
+    {
+      "name": "216.128.131.233",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command and control infrastructure."
+    },
+    {
+      "name": "66.42.95.123",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command and control infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "GammaLoad.PS1_v2",
+      "evidence": "Активність здійснюється групою UAC-0010 (Armageddon)."
+    },
+    {
+      "head": "План Херсон.htm",
+      "type": "delivers",
+      "tail": "Herson.rar",
+      "evidence": "HTM-файл забезпечить декодування і створення на комп'ютері жертви файлу \"Herson.rar\""
+    },
+    {
+      "head": "Herson.rar",
+      "type": "delivers",
+      "tail": "План підходу та закладання вибухівки на об'єктах критичної інфростурктури Херсона.lnk",
+      "evidence": "який містить файл-ярлик \"План підходу та закладання вибухівки на об'єктах критичної інфростурктури Херсона.lnk\""
+    },
+    {
+      "head": "План підходу та закладання вибухівки на об'єктах критичної інфростурктури Херсона.lnk",
+      "type": "delivers",
+      "tail": "precarious.xml",
+      "evidence": "забезпечить завантаження і запуск HTA-файлу \"precarious.xml\""
+    },
+    {
+      "head": "precarious.xml",
+      "type": "delivers",
+      "tail": "desktop.txt",
+      "evidence": "що призведе до створення та виконання файлів \"desktop.txt\""
+    },
+    {
+      "head": "precarious.xml",
+      "type": "delivers",
+      "tail": "user.txt",
+      "evidence": "що призведе до створення та виконання файлів \"desktop.txt\" і \"user.txt\""
+    },
+    {
+      "head": "precarious.xml",
+      "type": "delivers",
+      "tail": "GammaLoad.PS1_v2",
+      "evidence": "В результаті, на комп'ютер буде завантажено шкідливу програму GammaLoad.PS1_v2"
+    },
+    {
+      "head": "military-ukraine@sendmail.website",
+      "type": "part-of",
+      "tail": "sendmail.website",
+      "evidence": "military-ukraine@sendmail.website"
+    },
+    {
+      "head": "coyote@sendmail.website",
+      "type": "part-of",
+      "tail": "sendmail.website",
+      "evidence": "coyote@sendmail.website"
+    }
+  ],
+  "newRelationTypes": []
+}

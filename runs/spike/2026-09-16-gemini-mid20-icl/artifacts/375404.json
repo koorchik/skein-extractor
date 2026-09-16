@@ -1,0 +1,168 @@
+{
+  "docId": 375404,
+  "date": "22.06.2022",
+  "title": "Кібератаки груп, асоційованих з Китаєм, у відношенні російських науково-технічних підприємств та державних органів (CERT-UA#4860)",
+  "entities": [
+    {
+      "id": "375404:0",
+      "name": "Вниманию.doc",
+      "kind": "file",
+      "gloss": "A malicious RTF document used to exploit Microsoft Word vulnerabilities and deliver malware.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "375404:1",
+      "name": "17.06.2022_Протокол_МРГ_Подгруппа_ИБ.doc",
+      "kind": "file",
+      "gloss": "A malicious RTF document weaponized with an exploit builder to deliver malware payloads.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "375404:2",
+      "name": "замечания таблица 20.06.2022.doc",
+      "kind": "file",
+      "gloss": "A malicious document used in cyberattack campaigns to exploit software vulnerabilities.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "375404:3",
+      "name": "О_формировании_проекта_ПНС_2022_файл_отображен.doc",
+      "kind": "file",
+      "gloss": "A malicious RTF document configured to deploy malware on targeted systems.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "375404:4",
+      "name": "MS Office Word",
+      "kind": "software product",
+      "gloss": "A word processing software suite developed by Microsoft.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "375404:5",
+      "name": "RoyalRoad",
+      "kind": "malware tool",
+      "gloss": "A weaponizer and document builder used to generate RTF documents that exploit Microsoft Office vulnerabilities.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "375404:6",
+      "name": "Bisonal",
+      "kind": "malware family",
+      "gloss": "A remote access trojan malware family frequently used in cyber espionage campaigns.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "375404:7",
+      "name": "QuickMute",
+      "kind": "malware family",
+      "gloss": "A C/C++ based malware downloader that decrypts and executes secondary payloads in memory.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "375404:8",
+      "name": "Китай",
+      "kind": "country",
+      "gloss": "A country in East Asia.",
+      "scheme": "S2",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "375404:9",
+      "name": "TontoTeam (UAC-0018)",
+      "kind": "threat actor",
+      "gloss": "A Chinese advanced persistent threat group known for cyber espionage operations.",
+      "scheme": "S3",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "375404:10",
+      "name": "російська федерація",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe and Northern Asia.",
+      "scheme": "S2",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "375404:11",
+      "name": "dcnx18pwh.wmf",
+      "kind": "file",
+      "gloss": "An encrypted WMF file dropped during malware delivery.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "375404:12",
+      "name": "dcnx18pwh.exe",
+      "kind": "file",
+      "gloss": "An executable payload corresponding to malware such as QuickMute or Bisonal.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "375404:13",
+      "name": "upportteam.lingrevelat.com",
+      "kind": "domain name",
+      "gloss": "A subdomain used for malicious command and control infrastructure.",
+      "scheme": "S4",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "375404:14",
+      "name": "lingrevelat.com",
+      "kind": "domain name",
+      "gloss": "An internet domain used in adversary network infrastructure.",
+      "scheme": "S4",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "375404:15",
+      "name": "137.220.176.165",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor network infrastructure.",
+      "scheme": "S5",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "TontoTeam (UAC-0018)",
+      "type": "uses",
+      "tail": "Bisonal",
+      "evidence": "шкідлива програма Bisonal, як приклад, є інструментом групи TontoTeam (UAC-0018)"
+    },
+    {
+      "head": "upportteam.lingrevelat.com",
+      "type": "part-of",
+      "tail": "lingrevelat.com",
+      "evidence": "upportteam.lingrevelat[.]com"
+    }
+  ],
+  "unclassified": [
+    "375404:4"
+  ]
+}

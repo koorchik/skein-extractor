@@ -1,0 +1,88 @@
+{
+  "docId": 619229,
+  "date": "06.07.2022",
+  "title": "Кібератака UAC-0056 на державні організації України з використанням Cobalt Strike Beacon (CERT-UA#4914)",
+  "entities": [
+    {
+      "id": "619229:0",
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A threat actor group known for conducting cyberespionage and cyberattack campaigns.",
+      "scheme": "S2",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "619229:1",
+      "name": "Інформація щодо наявності вакансій та їх укомплектування.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Microsoft Excel spreadsheet used as an email attachment lure to deliver malware.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "619229:2",
+      "name": "write.exe",
+      "kind": "malware",
+      "gloss": "A malicious dropper executable designed to drop and execute encrypted payloads.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "619229:3",
+      "name": "%PROGRAMDATA%\\TRYxaEbX",
+      "kind": "malicious file",
+      "gloss": "An encrypted payload dropped by write.exe containing PowerShell scripts.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "619229:4",
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware",
+      "gloss": "A post-exploitation agent and backdoor payload associated with the Cobalt Strike framework.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "619229:5",
+      "name": "skreatortemp[.]site",
+      "kind": "internet domain",
+      "gloss": "A domain name used as malicious network infrastructure.",
+      "scheme": "S4",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "виявлену активність асоціюємо з діяльністю групи UAC-0056"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "Інформація щодо наявності вакансій та їх укомплектування.xls",
+      "evidence": "виявлену активність асоціюємо з діяльністю групи UAC-0056"
+    },
+    {
+      "head": "Інформація щодо наявності вакансій та їх укомплектування.xls",
+      "type": "delivers",
+      "tail": "write.exe",
+      "evidence": "призведе до створення на комп'ютері та запуску файлу \"write.exe\""
+    },
+    {
+      "head": "write.exe",
+      "type": "delivers",
+      "tail": "%PROGRAMDATA%\\TRYxaEbX",
+      "evidence": "забезпечуючи створення на диску файлу \"%PROGRAMDATA%\\TRYxaEbX\""
+    }
+  ],
+  "unclassified": []
+}

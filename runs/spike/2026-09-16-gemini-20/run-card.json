@@ -1,0 +1,256 @@
+{
+  "runId": "2026-09-16-gemini-20",
+  "config": {
+    "docs": 20,
+    "inputDir": "data/fetched",
+    "frozenDir": "data/extractions/gpt-5",
+    "llmProvider": "gemini",
+    "llmModel": "gemini-3.7-flash",
+    "embedModel": "gemini-embedding-2",
+    "embedTaskType": "CLUSTERING",
+    "embedDims": 768,
+    "k": 10,
+    "tau": 0.78,
+    "delta": 0.1,
+    "poolLink": 0.8,
+    "mass": 3,
+    "relMerge": 0.85,
+    "repr": "combo",
+    "alpha": 0.7,
+    "out": "runs/spike/2026-09-16-gemini-20",
+    "cacheDir": "runs/embeddings-cache"
+  },
+  "prompts": {
+    "extract-open-v1": "81914196ec311981ce4047c560cc86f86b4e4b8cec0651e9c87ed650bef5be76",
+    "scheme-name-v1": "bb1b66dab2ce5b681df1477d9eb79d2669b66fba6487b9ed437e1cdcd5b4d1b9"
+  },
+  "embeddings": {
+    "config": {
+      "provider": "gemini",
+      "model": "gemini-embedding-2",
+      "taskType": "CLUSTERING"
+    },
+    "dimensions": null,
+    "cache": {
+      "hits": 325,
+      "misses": 0,
+      "entries": 785
+    }
+  },
+  "documents": 20,
+  "mentions": 236,
+  "schemes": [
+    {
+      "id": "S1",
+      "label": "Software Product",
+      "members": 72,
+      "born": 20,
+      "altLabels": [
+        "Software Application",
+        "Software Program"
+      ]
+    },
+    {
+      "id": "S2",
+      "label": "Security Advisory",
+      "members": 34,
+      "born": 23,
+      "altLabels": [
+        "Security Bulletin",
+        "Vulnerability Advisory"
+      ]
+    },
+    {
+      "id": "S3",
+      "label": "Security Vulnerability",
+      "members": 40,
+      "born": 23,
+      "altLabels": [
+        "Vulnerability",
+        "Security Flaw",
+        "Common Vulnerabilities and Exposures"
+      ]
+    },
+    {
+      "id": "S4",
+      "label": "Operating System",
+      "members": 29,
+      "born": 23,
+      "altLabels": [
+        "OS",
+        "Platform"
+      ]
+    },
+    {
+      "id": "S5",
+      "label": "Country",
+      "members": 6,
+      "born": 25,
+      "altLabels": [
+        "Nation",
+        "Sovereign State"
+      ]
+    },
+    {
+      "id": "S6",
+      "label": "Government Agency",
+      "members": 16,
+      "born": 26,
+      "altLabels": [
+        "Government Body",
+        "Government Organization",
+        "State Agency"
+      ]
+    },
+    {
+      "id": "S7",
+      "label": "Malware",
+      "members": 9,
+      "born": 2659,
+      "altLabels": [
+        "Malicious Software",
+        "Malware Family",
+        "Malicious Payload"
+      ]
+    },
+    {
+      "id": "S8",
+      "label": "Software Update",
+      "members": 11,
+      "born": 2660,
+      "altLabels": [
+        "Security Patch",
+        "Software Patch",
+        "Security Update"
+      ]
+    },
+    {
+      "id": "S9",
+      "label": "Domain Name",
+      "members": 4,
+      "born": 2660,
+      "altLabels": [
+        "Internet Domain",
+        "Domain",
+        "FQDN"
+      ]
+    }
+  ],
+  "pool": 15,
+  "relationTypes": 7,
+  "overlay": {
+    "aligned": 176,
+    "coverage": 0.7457627118644068,
+    "crossTab": {
+      "Software Product": {
+        "Organization": 26,
+        "Software": 35,
+        "(unaligned)": 10,
+        "Device": 1
+      },
+      "Security Advisory": {
+        "(unaligned)": 10,
+        "Organization": 24
+      },
+      "Operating System": {
+        "Software": 24,
+        "(unaligned)": 4,
+        "Organization": 1
+      },
+      "Security Vulnerability": {
+        "Software": 30,
+        "(unaligned)": 10
+      },
+      "Software Update": {
+        "(unaligned)": 11
+      },
+      "(pool)": {
+        "Organization": 5,
+        "Domain": 3,
+        "(unaligned)": 6,
+        "Software": 1
+      },
+      "Government Agency": {
+        "Government Body": 13,
+        "(unaligned)": 3
+      },
+      "Country": {
+        "(unaligned)": 4,
+        "Country": 2
+      },
+      "Malware": {
+        "Software": 9
+      },
+      "Domain Name": {
+        "(unaligned)": 2,
+        "Domain": 2
+      }
+    }
+  },
+  "closestSchemePairs": [
+    {
+      "a": "Software Product",
+      "b": "Operating System",
+      "sim": 0.7890964865411868
+    },
+    {
+      "a": "Software Product",
+      "b": "Software Update",
+      "sim": 0.7571964601932986
+    },
+    {
+      "a": "Software Product",
+      "b": "Malware",
+      "sim": 0.7472559261445239
+    },
+    {
+      "a": "Security Vulnerability",
+      "b": "Malware",
+      "sim": 0.7446098422307723
+    },
+    {
+      "a": "Operating System",
+      "b": "Malware",
+      "sim": 0.7309836094953077
+    },
+    {
+      "a": "Security Advisory",
+      "b": "Security Vulnerability",
+      "sim": 0.7202690465815405
+    },
+    {
+      "a": "Malware",
+      "b": "Domain Name",
+      "sim": 0.7200431635828378
+    },
+    {
+      "a": "Operating System",
+      "b": "Software Update",
+      "sim": 0.7183071083442603
+    }
+  ],
+  "cost": {
+    "runId": "2026-09-16-gemini-20",
+    "totals": {
+      "calls": 9,
+      "inputTokens": 6969,
+      "outputTokens": 576,
+      "costUsd": 0,
+      "unpricedCalls": 9,
+      "wallClockMs": 30939
+    },
+    "byOperator": {
+      "scheme-name": {
+        "calls": 9,
+        "inputTokens": 6969,
+        "outputTokens": 576,
+        "costUsd": 0,
+        "unpricedCalls": 9,
+        "wallClockMs": 30939
+      }
+    },
+    "unpricedModels": [
+      "gemini/gemini-3.7-flash"
+    ]
+  }
+}

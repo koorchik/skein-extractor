@@ -1,0 +1,72 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country located in Eastern Europe."
+    },
+    {
+      "name": "UAC-0100",
+      "kind": "threat actor",
+      "gloss": "A threat group tracked by CERT-UA associated with financial fraud and phishing campaigns targeting Ukrainian banking users."
+    },
+    {
+      "name": "mono.gg-pay.me",
+      "kind": "domain name",
+      "gloss": "A malicious phishing domain used to mimic Ukrainian online banking services."
+    },
+    {
+      "name": "next24.gg-pay.me",
+      "kind": "domain name",
+      "gloss": "A malicious phishing domain used to steal online banking credentials."
+    },
+    {
+      "name": "privat24.ua-wallet.pw",
+      "kind": "domain name",
+      "gloss": "A malicious phishing domain used to spoof Ukrainian banking services."
+    },
+    {
+      "name": "Мінсоцполітики",
+      "kind": "government agency",
+      "gloss": "The Ministry of Social Policy of Ukraine, a central government agency."
+    },
+    {
+      "name": "Національний банк України",
+      "kind": "government agency",
+      "gloss": "The central bank of Ukraine responsible for monetary policy and financial system stability."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0100",
+      "type": "uses",
+      "tail": "mono.gg-pay.me",
+      "evidence": "активність має систематичний характер та відстежується за ідентифікатором UAC-0100. Індикатори компрометації hXXps://mono.gg-pay[.]me/"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses",
+      "tail": "next24.gg-pay.me",
+      "evidence": "активність має систематичний характер та відстежується за ідентифікатором UAC-0100. Індикатори компрометації hXXps://next24.gg-pay[.]me/"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses",
+      "tail": "privat24.ua-wallet.pw",
+      "evidence": "активність має систематичний характер та відстежується за ідентифікатором UAC-0100. Індикатори компрометації hXXps://privat24.ua-wallet[.]pw/"
+    },
+    {
+      "head": "Мінсоцполітики",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Відповіді Мінсоцполітики"
+    },
+    {
+      "head": "Національний банк України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Національного банку України"
+    }
+  ],
+  "newRelationTypes": []
+}

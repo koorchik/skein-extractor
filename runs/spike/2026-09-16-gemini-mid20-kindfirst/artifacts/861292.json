@@ -1,0 +1,156 @@
+{
+  "docId": 861292,
+  "date": "20.07.2022",
+  "title": "Кібератака на державні організації України з використанням теми ОК \"Південь\" та шкідливої програми AgentTesla (CERT-UA#4987)",
+  "entities": [
+    {
+      "id": "861292:0",
+      "name": "Доповідь_050722_4.ppt",
+      "kind": "malicious file",
+      "gloss": "A malicious PowerPoint presentation used as a lure to deliver malware.",
+      "scheme": "S6",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "861292:1",
+      "name": "оперативне командування \"Південь\"",
+      "kind": "military command",
+      "gloss": "An operational command of the Ukrainian Ground Forces in southern Ukraine.",
+      "scheme": null,
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "861292:2",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S3",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "861292:3",
+      "name": "gksg023ig.lnk",
+      "kind": "malicious file",
+      "gloss": "A malicious shortcut file created to trigger executable execution via rundll32.exe.",
+      "scheme": "S6",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "861292:4",
+      "name": "sgegkseg23mjl.exe",
+      "kind": "malware",
+      "gloss": "An obfuscated .NET executable that downloads a steganographic payload.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "861292:5",
+      "name": "rundll32.exe",
+      "kind": "software product",
+      "gloss": "A built-in Windows executable that runs 32-bit dynamic-link libraries.",
+      "scheme": "S8",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "861292:6",
+      "name": "ConfuserEx",
+      "kind": "software product",
+      "gloss": "An open-source protector and obfuscator for .NET applications.",
+      "scheme": "S8",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "861292:7",
+      "name": "thumb_d_F3D14F4982A256B5CDAE9BD579429AE7.jpg",
+      "kind": "malicious file",
+      "gloss": "A JPEG image containing hidden encrypted and compressed malware payload data.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "861292:8",
+      "name": "MCMDiction.exe",
+      "kind": "malware",
+      "gloss": "A .NET payload decrypted from an image file that ultimately executes AgentTesla.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "861292:9",
+      "name": "AgentTesla",
+      "kind": "malware family",
+      "gloss": "A commercial .NET-based infostealer malware family used to harvest credentials and keystrokes.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "861292:10",
+      "name": "onyangdol[.]site",
+      "kind": "domain name",
+      "gloss": "A malicious domain used to host steganographic payload files.",
+      "scheme": "S4",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "861292:11",
+      "name": "ftp.artrsllc[.]com",
+      "kind": "domain name",
+      "gloss": "A domain with an FTP server used in the malware campaign infrastructure.",
+      "scheme": "S4",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Доповідь_050722_4.ppt",
+      "type": "delivers",
+      "tail": "gksg023ig.lnk",
+      "evidence": "активації макросу останній забезпечить створення файлів \"gksg023ig.lnk\""
+    },
+    {
+      "head": "Доповідь_050722_4.ppt",
+      "type": "delivers",
+      "tail": "sgegkseg23mjl.exe",
+      "evidence": "створення файлів \"gksg023ig.lnk\" та \"sgegkseg23mjl.exe\""
+    },
+    {
+      "head": "sgegkseg23mjl.exe",
+      "type": "uses",
+      "tail": "ConfuserEx",
+      "evidence": "є .NET-програмою, обфускованою за допомогою ConfuserEx"
+    },
+    {
+      "head": "sgegkseg23mjl.exe",
+      "type": "delivers",
+      "tail": "MCMDiction.exe",
+      "evidence": "декомпресію даних і запуск отриманої в результаті .NET-програми MCMDiction.exe"
+    },
+    {
+      "head": "MCMDiction.exe",
+      "type": "delivers",
+      "tail": "AgentTesla",
+      "evidence": "на комп'ютері буде виконано шкідливу програму-стілер AgentTesla"
+    },
+    {
+      "head": "оперативне командування \"Південь\"",
+      "type": "part-of",
+      "tail": "Україна",
+      "evidence": "на якій згадєуться оперативне командування \"Південь\""
+    }
+  ],
+  "unclassified": [
+    "861292:1"
+  ]
+}

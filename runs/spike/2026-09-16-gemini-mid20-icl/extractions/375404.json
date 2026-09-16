@@ -1,0 +1,99 @@
+{
+  "entities": [
+    {
+      "name": "Вниманию.doc",
+      "kind": "file",
+      "gloss": "A malicious RTF document used to exploit Microsoft Word vulnerabilities and deliver malware."
+    },
+    {
+      "name": "17.06.2022_Протокол_МРГ_Подгруппа_ИБ.doc",
+      "kind": "file",
+      "gloss": "A malicious RTF document weaponized with an exploit builder to deliver malware payloads."
+    },
+    {
+      "name": "замечания таблица 20.06.2022.doc",
+      "kind": "file",
+      "gloss": "A malicious document used in cyberattack campaigns to exploit software vulnerabilities."
+    },
+    {
+      "name": "О_формировании_проекта_ПНС_2022_файл_отображен.doc",
+      "kind": "file",
+      "gloss": "A malicious RTF document configured to deploy malware on targeted systems."
+    },
+    {
+      "name": "MS Office Word",
+      "kind": "software product",
+      "gloss": "A word processing software suite developed by Microsoft."
+    },
+    {
+      "name": "RoyalRoad",
+      "kind": "malware tool",
+      "gloss": "A weaponizer and document builder used to generate RTF documents that exploit Microsoft Office vulnerabilities."
+    },
+    {
+      "name": "Bisonal",
+      "kind": "malware family",
+      "gloss": "A remote access trojan malware family frequently used in cyber espionage campaigns."
+    },
+    {
+      "name": "QuickMute",
+      "kind": "malware family",
+      "gloss": "A C/C++ based malware downloader that decrypts and executes secondary payloads in memory."
+    },
+    {
+      "name": "Китай",
+      "kind": "country",
+      "gloss": "A country in East Asia."
+    },
+    {
+      "name": "TontoTeam (UAC-0018)",
+      "kind": "threat actor",
+      "gloss": "A Chinese advanced persistent threat group known for cyber espionage operations."
+    },
+    {
+      "name": "російська федерація",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "dcnx18pwh.wmf",
+      "kind": "file",
+      "gloss": "An encrypted WMF file dropped during malware delivery."
+    },
+    {
+      "name": "dcnx18pwh.exe",
+      "kind": "file",
+      "gloss": "An executable payload corresponding to malware such as QuickMute or Bisonal."
+    },
+    {
+      "name": "upportteam.lingrevelat.com",
+      "kind": "domain name",
+      "gloss": "A subdomain used for malicious command and control infrastructure."
+    },
+    {
+      "name": "lingrevelat.com",
+      "kind": "domain name",
+      "gloss": "An internet domain used in adversary network infrastructure."
+    },
+    {
+      "name": "137.220.176.165",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "TontoTeam (UAC-0018)",
+      "type": "uses",
+      "tail": "Bisonal",
+      "evidence": "шкідлива програма Bisonal, як приклад, є інструментом групи TontoTeam (UAC-0018)"
+    },
+    {
+      "head": "upportteam.lingrevelat.com",
+      "type": "part-of",
+      "tail": "lingrevelat.com",
+      "evidence": "upportteam.lingrevelat[.]com"
+    }
+  ],
+  "newRelationTypes": []
+}

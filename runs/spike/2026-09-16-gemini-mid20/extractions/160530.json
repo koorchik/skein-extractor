@@ -1,0 +1,133 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country located in Eastern Europe."
+    },
+    {
+      "name": "UAC-0113",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracking identifier associated with malicious cyber activities against Ukrainian entities."
+    },
+    {
+      "name": "Sandworm",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage and sabotage group."
+    },
+    {
+      "name": "CVE-2022-30190",
+      "kind": "vulnerability",
+      "gloss": "A remote code execution vulnerability in the Microsoft Windows Support Diagnostic Tool known as Follina."
+    },
+    {
+      "name": "CrescentImp",
+      "kind": "malware",
+      "gloss": "A malware family used to execute malicious payloads on targeted Windows systems."
+    },
+    {
+      "name": "DarkCrystal RAT",
+      "kind": "malware",
+      "gloss": "A commercial remote access trojan that allows threat actors to remotely control infected systems."
+    },
+    {
+      "name": "СПИСОК_посилань_на_інтерактивні_карти.docx",
+      "kind": "malicious file",
+      "gloss": "A malicious Word document used as an initial lure to trigger remote code execution."
+    },
+    {
+      "name": "update.html",
+      "kind": "malicious file",
+      "gloss": "An intermediate malicious HTML file executing JavaScript to download secondary payloads."
+    },
+    {
+      "name": "2.txt",
+      "kind": "malicious file",
+      "gloss": "An executable payload disguised as a text file containing the CrescentImp malware."
+    },
+    {
+      "name": "СПИСОК посилань на інтерактивні карти.xlsm",
+      "kind": "malicious file",
+      "gloss": "A malicious macro-enabled Excel document used in cyberattack campaigns."
+    },
+    {
+      "name": "MSDriverLoader.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file used to stage or load further malware components."
+    },
+    {
+      "name": "MSDriverMonitor.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file associated with attack infrastructure."
+    },
+    {
+      "name": "dcrat.exe",
+      "kind": "malicious file",
+      "gloss": "An executable payload delivering the DarkCrystal RAT malware."
+    },
+    {
+      "name": "185.80.92.143",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious files and command infrastructure."
+    },
+    {
+      "name": "87.236.161.43",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure in malicious campaigns."
+    },
+    {
+      "name": "72.167.223.219",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious executable files."
+    },
+    {
+      "name": "203.96.191.70",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious payload files."
+    },
+    {
+      "name": "star-cz.ddns.net",
+      "kind": "domain",
+      "gloss": "A dynamic DNS domain used as network infrastructure by threat actors."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0113",
+      "type": "targets",
+      "tail": "Україна",
+      "evidence": "масового розсилання електронних листів, зокрема, серед медійних організацій України"
+    },
+    {
+      "head": "UAC-0113",
+      "type": "exploits",
+      "tail": "CVE-2022-30190",
+      "evidence": "Зловмисники продовжують використовувати вразливість CVE-2022-30190"
+    },
+    {
+      "head": "UAC-0113",
+      "type": "uses",
+      "tail": "CrescentImp",
+      "evidence": "що класифіковано як шкідливу програму CrescentImp"
+    },
+    {
+      "head": "СПИСОК_посилань_на_інтерактивні_карти.docx",
+      "type": "delivers",
+      "tail": "update.html",
+      "evidence": "відкриття якого призведе до завантаження HTML-файлу"
+    },
+    {
+      "head": "update.html",
+      "type": "delivers",
+      "tail": "2.txt",
+      "evidence": "забезпечить завантаження та виконання EXE-файлу \"2.txt\""
+    },
+    {
+      "head": "dcrat.exe",
+      "type": "delivers",
+      "tail": "DarkCrystal RAT",
+      "evidence": "dcrat.exe (2022-05-04) (DarkCrystal RAT)"
+    }
+  ],
+  "newRelationTypes": []
+}

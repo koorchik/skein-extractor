@@ -1,0 +1,45 @@
+{
+  "docId": 2659,
+  "date": "30.07.2019",
+  "title": "Не перевіряйте свої поштові акаунти на фішингових сайтах!",
+  "entities": [
+    {
+      "id": "2659:0",
+      "name": "перевірити діяльність.html",
+      "kind": "malicious file",
+      "gloss": "A malicious HTML attachment containing encoded script used in a phishing campaign.",
+      "scheme": "S7",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "2659:1",
+      "name": "decpded_page.html",
+      "kind": "malicious file",
+      "gloss": "A decoded HTML script extracted from a malicious attachment that redirects users to a credential phishing page.",
+      "scheme": "S7",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2659:2",
+      "name": "cautionphenomenon[.]co[.]kr",
+      "kind": "internet domain",
+      "gloss": "A malicious internet domain hosting a phishing landing page targeting user credentials.",
+      "scheme": null,
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "перевірити діяльність.html",
+      "type": "delivers",
+      "tail": "decpded_page.html",
+      "evidence": "файл містить закодований скрипт"
+    }
+  ],
+  "unclassified": [
+    "2659:2"
+  ]
+}

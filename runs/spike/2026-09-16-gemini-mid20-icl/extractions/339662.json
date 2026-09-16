@@ -1,0 +1,148 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0098",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA associated with cyberattacks against Ukrainian organizations."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware family",
+      "gloss": "A commercial post-exploitation agent used by threat actors for persistence and remote command execution."
+    },
+    {
+      "name": "CVE-2022-30190",
+      "kind": "vulnerability",
+      "gloss": "A Microsoft Windows Support Diagnostic Tool remote code execution vulnerability known as Follina."
+    },
+    {
+      "name": "Державної податкової служби України",
+      "kind": "government agency",
+      "gloss": "The central government body responsible for implementing state tax policy in Ukraine."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country located in Eastern Europe."
+    },
+    {
+      "name": "НакладенняШтрафнихСанкцiй.zip",
+      "kind": "file",
+      "gloss": "A malicious password-protected ZIP archive distributed via phishing emails."
+    },
+    {
+      "name": "Накладення штрафних санкцій.docx",
+      "kind": "file",
+      "gloss": "A malicious DOCX document that exploits CVE-2022-30190 to download secondary payloads."
+    },
+    {
+      "name": "index.html",
+      "kind": "file",
+      "gloss": "A malicious HTML file containing JavaScript code used to facilitate payload execution."
+    },
+    {
+      "name": "ked.dll",
+      "kind": "file",
+      "gloss": "A malicious dynamic-link library containing a Cobalt Strike Beacon payload."
+    },
+    {
+      "name": "rostyslav.nal0g@gmail.com",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors to send malicious phishing messages."
+    },
+    {
+      "name": "baidenfree.com",
+      "kind": "domain name",
+      "gloss": "A domain name identified as infrastructure used in malicious network operations."
+    },
+    {
+      "name": "golgba.com",
+      "kind": "domain name",
+      "gloss": "A domain name identified as infrastructure associated with cyberattack activities."
+    },
+    {
+      "name": "domtern.com",
+      "kind": "domain name",
+      "gloss": "A network domain name used as malicious infrastructure."
+    },
+    {
+      "name": "jorgava.com",
+      "kind": "domain name",
+      "gloss": "A network domain name associated with malicious activity."
+    },
+    {
+      "name": "185.143.223.29",
+      "kind": "ip address",
+      "gloss": "An IP address observed as part of the email delivery infrastructure."
+    },
+    {
+      "name": "64.190.113.51",
+      "kind": "ip address",
+      "gloss": "An IP address hosting a malicious index.html file."
+    },
+    {
+      "name": "5.199.173.152",
+      "kind": "ip address",
+      "gloss": "An IP address hosting a malicious DLL payload."
+    },
+    {
+      "name": "5.199.174.219",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure."
+    },
+    {
+      "name": "185.170.144.159",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "87.251.64.5",
+      "kind": "ip address",
+      "gloss": "An IP address identified in the indicators of compromise."
+    },
+    {
+      "name": "185.170.144.158",
+      "kind": "ip address",
+      "gloss": "An IP address identified in the incident's network indicators."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Державної податкової служби України",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "Державної податкової служби України"
+    },
+    {
+      "head": "НакладенняШтрафнихСанкцiй.zip",
+      "type": "delivers",
+      "tail": "Накладення штрафних санкцій.docx",
+      "evidence": "DOCX-документ містився в захищеному паролем архіві \"НакладенняШтрафнихСанкцiй.zip\""
+    },
+    {
+      "head": "Накладення штрафних санкцій.docx",
+      "type": "exploits",
+      "tail": "CVE-2022-30190",
+      "evidence": "виконання JavaScript-коду (CVE-2022-30190)"
+    },
+    {
+      "head": "Накладення штрафних санкцій.docx",
+      "type": "delivers",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "забезпечить завантаження та запуск шкідливої програми Cobalt Strike Beacon"
+    },
+    {
+      "head": "64.190.113.51",
+      "type": "hosts",
+      "tail": "index.html",
+      "evidence": "hXXp://64[.]190.113.51:8000/index[.]html"
+    },
+    {
+      "head": "5.199.173.152",
+      "type": "hosts",
+      "tail": "ked.dll",
+      "evidence": "hXXp://5[.]199.173.152/ked[.]dll"
+    }
+  ],
+  "newRelationTypes": []
+}

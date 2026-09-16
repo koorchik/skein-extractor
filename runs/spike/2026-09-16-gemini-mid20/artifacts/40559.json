@@ -1,0 +1,140 @@
+{
+  "docId": 40559,
+  "date": "02.06.2022",
+  "title": "Кібератака на державні організації України з використанням шкідливої програми Cobalt Strike Beacon та експлойтів до вразливостей CVE-2021-40444 і CVE-2022-30190 (CERT-UA#4753)",
+  "entities": [
+    {
+      "id": "40559:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40559:1",
+      "name": "зміни оплата праці з нарахуваннями.docx",
+      "kind": "malicious file",
+      "gloss": "A malicious Microsoft Word document distributed via phishing emails to exploit diagnostic and MSHTML vulnerabilities.",
+      "scheme": null,
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "40559:2",
+      "name": "CVE-2021-40444",
+      "kind": "vulnerability",
+      "gloss": "A remote code execution vulnerability in Microsoft MSHTML engine.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "40559:3",
+      "name": "CVE-2022-30190",
+      "kind": "vulnerability",
+      "gloss": "A remote code execution vulnerability in the Microsoft Windows Support Diagnostic Tool (MSDT), also known as Follina.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "40559:4",
+      "name": "PowerShell",
+      "kind": "software tool",
+      "gloss": "A task automation and configuration management framework developed by Microsoft.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "40559:5",
+      "name": "ms-msdt.exe",
+      "kind": "malware",
+      "gloss": "A malicious executable payload designed to deploy Cobalt Strike Beacon.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "40559:6",
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware",
+      "gloss": "A modular post-exploitation agent used for command and control, lateral movement, and payload execution.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "40559:7",
+      "name": "sdiagnhost.exe",
+      "kind": "executable file",
+      "gloss": "The Scripted Diagnostics Native Host process in Microsoft Windows.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40559:8",
+      "name": "Good thing we disabled macros.html",
+      "kind": "malicious file",
+      "gloss": "A malicious HTML file containing JavaScript code used to exploit vulnerabilities.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40559:9",
+      "name": "nod-update.it",
+      "kind": "domain name",
+      "gloss": "A malicious domain name used to distribute payloads in the cyberattack.",
+      "scheme": "S4",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "40559:10",
+      "name": "185.64.106.39",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious infrastructure.",
+      "scheme": "S5",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "зміни оплата праці з нарахуваннями.docx",
+      "type": "exploits",
+      "tail": "CVE-2021-40444",
+      "evidence": "після експлуатації вразливостей CVE-2021-40444 та CVE-2022-30190"
+    },
+    {
+      "head": "зміни оплата праці з нарахуваннями.docx",
+      "type": "exploits",
+      "tail": "CVE-2022-30190",
+      "evidence": "після експлуатації вразливостей CVE-2021-40444 та CVE-2022-30190"
+    },
+    {
+      "head": "зміни оплата праці з нарахуваннями.docx",
+      "type": "delivers",
+      "tail": "ms-msdt.exe",
+      "evidence": "призведе до запуску PowerShell-команди, завантаження EXE-файлу \"ms-msdt.exe\""
+    },
+    {
+      "head": "ms-msdt.exe",
+      "type": "delivers",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "ураження комп'ютера шкідливою програмою Cobalt Strike Beacon"
+    }
+  ],
+  "unclassified": [
+    "40559:1",
+    "40559:2",
+    "40559:3",
+    "40559:4",
+    "40559:7",
+    "40559:8"
+  ]
+}

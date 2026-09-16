@@ -1,0 +1,55 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "MS Office",
+      "kind": "software suite",
+      "gloss": "An office productivity software suite developed by Microsoft."
+    },
+    {
+      "name": "MS Word",
+      "kind": "software product",
+      "gloss": "A word processing software application developed by Microsoft."
+    },
+    {
+      "name": "MS Excel",
+      "kind": "software product",
+      "gloss": "A spreadsheet software application developed by Microsoft."
+    },
+    {
+      "name": "MS PowerPoint",
+      "kind": "software product",
+      "gloss": "A presentation software application developed by Microsoft."
+    }
+  ],
+  "relations": [
+    {
+      "head": "MS Word",
+      "type": "part-of",
+      "tail": "MS Office",
+      "evidence": "програм MS Office (наприклад MS Word"
+    },
+    {
+      "head": "MS Excel",
+      "type": "part-of",
+      "tail": "MS Office",
+      "evidence": "програм MS Office (наприклад MS Word, MS Excel"
+    },
+    {
+      "head": "MS PowerPoint",
+      "type": "part-of",
+      "tail": "MS Office",
+      "evidence": "програм MS Office (наприклад MS Word, MS Excel, MS PowerPoint)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "part-of",
+      "definition": "The subject entity is a component, sub-product, or constituent part of the target entity."
+    }
+  ]
+}

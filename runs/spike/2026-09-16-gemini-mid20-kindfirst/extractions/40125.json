@@ -1,0 +1,177 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0104",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA associated with cyberattacks delivering info-stealing malware."
+    },
+    {
+      "name": "JesterStealer",
+      "kind": "malware family",
+      "gloss": "An information-stealing malware capable of harvesting credentials, crypto wallet keys, and session data."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cloud-based instant messaging service used by threat actors for command, control, and data exfiltration."
+    },
+    {
+      "name": "TOR",
+      "kind": "software product",
+      "gloss": "An open-source anonymity network that enables private communication through onion routing."
+    },
+    {
+      "name": "Map023.xlsb",
+      "kind": "file",
+      "gloss": "A malicious Excel spreadsheet used to download and execute secondary malware payloads."
+    },
+    {
+      "name": "Map021.xlsb",
+      "kind": "file",
+      "gloss": "A malicious Excel spreadsheet used as an infection vector to drop executable malware."
+    },
+    {
+      "name": "Map026.xlsb",
+      "kind": "file",
+      "gloss": "A malicious Excel spreadsheet designed to initiate the download of executable malware."
+    },
+    {
+      "name": "Updater-Microsoft.exe",
+      "kind": "file",
+      "gloss": "A malicious executable file masquerading as a legitimate Microsoft update to deploy JesterStealer."
+    },
+    {
+      "name": "a1.exe",
+      "kind": "file",
+      "gloss": "A malicious executable payload associated with the distribution of JesterStealer."
+    },
+    {
+      "name": "ckloc",
+      "kind": "file",
+      "gloss": "A malicious executable file identified as a component or sample of JesterStealer."
+    },
+    {
+      "name": "OfficeUpdaterNew.exe",
+      "kind": "file",
+      "gloss": "A malicious executable payload hosted on compromised infrastructure."
+    },
+    {
+      "name": "tachikawaobs@sv5206.xserver.jp",
+      "kind": "email address",
+      "gloss": "An email address observed sending malicious messages in the cyber attack campaign."
+    },
+    {
+      "name": "157[.]112.183.47",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the malicious network infrastructure."
+    },
+    {
+      "name": "igshop[.]net",
+      "kind": "internet domain",
+      "gloss": "A compromised website domain used to host malicious files and payloads."
+    },
+    {
+      "name": "dcshost[.]net",
+      "kind": "internet domain",
+      "gloss": "A compromised website domain utilized by attackers to host malware executables."
+    },
+    {
+      "name": "marmaris.com[.]ua",
+      "kind": "internet domain",
+      "gloss": "A compromised Ukrainian website domain used to host malicious executables."
+    },
+    {
+      "name": "autodoka.com[.]ua",
+      "kind": "internet domain",
+      "gloss": "A compromised Ukrainian domain used to distribute malicious executable files."
+    },
+    {
+      "name": "lightnogu5owjjllyo4tj2sfos6fchnmcidlgo6c7e6fz2hgryhfhoyd[.]onion",
+      "kind": "internet domain",
+      "gloss": "A Tor onion service address used by the threat actor for C2 or exfiltration."
+    },
+    {
+      "name": "wasabiwallet[.]online",
+      "kind": "internet domain",
+      "gloss": "A malicious domain name masquerading as cryptocurrency software infrastructure."
+    },
+    {
+      "name": "ip-api[.]com",
+      "kind": "internet domain",
+      "gloss": "A legitimate IP geolocation lookup service queried by malware."
+    },
+    {
+      "name": "HKCU\\SOFTWARE\\kxialunboq\\state",
+      "kind": "registry key",
+      "gloss": "A Windows registry key artifact associated with the execution of JesterStealer."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0104",
+      "type": "uses",
+      "tail": "JesterStealer",
+      "evidence": "ураження комп'ютера шкідливою програмою JesterStealer... Активність тимчасово відстежується за ідентифікатором UAC-0104"
+    },
+    {
+      "head": "JesterStealer",
+      "type": "exfiltrates-to",
+      "tail": "Telegram",
+      "evidence": "Викрадені дані через статично визначені адреси проксі... передаються зловмиснику в Telegram."
+    },
+    {
+      "head": "JesterStealer",
+      "type": "uses",
+      "tail": "TOR",
+      "evidence": "через статично визначені адреси проксі (в т.ч., в мережі TOR)"
+    },
+    {
+      "head": "igshop[.]net",
+      "type": "delivers",
+      "tail": "Map026.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map026.xlsb"
+    },
+    {
+      "head": "igshop[.]net",
+      "type": "delivers",
+      "tail": "Map023.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map023.xlsb"
+    },
+    {
+      "head": "igshop[.]net",
+      "type": "delivers",
+      "tail": "Map021.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map021.xlsb"
+    },
+    {
+      "head": "igshop[.]net",
+      "type": "delivers",
+      "tail": "Updater-Microsoft.exe",
+      "evidence": "hxxps://igshop[.]net/uploads/Updater-Microsoft.exe"
+    },
+    {
+      "head": "dcshost[.]net",
+      "type": "delivers",
+      "tail": "OfficeUpdaterNew.exe",
+      "evidence": "hxxps://dcshost[.]net/mail/OfficeUpdaterNew.exe"
+    },
+    {
+      "head": "marmaris.com[.]ua",
+      "type": "delivers",
+      "tail": "Updater-Microsoft.exe",
+      "evidence": "hxxps://marmaris.com[.]ua/misc/Updater-Microsoft.exe"
+    },
+    {
+      "head": "autodoka.com[.]ua",
+      "type": "delivers",
+      "tail": "Updater-Microsoft.exe",
+      "evidence": "hxxps://autodoka.com[.]ua/extra/Updater-Microsoft.exe"
+    }
+  ],
+  "newRelationTypes": []
+}

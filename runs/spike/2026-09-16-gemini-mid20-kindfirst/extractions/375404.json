@@ -1,0 +1,116 @@
+{
+  "entities": [
+    {
+      "name": "Вниманию.doc",
+      "kind": "malicious file",
+      "gloss": "A malicious RTF document exploiting MS Office Word vulnerabilities to drop malware."
+    },
+    {
+      "name": "17.06.2022_Протокол_МРГ_Подгруппа_ИБ.doc",
+      "kind": "malicious file",
+      "gloss": "A malicious lure document used to exploit MS Office Word and execute malware."
+    },
+    {
+      "name": "замечания таблица 20.06.2022.doc",
+      "kind": "malicious file",
+      "gloss": "A malicious lure document crafted to exploit word processing vulnerabilities."
+    },
+    {
+      "name": "О_формировании_проекта_ПНС_2022_файл_отображен.doc",
+      "kind": "malicious file",
+      "gloss": "A weaponized lure document used in targeted cyber attacks."
+    },
+    {
+      "name": "dcnx18pwh.wmf",
+      "kind": "malicious file",
+      "gloss": "An encrypted payload file dropped during exploitation."
+    },
+    {
+      "name": "dcnx18pwh.exe",
+      "kind": "malicious file",
+      "gloss": "An executable payload representing either the QuickMute loader or Bisonal malware."
+    },
+    {
+      "name": "MS Office Word",
+      "kind": "software product",
+      "gloss": "A widely used word processing program developed by Microsoft."
+    },
+    {
+      "name": "RoyalRoad",
+      "kind": "exploit builder",
+      "gloss": "A malicious RTF weaponizer builder commonly associated with Chinese threat actors."
+    },
+    {
+      "name": "Bisonal",
+      "kind": "malware",
+      "gloss": "A remote access trojan used in cyber espionage campaigns."
+    },
+    {
+      "name": "QuickMute",
+      "kind": "malware",
+      "gloss": "A C/C++ loader malware designed to download, decrypt, and execute secondary payloads."
+    },
+    {
+      "name": "TontoTeam (UAC-0018)",
+      "kind": "threat actor",
+      "gloss": "A Chinese cyber espionage threat group known to target government and military organizations."
+    },
+    {
+      "name": "Китай",
+      "kind": "country",
+      "gloss": "A sovereign country in East Asia."
+    },
+    {
+      "name": "КНР",
+      "kind": "country",
+      "gloss": "The People's Republic of China, a state in East Asia."
+    },
+    {
+      "name": "російської федерації",
+      "kind": "country",
+      "gloss": "A country located across Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "upportteam.lingrevelat.com",
+      "kind": "internet domain",
+      "gloss": "A malicious fully qualified domain name used for command and control communication."
+    },
+    {
+      "name": "lingrevelat.com",
+      "kind": "internet domain",
+      "gloss": "A malicious internet domain associated with threat actor infrastructure."
+    },
+    {
+      "name": "137.220.176.165",
+      "kind": "ip address",
+      "gloss": "An IP address associated with command and control infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "TontoTeam (UAC-0018)",
+      "type": "uses",
+      "tail": "Bisonal",
+      "evidence": "шкідлива програма Bisonal, як приклад, є інструментом групи TontoTeam (UAC-0018)"
+    },
+    {
+      "head": "Вниманию.doc",
+      "type": "exploits",
+      "tail": "MS Office Word",
+      "evidence": "забезпечує експлуатацію однієї або декількох відомих вразливостей в MS Office Word"
+    },
+    {
+      "head": "Вниманию.doc",
+      "type": "delivers",
+      "tail": "Bisonal",
+      "evidence": "комп'ютер жертви буде уражено шкідливою програмою Bisonal"
+    },
+    {
+      "head": "Вниманию.doc",
+      "type": "delivers",
+      "tail": "QuickMute",
+      "evidence": "в одному з випадків використовується завантажувач QuickMute"
+    }
+  ],
+  "newRelationTypes": []
+}

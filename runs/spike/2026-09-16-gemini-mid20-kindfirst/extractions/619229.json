@@ -1,0 +1,61 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A threat actor group known for conducting cyberespionage and cyberattack campaigns."
+    },
+    {
+      "name": "Інформація щодо наявності вакансій та їх укомплектування.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Microsoft Excel spreadsheet used as an email attachment lure to deliver malware."
+    },
+    {
+      "name": "write.exe",
+      "kind": "malware",
+      "gloss": "A malicious dropper executable designed to drop and execute encrypted payloads."
+    },
+    {
+      "name": "%PROGRAMDATA%\\TRYxaEbX",
+      "kind": "malicious file",
+      "gloss": "An encrypted payload dropped by write.exe containing PowerShell scripts."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware",
+      "gloss": "A post-exploitation agent and backdoor payload associated with the Cobalt Strike framework."
+    },
+    {
+      "name": "skreatortemp[.]site",
+      "kind": "internet domain",
+      "gloss": "A domain name used as malicious network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "виявлену активність асоціюємо з діяльністю групи UAC-0056"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "Інформація щодо наявності вакансій та їх укомплектування.xls",
+      "evidence": "виявлену активність асоціюємо з діяльністю групи UAC-0056"
+    },
+    {
+      "head": "Інформація щодо наявності вакансій та їх укомплектування.xls",
+      "type": "delivers",
+      "tail": "write.exe",
+      "evidence": "призведе до створення на комп'ютері та запуску файлу \"write.exe\""
+    },
+    {
+      "head": "write.exe",
+      "type": "delivers",
+      "tail": "%PROGRAMDATA%\\TRYxaEbX",
+      "evidence": "забезпечуючи створення на диску файлу \"%PROGRAMDATA%\\TRYxaEbX\""
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,162 @@
+{
+  "entities": [
+    {
+      "name": "Adobe",
+      "kind": "software vendor",
+      "gloss": "An American multinational computer software company."
+    },
+    {
+      "name": "Adobe Flash Player",
+      "kind": "software product",
+      "gloss": "A computer software platform used for creating and viewing multimedia content and rich internet applications."
+    },
+    {
+      "name": "Framemaker",
+      "kind": "software product",
+      "gloss": "A document processor software designed for writing and editing large or complex documents."
+    },
+    {
+      "name": "Acrobat Reader",
+      "kind": "software product",
+      "gloss": "A software application for viewing, creating, and managing PDF files."
+    },
+    {
+      "name": "Reader DC",
+      "kind": "software product",
+      "gloss": "A version of Adobe Acrobat Reader designed for viewing and interacting with PDF files."
+    },
+    {
+      "name": "Digital Editions",
+      "kind": "software product",
+      "gloss": "An e-book reader software program from Adobe Systems."
+    },
+    {
+      "name": "Experience Manager",
+      "kind": "software product",
+      "gloss": "A comprehensive content management solution for building websites, mobile apps, and forms."
+    },
+    {
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A group of proprietary graphical operating system families developed and marketed by Microsoft."
+    },
+    {
+      "name": "Mac",
+      "kind": "operating system",
+      "gloss": "A series of proprietary graphical operating systems developed and marketed by Apple."
+    },
+    {
+      "name": "Linux",
+      "kind": "operating system",
+      "gloss": "A family of open-source Unix-like operating systems based on the Linux kernel."
+    },
+    {
+      "name": "CVE-2020-3757",
+      "kind": "vulnerability identifier",
+      "gloss": "A critical remote code execution vulnerability affecting Adobe Flash Player."
+    },
+    {
+      "name": "CVE-2020-3760",
+      "kind": "vulnerability identifier",
+      "gloss": "A critical command execution vulnerability affecting Adobe Digital Editions."
+    },
+    {
+      "name": "CVE-2020-3759",
+      "kind": "vulnerability identifier",
+      "gloss": "A high-severity buffer error vulnerability leading to information disclosure in Adobe Digital Editions."
+    },
+    {
+      "name": "CVE-2020-3741",
+      "kind": "vulnerability identifier",
+      "gloss": "A high-severity denial-of-service vulnerability affecting Adobe Experience Manager."
+    },
+    {
+      "name": "https://helpx.adobe.com/security/products/flash-player/apsb20-06.html",
+      "kind": "security advisory",
+      "gloss": "An Adobe security bulletin detailing security updates for Flash Player."
+    },
+    {
+      "name": "https://helpx.adobe.com/security/products/Digital-Editions/apsb20-07.html",
+      "kind": "security advisory",
+      "gloss": "An Adobe security bulletin detailing security updates for Digital Editions."
+    },
+    {
+      "name": "https://helpx.adobe.com/security/products/experience-manager/apsb20-08.html",
+      "kind": "security advisory",
+      "gloss": "An Adobe security bulletin detailing security updates for Experience Manager."
+    },
+    {
+      "name": "https://helpx.adobe.com/security/products/framemaker/apsb20-04.html",
+      "kind": "security advisory",
+      "gloss": "An Adobe security bulletin detailing security updates for FrameMaker."
+    },
+    {
+      "name": "https://helpx.adobe.com/security/products/acrobat/apsb20-05.html",
+      "kind": "security advisory",
+      "gloss": "An Adobe security bulletin detailing security updates for Acrobat and Reader."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2020-3757",
+      "type": "affects",
+      "tail": "Adobe Flash Player",
+      "evidence": "критична вразливість Flash Player для Windows, Mac та Linux"
+    },
+    {
+      "head": "CVE-2020-3760",
+      "type": "affects",
+      "tail": "Digital Editions",
+      "evidence": "критична вразливість у Adobe Digital Edition"
+    },
+    {
+      "head": "CVE-2020-3759",
+      "type": "affects",
+      "tail": "Digital Editions",
+      "evidence": "вразливість високого рівня у Adobe Digital Edition"
+    },
+    {
+      "head": "CVE-2020-3741",
+      "type": "affects",
+      "tail": "Experience Manager",
+      "evidence": "вразливість високого рівня у Experience Manager"
+    },
+    {
+      "head": "Adobe",
+      "type": "releases",
+      "tail": "https://helpx.adobe.com/security/products/flash-player/apsb20-06.html",
+      "evidence": "Adobe Security Bulletin – CVE-2020-3757"
+    },
+    {
+      "head": "https://helpx.adobe.com/security/products/flash-player/apsb20-06.html",
+      "type": "mitigates-vulnerability-in",
+      "tail": "Adobe Flash Player",
+      "evidence": "Adobe Security Bulletin – CVE-2020-3757 – https://helpx.adobe.com/security/products/flash-player/apsb20-06.html"
+    },
+    {
+      "head": "https://helpx.adobe.com/security/products/Digital-Editions/apsb20-07.html",
+      "type": "mitigates-vulnerability-in",
+      "tail": "Digital Editions",
+      "evidence": "Adobe Security Bulletin – CVE-2020-3760, CVE-2020-3759 – https://helpx.adobe.com/security/products/Digital-Editions/apsb20-07.html"
+    },
+    {
+      "head": "https://helpx.adobe.com/security/products/experience-manager/apsb20-08.html",
+      "type": "mitigates-vulnerability-in",
+      "tail": "Experience Manager",
+      "evidence": "Adobe Security Bulletin – CVE-2020-3741– https://helpx.adobe.com/security/products/experience-manager/apsb20-08.html"
+    },
+    {
+      "head": "https://helpx.adobe.com/security/products/framemaker/apsb20-04.html",
+      "type": "mitigates-vulnerability-in",
+      "tail": "Framemaker",
+      "evidence": "Security Updates Available for Adobe Framemaker – https://helpx.adobe.com/security/products/framemaker/apsb20-04.html"
+    },
+    {
+      "head": "https://helpx.adobe.com/security/products/acrobat/apsb20-05.html",
+      "type": "mitigates-vulnerability-in",
+      "tail": "Acrobat Reader",
+      "evidence": "Security update available for Adobe Acrobat and Reader – https://helpx.adobe.com/security/products/acrobat/apsb20-05.html"
+    }
+  ],
+  "newRelationTypes": []
+}
