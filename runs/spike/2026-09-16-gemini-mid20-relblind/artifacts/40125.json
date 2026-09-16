@@ -1,0 +1,280 @@
+{
+  "docId": 40125,
+  "date": "07.05.2022",
+  "title": "Масове розповсюдження шкідливої програми JesterStealer з використанням тематики хімічної атаки (CERT-UA#4625)",
+  "entities": [
+    {
+      "id": "40125:0",
+      "name": "UAC-0104",
+      "kind": "threat actor",
+      "gloss": "A threat group or cluster of activity tracked by CERT-UA.",
+      "scheme": null,
+      "category": "HackerGroup",
+      "role": "related"
+    },
+    {
+      "id": "40125:1",
+      "name": "JesterStealer",
+      "kind": "malware family",
+      "gloss": "An information stealer malware designed to extract credentials, cryptocurrency wallets, and browser data.",
+      "scheme": null,
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "40125:2",
+      "name": "Telegram",
+      "kind": "messaging service",
+      "gloss": "A cross-platform cloud-based instant messaging service frequently abused by threat actors for C2 communication.",
+      "scheme": null,
+      "category": "Organization",
+      "role": "target"
+    },
+    {
+      "id": "40125:3",
+      "name": "TOR",
+      "kind": "anonymity network",
+      "gloss": "An open-source software and network enabling anonymous communication.",
+      "scheme": null,
+      "category": "Infrastructure",
+      "role": "related"
+    },
+    {
+      "id": "40125:4",
+      "name": "Map023.xlsb",
+      "kind": "malicious document",
+      "gloss": "A malicious Excel binary document containing macros used to deliver malware.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "40125:5",
+      "name": "Map021.xlsb",
+      "kind": "malicious document",
+      "gloss": "A malicious Excel binary document containing macros used to deliver malware.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "40125:6",
+      "name": "Map026.xlsb",
+      "kind": "malicious document",
+      "gloss": "A malicious Excel binary document containing macros used to deliver malware.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "40125:7",
+      "name": "Updater-Microsoft.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable file used as a payload or dropper for JesterStealer.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "40125:8",
+      "name": "a1.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable payload associated with JesterStealer delivery.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40125:9",
+      "name": "ckloc",
+      "kind": "executable file",
+      "gloss": "A malicious executable identified as a JesterStealer payload.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40125:10",
+      "name": "OfficeUpdaterNew.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable payload hosted on a compromised server.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "40125:11",
+      "name": "tachikawaobs@sv5206.xserver.jp",
+      "kind": "email address",
+      "gloss": "An email address observed sending malicious spear-phishing messages.",
+      "scheme": "S1",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "40125:12",
+      "name": "157.112.183.47",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40125:13",
+      "name": "igshop.net",
+      "kind": "internet domain",
+      "gloss": "A compromised domain used to host malicious files.",
+      "scheme": null,
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "40125:14",
+      "name": "dcshost.net",
+      "kind": "internet domain",
+      "gloss": "A compromised domain used to host malicious payloads.",
+      "scheme": null,
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "40125:15",
+      "name": "marmaris.com.ua",
+      "kind": "internet domain",
+      "gloss": "A compromised Ukrainian domain used to host malicious files.",
+      "scheme": null,
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "40125:16",
+      "name": "autodoka.com.ua",
+      "kind": "internet domain",
+      "gloss": "A compromised Ukrainian domain used to host malicious files.",
+      "scheme": null,
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "40125:17",
+      "name": "lightnogu5owjjllyo4tj2sfos6fchnmcidlgo6c7e6fz2hgryhfhoyd.onion",
+      "kind": "onion service",
+      "gloss": "A Tor hidden service address used in JesterStealer operations.",
+      "scheme": null,
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "40125:18",
+      "name": "wasabiwallet.online",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious network traffic and proxying.",
+      "scheme": null,
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "40125:19",
+      "name": "ip-api.com",
+      "kind": "legitimate web service",
+      "gloss": "A legitimate public IP geolocation API service queried by malware.",
+      "scheme": null,
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "40125:20",
+      "name": "HKCU\\SOFTWARE\\kxialunboq\\state",
+      "kind": "registry key",
+      "gloss": "A Windows registry key used as a host-based indicator of compromise.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0104",
+      "type": "tracks-activity-using",
+      "tail": "JesterStealer",
+      "evidence": "ураження комп'ютера шкідливою програмою JesterStealer... Активність тимчасово відстежується за ідентифікатором UAC-0104"
+    },
+    {
+      "head": "JesterStealer",
+      "type": "exfiltrates-data-to",
+      "tail": "Telegram",
+      "evidence": "Викрадені дані через статично визначені адреси проксі (в т.ч., в мережі TOR) передаються зловмиснику в Telegram"
+    },
+    {
+      "head": "JesterStealer",
+      "type": "routes-traffic-through",
+      "tail": "TOR",
+      "evidence": "через статично визначені адреси проксі (в т.ч., в мережі TOR) передаються зловмиснику"
+    },
+    {
+      "head": "igshop.net",
+      "type": "hosts-file",
+      "tail": "Map026.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map026.xlsb"
+    },
+    {
+      "head": "igshop.net",
+      "type": "hosts-file",
+      "tail": "Map023.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map023.xlsb"
+    },
+    {
+      "head": "igshop.net",
+      "type": "hosts-file",
+      "tail": "Map021.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map021.xlsb"
+    },
+    {
+      "head": "igshop.net",
+      "type": "hosts-file",
+      "tail": "Updater-Microsoft.exe",
+      "evidence": "hxxps://igshop[.]net/uploads/Updater-Microsoft.exe"
+    },
+    {
+      "head": "dcshost.net",
+      "type": "hosts-file",
+      "tail": "OfficeUpdaterNew.exe",
+      "evidence": "hxxps://dcshost[.]net/mail/OfficeUpdaterNew.exe"
+    },
+    {
+      "head": "marmaris.com.ua",
+      "type": "hosts-file",
+      "tail": "Updater-Microsoft.exe",
+      "evidence": "hxxps://marmaris.com[.]ua/misc/Updater-Microsoft.exe"
+    },
+    {
+      "head": "autodoka.com.ua",
+      "type": "hosts-file",
+      "tail": "Updater-Microsoft.exe",
+      "evidence": "hxxps://autodoka.com[.]ua/extra/Updater-Microsoft.exe"
+    }
+  ],
+  "unclassified": [
+    "40125:0",
+    "40125:1",
+    "40125:2",
+    "40125:3",
+    "40125:4",
+    "40125:5",
+    "40125:6",
+    "40125:7",
+    "40125:8",
+    "40125:9",
+    "40125:10",
+    "40125:12",
+    "40125:13",
+    "40125:14",
+    "40125:15",
+    "40125:16",
+    "40125:17",
+    "40125:18",
+    "40125:19",
+    "40125:20"
+  ]
+}

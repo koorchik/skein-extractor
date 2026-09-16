@@ -1,0 +1,141 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p><span style="color: rgb(36, 36, 36);">Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA від учасника інформаційного обміну отримано електронний лист з темою "Кібератака", надісланий, начебто, від імені CERT-UA із вкладенням у вигляді захищеного паролем RAR-архіву "UkrScanner.rar".</span></p><p><span style="color: rgb(36, 36, 36);">Встановлено, що згаданий архів містить одноіменний SFX-файл, який, у свою чергу, містить шкідливу програму CredoMap_v2. Відмінність цієї версії стілеру від попередньої полягає у використанні протоколу HTTP для ексфільтрації даних. За допомогою HTTP POST-запитів викрадені автентифікаційні дані надсилаються на веб-ресурс, розгорнутий на платформі Pipedream.</span></p><p><span style="color: rgb(36, 36, 36);">Активність асоційовано з діяльністю групи APT28 (UAC-0028).</span></p><p><span style="color: rgb(36, 36, 36);">CERT-UA вжито заходів з блокування ресурсу. Разом з тим, у разі отримання подібних листів, просимо негайно інформувати.</span></p><p><br></p><p><strong>Індикатори компрометації</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">87b05a2442146a517e6aa1da5db8ae27	8724ec45a26dd07023e755cbf2a3c02548f719a63d0ffbfc42954f2b4f7c1405	UkrScanner.rar
+721521273d12775eb6518c0eeaeeac8b	d1839e491b34764fbd9f51895b639a97bc7d5a1ef8f57ba87545f8b3b9bc7e7a	UkrScanner.exe (SFX)
+d3b3aa56f1056df4c32cd2bc477e513b	778eed2fb4bbce4755cdf923f3fddc16155a478b44f90dc613ed2811a8efe066	scan.exe (CredoMap_v2)
+56a504a34d2cfbfc7eaa2b68e34af8ad	9309fb2a3f326d0f2cc3f2ab837cfd02e4f8cb6b923b3b2be265591fd38f4961	SQLite.Interop.dll (легітимна DLL)
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">mariachandran@ginaengg[.]com
+69[.]16.243.33 (Received)
+hxxps://eo2mxtqmeqzafqi.m.pipedream[.]net
+eo2mxtqmeqzafqi.m.pipedream[.]net
+</pre><p><br></p><p><strong style="color: rgb(36, 36, 36);">Рекомендації</strong></p><p><span style="color: rgb(36, 36, 36);">1. Для розповсюдження шкідливих програм, посилань тощо зловмисники використовують актуальні теми та скомпрометовані електронні адреси співробітників державних органів України. Наголошуємо на необхідності бути пильними (наявність у листі паролю до вкладення - приклад однієї з ознак потенційної загрози).</span></p><p><span style="color: rgb(36, 36, 36);">2. Для обміну інформації про кіберзагрози CERT-UA використовує платформу MISP (</span><a href="https://cert.gov.ua/article/39962)" rel="noopener noreferrer" target="_blank" style="color: rgb(91, 95, 199); background-color: rgb(255, 255, 255);">https://cert.gov.ua/article/39962)</a><span style="color: rgb(36, 36, 36);">, а також електронну пошту із застосуванням елекронних цифрових підписів.</span></p><p><span style="color: rgb(36, 36, 36);">3. Запуск сторонніх виконуваних файлів має бути блокований на рівні механізмів операційної системи і/або засобів захисту.</span></p><p><br></p><p><strong style="color: rgb(36, 36, 36);">Графічні зображення</strong></p><p><strong style="color: rgb(36, 36, 36);"></strong></p>
+
+=== RESPONSE (6.5s, in 2202 / out 1017 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "APT28 (UAC-0028)",
+      "kind": "hacking group",
+      "gloss": "A Russian cyber espionage threat group associated with the Russian military intelligence agency (GRU)."
+    },
+    {
+      "name": "CredoMap_v2",
+      "kind": "malware family",
+      "gloss": "An information stealer malware variant that extracts user authentication credentials and exfiltrates them via HTTP."
+    },
+    {
+      "name": "Pipedream",
+      "kind": "cloud platform",
+      "gloss": "An integration platform and cloud service for developers used to run automated workflows and receive webhooks."
+    },
+    {
+      "name": "UkrScanner.rar",
+      "kind": "file name",
+      "gloss": "A password-protected RAR archive attachment used to distribute malicious executable files."
+    },
+    {
+      "name": "UkrScanner.exe",
+      "kind": "file name",
+      "gloss": "A self-extracting archive (SFX) executable file containing malware components."
+    },
+    {
+      "name": "scan.exe",
+      "kind": "file name",
+      "gloss": "An executable file containing the CredoMap_v2 information stealer malware payload."
+    },
+    {
+      "name": "SQLite.Interop.dll",
+      "kind": "file name",
+      "gloss": "A legitimate SQLite interoperability dynamic-link library used by applications to interact with SQLite databases."
+    },
+    {
+      "name": "mariachandran@ginaengg[.]com",
+      "kind": "email address",
+      "gloss": "An email address observed as a sender or relay in malicious email campaigns."
+    },
+    {
+      "name": "69[.]16.243.33",
+      "kind": "ip address",
+      "gloss": "An IP address identified in email headers associated with the distribution of malicious emails."
+    },
+    {
+      "name": "eo2mxtqmeqzafqi.m.pipedream[.]net",
+      "kind": "internet domain",
+      "gloss": "A Pipedream subdomain used by attackers to collect exfiltrated authentication credentials."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    }
+  ],
+  "relations": [
+    {
+      "head": "APT28 (UAC-0028)",
+      "type": "associated-with-malware",
+      "tail": "CredoMap_v2",
+      "evidence": "Активність асоційовано з діяльністю групи APT28 (UAC-0028)."
+    },
+    {
+      "head": "UkrScanner.rar",
+      "type": "contains-file",
+      "tail": "UkrScanner.exe",
+      "evidence": "згаданий архів містить одноіменний SFX-файл"
+    },
+    {
+      "head": "UkrScanner.exe",
+      "type": "contains-file",
+      "tail": "CredoMap_v2",
+      "evidence": "SFX-файл, який, у свою чергу, містить шкідливу програму CredoMap_v2"
+    },
+    {
+      "head": "CredoMap_v2",
+      "type": "exfiltrates-data-to",
+      "tail": "eo2mxtqmeqzafqi.m.pipedream[.]net",
+      "evidence": "викрадені автентифікаційні дані надсилаються на веб-ресурс, розгорнутий на платформі Pipedream"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "associated-with-malware",
+      "definition": "The threat actor or group is linked to or operates the specified malware."
+    },
+    {
+      "name": "contains-file",
+      "definition": "An archive or container file encapsulates another specified file."
+    },
+    {
+      "name": "exfiltrates-data-to",
+      "definition": "A malware program transmits stolen data to a remote network endpoint or domain."
+    }
+  ]
+}

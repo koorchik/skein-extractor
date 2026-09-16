@@ -1,0 +1,189 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0104",
+      "kind": "threat actor",
+      "gloss": "A threat group or cluster of activity tracked by CERT-UA."
+    },
+    {
+      "name": "JesterStealer",
+      "kind": "malware family",
+      "gloss": "An information stealer malware designed to extract credentials, cryptocurrency wallets, and browser data."
+    },
+    {
+      "name": "Telegram",
+      "kind": "messaging service",
+      "gloss": "A cross-platform cloud-based instant messaging service frequently abused by threat actors for C2 communication."
+    },
+    {
+      "name": "TOR",
+      "kind": "anonymity network",
+      "gloss": "An open-source software and network enabling anonymous communication."
+    },
+    {
+      "name": "Map023.xlsb",
+      "kind": "malicious document",
+      "gloss": "A malicious Excel binary document containing macros used to deliver malware."
+    },
+    {
+      "name": "Map021.xlsb",
+      "kind": "malicious document",
+      "gloss": "A malicious Excel binary document containing macros used to deliver malware."
+    },
+    {
+      "name": "Map026.xlsb",
+      "kind": "malicious document",
+      "gloss": "A malicious Excel binary document containing macros used to deliver malware."
+    },
+    {
+      "name": "Updater-Microsoft.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable file used as a payload or dropper for JesterStealer."
+    },
+    {
+      "name": "a1.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable payload associated with JesterStealer delivery."
+    },
+    {
+      "name": "ckloc",
+      "kind": "executable file",
+      "gloss": "A malicious executable identified as a JesterStealer payload."
+    },
+    {
+      "name": "OfficeUpdaterNew.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable payload hosted on a compromised server."
+    },
+    {
+      "name": "tachikawaobs@sv5206.xserver.jp",
+      "kind": "email address",
+      "gloss": "An email address observed sending malicious spear-phishing messages."
+    },
+    {
+      "name": "157.112.183.47",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure."
+    },
+    {
+      "name": "igshop.net",
+      "kind": "internet domain",
+      "gloss": "A compromised domain used to host malicious files."
+    },
+    {
+      "name": "dcshost.net",
+      "kind": "internet domain",
+      "gloss": "A compromised domain used to host malicious payloads."
+    },
+    {
+      "name": "marmaris.com.ua",
+      "kind": "internet domain",
+      "gloss": "A compromised Ukrainian domain used to host malicious files."
+    },
+    {
+      "name": "autodoka.com.ua",
+      "kind": "internet domain",
+      "gloss": "A compromised Ukrainian domain used to host malicious files."
+    },
+    {
+      "name": "lightnogu5owjjllyo4tj2sfos6fchnmcidlgo6c7e6fz2hgryhfhoyd.onion",
+      "kind": "onion service",
+      "gloss": "A Tor hidden service address used in JesterStealer operations."
+    },
+    {
+      "name": "wasabiwallet.online",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious network traffic and proxying."
+    },
+    {
+      "name": "ip-api.com",
+      "kind": "legitimate web service",
+      "gloss": "A legitimate public IP geolocation API service queried by malware."
+    },
+    {
+      "name": "HKCU\\SOFTWARE\\kxialunboq\\state",
+      "kind": "registry key",
+      "gloss": "A Windows registry key used as a host-based indicator of compromise."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0104",
+      "type": "tracks-activity-using",
+      "tail": "JesterStealer",
+      "evidence": "ураження комп'ютера шкідливою програмою JesterStealer... Активність тимчасово відстежується за ідентифікатором UAC-0104"
+    },
+    {
+      "head": "JesterStealer",
+      "type": "exfiltrates-data-to",
+      "tail": "Telegram",
+      "evidence": "Викрадені дані через статично визначені адреси проксі (в т.ч., в мережі TOR) передаються зловмиснику в Telegram"
+    },
+    {
+      "head": "JesterStealer",
+      "type": "routes-traffic-through",
+      "tail": "TOR",
+      "evidence": "через статично визначені адреси проксі (в т.ч., в мережі TOR) передаються зловмиснику"
+    },
+    {
+      "head": "igshop.net",
+      "type": "hosts-file",
+      "tail": "Map026.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map026.xlsb"
+    },
+    {
+      "head": "igshop.net",
+      "type": "hosts-file",
+      "tail": "Map023.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map023.xlsb"
+    },
+    {
+      "head": "igshop.net",
+      "type": "hosts-file",
+      "tail": "Map021.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map021.xlsb"
+    },
+    {
+      "head": "igshop.net",
+      "type": "hosts-file",
+      "tail": "Updater-Microsoft.exe",
+      "evidence": "hxxps://igshop[.]net/uploads/Updater-Microsoft.exe"
+    },
+    {
+      "head": "dcshost.net",
+      "type": "hosts-file",
+      "tail": "OfficeUpdaterNew.exe",
+      "evidence": "hxxps://dcshost[.]net/mail/OfficeUpdaterNew.exe"
+    },
+    {
+      "head": "marmaris.com.ua",
+      "type": "hosts-file",
+      "tail": "Updater-Microsoft.exe",
+      "evidence": "hxxps://marmaris.com[.]ua/misc/Updater-Microsoft.exe"
+    },
+    {
+      "head": "autodoka.com.ua",
+      "type": "hosts-file",
+      "tail": "Updater-Microsoft.exe",
+      "evidence": "hxxps://autodoka.com[.]ua/extra/Updater-Microsoft.exe"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "tracks-activity-using",
+      "definition": "Identifies an activity tracking identifier associated with the use of a specific tool or malware family."
+    },
+    {
+      "name": "exfiltrates-data-to",
+      "definition": "Specifies the external platform, service, or destination to which stolen information is sent."
+    },
+    {
+      "name": "routes-traffic-through",
+      "definition": "Indicates that network communication passes through an intermediary network or proxy service."
+    },
+    {
+      "name": "hosts-file",
+      "definition": "Indicates that an internet domain or web server hosts a specific downloadable file."
+    }
+  ]
+}

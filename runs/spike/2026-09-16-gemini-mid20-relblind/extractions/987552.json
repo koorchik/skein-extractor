@@ -1,0 +1,70 @@
+{
+  "entities": [
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0100",
+      "kind": "threat actor",
+      "gloss": "A threat group identifier assigned by CERT-UA to financial fraud and phishing campaigns."
+    },
+    {
+      "name": "hXXps://mono.gg-pay[.]me/",
+      "kind": "phishing url",
+      "gloss": "A phishing web address designed to mimic banking services and steal user credentials."
+    },
+    {
+      "name": "hXXps://next24.gg-pay[.]me/",
+      "kind": "phishing url",
+      "gloss": "A phishing web address designed to mimic banking services and steal user credentials."
+    },
+    {
+      "name": "hXXps://privat24.ua-wallet[.]pw/",
+      "kind": "phishing url",
+      "gloss": "A phishing web address designed to mimic banking services and steal user credentials."
+    },
+    {
+      "name": "Платформи єДопомога",
+      "kind": "web platform",
+      "gloss": "An official Ukrainian platform providing state and humanitarian social assistance services."
+    },
+    {
+      "name": "Мінсоцполітики",
+      "kind": "government body",
+      "gloss": "The Ministry of Social Policy of Ukraine, a central executive government body."
+    },
+    {
+      "name": "Національного банку України",
+      "kind": "central bank",
+      "gloss": "The central bank of Ukraine responsible for financial and banking supervision."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0100",
+      "type": "uses-infrastructure",
+      "tail": "hXXps://mono.gg-pay[.]me/",
+      "evidence": "активність має систематичний характер та відстежується за ідентифікатором UAC-0100. Індикатори компрометації"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses-infrastructure",
+      "tail": "hXXps://next24.gg-pay[.]me/",
+      "evidence": "активність має систематичний характер та відстежується за ідентифікатором UAC-0100. Індикатори компрометації"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses-infrastructure",
+      "tail": "hXXps://privat24.ua-wallet[.]pw/",
+      "evidence": "активність має систематичний характер та відстежується за ідентифікатором UAC-0100. Індикатори компрометації"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-infrastructure",
+      "definition": "The threat actor or activity utilizes specific network infrastructure such as domains, URLs, or servers."
+    }
+  ]
+}

@@ -1,0 +1,148 @@
+{
+  "docId": 1229152,
+  "date": "10.08.2022",
+  "title": "Кібератаки групи UAC-0010 (Armageddon): шкідливі програми GammaLoad, GammaSteel (CERT-UA#5134)",
+  "entities": [
+    {
+      "id": "1229152:0",
+      "name": "UAC-0010",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage threat group also known as Armageddon or Gamaredon.",
+      "scheme": "S6",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "1229152:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S4",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "1229152:2",
+      "name": "GammaLoad.PS1",
+      "kind": "malware",
+      "gloss": "A PowerShell-based malware downloader used by the Gamaredon group to deliver subsequent payloads.",
+      "scheme": "S5",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "1229152:3",
+      "name": "GammaSteel.PS1",
+      "kind": "malware",
+      "gloss": "A PowerShell script used by Gamaredon to search for and exfiltrate specific files.",
+      "scheme": "S5",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "1229152:4",
+      "name": "GammaSteel.NET",
+      "kind": "malware",
+      "gloss": "A .NET-based infostealer malware used by Gamaredon to steal credentials from web browsers.",
+      "scheme": "S5",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "1229152:5",
+      "name": "HarvesterX",
+      "kind": "malware",
+      "gloss": "A legacy data-harvesting malware tool previously utilized by Gamaredon.",
+      "scheme": "S5",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "1229152:6",
+      "name": "Normal.dotm",
+      "kind": "file",
+      "gloss": "The default macro-enabled template file for Microsoft Word.",
+      "scheme": "S5",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "1229152:7",
+      "name": "powershell.exe",
+      "kind": "executable file",
+      "gloss": "The command-line shell and scripting tool executable for Microsoft Windows PowerShell.",
+      "scheme": "S5",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "1229152:8",
+      "name": "wscript.exe",
+      "kind": "executable file",
+      "gloss": "The Windows Script Host executable used to run VBScript and JScript files.",
+      "scheme": "S5",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "1229152:9",
+      "name": "mshta.exe",
+      "kind": "executable file",
+      "gloss": "A legitimate Windows utility used to execute Microsoft HTML Application (HTA) files.",
+      "scheme": "S5",
+      "category": "Software",
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0010",
+      "type": "delivers-payload",
+      "tail": "GammaLoad.PS1",
+      "evidence": "ініціюють ланцюг доставки GammaLoad.PS1 на комп'ютер жертви"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-tool",
+      "tail": "GammaSteel.PS1",
+      "evidence": "для чого застосовується GammaSteel.PS1 та GammaSteel.NET, відповідно"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-tool",
+      "tail": "GammaSteel.NET",
+      "evidence": "для чого застосовується GammaSteel.PS1 та GammaSteel.NET, відповідно"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-tool",
+      "tail": "HarvesterX",
+      "evidence": "PowerShell-реалізацією раніше використовуваного HarvesterX"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "infects-file",
+      "tail": "Normal.dotm",
+      "evidence": "ураження файлу шаблону C:\\Users\\%USERNAME%\\AppData\\Roaming\\Microsoft\\Templates\\Normal.dotm"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-tool",
+      "tail": "powershell.exe",
+      "evidence": "Активно використовується PowerShell (powershell.exe)"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-tool",
+      "tail": "wscript.exe",
+      "evidence": "а також wscript.exe, mshta.exe"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-tool",
+      "tail": "mshta.exe",
+      "evidence": "а також wscript.exe, mshta.exe"
+    }
+  ],
+  "unclassified": []
+}

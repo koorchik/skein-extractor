@@ -1,0 +1,118 @@
+{
+  "entities": [
+    {
+      "name": "Nuclear Terrorism A Very Real Threat.rtf",
+      "kind": "malicious document",
+      "gloss": "A malicious Rich Text Format document used as a lure to exploit vulnerabilities and deliver malware."
+    },
+    {
+      "name": "CVE-2022-30190",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in the Microsoft Windows Support Diagnostic Tool, commonly known as Follina."
+    },
+    {
+      "name": "CredoMap",
+      "kind": "malware family",
+      "gloss": "A malware family used by threat actors to steal browser credentials and system information."
+    },
+    {
+      "name": "APT28",
+      "kind": "hacking group",
+      "gloss": "A Russian state-sponsored cyber espionage group associated with the Russian military intelligence agency GRU."
+    },
+    {
+      "name": "article.html",
+      "kind": "file name",
+      "gloss": "A malicious HTML file containing payload code executed during the exploitation process."
+    },
+    {
+      "name": "SQLite.Interop.dll",
+      "kind": "file name",
+      "gloss": "A dynamic link library file required for SQLite database operations."
+    },
+    {
+      "name": "docx.exe",
+      "kind": "file name",
+      "gloss": "An executable file used as the payload delivering CredoMap malware."
+    },
+    {
+      "name": "kitten-268.frge.io",
+      "kind": "internet domain",
+      "gloss": "A domain name used to host a malicious HTML payload in a cyberattack campaign."
+    },
+    {
+      "name": "frge.io",
+      "kind": "internet domain",
+      "gloss": "A domain hosting service used by threat actors to stage malicious files."
+    },
+    {
+      "name": "kompartpomiar.pl",
+      "kind": "internet domain",
+      "gloss": "A compromised website domain used to host secondary malware payloads."
+    },
+    {
+      "name": "162.241.216.236",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the network infrastructure used in the cyberattack."
+    },
+    {
+      "name": "seo@specialityllc.com",
+      "kind": "email address",
+      "gloss": "An email address identified as an indicator of compromise in a cyber incident."
+    }
+  ],
+  "relations": [
+    {
+      "head": "APT28",
+      "type": "associated-with",
+      "tail": "CredoMap",
+      "evidence": "асоціювати виявлену активність з діяльністю групи APT28"
+    },
+    {
+      "head": "Nuclear Terrorism A Very Real Threat.rtf",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2022-30190",
+      "evidence": "відкриття якого призведе до завантаження HTML-файлу та виконання JavaScript-коду (CVE-2022-30190)"
+    },
+    {
+      "head": "Nuclear Terrorism A Very Real Threat.rtf",
+      "type": "downloads",
+      "tail": "article.html",
+      "evidence": "відкриття якого призведе до завантаження HTML-файлу"
+    },
+    {
+      "head": "Nuclear Terrorism A Very Real Threat.rtf",
+      "type": "delivers",
+      "tail": "CredoMap",
+      "evidence": "який забезпечить завантаження та запуск шкідливої програми CredoMap"
+    },
+    {
+      "head": "docx.exe",
+      "type": "executes",
+      "tail": "CredoMap",
+      "evidence": "docx.exe (CredoMap)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "associated-with",
+      "definition": "Identifies an association between a threat actor and a campaign, tool, or malicious activity."
+    },
+    {
+      "name": "exploits-vulnerability",
+      "definition": "Indicates that a file, script, or tool leverages a specific security vulnerability."
+    },
+    {
+      "name": "downloads",
+      "definition": "Indicates that a file or script retrieves another remote file over the network."
+    },
+    {
+      "name": "delivers",
+      "definition": "Indicates that an artifact leads to the installation or deployment of a malware payload."
+    },
+    {
+      "name": "executes",
+      "definition": "Indicates that a specific file or binary runs a particular program or malware family."
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0010",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage threat group also known as Armageddon or Gamaredon."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "GammaLoad.PS1",
+      "kind": "malware",
+      "gloss": "A PowerShell-based malware downloader used by the Gamaredon group to deliver subsequent payloads."
+    },
+    {
+      "name": "GammaSteel.PS1",
+      "kind": "malware",
+      "gloss": "A PowerShell script used by Gamaredon to search for and exfiltrate specific files."
+    },
+    {
+      "name": "GammaSteel.NET",
+      "kind": "malware",
+      "gloss": "A .NET-based infostealer malware used by Gamaredon to steal credentials from web browsers."
+    },
+    {
+      "name": "HarvesterX",
+      "kind": "malware",
+      "gloss": "A legacy data-harvesting malware tool previously utilized by Gamaredon."
+    },
+    {
+      "name": "Normal.dotm",
+      "kind": "file",
+      "gloss": "The default macro-enabled template file for Microsoft Word."
+    },
+    {
+      "name": "powershell.exe",
+      "kind": "executable file",
+      "gloss": "The command-line shell and scripting tool executable for Microsoft Windows PowerShell."
+    },
+    {
+      "name": "wscript.exe",
+      "kind": "executable file",
+      "gloss": "The Windows Script Host executable used to run VBScript and JScript files."
+    },
+    {
+      "name": "mshta.exe",
+      "kind": "executable file",
+      "gloss": "A legitimate Windows utility used to execute Microsoft HTML Application (HTA) files."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0010",
+      "type": "delivers-payload",
+      "tail": "GammaLoad.PS1",
+      "evidence": "ініціюють ланцюг доставки GammaLoad.PS1 на комп'ютер жертви"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-tool",
+      "tail": "GammaSteel.PS1",
+      "evidence": "для чого застосовується GammaSteel.PS1 та GammaSteel.NET, відповідно"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-tool",
+      "tail": "GammaSteel.NET",
+      "evidence": "для чого застосовується GammaSteel.PS1 та GammaSteel.NET, відповідно"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-tool",
+      "tail": "HarvesterX",
+      "evidence": "PowerShell-реалізацією раніше використовуваного HarvesterX"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "infects-file",
+      "tail": "Normal.dotm",
+      "evidence": "ураження файлу шаблону C:\\Users\\%USERNAME%\\AppData\\Roaming\\Microsoft\\Templates\\Normal.dotm"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-tool",
+      "tail": "powershell.exe",
+      "evidence": "Активно використовується PowerShell (powershell.exe)"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-tool",
+      "tail": "wscript.exe",
+      "evidence": "а також wscript.exe, mshta.exe"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-tool",
+      "tail": "mshta.exe",
+      "evidence": "а також wscript.exe, mshta.exe"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "delivers-payload",
+      "definition": "The actor or mechanism initiates or conducts the delivery of a malware payload to a target."
+    },
+    {
+      "name": "uses-tool",
+      "definition": "The threat actor utilizes a specific software utility, executable, or malware tool in their operations."
+    },
+    {
+      "name": "infects-file",
+      "definition": "The actor or malware modifies, injects code into, or compromises a specific target file."
+    }
+  ]
+}

@@ -1,0 +1,145 @@
+{
+  "docId": 40102,
+  "date": "06.05.2022",
+  "title": "Кібератака групи APT28 із застосуванням шкідливої програми CredoMap_v2 (CERT-UA#4622)",
+  "entities": [
+    {
+      "id": "40102:0",
+      "name": "APT28 (UAC-0028)",
+      "kind": "hacking group",
+      "gloss": "A Russian cyber espionage threat group associated with the Russian military intelligence agency (GRU).",
+      "scheme": null,
+      "category": "HackerGroup",
+      "role": "related"
+    },
+    {
+      "id": "40102:1",
+      "name": "CredoMap_v2",
+      "kind": "malware family",
+      "gloss": "An information stealer malware variant that extracts user authentication credentials and exfiltrates them via HTTP.",
+      "scheme": null,
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "40102:2",
+      "name": "Pipedream",
+      "kind": "cloud platform",
+      "gloss": "An integration platform and cloud service for developers used to run automated workflows and receive webhooks.",
+      "scheme": null,
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "40102:3",
+      "name": "UkrScanner.rar",
+      "kind": "file name",
+      "gloss": "A password-protected RAR archive attachment used to distribute malicious executable files.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "40102:4",
+      "name": "UkrScanner.exe",
+      "kind": "file name",
+      "gloss": "A self-extracting archive (SFX) executable file containing malware components.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "40102:5",
+      "name": "scan.exe",
+      "kind": "file name",
+      "gloss": "An executable file containing the CredoMap_v2 information stealer malware payload.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "40102:6",
+      "name": "SQLite.Interop.dll",
+      "kind": "file name",
+      "gloss": "A legitimate SQLite interoperability dynamic-link library used by applications to interact with SQLite databases.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "40102:7",
+      "name": "mariachandran@ginaengg[.]com",
+      "kind": "email address",
+      "gloss": "An email address observed as a sender or relay in malicious email campaigns.",
+      "scheme": null,
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "40102:8",
+      "name": "69[.]16.243.33",
+      "kind": "ip address",
+      "gloss": "An IP address identified in email headers associated with the distribution of malicious emails.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40102:9",
+      "name": "eo2mxtqmeqzafqi.m.pipedream[.]net",
+      "kind": "internet domain",
+      "gloss": "A Pipedream subdomain used by attackers to collect exfiltrated authentication credentials.",
+      "scheme": null,
+      "category": "Domain",
+      "role": "target"
+    },
+    {
+      "id": "40102:10",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "APT28 (UAC-0028)",
+      "type": "associated-with-malware",
+      "tail": "CredoMap_v2",
+      "evidence": "Активність асоційовано з діяльністю групи APT28 (UAC-0028)."
+    },
+    {
+      "head": "UkrScanner.rar",
+      "type": "contains-file",
+      "tail": "UkrScanner.exe",
+      "evidence": "згаданий архів містить одноіменний SFX-файл"
+    },
+    {
+      "head": "UkrScanner.exe",
+      "type": "contains-file",
+      "tail": "CredoMap_v2",
+      "evidence": "SFX-файл, який, у свою чергу, містить шкідливу програму CredoMap_v2"
+    },
+    {
+      "head": "CredoMap_v2",
+      "type": "exfiltrates-data-to",
+      "tail": "eo2mxtqmeqzafqi.m.pipedream[.]net",
+      "evidence": "викрадені автентифікаційні дані надсилаються на веб-ресурс, розгорнутий на платформі Pipedream"
+    }
+  ],
+  "unclassified": [
+    "40102:0",
+    "40102:1",
+    "40102:2",
+    "40102:3",
+    "40102:4",
+    "40102:5",
+    "40102:6",
+    "40102:7",
+    "40102:8",
+    "40102:9",
+    "40102:10"
+  ]
+}

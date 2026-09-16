@@ -1,0 +1,323 @@
+{
+  "runId": "2026-09-16-gemini-mid20-relblind",
+  "config": {
+    "docs": 20,
+    "offset": 100,
+    "inputDir": "data/fetched",
+    "frozenDir": "data/extractions/gpt-5",
+    "llmProvider": "gemini",
+    "llmModel": "gemini-3.7-flash",
+    "embedModel": "gemini-embedding-2",
+    "embedTaskType": "CLUSTERING",
+    "embedDims": 768,
+    "k": 10,
+    "tau": 0.8,
+    "delta": 0.1,
+    "poolLink": 0.85,
+    "mass": 3,
+    "relMerge": 0.85,
+    "repr": "combo",
+    "alpha": 0.7,
+    "kindFirst": 0.9,
+    "icl": false,
+    "relBlind": true,
+    "out": "runs/spike/2026-09-16-gemini-mid20-relblind",
+    "cacheDir": "runs/embeddings-cache"
+  },
+  "prompts": {
+    "extract-open-relblind-v1": "23d45dcac0f7a65288da2c4fc8996f253c7c1032af1ef6ca0bf0e3d4fbde6e2d",
+    "scheme-name-v1": "bb1b66dab2ce5b681df1477d9eb79d2669b66fba6487b9ed437e1cdcd5b4d1b9"
+  },
+  "embeddings": {
+    "config": {
+      "provider": "gemini",
+      "model": "gemini-embedding-2",
+      "taskType": "CLUSTERING"
+    },
+    "dimensions": 768,
+    "cache": {
+      "hits": 191,
+      "misses": 316,
+      "entries": 1622
+    }
+  },
+  "documents": 20,
+  "mentions": 369,
+  "schemes": [
+    {
+      "id": "S1",
+      "label": "Email Address",
+      "members": 15,
+      "born": 40125,
+      "altLabels": [
+        "E-mail Address",
+        "Email"
+      ]
+    },
+    {
+      "id": "S2",
+      "label": "Domain Name",
+      "members": 114,
+      "born": 40240,
+      "altLabels": [
+        "Internet Domain",
+        "FQDN"
+      ]
+    },
+    {
+      "id": "S3",
+      "label": "IP Address",
+      "members": 29,
+      "born": 40240,
+      "altLabels": [
+        "Internet Protocol Address",
+        "IPv4 Address"
+      ]
+    },
+    {
+      "id": "S4",
+      "label": "Country",
+      "members": 18,
+      "born": 40240,
+      "altLabels": [
+        "Nation",
+        "Sovereign State"
+      ]
+    },
+    {
+      "id": "S5",
+      "label": "Malware Family",
+      "members": 73,
+      "born": 40240,
+      "altLabels": [
+        "Malware",
+        "Malicious Software"
+      ]
+    },
+    {
+      "id": "S6",
+      "label": "Threat Actor",
+      "members": 18,
+      "born": 40240,
+      "altLabels": [
+        "Threat Group",
+        "Adversary",
+        "Hacker Group"
+      ]
+    },
+    {
+      "id": "S7",
+      "label": "Malicious File",
+      "members": 26,
+      "born": 160530,
+      "altLabels": [
+        "Malicious Document",
+        "Malicious Artifact",
+        "Payload File"
+      ]
+    },
+    {
+      "id": "S8",
+      "label": "Vulnerability",
+      "members": 5,
+      "born": 339662,
+      "altLabels": [
+        "Software Vulnerability",
+        "Security Vulnerability",
+        "CVE"
+      ]
+    },
+    {
+      "id": "S9",
+      "label": "Software Product",
+      "members": 4,
+      "born": 375404,
+      "altLabels": [
+        "Software",
+        "Software Application",
+        "Software Tool"
+      ]
+    },
+    {
+      "id": "S10",
+      "label": "Government Agency",
+      "members": 17,
+      "born": 619229,
+      "altLabels": [
+        "Government Body",
+        "State Agency",
+        "Public Institution"
+      ]
+    },
+    {
+      "id": "S11",
+      "label": "URL",
+      "members": 18,
+      "born": 861292,
+      "altLabels": [
+        "Uniform Resource Locator",
+        "Web Address"
+      ]
+    }
+  ],
+  "pool": 32,
+  "relationTypes": 35,
+  "overlay": {
+    "aligned": 259,
+    "coverage": 0.7018970189701897,
+    "crossTab": {
+      "Country": {
+        "(unaligned)": 14,
+        "Country": 2,
+        "Government Body": 2
+      },
+      "Government Agency": {
+        "Government Body": 9,
+        "(unaligned)": 7,
+        "Sector": 1
+      },
+      "Software Product": {
+        "Software": 3,
+        "(unaligned)": 1
+      },
+      "(pool)": {
+        "Software": 4,
+        "Domain": 7,
+        "Organization": 14,
+        "Infrastructure": 1,
+        "(unaligned)": 5,
+        "Government Body": 1
+      },
+      "Threat Actor": {
+        "(unaligned)": 4,
+        "HackerGroup": 14
+      },
+      "Email Address": {
+        "Domain": 13,
+        "(unaligned)": 2
+      },
+      "Malware Family": {
+        "Software": 45,
+        "(unaligned)": 28
+      },
+      "IP Address": {
+        "(unaligned)": 29
+      },
+      "Domain Name": {
+        "Domain": 111,
+        "Organization": 3
+      },
+      "Malicious File": {
+        "(unaligned)": 17,
+        "Software": 9
+      },
+      "URL": {
+        "Domain": 5,
+        "(unaligned)": 3,
+        "Organization": 10
+      },
+      "Vulnerability": {
+        "Software": 5
+      }
+    }
+  },
+  "closestSchemePairs": [
+    {
+      "a": "Malware Family",
+      "b": "Malicious File",
+      "sim": 0.9304096983093398
+    },
+    {
+      "a": "Malware Family",
+      "b": "Threat Actor",
+      "sim": 0.8056880773508346
+    },
+    {
+      "a": "Threat Actor",
+      "b": "Malicious File",
+      "sim": 0.7852821096816799
+    },
+    {
+      "a": "Email Address",
+      "b": "IP Address",
+      "sim": 0.764509699882438
+    },
+    {
+      "a": "Domain Name",
+      "b": "IP Address",
+      "sim": 0.7625253143310002
+    },
+    {
+      "a": "Domain Name",
+      "b": "Malware Family",
+      "sim": 0.7538391458594882
+    },
+    {
+      "a": "IP Address",
+      "b": "Malware Family",
+      "sim": 0.7533961330588329
+    },
+    {
+      "a": "Malware Family",
+      "b": "Vulnerability",
+      "sim": 0.7518836618487901
+    }
+  ],
+  "cost": {
+    "runId": "2026-09-16-gemini-mid20-relblind",
+    "totals": {
+      "calls": 125,
+      "inputTokens": 66350,
+      "outputTokens": 32207,
+      "costUsd": 0,
+      "unpricedCalls": 125,
+      "wallClockMs": 293416
+    },
+    "byOperator": {
+      "extract": {
+        "calls": 20,
+        "inputTokens": 56546,
+        "outputTokens": 31408,
+        "costUsd": 0,
+        "unpricedCalls": 20,
+        "wallClockMs": 166391
+      },
+      "embed-kind": {
+        "calls": 12,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "costUsd": 0,
+        "unpricedCalls": 12,
+        "wallClockMs": 5326
+      },
+      "embed-gloss": {
+        "calls": 20,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "costUsd": 0,
+        "unpricedCalls": 20,
+        "wallClockMs": 14781
+      },
+      "embed-relation": {
+        "calls": 60,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "costUsd": 0,
+        "unpricedCalls": 60,
+        "wallClockMs": 29375
+      },
+      "scheme-name": {
+        "calls": 13,
+        "inputTokens": 9804,
+        "outputTokens": 799,
+        "costUsd": 0,
+        "unpricedCalls": 13,
+        "wallClockMs": 77543
+      }
+    },
+    "unpricedModels": [
+      "gemini/gemini-3.7-flash",
+      "gemini/gemini-embedding-2"
+    ]
+  }
+}

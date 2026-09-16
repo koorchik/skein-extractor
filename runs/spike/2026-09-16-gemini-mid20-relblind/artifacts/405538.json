@@ -1,0 +1,199 @@
+{
+  "docId": 405538,
+  "date": "24.06.2022",
+  "title": "Кібератака у відношенні операторів телекомунікацій України з використанням шкідливої програми DarkCrystal RAT (CERT-UA#4874)",
+  "entities": [
+    {
+      "id": "405538:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S4",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "405538:1",
+      "name": "gov.ua",
+      "kind": "top-level domain",
+      "gloss": "The official government second-level domain of Ukraine.",
+      "scheme": "S2",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "405538:2",
+      "name": "UAC-0113",
+      "kind": "threat actor",
+      "gloss": "A threat group tracked by CERT-UA targeting Ukrainian organizations and telecommunication providers.",
+      "scheme": "S6",
+      "category": "HackerGroup",
+      "role": "related"
+    },
+    {
+      "id": "405538:3",
+      "name": "DarkCrystal RAT",
+      "kind": "malware family",
+      "gloss": "A commercial .NET-based remote access trojan also known as DCRat.",
+      "scheme": "S5",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "405538:4",
+      "name": "Алгоритм дій членів сім’ї безвісти відсутнього військовослужбовця LegalAid.rar",
+      "kind": "archive file",
+      "gloss": "A password-protected RAR archive containing a malicious Excel spreadsheet.",
+      "scheme": "S5",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "405538:5",
+      "name": "Алгоритм_LegalAid.xlsm",
+      "kind": "document file",
+      "gloss": "A malicious macro-enabled Excel document used to download and execute secondary malware payloads.",
+      "scheme": "S5",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "405538:6",
+      "name": "MSCommondll.exe",
+      "kind": "malware loader",
+      "gloss": "A .NET loader executable that downloads and executes DarkCrystal RAT.",
+      "scheme": "S5",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "405538:7",
+      "name": "MSCommonDriver.exe",
+      "kind": "malware loader",
+      "gloss": "A malicious executable payload associated with the UAC-0113 campaign.",
+      "scheme": "S5",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "405538:8",
+      "name": "MSCommonDriver.DCRat.exe",
+      "kind": "malware file",
+      "gloss": "An executable payload delivering the DarkCrystal RAT malware.",
+      "scheme": "S7",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "405538:9",
+      "name": "new.bat",
+      "kind": "script file",
+      "gloss": "A batch script dropped or executed during the infection process.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "405538:10",
+      "name": "plexbd[.]net",
+      "kind": "internet domain",
+      "gloss": "A network domain used to host malicious executable payloads.",
+      "scheme": "S2",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "405538:11",
+      "name": "datagroup.ddns[.]net",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS domain used as command and control infrastructure for DarkCrystal RAT.",
+      "scheme": "S2",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "405538:12",
+      "name": "103[.]27.202.127",
+      "kind": "ip address",
+      "gloss": "An IP address identified in email headers or attack infrastructure.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "405538:13",
+      "name": "203[.]96.191.70",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "405538:14",
+      "name": "31[.]7.58.82",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious activity in the incident.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "405538:15",
+      "name": "CERT-UA#4797",
+      "kind": "security advisory",
+      "gloss": "A previous cybersecurity alert issued by CERT-UA describing an attack on Ukrainian media organizations.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0113",
+      "type": "tracks-activity-using",
+      "tail": "DarkCrystal RAT",
+      "evidence": "Активність відстежується за ідентифікатором UAC-0113."
+    },
+    {
+      "head": "Алгоритм дій членів сім’ї безвісти відсутнього військовослужбовця LegalAid.rar",
+      "type": "contains-file",
+      "tail": "Алгоритм_LegalAid.xlsm",
+      "evidence": "RAR-архів містить документ \"Алгоритм_LegalAid.xlsm\""
+    },
+    {
+      "head": "Алгоритм_LegalAid.xlsm",
+      "type": "downloads-and-executes",
+      "tail": "MSCommondll.exe",
+      "evidence": "забезпечить завантаження та запуск .NET-завантажувача \"MSCommondll.exe\""
+    },
+    {
+      "head": "MSCommondll.exe",
+      "type": "downloads-and-executes",
+      "tail": "DarkCrystal RAT",
+      "evidence": "здійснить завантаження та запуск шкідливої програми DarkCrystal RAT."
+    },
+    {
+      "head": "datagroup.ddns[.]net",
+      "type": "acts-as-c2-for",
+      "tail": "DarkCrystal RAT",
+      "evidence": "домену управління DarkCrystal RAT"
+    },
+    {
+      "head": "plexbd[.]net",
+      "type": "hosts-file",
+      "tail": "MSCommondll.exe",
+      "evidence": "hXXp://plexbd[.]net/MSCommondll.exe"
+    },
+    {
+      "head": "plexbd[.]net",
+      "type": "hosts-file",
+      "tail": "MSCommonDriver.exe",
+      "evidence": "hXXp://plexbd[.]net/MSCommonDriver.exe"
+    }
+  ],
+  "unclassified": [
+    "405538:9",
+    "405538:15"
+  ]
+}

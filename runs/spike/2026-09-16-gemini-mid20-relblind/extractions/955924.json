@@ -1,0 +1,149 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0041",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA known for conducting mass phishing campaigns distributing stealers."
+    },
+    {
+      "name": "RelicRace",
+      "kind": "malware family",
+      "gloss": "A .NET downloader malware designed to download, decode, and execute the RelicSource payload in memory."
+    },
+    {
+      "name": "RelicSource",
+      "kind": "malware family",
+      "gloss": "A .NET installer and dropper malware that decrypts resources and launches secondary payloads."
+    },
+    {
+      "name": "OneDrive",
+      "kind": "cloud service",
+      "gloss": "A cloud-based file storage and synchronization service developed by Microsoft."
+    },
+    {
+      "name": "Telegram",
+      "kind": "messaging service",
+      "gloss": "A cloud-based instant messaging service and application platform."
+    },
+    {
+      "name": "Formbook",
+      "kind": "malware family",
+      "gloss": "An information stealer malware that logs keystrokes, harvests credentials, and exfiltrates sensitive data."
+    },
+    {
+      "name": "Snake Keylogger",
+      "kind": "malware family",
+      "gloss": "An infostealer and keylogger malware designed to record keystrokes and steal sensitive credentials."
+    },
+    {
+      "name": "Остаточний платіж.tgz",
+      "kind": "file name",
+      "gloss": "A compressed TGZ archive distributed as an attachment in malicious phishing emails."
+    },
+    {
+      "name": "Остаточний платіж.tar",
+      "kind": "file name",
+      "gloss": "A tar archive file extracted from the malicious email attachment."
+    },
+    {
+      "name": "Остаточний платіж.exe",
+      "kind": "file name",
+      "gloss": "An executable file delivering the RelicRace malware."
+    },
+    {
+      "name": "Mvbsbaoqmoffjfvhqvkpaia.dll",
+      "kind": "file name",
+      "gloss": "A dynamic link library file associated with the RelicSource malware component."
+    },
+    {
+      "name": "formbook.exe",
+      "kind": "file name",
+      "gloss": "An executable payload file delivering Formbook malware."
+    },
+    {
+      "name": "clientes@taximadridclass.com",
+      "kind": "e-mail address",
+      "gloss": "An email address observed as an indicator of compromise in the phishing campaign."
+    },
+    {
+      "name": "info@kivanclardokum.com.tr",
+      "kind": "e-mail address",
+      "gloss": "An email address observed as an indicator of compromise in the phishing campaign."
+    },
+    {
+      "name": "barbacoalosmartinez.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as network infrastructure in the cyber incident."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0041",
+      "type": "operates",
+      "tail": "RelicRace",
+      "evidence": "Активність має систематичний, масовий та географічно розосереджений характер і відстежується за ідентифікатором UAC-0041."
+    },
+    {
+      "head": "RelicRace",
+      "type": "downloads",
+      "tail": "RelicSource",
+      "evidence": "RelicRace, призначений для завантаження (здебільшого з OneDrive), декодування та запуску в пам'яті шкідливої .NET-програми RelicSource"
+    },
+    {
+      "head": "RelicRace",
+      "type": "downloads-from",
+      "tail": "OneDrive",
+      "evidence": "RelicRace, призначений для завантаження (здебільшого з OneDrive)"
+    },
+    {
+      "head": "RelicSource",
+      "type": "deploys",
+      "tail": "Formbook",
+      "evidence": "Як пейлоад використовуються програми-стілери, а саме: Formbook"
+    },
+    {
+      "head": "RelicSource",
+      "type": "deploys",
+      "tail": "Snake Keylogger",
+      "evidence": "Як пейлоад використовуються програми-стілери, а саме: Formbook та Snake Keylogger"
+    },
+    {
+      "head": "Snake Keylogger",
+      "type": "exfiltrates-to",
+      "tail": "Telegram",
+      "evidence": "Snake Keylogger (ексфільтрація за допомогою API Telegram)"
+    },
+    {
+      "head": "Остаточний платіж.tgz",
+      "type": "contains-file",
+      "tail": "Остаточний платіж.exe",
+      "evidence": "Архів містить EXE-файл, що класифіковано як .NET-даунлоадер RelicRace"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "operates",
+      "definition": "The threat actor or group utilizes, controls, or deploys the specified tool, malware, or infrastructure."
+    },
+    {
+      "name": "downloads",
+      "definition": "The subject malware retrieves the object malware or payload component from a remote source."
+    },
+    {
+      "name": "downloads-from",
+      "definition": "The malware or actor downloads data or payloads from the specified hosting service or server."
+    },
+    {
+      "name": "deploys",
+      "definition": "The subject malware installs, launches, or executes the target payload on a compromised host."
+    },
+    {
+      "name": "exfiltrates-to",
+      "definition": "The malware transmits stolen information or telemetry data to the specified service or platform."
+    },
+    {
+      "name": "contains-file",
+      "definition": "The archive or container file packages or contains the specified internal file."
+    }
+  ]
+}

@@ -1,0 +1,154 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Служба безпеки України",
+      "kind": "government body",
+      "gloss": "The state security and counterintelligence agency of Ukraine."
+    },
+    {
+      "name": "Національний координаційний центр кібербезпеки РНБО України",
+      "kind": "government body",
+      "gloss": "A working body of the National Security and Defense Council of Ukraine coordinating cybersecurity activities."
+    },
+    {
+      "name": "РНБО України",
+      "kind": "government body",
+      "gloss": "The state body coordinating national security and defense policy in Ukraine."
+    },
+    {
+      "name": "Національний банк України",
+      "kind": "government body",
+      "gloss": "The central bank of Ukraine responsible for monetary policy and financial system stability."
+    },
+    {
+      "name": "Держспецзв'язку",
+      "kind": "government body",
+      "gloss": "The Ukrainian state agency responsible for government communications, information protection, and cybersecurity."
+    },
+    {
+      "name": "КМУ",
+      "kind": "government body",
+      "gloss": "The highest body of state executive power in Ukraine."
+    },
+    {
+      "name": "MISP",
+      "kind": "software product",
+      "gloss": "An open-source threat intelligence platform used for sharing and analyzing cyber threat data."
+    },
+    {
+      "name": "OpenPGP",
+      "kind": "cryptographic standard",
+      "gloss": "A standard for encrypting and signing digital communications such as email."
+    },
+    {
+      "name": "UAC-0010",
+      "kind": "threat actor identifier",
+      "gloss": "A threat actor identifier tracked by Ukrainian cyber authorities, also known as Armageddon or Gamaredon."
+    },
+    {
+      "name": "support@dis.gov[.]ua",
+      "kind": "email address",
+      "gloss": "A contact email address operated by the Security Service of Ukraine for threat intelligence sharing."
+    },
+    {
+      "name": "csirt-nbu@bank.gov[.]ua",
+      "kind": "email address",
+      "gloss": "A contact email address operated by the National Bank of Ukraine CSIRT."
+    },
+    {
+      "name": "report@ncscc.gov[.]ua",
+      "kind": "email address",
+      "gloss": "A contact email address operated by the National Cyber Security Coordination Center of Ukraine."
+    },
+    {
+      "name": "cert@cert.gov[.]ua",
+      "kind": "email address",
+      "gloss": "A contact email address operated by the State Service of Special Communications and Information Protection of Ukraine."
+    },
+    {
+      "name": "https://misp.cert.gov.ua/",
+      "kind": "web address",
+      "gloss": "The web portal for the CERT-UA MISP threat intelligence sharing instance."
+    },
+    {
+      "name": "https://cert.gov.ua",
+      "kind": "web address",
+      "gloss": "The official web portal of Ukraine's national Computer Emergency Response Team."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Служба безпеки України",
+      "type": "deploys-software",
+      "tail": "MISP",
+      "evidence": "вузлів MISP, розгорнутих в Службі безпеки України"
+    },
+    {
+      "head": "Національний координаційний центр кібербезпеки РНБО України",
+      "type": "deploys-software",
+      "tail": "MISP",
+      "evidence": "вузлів MISP, розгорнутих в... Національному координаційному центрі кібербезпеки"
+    },
+    {
+      "head": "Національний банк України",
+      "type": "deploys-software",
+      "tail": "MISP",
+      "evidence": "вузлів MISP, розгорнутих в... Національному банку України"
+    },
+    {
+      "head": "Держспецзв'язку",
+      "type": "deploys-software",
+      "tail": "MISP",
+      "evidence": "вузлів MISP, розгорнутих в... Держспецзв'язку"
+    },
+    {
+      "head": "Національний координаційний центр кібербезпеки РНБО України",
+      "type": "is-part-of",
+      "tail": "РНБО України",
+      "evidence": "Національному координаційному центрі кібербезпеки РНБО України"
+    },
+    {
+      "head": "Служба безпеки України",
+      "type": "uses-email-address",
+      "tail": "support@dis.gov[.]ua",
+      "evidence": "СБУ: support@dis.gov[.]ua"
+    },
+    {
+      "head": "Національний банк України",
+      "type": "uses-email-address",
+      "tail": "csirt-nbu@bank.gov[.]ua",
+      "evidence": "НБУ: csirt-nbu@bank.gov[.]ua"
+    },
+    {
+      "head": "Національний координаційний центр кібербезпеки РНБО України",
+      "type": "uses-email-address",
+      "tail": "report@ncscc.gov[.]ua",
+      "evidence": "НКЦК: report@ncscc.gov[.]ua"
+    },
+    {
+      "head": "Держспецзв'язку",
+      "type": "uses-email-address",
+      "tail": "cert@cert.gov[.]ua",
+      "evidence": "Держспецзв'язку: cert@cert.gov[.]ua"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "deploys-software",
+      "definition": "An organization installs, hosts, or operates a specific software product or system."
+    },
+    {
+      "name": "is-part-of",
+      "definition": "An organization or organizational unit is a component or subdivision of another body."
+    },
+    {
+      "name": "uses-email-address",
+      "definition": "An entity uses an email address for communication or point of contact."
+    }
+  ]
+}

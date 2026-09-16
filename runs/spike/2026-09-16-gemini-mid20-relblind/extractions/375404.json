@@ -1,0 +1,128 @@
+{
+  "entities": [
+    {
+      "name": "Вниманию.doc",
+      "kind": "malicious document",
+      "gloss": "A malicious document weaponized to exploit MS Office Word vulnerabilities and drop malware."
+    },
+    {
+      "name": "17.06.2022_Протокол_МРГ_Подгруппа_ИБ.doc",
+      "kind": "malicious document",
+      "gloss": "A malicious RTF document used as a decoy and lure to deploy malware."
+    },
+    {
+      "name": "замечания таблица 20.06.2022.doc",
+      "kind": "malicious document",
+      "gloss": "A malicious document used to exploit Microsoft Word vulnerabilities."
+    },
+    {
+      "name": "О_формировании_проекта_ПНС_2022_файл_отображен.doc",
+      "kind": "malicious document",
+      "gloss": "A weaponized decoy document designed to execute malicious payloads."
+    },
+    {
+      "name": "dcnx18pwh.wmf",
+      "kind": "malicious file",
+      "gloss": "An obfuscated payload file dropped during the exploitation of RTF documents."
+    },
+    {
+      "name": "dcnx18pwh.exe",
+      "kind": "malicious file",
+      "gloss": "An executable payload corresponding to QuickMute or Bisonal malware."
+    },
+    {
+      "name": "MS Office Word",
+      "kind": "software product",
+      "gloss": "A widely used word processing application developed by Microsoft."
+    },
+    {
+      "name": "RoyalRoad",
+      "kind": "malware tool",
+      "gloss": "A weaponizer builder used to create malicious RTF documents exploiting Microsoft Office vulnerabilities."
+    },
+    {
+      "name": "Bisonal",
+      "kind": "malware family",
+      "gloss": "A remote access trojan associated with Chinese threat actors."
+    },
+    {
+      "name": "QuickMute",
+      "kind": "malware family",
+      "gloss": "A C/C++ loader malware designed to download, decrypt, and execute payloads in memory."
+    },
+    {
+      "name": "TontoTeam (UAC-0018)",
+      "kind": "threat actor",
+      "gloss": "A Chinese state-sponsored advanced persistent threat group targeting various sectors."
+    },
+    {
+      "name": "Китай",
+      "kind": "country",
+      "gloss": "A country in East Asia officially known as the People's Republic of China."
+    },
+    {
+      "name": "російської федерації",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "upportteam.lingrevelat.com",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used for command and control communication."
+    },
+    {
+      "name": "lingrevelat.com",
+      "kind": "internet domain",
+      "gloss": "A domain associated with the command and control infrastructure."
+    },
+    {
+      "name": "137.220.176.165",
+      "kind": "ip address",
+      "gloss": "An IP address used in the threat actor's network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "TontoTeam (UAC-0018)",
+      "type": "uses-tool",
+      "tail": "Bisonal",
+      "evidence": "Bisonal, як приклад, є інструментом групи TontoTeam (UAC-0018)"
+    },
+    {
+      "head": "RoyalRoad",
+      "type": "exploits-vulnerability-in",
+      "tail": "MS Office Word",
+      "evidence": "експлуатацію однієї або декількох відомих вразливостей в MS Office Word (вірогідно, документи створено за допомогою білдера RoyalRoad)"
+    },
+    {
+      "head": "QuickMute",
+      "type": "communicates-with-domain",
+      "tail": "upportteam.lingrevelat.com",
+      "evidence": "hXXps://upportteam.lingrevelat[.]com/update/v32/default"
+    },
+    {
+      "head": "TontoTeam (UAC-0018)",
+      "type": "targets-country",
+      "tail": "російської федерації",
+      "evidence": "активізували діяльність у відношенні російської федерації"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-tool",
+      "definition": "The threat actor utilizes the specified tool, malware, or utility in operations."
+    },
+    {
+      "name": "exploits-vulnerability-in",
+      "definition": "The malware or builder generates exploits targeting vulnerabilities in the specified software product."
+    },
+    {
+      "name": "communicates-with-domain",
+      "definition": "The malware contacts or establishes network communication with the specified domain name."
+    },
+    {
+      "name": "targets-country",
+      "definition": "The threat actor directs cyber operations against entities located in the specified country."
+    }
+  ]
+}

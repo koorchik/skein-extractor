@@ -1,0 +1,106 @@
+{
+  "docId": 619229,
+  "date": "06.07.2022",
+  "title": "Кібератака UAC-0056 на державні організації України з використанням Cobalt Strike Beacon (CERT-UA#4914)",
+  "entities": [
+    {
+      "id": "619229:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S4",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "619229:1",
+      "name": "Спеціалізована прокуратура у військовій та оборонній сфері",
+      "kind": "government body",
+      "gloss": "A specialized Ukrainian military and defense prosecution agency.",
+      "scheme": "S10",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "619229:2",
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage threat actor targeting Ukrainian organizations and government entities.",
+      "scheme": "S6",
+      "category": "HackerGroup",
+      "role": "related"
+    },
+    {
+      "id": "619229:3",
+      "name": "Інформація щодо наявності вакансій та їх укомплектування.xls",
+      "kind": "file",
+      "gloss": "A malicious Microsoft Excel document with macros used as an initial infection vector.",
+      "scheme": "S5",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "619229:4",
+      "name": "write.exe",
+      "kind": "malware",
+      "gloss": "A malicious executable file functioning as a dropper for secondary payloads.",
+      "scheme": "S5",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "619229:5",
+      "name": "%PROGRAMDATA%\\TRYxaEbX",
+      "kind": "file",
+      "gloss": "An encrypted payload dropped to disk and decrypted using RC4.",
+      "scheme": "S5",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "619229:6",
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware family",
+      "gloss": "A commercial penetration testing payload widely abused by threat actors for remote control.",
+      "scheme": "S5",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "619229:7",
+      "name": "skreatortemp[.]site",
+      "kind": "domain",
+      "gloss": "A network domain used for command and control or payload distribution.",
+      "scheme": "S2",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "associated-with",
+      "tail": "write.exe",
+      "evidence": "активність асоціюємо з діяльністю групи UAC-0056"
+    },
+    {
+      "head": "Інформація щодо наявності вакансій та їх укомплектування.xls",
+      "type": "downloads-and-executes",
+      "tail": "write.exe",
+      "evidence": "активація якого призведе до створення на комп'ютері та запуску файлу \"write.exe\""
+    },
+    {
+      "head": "write.exe",
+      "type": "drops",
+      "tail": "%PROGRAMDATA%\\TRYxaEbX",
+      "evidence": "забезпечуючи створення на диску файлу \"%PROGRAMDATA%\\TRYxaEbX\""
+    },
+    {
+      "head": "write.exe",
+      "type": "executes",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "забезпечить виконання шкідливої програми Cobalt Strike Beacon"
+    }
+  ],
+  "unclassified": []
+}

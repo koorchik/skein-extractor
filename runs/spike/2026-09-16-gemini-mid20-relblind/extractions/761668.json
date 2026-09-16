@@ -1,0 +1,118 @@
+{
+  "entities": [
+    {
+      "name": "Facebook",
+      "kind": "social network",
+      "gloss": "A major global online social media and networking service."
+    },
+    {
+      "name": "Єдиний Компенсаційний Центр Повернення Невиплачених Грошових Коштів",
+      "kind": "fraudulent campaign",
+      "gloss": "A fraudulent scheme and theme pretending to provide financial compensation to deceive victims."
+    },
+    {
+      "name": "UAC-0100",
+      "kind": "threat actor",
+      "gloss": "A threat group tracked by CERT-UA associated with financial phishing and fraud campaigns."
+    },
+    {
+      "name": "kohhd[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain name used in financial phishing infrastructure."
+    },
+    {
+      "name": "rivierafamily[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain name used in financial phishing infrastructure."
+    },
+    {
+      "name": "compensationukr[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain name used in financial phishing infrastructure."
+    },
+    {
+      "name": "compensations-ukrain[.]bar",
+      "kind": "internet domain",
+      "gloss": "A domain name used in financial phishing infrastructure."
+    },
+    {
+      "name": "compensation-ukr[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain name used in financial phishing infrastructure."
+    },
+    {
+      "name": "europadonnaireland[.]org",
+      "kind": "internet domain",
+      "gloss": "A domain name used in financial phishing infrastructure."
+    },
+    {
+      "name": "foundpomoshi[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain name used in financial phishing infrastructure."
+    },
+    {
+      "name": "peer-gos[.]top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in financial phishing infrastructure."
+    },
+    {
+      "name": "helpzzfound[.]site",
+      "kind": "internet domain",
+      "gloss": "A domain name used in financial phishing infrastructure."
+    },
+    {
+      "name": "uacompensation[.]xyz",
+      "kind": "internet domain",
+      "gloss": "A domain name used in financial phishing infrastructure."
+    },
+    {
+      "name": "pay.uacompensation[.]xyz",
+      "kind": "internet domain",
+      "gloss": "A fully qualified domain name used in financial phishing infrastructure."
+    },
+    {
+      "name": "Національний банк України",
+      "kind": "central bank",
+      "gloss": "The central bank of Ukraine responsible for monetary policy and financial system regulation."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0100",
+      "type": "conducts",
+      "tail": "Єдиний Компенсаційний Центр Повернення Невиплачених Грошових Коштів",
+      "evidence": "шахрайська активність має систематичний характер та відстежується за ідентифікатором UAC-0100."
+    },
+    {
+      "head": "Єдиний Компенсаційний Центр Повернення Невиплачених Грошових Коштів",
+      "type": "spreads-via",
+      "tail": "Facebook",
+      "evidence": "у соціальній мережі Facebook виявлено низку шахрайських сторінок, що містять посилання"
+    },
+    {
+      "head": "Національний банк України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Національного банку України"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "conducts",
+      "definition": "The threat actor or group carries out or is identified with the specified campaign or activity."
+    },
+    {
+      "name": "spreads-via",
+      "definition": "The campaign or threat activity is distributed or advertised across the specified platform."
+    },
+    {
+      "name": "located-in",
+      "definition": "The organization or entity is based in or associated with the specified country."
+    }
+  ]
+}

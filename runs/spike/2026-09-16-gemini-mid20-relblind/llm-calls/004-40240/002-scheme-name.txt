@@ -1,0 +1,46 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You maintain a small, growing set of CONCEPT SCHEMES (entity categories) for a knowledge registry built from cybersecurity incident reports. A group of entities extracted from several reports has just been found to be close to each other and far from every existing scheme. Decide whether the group is a genuinely new scheme or an alias of an existing one, and name it.
+
+### EXISTING SCHEMES ###
+- Email Address: An electronic mail address used for communication, contact, or observed in cyber threat activity.
+
+### THE GROUP ###
+Each line is one entity with the description written at extraction time:
+- eo2mxtqmeqzafqi.m.pipedream[.]net [internet domain] — A Pipedream subdomain used by attackers to collect exfiltrated authentication credentials.
+- wasabiwallet.online [internet domain] — A domain used for malicious network traffic and proxying.
+- marmaris.com.ua [internet domain] — A compromised Ukrainian domain used to host malicious files.
+- autodoka.com.ua [internet domain] — A compromised Ukrainian domain used to host malicious files.
+- igshop.net [internet domain] — A compromised domain used to host malicious files.
+- dcshost.net [internet domain] — A compromised domain used to host malicious payloads.
+- icanhazip.com [domain name] — A legitimate public IP lookup service abused by malware to discover external IP addresses.
+- sendmail.website [domain name] — A malicious domain name used for sending phishing emails.
+- a0667987.xsph.ru [domain name] — A domain name used to host malicious XML and icon payloads.
+- qiwardos.ru [domain name] — A command-and-control domain used to deliver GammaLoad malware.
+- milotraf.ru [domain name] — A domain identified as part of the threat actor's network infrastructure.
+- a0671524.xsph.ru [domain name] — A domain name used as malicious infrastructure to host payloads.
+- nitikora.ru [domain name] — A domain associated with malicious network infrastructure.
+- nikotod.ru [domain name] — A domain identified as malicious network infrastructure.
+
+### RULES ###
+- A scheme is a KIND of entity (e.g. "Hacker group", "Malware family", "Software product", "Government body", "Internet domain", "Country"), never a role in an incident and never a single entity.
+- Return `"verdict": "alias-of"` with `"target"` set to an existing scheme's label when the group is the same kind as that scheme (different wording, same meaning). Judge by MEANING of the descriptions, not by surface words.
+- Return `"verdict": "new"` when no existing scheme covers the group. Then give:
+  - `prefLabel`: a short English noun phrase, 1–3 words, singular, Title Case (e.g. "Malware Family").
+  - `definition`: one sentence, at most 25 words, stating what belongs to the scheme, general enough to hold across reports.
+  - `altLabels`: 0–3 alternative English labels.
+- If the group mixes clearly different kinds, name the kind of the MAJORITY and list the minority entity names in `outliers`.
+- If uncertain between alias and new, prefer `new`: an extra scheme can be merged later; a wrong merge cannot be undone cheaply.
+
+### OUTPUT ###
+A single raw JSON object, no markdown fences, no commentary:
+{ "verdict": "new" | "alias-of", "target": "<existing label or null>", "prefLabel": "...", "definition": "...", "altLabels": [...], "outliers": [...] }
+
+--- text ---
+Decide and name the group now.
+
+=== RESPONSE (6.4s, in 820 / out 61 tok, STOP) ===
+{"verdict": "new", "target": null, "prefLabel": "Domain Name", "definition": "An internet domain name or subdomain used for network communication, hosting services, or cyber threat infrastructure.", "altLabels": ["Internet Domain", "FQDN"], "outliers": []}

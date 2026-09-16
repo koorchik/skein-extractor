@@ -74,6 +74,8 @@ const CONFIG = {
   kindFirst: num(process.env.SPIKE_KIND_FIRST, 0),
   /** In-context arm (E5): render the current scheme list into the extraction prompt (extract-open-icl-v1). */
   icl: process.env.SPIKE_ICL === '1',
+  /** Relation-blind arm (E7): no relation inventory in the prompt; free verb phrases, canonicalized post hoc (extract-open-relblind-v1). */
+  relBlind: process.env.SPIKE_REL_BLIND === '1',
   out: arg('out') || process.env.SPIKE_OUT || '',
   cacheDir: process.env.EMBEDDINGS_CACHE || 'runs/embeddings-cache',
 };
@@ -488,7 +490,9 @@ async function main() {
         relationTypes.length === 0
           ? '(none yet — introduce what the text needs)'
           : relationTypes.map((t) => `- ${t.name}: ${t.definition}`).join('\n');
-      const instructions = CONFIG.icl
+      const instructions = CONFIG.relBlind
+        ? prompts.render('extract-open-relblind-v1', {})
+        : CONFIG.icl
         ? prompts.render('extract-open-icl-v1', {
             knownRelationTypes: known,
             knownSchemes:
@@ -647,7 +651,7 @@ async function main() {
   const summary = {
     runId,
     config: CONFIG,
-    prompts: prompts.hashesFor([CONFIG.icl ? 'extract-open-icl-v1' : 'extract-open-v1', 'scheme-name-v1']),
+    prompts: prompts.hashesFor([CONFIG.relBlind ? 'extract-open-relblind-v1' : CONFIG.icl ? 'extract-open-icl-v1' : 'extract-open-v1', 'scheme-name-v1']),
     embeddings: { config: embedBackend.config, dimensions: embeddings.dimensions, cache: embeddings.cacheStats },
     documents: docs.length,
     mentions: mentions.length,

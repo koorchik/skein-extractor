@@ -1,0 +1,150 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "gov.ua",
+      "kind": "top-level domain",
+      "gloss": "The official government second-level domain of Ukraine."
+    },
+    {
+      "name": "UAC-0113",
+      "kind": "threat actor",
+      "gloss": "A threat group tracked by CERT-UA targeting Ukrainian organizations and telecommunication providers."
+    },
+    {
+      "name": "DarkCrystal RAT",
+      "kind": "malware family",
+      "gloss": "A commercial .NET-based remote access trojan also known as DCRat."
+    },
+    {
+      "name": "Алгоритм дій членів сім’ї безвісти відсутнього військовослужбовця LegalAid.rar",
+      "kind": "archive file",
+      "gloss": "A password-protected RAR archive containing a malicious Excel spreadsheet."
+    },
+    {
+      "name": "Алгоритм_LegalAid.xlsm",
+      "kind": "document file",
+      "gloss": "A malicious macro-enabled Excel document used to download and execute secondary malware payloads."
+    },
+    {
+      "name": "MSCommondll.exe",
+      "kind": "malware loader",
+      "gloss": "A .NET loader executable that downloads and executes DarkCrystal RAT."
+    },
+    {
+      "name": "MSCommonDriver.exe",
+      "kind": "malware loader",
+      "gloss": "A malicious executable payload associated with the UAC-0113 campaign."
+    },
+    {
+      "name": "MSCommonDriver.DCRat.exe",
+      "kind": "malware file",
+      "gloss": "An executable payload delivering the DarkCrystal RAT malware."
+    },
+    {
+      "name": "new.bat",
+      "kind": "script file",
+      "gloss": "A batch script dropped or executed during the infection process."
+    },
+    {
+      "name": "plexbd[.]net",
+      "kind": "internet domain",
+      "gloss": "A network domain used to host malicious executable payloads."
+    },
+    {
+      "name": "datagroup.ddns[.]net",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS domain used as command and control infrastructure for DarkCrystal RAT."
+    },
+    {
+      "name": "103[.]27.202.127",
+      "kind": "ip address",
+      "gloss": "An IP address identified in email headers or attack infrastructure."
+    },
+    {
+      "name": "203[.]96.191.70",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "31[.]7.58.82",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious activity in the incident."
+    },
+    {
+      "name": "CERT-UA#4797",
+      "kind": "security advisory",
+      "gloss": "A previous cybersecurity alert issued by CERT-UA describing an attack on Ukrainian media organizations."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0113",
+      "type": "tracks-activity-of",
+      "tail": "DarkCrystal RAT",
+      "evidence": "Активність відстежується за ідентифікатором UAC-0113."
+    },
+    {
+      "head": "Алгоритм дій членів сім’ї безвісти відсутнього військовослужбовця LegalAid.rar",
+      "type": "contains-file",
+      "tail": "Алгоритм_LegalAid.xlsm",
+      "evidence": "RAR-архів містить документ \"Алгоритм_LegalAid.xlsm\""
+    },
+    {
+      "head": "Алгоритм_LegalAid.xlsm",
+      "type": "downloads-and-executes",
+      "tail": "MSCommondll.exe",
+      "evidence": "забезпечить завантаження та запуск .NET-завантажувача \"MSCommondll.exe\""
+    },
+    {
+      "head": "MSCommondll.exe",
+      "type": "downloads-and-executes",
+      "tail": "DarkCrystal RAT",
+      "evidence": "здійснить завантаження та запуск шкідливої програми DarkCrystal RAT."
+    },
+    {
+      "head": "datagroup.ddns[.]net",
+      "type": "acts-as-c2-for",
+      "tail": "DarkCrystal RAT",
+      "evidence": "домену управління DarkCrystal RAT"
+    },
+    {
+      "head": "plexbd[.]net",
+      "type": "hosts-payload",
+      "tail": "MSCommondll.exe",
+      "evidence": "hXXp://plexbd[.]net/MSCommondll.exe"
+    },
+    {
+      "head": "plexbd[.]net",
+      "type": "hosts-payload",
+      "tail": "MSCommonDriver.exe",
+      "evidence": "hXXp://plexbd[.]net/MSCommonDriver.exe"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "tracks-activity-of",
+      "definition": "Identifies the threat cluster or actor identifier associated with the malicious activity or software."
+    },
+    {
+      "name": "contains-file",
+      "definition": "Specifies that an archive or container file holds an internal file."
+    },
+    {
+      "name": "downloads-and-executes",
+      "definition": "Specifies that a file or payload fetches another file over the network and launches it."
+    },
+    {
+      "name": "acts-as-c2-for",
+      "definition": "Specifies that a domain or IP address serves as command-and-control infrastructure for a malware family."
+    },
+    {
+      "name": "hosts-payload",
+      "definition": "Specifies that a domain or network host serves a malicious file for download."
+    }
+  ]
+}

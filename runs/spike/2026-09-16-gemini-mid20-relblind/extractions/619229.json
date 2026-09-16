@@ -1,0 +1,88 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Спеціалізована прокуратура у військовій та оборонній сфері",
+      "kind": "government body",
+      "gloss": "A specialized Ukrainian military and defense prosecution agency."
+    },
+    {
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage threat actor targeting Ukrainian organizations and government entities."
+    },
+    {
+      "name": "Інформація щодо наявності вакансій та їх укомплектування.xls",
+      "kind": "file",
+      "gloss": "A malicious Microsoft Excel document with macros used as an initial infection vector."
+    },
+    {
+      "name": "write.exe",
+      "kind": "malware",
+      "gloss": "A malicious executable file functioning as a dropper for secondary payloads."
+    },
+    {
+      "name": "%PROGRAMDATA%\\TRYxaEbX",
+      "kind": "file",
+      "gloss": "An encrypted payload dropped to disk and decrypted using RC4."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware family",
+      "gloss": "A commercial penetration testing payload widely abused by threat actors for remote control."
+    },
+    {
+      "name": "skreatortemp[.]site",
+      "kind": "domain",
+      "gloss": "A network domain used for command and control or payload distribution."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "attributed-to",
+      "tail": "write.exe",
+      "evidence": "активність асоціюємо з діяльністю групи UAC-0056"
+    },
+    {
+      "head": "Інформація щодо наявності вакансій та їх укомплектування.xls",
+      "type": "drops-and-executes",
+      "tail": "write.exe",
+      "evidence": "активація якого призведе до створення на комп'ютері та запуску файлу \"write.exe\""
+    },
+    {
+      "head": "write.exe",
+      "type": "drops",
+      "tail": "%PROGRAMDATA%\\TRYxaEbX",
+      "evidence": "забезпечуючи створення на диску файлу \"%PROGRAMDATA%\\TRYxaEbX\""
+    },
+    {
+      "head": "write.exe",
+      "type": "executes",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "забезпечить виконання шкідливої програми Cobalt Strike Beacon"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "attributed-to",
+      "definition": "Identifies the threat actor or group responsible for a cyber activity, file, or campaign."
+    },
+    {
+      "name": "drops-and-executes",
+      "definition": "Extracts, creates, and subsequently launches a secondary file or payload on the victim system."
+    },
+    {
+      "name": "drops",
+      "definition": "Writes or deposits a secondary payload or file onto the host storage."
+    },
+    {
+      "name": "executes",
+      "definition": "Launches or invokes another process, script, or malware component."
+    }
+  ]
+}

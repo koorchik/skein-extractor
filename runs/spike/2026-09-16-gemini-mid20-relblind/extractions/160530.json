@@ -1,0 +1,140 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "СПИСОК_посилань_на_інтерактивні_карти.docx",
+      "kind": "malicious file",
+      "gloss": "A malicious Word document weaponized to exploit CVE-2022-30190."
+    },
+    {
+      "name": "update.html",
+      "kind": "malicious file",
+      "gloss": "A malicious HTML file containing JavaScript code used to download subsequent payloads."
+    },
+    {
+      "name": "2.txt",
+      "kind": "malicious file",
+      "gloss": "An executable payload disguised as a text file containing the CrescentImp malware."
+    },
+    {
+      "name": "CrescentImp",
+      "kind": "malware family",
+      "gloss": "A malicious program used to compromise target systems."
+    },
+    {
+      "name": "CVE-2022-30190",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in the Microsoft Support Diagnostic Tool (MSDT), also known as Follina."
+    },
+    {
+      "name": "UAC-0113",
+      "kind": "threat actor",
+      "gloss": "A cyber threat activity cluster tracked by CERT-UA, associated with Sandworm."
+    },
+    {
+      "name": "Sandworm",
+      "kind": "hacking group",
+      "gloss": "A Russian state-sponsored cyber espionage and sabotage group."
+    },
+    {
+      "name": "СПИСОК посилань на інтерактивні карти.xlsm",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet used in cyberattacks."
+    },
+    {
+      "name": "MSDriverLoader.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file used as a loader."
+    },
+    {
+      "name": "MSDriverMonitor.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file used in cyber operations."
+    },
+    {
+      "name": "dcrat.exe",
+      "kind": "malicious file",
+      "gloss": "An executable implementation of the DarkCrystal RAT malware."
+    },
+    {
+      "name": "DarkCrystal RAT",
+      "kind": "malware family",
+      "gloss": "A commercial remote access trojan used for espionage and remote control."
+    },
+    {
+      "name": "185.80.92.143",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious payloads and stages."
+    },
+    {
+      "name": "87.236.161.43",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious network infrastructure."
+    },
+    {
+      "name": "72.167.223.219",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malware files."
+    },
+    {
+      "name": "203.96.191.70",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malware files."
+    },
+    {
+      "name": "star-cz.ddns.net",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS domain used in malicious network operations."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0113",
+      "type": "associated-with-group",
+      "tail": "Sandworm",
+      "evidence": "асоційовано з групою Sandworm"
+    },
+    {
+      "head": "СПИСОК_посилань_на_інтерактивні_карти.docx",
+      "type": "downloads",
+      "tail": "update.html",
+      "evidence": "відкриття якого призведе до завантаження HTML-файлу"
+    },
+    {
+      "head": "update.html",
+      "type": "downloads",
+      "tail": "2.txt",
+      "evidence": "забезпечить завантаження та виконання EXE-файлу \"2.txt\""
+    },
+    {
+      "head": "2.txt",
+      "type": "is-instance-of",
+      "tail": "CrescentImp",
+      "evidence": "EXE-файлу \"2.txt\", що класифіковано як шкідливу програму CrescentImp"
+    },
+    {
+      "head": "dcrat.exe",
+      "type": "is-instance-of",
+      "tail": "DarkCrystal RAT",
+      "evidence": "dcrat.exe (2022-05-04) (DarkCrystal RAT)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "associated-with-group",
+      "definition": "Identifies that an activity cluster or threat actor is linked or attributed to a known hacking group."
+    },
+    {
+      "name": "downloads",
+      "definition": "Indicates that a malicious file or script fetches another file from remote infrastructure."
+    },
+    {
+      "name": "is-instance-of",
+      "definition": "Indicates that a specific file is a compiled binary or artifact belonging to a given malware family."
+    }
+  ]
+}

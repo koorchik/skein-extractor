@@ -1,0 +1,134 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "державні органи України",
+      "kind": "government body",
+      "gloss": "State authorities and government agencies of Ukraine."
+    },
+    {
+      "name": "UAC-0056",
+      "kind": "threat group",
+      "gloss": "A cyberespionage threat actor targeting Ukrainian state and critical infrastructure organizations."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware family",
+      "gloss": "The payload component of the Cobalt Strike adversary simulation framework, frequently used maliciously as a backdoor."
+    },
+    {
+      "name": "Гуманітарна катастрофа України з 24 лютого 2022 року.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet containing VBA macros used to drop and execute malware."
+    },
+    {
+      "name": "baseupd.exe",
+      "kind": "malicious file",
+      "gloss": "An executable dropped and executed by a malicious spreadsheet to deploy Cobalt Strike Beacon."
+    },
+    {
+      "name": "oYUuQbXu",
+      "kind": "malicious file",
+      "gloss": "A malicious payload or stage file associated with UAC-0056 malware deployment."
+    },
+    {
+      "name": "stage1.ps1",
+      "kind": "malicious file",
+      "gloss": "A PowerShell script representing the first stage of payload execution in an attack chain."
+    },
+    {
+      "name": "stage2.ps1",
+      "kind": "malicious file",
+      "gloss": "A PowerShell script representing the second stage of payload execution in an attack chain."
+    },
+    {
+      "name": "shellcode.x86.bin",
+      "kind": "malicious file",
+      "gloss": "A 32-bit shellcode binary payload containing Cobalt Strike Beacon."
+    },
+    {
+      "name": "shellcode.x64.bin",
+      "kind": "malicious file",
+      "gloss": "A 64-bit shellcode binary payload containing Cobalt Strike Beacon."
+    },
+    {
+      "name": "136.144.41.177",
+      "kind": "ip address",
+      "gloss": "An IP address used for command and control or payload hosting."
+    },
+    {
+      "name": "hXXp://136[.]144.41.177/s/Xnk75JwUcIebkrmENtufIiiKEmoqBN/field-keywords/",
+      "kind": "url",
+      "gloss": "A malicious URL hosted on a remote server used for payload retrieval or communication."
+    },
+    {
+      "name": "hXXp://136[.]144.41.177/nzXlLVas-VALvDh9lopkC/avp/amznussraps/",
+      "kind": "url",
+      "gloss": "A malicious URL hosted on a remote server used for payload retrieval or communication."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "associated-with-activity",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "активність асоційовано з діяльністю групи UAC-0056"
+    },
+    {
+      "head": "Гуманітарна катастрофа України з 24 лютого 2022 року.xls",
+      "type": "drops-and-executes",
+      "tail": "baseupd.exe",
+      "evidence": "активація якого призведе до запуску файлу \"baseupd.exe\""
+    },
+    {
+      "head": "baseupd.exe",
+      "type": "deploys-malware",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "виконання якого призведе до ураження комп'ютера шкідливою програмою Cobalt Strike Beacon"
+    },
+    {
+      "head": "shellcode.x86.bin",
+      "type": "contains-payload",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "shellcode.x86.bin (Cobalt Strike Beacon)"
+    },
+    {
+      "head": "shellcode.x64.bin",
+      "type": "contains-payload",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "shellcode.x64.bin (Cobalt Strike Beacon)"
+    },
+    {
+      "head": "державні органи України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "державних органів України"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "associated-with-activity",
+      "definition": "The threat actor is attributed to or associated with the malicious activity involving the specified entity."
+    },
+    {
+      "name": "drops-and-executes",
+      "definition": "The initial file drops and executes the target file upon execution or macro activation."
+    },
+    {
+      "name": "deploys-malware",
+      "definition": "The file or component infects the host with or deploys the target malware family."
+    },
+    {
+      "name": "contains-payload",
+      "definition": "The file contains or delivers the specified malware payload."
+    },
+    {
+      "name": "located-in",
+      "definition": "The entity is geographically or administratively located within the specified country or jurisdiction."
+    }
+  ]
+}

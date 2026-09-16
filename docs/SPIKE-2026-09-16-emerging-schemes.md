@@ -103,3 +103,29 @@ current scheme list rendered in the prompt as KNOWN KINDS, `prompts/extract-open
 12. **Overlay coverage is 70%** because Ukrainian case forms ("України" vs "Україна") do not
     align by plain surface match; E0a needs the transliteration/morphology channels of the
     SKEIN-R blocker.
+
+## Addendum 2 (same day): relation layer
+
+Runs: `runs/spike/2026-09-16-gemini-mid20-relblind` (same 20 documents, `prompts/extract-open-relblind-v1.md`:
+no relation list in the prompt, free verb phrases, post-hoc canonicalization); study script
+`bin/spike-relcanon.ts` (offline, zero LLM calls).
+
+13. **In-context relation inventory over-collapses.** 9 types saturated by document 6, but
+    "uses" (50) spans 7 argument signatures (Threat Actor → Malware 36, → Domain 4, → Software 4,
+    → Social Media 2, → IP 1), "part-of" mixes located-in / subordinate / email-domain membership,
+    "delivers" (41) hides downloads-and-executes, hosts-file, contains-file, creates-file.
+14. **Relation-blind extraction fragments.** 60 raw phrases → 121 triples, 35 types after the
+    0.85 embedding merge, inventory still growing at document 20; fine types are real (pure
+    signatures: hosts-file Domain → Malware 10/10, uses-tool Threat Actor → Malware 8/8,
+    located-in Government Agency → Country 6/6). The two arms share only 77 (doc, head, tail)
+    pairs of 133 / 121.
+15. **Argument signature as a merge guard.** Phrase-only merge at 0.85: 37 types, 3–4 wrong merges
+    (deploys ~ delivers-payload, targets-country ~ targets-entities-in). Exact signature equality:
+    45 types, no wrong merges but correct ones blocked (this run's schemes split Malware Family
+    from Malicious File). Soft signature (centroid cosine of argument schemes, family ~ file
+    0.93, penalty 0.3): 42 types, no wrong merges, correct merges kept. 25 of 42 types carry
+    ≤ 2 triples: no rule yields a compact inventory without a naming/rollup step.
+16. **Design conclusion.** Relations should get the scheme mechanism: pool, ≥ m-document gate,
+    one naming call with verdicts new / alias-of / narrower-than, fine types as sub-properties of
+    coarse ones; soft argument signature in the merge test. Per-layer convergence (RQ1) now has
+    numbers: kinds saturate (47 phrases → 10 schemes), relations keep growing (60 → 35–42).
