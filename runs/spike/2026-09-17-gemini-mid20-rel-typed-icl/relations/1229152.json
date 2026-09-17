@@ -1,0 +1,66 @@
+{
+  "relations": [
+    {
+      "head": "UAC-0010",
+      "type": "uses-malware",
+      "tail": "GammaLoad.PS1",
+      "evidence": "ініціюють ланцюг доставки GammaLoad.PS1 на комп'ютер жертви",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-malware",
+      "tail": "GammaSteel.PS1",
+      "evidence": "для чого застосовується GammaSteel.PS1 та GammaSteel.NET",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-malware",
+      "tail": "GammaSteel.NET",
+      "evidence": "для чого застосовується GammaSteel.PS1 та GammaSteel.NET",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-malware",
+      "tail": "HarvesterX",
+      "evidence": "раніше використовуваного HarvesterX",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-malware",
+      "tail": "powershell.exe",
+      "evidence": "Активно використовується PowerShell (powershell.exe)",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-malware",
+      "tail": "wscript.exe",
+      "evidence": "а також wscript.exe, mshta.exe",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-malware",
+      "tail": "mshta.exe",
+      "evidence": "а також wscript.exe, mshta.exe",
+      "fit": "exact"
+    },
+    {
+      "head": "GammaSteel.PS1",
+      "type": "is-reimplementation-of",
+      "tail": "HarvesterX",
+      "evidence": "GammaSteel.PS1 є PowerShell-реалізацією раніше використовуваного HarvesterX",
+      "fit": "new"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "is-reimplementation-of",
+      "definition": "The head malware family is a rewritten or newly implemented version in another language of the tail malware family."
+    }
+  ]
+}

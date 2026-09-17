@@ -1,0 +1,183 @@
+[
+  {
+    "id": "R1",
+    "cell": "S5→S5",
+    "prefLabel": "contains",
+    "definition": "Specifies that the source file or container encapsulates or holds the target file or payload.",
+    "altLabels": [
+      "embeds",
+      "encapsulates",
+      "bundles"
+    ],
+    "broader": null,
+    "born": 405538,
+    "members": [
+      "40240:r2",
+      "405538:r1",
+      "40102:r1",
+      "40102:r2",
+      "955924:r6"
+    ],
+    "history": [
+      {
+        "doc": 405538,
+        "op": "mint",
+        "detail": "4 statements from 3 documents"
+      }
+    ],
+    "cellLabel": "Malware Family → Malware Family"
+  },
+  {
+    "id": "R2",
+    "cell": "S5→S5",
+    "prefLabel": "downloads",
+    "definition": "Specifies that the source entity retrieves the target file or payload from an external location.",
+    "altLabels": [
+      "downloads-and-executes",
+      "fetches",
+      "retrieves"
+    ],
+    "broader": null,
+    "born": 405538,
+    "members": [
+      "339662:r2",
+      "40240:r3",
+      "405538:r2",
+      "405538:r3",
+      "955924:r1"
+    ],
+    "history": [
+      {
+        "doc": 405538,
+        "op": "mint",
+        "detail": "4 statements from 3 documents"
+      }
+    ],
+    "cellLabel": "Malware Family → Malware Family"
+  },
+  {
+    "id": "R3",
+    "cell": "S2→S5",
+    "prefLabel": "hosts",
+    "definition": "Specifies that the domain or network infrastructure hosts or serves the specified malware for download or distribution.",
+    "altLabels": [
+      "hosts-payload",
+      "serves",
+      "distributes"
+    ],
+    "broader": null,
+    "born": 405538,
+    "members": [
+      "405538:r5",
+      "405538:r6",
+      "40559:r4",
+      "40125:r6",
+      "40125:r7",
+      "40125:r8",
+      "40125:r9"
+    ],
+    "history": [
+      {
+        "doc": 405538,
+        "op": "mint",
+        "detail": "7 statements from 3 documents"
+      }
+    ],
+    "cellLabel": "Domain Name → Malware Family"
+  },
+  {
+    "id": "R4",
+    "cell": "S6→S5",
+    "prefLabel": "uses",
+    "definition": "Indicates that the threat actor utilizes, deploys, or operates the specified malware or tool.",
+    "altLabels": [
+      "employs",
+      "operates",
+      "deploys"
+    ],
+    "broader": null,
+    "born": 703548,
+    "members": [
+      "619229:r0",
+      "341128:r0",
+      "703548:r0",
+      "40102:r0",
+      "375404:r0",
+      "955924:r0",
+      "1229152:r1",
+      "1229152:r2",
+      "1229152:r3",
+      "1229152:r5",
+      "1229152:r6",
+      "1229152:r7"
+    ],
+    "history": [
+      {
+        "doc": 703548,
+        "op": "mint",
+        "detail": "3 statements from 3 documents"
+      },
+      {
+        "doc": 955924,
+        "op": "absorb",
+        "detail": "3 pooled statements as \"uses\""
+      }
+    ],
+    "cellLabel": "Threat Actor → Malware Family"
+  },
+  {
+    "id": "R5",
+    "cell": "S5→S5",
+    "prefLabel": "deploys",
+    "definition": "Specifies that the source malware installs, unpacks, drops, or executes the target malware or payload.",
+    "altLabels": [
+      "drops",
+      "delivers",
+      "executes"
+    ],
+    "broader": null,
+    "born": 955924,
+    "members": [
+      "955924:r3",
+      "955924:r4",
+      "40559:r3",
+      "861292:r7"
+    ],
+    "history": [
+      {
+        "doc": 955924,
+        "op": "mint",
+        "detail": "4 statements from 3 documents"
+      }
+    ],
+    "cellLabel": "Malware Family → Malware Family"
+  },
+  {
+    "id": "R6",
+    "cell": "S10→S4",
+    "prefLabel": "located-in",
+    "definition": "Identifies the country or geographic territory where the head entity is based, operates, or holds jurisdiction.",
+    "altLabels": [
+      "based-in",
+      "operates-in"
+    ],
+    "broader": null,
+    "born": 987552,
+    "members": [
+      "761668:r2",
+      "971405:r4",
+      "40263:r4",
+      "703548:r5",
+      "1545776:r6",
+      "1545776:r7"
+    ],
+    "history": [
+      {
+        "doc": 987552,
+        "op": "mint",
+        "detail": "4 statements from 4 documents"
+      }
+    ],
+    "cellLabel": "Government Agency → Country"
+  }
+]

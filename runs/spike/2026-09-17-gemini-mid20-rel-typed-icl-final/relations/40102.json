@@ -1,0 +1,53 @@
+{
+  "relations": [
+    {
+      "head": "APT28 (UAC-0028)",
+      "type": "uses-malware",
+      "tail": "CredoMap_v2",
+      "evidence": "Активність асоційовано з діяльністю групи APT28 (UAC-0028).",
+      "fit": "new"
+    },
+    {
+      "head": "UkrScanner.rar",
+      "type": "contains-file",
+      "tail": "UkrScanner.exe",
+      "evidence": "архів містить одноіменний SFX-файл",
+      "fit": "new"
+    },
+    {
+      "head": "UkrScanner.exe",
+      "type": "contains-file",
+      "tail": "CredoMap_v2",
+      "evidence": "який, у свою чергу, містить шкідливу програму CredoMap_v2",
+      "fit": "new"
+    },
+    {
+      "head": "CredoMap_v2",
+      "type": "exfiltrates-data-to",
+      "tail": "Pipedream",
+      "evidence": "викрадені автентифікаційні дані надсилаються на веб-ресурс, розгорнутий на платформі Pipedream",
+      "fit": "new"
+    },
+    {
+      "head": "CredoMap_v2",
+      "type": "exfiltrates-data-to",
+      "tail": "eo2mxtqmeqzafqi.m.pipedream[.]net",
+      "evidence": "викрадені автентифікаційні дані надсилаються на веб-ресурс, розгорнутий на платформі Pipedream",
+      "fit": "new"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-malware",
+      "definition": "The threat actor deploys, operates, or is attributed to using a specific malware family."
+    },
+    {
+      "name": "contains-file",
+      "definition": "An archive or container file encapsulates another specified file or malware component."
+    },
+    {
+      "name": "exfiltrates-data-to",
+      "definition": "The malware transmits stolen or collected data to a target service, domain, or server."
+    }
+  ]
+}

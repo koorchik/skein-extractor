@@ -26,7 +26,7 @@ Fork of `skein-resolver` (SKEIN-R, article 2). The paper text lives in the disse
 |---|---|
 | Design decisions, open problems, next steps | `~/work/kpi/dissert/wiki/notes/concept-scheme-discovery-design.md` (page of record) |
 | Related work to engage with | `~/work/kpi/dissert/wiki/notes/skein-e-reading-map.md` |
-| Spike numbers | `docs/SPIKE-2026-09-16-emerging-schemes.md`, `runs/spike/*/run-card.json` |
+| Spike numbers | `docs/SPIKE-2026-09-16-emerging-schemes.md`, `docs/SPIKE-2026-09-17-relation-cells.md`, `runs/spike/*/run-card.json` |
 | Experiment plan E0–E9 and status | `docs/EXPERIMENT-PLAN.md` |
 | Commands | `docs/RUNBOOK.md` |
 | Paper vocabulary | `docs/TERMINOLOGY-ALIGNMENT.md` |
@@ -65,7 +65,9 @@ disagree on a number, the run card wins.
 
 - Article-3 code: `bin/spike-schemes.ts` (driver; exports `averageLinkage`, `reprText`),
   `bin/spike-repr.ts`, `bin/spike-relcanon.ts`, `bin/scheme-view.ts`, `src/SchemeView/`,
-  `bin/run-readme.ts`, `src/RunReadme/` (per-run `README.md`, generated below its marker). Spike
+  `bin/run-readme.ts`, `src/RunReadme/` (per-run `README.md`, generated below its marker),
+  `bin/spike-relations.ts`, `bin/spike-relcompare.ts`, `src/RelationDiscovery/` (relation layer
+  replayed over a finished scheme run: blind per cell, blind global, typed in-context). Spike
   grade: the promotion target is `src/SchemeDiscovery/` with tests.
 - Shared infrastructure used by the spike: `src/LlmClient/`, `src/EmbeddingsClient/` (with
   `EmbeddingCache`), `src/Experiment/CostMeter.ts`, `src/Normalization/PromptProvider.ts`,
@@ -76,7 +78,7 @@ disagree on a number, the run card wins.
   stream curves), `bin/evaluate.ts`, `bin/stats.ts`, `bin/order-ari.ts`. Do not refactor it for
   taste; change it only when an experiment needs it.
 - TypeScript through ts-node, no build step, Node ≥ 22. `npm run typecheck` and `npm test`
-  (node:test, 754 tests) must pass before any hand-off.
+  (node:test, 758 tests) must pass before any hand-off.
 
 ## Working conventions
 

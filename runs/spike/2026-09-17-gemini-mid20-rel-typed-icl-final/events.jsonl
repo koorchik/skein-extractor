@@ -1,0 +1,180 @@
+{"doc":39962,"op":"mint","cell":"S10→S9","cellLabel":"Government Agency → Software Product","type":"R1","label":"deploys","definition":"An organization deploys, installs, or hosts a specific software product or platform instance.","nearest":null}
+{"doc":39962,"op":"assign","triple":"39962:r0","phrase":"deploys","cell":"S10→S9","type":"R1","why":"icl-new","fit":"new"}
+{"doc":39962,"op":"assign","triple":"39962:r1","phrase":"deploys","cell":"S10→S9","type":"R1","why":"icl-known","fit":"new"}
+{"doc":39962,"op":"assign","triple":"39962:r2","phrase":"deploys","cell":"S10→S9","type":"R1","why":"icl-known","fit":"new"}
+{"doc":39962,"op":"assign","triple":"39962:r3","phrase":"deploys","cell":"S10→S9","type":"R1","why":"icl-known","fit":"new"}
+{"doc":39962,"op":"mint","cell":"S10→S1","cellLabel":"Government Agency → Email Address","type":"R2","label":"uses-email-address","definition":"An organization uses or publishes an email address as its contact or communication point.","nearest":null}
+{"doc":39962,"op":"assign","triple":"39962:r4","phrase":"uses-email-address","cell":"S10→S1","type":"R2","why":"icl-new","fit":"new"}
+{"doc":39962,"op":"assign","triple":"39962:r5","phrase":"uses-email-address","cell":"S10→S1","type":"R2","why":"icl-known","fit":"new"}
+{"doc":39962,"op":"assign","triple":"39962:r6","phrase":"uses-email-address","cell":"S10→S1","type":"R2","why":"icl-known","fit":"new"}
+{"doc":39962,"op":"assign","triple":"39962:r7","phrase":"uses-email-address","cell":"S10→S1","type":"R2","why":"icl-known","fit":"new"}
+{"doc":40102,"op":"mint","cell":"S6→S5","cellLabel":"Threat Actor → Malware Family","type":"R3","label":"uses-malware","definition":"The threat actor deploys, operates, or is attributed to using a specific malware family.","nearest":null}
+{"doc":40102,"op":"assign","triple":"40102:r0","phrase":"uses-malware","cell":"S6→S5","type":"R3","why":"icl-new","fit":"new"}
+{"doc":40102,"op":"mint","cell":"S5→S5","cellLabel":"Malware Family → Malware Family","type":"R4","label":"contains-file","definition":"An archive or container file encapsulates another specified file or malware component.","nearest":null}
+{"doc":40102,"op":"assign","triple":"40102:r1","phrase":"contains-file","cell":"S5→S5","type":"R4","why":"icl-new","fit":"new"}
+{"doc":40102,"op":"assign","triple":"40102:r2","phrase":"contains-file","cell":"S5→S5","type":"R4","why":"icl-known","fit":"new"}
+{"doc":40102,"op":"mint","cell":"S5→(untyped)","cellLabel":"Malware Family → (untyped)","type":"R5","label":"exfiltrates-data-to","definition":"The malware transmits stolen or collected data to a target service, domain, or server.","nearest":null}
+{"doc":40102,"op":"assign","triple":"40102:r3","phrase":"exfiltrates-data-to","cell":"S5→(untyped)","type":"R5","why":"icl-new","fit":"new"}
+{"doc":40102,"op":"cross-cell-name","phrase":"exfiltrates-data-to","cell":"S5→S2","cellLabel":"Malware Family → Domain Name","knownIn":"Malware Family → (untyped)","fit":"new"}
+{"doc":40102,"op":"mint","cell":"S5→S2","cellLabel":"Malware Family → Domain Name","type":"R6","label":"exfiltrates-data-to","definition":"The malware transmits stolen or collected data to a target service, domain, or server.","nearest":null}
+{"doc":40102,"op":"assign","triple":"40102:r4","phrase":"exfiltrates-data-to","cell":"S5→S2","type":"R6","why":"icl-new","fit":"new"}
+{"doc":40125,"op":"assign","triple":"40125:r0","phrase":"uses-malware","cell":"S6→S5","type":"R3","why":"icl-known","fit":"exact"}
+{"doc":40125,"op":"assign","triple":"40125:r1","phrase":"exfiltrates-data-to","cell":"S5→(untyped)","type":"R5","why":"icl-known","fit":"exact"}
+{"doc":40125,"op":"mint","cell":"S2→S7","cellLabel":"Domain Name → Malicious File","type":"R7","label":"hosts-file","definition":"The web resource, server, or domain hosts a malicious or dropper file for download.","nearest":null}
+{"doc":40125,"op":"assign","triple":"40125:r2","phrase":"hosts-file","cell":"S2→S7","type":"R7","why":"icl-new","fit":"new"}
+{"doc":40125,"op":"assign","triple":"40125:r3","phrase":"hosts-file","cell":"S2→S7","type":"R7","why":"icl-known","fit":"new"}
+{"doc":40125,"op":"assign","triple":"40125:r4","phrase":"hosts-file","cell":"S2→S7","type":"R7","why":"icl-known","fit":"new"}
+{"doc":40125,"op":"cross-cell-name","phrase":"hosts-file","cell":"S2→S5","cellLabel":"Domain Name → Malware Family","knownIn":"Domain Name → Malicious File","fit":"new"}
+{"doc":40125,"op":"mint","cell":"S2→S5","cellLabel":"Domain Name → Malware Family","type":"R8","label":"hosts-file","definition":"The web resource, server, or domain hosts a malicious or dropper file for download.","nearest":null}
+{"doc":40125,"op":"assign","triple":"40125:r5","phrase":"hosts-file","cell":"S2→S5","type":"R8","why":"icl-new","fit":"new"}
+{"doc":40125,"op":"assign","triple":"40125:r6","phrase":"hosts-file","cell":"S2→S5","type":"R8","why":"icl-known","fit":"new"}
+{"doc":40125,"op":"assign","triple":"40125:r7","phrase":"hosts-file","cell":"S2→S5","type":"R8","why":"icl-known","fit":"new"}
+{"doc":40125,"op":"assign","triple":"40125:r8","phrase":"hosts-file","cell":"S2→S5","type":"R8","why":"icl-known","fit":"new"}
+{"doc":40240,"op":"assign","triple":"40240:r0","phrase":"uses-malware","cell":"S6→S5","type":"R3","why":"icl-known","fit":"exact"}
+{"doc":40240,"op":"assign","triple":"40240:r1","phrase":"contains-file","cell":"S5→S5","type":"R4","why":"icl-known","fit":"exact"}
+{"doc":40240,"op":"assign","triple":"40240:r2","phrase":"hosts-file","cell":"S2→S5","type":"R8","why":"icl-known","fit":"exact"}
+{"doc":40240,"op":"assign","triple":"40240:r3","phrase":"hosts-file","cell":"S2→S5","type":"R8","why":"icl-known","fit":"exact"}
+{"doc":40240,"op":"assign","triple":"40240:r4","phrase":"hosts-file","cell":"S2→S5","type":"R8","why":"icl-known","fit":"exact"}
+{"doc":40263,"op":"mint","cell":"S11→(untyped)","cellLabel":"URL → (untyped)","type":"R9","label":"hosted-on","definition":"The head entity is hosted on or located within the platform specified by the tail entity.","nearest":null}
+{"doc":40263,"op":"assign","triple":"40263:r0","phrase":"hosted-on","cell":"S11→(untyped)","type":"R9","why":"icl-new","fit":"new"}
+{"doc":40263,"op":"mint","cell":"S11→(untyped)","cellLabel":"URL → (untyped)","type":"R10","label":"impersonates","definition":"The head entity falsely portrays or mimics the legitimate organization or brand specified by the tail entity.","nearest":{"label":"hosted-on","sim":0.7386575961977246}}
+{"doc":40263,"op":"assign","triple":"40263:r1","phrase":"impersonates","cell":"S11→(untyped)","type":"R10","why":"icl-new","fit":"new"}
+{"doc":40263,"op":"mint","cell":"S3→S2","cellLabel":"IP Address → Domain Name","type":"R11","label":"hosted-by","definition":"The head entity's infrastructure is hosted or provided by the service provider specified by the tail entity.","nearest":null}
+{"doc":40263,"op":"assign","triple":"40263:r2","phrase":"hosted-by","cell":"S3→S2","type":"R11","why":"icl-new","fit":"new"}
+{"doc":40263,"op":"mint","cell":"S11→S2","cellLabel":"URL → Domain Name","type":"R12","label":"registered-through","definition":"The head entity is registered using the domain registrar or hosting service specified by the tail entity.","nearest":null}
+{"doc":40263,"op":"assign","triple":"40263:r3","phrase":"registered-through","cell":"S11→S2","type":"R12","why":"icl-new","fit":"new"}
+{"doc":40263,"op":"assign","triple":"40263:r4","phrase":"registered-through","cell":"S11→S2","type":"R12","why":"icl-known","fit":"new"}
+{"doc":40559,"op":"assign","triple":"40559:r0","phrase":"hosts-file","cell":"S2→S5","type":"R8","why":"icl-known","fit":"exact"}
+{"doc":40559,"op":"mint","cell":"S7→S4","cellLabel":"Malicious File → Country","type":"R13","label":"targets","definition":"The malicious file or threat activity is directed against the specified target country, sector, or organization.","nearest":null}
+{"doc":40559,"op":"assign","triple":"40559:r1","phrase":"targets","cell":"S7→S4","type":"R13","why":"icl-new","fit":"new"}
+{"doc":40559,"op":"mint","cell":"S7→S8","cellLabel":"Malicious File → Vulnerability","type":"R14","label":"exploits-vulnerability","definition":"The malicious file or tool leverages the specified vulnerability to execute arbitrary code or compromise a system.","nearest":null}
+{"doc":40559,"op":"assign","triple":"40559:r2","phrase":"exploits-vulnerability","cell":"S7→S8","type":"R14","why":"icl-new","fit":"new"}
+{"doc":40559,"op":"assign","triple":"40559:r3","phrase":"exploits-vulnerability","cell":"S7→S8","type":"R14","why":"icl-known","fit":"new"}
+{"doc":160530,"op":"assign","triple":"160530:r0","phrase":"targets","cell":"S7→S4","type":"R13","why":"icl-known","fit":"exact"}
+{"doc":160530,"op":"assign","triple":"160530:r1","phrase":"exploits-vulnerability","cell":"S7→S8","type":"R14","why":"icl-known","fit":"exact"}
+{"doc":160530,"op":"mint","cell":"S6→S6","cellLabel":"Threat Actor → Threat Actor","type":"R15","label":"associated-with","definition":"The threat actor cluster is linked, attributed to, or affiliated with another threat actor group.","nearest":null}
+{"doc":160530,"op":"assign","triple":"160530:r2","phrase":"associated-with","cell":"S6→S6","type":"R15","why":"icl-new","fit":"new"}
+{"doc":160530,"op":"assign","triple":"160530:r3","phrase":"uses-malware","cell":"S6→S5","type":"R3","why":"icl-known","fit":"exact"}
+{"doc":160530,"op":"mint","cell":"S7→S5","cellLabel":"Malicious File → Malware Family","type":"R16","label":"contains-malware","definition":"The malicious file executes, delivers, or represents an instance of the specified malware family.","nearest":null}
+{"doc":160530,"op":"assign","triple":"160530:r4","phrase":"contains-malware","cell":"S7→S5","type":"R16","why":"icl-new","fit":"new"}
+{"doc":160530,"op":"cross-cell-name","phrase":"hosts-file","cell":"S3→S7","cellLabel":"IP Address → Malicious File","knownIn":"Domain Name → Malicious File","fit":"new"}
+{"doc":160530,"op":"mint","cell":"S3→S7","cellLabel":"IP Address → Malicious File","type":"R17","label":"hosts-file","definition":"The IP address or network resource hosts a downloadable malicious file or malware component.","nearest":null}
+{"doc":160530,"op":"assign","triple":"160530:r5","phrase":"hosts-file","cell":"S3→S7","type":"R17","why":"icl-new","fit":"new"}
+{"doc":160530,"op":"assign","triple":"160530:r6","phrase":"hosts-file","cell":"S3→S7","type":"R17","why":"icl-known","fit":"new"}
+{"doc":160530,"op":"cross-cell-name","phrase":"hosts-file","cell":"S3→S5","cellLabel":"IP Address → Malware Family","knownIn":"Domain Name → Malicious File","fit":"new"}
+{"doc":160530,"op":"mint","cell":"S3→S5","cellLabel":"IP Address → Malware Family","type":"R18","label":"hosts-file","definition":"The IP address or network resource hosts a downloadable malicious file or malware component.","nearest":null}
+{"doc":160530,"op":"assign","triple":"160530:r7","phrase":"hosts-file","cell":"S3→S5","type":"R18","why":"icl-new","fit":"new"}
+{"doc":160530,"op":"assign","triple":"160530:r8","phrase":"hosts-file","cell":"S3→S5","type":"R18","why":"icl-known","fit":"new"}
+{"doc":339662,"op":"assign","triple":"339662:r0","phrase":"hosts-file","cell":"S3→S5","type":"R18","why":"icl-known","fit":"exact"}
+{"doc":339662,"op":"assign","triple":"339662:r1","phrase":"hosts-file","cell":"S3→S5","type":"R18","why":"icl-known","fit":"exact"}
+{"doc":339662,"op":"assign","triple":"339662:r2","phrase":"uses-malware","cell":"S6→S5","type":"R3","why":"icl-known","fit":"exact"}
+{"doc":339662,"op":"assign","triple":"339662:r3","phrase":"uses-malware","cell":"S6→S5","type":"R3","why":"icl-known","fit":"exact"}
+{"doc":339662,"op":"cross-cell-name","phrase":"exploits-vulnerability","cell":"S5→S8","cellLabel":"Malware Family → Vulnerability","knownIn":"Malicious File → Vulnerability","fit":"new"}
+{"doc":339662,"op":"mint","cell":"S5→S8","cellLabel":"Malware Family → Vulnerability","type":"R19","label":"exploits-vulnerability","definition":"The malware or malicious file exploits a specific security vulnerability to achieve code execution or payload delivery.","nearest":null}
+{"doc":339662,"op":"assign","triple":"339662:r4","phrase":"exploits-vulnerability","cell":"S5→S8","type":"R19","why":"icl-new","fit":"new"}
+{"doc":339662,"op":"cross-cell-name","phrase":"contains-file","cell":"(untyped)→S5","cellLabel":"(untyped) → Malware Family","knownIn":"Malware Family → Malware Family","fit":"new"}
+{"doc":339662,"op":"mint","cell":"(untyped)→S5","cellLabel":"(untyped) → Malware Family","type":"R20","label":"contains-file","definition":"An archive or container file encapsulates another specified file or malware component.","nearest":null}
+{"doc":339662,"op":"assign","triple":"339662:r5","phrase":"contains-file","cell":"(untyped)→S5","type":"R20","why":"icl-new","fit":"new"}
+{"doc":341128,"op":"assign","triple":"341128:r0","phrase":"exploits-vulnerability","cell":"S7→S8","type":"R14","why":"icl-known","fit":"exact"}
+{"doc":341128,"op":"assign","triple":"341128:r1","phrase":"exploits-vulnerability","cell":"S5→S8","type":"R19","why":"icl-known","fit":"exact"}
+{"doc":341128,"op":"assign","triple":"341128:r2","phrase":"uses-malware","cell":"S6→S5","type":"R3","why":"icl-known","fit":"exact"}
+{"doc":341128,"op":"assign","triple":"341128:r3","phrase":"hosts-file","cell":"S2→S5","type":"R8","why":"icl-known","fit":"exact"}
+{"doc":341128,"op":"assign","triple":"341128:r4","phrase":"hosts-file","cell":"S2→S5","type":"R8","why":"icl-known","fit":"exact"}
+{"doc":341128,"op":"assign","triple":"341128:r5","phrase":"hosts-file","cell":"S2→S5","type":"R8","why":"icl-known","fit":"exact"}
+{"doc":375404,"op":"assign","triple":"375404:r0","phrase":"uses-malware","cell":"S6→S5","type":"R3","why":"icl-known","fit":"exact"}
+{"doc":375404,"op":"assign","triple":"375404:r1","phrase":"contains-malware","cell":"S7→S5","type":"R16","why":"icl-known","fit":"exact"}
+{"doc":375404,"op":"assign","triple":"375404:r2","phrase":"contains-malware","cell":"S7→S5","type":"R16","why":"icl-known","fit":"exact"}
+{"doc":405538,"op":"assign","triple":"405538:r0","phrase":"contains-file","cell":"S5→S5","type":"R4","why":"icl-known","fit":"exact"}
+{"doc":405538,"op":"assign","triple":"405538:r1","phrase":"hosts-file","cell":"S2→S5","type":"R8","why":"icl-known","fit":"exact"}
+{"doc":405538,"op":"assign","triple":"405538:r2","phrase":"hosts-file","cell":"S2→S5","type":"R8","why":"icl-known","fit":"exact"}
+{"doc":405538,"op":"assign","triple":"405538:r3","phrase":"contains-malware","cell":"S7→S5","type":"R16","why":"icl-known","fit":"exact"}
+{"doc":405538,"op":"assign","triple":"405538:r4","phrase":"uses-malware","cell":"S6→S5","type":"R3","why":"icl-known","fit":"exact"}
+{"doc":405538,"op":"mint","cell":"S5→S2","cellLabel":"Malware Family → Domain Name","type":"R21","label":"uses-c2-domain","definition":"The malware utilizes the specified domain name as its command and control (C2) server.","nearest":{"label":"exfiltrates-data-to","sim":0.8392182698527952}}
+{"doc":405538,"op":"assign","triple":"405538:r5","phrase":"uses-c2-domain","cell":"S5→S2","type":"R21","why":"icl-new","fit":"new"}
+{"doc":619229,"op":"assign","triple":"619229:r0","phrase":"uses-malware","cell":"S6→S5","type":"R3","why":"icl-known","fit":"exact"}
+{"doc":619229,"op":"assign","triple":"619229:r1","phrase":"uses-malware","cell":"S6→S5","type":"R3","why":"icl-known","fit":"exact"}
+{"doc":619229,"op":"assign","triple":"619229:r2","phrase":"uses-malware","cell":"S6→S5","type":"R3","why":"icl-known","fit":"exact"}
+{"doc":619229,"op":"mint","cell":"S5→S5","cellLabel":"Malware Family → Malware Family","type":"R22","label":"drops-and-executes","definition":"The source malware creates/drops a secondary malware file on the victim system and initiates its execution.","nearest":{"label":"contains-file","sim":0.7835250962473713}}
+{"doc":619229,"op":"assign","triple":"619229:r3","phrase":"drops-and-executes","cell":"S5→S5","type":"R22","why":"icl-new","fit":"new"}
+{"doc":619229,"op":"alias","cell":"S5→S5","type":"R22","label":"drops-and-executes","phrase":"drops","sim":0.9255098755011911}
+{"doc":619229,"op":"assign","triple":"619229:r4","phrase":"drops","cell":"S5→S5","type":"R22","why":"icl-alias","fit":"new"}
+{"doc":619229,"op":"assign","triple":"619229:r5","phrase":"uses-c2-domain","cell":"S5→S2","type":"R21","why":"icl-known","fit":"exact"}
+{"doc":703548,"op":"assign","triple":"703548:r0","phrase":"uses-malware","cell":"S6→S5","type":"R3","why":"icl-known","fit":"exact"}
+{"doc":703548,"op":"mint","cell":"S7→S7","cellLabel":"Malicious File → Malicious File","type":"R23","label":"executes","definition":"The source file initiates or triggers the execution of the target malicious file.","nearest":null}
+{"doc":703548,"op":"assign","triple":"703548:r1","phrase":"executes","cell":"S7→S7","type":"R23","why":"icl-new","fit":"new"}
+{"doc":703548,"op":"assign","triple":"703548:r2","phrase":"contains-malware","cell":"S7→S5","type":"R16","why":"icl-known","fit":"exact"}
+{"doc":703548,"op":"assign","triple":"703548:r3","phrase":"contains-malware","cell":"S7→S5","type":"R16","why":"icl-known","fit":"exact"}
+{"doc":703548,"op":"assign","triple":"703548:r4","phrase":"contains-malware","cell":"S7→S5","type":"R16","why":"icl-known","fit":"exact"}
+{"doc":761668,"op":"mint","cell":"S6→(untyped)","cellLabel":"Threat Actor → (untyped)","type":"R24","label":"conducts-campaign","definition":"The threat actor executes or is responsible for a specific campaign or fraudulent scheme.","nearest":null}
+{"doc":761668,"op":"assign","triple":"761668:r0","phrase":"conducts-campaign","cell":"S6→(untyped)","type":"R24","why":"icl-new","fit":"new"}
+{"doc":761668,"op":"mint","cell":"S6→(untyped)","cellLabel":"Threat Actor → (untyped)","type":"R25","label":"leverages-platform","definition":"The threat actor makes use of a third-party platform or social network to spread lures or conduct fraudulent activity.","nearest":{"label":"conducts-campaign","sim":0.7912296730477125}}
+{"doc":761668,"op":"assign","triple":"761668:r1","phrase":"leverages-platform","cell":"S6→(untyped)","type":"R25","why":"icl-new","fit":"new"}
+{"doc":761668,"op":"mint","cell":"S6→S2","cellLabel":"Threat Actor → Domain Name","type":"R26","label":"uses-infrastructure","definition":"The threat actor uses or controls the specified network infrastructure or domain name.","nearest":null}
+{"doc":761668,"op":"assign","triple":"761668:r2","phrase":"uses-infrastructure","cell":"S6→S2","type":"R26","why":"icl-new","fit":"new"}
+{"doc":761668,"op":"assign","triple":"761668:r3","phrase":"uses-infrastructure","cell":"S6→S2","type":"R26","why":"icl-known","fit":"new"}
+{"doc":761668,"op":"assign","triple":"761668:r4","phrase":"uses-infrastructure","cell":"S6→S2","type":"R26","why":"icl-known","fit":"new"}
+{"doc":761668,"op":"assign","triple":"761668:r5","phrase":"uses-infrastructure","cell":"S6→S2","type":"R26","why":"icl-known","fit":"new"}
+{"doc":761668,"op":"assign","triple":"761668:r6","phrase":"uses-infrastructure","cell":"S6→S2","type":"R26","why":"icl-known","fit":"new"}
+{"doc":761668,"op":"assign","triple":"761668:r7","phrase":"uses-infrastructure","cell":"S6→S2","type":"R26","why":"icl-known","fit":"new"}
+{"doc":761668,"op":"assign","triple":"761668:r8","phrase":"uses-infrastructure","cell":"S6→S2","type":"R26","why":"icl-known","fit":"new"}
+{"doc":761668,"op":"assign","triple":"761668:r9","phrase":"uses-infrastructure","cell":"S6→S2","type":"R26","why":"icl-known","fit":"new"}
+{"doc":761668,"op":"assign","triple":"761668:r10","phrase":"uses-infrastructure","cell":"S6→S2","type":"R26","why":"icl-known","fit":"new"}
+{"doc":761668,"op":"assign","triple":"761668:r11","phrase":"uses-infrastructure","cell":"S6→S2","type":"R26","why":"icl-known","fit":"new"}
+{"doc":761668,"op":"assign","triple":"761668:r12","phrase":"uses-infrastructure","cell":"S6→S2","type":"R26","why":"icl-known","fit":"new"}
+{"doc":861292,"op":"assign","triple":"861292:r0","phrase":"targets","cell":"S7→S4","type":"R13","why":"icl-known","fit":"exact"}
+{"doc":861292,"op":"mint","cell":"S7→S7","cellLabel":"Malicious File → Malicious File","type":"R27","label":"drops-file","definition":"The source file creates or extracts a secondary payload or file onto the target system.","nearest":{"label":"executes","sim":0.8188578803006058}}
+{"doc":861292,"op":"assign","triple":"861292:r1","phrase":"drops-file","cell":"S7→S7","type":"R27","why":"icl-new","fit":"new"}
+{"doc":861292,"op":"cross-cell-name","phrase":"drops-file","cell":"S7→S5","cellLabel":"Malicious File → Malware Family","knownIn":"Malicious File → Malicious File","fit":"new"}
+{"doc":861292,"op":"mint","cell":"S7→S5","cellLabel":"Malicious File → Malware Family","type":"R28","label":"drops-file","definition":"The source file creates or extracts a secondary payload or file onto the target system.","nearest":{"label":"contains-malware","sim":0.7859066514437553}}
+{"doc":861292,"op":"assign","triple":"861292:r2","phrase":"drops-file","cell":"S7→S5","type":"R28","why":"icl-new","fit":"new"}
+{"doc":861292,"op":"cross-cell-name","phrase":"executes","cell":"S7→S5","cellLabel":"Malicious File → Malware Family","knownIn":"Malicious File → Malicious File","fit":"new"}
+{"doc":861292,"op":"mint","cell":"S7→S5","cellLabel":"Malicious File → Malware Family","type":"R29","label":"executes","definition":"The source entity triggers or initiates the execution of the target executable or malware component.","nearest":{"label":"drops-file","sim":0.7845760383064687}}
+{"doc":861292,"op":"assign","triple":"861292:r3","phrase":"executes","cell":"S7→S5","type":"R29","why":"icl-new","fit":"new"}
+{"doc":861292,"op":"mint","cell":"S5→(untyped)","cellLabel":"Malware Family → (untyped)","type":"R30","label":"obfuscated-with","definition":"The malware or file is protected, packed, or obfuscated using the specified software tool or protector.","nearest":{"label":"exfiltrates-data-to","sim":0.7630085493229573}}
+{"doc":861292,"op":"assign","triple":"861292:r4","phrase":"obfuscated-with","cell":"S5→(untyped)","type":"R30","why":"icl-new","fit":"new"}
+{"doc":861292,"op":"mint","cell":"S5→S7","cellLabel":"Malware Family → Malicious File","type":"R31","label":"downloads","definition":"The source malware family or executable retrieves a secondary file or payload from a remote resource.","nearest":null}
+{"doc":861292,"op":"assign","triple":"861292:r5","phrase":"downloads","cell":"S5→S7","type":"R31","why":"icl-new","fit":"new"}
+{"doc":861292,"op":"assign","triple":"861292:r6","phrase":"drops-and-executes","cell":"S5→S5","type":"R22","why":"icl-known","fit":"exact"}
+{"doc":861292,"op":"assign","triple":"861292:r7","phrase":"drops-and-executes","cell":"S5→S5","type":"R22","why":"icl-known","fit":"exact"}
+{"doc":861292,"op":"assign","triple":"861292:r8","phrase":"hosts-file","cell":"S2→S7","type":"R7","why":"icl-known","fit":"exact"}
+{"doc":955924,"op":"assign","triple":"955924:r0","phrase":"uses-malware","cell":"S6→S5","type":"R3","why":"icl-known","fit":"exact"}
+{"doc":955924,"op":"assign","triple":"955924:r1","phrase":"uses-malware","cell":"S6→S5","type":"R3","why":"icl-known","fit":"exact"}
+{"doc":955924,"op":"assign","triple":"955924:r2","phrase":"uses-malware","cell":"S6→S5","type":"R3","why":"icl-known","fit":"exact"}
+{"doc":955924,"op":"assign","triple":"955924:r3","phrase":"uses-malware","cell":"S6→S5","type":"R3","why":"icl-known","fit":"exact"}
+{"doc":955924,"op":"assign","triple":"955924:r4","phrase":"uses-infrastructure","cell":"S6→S2","type":"R26","why":"icl-known","fit":"exact"}
+{"doc":955924,"op":"assign","triple":"955924:r5","phrase":"contains-file","cell":"S5→S5","type":"R4","why":"icl-known","fit":"exact"}
+{"doc":955924,"op":"assign","triple":"955924:r6","phrase":"drops-and-executes","cell":"S5→S5","type":"R22","why":"icl-known","fit":"loose"}
+{"doc":955924,"op":"mint","cell":"S5→(untyped)","cellLabel":"Malware Family → (untyped)","type":"R32","label":"downloads-payload-from","definition":"The malware downloads secondary payloads, components, or files from a specified hosting service or platform.","nearest":{"label":"exfiltrates-data-to","sim":0.8012968837534921}}
+{"doc":955924,"op":"assign","triple":"955924:r7","phrase":"downloads-payload-from","cell":"S5→(untyped)","type":"R32","why":"icl-new","fit":"new"}
+{"doc":955924,"op":"assign","triple":"955924:r8","phrase":"drops-and-executes","cell":"S5→S5","type":"R22","why":"icl-known","fit":"exact"}
+{"doc":955924,"op":"assign","triple":"955924:r9","phrase":"drops-and-executes","cell":"S5→S5","type":"R22","why":"icl-known","fit":"exact"}
+{"doc":955924,"op":"assign","triple":"955924:r10","phrase":"exfiltrates-data-to","cell":"S5→(untyped)","type":"R5","why":"icl-known","fit":"exact"}
+{"doc":971405,"op":"assign","triple":"971405:r0","phrase":"uses-malware","cell":"S6→S5","type":"R3","why":"icl-known","fit":"exact"}
+{"doc":971405,"op":"cross-cell-name","phrase":"impersonates","cell":"S6→S10","cellLabel":"Threat Actor → Government Agency","knownIn":"URL → (untyped)","fit":"new"}
+{"doc":971405,"op":"mint","cell":"S6→S10","cellLabel":"Threat Actor → Government Agency","type":"R33","label":"impersonates","definition":"The threat actor poses as or masquerades under the identity of a specific organization or entity to conduct social engineering attacks.","nearest":null}
+{"doc":971405,"op":"assign","triple":"971405:r1","phrase":"impersonates","cell":"S6→S10","type":"R33","why":"icl-new","fit":"new"}
+{"doc":987552,"op":"cross-cell-name","phrase":"uses-infrastructure","cell":"S6→(untyped)","cellLabel":"Threat Actor → (untyped)","knownIn":"Threat Actor → Domain Name","fit":"new"}
+{"doc":987552,"op":"mint","cell":"S6→(untyped)","cellLabel":"Threat Actor → (untyped)","type":"R34","label":"uses-infrastructure","definition":"The threat actor utilizes a specific URL, domain, or infrastructure to carry out attacks or fraudulent activities.","nearest":{"label":"conducts-campaign","sim":0.8309143268720803}}
+{"doc":987552,"op":"assign","triple":"987552:r0","phrase":"uses-infrastructure","cell":"S6→(untyped)","type":"R34","why":"icl-new","fit":"new"}
+{"doc":987552,"op":"assign","triple":"987552:r1","phrase":"uses-infrastructure","cell":"S6→(untyped)","type":"R34","why":"icl-known","fit":"new"}
+{"doc":987552,"op":"assign","triple":"987552:r2","phrase":"uses-infrastructure","cell":"S6→(untyped)","type":"R34","why":"icl-known","fit":"new"}
+{"doc":1229152,"op":"assign","triple":"1229152:r0","phrase":"uses-malware","cell":"S6→S5","type":"R3","why":"icl-known","fit":"exact"}
+{"doc":1229152,"op":"assign","triple":"1229152:r1","phrase":"uses-malware","cell":"S6→S5","type":"R3","why":"icl-known","fit":"exact"}
+{"doc":1229152,"op":"assign","triple":"1229152:r2","phrase":"uses-malware","cell":"S6→S5","type":"R3","why":"icl-known","fit":"exact"}
+{"doc":1229152,"op":"assign","triple":"1229152:r3","phrase":"uses-malware","cell":"S6→S5","type":"R3","why":"icl-known","fit":"exact"}
+{"doc":1229152,"op":"assign","triple":"1229152:r4","phrase":"uses-malware","cell":"S6→S5","type":"R3","why":"icl-known","fit":"exact"}
+{"doc":1229152,"op":"assign","triple":"1229152:r5","phrase":"uses-malware","cell":"S6→S5","type":"R3","why":"icl-known","fit":"exact"}
+{"doc":1229152,"op":"assign","triple":"1229152:r6","phrase":"uses-malware","cell":"S6→S5","type":"R3","why":"icl-known","fit":"exact"}
+{"doc":1545776,"op":"assign","triple":"1545776:r0","phrase":"leverages-platform","cell":"S6→(untyped)","type":"R25","why":"icl-known","fit":"exact"}
+{"doc":1545776,"op":"assign","triple":"1545776:r1","phrase":"conducts-campaign","cell":"S6→(untyped)","type":"R24","why":"icl-known","fit":"exact"}
+{"doc":1545776,"op":"assign","triple":"1545776:r2","phrase":"impersonates","cell":"S11→(untyped)","type":"R10","why":"icl-known","fit":"exact"}
+{"doc":1545776,"op":"assign","triple":"1545776:r3","phrase":"hosted-on","cell":"S11→(untyped)","type":"R9","why":"icl-known","fit":"exact"}
+{"doc":1545776,"op":"assign","triple":"1545776:r4","phrase":"hosted-on","cell":"S11→(untyped)","type":"R9","why":"icl-known","fit":"exact"}
+{"doc":1545776,"op":"assign","triple":"1545776:r5","phrase":"hosted-on","cell":"S11→(untyped)","type":"R9","why":"icl-known","fit":"exact"}
+{"doc":1545776,"op":"assign","triple":"1545776:r6","phrase":"hosted-on","cell":"S11→(untyped)","type":"R9","why":"icl-known","fit":"exact"}
+{"doc":1545776,"op":"assign","triple":"1545776:r7","phrase":"hosted-on","cell":"S11→(untyped)","type":"R9","why":"icl-known","fit":"exact"}
+{"doc":1545776,"op":"assign","triple":"1545776:r8","phrase":"hosted-on","cell":"S11→(untyped)","type":"R9","why":"icl-known","fit":"exact"}
+{"doc":1545776,"op":"assign","triple":"1545776:r9","phrase":"hosted-on","cell":"S11→(untyped)","type":"R9","why":"icl-known","fit":"exact"}
+{"doc":1545776,"op":"assign","triple":"1545776:r10","phrase":"hosted-on","cell":"S11→(untyped)","type":"R9","why":"icl-known","fit":"exact"}
+{"doc":1545776,"op":"assign","triple":"1545776:r11","phrase":"hosted-on","cell":"S11→(untyped)","type":"R9","why":"icl-known","fit":"exact"}
+{"doc":1545776,"op":"assign","triple":"1545776:r12","phrase":"hosted-on","cell":"S11→(untyped)","type":"R9","why":"icl-known","fit":"exact"}

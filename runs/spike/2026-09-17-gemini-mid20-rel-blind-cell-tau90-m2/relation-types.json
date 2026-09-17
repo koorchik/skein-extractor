@@ -1,0 +1,299 @@
+[
+  {
+    "id": "R1",
+    "cell": "S2→S5",
+    "prefLabel": "hosts",
+    "definition": "Specifies that the domain or network infrastructure hosts or serves the specified malware family or payload for distribution.",
+    "altLabels": [
+      "serves",
+      "distributes",
+      "delivers"
+    ],
+    "broader": null,
+    "born": 160530,
+    "members": [
+      "40559:r4",
+      "40125:r6",
+      "40125:r7",
+      "40125:r8",
+      "40125:r9"
+    ],
+    "history": [
+      {
+        "doc": 160530,
+        "op": "mint",
+        "detail": "5 statements from 2 documents"
+      }
+    ],
+    "cellLabel": "Domain Name → Malware Family"
+  },
+  {
+    "id": "R2",
+    "cell": "S6→S5",
+    "prefLabel": "uses",
+    "definition": "Indicates that a threat actor utilizes, operates, or deploys a specific malware family in their malicious operations.",
+    "altLabels": [
+      "operates",
+      "deploys",
+      "employs"
+    ],
+    "broader": null,
+    "born": 341128,
+    "members": [
+      "40102:r0",
+      "40240:r0",
+      "40125:r0",
+      "405538:r0",
+      "341128:r0",
+      "619229:r0",
+      "375404:r0",
+      "955924:r0",
+      "1229152:r1",
+      "1229152:r2",
+      "1229152:r3",
+      "1229152:r5",
+      "1229152:r6",
+      "1229152:r7"
+    ],
+    "history": [
+      {
+        "doc": 341128,
+        "op": "mint",
+        "detail": "2 statements from 2 documents"
+      },
+      {
+        "doc": 405538,
+        "op": "absorb",
+        "detail": "2 pooled statements as \"uses\""
+      },
+      {
+        "doc": 619229,
+        "op": "absorb",
+        "detail": "2 pooled statements as \"uses\""
+      },
+      {
+        "doc": 955924,
+        "op": "absorb",
+        "detail": "2 pooled statements as \"uses\""
+      }
+    ],
+    "cellLabel": "Threat Actor → Malware Family"
+  },
+  {
+    "id": "R3",
+    "cell": "S5→S5",
+    "prefLabel": "contains",
+    "definition": "The head entity encapsulates, embeds, or carries the tail entity within its contents.",
+    "altLabels": [
+      "encapsulates",
+      "embeds",
+      "bundles"
+    ],
+    "broader": null,
+    "born": 341128,
+    "members": [
+      "40240:r2",
+      "40102:r1",
+      "40102:r2",
+      "405538:r1",
+      "955924:r6"
+    ],
+    "history": [
+      {
+        "doc": 341128,
+        "op": "mint",
+        "detail": "3 statements from 2 documents"
+      }
+    ],
+    "cellLabel": "Malware Family → Malware Family"
+  },
+  {
+    "id": "R4",
+    "cell": "S5→S5",
+    "prefLabel": "downloads",
+    "definition": "The head entity retrieves or fetches the tail entity from a remote source.",
+    "altLabels": [
+      "downloads-and-executes",
+      "downloads-file",
+      "fetches"
+    ],
+    "broader": null,
+    "born": 341128,
+    "members": [
+      "40240:r3",
+      "339662:r2",
+      "405538:r2",
+      "405538:r3",
+      "955924:r1"
+    ],
+    "history": [
+      {
+        "doc": 341128,
+        "op": "mint",
+        "detail": "2 statements from 2 documents"
+      }
+    ],
+    "cellLabel": "Malware Family → Malware Family"
+  },
+  {
+    "id": "R5",
+    "cell": "S7→S8",
+    "prefLabel": "exploits",
+    "definition": "Leverages a security vulnerability to achieve unauthorized execution or compromise a system.",
+    "altLabels": [
+      "leverages",
+      "abuses"
+    ],
+    "broader": null,
+    "born": 341128,
+    "members": [
+      "341128:r1",
+      "40559:r1",
+      "40559:r2"
+    ],
+    "history": [
+      {
+        "doc": 341128,
+        "op": "mint",
+        "detail": "3 statements from 2 documents"
+      }
+    ],
+    "cellLabel": "Malicious File → Vulnerability"
+  },
+  {
+    "id": "R6",
+    "cell": "S5→S5",
+    "prefLabel": "executes",
+    "definition": "The head entity runs, launches, or invokes the tail entity.",
+    "altLabels": [
+      "launches",
+      "runs",
+      "invokes"
+    ],
+    "broader": null,
+    "born": 619229,
+    "members": [
+      "341128:r4",
+      "619229:r3",
+      "861292:r6",
+      "40240:r4",
+      "40240:r5"
+    ],
+    "history": [
+      {
+        "doc": 619229,
+        "op": "mint",
+        "detail": "2 statements from 2 documents"
+      },
+      {
+        "doc": 861292,
+        "op": "absorb",
+        "detail": "3 pooled statements as \"executes\""
+      }
+    ],
+    "cellLabel": "Malware Family → Malware Family"
+  },
+  {
+    "id": "R7",
+    "cell": "S5→S5",
+    "prefLabel": "drops",
+    "definition": "The head entity extracts, writes, or installs the tail entity onto the target system.",
+    "altLabels": [
+      "delivers",
+      "installs"
+    ],
+    "broader": null,
+    "born": 619229,
+    "members": [
+      "40559:r3",
+      "619229:r1",
+      "861292:r7"
+    ],
+    "history": [
+      {
+        "doc": 619229,
+        "op": "mint",
+        "detail": "2 statements from 2 documents"
+      }
+    ],
+    "cellLabel": "Malware Family → Malware Family"
+  },
+  {
+    "id": "R8",
+    "cell": "S10→S10",
+    "prefLabel": "part-of",
+    "definition": "The head entity is a component, subdivision, or subordinate body within the tail entity.",
+    "altLabels": [
+      "subordinate-to",
+      "division-of",
+      "branch-of"
+    ],
+    "broader": null,
+    "born": 971405,
+    "members": [
+      "39962:r4",
+      "971405:r3"
+    ],
+    "history": [
+      {
+        "doc": 971405,
+        "op": "mint",
+        "detail": "2 statements from 2 documents"
+      }
+    ],
+    "cellLabel": "Government Agency → Government Agency"
+  },
+  {
+    "id": "R9",
+    "cell": "S6→S10",
+    "prefLabel": "impersonates",
+    "definition": "The head entity falsely claims the identity of or poses as the tail entity.",
+    "altLabels": [
+      "poses-as",
+      "spoofs",
+      "mimics"
+    ],
+    "broader": null,
+    "born": 971405,
+    "members": [
+      "339662:r3",
+      "971405:r1"
+    ],
+    "history": [
+      {
+        "doc": 971405,
+        "op": "mint",
+        "detail": "2 statements from 2 documents"
+      }
+    ],
+    "cellLabel": "Threat Actor → Government Agency"
+  },
+  {
+    "id": "R10",
+    "cell": "S10→S4",
+    "prefLabel": "located-in",
+    "definition": "Is geographically situated, based, or operating within the specified country or jurisdiction.",
+    "altLabels": [
+      "based-in",
+      "operates-in"
+    ],
+    "broader": null,
+    "born": 971405,
+    "members": [
+      "703548:r5",
+      "971405:r4",
+      "40263:r4",
+      "761668:r2",
+      "1545776:r6",
+      "1545776:r7"
+    ],
+    "history": [
+      {
+        "doc": 971405,
+        "op": "mint",
+        "detail": "2 statements from 2 documents"
+      }
+    ],
+    "cellLabel": "Government Agency → Country"
+  }
+]

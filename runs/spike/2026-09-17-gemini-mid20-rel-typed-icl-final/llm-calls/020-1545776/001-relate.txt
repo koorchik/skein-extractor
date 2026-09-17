@@ -1,0 +1,242 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision relation extraction engine for cybersecurity incident reports (CERT-UA). The entities of one report have already been extracted and typed. Your only task is to state the relationships between these entities that the report supports.
+
+### ENTITIES OF THIS REPORT ###
+Each line is one entity: its name exactly as extracted, its type in square brackets, and a one-sentence description. The type "untyped" means no type has been established yet; the phrase after it is the extractor's own wording.
+- UAC-0100 [Threat Actor] A threat group or cluster associated with systematic financial fraud campaigns targeting Ukrainian citizens.
+- Facebook [untyped: social media platform] An online social media and networking service owned by Meta Platforms.
+- Україна [Country] A country in Eastern Europe.
+- єДопомога [untyped: web platform] An official Ukrainian state digital platform providing humanitarian aid and financial assistance to citizens.
+- ООН [untyped: international organization] An intergovernmental organization that aims to maintain international peace and security and foster cooperation.
+- ЄС [untyped: political and economic union] A political and economic union of European states.
+- Товариство Червоного Хреста [untyped: humanitarian organization] A humanitarian organization that provides emergency assistance, disaster relief, and disaster preparedness.
+- Єдиний Компенсаційний Центр Повернення Невиплачених Грошових Коштів [untyped: fraudulent scheme] A fictitious entity and phishing lure used by fraudsters to deceive users into disclosing financial information.
+- Мінсоцполітики [Government Agency] The Ministry of Social Policy of Ukraine, a central executive body responsible for social policy.
+- Національний банк України [Government Agency] The central bank of Ukraine responsible for monetary policy and banking supervision.
+- hXXps://www.facebook[.]com/people/News-for-people/100081961447678/ [URL] A fraudulent Facebook page URL used in phishing and social engineering campaigns.
+- hXXps://www.facebook[.]com/ЄДoпoмoгa-107571865413656/ [URL] A fraudulent Facebook page URL impersonating the eDopomoga platform.
+- hXXps://www.facebook[.]com/people/Фонд-Допомоги/100083883771031/ [URL] A fraudulent Facebook page URL used in phishing and social engineering campaigns.
+- hXXps://www.facebook[.]com/people/Фонд-Допомоги/100083117652085/ [URL] A fraudulent Facebook page URL used in phishing and social engineering campaigns.
+- hXXps://www.facebook[.]com/News-Info-UA-107681682060482/ [URL] A fraudulent Facebook page URL used in phishing and social engineering campaigns.
+- hXXps://www.facebook[.]com/Термінові-Новини-України-24-102528442546873/ [URL] A fraudulent Facebook page URL used in phishing and social engineering campaigns.
+- hXXps://www.facebook[.]com/Допомога-українцям-104110342431366/ [URL] A fraudulent Facebook page URL used in phishing and social engineering campaigns.
+- hXXps://www.facebook[.]com/people/Фонд-соціально-підтримки-громадян/100082904180219/ [URL] A fraudulent Facebook page URL used in phishing and social engineering campaigns.
+- hXXps://www.facebook[.]com/people/Новини-247/100084930128994/ [URL] A fraudulent Facebook page URL used in phishing and social engineering campaigns.
+- hXXps://www.facebook[.]com/UA-MEDIA-1330918720341094/ [URL] A fraudulent Facebook page URL used in phishing and social engineering campaigns.
+- chis-gos[.]top [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- compensationukr[.]com [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- ec-compensation[.]xyz [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- edopomogaonline.yolasite[.]com [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- erinekenney[.]com [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- fanlnk[.]to/uagovnew2 [URL] A phishing redirect URL used to route victims to fraudulent web pages.
+- hardingtwominuterule[.]com [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- korrespondentnet.webflow[.]io [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- lnk.ukr-compens[.]xyz [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- mygraphbook[.]com [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- myua-compensations[.]xyz [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- off.ukr-compens[.]xyz [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- oon24opros.yolasite[.]com [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- pay.ukr-compens[.]xyz [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- pro-gos[.]top [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- tax-compensation[.]xyz [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- tax-compenses[.]xyz [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- uabayrakua[.]com [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- ua-compens[.]top [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- ua-compensation[.]top [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- ua-compensations[.]xyz [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- ua-compenses[.]top [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- uadop.webflow[.]io [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- uam-compensation[.]xyz [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- uatax-compens[.]xyz [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- uatax-compenses[.]xyz [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- ua-taxes-compens[.]xyz [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- ukrahelpforall.ucraft[.]site [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- ukrainebayra[.]com [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+- ukrainecenter[.]yolasite[.]com [Domain Name] An internet domain used for hosting fraudulent or phishing content.
+
+### KNOWN RELATION TYPES ###
+Each relation type is known ONLY for the pair of argument types it is listed under (head type -> tail type). Types known for other pairs are not shown and do not apply.
+Head [Threat Actor] -> Tail [Threat Actor]:
+- associated-with: The threat actor cluster is linked, attributed to, or affiliated with another threat actor group.
+
+Head [Threat Actor] -> Tail [(untyped)]:
+- conducts-campaign: The threat actor executes or is responsible for a specific campaign or fraudulent scheme.
+- leverages-platform: The threat actor makes use of a third-party platform or social network to spread lures or conduct fraudulent activity.
+- uses-infrastructure: The threat actor utilizes a specific URL, domain, or infrastructure to carry out attacks or fraudulent activities.
+
+Head [Threat Actor] -> Tail [Government Agency]:
+- impersonates: The threat actor poses as or masquerades under the identity of a specific organization or entity to conduct social engineering attacks.
+
+Head [Threat Actor] -> Tail [Domain Name]:
+- uses-infrastructure: The threat actor uses or controls the specified network infrastructure or domain name.
+
+Head [URL] -> Tail [(untyped)]:
+- hosted-on: The head entity is hosted on or located within the platform specified by the tail entity.
+- impersonates: The head entity falsely portrays or mimics the legitimate organization or brand specified by the tail entity.
+
+Head [URL] -> Tail [Domain Name]:
+- registered-through: The head entity is registered using the domain registrar or hosting service specified by the tail entity.
+
+### WHAT TO OUTPUT ###
+1. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two of the entities above, as { "head", "type", "tail", "evidence", "fit" }.
+   - `head` / `tail` MUST exactly match entity names from the list above. Direction: head acts on tail.
+   - `type`: if a known relation type listed under exactly this pair of argument types states the relationship precisely, use its name. Otherwise write a short lower-case verb phrase with hyphens in your own words, as specific as the text allows. Do NOT stretch a known type to a relationship it does not precisely state, and do NOT use a type listed under a different pair of argument types.
+   - `fit`: "exact" when a known type of this pair states the relationship precisely; "loose" when you used a known type of this pair although it only roughly fits; "new" when you wrote your own phrase.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+2. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY type you wrote yourself (fit "new").
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA виявлено зростання кількості шахрайських сторінок у соціальній мережі Facebook. Вміст оголошень на таких сторінках зазвичай стосується тематики грошових компенсацій, платформи єДопомога, фінансової допомоги від різних організації та партнерів (ООН, ЄС, Товариства Червоного Хреста та інші).&nbsp;&nbsp;</p><p>В оголошеннях пропонується перейти за посиланням, що веде на фішингову сторінку так званого "Єдиного Компенсаційного Центру Повернення Невиплачених Грошових Коштів".&nbsp;&nbsp;</p><p>На згаданому ресурсі пропонується отримати виплату, для чого необхідно надати персональну інформацію та здійснити додатковий платіж. В результаті дані платіжної картки будуть скомпрометовані.&nbsp;</p><p>Згадана шахрайська активність має систематичний характер та відстежується за ідентифікатором UAC-0100.&nbsp;&nbsp;</p><p><br></p><p><strong>Шахрайські сторінки FB:</strong></p><pre class="ql-syntax" spellcheck="false">hXXps://www.facebook[.]com/people/News-for-people/100081961447678/&nbsp;
+hXXps://www.facebook[.]com/ЄДoпoмoгa-107571865413656/&nbsp;
+hXXps://www.facebook[.]com/people/Фонд-Допомоги/100083883771031/&nbsp;
+hXXps://www.facebook[.]com/people/Фонд-Допомоги/100083117652085/&nbsp;
+hXXps://www.facebook[.]com/News-Info-UA-107681682060482/&nbsp;
+hXXps://www.facebook[.]com/Термінові-Новини-України-24-102528442546873/&nbsp;
+hXXps://www.facebook[.]com/Допомога-українцям-104110342431366/&nbsp;
+hXXps://www.facebook[.]com/people/Фонд-соціально-підтримки-громадян/100082904180219/&nbsp;
+hXXps://www.facebook[.]com/people/Новини-247/100084930128994/&nbsp;
+hXXps://www.facebook[.]com/UA-MEDIA-1330918720341094/&nbsp;
+</pre><p><br></p><p><strong>Індикатори компрометації&nbsp;</strong></p><pre class="ql-syntax" spellcheck="false">chis-gos[.]top
+compensationukr[.]com
+ec-compensation[.]xyz
+edopomogaonline.yolasite[.]com
+erinekenney[.]com
+fanlnk[.]to/uagovnew2
+hardingtwominuterule[.]com
+korrespondentnet.webflow[.]io
+lnk.ukr-compens[.]xyz
+mygraphbook[.]com
+myua-compensations[.]xyz
+off.ukr-compens[.]xyz
+oon24opros.yolasite[.]com
+pay.ukr-compens[.]xyz
+pro-gos[.]top
+tax-compensation[.]xyz
+tax-compenses[.]xyz
+tax-compenses[.]xyz
+uabayrakua[.]com
+ua-compens[.]top
+ua-compensation[.]top
+ua-compensations[.]xyz
+ua-compenses[.]top
+uadop.webflow[.]io
+uam-compensation[.]xyz
+uatax-compens[.]xyz
+uatax-compenses[.]xyz
+ua-taxes-compens[.]xyz
+ukrahelpforall.ucraft[.]site
+ukrainebayra[.]com
+ukrainecenter[.]yolasite[.]com
+</pre><p><br></p><p><strong>Рекомендації&nbsp;</strong></p><p>1. Офіційний сайт Платформи єДопомога: https://aid.edopomoga.gov.ua/&nbsp;</p><p>2. Відповіді Мінсоцполітики на найпоширеніші запитання щодо виплат від міжнародних організацій: https://www.msp.gov.ua/news/22077.html&nbsp;</p><p>3. Ніколи не вводьте реквізити платіжних карток на незнайомих та підозрілих веб-сайтах, а також налаштуйте контроль руху коштів (підключіть SMS-інформування, встановіть ліміти на операції).&nbsp;</p><p>4. Якщо дані платіжної картки помилково введено на шахрайському веб-сайті - НЕГАЙНО заблокувати платіжну картку за допомогою мобільного застосунку, гарячої лінії банку (телефон зазначено на звороті картки) або через Інтернет-банкінг.&nbsp;</p><p>5. Скористайтеся основними порадами платіжної безпеки Національного банку України https://bank.gov.ua/promo/stopfraud/ та правилами кібергігієни https://cert.gov.ua/recommendation/31&nbsp;</p><p><br></p><p><strong>Графічні зображення&nbsp;</strong></p><p></p><p></p><p></p>
+
+=== RESPONSE (8.2s, in 3827 / out 1690 tok, STOP) ===
+UAC-0100 conducts a fraudulent campaign on Facebook involving phishing pages disguised as "Єдиний Компенсаційний Центр Повернення Невиплачених Грошових Коштів" and various social/aid platforms like єДопомога. The report lists Facebook URLs and malicious domains used as indicators of compromise for this activity.
+
+```json
+{
+  "relations": [
+    {
+      "head": "UAC-0100",
+      "type": "leverages-platform",
+      "tail": "Facebook",
+      "evidence": "шахрайських сторінок у соціальній мережі Facebook... відстежується за ідентифікатором UAC-0100",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "conducts-campaign",
+      "tail": "Єдиний Компенсаційний Центр Повернення Невиплачених Грошових Коштів",
+      "evidence": "фішингову сторінку так званого \"Єдиного Компенсаційного Центру... відстежується за ідентифікатором UAC-0100",
+      "fit": "exact"
+    },
+    {
+      "head": "hXXps://www.facebook[.]com/ЄДoпoмoгa-107571865413656/",
+      "type": "impersonates",
+      "tail": "єДопомога",
+      "evidence": "hXXps://www.facebook[.]com/ЄДoпoмoгa-107571865413656/",
+      "fit": "exact"
+    },
+    {
+      "head": "hXXps://www.facebook[.]com/people/News-for-people/100081961447678/",
+      "type": "hosted-on",
+      "tail": "Facebook",
+      "evidence": "Шахрайські сторінки FB: hXXps://www.facebook[.]com/people/News-for-people/100081961447678/",
+      "fit": "exact"
+    },
+    {
+      "head": "hXXps://www.facebook[.]com/ЄДoпoмoгa-107571865413656/",
+      "type": "hosted-on",
+      "tail": "Facebook",
+      "evidence": "Шахрайські сторінки FB: hXXps://www.facebook[.]com/ЄДoпoмoгa-107571865413656/",
+      "fit": "exact"
+    },
+    {
+      "head": "hXXps://www.facebook[.]com/people/Фонд-Допомоги/100083883771031/",
+      "type": "hosted-on",
+      "tail": "Facebook",
+      "evidence": "Шахрайські сторінки FB: hXXps://www.facebook[.]com/people/Фонд-Допомоги/100083883771031/",
+      "fit": "exact"
+    },
+    {
+      "head": "hXXps://www.facebook[.]com/people/Фонд-Допомоги/100083117652085/",
+      "type": "hosted-on",
+      "tail": "Facebook",
+      "evidence": "Шахрайські сторінки FB: hXXps://www.facebook[.]com/people/Фонд-Допомоги/100083117652085/",
+      "fit": "exact"
+    },
+    {
+      "head": "hXXps://www.facebook[.]com/News-Info-UA-107681682060482/",
+      "type": "hosted-on",
+      "tail": "Facebook",
+      "evidence": "Шахрайські сторінки FB: hXXps://www.facebook[.]com/News-Info-UA-107681682060482/",
+      "fit": "exact"
+    },
+    {
+      "head": "hXXps://www.facebook[.]com/Термінові-Новини-України-24-102528442546873/",
+      "type": "hosted-on",
+      "tail": "Facebook",
+      "evidence": "Шахрайські сторінки FB: hXXps://www.facebook[.]com/Термінові-Новини-України-24-102528442546873/",
+      "fit": "exact"
+    },
+    {
+      "head": "hXXps://www.facebook[.]com/Допомога-українцям-104110342431366/",
+      "type": "hosted-on",
+      "tail": "Facebook",
+      "evidence": "Шахрайські сторінки FB: hXXps://www.facebook[.]com/Допомога-українцям-104110342431366/",
+      "fit": "exact"
+    },
+    {
+      "head": "hXXps://www.facebook[.]com/people/Фонд-соціально-підтримки-громадян/100082904180219/",
+      "type": "hosted-on",
+      "tail": "Facebook",
+      "evidence": "Шахрайські сторінки FB: hXXps://www.facebook[.]com/people/Фонд-соціально-підтримки-громадян/100082904180219/",
+      "fit": "exact"
+    },
+    {
+      "head": "hXXps://www.facebook[.]com/people/Новини-247/100084930128994/",
+      "type": "hosted-on",
+      "tail": "Facebook",
+      "evidence": "Шахрайські сторінки FB: hXXps://www.facebook[.]com/people/Новини-247/100084930128994/",
+      "fit": "exact"
+    },
+    {
+      "head": "hXXps://www.facebook[.]com/UA-MEDIA-1330918720341094/",
+      "type": "hosted-on",
+      "tail": "Facebook",
+      "evidence": "Шахрайські сторінки FB: hXXps://www.facebook[.]com/UA-MEDIA-1330918720341094/",
+      "fit": "exact"
+    }
+  ],
+  "newRelationTypes": []
+}
+```

@@ -1,0 +1,24 @@
+{
+  "relations": [
+    {
+      "head": "UAC-0010 (Armageddon)",
+      "type": "uses-malware",
+      "tail": "GammaLoad.PS1_v2",
+      "evidence": "Описана активність здійснюється групою UAC-0010 (Armageddon).",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0010 (Armageddon)",
+      "type": "impersonates",
+      "tail": "Національна академія СБ України",
+      "evidence": "розповсюдження електронних листів ... в тому числі, начебто, від Національної академії СБ України",
+      "fit": "new"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "impersonates",
+      "definition": "The threat actor poses as or masquerades under the identity of a specific organization or entity to conduct social engineering attacks."
+    }
+  ]
+}

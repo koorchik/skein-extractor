@@ -1,0 +1,77 @@
+{
+  "relations": [
+    {
+      "head": "UAC-0113",
+      "type": "targets",
+      "tail": "Україна",
+      "evidence": "атака спрямована у відношенні операторів та провайдерів телекомунікацій України. Активність відстежується за ідентифікатором UAC-0113.",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0113",
+      "type": "uses-malware",
+      "tail": "DarkCrystal RAT",
+      "evidence": "здійснить завантаження та запуск шкідливої програми DarkCrystal RAT. Активність відстежується за ідентифікатором UAC-0113.",
+      "fit": "exact"
+    },
+    {
+      "head": "Алгоритм дій членів сім’ї безвісти відсутнього військовослужбовця LegalAid.rar",
+      "type": "contains-file",
+      "tail": "Алгоритм_LegalAid.xlsm",
+      "evidence": "Зазначений RAR-архів містить документ \"Алгоритм_LegalAid.xlsm\"",
+      "fit": "new"
+    },
+    {
+      "head": "Алгоритм_LegalAid.xlsm",
+      "type": "downloads-file",
+      "tail": "MSCommondll.exe",
+      "evidence": "активації макросу буде виконанно PowerShell-команду, яка забезпечить завантаження та запуск .NET-завантажувача \"MSCommondll.exe\"",
+      "fit": "exact"
+    },
+    {
+      "head": "MSCommondll.exe",
+      "type": "downloads-file",
+      "tail": "DarkCrystal RAT",
+      "evidence": "MSCommondll.exe\". Згаданий виконуваний файл, у свою чергу, здійснить завантаження та запуск шкідливої програми DarkCrystal RAT.",
+      "fit": "exact"
+    },
+    {
+      "head": "plexbd[.]net",
+      "type": "hosts-file",
+      "tail": "MSCommondll.exe",
+      "evidence": "hXXp://plexbd[.]net/MSCommondll.exe",
+      "fit": "exact"
+    },
+    {
+      "head": "plexbd[.]net",
+      "type": "hosts-file",
+      "tail": "MSCommonDriver.exe",
+      "evidence": "hXXp://plexbd[.]net/MSCommonDriver.exe",
+      "fit": "exact"
+    },
+    {
+      "head": "datagroup.ddns[.]net",
+      "type": "command-and-control-for",
+      "tail": "DarkCrystal RAT",
+      "evidence": "а також домену управління DarkCrystal RAT",
+      "fit": "new"
+    },
+    {
+      "head": "MSCommonDriver.DCRat.exe",
+      "type": "delivers",
+      "tail": "DarkCrystal RAT",
+      "evidence": "MSCommonDriver.DCRat.exe (2022-06-09) (DarkCrystal RAT)",
+      "fit": "exact"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "contains-file",
+      "definition": "The head archive or container file contains or embeds the tail file."
+    },
+    {
+      "name": "command-and-control-for",
+      "definition": "The head domain or network infrastructure serves as a command and control server for the tail malware family."
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "relations": [
+    {
+      "head": "UAC-0100",
+      "type": "targets",
+      "tail": "України",
+      "evidence": "Зловмисники використовують фішингові сайти, які імітують популярні українські банки",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses-phishing-url",
+      "tail": "hXXps://mono.gg-pay[.]me/",
+      "evidence": "Зловмисники використовують фішингові сайти... hXXps://mono.gg-pay[.]me/",
+      "fit": "new"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses-phishing-url",
+      "tail": "hXXps://next24.gg-pay[.]me/",
+      "evidence": "Зловмисники використовують фішингові сайти... hXXps://next24.gg-pay[.]me/",
+      "fit": "new"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses-phishing-url",
+      "tail": "hXXps://privat24.ua-wallet[.]pw/",
+      "evidence": "Зловмисники використовують фішингові сайти... hXXps://privat24.ua-wallet[.]pw/",
+      "fit": "new"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-phishing-url",
+      "definition": "The head threat actor utilizes the tail phishing web address in its malicious operations."
+    }
+  ]
+}

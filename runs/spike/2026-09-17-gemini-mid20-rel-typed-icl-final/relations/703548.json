@@ -1,0 +1,45 @@
+{
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "активність асоційовано з діяльністю групи UAC-0056.",
+      "fit": "exact"
+    },
+    {
+      "head": "Гуманітарна катастрофа України з 24 лютого 2022 року.xls",
+      "type": "executes",
+      "tail": "baseupd.exe",
+      "evidence": "активація якого призведе до запуску файлу \"baseupd.exe\"",
+      "fit": "new"
+    },
+    {
+      "head": "baseupd.exe",
+      "type": "contains-malware",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "виконання якого призведе до ураження комп'ютера шкідливою програмою Cobalt Strike Beacon",
+      "fit": "exact"
+    },
+    {
+      "head": "shellcode.x86.bin",
+      "type": "contains-malware",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "shellcode.x86.bin (Cobalt Strike Beacon)",
+      "fit": "exact"
+    },
+    {
+      "head": "shellcode.x64.bin",
+      "type": "contains-malware",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "shellcode.x64.bin (Cobalt Strike Beacon)",
+      "fit": "exact"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "executes",
+      "definition": "The source file initiates or triggers the execution of the target malicious file."
+    }
+  ]
+}

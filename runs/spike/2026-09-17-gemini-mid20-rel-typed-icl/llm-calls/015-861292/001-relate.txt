@@ -1,0 +1,187 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision relation extraction engine for cybersecurity incident reports (CERT-UA). The entities of one report have already been extracted and typed. Your only task is to state the relationships between these entities that the report supports.
+
+### ENTITIES OF THIS REPORT ###
+Each line is one entity: its name exactly as extracted, its type in square brackets, and a one-sentence description. The type "untyped" means no type has been established yet; the phrase after it is the extractor's own wording.
+- Доповідь_050722_4.ppt [Malicious File] A malicious PowerPoint presentation file used as an initial lure in cyberattacks.
+- оперативне командування "Південь" [untyped: military command] An operational command of the Ukrainian Ground Forces in the southern part of Ukraine.
+- Україна [Country] A country in Eastern Europe.
+- gksg023ig.lnk [Malicious File] A malicious Windows shortcut file dropped by macro-enabled documents to execute secondary payloads.
+- sgegkseg23mjl.exe [Malware Family] A .NET loader executable that downloads and executes subsequent payload stages.
+- rundll32.exe [untyped: system utility] A built-in Windows utility used to run code in Dynamic Link Libraries and shortcut files.
+- ConfuserEx [untyped: software tool] An open-source protector and obfuscator designed for .NET applications.
+- thumb_d_F3D14F4982A256B5CDAE9BD579429AE7.jpg [Malicious File] An image file embedding encrypted malware payloads using steganography.
+- MCMDiction.exe [Malware Family] An intermediate .NET executable responsible for decrypting and executing the final payload.
+- AgentTesla [Malware Family] An advanced spyware and remote access trojan that steals credentials and sensitive information.
+- onyangdol[.]site [Domain Name] A malicious domain used to host payloads and steganographic image files.
+- ftp.artrsllc[.]com [Domain Name] A domain hosting an FTP server associated with threat actor operations.
+- hXXps://onyangdol[.]site/thumb_d_F3D14F4982A256B5CDAE9BD579429AE7.jpg [URL] A URL used to download a steganographic JPEG payload file.
+- fXp://ftp.artrsllc[.]com/ [URL] An FTP URL associated with threat actor network infrastructure.
+
+### KNOWN RELATION TYPES ###
+Each relation type is known ONLY for the pair of argument types it is listed under (head type -> tail type). Types known for other pairs are not shown and do not apply.
+Head [Malicious File] -> Tail [Malicious File]:
+- downloads-and-executes: 
+- executes: The head malicious file or script runs or launches the tail executable or file on the system.
+
+Head [Malicious File] -> Tail [Malware Family]:
+- delivers: 
+
+Head [(untyped)] -> Tail [(untyped)]:
+- operates-instance-of: The head entity hosts, deploys, or manages an instance or node of the software product specified as the tail.
+- has-contact-email: The head entity maintains or uses the tail email address for official communication or incident reporting.
+- subordinate-to: The head entity is an administrative unit, working body, or subdivision of the tail government body.
+- uses-malware: The head threat actor utilizes or deploys the tail malware family in their operations.
+- contains-file: The head archive or container file encloses the tail file.
+- hosted-on: The head domain, infrastructure, or resource is hosted or deployed on the tail platform or hosting service.
+- exfiltrates-data-to: The head malware transmits stolen information to the tail platform, service, or destination.
+- routes-traffic-through: The head malware routes or proxies its network communications through the tail network or proxy service.
+- creates: The head entity generates, extracts, drops, or writes the tail file onto the victim's filesystem.
+- downloads-and-executes: The head entity downloads the tail payload from a remote resource and initiates its execution.
+- exploits-vulnerability: The head entity takes advantage of the tail vulnerability to compromise a system.
+
+Head [(untyped)] -> Tail [Country]:
+- targets: The head entity aims its malicious activity or campaign at the tail country or organization.
+
+Head [(untyped)] -> Tail [Malware Family]:
+- delivers: The head file or process installs, runs, or deploys the tail malware family.
+
+Head [(untyped)] -> Tail [Domain Name]:
+- registered-with: The head domain or URL is registered through the tail domain registrar.
+
+Head [Malware Family] -> Tail [Malware Family]:
+- downloads-file: The head malware family or document requests and retrieves the tail file from a network location.
+- contains-file: The head archive or container file contains or embeds the tail file.
+
+Head [Domain Name] -> Tail [(untyped)]:
+- hosts-file: The head domain or server infrastructure hosts the tail downloadable file or payload.
+
+Head [Domain Name] -> Tail [Malware Family]:
+- hosts-file: The head domain name hosts or serves the tail file or payload.
+- command-and-control-for: The head domain or network infrastructure serves as a command and control server for the tail malware family.
+
+### WHAT TO OUTPUT ###
+1. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two of the entities above, as { "head", "type", "tail", "evidence", "fit" }.
+   - `head` / `tail` MUST exactly match entity names from the list above. Direction: head acts on tail.
+   - `type`: if a known relation type listed under exactly this pair of argument types states the relationship precisely, use its name. Otherwise write a short lower-case verb phrase with hyphens in your own words, as specific as the text allows. Do NOT stretch a known type to a relationship it does not precisely state, and do NOT use a type listed under a different pair of argument types.
+   - `fit`: "exact" when a known type of this pair states the relationship precisely; "loose" when you used a known type of this pair although it only roughly fits; "new" when you wrote your own phrase.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+2. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY type you wrote yourself (fit "new").
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA виявлено файл "Доповідь_050722_4.ppt", що містить зображення-мініатюру, на якій згадєуться оперативне командування "Південь".&nbsp;</p><p>У випадку відкриття документу та активації макросу останній забезпечить створення файлів "gksg023ig.lnk" та "sgegkseg23mjl.exe", а також виконання LNK-файлу за допомогою rundll32.exe, що, в свою чергу, призведе до запуску згаданого EXE-файлу.</p><p>Виконуваний файл є .NET-програмою, обфускованою за допомогою ConfuserEx, що здійснює завантаження JPEG-файлу "thumb_d_F3D14F4982A256B5CDAE9BD579429AE7.jpg", пошук відповідного офсету, дешифрування та декомпресію даних і запуск отриманої в результаті .NET-програми MCMDiction.exe (дата компіляції: 2022-07-08).&nbsp;</p><p>Надалі, після ряду перетворень (Gzip, AES, base64, XOR), в тому числі, із застосуваннями стеганографії, на комп'ютері буде виконано шкідливу програму-стілер AgentTesla (дата компіляції: 2022-07-06).</p><p>Зважаючи на ім'я та контент-приманку PPT-документу, припускаємо, що атаку було спрямовано на державні організації України.</p><p><br></p><p><strong>Індикатори компрометації</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">5675473bb46fad83c92865c9c6afbd5e&nbsp; &nbsp; 00fdb03518c238dc649a39e94f0bcc95dacf3b832979d14d0ed5194b9b482b87&nbsp; &nbsp; Доповідь_050722_4.ppt
+c71f41f71e0beea474049af497eae7b7&nbsp; &nbsp; cffc6a854632d979e3c12d4c29835490229db79909b18010d3dbaabbb89ad2cc&nbsp; &nbsp; gksg023ig.lnk  (хеш-сума динамічна)
+88c2f95bb1e008e2952799a427ab8492&nbsp; &nbsp; bc92a5b1c4205ea1fbfec9144b8aab485e095142c7105c9d616b089ec668f198&nbsp; &nbsp; sgegkseg23mjl.exe
+24a95b0c3d0bab9451e49ebd2a95efb4&nbsp; &nbsp; c40e6b176ad3fd7332cd217191e557352ef4b82bf91f29939121267598737990&nbsp; &nbsp; thumb_d_F3D14F4982A256B5CDAE9BD579429AE7.jpg
+050a2254623b88bdd5d171715542bee1&nbsp; &nbsp; 8a9262fecbb58364982f38bdefd44336005632079e254e6f82693050fa29c403&nbsp; &nbsp; MCMDiction.exe
+3249773213e0a41ed4d49174ad651f28&nbsp; &nbsp; 664723f55237e2d14b39938878fd0a3744cc808d4d3e67e22f1bcbd410960557&nbsp; &nbsp; tesla.exe (AgentTesla)
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">onyangdol[.]site
+ftp.artrsllc[.]com
+hXXps://onyangdol[.]site/thumb_d_F3D14F4982A256B5CDAE9BD579429AE7.jpg
+fXp://ftp.artrsllc[.]com/
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">RunDLL32.EXE shell32.dll,ShellExec_RunDLL %TMP%\gksg023ig.lnk
+%APPDATA%\Microsoft\sgegkseg23mjl.exe
+%TMP%\gksg023ig.lnk
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (8.6s, in 2996 / out 1171 tok, STOP) ===
+Доповідь_050722_4.ppt delivers gksg023ig.lnk and sgegkseg23mjl.exe, and targets Ukraine. gksg023ig.lnk delivers sgegkseg23mjl.exe. sgegkseg23mjl.exe is obfuscated with ConfuserEx, downloads thumb_d_F3D14F4982A256B5CDAE9BD579429AE7.jpg, and executes MCMDiction.exe. onyangdol[.]site hosts thumb_d_F3D14F4982A256B5CDAE9BD579429AE7.jpg.
+
+```json
+{
+  "relations": [
+    {
+      "head": "Доповідь_050722_4.ppt",
+      "type": "creates",
+      "tail": "gksg023ig.lnk",
+      "evidence": "забезпечить створення файлів \"gksg023ig.lnk\" та \"sgegkseg23mjl.exe\"",
+      "fit": "new"
+    },
+    {
+      "head": "Доповідь_050722_4.ppt",
+      "type": "delivers",
+      "tail": "sgegkseg23mjl.exe",
+      "evidence": "забезпечить створення файлів \"gksg023ig.lnk\" та \"sgegkseg23mjl.exe\"",
+      "fit": "exact"
+    },
+    {
+      "head": "Доповідь_050722_4.ppt",
+      "type": "targets",
+      "tail": "Україна",
+      "evidence": "атаку було спрямовано на державні організації України",
+      "fit": "new"
+    },
+    {
+      "head": "gksg023ig.lnk",
+      "type": "delivers",
+      "tail": "sgegkseg23mjl.exe",
+      "evidence": "виконання LNK-файлу... призведе до запуску згаданого EXE-файлу",
+      "fit": "exact"
+    },
+    {
+      "head": "sgegkseg23mjl.exe",
+      "type": "obfuscated-with",
+      "tail": "ConfuserEx",
+      "evidence": "обфускованою за допомогою ConfuserEx",
+      "fit": "new"
+    },
+    {
+      "head": "sgegkseg23mjl.exe",
+      "type": "downloads-file",
+      "tail": "thumb_d_F3D14F4982A256B5CDAE9BD579429AE7.jpg",
+      "evidence": "здійснює завантаження JPEG-файлу \"thumb_d_F3D14F4982A256B5CDAE9BD579429AE7.jpg\"",
+      "fit": "new"
+    },
+    {
+      "head": "sgegkseg23mjl.exe",
+      "type": "executes",
+      "tail": "MCMDiction.exe",
+      "evidence": "запуск отриманої в результаті .NET-програми MCMDiction.exe",
+      "fit": "new"
+    },
+    {
+      "head": "onyangdol[.]site",
+      "type": "hosts-file",
+      "tail": "thumb_d_F3D14F4982A256B5CDAE9BD579429AE7.jpg",
+      "evidence": "hXXps://onyangdol[.]site/thumb_d_F3D14F4982A256B5CDAE9BD579429AE7.jpg",
+      "fit": "new"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "creates",
+      "definition": "The head entity drops, writes, or generates the tail file on the victim's filesystem."
+    },
+    {
+      "name": "targets",
+      "definition": "The head entity directs malicious activity or campaigns against the tail target entity or country."
+    },
+    {
+      "name": "obfuscated-with",
+      "definition": "The head malware executable is protected or obfuscated using the tail software tool."
+    },
+    {
+      "name": "downloads-file",
+      "definition": "The head malware program retrieves the tail file from a remote source."
+    },
+    {
+      "name": "executes",
+      "definition": "The head malware executable launches or runs the tail executable."
+    },
+    {
+      "name": "hosts-file",
+      "definition": "The head domain hosts or serves the tail downloadable payload or file."
+    }
+  ]
+}
+```

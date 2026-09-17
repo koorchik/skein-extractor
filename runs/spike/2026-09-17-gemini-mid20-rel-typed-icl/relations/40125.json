@@ -1,0 +1,84 @@
+{
+  "relations": [
+    {
+      "head": "UAC-0104",
+      "type": "uses-malware",
+      "tail": "JesterStealer",
+      "evidence": "ураження комп'ютера шкідливою програмою JesterStealer... Активність тимчасово відстежується за ідентифікатором UAC-0104",
+      "fit": "exact"
+    },
+    {
+      "head": "JesterStealer",
+      "type": "exfiltrates-data-to",
+      "tail": "Telegram",
+      "evidence": "Викрадені дані через статично визначені адреси проксі... передаються зловмиснику в Telegram",
+      "fit": "new"
+    },
+    {
+      "head": "JesterStealer",
+      "type": "routes-traffic-through",
+      "tail": "TOR",
+      "evidence": "Викрадені дані через статично визначені адреси проксі (в т.ч., в мережі TOR)",
+      "fit": "new"
+    },
+    {
+      "head": "Map023.xlsb",
+      "type": "hosted-on",
+      "tail": "igshop.net",
+      "evidence": "hxxps://igshop[.]net/uploads/Map023.xlsb",
+      "fit": "exact"
+    },
+    {
+      "head": "Map021.xlsb",
+      "type": "hosted-on",
+      "tail": "igshop.net",
+      "evidence": "hxxps://igshop[.]net/uploads/Map021.xlsb",
+      "fit": "exact"
+    },
+    {
+      "head": "Map026.xlsb",
+      "type": "hosted-on",
+      "tail": "igshop.net",
+      "evidence": "hxxps://igshop[.]net/uploads/Map026.xlsb",
+      "fit": "exact"
+    },
+    {
+      "head": "Updater-Microsoft.exe",
+      "type": "hosted-on",
+      "tail": "igshop.net",
+      "evidence": "hxxps://igshop[.]net/uploads/Updater-Microsoft.exe",
+      "fit": "exact"
+    },
+    {
+      "head": "OfficeUpdaterNew.exe",
+      "type": "hosted-on",
+      "tail": "dcshost.net",
+      "evidence": "hxxps://dcshost[.]net/mail/OfficeUpdaterNew.exe",
+      "fit": "exact"
+    },
+    {
+      "head": "Updater-Microsoft.exe",
+      "type": "hosted-on",
+      "tail": "marmaris.com.ua",
+      "evidence": "hxxps://marmaris.com[.]ua/misc/Updater-Microsoft.exe",
+      "fit": "exact"
+    },
+    {
+      "head": "Updater-Microsoft.exe",
+      "type": "hosted-on",
+      "tail": "autodoka.com.ua",
+      "evidence": "hxxps://autodoka.com[.]ua/extra/Updater-Microsoft.exe",
+      "fit": "exact"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "exfiltrates-data-to",
+      "definition": "The head malware transmits stolen information to the tail platform, service, or destination."
+    },
+    {
+      "name": "routes-traffic-through",
+      "definition": "The head malware routes or proxies its network communications through the tail network or proxy service."
+    }
+  ]
+}

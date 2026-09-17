@@ -1,0 +1,81 @@
+{
+  "runId": "2026-09-17-gemini-mid20-rel-blind-cell-tau90",
+  "kind": "relation-layer",
+  "config": {
+    "arm": "blind-cell",
+    "source": "runs/spike/2026-09-16-gemini-mid20-relblind",
+    "schemes": "ingest",
+    "out": "runs/spike/2026-09-17-gemini-mid20-rel-blind-cell-tau90",
+    "docs": 0,
+    "inputDir": "data/fetched",
+    "llmProvider": "gemini",
+    "llmModel": "gemini-3.7-flash",
+    "embedModel": "gemini-embedding-2",
+    "embedTaskType": "CLUSTERING",
+    "embedDims": 768,
+    "k": 10,
+    "tau": 0.9,
+    "delta": 0.1,
+    "poolLink": 0.85,
+    "mass": 3,
+    "merge": 0.85,
+    "namingMembers": 25,
+    "cacheDir": "runs/embeddings-cache"
+  },
+  "source": {
+    "run": "runs/spike/2026-09-16-gemini-mid20-relblind",
+    "mentionsSha256": "42513b4b1d8cce992de238fe74317752dd2fbe355e562882fbfdeae11592229e",
+    "schemesSha256": "9e1c9525a02d2f97b185a091742bc2c55bb1e39fd06bde3fade11b3e9a9ccd82",
+    "schemes": 11
+  },
+  "prompts": {
+    "relation-name-v1": "4d5a297326c1f99c0737e44aa1e4fac9ce3795d935ae1581563cfc416e85251c"
+  },
+  "embeddings": {
+    "cache": {
+      "hits": 84,
+      "misses": 0,
+      "entries": 1678
+    }
+  },
+  "documents": 20,
+  "triples": {
+    "total": 121,
+    "typed": 39,
+    "pool": 62,
+    "pending": 20,
+    "unresolved": 0
+  },
+  "relationTypes": 6,
+  "cellsWithTypes": 4,
+  "narrowerTypes": 0,
+  "tailShare": 0,
+  "finalSignaturePurity": 1,
+  "namingCalls": 7,
+  "extractionFailures": 0,
+  "fit": {},
+  "cost": {
+    "runId": "2026-09-17-gemini-mid20-rel-blind-cell-tau90",
+    "totals": {
+      "calls": 7,
+      "inputTokens": 7048,
+      "outputTokens": 429,
+      "costUsd": 0,
+      "unpricedCalls": 7,
+      "wallClockMs": 36938
+    },
+    "byOperator": {
+      "relation-name": {
+        "calls": 7,
+        "inputTokens": 7048,
+        "outputTokens": 429,
+        "costUsd": 0,
+        "unpricedCalls": 7,
+        "wallClockMs": 36938
+      }
+    },
+    "unpricedModels": [
+      "gemini/gemini-3.7-flash"
+    ]
+  }
+}

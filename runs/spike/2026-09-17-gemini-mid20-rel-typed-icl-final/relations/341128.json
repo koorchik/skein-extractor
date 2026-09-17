@@ -1,0 +1,47 @@
+{
+  "relations": [
+    {
+      "head": "Nuclear Terrorism A Very Real Threat.rtf",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2022-30190",
+      "evidence": "відкриття якого призведе до завантаження HTML-файлу та виконання JavaScript-коду (CVE-2022-30190)",
+      "fit": "exact"
+    },
+    {
+      "head": "article.html",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2022-30190",
+      "evidence": "завантаження HTML-файлу та виконання JavaScript-коду (CVE-2022-30190)",
+      "fit": "exact"
+    },
+    {
+      "head": "APT28",
+      "type": "uses-malware",
+      "tail": "CredoMap",
+      "evidence": "асоціювати виявлену активність з діяльністю групи APT28",
+      "fit": "exact"
+    },
+    {
+      "head": "kitten-268.frge.io",
+      "type": "hosts-file",
+      "tail": "article.html",
+      "evidence": "hXXp://kitten-268.frge[.]io/article.html",
+      "fit": "exact"
+    },
+    {
+      "head": "kompartpomiar.pl",
+      "type": "hosts-file",
+      "tail": "SQLite.Interop.dll",
+      "evidence": "hXXp://kompartpomiar[.]pl/grafika/SQLite.Interop.dll",
+      "fit": "exact"
+    },
+    {
+      "head": "kompartpomiar.pl",
+      "type": "hosts-file",
+      "tail": "docx.exe",
+      "evidence": "hXXp://kompartpomiar[.]pl/grafika/docx.exe",
+      "fit": "exact"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,44 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You maintain a small, growing vocabulary of RELATION TYPES for a knowledge registry built from cybersecurity incident reports. A group of relation statements extracted from several reports has just been found to be close to each other and far from every existing relation type. Decide whether the group is a genuinely new relation type, another wording of an existing one, or a more specific case of an existing one, and name it.
+
+### ARGUMENT TYPES OF THE GROUP ###
+Head type: Malware Family: A distinct family, variant, or strain of malicious software designed to disrupt, compromise, or extract data from computer systems.
+Tail type: Malware Family: A distinct family, variant, or strain of malicious software designed to disrupt, compromise, or extract data from computer systems.
+
+### EXISTING RELATION TYPES ###
+- contains: Specifies that the source file or container encapsulates or holds the target file or payload. (phrases seen: contains-file)
+- downloads: Specifies that the source entity retrieves the target file or payload from an external location. (phrases seen: downloads-file, downloads-and-executes, downloads)
+
+### THE GROUP ###
+Each numbered line is one statement: head (its type) --[phrase written at extraction time]--> tail (its type), then the extractor's one-line definition of the phrase and the supporting fragment of the report:
+1. RelicSource (Malware Family) --[deploys]--> Formbook (Malware Family) | The subject malware installs, launches, or executes the target payload on a compromised host. | "Як пейлоад використовуються програми-стілери, а саме: Formbook"
+2. RelicSource (Malware Family) --[deploys]--> Snake Keylogger (Malware Family) | The subject malware installs, launches, or executes the target payload on a compromised host. | "Як пейлоад використовуються програми-стілери, а саме: Formbook та Snake Keylogger"
+3. ms-msdt.exe (Malware Family) --[delivers-payload]--> Cobalt Strike Beacon (Malware Family) | The subject file or dropper executes, drops, or installs the object malware payload. | "завантаження EXE-файлу "ms-msdt.exe" та ураження комп'ютера шкідливою програмою Cobalt Strike Beacon."
+4. MCMDiction.exe (Malware Family) --[delivers-malware]--> AgentTesla (Malware Family) | The source payload or loader unpacks, decrypts, or installs the target malware family. | "буде виконано шкідливу програму-стілер AgentTesla"
+
+### RULES ###
+- A relation type says WHAT the head does to, or how it stands towards, the tail. It is never a single statement and never a property of one entity.
+- Direction matters: head acts on tail. A relation and its inverse (e.g. "hosts" and "hosted-on") are DIFFERENT types.
+- Return `"verdict": "alias-of"` with `"target"` set to an existing type's label when the group means the same relation as that type (different wording, same meaning, same direction). Judge by MEANING, not by surface words.
+- Return `"verdict": "narrower-than"` with `"target"` set to an existing type's label when every statement of the group is also a case of that type but the group is clearly more specific (e.g. "downloads-and-executes" under "delivers"). Then also give the label and definition of the narrower type.
+- Return `"verdict": "new"` when no existing type covers the group.
+- For `new` and `narrower-than` give:
+  - `prefLabel`: a short lower-case verb phrase with hyphens, 1–3 words, naming the bare relation. Do NOT put the argument types into the label (write "targets", not "targets-country"; "hosts", not "hosts-file"): the argument types are recorded separately.
+  - `definition`: one sentence, at most 25 words, general enough to hold across reports, stating what the head does to the tail.
+  - `altLabels`: 0–3 alternative phrases.
+- If the group mixes clearly different relations, name the relation of the MAJORITY and list the line numbers of the minority statements in `outliers`.
+- If uncertain between alias and new, prefer `new`: an extra type can be merged later; a wrong merge cannot be undone cheaply.
+
+### OUTPUT ###
+A single raw JSON object, no markdown fences, no commentary:
+{ "verdict": "new" | "alias-of" | "narrower-than", "target": "<existing label or null>", "prefLabel": "...", "definition": "...", "altLabels": [...], "outliers": [<line numbers>] }
+
+--- text ---
+Decide and name the group now.
+
+=== RESPONSE (5.3s, in 1045 / out 67 tok, STOP) ===
+{"verdict": "new", "target": null, "prefLabel": "deploys", "definition": "Specifies that the source malware installs, unpacks, drops, or executes the target malware or payload.", "altLabels": ["drops", "delivers", "executes"], "outliers": []}

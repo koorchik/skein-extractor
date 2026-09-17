@@ -1,0 +1,56 @@
+{
+  "relations": [
+    {
+      "head": "64.190.113.51",
+      "type": "hosts-file",
+      "tail": "index.html",
+      "evidence": "hXXp://64[.]190.113.51:8000/index[.]html",
+      "fit": "exact"
+    },
+    {
+      "head": "5.199.173.152",
+      "type": "hosts-file",
+      "tail": "ked.dll",
+      "evidence": "hXXp://5[.]199.173.152/ked[.]dll",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0098",
+      "type": "uses-malware",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "запуск шкідливої програми Cobalt Strike Beacon... Активність... відстежується за ідентифікатором UAC-0098",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0098",
+      "type": "uses-malware",
+      "tail": "Накладення штрафних санкцій.docx",
+      "evidence": "Виявлено шкідливий документ \"Накладення штрафних санкцій.docx\"... Активність... відстежується за ідентифікатором UAC-0098",
+      "fit": "exact"
+    },
+    {
+      "head": "Накладення штрафних санкцій.docx",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2022-30190",
+      "evidence": "\"Накладення штрафних санкцій.docx\" відкриття якого призведе до завантаження HTML-файлу та виконання JavaScript-коду (CVE-2022-30190)",
+      "fit": "new"
+    },
+    {
+      "head": "НакладенняШтрафнихСанкцiй.zip",
+      "type": "contains-file",
+      "tail": "Накладення штрафних санкцій.docx",
+      "evidence": "DOCX-документ містився в захищеному паролем архіві \"НакладенняШтрафнихСанкцiй.zip\"",
+      "fit": "new"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "exploits-vulnerability",
+      "definition": "The malware or malicious file exploits a specific security vulnerability to achieve code execution or payload delivery."
+    },
+    {
+      "name": "contains-file",
+      "definition": "An archive or container file encapsulates another specified file or malware component."
+    }
+  ]
+}

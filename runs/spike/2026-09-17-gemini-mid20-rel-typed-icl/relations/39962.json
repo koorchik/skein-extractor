@@ -1,0 +1,81 @@
+{
+  "relations": [
+    {
+      "head": "Служба безпеки України",
+      "type": "operates-instance-of",
+      "tail": "MISP",
+      "evidence": "мережу вузлів MISP, розгорнутих в Службі безпеки України",
+      "fit": "new"
+    },
+    {
+      "head": "Національний координаційний центр кібербезпеки РНБО України",
+      "type": "operates-instance-of",
+      "tail": "MISP",
+      "evidence": "вузлів MISP, розгорнутих в... Національному координаційному центрі кібербезпеки РНБО України",
+      "fit": "new"
+    },
+    {
+      "head": "Національний банк України",
+      "type": "operates-instance-of",
+      "tail": "MISP",
+      "evidence": "вузлів MISP, розгорнутих в... Національному банку України",
+      "fit": "new"
+    },
+    {
+      "head": "Держспецзв'язку",
+      "type": "operates-instance-of",
+      "tail": "MISP",
+      "evidence": "вузлів MISP, розгорнутих в... Держспецзв'язку",
+      "fit": "new"
+    },
+    {
+      "head": "Служба безпеки України",
+      "type": "has-contact-email",
+      "tail": "support@dis.gov[.]ua",
+      "evidence": "СБУ: support@dis.gov[.]ua",
+      "fit": "new"
+    },
+    {
+      "head": "Національний банк України",
+      "type": "has-contact-email",
+      "tail": "csirt-nbu@bank.gov[.]ua",
+      "evidence": "НБУ: csirt-nbu@bank.gov[.]ua",
+      "fit": "new"
+    },
+    {
+      "head": "Національний координаційний центр кібербезпеки РНБО України",
+      "type": "has-contact-email",
+      "tail": "report@ncscc.gov[.]ua",
+      "evidence": "НКЦК: report@ncscc.gov[.]ua",
+      "fit": "new"
+    },
+    {
+      "head": "Держспецзв'язку",
+      "type": "has-contact-email",
+      "tail": "cert@cert.gov[.]ua",
+      "evidence": "Держспецзв'язку: cert@cert.gov[.]ua",
+      "fit": "new"
+    },
+    {
+      "head": "Національний координаційний центр кібербезпеки РНБО України",
+      "type": "subordinate-to",
+      "tail": "РНБО України",
+      "evidence": "Національному координаційному центрі кібербезпеки РНБО України",
+      "fit": "new"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "operates-instance-of",
+      "definition": "The head entity hosts, deploys, or manages an instance or node of the software product specified as the tail."
+    },
+    {
+      "name": "has-contact-email",
+      "definition": "The head entity maintains or uses the tail email address for official communication or incident reporting."
+    },
+    {
+      "name": "subordinate-to",
+      "definition": "The head entity is an administrative unit, working body, or subdivision of the tail government body."
+    }
+  ]
+}

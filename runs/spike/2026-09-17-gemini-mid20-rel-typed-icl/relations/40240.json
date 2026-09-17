@@ -1,0 +1,81 @@
+{
+  "relations": [
+    {
+      "head": "UAC-0010 (Armageddon)",
+      "type": "uses-malware",
+      "tail": "GammaLoad.PS1_v2",
+      "evidence": "завантажено шкідливу програму GammaLoad.PS1_v2... Активність здійснюється групою UAC-0010 (Armageddon)",
+      "fit": "exact"
+    },
+    {
+      "head": "План Херсон.htm",
+      "type": "creates",
+      "tail": "Herson.rar",
+      "evidence": "HTM-файл забезпечить декодування і створення на комп'ютері жертви файлу \"Herson.rar\"",
+      "fit": "new"
+    },
+    {
+      "head": "Herson.rar",
+      "type": "contains-file",
+      "tail": "План підходу та закладання вибухівки на об'єктах критичної інфростурктури Херсона.lnk",
+      "evidence": "\"Herson.rar\", який містить файл-ярлик \"План підходу та закладання вибухівки",
+      "fit": "exact"
+    },
+    {
+      "head": "План підходу та закладання вибухівки на об'єктах критичної інфростурктури Херсона.lnk",
+      "type": "downloads-and-executes",
+      "tail": "precarious.xml",
+      "evidence": "LNK-файл у разі його вікдриття забезпечить завантаження і запуск HTA-файлу \"precarious.xml\"",
+      "fit": "new"
+    },
+    {
+      "head": "precarious.xml",
+      "type": "creates",
+      "tail": "desktop.txt",
+      "evidence": "HTA-файлу \"precarious.xml\", що призведе до створення та виконання файлів \"desktop.txt\"",
+      "fit": "new"
+    },
+    {
+      "head": "precarious.xml",
+      "type": "creates",
+      "tail": "user.txt",
+      "evidence": "що призведе до створення та виконання файлів \"desktop.txt\" і \"user.txt\"",
+      "fit": "new"
+    },
+    {
+      "head": "a0671524.xsph.ru",
+      "type": "hosts-file",
+      "tail": "precarious.xml",
+      "evidence": "hXXp://a0671524.xsph[.]ru/bandage/precarious.xml",
+      "fit": "new"
+    },
+    {
+      "head": "a0667987.xsph.ru",
+      "type": "hosts-file",
+      "tail": "rejection.xml",
+      "evidence": "hXXp://a0667987.xsph[.]ru/preparations/rejection.xml",
+      "fit": "new"
+    },
+    {
+      "head": "qiwardos.ru",
+      "type": "hosts-file",
+      "tail": "get.php",
+      "evidence": "hXXp://qiwardos[.]ru/get.php",
+      "fit": "new"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "creates",
+      "definition": "The head entity generates, extracts, drops, or writes the tail file onto the victim's filesystem."
+    },
+    {
+      "name": "downloads-and-executes",
+      "definition": "The head entity downloads the tail payload from a remote resource and initiates its execution."
+    },
+    {
+      "name": "hosts-file",
+      "definition": "The head domain or server infrastructure hosts the tail downloadable file or payload."
+    }
+  ]
+}

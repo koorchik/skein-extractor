@@ -1,0 +1,39 @@
+{
+  "relations": [
+    {
+      "head": "APT28 (UAC-0028)",
+      "type": "uses-malware",
+      "tail": "CredoMap_v2",
+      "evidence": "Активність асоційовано з діяльністю групи APT28 (UAC-0028).",
+      "fit": "new"
+    },
+    {
+      "head": "UkrScanner.rar",
+      "type": "contains-file",
+      "tail": "UkrScanner.exe",
+      "evidence": "згаданий архів містить одноіменний SFX-файл",
+      "fit": "new"
+    },
+    {
+      "head": "eo2mxtqmeqzafqi.m.pipedream[.]net",
+      "type": "hosted-on",
+      "tail": "Pipedream",
+      "evidence": "веб-ресурс, розгорнутий на платформі Pipedream",
+      "fit": "new"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-malware",
+      "definition": "The head threat actor utilizes or deploys the tail malware family in their operations."
+    },
+    {
+      "name": "contains-file",
+      "definition": "The head archive or container file encloses the tail file."
+    },
+    {
+      "name": "hosted-on",
+      "definition": "The head domain, infrastructure, or resource is hosted or deployed on the tail platform or hosting service."
+    }
+  ]
+}

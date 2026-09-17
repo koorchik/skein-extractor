@@ -1,0 +1,108 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision relation extraction engine for cybersecurity incident reports (CERT-UA). The entities of one report have already been extracted and typed. Your only task is to state the relationships between these entities that the report supports.
+
+### ENTITIES OF THIS REPORT ###
+Each line is one entity: its name exactly as extracted, its type in square brackets, and a one-sentence description. The type "untyped" means no type has been established yet; the phrase after it is the extractor's own wording.
+- APT28 (UAC-0028) [Threat Actor] A Russian cyber espionage threat group associated with the Russian military intelligence agency (GRU).
+- CredoMap_v2 [Malware Family] An information stealer malware variant that extracts user authentication credentials and exfiltrates them via HTTP.
+- Pipedream [untyped: cloud platform] An integration platform and cloud service for developers used to run automated workflows and receive webhooks.
+- UkrScanner.rar [Malware Family] A password-protected RAR archive attachment used to distribute malicious executable files.
+- UkrScanner.exe [Malware Family] A self-extracting archive (SFX) executable file containing malware components.
+- scan.exe [Malware Family] An executable file containing the CredoMap_v2 information stealer malware payload.
+- SQLite.Interop.dll [Malware Family] A legitimate SQLite interoperability dynamic-link library used by applications to interact with SQLite databases.
+- mariachandran@ginaengg[.]com [Email Address] An email address observed as a sender or relay in malicious email campaigns.
+- 69[.]16.243.33 [IP Address] An IP address identified in email headers associated with the distribution of malicious emails.
+- eo2mxtqmeqzafqi.m.pipedream[.]net [Domain Name] A Pipedream subdomain used by attackers to collect exfiltrated authentication credentials.
+- Україна [Country] A country in Eastern Europe.
+
+### KNOWN RELATION TYPES ###
+Each relation type is known ONLY for the pair of argument types it is listed under (head type -> tail type). Types known for other pairs are not shown and do not apply.
+(none yet for the argument types of this report: write your own phrases)
+
+### WHAT TO OUTPUT ###
+1. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two of the entities above, as { "head", "type", "tail", "evidence", "fit" }.
+   - `head` / `tail` MUST exactly match entity names from the list above. Direction: head acts on tail.
+   - `type`: if a known relation type listed under exactly this pair of argument types states the relationship precisely, use its name. Otherwise write a short lower-case verb phrase with hyphens in your own words, as specific as the text allows. Do NOT stretch a known type to a relationship it does not precisely state, and do NOT use a type listed under a different pair of argument types.
+   - `fit`: "exact" when a known type of this pair states the relationship precisely; "loose" when you used a known type of this pair although it only roughly fits; "new" when you wrote your own phrase.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+2. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY type you wrote yourself (fit "new").
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p><span style="color: rgb(36, 36, 36);">Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA від учасника інформаційного обміну отримано електронний лист з темою "Кібератака", надісланий, начебто, від імені CERT-UA із вкладенням у вигляді захищеного паролем RAR-архіву "UkrScanner.rar".</span></p><p><span style="color: rgb(36, 36, 36);">Встановлено, що згаданий архів містить одноіменний SFX-файл, який, у свою чергу, містить шкідливу програму CredoMap_v2. Відмінність цієї версії стілеру від попередньої полягає у використанні протоколу HTTP для ексфільтрації даних. За допомогою HTTP POST-запитів викрадені автентифікаційні дані надсилаються на веб-ресурс, розгорнутий на платформі Pipedream.</span></p><p><span style="color: rgb(36, 36, 36);">Активність асоційовано з діяльністю групи APT28 (UAC-0028).</span></p><p><span style="color: rgb(36, 36, 36);">CERT-UA вжито заходів з блокування ресурсу. Разом з тим, у разі отримання подібних листів, просимо негайно інформувати.</span></p><p><br></p><p><strong>Індикатори компрометації</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">87b05a2442146a517e6aa1da5db8ae27	8724ec45a26dd07023e755cbf2a3c02548f719a63d0ffbfc42954f2b4f7c1405	UkrScanner.rar
+721521273d12775eb6518c0eeaeeac8b	d1839e491b34764fbd9f51895b639a97bc7d5a1ef8f57ba87545f8b3b9bc7e7a	UkrScanner.exe (SFX)
+d3b3aa56f1056df4c32cd2bc477e513b	778eed2fb4bbce4755cdf923f3fddc16155a478b44f90dc613ed2811a8efe066	scan.exe (CredoMap_v2)
+56a504a34d2cfbfc7eaa2b68e34af8ad	9309fb2a3f326d0f2cc3f2ab837cfd02e4f8cb6b923b3b2be265591fd38f4961	SQLite.Interop.dll (легітимна DLL)
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">mariachandran@ginaengg[.]com
+69[.]16.243.33 (Received)
+hxxps://eo2mxtqmeqzafqi.m.pipedream[.]net
+eo2mxtqmeqzafqi.m.pipedream[.]net
+</pre><p><br></p><p><strong style="color: rgb(36, 36, 36);">Рекомендації</strong></p><p><span style="color: rgb(36, 36, 36);">1. Для розповсюдження шкідливих програм, посилань тощо зловмисники використовують актуальні теми та скомпрометовані електронні адреси співробітників державних органів України. Наголошуємо на необхідності бути пильними (наявність у листі паролю до вкладення - приклад однієї з ознак потенційної загрози).</span></p><p><span style="color: rgb(36, 36, 36);">2. Для обміну інформації про кіберзагрози CERT-UA використовує платформу MISP (</span><a href="https://cert.gov.ua/article/39962)" rel="noopener noreferrer" target="_blank" style="color: rgb(91, 95, 199); background-color: rgb(255, 255, 255);">https://cert.gov.ua/article/39962)</a><span style="color: rgb(36, 36, 36);">, а також електронну пошту із застосуванням елекронних цифрових підписів.</span></p><p><span style="color: rgb(36, 36, 36);">3. Запуск сторонніх виконуваних файлів має бути блокований на рівні механізмів операційної системи і/або засобів захисту.</span></p><p><br></p><p><strong style="color: rgb(36, 36, 36);">Графічні зображення</strong></p><p><strong style="color: rgb(36, 36, 36);"></strong></p>
+
+=== RESPONSE (6.5s, in 2252 / out 688 tok, STOP) ===
+APT28 (UAC-0028) is identified as the threat group behind the campaign delivering CredoMap_v2 malware. The archive UkrScanner.rar contains the SFX executable UkrScanner.exe, which in turn delivers the CredoMap_v2 payload (scan.exe). CredoMap_v2 exfiltrates stolen authentication data via HTTP POST requests to an endpoint hosted on the Pipedream platform (eo2mxtqmeqzafqi.m.pipedream[.]net).
+
+```json
+{
+  "relations": [
+    {
+      "head": "APT28 (UAC-0028)",
+      "type": "uses-malware",
+      "tail": "CredoMap_v2",
+      "evidence": "Активність асоційовано з діяльністю групи APT28 (UAC-0028).",
+      "fit": "new"
+    },
+    {
+      "head": "UkrScanner.rar",
+      "type": "contains-file",
+      "tail": "UkrScanner.exe",
+      "evidence": "архів містить одноіменний SFX-файл",
+      "fit": "new"
+    },
+    {
+      "head": "UkrScanner.exe",
+      "type": "contains-file",
+      "tail": "CredoMap_v2",
+      "evidence": "який, у свою чергу, містить шкідливу програму CredoMap_v2",
+      "fit": "new"
+    },
+    {
+      "head": "CredoMap_v2",
+      "type": "exfiltrates-data-to",
+      "tail": "Pipedream",
+      "evidence": "викрадені автентифікаційні дані надсилаються на веб-ресурс, розгорнутий на платформі Pipedream",
+      "fit": "new"
+    },
+    {
+      "head": "CredoMap_v2",
+      "type": "exfiltrates-data-to",
+      "tail": "eo2mxtqmeqzafqi.m.pipedream[.]net",
+      "evidence": "викрадені автентифікаційні дані надсилаються на веб-ресурс, розгорнутий на платформі Pipedream",
+      "fit": "new"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-malware",
+      "definition": "The threat actor deploys, operates, or is attributed to using a specific malware family."
+    },
+    {
+      "name": "contains-file",
+      "definition": "An archive or container file encapsulates another specified file or malware component."
+    },
+    {
+      "name": "exfiltrates-data-to",
+      "definition": "The malware transmits stolen or collected data to a target service, domain, or server."
+    }
+  ]
+}
+```

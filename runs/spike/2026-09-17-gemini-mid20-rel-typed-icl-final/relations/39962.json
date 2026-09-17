@@ -1,0 +1,70 @@
+{
+  "relations": [
+    {
+      "head": "Служба безпеки України",
+      "type": "deploys",
+      "tail": "MISP",
+      "evidence": "вузлів MISP, розгорнутих в Службі безпеки України",
+      "fit": "new"
+    },
+    {
+      "head": "Національний координаційний центр кібербезпеки РНБО України",
+      "type": "deploys",
+      "tail": "MISP",
+      "evidence": "вузлів MISP, розгорнутих в... Національному координаційному центрі кібербезпеки РНБО України",
+      "fit": "new"
+    },
+    {
+      "head": "Національний банк України",
+      "type": "deploys",
+      "tail": "MISP",
+      "evidence": "вузлів MISP, розгорнутих в... Національному банку України",
+      "fit": "new"
+    },
+    {
+      "head": "Держспецзв'язку",
+      "type": "deploys",
+      "tail": "MISP",
+      "evidence": "вузлів MISP, розгорнутих в... Держспецзв'язку",
+      "fit": "new"
+    },
+    {
+      "head": "Служба безпеки України",
+      "type": "uses-email-address",
+      "tail": "support@dis.gov[.]ua",
+      "evidence": "СБУ: support@dis.gov[.]ua",
+      "fit": "new"
+    },
+    {
+      "head": "Національний банк України",
+      "type": "uses-email-address",
+      "tail": "csirt-nbu@bank.gov[.]ua",
+      "evidence": "НБУ: csirt-nbu@bank.gov[.]ua",
+      "fit": "new"
+    },
+    {
+      "head": "Національний координаційний центр кібербезпеки РНБО України",
+      "type": "uses-email-address",
+      "tail": "report@ncscc.gov[.]ua",
+      "evidence": "НКЦК: report@ncscc.gov[.]ua",
+      "fit": "new"
+    },
+    {
+      "head": "Держспецзв'язку",
+      "type": "uses-email-address",
+      "tail": "cert@cert.gov[.]ua",
+      "evidence": "Держспецзв'язку: cert@cert.gov[.]ua",
+      "fit": "new"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "deploys",
+      "definition": "An organization deploys, installs, or hosts a specific software product or platform instance."
+    },
+    {
+      "name": "uses-email-address",
+      "definition": "An organization uses or publishes an email address as its contact or communication point."
+    }
+  ]
+}

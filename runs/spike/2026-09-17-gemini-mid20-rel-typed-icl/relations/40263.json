@@ -1,0 +1,42 @@
+{
+  "relations": [
+    {
+      "head": "https://www.facebook.com/111851358189177/posts/111855418188771/",
+      "type": "hosted-on",
+      "tail": "Facebook",
+      "evidence": "https://www.facebook.com/111851358189177/posts/111855418188771/ (Фішингова сторінка FB)",
+      "fit": "exact"
+    },
+    {
+      "head": "159.65.18.143",
+      "type": "hosted-on",
+      "tail": "digitalocean[.]com",
+      "evidence": "159.65.18.143 (провайдер: @digitalocean[.]com)",
+      "fit": "new"
+    },
+    {
+      "head": "hxxps://awa-opros[.]top",
+      "type": "registered-with",
+      "tail": "namesilo[.]com",
+      "evidence": "hxxps://awa-opros[.]top (реєстратор: @namesilo[.]com)",
+      "fit": "new"
+    },
+    {
+      "head": "hxxps://oon24oprosy[.]yolasite[.]com/",
+      "type": "registered-with",
+      "tail": "safenames[.]net",
+      "evidence": "hxxps://oon24oprosy[.]yolasite[.]com/ (реєстратор: @safenames[.]net)",
+      "fit": "new"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "hosted-on",
+      "definition": "The head IP address or infrastructure is hosted on or provided by the tail hosting service."
+    },
+    {
+      "name": "registered-with",
+      "definition": "The head domain or URL is registered through the tail domain registrar."
+    }
+  ]
+}

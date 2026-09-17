@@ -1,0 +1,81 @@
+{
+  "relations": [
+    {
+      "head": "НакладенняШтрафнихСанкцiй.zip",
+      "type": "delivers",
+      "tail": "Накладення штрафних санкцій.docx",
+      "evidence": "DOCX-документ містився в захищеному паролем архіві \"НакладенняШтрафнихСанкцiй.zip\"",
+      "fit": "exact"
+    },
+    {
+      "head": "Накладення штрафних санкцій.docx",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2022-30190",
+      "evidence": "відкриття якого призведе до завантаження HTML-файлу та виконання JavaScript-коду (CVE-2022-30190)",
+      "fit": "new"
+    },
+    {
+      "head": "Накладення штрафних санкцій.docx",
+      "type": "downloads-file",
+      "tail": "index.html",
+      "evidence": "відкриття якого призведе до завантаження HTML-файлу",
+      "fit": "new"
+    },
+    {
+      "head": "index.html",
+      "type": "downloads-and-executes",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "який забезпечить завантаження та запуск шкідливої програми Cobalt Strike Beacon",
+      "fit": "new"
+    },
+    {
+      "head": "UAC-0098",
+      "type": "uses-malware",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "Активність має персистентний характер та відстежується за ідентифікатором UAC-0098",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0098",
+      "type": "uses-malware",
+      "tail": "Накладення штрафних санкцій.docx",
+      "evidence": "Активність має персистентний характер та відстежується за ідентифікатором UAC-0098",
+      "fit": "exact"
+    },
+    {
+      "head": "64.190.113.51",
+      "type": "hosts-file",
+      "tail": "index.html",
+      "evidence": "hXXp://64[.]190.113.51:8000/index[.]html",
+      "fit": "exact"
+    },
+    {
+      "head": "5.199.173.152",
+      "type": "hosts-file",
+      "tail": "ked.dll",
+      "evidence": "hXXp://5[.]199.173.152/ked[.]dll",
+      "fit": "exact"
+    },
+    {
+      "head": "5.199.173.152",
+      "type": "hosts-file",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "52f371a4f06f3398a5a361335920618c ... ked.dll (Cobalt Strike Beacon)",
+      "fit": "exact"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "exploits-vulnerability",
+      "definition": "The head malware family or file leverages the tail software vulnerability to achieve execution or compromise."
+    },
+    {
+      "name": "downloads-file",
+      "definition": "The head malware family or document requests and retrieves the tail file from a network location."
+    },
+    {
+      "name": "downloads-and-executes",
+      "definition": "The head malware or script retrieves the tail payload from a remote resource and executes it."
+    }
+  ]
+}

@@ -78,7 +78,24 @@ kinds, relation types, cross-tab, growth table, cost, file guide) is rebuilt fro
 and the run files, so no number is typed by hand. The driver writes the file at the end of a run;
 the command above refreshes it after the generator changes.
 
-### 1.4 Offline studies (zero LLM calls, embeddings cached)
+### 1.4 Relation layer on top of a finished scheme run
+
+```bash
+npm run spike-relations -- --source runs/spike/<scheme run> --arm blind-cell|blind-global|typed-icl \
+  [--schemes ingest|final] --out runs/spike/<new dir>
+npm run spike-relcompare -- runs/spike/<run A> runs/spike/<run B> ...   # table and statement overlap
+```
+
+Entities and schemes are replayed from the source run (read only), so only the relation layer
+differs between arms. `blind-*` read the free relation phrases of the source run's extractions
+(the source must be a relation-blind run) and spend naming calls only; `typed-icl` spends one
+`relate-typed-v1` call per document, cached under `<out>/relations/`. Thresholds: `REL_TAU` (0.80),
+`REL_POOL_LINK` (0.85), `REL_MASS` (3), `REL_K` (10), `REL_DELTA` (0.1), `REL_MERGE` (0.85);
+`REL_DOCS=N` limits a smoke test to the first N documents. `--schemes final` shows every mention
+with its final scheme and is not prefix-causal for the scheme layer. The driver refuses an `--out`
+that already holds a run card.
+
+### 1.5 Offline studies (zero LLM calls, embeddings cached)
 
 ```bash
 # which text representation separates kinds (d′, clustering vs hand categories or vs kind phrases)

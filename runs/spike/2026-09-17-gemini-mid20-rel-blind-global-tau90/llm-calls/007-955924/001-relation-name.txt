@@ -1,0 +1,48 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You maintain a small, growing vocabulary of RELATION TYPES for a knowledge registry built from cybersecurity incident reports. A group of relation statements extracted from several reports has just been found to be close to each other and far from every existing relation type. Decide whether the group is a genuinely new relation type, another wording of an existing one, or a more specific case of an existing one, and name it.
+
+### ARGUMENT TYPES OF THE GROUP ###
+(mixed: the argument types are given on each statement)
+
+### EXISTING RELATION TYPES ###
+- contains: Specifies that the source container or file encapsulates or holds the target file or payload. (phrases seen: contains-file)
+- downloads: Specifies that the source entity retrieves the target file, payload, or resource from a remote location. (phrases seen: downloads-and-executes, downloads-file, downloads)
+- exploits: Specifies that the source entity leverages or takes advantage of the target security vulnerability. (phrases seen: exploits-vulnerability)
+- associated-with: Specifies that the source entity is linked, related, or attributed to the target entity. (phrases seen: associated-with-malware, associated-with-group, associated-with)
+- hosts: Specifies that the source infrastructure or server stores or serves the target file, payload, or resource. (phrases seen: hosts-payload, hosts-file)
+- uses: Specifies that the source entity utilizes, employs, or deploys the target malware, tool, or resource. (phrases seen: associated-with-activity, conducts-activity, conducts-campaign, conducts)
+- located-in: Specifies that the source entity is physically, geographically, or administratively situated within the target location. (phrases seen: located-in)
+- delivers: Specifies that the source entity installs, drops, deploys, or delivers the target malware or payload. (phrases seen: delivers, delivers-payload, delivers-malware)
+
+### THE GROUP ###
+Each numbered line is one statement: head (its type) --[phrase written at extraction time]--> tail (its type), then the extractor's one-line definition of the phrase and the supporting fragment of the report:
+1. CredoMap_v2 (Malware Family) --[exfiltrates-data-to]--> eo2mxtqmeqzafqi.m.pipedream[.]net (Domain Name) | A malware program transmits stolen data to a remote network endpoint or domain. | "викрадені автентифікаційні дані надсилаються на веб-ресурс, розгорнутий на платформі Pipedream"
+2. JesterStealer (Malware Family) --[exfiltrates-data-to]--> Telegram (untyped: messaging service) | Specifies the external platform, service, or destination to which stolen information is sent. | "Викрадені дані через статично визначені адреси проксі (в т.ч., в мережі TOR) передаються зловмиснику в Telegram"
+3. Snake Keylogger (Malware Family) --[exfiltrates-to]--> Telegram (untyped: messaging service) | The malware transmits stolen information or telemetry data to the specified service or platform. | "Snake Keylogger (ексфільтрація за допомогою API Telegram)"
+
+### RULES ###
+- A relation type says WHAT the head does to, or how it stands towards, the tail. It is never a single statement and never a property of one entity.
+- Direction matters: head acts on tail. A relation and its inverse (e.g. "hosts" and "hosted-on") are DIFFERENT types.
+- Return `"verdict": "alias-of"` with `"target"` set to an existing type's label when the group means the same relation as that type (different wording, same meaning, same direction). Judge by MEANING, not by surface words.
+- Return `"verdict": "narrower-than"` with `"target"` set to an existing type's label when every statement of the group is also a case of that type but the group is clearly more specific (e.g. "downloads-and-executes" under "delivers"). Then also give the label and definition of the narrower type.
+- Return `"verdict": "new"` when no existing type covers the group.
+- For `new` and `narrower-than` give:
+  - `prefLabel`: a short lower-case verb phrase with hyphens, 1–3 words, naming the bare relation. Do NOT put the argument types into the label (write "targets", not "targets-country"; "hosts", not "hosts-file"): the argument types are recorded separately.
+  - `definition`: one sentence, at most 25 words, general enough to hold across reports, stating what the head does to the tail.
+  - `altLabels`: 0–3 alternative phrases.
+- If the group mixes clearly different relations, name the relation of the MAJORITY and list the line numbers of the minority statements in `outliers`.
+- If uncertain between alias and new, prefer `new`: an extra type can be merged later; a wrong merge cannot be undone cheaply.
+
+### OUTPUT ###
+A single raw JSON object, no markdown fences, no commentary:
+{ "verdict": "new" | "alias-of" | "narrower-than", "target": "<existing label or null>", "prefLabel": "...", "definition": "...", "altLabels": [...], "outliers": [<line numbers>] }
+
+--- text ---
+Decide and name the group now.
+
+=== RESPONSE (4.7s, in 1193 / out 70 tok, STOP) ===
+{"verdict": "new", "target": null, "prefLabel": "exfiltrates-to", "definition": "Specifies that the source entity transmits stolen data to the target destination, service, or endpoint.", "altLabels": ["exfiltrates-data-to", "exfiltrates"], "outliers": []}

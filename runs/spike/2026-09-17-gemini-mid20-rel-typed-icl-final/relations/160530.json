@@ -1,0 +1,81 @@
+{
+  "relations": [
+    {
+      "head": "СПИСОК_посилань_на_інтерактивні_карти.docx",
+      "type": "targets",
+      "tail": "Україна",
+      "evidence": "розсилання електронних листів, зокрема, серед медійних організацій України ... СПИСОК_посилань_на_інтерактивні_карти.docx",
+      "fit": "exact"
+    },
+    {
+      "head": "СПИСОК_посилань_на_інтерактивні_карти.docx",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2022-30190",
+      "evidence": "СПИСОК_посилань_на_інтерактивні_карти.docx ... Зловмисники продовжують використовувати вразливість CVE-2022-30190",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0113",
+      "type": "associated-with",
+      "tail": "Sandworm",
+      "evidence": "UAC-0113 (з середнім рівнем впевненості асоційовано з групою Sandworm)",
+      "fit": "new"
+    },
+    {
+      "head": "UAC-0113",
+      "type": "uses-malware",
+      "tail": "CrescentImp",
+      "evidence": "шкідливу програму CrescentImp ... Активність відстежується за ідентифікатором UAC-0113",
+      "fit": "exact"
+    },
+    {
+      "head": "2.txt",
+      "type": "contains-malware",
+      "tail": "CrescentImp",
+      "evidence": "EXE-файлу \"2.txt\", що класифіковано як шкідливу програму CrescentImp",
+      "fit": "new"
+    },
+    {
+      "head": "185.80.92.143",
+      "type": "hosts-file",
+      "tail": "update.html",
+      "evidence": "hxxp://185[.]80.92.143:8998/update.html",
+      "fit": "new"
+    },
+    {
+      "head": "185.80.92.143",
+      "type": "hosts-file",
+      "tail": "2.txt",
+      "evidence": "hxxp://185[.]80.92.143:8998/2.txt",
+      "fit": "new"
+    },
+    {
+      "head": "72.167.223.219",
+      "type": "hosts-file",
+      "tail": "MSDriverLoader.exe",
+      "evidence": "hXXp://72[.]167.223.219/MSDriverLoader[.]exe",
+      "fit": "new"
+    },
+    {
+      "head": "203.96.191.70",
+      "type": "hosts-file",
+      "tail": "MSDriverMonitor.exe",
+      "evidence": "hXXp://203[.]96.191.70/MSDriverMonitor[.]exe",
+      "fit": "new"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "associated-with",
+      "definition": "The threat actor cluster is linked, attributed to, or affiliated with another threat actor group."
+    },
+    {
+      "name": "contains-malware",
+      "definition": "The malicious file executes, delivers, or represents an instance of the specified malware family."
+    },
+    {
+      "name": "hosts-file",
+      "definition": "The IP address or network resource hosts a downloadable malicious file or malware component."
+    }
+  ]
+}

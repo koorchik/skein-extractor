@@ -1,0 +1,94 @@
+{
+  "runId": "2026-09-17-gemini-mid20-rel-typed-icl-final",
+  "kind": "relation-layer",
+  "config": {
+    "arm": "typed-icl",
+    "source": "runs/spike/2026-09-16-gemini-mid20-relblind",
+    "schemes": "final",
+    "out": "runs/spike/2026-09-17-gemini-mid20-rel-typed-icl-final",
+    "docs": 0,
+    "inputDir": "data/fetched",
+    "llmProvider": "gemini",
+    "llmModel": "gemini-3.7-flash",
+    "embedModel": "gemini-embedding-2",
+    "embedTaskType": "CLUSTERING",
+    "embedDims": 768,
+    "k": 10,
+    "tau": 0.8,
+    "delta": 0.1,
+    "poolLink": 0.85,
+    "mass": 3,
+    "merge": 0.85,
+    "namingMembers": 25,
+    "cacheDir": "runs/embeddings-cache"
+  },
+  "source": {
+    "run": "runs/spike/2026-09-16-gemini-mid20-relblind",
+    "mentionsSha256": "42513b4b1d8cce992de238fe74317752dd2fbe355e562882fbfdeae11592229e",
+    "schemesSha256": "9e1c9525a02d2f97b185a091742bc2c55bb1e39fd06bde3fade11b3e9a9ccd82",
+    "schemes": 11
+  },
+  "prompts": {
+    "relate-typed-v1": "4dc134ecdb1a9160c3f58923463ecfa8843da883a03dfadd43a99ac2616fb191"
+  },
+  "embeddings": {
+    "cache": {
+      "hits": 5,
+      "misses": 30,
+      "entries": 1727
+    }
+  },
+  "documents": 20,
+  "triples": {
+    "total": 135,
+    "typed": 135,
+    "pool": 0,
+    "pending": 0,
+    "unresolved": 0
+  },
+  "relationTypes": 34,
+  "cellsWithTypes": 24,
+  "narrowerTypes": 0,
+  "tailShare": 0.5588235294117647,
+  "finalSignaturePurity": 1,
+  "namingCalls": 0,
+  "extractionFailures": 0,
+  "fit": {
+    "new": 63,
+    "exact": 71,
+    "loose": 1
+  },
+  "cost": {
+    "runId": "2026-09-17-gemini-mid20-rel-typed-icl-final",
+    "totals": {
+      "calls": 50,
+      "inputTokens": 65831,
+      "outputTokens": 14621,
+      "costUsd": 0,
+      "unpricedCalls": 50,
+      "wallClockMs": 146236
+    },
+    "byOperator": {
+      "relate": {
+        "calls": 20,
+        "inputTokens": 65831,
+        "outputTokens": 14621,
+        "costUsd": 0,
+        "unpricedCalls": 20,
+        "wallClockMs": 134909
+      },
+      "embed-relation": {
+        "calls": 30,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "costUsd": 0,
+        "unpricedCalls": 30,
+        "wallClockMs": 11327
+      }
+    },
+    "unpricedModels": [
+      "gemini/gemini-3.7-flash",
+      "gemini/gemini-embedding-2"
+    ]
+  }
+}

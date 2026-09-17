@@ -1,0 +1,52 @@
+{
+  "relations": [
+    {
+      "head": "Алгоритм дій членів сім’ї безвісти відсутнього військовослужбовця LegalAid.rar",
+      "type": "contains-file",
+      "tail": "Алгоритм_LegalAid.xlsm",
+      "evidence": "Зазначений RAR-архів містить документ \"Алгоритм_LegalAid.xlsm\"",
+      "fit": "exact"
+    },
+    {
+      "head": "plexbd[.]net",
+      "type": "hosts-file",
+      "tail": "MSCommondll.exe",
+      "evidence": "hXXp://plexbd[.]net/MSCommondll.exe",
+      "fit": "exact"
+    },
+    {
+      "head": "plexbd[.]net",
+      "type": "hosts-file",
+      "tail": "MSCommonDriver.exe",
+      "evidence": "hXXp://plexbd[.]net/MSCommonDriver.exe",
+      "fit": "exact"
+    },
+    {
+      "head": "MSCommonDriver.DCRat.exe",
+      "type": "contains-malware",
+      "tail": "DarkCrystal RAT",
+      "evidence": "MSCommonDriver.DCRat.exe (2022-06-09) (DarkCrystal RAT)",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0113",
+      "type": "uses-malware",
+      "tail": "DarkCrystal RAT",
+      "evidence": "запуск шкідливої програми DarkCrystal RAT. Виходячи... Активність відстежується за ідентифікатором UAC-0113.",
+      "fit": "exact"
+    },
+    {
+      "head": "DarkCrystal RAT",
+      "type": "uses-c2-domain",
+      "tail": "datagroup.ddns[.]net",
+      "evidence": "домену управління DarkCrystal RAT",
+      "fit": "new"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-c2-domain",
+      "definition": "The malware utilizes the specified domain name as its command and control (C2) server."
+    }
+  ]
+}

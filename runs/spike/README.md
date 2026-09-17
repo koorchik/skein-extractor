@@ -32,3 +32,20 @@ What each run is evidence for:
 
 A cost line in a run card covers the last invocation only: runs that reused cached extractions
 show naming calls and no extraction calls.
+
+## Relation-layer runs (2026-09-17)
+
+Driver `bin/spike-relations.ts`: entities and schemes are replayed from `2026-09-16-gemini-mid20-relblind`
+(read only), the arms differ in how relation statements are produced and typed. Interpretation:
+`docs/SPIKE-2026-09-17-relation-cells.md`; side-by-side table: `npm run spike-relcompare -- <runs>`.
+
+| run | differs in | statements | typed | types | cells | naming calls | relation calls |
+|---|---|---|---|---|---|---|---|
+| `2026-09-17-gemini-mid20-rel-blind-global` | blind phrases, one global cell, τ 0.80, mass 3 (control) | 121 | 89 | 4 | 1 | 4 | 0 |
+| `2026-09-17-gemini-mid20-rel-blind-global-tau90` | as above, τ 0.90 | 121 | 71 | 11 | 1 | 13 | 0 |
+| `2026-09-17-gemini-mid20-rel-blind-cell` | blind phrases, kNN, pool and naming inside each cell (head scheme → tail scheme), τ 0.80, mass 3 | 121 | 53 | 5 | 4 | 5 | 0 |
+| `2026-09-17-gemini-mid20-rel-blind-cell-tau90` | as above, τ 0.90 | 121 | 39 | 6 | 4 | 7 | 0 |
+| `2026-09-17-gemini-mid20-rel-blind-cell-tau90-m2` | τ 0.90, mass 2 | 121 | 50 | 10 | 7 | 14 | 0 |
+| `2026-09-17-gemini-mid20-rel-blind-cell-final` | τ 0.80, final schemes visible from the first document (not prefix-causal for the scheme layer) | 121 | 53 | 5 | 4 | 5 | 0 |
+| `2026-09-17-gemini-mid20-rel-typed-icl` | second call per document (`relate-typed-v1`) with typed entities and the inventory of the document's cells | 123 | 123 | 40 | 20 | 0 | 20 |
+| `2026-09-17-gemini-mid20-rel-typed-icl-final` | as above with final schemes (not prefix-causal for the scheme layer) | 135 | 135 | 34 | 24 | 0 | 20 |

@@ -1,0 +1,73 @@
+{
+  "relations": [
+    {
+      "head": "UAC-0104",
+      "type": "uses-malware",
+      "tail": "JesterStealer",
+      "evidence": "ураження комп'ютера шкідливою програмою JesterStealer. Активність тимчасово відстежується за ідентифікатором UAC-0104.",
+      "fit": "exact"
+    },
+    {
+      "head": "JesterStealer",
+      "type": "exfiltrates-data-to",
+      "tail": "Telegram",
+      "evidence": "Викрадені дані через статично визначені адреси проксі (в т.ч., в мережі TOR) передаються зловмиснику в Telegram.",
+      "fit": "exact"
+    },
+    {
+      "head": "igshop.net",
+      "type": "hosts-file",
+      "tail": "Map023.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map023.xlsb",
+      "fit": "new"
+    },
+    {
+      "head": "igshop.net",
+      "type": "hosts-file",
+      "tail": "Map021.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map021.xlsb",
+      "fit": "new"
+    },
+    {
+      "head": "igshop.net",
+      "type": "hosts-file",
+      "tail": "Map026.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map026.xlsb",
+      "fit": "new"
+    },
+    {
+      "head": "igshop.net",
+      "type": "hosts-file",
+      "tail": "Updater-Microsoft.exe",
+      "evidence": "hxxps://igshop[.]net/uploads/Updater-Microsoft.exe",
+      "fit": "new"
+    },
+    {
+      "head": "dcshost.net",
+      "type": "hosts-file",
+      "tail": "OfficeUpdaterNew.exe",
+      "evidence": "hxxps://dcshost[.]net/mail/OfficeUpdaterNew.exe",
+      "fit": "new"
+    },
+    {
+      "head": "marmaris.com.ua",
+      "type": "hosts-file",
+      "tail": "Updater-Microsoft.exe",
+      "evidence": "hxxps://marmaris.com[.]ua/misc/Updater-Microsoft.exe",
+      "fit": "new"
+    },
+    {
+      "head": "autodoka.com.ua",
+      "type": "hosts-file",
+      "tail": "Updater-Microsoft.exe",
+      "evidence": "hxxps://autodoka.com[.]ua/extra/Updater-Microsoft.exe",
+      "fit": "new"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "hosts-file",
+      "definition": "The web resource, server, or domain hosts a malicious or dropper file for download."
+    }
+  ]
+}

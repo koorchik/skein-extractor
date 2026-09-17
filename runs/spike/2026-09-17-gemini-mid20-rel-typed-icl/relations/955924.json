@@ -1,0 +1,84 @@
+{
+  "relations": [
+    {
+      "head": "UAC-0041",
+      "type": "uses-malware",
+      "tail": "RelicRace",
+      "evidence": "Активність має систематичний, масовий та географічно розосереджений характер і відстежується за ідентифікатором UAC-0041.",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0041",
+      "type": "uses-malware",
+      "tail": "RelicSource",
+      "evidence": "Активність має систематичний, масовий та географічно розосереджений характер і відстежується за ідентифікатором UAC-0041.",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0041",
+      "type": "uses-malware",
+      "tail": "Formbook",
+      "evidence": "Активність має систематичний, масовий та географічно розосереджений характер і відстежується за ідентифікатором UAC-0041.",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0041",
+      "type": "uses-malware",
+      "tail": "Snake Keylogger",
+      "evidence": "Активність має систематичний, масовий та географічно розосереджений характер і відстежується за ідентифікатором UAC-0041.",
+      "fit": "exact"
+    },
+    {
+      "head": "Остаточний платіж.tgz",
+      "type": "contains-file",
+      "tail": "Остаточний платіж.exe",
+      "evidence": "Архів містить EXE-файл, що класифіковано як .NET-даунлоадер RelicRace",
+      "fit": "exact"
+    },
+    {
+      "head": "RelicRace",
+      "type": "executes",
+      "tail": "RelicSource",
+      "evidence": "призначений для завантаження (здебільшого з OneDrive), декодування та запуску в пам'яті шкідливої .NET-програми RelicSource",
+      "fit": "exact"
+    },
+    {
+      "head": "RelicRace",
+      "type": "downloads-payload-from",
+      "tail": "OneDrive",
+      "evidence": "призначений для завантаження (здебільшого з OneDrive), декодування та запуску в пам'яті шкідливої .NET-програми RelicSource",
+      "fit": "new"
+    },
+    {
+      "head": "RelicSource",
+      "type": "executes",
+      "tail": "Formbook",
+      "evidence": "запуск (в т.ч. шляхом інжектування) отриманого пейлоаду. Як пейлоад використовуються програми-стілери, а саме: Formbook",
+      "fit": "exact"
+    },
+    {
+      "head": "RelicSource",
+      "type": "executes",
+      "tail": "Snake Keylogger",
+      "evidence": "запуск (в т.ч. шляхом інжектування) отриманого пейлоаду. Як пейлоад використовуються програми-стілери, а саме: Formbook та Snake Keylogger",
+      "fit": "exact"
+    },
+    {
+      "head": "Snake Keylogger",
+      "type": "exfiltrates-data-via",
+      "tail": "Telegram",
+      "evidence": "Snake Keylogger (ексфільтрація за допомогою API Telegram)",
+      "fit": "new"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "downloads-payload-from",
+      "definition": "The head malware retrieves or fetches its secondary payload from the tail cloud service or remote resource."
+    },
+    {
+      "name": "exfiltrates-data-via",
+      "definition": "The head malware transmits or exfiltrates stolen data using the tail messaging platform or service API."
+    }
+  ]
+}

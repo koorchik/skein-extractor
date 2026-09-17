@@ -1,0 +1,81 @@
+{
+  "relations": [
+    {
+      "head": "UAC-0113",
+      "type": "targets",
+      "tail": "Україна",
+      "evidence": "масового розсилання електронних листів, зокрема, серед медійних організацій України",
+      "fit": "new"
+    },
+    {
+      "head": "UAC-0113",
+      "type": "associated-with",
+      "tail": "Sandworm",
+      "evidence": "асоційовано з групою Sandworm",
+      "fit": "new"
+    },
+    {
+      "head": "СПИСОК_посилань_на_інтерактивні_карти.docx",
+      "type": "downloads-and-executes",
+      "tail": "update.html",
+      "evidence": "відкриття якого призведе до завантаження HTML-файлу та виконання JavaScript-коду",
+      "fit": "exact"
+    },
+    {
+      "head": "update.html",
+      "type": "downloads-and-executes",
+      "tail": "2.txt",
+      "evidence": "забезпечить завантаження та виконання EXE-файлу \"2.txt\"",
+      "fit": "exact"
+    },
+    {
+      "head": "2.txt",
+      "type": "delivers",
+      "tail": "CrescentImp",
+      "evidence": "EXE-файлу \"2.txt\", що класифіковано як шкідливу програму CrescentImp",
+      "fit": "exact"
+    },
+    {
+      "head": "185.80.92.143",
+      "type": "hosts-file",
+      "tail": "update.html",
+      "evidence": "hxxp://185[.]80.92.143:8998/update.html",
+      "fit": "new"
+    },
+    {
+      "head": "185.80.92.143",
+      "type": "hosts-file",
+      "tail": "2.txt",
+      "evidence": "hxxp://185[.]80.92.143:8998/2.txt",
+      "fit": "new"
+    },
+    {
+      "head": "72.167.223.219",
+      "type": "hosts-file",
+      "tail": "MSDriverLoader.exe",
+      "evidence": "hXXp://72[.]167.223.219/MSDriverLoader[.]exe",
+      "fit": "new"
+    },
+    {
+      "head": "203.96.191.70",
+      "type": "hosts-file",
+      "tail": "MSDriverMonitor.exe",
+      "evidence": "hXXp://203[.]96.191.70/MSDriverMonitor[.]exe",
+      "fit": "new"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets",
+      "definition": "The head threat actor directs its malicious campaign or operations against the tail country or organization."
+    },
+    {
+      "name": "associated-with",
+      "definition": "The head threat actor is linked or attributed with a certain level of confidence to the tail threat group."
+    },
+    {
+      "name": "hosts-file",
+      "definition": "The head IP address hosts or serves the tail malicious file or payload."
+    }
+  ]
+}

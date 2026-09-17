@@ -1,0 +1,56 @@
+{
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "активність асоціюємо з діяльністю групи UAC-0056",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "Інформація щодо наявності вакансій та їх укомплектування.xls",
+      "evidence": "активність асоціюємо з діяльністю групи UAC-0056",
+      "fit": "exact"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "write.exe",
+      "evidence": "активність асоціюємо з діяльністю групи UAC-0056",
+      "fit": "exact"
+    },
+    {
+      "head": "Інформація щодо наявності вакансій та їх укомплектування.xls",
+      "type": "drops-and-executes",
+      "tail": "write.exe",
+      "evidence": "активація якого призведе до створення на комп'ютері та запуску файлу \"write.exe\"",
+      "fit": "new"
+    },
+    {
+      "head": "write.exe",
+      "type": "drops",
+      "tail": "%PROGRAMDATA%\\TRYxaEbX",
+      "evidence": "забезпечуючи створення на диску файлу \"%PROGRAMDATA%\\TRYxaEbX\"",
+      "fit": "new"
+    },
+    {
+      "head": "Cobalt Strike Beacon",
+      "type": "uses-c2-domain",
+      "tail": "skreatortemp[.]site",
+      "evidence": "skreatortemp[.]site",
+      "fit": "exact"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "drops-and-executes",
+      "definition": "The source malware creates/drops a secondary malware file on the victim system and initiates its execution."
+    },
+    {
+      "name": "drops",
+      "definition": "The source malware creates, writes, or extracts a secondary payload or file onto the disk."
+    }
+  ]
+}

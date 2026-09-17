@@ -1,0 +1,102 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision relation extraction engine for cybersecurity incident reports (CERT-UA). The entities of one report have already been extracted and typed. Your only task is to state the relationships between these entities that the report supports.
+
+### ENTITIES OF THIS REPORT ###
+Each line is one entity: its name exactly as extracted, its type in square brackets, and a one-sentence description. The type "untyped" means no type has been established yet; the phrase after it is the extractor's own wording.
+- Facebook [untyped: social network] A major global online social media and networking service.
+- Єдиний Компенсаційний Центр Повернення Невиплачених Грошових Коштів [untyped: fraudulent campaign] A fraudulent scheme and theme pretending to provide financial compensation to deceive victims.
+- UAC-0100 [Threat Actor] A threat group tracked by CERT-UA associated with financial phishing and fraud campaigns.
+- kohhd[.]com [Domain Name] A domain name used in financial phishing infrastructure.
+- rivierafamily[.]com [Domain Name] A domain name used in financial phishing infrastructure.
+- compensationukr[.]com [Domain Name] A domain name used in financial phishing infrastructure.
+- compensations-ukrain[.]bar [Domain Name] A domain name used in financial phishing infrastructure.
+- compensation-ukr[.]com [Domain Name] A domain name used in financial phishing infrastructure.
+- europadonnaireland[.]org [Domain Name] A domain name used in financial phishing infrastructure.
+- foundpomoshi[.]com [Domain Name] A domain name used in financial phishing infrastructure.
+- peer-gos[.]top [Domain Name] A domain name used in financial phishing infrastructure.
+- helpzzfound[.]site [Domain Name] A domain name used in financial phishing infrastructure.
+- uacompensation[.]xyz [Domain Name] A domain name used in financial phishing infrastructure.
+- pay.uacompensation[.]xyz [Domain Name] A fully qualified domain name used in financial phishing infrastructure.
+- Національний банк України [untyped: central bank] The central bank of Ukraine responsible for monetary policy and financial system regulation.
+- Україна [Country] A sovereign state in Eastern Europe.
+
+### KNOWN RELATION TYPES ###
+Each relation type is known ONLY for the pair of argument types it is listed under (head type -> tail type). Types known for other pairs are not shown and do not apply.
+Head [(untyped)] -> Tail [(untyped)]:
+- operates-instance-of: The head entity hosts, deploys, or manages an instance or node of the software product specified as the tail.
+- has-contact-email: The head entity maintains or uses the tail email address for official communication or incident reporting.
+- subordinate-to: The head entity is an administrative unit, working body, or subdivision of the tail government body.
+- uses-malware: The head threat actor utilizes or deploys the tail malware family in their operations.
+- contains-file: The head archive or container file encloses the tail file.
+- hosted-on: The head domain, infrastructure, or resource is hosted or deployed on the tail platform or hosting service.
+- exfiltrates-data-to: The head malware transmits stolen information to the tail platform, service, or destination.
+- routes-traffic-through: The head malware routes or proxies its network communications through the tail network or proxy service.
+- creates: The head entity generates, extracts, drops, or writes the tail file onto the victim's filesystem.
+- downloads-and-executes: The head entity downloads the tail payload from a remote resource and initiates its execution.
+- exploits-vulnerability: The head entity takes advantage of the tail vulnerability to compromise a system.
+
+Head [(untyped)] -> Tail [Domain Name]:
+- registered-with: The head domain or URL is registered through the tail domain registrar.
+
+Head [(untyped)] -> Tail [Country]:
+- targets: The head entity aims its malicious activity or campaign at the tail country or organization.
+
+Head [Threat Actor] -> Tail [(untyped)]:
+- associated-with: The head threat actor is linked or attributed with a certain level of confidence to the tail threat group.
+
+Head [Threat Actor] -> Tail [Country]:
+- targets: The head threat actor directs its malicious campaign or operations against the tail country or organization.
+
+Head [Domain Name] -> Tail [(untyped)]:
+- hosts-file: The head domain or server infrastructure hosts the tail downloadable file or payload.
+
+### WHAT TO OUTPUT ###
+1. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two of the entities above, as { "head", "type", "tail", "evidence", "fit" }.
+   - `head` / `tail` MUST exactly match entity names from the list above. Direction: head acts on tail.
+   - `type`: if a known relation type listed under exactly this pair of argument types states the relationship precisely, use its name. Otherwise write a short lower-case verb phrase with hyphens in your own words, as specific as the text allows. Do NOT stretch a known type to a relationship it does not precisely state, and do NOT use a type listed under a different pair of argument types.
+   - `fit`: "exact" when a known type of this pair states the relationship precisely; "loose" when you used a known type of this pair although it only roughly fits; "new" when you wrote your own phrase.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+2. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY type you wrote yourself (fit "new").
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA у соціальній мережі Facebook виявлено низку шахрайських сторінок, що містять посилання на так званий "Єдиний Компенсаційний Центр Повернення Невиплачених Грошових Коштів". На згаданому ресурсі пропонується надати персональну інформацію та здійснити додатковий платіж, в результаті чого дані платіжної картки буде скомпрометовано.</p><p>Згадана шахрайська активність має систематичний характер та відстежується за ідентифікатором UAC-0100.</p><p>&nbsp;</p><p><strong>Індикатори компрометації</strong></p><pre class="ql-syntax" spellcheck="false">hXXp://kohhd[.]com/
+hXXps://rivierafamily[.]com/
+hXXps://compensationukr[.]com/
+hXXps://compensations-ukrain[.]bar/
+hXXps://compensation-ukr[.]com/
+hXXps://europadonnaireland[.]org/
+hXXps://foundpomoshi[.]com/
+hXXps://peer-gos[.]top/
+hXXps://helpzzfound[.]site/
+hXXps://uacompensation[.]xyz/
+hXXps://pay.uacompensation[.]xyz/
+</pre><p><br></p><p><strong>Рекомендації</strong></p><p>1. Ніколи&nbsp;не&nbsp;вводьте&nbsp;реквізити&nbsp;платіжних&nbsp;карток&nbsp;на&nbsp;незнайомих&nbsp;та&nbsp;підозрілих&nbsp;веб-сайтах, а&nbsp;також&nbsp;налаштуйте&nbsp;контроль&nbsp;руху&nbsp;коштів&nbsp;(підключіть&nbsp;SMS-інформування, встановіть&nbsp;ліміти&nbsp;на&nbsp;операції).</p><p>2. Якщо дані платіжної картки помилково введено на шахрайському веб-сайті - НЕГАЙНО заблокувати платіжну картку за допомогою мобільного застосунку, гарячої лінії банку (телефон зазначено на звороті картки) або через Інтернет-банкінг.</p><p>3. Скористайтеся основними порадами платіжної безпеки Національного банку України <a href="https://bank.gov.ua/promo/stopfraud/" rel="noopener noreferrer" target="_blank">https://bank.gov.ua/promo/stopfraud/</a> та правилами кібергігієни <a href="https://cert.gov.ua/recommendation/31" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/recommendation/31</a>.</p><p><br></p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (5.4s, in 2104 / out 163 tok, STOP) ===
+{
+  "relations": [
+    {
+      "head": "UAC-0100",
+      "type": "conducts-campaign",
+      "tail": "Єдиний Компенсаційний Центр Повернення Невиплачених Грошових Коштів",
+      "evidence": "шахрайська активність має систематичний характер та відстежується за ідентифікатором UAC-0100",
+      "fit": "new"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "conducts-campaign",
+      "definition": "The head threat actor conducts or executes the tail malicious or fraudulent campaign."
+    }
+  ]
+}
