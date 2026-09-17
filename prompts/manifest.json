@@ -7,6 +7,44 @@
     "variables": [],
     "bytes": 786
   },
+  "extract-open-icl-v1": {
+    "file": "prompts/extract-open-icl-v1.md",
+    "extractedFrom": null,
+    "authoredFor": "bin/spike-schemes.ts",
+    "sha256": "c7a8ef1ae00b2874ac6187daebbd6c399c66498716c179c3d5322f85edb3f1d9",
+    "variables": [
+      {
+        "placeholder": "knownSchemes",
+        "source": "current scheme list (prefLabel + definition), rendered by bin/spike-schemes.ts"
+      },
+      {
+        "placeholder": "knownRelationTypes",
+        "source": "current relation inventory (name + definition), rendered by bin/spike-schemes.ts"
+      }
+    ],
+    "bytes": 3911
+  },
+  "extract-open-relblind-v1": {
+    "file": "prompts/extract-open-relblind-v1.md",
+    "extractedFrom": null,
+    "authoredFor": "bin/spike-schemes.ts",
+    "sha256": "23d45dcac0f7a65288da2c4fc8996f253c7c1032af1ef6ca0bf0e3d4fbde6e2d",
+    "variables": [],
+    "bytes": 3680
+  },
+  "extract-open-v1": {
+    "file": "prompts/extract-open-v1.md",
+    "extractedFrom": null,
+    "authoredFor": "bin/spike-schemes.ts",
+    "sha256": "81914196ec311981ce4047c560cc86f86b4e4b8cec0651e9c87ed650bef5be76",
+    "variables": [
+      {
+        "placeholder": "knownRelationTypes",
+        "source": "current relation inventory (name + definition), rendered by bin/spike-schemes.ts"
+      }
+    ],
+    "bytes": 3831
+  },
   "extract-streaming": {
     "file": "prompts/extract-streaming.md",
     "extractedFrom": "src/DataProcessors/StreamingExtractor.ts",
@@ -54,6 +92,15 @@
     "sha256": "d5e2140bb3d3039a61fe00fa20427eb4d974e5ad836f334315488421c6ee8e42",
     "variables": [],
     "bytes": 5556
+  },
+  "listwise-id-v1": {
+    "file": "prompts/listwise-id-v1.md",
+    "extractedFrom": null,
+    "authoredFor": "src/Normalization/decision/ListwiseGraphDecision.ts",
+    "note": "2026-08-23: pass-1 prompt of the decoupled v8 architecture — identity + gloss ONLY (v7's identity rules verbatim, hierarchy explicitly out of scope), JSONL output (one object per line; a truncated ballot loses a suffix, not everything). Hierarchy lives in the source-free pass-2 review call. Motivated by the frame finding (small judge refuses knowledge edges in the document frame) and the JSONL transport probes (73/73 rows recovered where nested JSON truncated).",
+    "sha256": "450f4d81ab107acbb3065dc9e6f19926866548f428545a41aa075d38f2eaffe8",
+    "variables": [],
+    "bytes": 2947
   },
   "listwise-select": {
     "file": "prompts/listwise-select.md",
@@ -135,15 +182,6 @@
     "variables": [],
     "bytes": 5896
   },
-  "listwise-id-v1": {
-    "file": "prompts/listwise-id-v1.md",
-    "extractedFrom": null,
-    "authoredFor": "src/Normalization/decision/ListwiseGraphDecision.ts",
-    "note": "2026-08-23: pass-1 prompt of the decoupled v8 architecture — identity + gloss ONLY (v7's identity rules verbatim, hierarchy explicitly out of scope), JSONL output (one object per line; a truncated ballot loses a suffix, not everything). Hierarchy lives in the source-free pass-2 review call. Motivated by the frame finding (small judge refuses knowledge edges in the document frame) and the JSONL transport probes (73/73 rows recovered where nested JSON truncated).",
-    "sha256": "450f4d81ab107acbb3065dc9e6f19926866548f428545a41aa075d38f2eaffe8",
-    "variables": [],
-    "bytes": 2947
-  },
   "psi-norm-batch": {
     "file": "prompts/psi-norm-batch.md",
     "extractedFrom": "src/DataProcessors/DataEntitiesCollector.ts",
@@ -155,6 +193,44 @@
       }
     ],
     "bytes": 756
+  },
+  "relate-typed-v1": {
+    "file": "prompts/relate-typed-v1.md",
+    "extractedFrom": null,
+    "authoredFor": "bin/spike-relations.ts",
+    "sha256": "4dc134ecdb1a9160c3f58923463ecfa8843da883a03dfadd43a99ac2616fb191",
+    "variables": [
+      {
+        "placeholder": "entities",
+        "source": "entities of the document with their scheme label at ingest (or 'untyped' plus the kind phrase) and gloss, rendered by bin/spike-relations.ts"
+      },
+      {
+        "placeholder": "knownRelationTypes",
+        "source": "relation types known for the argument-type pairs that can occur in this document, grouped by pair, rendered by bin/spike-relations.ts"
+      }
+    ],
+    "bytes": 2486
+  },
+  "relation-name-v1": {
+    "file": "prompts/relation-name-v1.md",
+    "extractedFrom": null,
+    "authoredFor": "bin/spike-relations.ts",
+    "sha256": "4d5a297326c1f99c0737e44aa1e4fac9ce3795d935ae1581563cfc416e85251c",
+    "variables": [
+      {
+        "placeholder": "cell",
+        "source": "argument types of the pool cluster (head scheme -> tail scheme, with definitions), rendered by bin/spike-relations.ts"
+      },
+      {
+        "placeholder": "knownTypes",
+        "source": "relation types already known for this pair of argument types (all types in the global arm), rendered by bin/spike-relations.ts"
+      },
+      {
+        "placeholder": "members",
+        "source": "numbered pool-cluster statements (head, phrase, tail, definition, evidence), rendered by bin/spike-relations.ts"
+      }
+    ],
+    "bytes": 2658
   },
   "repair-judge": {
     "file": "prompts/repair-judge.md",
@@ -184,6 +260,23 @@
       }
     ],
     "bytes": 1200
+  },
+  "scheme-name-v1": {
+    "file": "prompts/scheme-name-v1.md",
+    "extractedFrom": null,
+    "authoredFor": "bin/spike-schemes.ts",
+    "sha256": "bb1b66dab2ce5b681df1477d9eb79d2669b66fba6487b9ed437e1cdcd5b4d1b9",
+    "variables": [
+      {
+        "placeholder": "knownSchemes",
+        "source": "current scheme list (prefLabel + definition), rendered by bin/spike-schemes.ts"
+      },
+      {
+        "placeholder": "members",
+        "source": "pool-cluster members (name, kind, gloss), rendered by bin/spike-schemes.ts"
+      }
+    ],
+    "bytes": 1812
   },
   "type-judge": {
     "file": "prompts/type-judge.md",

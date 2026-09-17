@@ -1,9 +1,24 @@
 # Gold table (FROZEN)
 
 **`gold-aliases-v2` — 3,201 clusters / 398 hierarchy edge rows (392 distinct cluster pairs) /
-4,069 NIL labels.** This copy is the evaluation reference for the SKEIN-R paper and is frozen:
-any change would bump the gold version and invalidate the claims ledger (`docs/CLAIMS.md`) by
-construction.
+4,069 NIL labels.** This is a byte-identical, read-only copy of the SKEIN-R evaluation reference
+(`skein-resolver/gold/`). It is never edited here: any change would silently fork the gold
+version that the SKEIN-R claims are scored against.
+
+## Role in article 3 (SKEIN-E)
+
+- **Category reference.** Every cluster carries one of the 10 hand categories of the 2025 schema.
+  Arm F inherits them exactly; Arm O reaches them by surface alignment to `inventory.json`
+  (experiment E0a). The hand categories are coarser than the open kinds (advisories, patches and
+  CVE identifiers sit under Software or Organization), so they are one reference, never truth.
+- **Identity gold for E6.** Emergent schemes vs hand categories vs one catch-all scheme as the
+  blocking key of the inherited identity pipeline, scored by `npm run evaluate`.
+- **What it lacks.** No relation gold, no glosses, no kind phrases, no scheme-level labels. New
+  annotation for article 3 (E0a alignment and silver labels, the E0b relation panel) goes into
+  new files (`open-alignment-v1.json`, `relations-v1.json`), built with the same protocol:
+  ensemble proposes, single expert adjudicates, agreement reported (`docs/GOLD-TABLE.md`).
+
+Everything below is the unchanged SKEIN-R description of the table.
 
 Built in the source repo (`llm-analysis-of-text-data/llm-basic-framework`) by the gold pipeline
 documented in `docs/GOLD-TABLE.md`; the builder itself is deliberately NOT carried into this
