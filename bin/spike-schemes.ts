@@ -24,6 +24,7 @@ import { LlmClient } from '../src/LlmClient/LlmClient';
 import { createLlmBackend } from '../src/LlmClient/createBackend';
 import { prompts } from '../src/Normalization/PromptProvider';
 import { writeRunReadme } from '../src/RunReadme/runReadme';
+import { writeRunView } from '../src/RunViews/runViews';
 import { ensureDir, sortByNumericId, writeJsonAtomic } from '../src/utils/fsUtils';
 import { extractAndParseJson } from '../src/utils/validationUtils';
 import { cosineNormalized, l2Normalize, meanPool } from '../src/utils/vectorUtils';
@@ -664,6 +665,8 @@ async function main() {
     cost: costMeter.summary(),
   };
   await writeJsonAtomic(path.join(outDir, 'run-card.json'), summary);
+  // every run ends with a viewer to open in a browser, then the README that lists it
+  await writeRunView(outDir);
   // README.md: the hand-written purpose above the marker is kept, the rest is regenerated
   await writeRunReadme(outDir, process.env.SPIKE_PURPOSE);
   console.log('\n=== SUMMARY');

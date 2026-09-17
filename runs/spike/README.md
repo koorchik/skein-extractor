@@ -3,8 +3,9 @@
 All runs: `gemini-3.7-flash` (extraction and naming, temperature 0), `gemini-embedding-2`
 (CLUSTERING, 768 dims), representation 0.7 kind + 0.3 gloss, k = 10, δ = 0.1, mass = 3 documents.
 Numbers are from each run's `run-card.json`; interpretation is in
-`docs/SPIKE-2026-09-16-emerging-schemes.md`. Open `<run>/scheme-view.html` to browse a run
-(regenerate with `npm run scheme-view -- --run <run>`). Each run directory has its own
+`docs/SPIKE-2026-09-16-emerging-schemes.md`. Every run directory has a self-contained viewer to open in a browser: `<run>/scheme-view.html`
+for scheme runs, `<run>/relation-view.html` for relation-layer runs (regenerate with
+`npm run make-view -- --run <run>` or `--all runs/spike`). Each run directory has its own
 `README.md` with purpose, configuration, schemes and growth table (`npm run run-readme -- --run <run>`).
 
 | run | documents | differs in | mentions | schemes | pool | relation types | naming calls |
@@ -14,7 +15,7 @@ Numbers are from each run's `run-card.json`; interpretation is in
 | `2026-09-16-gemini-mid20` | 101–120 (2022 CTI reports) | strict thresholds, kNN vote only | 358 | 9 | 22 | 9 | 11 |
 | `2026-09-16-gemini-mid20-kindfirst` | 101–120 | kind-first assignment at 0.9; extractions reused from `…-mid20` | 358 | 10 | 22 | 9 | 11 |
 | `2026-09-16-gemini-mid20-icl` | 101–120 | in-context arm: scheme list in the extraction prompt (`extract-open-icl-v1`), kind-first 0.9 | 326 | 9 | 16 | 6 | 9 |
-| `2026-09-16-gemini-mid20-relblind` | 101–120 | relation-blind arm (`extract-open-relblind-v1`), kind-first 0.9; no viewer file yet | 369 | 11 | 32 | 35 | 13 |
+| `2026-09-16-gemini-mid20-relblind` | 101–120 | relation-blind arm (`extract-open-relblind-v1`), kind-first 0.9 | 369 | 11 | 32 | 35 | 13 |
 
 What each run is evidence for:
 

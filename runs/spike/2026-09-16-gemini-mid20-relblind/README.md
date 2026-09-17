@@ -6,8 +6,8 @@ Exploratory spike run, not reportable.
 relation inventory, relation phrases are free text merged at cosine 0.85. Stream positions 101–120,
 kind-first 0.9.
 
-**Differs from its siblings in:** the extraction prompt (fresh extraction). No `scheme-view.html`
-has been generated for this run yet.
+**Differs from its siblings in:** the extraction prompt (fresh extraction). Source run of the
+relation-layer family `2026-09-17-gemini-mid20-rel-*`, which replays its entities and schemes.
 
 **Evidence for.** Free relation phrases fragment: 60 phrases, 35 types after the 0.85 merge. Input of
 `npm run spike-relcanon` and of the planned relation-type pool with naming (L2, E7). Interpretation:
@@ -211,4 +211,5 @@ Covers the last invocation of the driver only. USD is not recorded (unpriced: ge
 - `per-doc.json`: per-prefix counters (the growth table above)
 - `relations-inventory.json`: final relation types with definitions, counts and aliases
 - `run-card.json`: configuration, prompt hashes, headline counts, overlay, cost; the source of every number here
+- `scheme-view.html`: self-contained browser view of the run (`npm run make-view`)
 - `schemes.json`: final scheme inventory with members and history

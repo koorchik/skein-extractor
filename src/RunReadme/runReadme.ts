@@ -134,7 +134,7 @@ const FILE_GUIDE: Record<string, string> = {
   extractions: 'cached raw extraction output per document',
   artifacts: 'per-document artifact with schemes, overlay categories and derived roles',
   'llm-calls': 'full LLM transcripts, one subdirectory per document that triggered a call',
-  'scheme-view.html': 'self-contained browser view of the run (`npm run scheme-view`)',
+  'scheme-view.html': 'self-contained browser view of the run (`npm run make-view`)',
   'repr-study.txt': 'output of the representation study (`npm run spike-repr`)',
 };
 
@@ -340,6 +340,7 @@ const RELATION_FILE_GUIDE: Record<string, string> = {
   'events.jsonl': 'every pending, release, pool, assign, mint and alias decision in stream order',
   'docs.json': 'the document slice in stream order',
   relations: 'cached output of the second (relation) call per document',
+  'relation-view.html': 'self-contained browser view of the run (`npm run make-view`)',
   'llm-calls': 'full LLM transcripts, one subdirectory per document that triggered a call',
 };
 

@@ -57,12 +57,29 @@ calls are then spent. `…-mid20-kindfirst` was produced this way from `…-mid2
 ### 1.2 Viewer
 
 ```bash
-npm run scheme-view -- --run runs/spike/<dir>        # writes <dir>/scheme-view.html
+npm run make-view -- --run runs/spike/<dir>          # the viewer that fits the run
+npm run make-view -- --all runs/spike                # every run directory
+npm run scheme-view -- --run runs/spike/<dir>        # scheme viewer only, with --out
 ```
+
+Every run directory carries one self-contained HTML viewer; both drivers write it at the end of a
+run (`src/RunViews/runViews.ts` picks it from the kind in `run-card.json`). `make-view` regenerates
+after a viewer changes; it makes no LLM calls. A new kind of run needs a new viewer module and one
+entry in `runViews.ts`: a run without something to open in a browser is not finished.
+
+**`scheme-view.html`** (scheme runs, `src/SchemeView/`).
 
 One self-contained HTML file: document stepper with playback, scheme cards (label, definition,
 altLabels, members with glosses, birth document), 2-D embedding map coloured by scheme or by
 hand category, ν(t) and inventory curves, per-document triples, scheme × hand-category cross-tab.
+
+**`relation-view.html`** (relation-layer runs, `src/RelationView/`). Document stepper with
+playback; relation-type cards grouped by cell (label, definition, broader type, alt labels,
+phrases, member statements with evidence); the argument-type matrix (head scheme × tail scheme,
+laid out by the final schemes of the arguments so that every arm looks the same) with typed /
+pool / pending bars, click a cell to filter; growth curves; the statement table with the final
+cell, type, assignment route and similarity; the current document's statements and events
+(release, mint, alias, cross-cell name reuse).
 
 ### 1.3 Run README
 

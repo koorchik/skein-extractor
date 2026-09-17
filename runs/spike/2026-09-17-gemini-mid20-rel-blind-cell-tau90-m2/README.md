@@ -132,5 +132,6 @@ Covers the last invocation of the driver only. Entity extraction and scheme nami
 - `llm-calls/`: full LLM transcripts, one subdirectory per document that triggered a call
 - `per-doc.json`: per-prefix counters (the growth table above)
 - `relation-types.json`: final relation types with cell, label, definition, alt labels, broader type, members and history
+- `relation-view.html`: self-contained browser view of the run (`npm run make-view`)
 - `run-card.json`: configuration, source scheme run with hashes, prompt hashes, headline counts, cost; the source of every number here
 - `triples.json`: every relation statement with its phrase, cell, final type and assignment trail

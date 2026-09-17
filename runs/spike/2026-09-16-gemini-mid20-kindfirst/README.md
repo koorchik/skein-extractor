@@ -175,5 +175,5 @@ Covers the last invocation of the driver only. No extraction calls: the extracti
 - `per-doc.json`: per-prefix counters (the growth table above)
 - `relations-inventory.json`: final relation types with definitions, counts and aliases
 - `run-card.json`: configuration, prompt hashes, headline counts, overlay, cost; the source of every number here
-- `scheme-view.html`: self-contained browser view of the run (`npm run scheme-view`)
+- `scheme-view.html`: self-contained browser view of the run (`npm run make-view`)
 - `schemes.json`: final scheme inventory with members and history

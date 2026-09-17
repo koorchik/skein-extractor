@@ -48,6 +48,7 @@ import {
   tailShare,
 } from '../src/RelationDiscovery/relationCells';
 import { writeRunReadme } from '../src/RunReadme/runReadme';
+import { writeRunView } from '../src/RunViews/runViews';
 import { ensureDir, writeJsonAtomic } from '../src/utils/fsUtils';
 import { extractAndParseJson } from '../src/utils/validationUtils';
 import { cosineNormalized, l2Normalize } from '../src/utils/vectorUtils';
@@ -471,6 +472,7 @@ async function main() {
     fit,
     cost: costMeter.summary(),
   });
+  await writeRunView(outDir);
   await writeRunReadme(outDir, process.env.SPIKE_PURPOSE);
   console.log(`\nwrote ${outDir}: ${registry.triples.length} triples, ${typedTriples.length} typed, ${registry.types.length} types, ${namingCalls} naming calls`);
 }
