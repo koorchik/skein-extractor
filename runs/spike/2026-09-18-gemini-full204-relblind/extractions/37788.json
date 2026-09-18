@@ -1,0 +1,88 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0028 (APT28)",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage threat group."
+    },
+    {
+      "name": "UKR.NET",
+      "kind": "web portal",
+      "gloss": "A major Ukrainian internet portal and email service provider."
+    },
+    {
+      "name": "Pipedream",
+      "kind": "cloud platform",
+      "gloss": "An integration platform and cloud service for developers to connect APIs."
+    },
+    {
+      "name": "hxxps://tinyurl[.]com/2p8kpb9v",
+      "kind": "url",
+      "gloss": "A shortened URL leading to a phishing website."
+    },
+    {
+      "name": "hxxps://panelunregistertle-348.frge[.]io/",
+      "kind": "url",
+      "gloss": "A URL hosting a phishing page impersonating a UKR.NET password reset form."
+    },
+    {
+      "name": "hxxps://eoy7zvsvn6xfcmy.m.pipedream[.]net",
+      "kind": "url",
+      "gloss": "A Pipedream endpoint URL used to collect exfiltrated credentials."
+    },
+    {
+      "name": "hxxps://eo9p1d2bfmioiot.m.pipedream[.]net/?usr=",
+      "kind": "url",
+      "gloss": "A Pipedream endpoint URL used to collect user credentials."
+    },
+    {
+      "name": "hxxps://eoiw8lhjwuc3sh2.m.pipedream[.]net",
+      "kind": "url",
+      "gloss": "A Pipedream endpoint URL used for data collection."
+    },
+    {
+      "name": "panelunregistertle-348.frge[.]io",
+      "kind": "domain",
+      "gloss": "A domain name used to host a phishing site."
+    },
+    {
+      "name": "eo9p1d2bfmioiot.m.pipedream[.]net",
+      "kind": "domain",
+      "gloss": "A domain name on Pipedream infrastructure used to receive exfiltrated data."
+    },
+    {
+      "name": "eoiw8lhjwuc3sh2.m.pipedream[.]net",
+      "kind": "domain",
+      "gloss": "A domain name on Pipedream infrastructure used for credential harvesting."
+    },
+    {
+      "name": "frge[.]io",
+      "kind": "domain",
+      "gloss": "A domain name providing hosting infrastructure used in phishing attacks."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0028 (APT28)",
+      "type": "impersonates",
+      "tail": "UKR.NET",
+      "evidence": "електронних листів що імітують повідомлення від UKR.NET"
+    },
+    {
+      "head": "UAC-0028 (APT28)",
+      "type": "uses-service",
+      "tail": "Pipedream",
+      "evidence": "розгорнутий зловмисниками на платформі Pipedream"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "impersonates",
+      "definition": "The threat actor or tool mimics the identity or branding of an entity to deceive targets."
+    },
+    {
+      "name": "uses-service",
+      "definition": "The threat actor utilizes a legitimate third-party platform or service for malicious operations."
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0006",
+      "kind": "threat actor",
+      "gloss": "A financially motivated cybercriminal threat actor known for deploying SmokeLoader to compromise banking and financial systems."
+    },
+    {
+      "name": "SmokeLoader",
+      "kind": "malware family",
+      "gloss": "A modular malicious bot program used to download and execute additional malware payloads."
+    },
+    {
+      "name": "WinRAR",
+      "kind": "software product",
+      "gloss": "A widely used file archiver and utility software for Windows."
+    },
+    {
+      "name": "Pax_ipn_18.07.2023p.jpg",
+      "kind": "malicious file",
+      "gloss": "An executable file disguised with an image extension used in malicious execution chains."
+    },
+    {
+      "name": "2.Витяг з реeстру вiд 24.07.2023р_Код документа 9312-0580-6944-3255.xls.js",
+      "kind": "malicious file",
+      "gloss": "A malicious JavaScript loader script used to download and execute secondary payloads."
+    },
+    {
+      "name": "1.Платiжна iнструкцiя iпн та вытяг з реестру Код документа 9312-0580-6944-3255.exe",
+      "kind": "malicious file",
+      "gloss": "A self-extracting archive containing malicious components and decoy documents."
+    },
+    {
+      "name": "document_payment.docx",
+      "kind": "decoy document",
+      "gloss": "A decoy Microsoft Word document deployed within an SFX archive."
+    },
+    {
+      "name": "Платiжна iнструкцiя Приват_банк.docx",
+      "kind": "decoy document",
+      "gloss": "A legitimate-looking payment instruction decoy document mimicking PrivatBank."
+    },
+    {
+      "name": "passport.bat",
+      "kind": "malicious file",
+      "gloss": "A batch script designed to execute a renamed payload."
+    },
+    {
+      "name": "weboffice.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable payload downloaded during the compromise chain."
+    },
+    {
+      "name": "wscript.exe",
+      "kind": "software product",
+      "gloss": "A Windows Script Host component used to execute scripts on Windows systems."
+    },
+    {
+      "name": "cscript.exe",
+      "kind": "software product",
+      "gloss": "A command-line Windows Script Host utility for script execution."
+    },
+    {
+      "name": "powershell.exe",
+      "kind": "software product",
+      "gloss": "A command-line shell and scripting tool included with Microsoft Windows."
+    },
+    {
+      "name": "mshta.exe",
+      "kind": "software product",
+      "gloss": "A Windows utility used to execute Microsoft HTML Application (HTA) files."
+    },
+    {
+      "name": "194.87.32.152",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the malicious network infrastructure."
+    },
+    {
+      "name": "ukr-net-downloadfile[.]su",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used for hosting and distributing phishing or payload files."
+    },
+    {
+      "name": "mediaplatformapharm[.]ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used to host the executable payload weboffice.exe."
+    },
+    {
+      "name": "tvpharm[.]ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used to host the executable payload weboffice.exe."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "SmokeLoader",
+      "evidence": "атаки угрупування UAC-0006 із застосуванням шкідливої програми SmokeLoader"
+    },
+    {
+      "head": "passport.bat",
+      "type": "delivers",
+      "tail": "Pax_ipn_18.07.2023p.jpg",
+      "evidence": "BAT-скриптом \"passport.bat\", призначеним для запуску \"Pax_ipn_18.07.2023p.jpg\""
+    },
+    {
+      "head": "mediaplatformapharm[.]ru",
+      "type": "hosts",
+      "tail": "weboffice.exe",
+      "evidence": "hXXp://mediaplatformapharm[.]ru/officedownloadfile/weboffice.exe"
+    },
+    {
+      "head": "tvpharm[.]ru",
+      "type": "hosts",
+      "tail": "weboffice.exe",
+      "evidence": "hXXp://tvpharm[.]ru/officedownloadfile/weboffice.exe"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,168 @@
+{
+  "entities": [
+    {
+      "name": "Агентство з питань кібербезпеки та інфраструктури (CISA)",
+      "kind": "government body",
+      "gloss": "A United States federal agency responsible for national cybersecurity and infrastructure protection."
+    },
+    {
+      "name": "Директиву щодо надзвичайних ситуацій 20-02",
+      "kind": "security directive",
+      "gloss": "A cybersecurity emergency directive issued by CISA regarding critical vulnerabilities in Microsoft Windows."
+    },
+    {
+      "name": "Microsoft",
+      "kind": "software vendor",
+      "gloss": "An American multinational technology corporation that develops software products and operating systems."
+    },
+    {
+      "name": "Microsoft Windows",
+      "kind": "operating system family",
+      "gloss": "A group of graphical operating system families developed and marketed by Microsoft."
+    },
+    {
+      "name": "CryptoAPI Windows",
+      "kind": "software component",
+      "gloss": "A cryptographic application programming interface included in Microsoft Windows operating systems."
+    },
+    {
+      "name": "CVE-2020-0601",
+      "kind": "vulnerability identifier",
+      "gloss": "A vulnerability in Windows CryptoAPI affecting elliptic curve cryptography certificate validation, known as CurveBall."
+    },
+    {
+      "name": "MS Windows 10",
+      "kind": "operating system",
+      "gloss": "A major release of the Microsoft Windows NT operating system."
+    },
+    {
+      "name": "MS Server 2016",
+      "kind": "operating system",
+      "gloss": "A server operating system developed by Microsoft as part of the Windows NT family."
+    },
+    {
+      "name": "MS Server 2019",
+      "kind": "operating system",
+      "gloss": "A server operating system developed by Microsoft as part of the Windows NT family."
+    },
+    {
+      "name": "CVE-2020-0609",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in Windows Remote Desktop Gateway Server."
+    },
+    {
+      "name": "CVE-2020-0610",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in Windows Remote Desktop Gateway Server."
+    },
+    {
+      "name": "Windows Server 2012",
+      "kind": "operating system",
+      "gloss": "A server operating system developed by Microsoft as part of the Windows NT family."
+    },
+    {
+      "name": "RDP Gateway Server",
+      "kind": "software component",
+      "gloss": "A Windows Server role service that enables authorized remote users to connect to resources on an internal network."
+    },
+    {
+      "name": "CVE-2020-0611",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in the Microsoft Windows Remote Desktop Client."
+    },
+    {
+      "name": "Windows Remote Desktop Client",
+      "kind": "software application",
+      "gloss": "A client application used to connect to remote computers and virtual apps via Remote Desktop Protocol."
+    },
+    {
+      "name": "Windows 7",
+      "kind": "operating system",
+      "gloss": "A major release of the Microsoft Windows operating system released in 2009."
+    },
+    {
+      "name": "Windows 2008 R2",
+      "kind": "operating system",
+      "gloss": "A server operating system produced by Microsoft based on Windows NT 6.1."
+    },
+    {
+      "name": "January 2020 Security Updates",
+      "kind": "software update",
+      "gloss": "A collection of monthly security patches released by Microsoft on January 15, 2020."
+    },
+    {
+      "name": "US-CERT",
+      "kind": "government body",
+      "gloss": "The United States Computer Emergency Readiness Team, formerly an organization within CISA."
+    },
+    {
+      "name": "NSA",
+      "kind": "government body",
+      "gloss": "A national-level intelligence agency of the United States Department of Defense."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Агентство з питань кібербезпеки та інфраструктури (CISA)",
+      "type": "issued-directive",
+      "tail": "Директиву щодо надзвичайних ситуацій 20-02",
+      "evidence": "CISA видало Директиву щодо надзвичайних ситуацій 20-02"
+    },
+    {
+      "head": "CVE-2020-0601",
+      "type": "affects-product",
+      "tail": "MS Windows 10",
+      "evidence": "Вразливість перевірки сертифікатів ECC є у MS Windows 10"
+    },
+    {
+      "head": "CVE-2020-0601",
+      "type": "affects-product",
+      "tail": "MS Server 2016",
+      "evidence": "Вразливість перевірки сертифікатів ECC є у MS Windows 10, MS Server 2016"
+    },
+    {
+      "head": "CVE-2020-0601",
+      "type": "affects-product",
+      "tail": "MS Server 2019",
+      "evidence": "Вразливість перевірки сертифікатів ECC є у MS Windows 10, MS Server 2016 та MS Server 2019"
+    },
+    {
+      "head": "CVE-2020-0609",
+      "type": "affects-product",
+      "tail": "RDP Gateway Server",
+      "evidence": "CVE-2020-0609 та CVE-2020-0610 – Критичні... RDP Gateway Server (є на Windows Server 2012, 2016, 2019)"
+    },
+    {
+      "head": "CVE-2020-0610",
+      "type": "affects-product",
+      "tail": "RDP Gateway Server",
+      "evidence": "CVE-2020-0609 та CVE-2020-0610 – Критичні... RDP Gateway Server (є на Windows Server 2012, 2016, 2019)"
+    },
+    {
+      "head": "CVE-2020-0611",
+      "type": "affects-product",
+      "tail": "Windows Remote Desktop Client",
+      "evidence": "CVE-2020-0611 вразливість віддаленого виконання коду, яка існує в Windows Remote Desktop Client"
+    },
+    {
+      "head": "Microsoft",
+      "type": "released-patch",
+      "tail": "January 2020 Security Updates",
+      "evidence": "Патчі для цих вразливостей вже випущені компанією Microsoft як частина оновлення January 2020 Security Updates"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "issued-directive",
+      "definition": "The subject authority issued the specified security directive or policy."
+    },
+    {
+      "name": "affects-product",
+      "definition": "The specified vulnerability is present in and affects the designated software product or component."
+    },
+    {
+      "name": "released-patch",
+      "definition": "The software vendor released the specified security patch or update collection."
+    }
+  ]
+}

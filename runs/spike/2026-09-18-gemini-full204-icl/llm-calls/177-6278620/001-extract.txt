@@ -1,0 +1,220 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+- Country: A distinct territorial body or sovereign state with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Government Organization: An official agency, ministry, or administrative body operating as part of a national or state government. (also: Government Agency, Government Body, State Authority)
+- Malware: Malicious software, code, or executables designed to infiltrate, damage, or compromise computer systems and data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address specifying the location and retrieval mechanism of a resource on a computer network. (also: URL, Web Address, Web Link)
+- Person: An individual human being, such as a government official, cybersecurity expert, researcher, or executive. (also: Individual, Natural Person)
+- IP Address: A numerical label assigned to a device connected to a computer network that uses the Internet Protocol for communication. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Electronic Mail Address)
+- Computer File: A digital resource or named item stored on a computer system, containing data, code, or instructions. (also: File, Digital File, Filename)
+- Company: A commercial business, corporation, or enterprise operating in any economic sector or industry. (also: Enterprise, Corporation, Commercial Organization)
+- Domain Name: A human-readable identification string defining a realm of administrative autonomy or resource location within the Internet Domain Name System. (also: Internet Domain, FQDN, Fully Qualified Domain Name)
+- Threat Actor: An individual, group, or organization responsible for malicious cyber activities, attacks, or cyber espionage operations. (also: Threat Group, Cyber Threat Actor, Hacker Group)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA отримано інформацію щодо здійснення спроби ураження шкідливим програмним забезпеченням ЕОМ представника Сил оборони України.</p><p>З'ясовано, що засобами месенджеру Signal під виглядом необхідності надання документів для заміщення посади в Департаменті операцій з підтримки миру ООН невстановленою особою надіслано файл "Супровід.rar". Згаданий архів містить експлойт для вразливості у програмному забезпеченні WinRAR (CVE-2023-38831).&nbsp;</p><p>У випадку відкриття архіву та успішної експлуатації вразливості буде виконано CMD-файл "супровід.pdf .cmd", що, серед іншого, призведе до відкриття документу-приманки "DPO_SEC23-1_OMA_P-3_16-ENG.pdf" та запуску PowerShell-скриптів, що класифіковано як шкідливу програму COOKBOX (детальна інформація в публікації від 24.02.2024 <a href="https://cert.gov.ua/article/6277849)." rel="noopener noreferrer" target="_blank">https://cert.gov.ua/article/6277849</a> ).</p><p>Зауважимо, що для забезпечення функціонування серверу управління COOKBOX використовується сервіс динамічного DNS NoIP. За сприяння останніх відповідне доменне ім'я було заблоковане.</p><p>Користувачів ЕОМ просимо бути пильними та критично ставитися до будь-яких спроб спонукання до відкриття файлів чи переходу за посиланням, в тому числі тих, що надходять через мессенджери. За найменшої підозри подібні повідомлення, посилання та файли надавати для аналізу до відповідних підрозділів і/або CERT-UA.</p><p>Системним адміністраторам наполегливо рекомендуємо заборонити можливість запуску користувачами утиліт на кшталт powershell.exe, wscript.exe, csript.exe, mshta.exe та інших, для чого доцільно застосувати штатні механізми операційної системи (SRP, AppLocker, налаштування реєстру).</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">2fec3ab587e6b5533b4c6b3c11dd357a&nbsp; &nbsp; d8ccaef116cada9c558f9e912d5cf7ef2978082611e677f6f55ca233f47a2f68&nbsp; &nbsp; Супровід.rar
+cc1732ce2d2cd79dc85893fdc3b7d143&nbsp; &nbsp; 6652b46987350e831678d7a33a70bce94c8c9cca137f0bb0efbbd0c07279cbb6&nbsp; &nbsp; DPO_SEC23-1_OMA_P-3_16-ENG.pdf
+ba1859659089253621e5a65181ea94cd&nbsp; &nbsp; 8f8abfa6717ad2043a295d16b5aeeac3e7084b7994f6eec8351e18a9a3c59997&nbsp; &nbsp; DPO_SEC23-1_OMA_P-3_18-ENG.pdf.cmd
+1e857958a3c7f909ee1370c66d71adfd&nbsp; &nbsp; 56b569912a6e1c4c08e5612c0ef5ddf9f238b1d708621b89963b47b31e45cde1&nbsp; &nbsp; супровід.pdf&nbsp;
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">Mozilla/5.0(Windows NT 10.0;Win64;x64;rv:109.0)Gecko/20100101 Firefox/116.0
+hXXp://netman.servehttp[.]com
+hXXp://worker-misty-mouse-6ac7.aky15825.workers[.]dev/
+netman.servehttp[.]com
+worker-misty-mouse-6ac7.aky15825.workers[.]dev
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">HKCU:\Environment\XBoxD1
+HKCU:\Environment\XBoxD2
+HKCU:\Environment\XBoxD3
+HKCU:\Environment\XBoxD4
+HKCU:\Environment\XBoxD5
+HKCU:\Environment\XBoxD6
+HKCU:\Environment\XBoxD7
+HKCU:\Environment\XBoxD8
+HKCU:\Environment\XBoxD9
+HKCU:\Environment\XBoxD10
+HKCU:\Environment\XBoxD11
+HKCU:\Environment\XBoxD12
+HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\XBoxCache
+cmd /c start /min "" powershell -windowStyle hidden -c(powershell -windowStyle hidden -enC $env:XBoxD1+$env:XBoxD2+$env:XBoxD3+$env:XBoxD4+$env:XBoxD5+$env:XBoxD6+$env:XBoxD7+$env:XBoxD8+$env:XBoxD9+$env:XBoxD10+$env:XBoxD11+$env:XBoxD12
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Приклад ланцюга ураження</p>
+
+=== RESPONSE (6.2s, in 3214 / out 1366 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "Country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Сили оборони України",
+      "kind": "Government Organization",
+      "gloss": "The combined military and security forces responsible for the defense and territorial integrity of Ukraine."
+    },
+    {
+      "name": "Signal",
+      "kind": "Software Product",
+      "gloss": "A cross-platform encrypted instant messaging service and application."
+    },
+    {
+      "name": "Департамент операцій з підтримки миру ООН",
+      "kind": "Government Organization",
+      "gloss": "A United Nations department tasked with planning, preparing, managing, and directing UN peacekeeping operations."
+    },
+    {
+      "name": "ООН",
+      "kind": "Government Organization",
+      "gloss": "An intergovernmental organization that aims to maintain international peace and security."
+    },
+    {
+      "name": "Супровід.rar",
+      "kind": "Computer File",
+      "gloss": "A malicious RAR archive containing an exploit and decoy documents."
+    },
+    {
+      "name": "WinRAR",
+      "kind": "Software Product",
+      "gloss": "A file archiver utility for Windows developed by RARLAB."
+    },
+    {
+      "name": "CVE-2023-38831",
+      "kind": "Security Vulnerability",
+      "gloss": "A code execution vulnerability in RARLAB WinRAR before version 6.23 triggered when processing specially crafted archives."
+    },
+    {
+      "name": "супровід.pdf .cmd",
+      "kind": "Computer File",
+      "gloss": "A malicious Windows command script executed during archive extraction."
+    },
+    {
+      "name": "DPO_SEC23-1_OMA_P-3_16-ENG.pdf",
+      "kind": "Computer File",
+      "gloss": "A decoy PDF document related to United Nations peace operations vacancies."
+    },
+    {
+      "name": "DPO_SEC23-1_OMA_P-3_18-ENG.pdf.cmd",
+      "kind": "Computer File",
+      "gloss": "A malicious command script file disguised as a PDF document."
+    },
+    {
+      "name": "супровід.pdf",
+      "kind": "Computer File",
+      "gloss": "A decoy document file used in the phishing attack."
+    },
+    {
+      "name": "COOKBOX",
+      "kind": "Malware",
+      "gloss": "A PowerShell-based backdoor malware used for persistent remote control and payload execution."
+    },
+    {
+      "name": "NoIP",
+      "kind": "Company",
+      "gloss": "A dynamic DNS service provider offering managed DNS and domain name registration services."
+    },
+    {
+      "name": "netman.servehttp[.]com",
+      "kind": "Domain Name",
+      "gloss": "A dynamic DNS domain used as command and control infrastructure for COOKBOX malware."
+    },
+    {
+      "name": "worker-misty-mouse-6ac7.aky15825.workers[.]dev",
+      "kind": "Domain Name",
+      "gloss": "A Cloudflare Workers domain utilized in malicious network communications."
+    },
+    {
+      "name": "hXXp://netman.servehttp[.]com",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL associated with COOKBOX command and control communication."
+    },
+    {
+      "name": "hXXp://worker-misty-mouse-6ac7.aky15825.workers[.]dev/",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL hosted on Cloudflare Workers infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Сили оборони України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Сил оборони України"
+    },
+    {
+      "head": "Департамент операцій з підтримки миру ООН",
+      "type": "part-of",
+      "tail": "ООН",
+      "evidence": "Департаменті операцій з підтримки миру ООН"
+    },
+    {
+      "head": "Супровід.rar",
+      "type": "exploits",
+      "tail": "CVE-2023-38831",
+      "evidence": "Згаданий архів містить експлойт для вразливості у програмному забезпеченні WinRAR (CVE-2023-38831)"
+    },
+    {
+      "head": "CVE-2023-38831",
+      "type": "affects",
+      "tail": "WinRAR",
+      "evidence": "вразливості у програмному забезпеченні WinRAR (CVE-2023-38831)"
+    },
+    {
+      "head": "супровід.pdf .cmd",
+      "type": "delivers",
+      "tail": "COOKBOX",
+      "evidence": "виконано CMD-файл \"супровід.pdf .cmd\", що... призведе до... запуску PowerShell-скриптів, що класифіковано як шкідливу програму COOKBOX"
+    },
+    {
+      "head": "COOKBOX",
+      "type": "uses",
+      "tail": "NoIP",
+      "evidence": "для забезпечення функціонування серверу управління COOKBOX використовується сервіс динамічного DNS NoIP"
+    }
+  ],
+  "newRelationTypes": []
+}

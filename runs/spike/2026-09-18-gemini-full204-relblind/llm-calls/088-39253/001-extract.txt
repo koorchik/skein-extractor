@@ -1,0 +1,164 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p class="ql-align-justify"><strong>Загальна інформація</strong></p><p>Спільними зусиллями фахівців Департаменту кіберполіції Національної поліції України та Урядової команди реагування на комп’ютерні надзвичайні події України CERT-UA вжито заходів з дослідження цільових атак, спрямованих на громадян України, що полягають у розповсюдженні повідомлень з посиланнями на, начебто, веб-сайт Telegram з метою отримання несанкціонованого доступу до облікових записів згаданого сервісу, в тому числі, з можливістю перехоплення одноразового SMS-коду.</p><p>В результаті подібних атак зловмисниками здійснюється викрадення даних сесії, переліку контактів та історії листування.</p><p>Закликаємо бути пильними та взяти до уваги описаний вектор атак, а також не переходити за підозрілими посиланнями та встановити додатковий пароль для двоетапної автентифікації в Telegram (поряд з кодом із SMS). </p><p>У разі отримання подібних повідомлень просимо терміново інформувати суб'єкти забезпечення кібербезпеки України з метою вжиття невідкладних заходів з блокування шкідливих веб-ресурсів.</p><p>Згадана активність відстежується за ідентифікатором UAC-0094.</p><p><br></p><p class="ql-align-justify"><strong>Індикатори компрометації</strong></p><p class="ql-align-justify"><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">hxxps://telegram.org.security[.]ohsxy.com/?access=true&amp;check=
+security-check.telegram.org.ohsxy[.]com
+telegram.org.security.ohsxy[.]com
+ohsxy[.]com
+telsec[.]org
+45[.]150.67.87
+193[.]106.191.202
+</pre><p><br></p><p class="ql-align-justify"><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (5.5s, in 1397 / out 1417 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Департамент кіберполіції Національної поліції України",
+      "kind": "government body",
+      "gloss": "The specialized law enforcement division of the National Police of Ukraine responsible for investigating cybercrime."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "Telegram",
+      "kind": "messaging service",
+      "gloss": "A widely used cloud-based instant messaging and voice-over-IP service."
+    },
+    {
+      "name": "UAC-0094",
+      "kind": "threat actor",
+      "gloss": "A threat actor cluster tracked by CERT-UA involved in credential phishing attacks against Telegram users."
+    },
+    {
+      "name": "hxxps://telegram.org.security[.]ohsxy.com/?access=true&check=",
+      "kind": "url",
+      "gloss": "A malicious URL used to phish Telegram account credentials and session data."
+    },
+    {
+      "name": "security-check.telegram.org.ohsxy[.]com",
+      "kind": "domain name",
+      "gloss": "A malicious domain name masquerading as a Telegram security check service."
+    },
+    {
+      "name": "telegram.org.security.ohsxy[.]com",
+      "kind": "domain name",
+      "gloss": "A malicious domain name used in phishing campaigns targeting Telegram users."
+    },
+    {
+      "name": "ohsxy[.]com",
+      "kind": "domain name",
+      "gloss": "A malicious domain name used as base infrastructure for Telegram-themed phishing pages."
+    },
+    {
+      "name": "telsec[.]org",
+      "kind": "domain name",
+      "gloss": "A domain name associated with malicious activity targeting Telegram accounts."
+    },
+    {
+      "name": "45[.]150.67.87",
+      "kind": "ip address",
+      "gloss": "An IP address associated with phishing infrastructure in attacks on Telegram accounts."
+    },
+    {
+      "name": "193[.]106.191.202",
+      "kind": "ip address",
+      "gloss": "An IP address associated with infrastructure used by the threat actor UAC-0094."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0094",
+      "type": "targets-citizens-of",
+      "tail": "України",
+      "evidence": "атак, спрямованих на громадян України... активність відстежується за ідентифікатором UAC-0094"
+    },
+    {
+      "head": "UAC-0094",
+      "type": "targets-service",
+      "tail": "Telegram",
+      "evidence": "отримання несанкціонованого доступу до облікових записів згаданого сервісу... відстежується за ідентифікатором UAC-0094"
+    },
+    {
+      "head": "UAC-0094",
+      "type": "uses-infrastructure",
+      "tail": "security-check.telegram.org.ohsxy[.]com",
+      "evidence": "Згадана активність відстежується за ідентифікатором UAC-0094... security-check.telegram.org.ohsxy[.]com"
+    },
+    {
+      "head": "UAC-0094",
+      "type": "uses-infrastructure",
+      "tail": "telegram.org.security.ohsxy[.]com",
+      "evidence": "Згадана активність відстежується за ідентифікатором UAC-0094... telegram.org.security.ohsxy[.]com"
+    },
+    {
+      "head": "UAC-0094",
+      "type": "uses-infrastructure",
+      "tail": "ohsxy[.]com",
+      "evidence": "Згадана активність відстежується за ідентифікатором UAC-0094... ohsxy[.]com"
+    },
+    {
+      "head": "UAC-0094",
+      "type": "uses-infrastructure",
+      "tail": "telsec[.]org",
+      "evidence": "Згадана активність відстежується за ідентифікатором UAC-0094... telsec[.]org"
+    },
+    {
+      "head": "UAC-0094",
+      "type": "uses-infrastructure",
+      "tail": "45[.]150.67.87",
+      "evidence": "Згадана активність відстежується за ідентифікатором UAC-0094... 45[.]150.67.87"
+    },
+    {
+      "head": "UAC-0094",
+      "type": "uses-infrastructure",
+      "tail": "193[.]106.191.202",
+      "evidence": "Згадана активність відстежується за ідентифікатором UAC-0094... 193[.]106.191.202"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets-citizens-of",
+      "definition": "The threat actor directs malicious cyber activities against citizens of the specified country."
+    },
+    {
+      "name": "targets-service",
+      "definition": "The threat actor targets users or accounts of the specified software platform or online service."
+    },
+    {
+      "name": "uses-infrastructure",
+      "definition": "The threat actor operates, deploys, or routes attacks through the specified network infrastructure entity."
+    }
+  ]
+}

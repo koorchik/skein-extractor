@@ -1,0 +1,108 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><span style="color: rgb(0, 0, 0);">Керівництво та колектив Державного центру кіберзахисту вітає особовий склад&nbsp;</span><span style="color: rgb(0, 0, 0); background-color: rgba(255, 0, 0, 0.2);">ІСЗЗІ</span><span style="color: rgb(0, 0, 0);">&nbsp;КПІ ім. Сікорського з нагоди 14-ї річниці утворення. Бажаємо міцного здоров'я,&nbsp;</span><span style="color: rgb(0, 0, 0); background-color: rgb(254, 228, 129);">благополуччя</span><span style="color: rgb(0, 0, 0);">, натхнення і нових професійних успіхів.</span></p><p><span style="color: rgb(0, 0, 0);">23 грудня 2020 року керівництво та науково-педагогічні працівники Інституту спеціального зв’язку та захисту інформації Національного технічного університету України «Київський політехнічний інститут імені Ігоря Сікорського» ознайомилися з діяльністю Державного центру кіберзахисту Державної служби спеціального зв’язку та захисту інформації України.</span></p><p><span style="color: rgb(0, 0, 0);">Начальники структурних підрозділів Державного центру кіберзахисту презентували діяльність за напрямками відповідальності, поінформували про основні завдання та функції. Зокрема представлені компоненти технологічної інфраструктури організаційно-технічної моделі кіберзахисту, центр з управління кібербезпекою та платформа обміну інформацією про кіберінциденти (Malware Information Sharing Platform, MISP) урядової команди реагування на комп’ютерні надзвичайні події Україні CERT-UA.</span></p><p><span style="color: rgb(0, 0, 0);"><span class="ql-cursor">﻿</span></span></p><p><span style="color: rgb(0, 0, 0);">Андрій&nbsp;</span><span style="color: rgb(0, 0, 0); background-color: rgba(255, 0, 0, 0.2);">Кузміч</span><span style="color: rgb(0, 0, 0);">, начальник Державного центру кіберзахисту, презентував аспекти трансформації організаційної структури державної установи, розвитку спроможності та можливості у забезпеченні кіберзахисту об’єктів критичної інформаційної інфраструктури, взаємодії з функціональними підрозділами основних суб’єктів національної системи кібербезпеки та галузевими центрами з управління кібербезпекою.</span></p><p><span style="color: rgb(0, 0, 0);">Олександр Пучков, начальник&nbsp;</span><span style="color: rgb(0, 0, 0); background-color: rgba(255, 0, 0, 0.2);">ІСЗЗІ</span><span style="color: rgb(0, 0, 0);">&nbsp;КПІ ім. Сікорського, запропонував напрямки подальшої співпраці установ.</span></p><p></p><p><span style="color: rgb(0, 0, 0);">В ході візиту керівники Державного центру кіберзахисту та&nbsp;</span><span style="color: rgb(0, 0, 0); background-color: rgba(255, 0, 0, 0.2);">ІСЗЗІ</span><span style="color: rgb(0, 0, 0);">&nbsp;КПІ ім. Сікорського обговорили напрямки розвитку співпраці, визначилися щодо доцільності спільної розробки сценаріїв реагування на кіберзагрози, участі фахівців кіберзахисту Державного центру кіберзахисту у навчальному процесі, проведення на базі Тренінгового кіберцентру&nbsp;</span><span style="color: rgb(0, 0, 0); background-color: rgba(255, 0, 0, 0.2);">кібертренінгів</span><span style="color: rgb(0, 0, 0);">&nbsp;з курсантами.</span></p>
+
+=== RESPONSE (5.2s, in 1912 / out 764 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Державний центр кіберзахисту",
+      "kind": "government body",
+      "gloss": "A Ukrainian state institution responsible for cyber defense of critical information infrastructure."
+    },
+    {
+      "name": "Інститут спеціального зв’язку та захисту інформації Національного технічного університету України «Київський політехнічний інститут імені Ігоря Сікорського»",
+      "kind": "academic institution",
+      "gloss": "A Ukrainian higher education institute specializing in secure communications and information security."
+    },
+    {
+      "name": "Державна служба спеціального зв’язку та захисту інформації України",
+      "kind": "government body",
+      "gloss": "A Ukrainian state security service responsible for secure government communications and state cybersecurity."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "Malware Information Sharing Platform",
+      "kind": "software product",
+      "gloss": "An open-source threat intelligence platform used for sharing and managing cyber threat indicators."
+    },
+    {
+      "name": "Андрій Кузміч",
+      "kind": "person",
+      "gloss": "The head of the State Cyber Protection Centre of Ukraine."
+    },
+    {
+      "name": "Олександр Пучков",
+      "kind": "person",
+      "gloss": "The head of the Institute of Special Communications and Information Protection in Ukraine."
+    },
+    {
+      "name": "Тренінговий кіберцентр",
+      "kind": "infrastructure",
+      "gloss": "A cyber training facility used for hands-on practical exercises and simulations."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Державний центр кіберзахисту",
+      "type": "subordinate-to",
+      "tail": "Державна служба спеціального зв’язку та захисту інформації України",
+      "evidence": "Державного центру кіберзахисту Державної служби спеціального зв’язку та захисту інформації України"
+    },
+    {
+      "head": "Андрій Кузміч",
+      "type": "leads",
+      "tail": "Державний центр кіберзахисту",
+      "evidence": "Андрій Кузміч, начальник Державного центру кіберзахисту"
+    },
+    {
+      "head": "Олександр Пучков",
+      "type": "leads",
+      "tail": "Інститут спеціального зв’язку та захисту інформації Національного технічного університету України «Київський політехнічний інститут імені Ігоря Сікорського»",
+      "evidence": "Олександр Пучков, начальник ІСЗЗІ КПІ ім. Сікорського"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "subordinate-to",
+      "definition": "Specifies that an organization or body operates under the jurisdiction or authority of another organization."
+    },
+    {
+      "name": "leads",
+      "definition": "Specifies that an individual holds a primary leadership or management role over an organization or team."
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "docId": 703548,
+  "date": "11.07.2022",
+  "title": "Атака групи UAC-0056 на державні організації України з використанням Cobalt Strike Beacon (CERT-UA#4941)",
+  "entities": [
+    {
+      "id": "703548:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S4",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "703548:1",
+      "name": "державні органи України",
+      "kind": "government organization",
+      "gloss": "State and governmental authorities of Ukraine.",
+      "scheme": "S5",
+      "category": "Sector",
+      "role": "related"
+    },
+    {
+      "id": "703548:2",
+      "name": "Гуманітарна катастрофа України з 24 лютого 2022 року.xls",
+      "kind": "computer file",
+      "gloss": "A malicious Excel spreadsheet with macros used as an email attachment in cyber attacks.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "703548:3",
+      "name": "baseupd.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file launched by macro code to execute Cobalt Strike Beacon.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "703548:4",
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware",
+      "gloss": "A post-exploitation agent and remote access tool part of the Cobalt Strike framework.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "703548:5",
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage threat group targeting Ukrainian organizations.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "703548:6",
+      "name": "oYUuQbXu",
+      "kind": "computer file",
+      "gloss": "A malicious file dropped or created during post-exploitation activities.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "703548:7",
+      "name": "stage1.ps1",
+      "kind": "computer file",
+      "gloss": "A PowerShell script used as an execution stage in cyber attacks.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "703548:8",
+      "name": "stage2.ps1",
+      "kind": "computer file",
+      "gloss": "A PowerShell script used as a subsequent execution stage in malware deployment.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "703548:9",
+      "name": "shellcode.x86.bin",
+      "kind": "computer file",
+      "gloss": "A binary payload file containing 32-bit Cobalt Strike Beacon shellcode.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "703548:10",
+      "name": "shellcode.x64.bin",
+      "kind": "computer file",
+      "gloss": "A binary payload file containing 64-bit Cobalt Strike Beacon shellcode.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "703548:11",
+      "name": "136.144.41.177",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command and control infrastructure.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "703548:12",
+      "name": "http://136.144.41.177/s/Xnk75JwUcIebkrmENtufIiiKEmoqBN/field-keywords/",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL used for network communication or payload delivery.",
+      "scheme": "S7",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "703548:13",
+      "name": "http://136.144.41.177/nzXlLVas-VALvDh9lopkC/avp/amznussraps/",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL used for command and control or payload retrieval.",
+      "scheme": "S7",
+      "category": null,
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "активність асоційовано з діяльністю групи UAC-0056"
+    },
+    {
+      "head": "Гуманітарна катастрофа України з 24 лютого 2022 року.xls",
+      "type": "delivers",
+      "tail": "baseupd.exe",
+      "evidence": "активація якого призведе до запуску файлу \"baseupd.exe\""
+    },
+    {
+      "head": "baseupd.exe",
+      "type": "delivers",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "виконання якого призведе до ураження комп'ютера шкідливою програмою Cobalt Strike Beacon"
+    },
+    {
+      "head": "136.144.41.177",
+      "type": "hosts",
+      "tail": "http://136.144.41.177/s/Xnk75JwUcIebkrmENtufIiiKEmoqBN/field-keywords/",
+      "evidence": "hXXp://136[.]144.41.177/s/Xnk75JwUcIebkrmENtufIiiKEmoqBN/field-keywords/"
+    },
+    {
+      "head": "136.144.41.177",
+      "type": "hosts",
+      "tail": "http://136.144.41.177/nzXlLVas-VALvDh9lopkC/avp/amznussraps/",
+      "evidence": "hXXp://136[.]144.41.177/nzXlLVas-VALvDh9lopkC/avp/amznussraps/"
+    },
+    {
+      "head": "державні органи України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "електронних адрес державних органів України"
+    }
+  ],
+  "unclassified": []
+}

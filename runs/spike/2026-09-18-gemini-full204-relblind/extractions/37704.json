@@ -1,0 +1,247 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "державні органи України",
+      "kind": "government body",
+      "gloss": "Government institutions and agencies of Ukraine."
+    },
+    {
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyberespionage threat group targeting Ukrainian organizations."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware",
+      "gloss": "A component of the Cobalt Strike framework used as a backdoor for post-exploitation."
+    },
+    {
+      "name": "GraphSteel",
+      "kind": "backdoor malware",
+      "gloss": "A Go-based backdoor malware used for information stealing and command execution."
+    },
+    {
+      "name": "GrimPlant",
+      "kind": "backdoor malware",
+      "gloss": "A Go-based backdoor malware that executes commands received via gRPC."
+    },
+    {
+      "name": "Themida",
+      "kind": "software tool",
+      "gloss": "A commercial software protection system used to pack and obfuscate executables."
+    },
+    {
+      "name": "Discord",
+      "kind": "web service",
+      "gloss": "An instant messaging and digital distribution platform."
+    },
+    {
+      "name": "BitdefenderWindowsUpdatePackage.exe",
+      "kind": "file",
+      "gloss": "A malicious executable disguised as a Bitdefender update package."
+    },
+    {
+      "name": "alt.exe",
+      "kind": "file",
+      "gloss": "A malicious downloader executable used to retrieve additional payloads from Discord."
+    },
+    {
+      "name": "one.exe",
+      "kind": "file",
+      "gloss": "A malicious executable containing Cobalt Strike Beacon."
+    },
+    {
+      "name": "dropper.exe",
+      "kind": "file",
+      "gloss": "A Go-based dropper executable used to download and execute secondary payloads."
+    },
+    {
+      "name": "wisw.exe",
+      "kind": "file",
+      "gloss": "A malicious downloader executable configured to fetch payloads from Discord."
+    },
+    {
+      "name": "cesdf.exe",
+      "kind": "file",
+      "gloss": "A malicious payload file hosted on Discord."
+    },
+    {
+      "name": "java-sdk.exe",
+      "kind": "file",
+      "gloss": "A Go-based dropper executable establishing persistence and executing GraphSteel and GrimPlant."
+    },
+    {
+      "name": "microsoft-cortana.exe",
+      "kind": "file",
+      "gloss": "A malicious executable identified as the GraphSteel backdoor."
+    },
+    {
+      "name": "oracle-java.exe",
+      "kind": "file",
+      "gloss": "A malicious executable identified as the GrimPlant backdoor."
+    },
+    {
+      "name": "Інструкція з антивірусного захисту.doc",
+      "kind": "file",
+      "gloss": "A decoy document with security instructions used in a cyberattack."
+    },
+    {
+      "name": "Інструкція користувачів.doc",
+      "kind": "file",
+      "gloss": "A decoy document containing user instructions used in a cyberattack."
+    },
+    {
+      "name": "forkscenter[.]fr",
+      "kind": "domain",
+      "gloss": "A domain name used to distribute malicious files."
+    },
+    {
+      "name": "nirsoft[.]me",
+      "kind": "domain",
+      "gloss": "A domain name used as malicious network infrastructure."
+    },
+    {
+      "name": "45[.]84.0.116",
+      "kind": "ip address",
+      "gloss": "An IP address used for malicious command and control infrastructure."
+    },
+    {
+      "name": "156[.]146.50.5",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "BitdefenderWindowsUpdatePackage.exe",
+      "type": "executes",
+      "tail": "alt.exe",
+      "evidence": "забезпечить виконання завантажувача \"alt.exe\""
+    },
+    {
+      "head": "alt.exe",
+      "type": "downloads-from",
+      "tail": "Discord",
+      "evidence": "здійснити завантаження файлів \"one.exe\" та \"dropper.exe\" з сервісу Discord"
+    },
+    {
+      "head": "alt.exe",
+      "type": "downloads-and-executes",
+      "tail": "one.exe",
+      "evidence": "здійснить завантаження файлів \"one.exe\" та \"dropper.exe\" з сервісу Discord та їхній запуск"
+    },
+    {
+      "head": "alt.exe",
+      "type": "downloads-and-executes",
+      "tail": "dropper.exe",
+      "evidence": "здійснить завантаження файлів \"one.exe\" та \"dropper.exe\" з сервісу Discord та їхній запуск"
+    },
+    {
+      "head": "one.exe",
+      "type": "deploys",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "запуск \"one.exe\" призведе до ураження комп'ютера шкідливою програмою Cobalt Strike Beacon"
+    },
+    {
+      "head": "one.exe",
+      "type": "downloads-and-executes",
+      "tail": "wisw.exe",
+      "evidence": "завантаження і виконання файлу \"wisw.exe\""
+    },
+    {
+      "head": "wisw.exe",
+      "type": "downloads-from",
+      "tail": "Discord",
+      "evidence": "мав би завантажити з Discord та виконати файл \"cesdf.exe\""
+    },
+    {
+      "head": "wisw.exe",
+      "type": "downloads-and-executes",
+      "tail": "cesdf.exe",
+      "evidence": "мав би завантажити з Discord та виконати файл \"cesdf.exe\""
+    },
+    {
+      "head": "dropper.exe",
+      "type": "downloads-and-executes",
+      "tail": "java-sdk.exe",
+      "evidence": "здійснить завантаження, base64-декодування, збереження на диск та виконання файлу \"java-sdk.exe\""
+    },
+    {
+      "head": "java-sdk.exe",
+      "type": "downloads-and-executes",
+      "tail": "microsoft-cortana.exe",
+      "evidence": "здійснить завантаження, base64-декодуання, збереження на диск та виконання двох інших файлів: \"microsoft-cortana.exe\""
+    },
+    {
+      "head": "java-sdk.exe",
+      "type": "downloads-and-executes",
+      "tail": "oracle-java.exe",
+      "evidence": "здійснить завантаження, base64-декодуання, збереження на диск та виконання двох інших файлів: ... \"oracle-java.exe\""
+    },
+    {
+      "head": "microsoft-cortana.exe",
+      "type": "implements",
+      "tail": "GraphSteel",
+      "evidence": "\"microsoft-cortana.exe\", що класифіковано як бекдор GraphSteel"
+    },
+    {
+      "head": "oracle-java.exe",
+      "type": "implements",
+      "tail": "GrimPlant",
+      "evidence": "\"oracle-java.exe\", який класифіковано як бекдор GrimPlant"
+    },
+    {
+      "head": "alt.exe",
+      "type": "protected-by",
+      "tail": "Themida",
+      "evidence": "EXE-файли (завантажувачі з Discord) захищено протектором Themida"
+    },
+    {
+      "head": "wisw.exe",
+      "type": "protected-by",
+      "tail": "Themida",
+      "evidence": "EXE-файли (завантажувачі з Discord) захищено протектором Themida"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "associated-with",
+      "tail": "BitdefenderWindowsUpdatePackage.exe",
+      "evidence": "асоціюємо виявлену активність з діяльністю групи UAC-0056"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "executes",
+      "definition": "The source file or process launches or triggers the execution of the target file or program."
+    },
+    {
+      "name": "downloads-from",
+      "definition": "The source entity downloads content or payloads from the target service, server, or location."
+    },
+    {
+      "name": "downloads-and-executes",
+      "definition": "The source entity downloads the target payload and runs or executes it."
+    },
+    {
+      "name": "deploys",
+      "definition": "The source entity installs, drops, or unpacks the target malware component."
+    },
+    {
+      "name": "implements",
+      "definition": "The source file or component is an instance or implementation of the target malware family."
+    },
+    {
+      "name": "protected-by",
+      "definition": "The source software or binary is obfuscated, packed, or protected by the target protection software."
+    },
+    {
+      "name": "associated-with",
+      "definition": "The source threat actor is linked or attributed to the target activity, tool, or campaign."
+    }
+  ]
+}

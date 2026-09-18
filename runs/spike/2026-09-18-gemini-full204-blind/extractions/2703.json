@@ -1,0 +1,250 @@
+{
+  "entities": [
+    {
+      "name": "Troldesh/Shade",
+      "kind": "ransomware",
+      "gloss": "A ransomware family, also known as Troldesh or Shade, that encrypts files on infected systems."
+    },
+    {
+      "name": "Публичное Акционерное Общество «БИНБАНК»",
+      "kind": "commercial bank",
+      "gloss": "A Russian commercial bank impersonated in phishing email campaigns."
+    },
+    {
+      "name": "info.zip",
+      "kind": "archive file",
+      "gloss": "A malicious ZIP archive attached to phishing emails containing a script payload."
+    },
+    {
+      "name": "inf.zip",
+      "kind": "archive file",
+      "gloss": "A nested ZIP archive used in email attachments to deliver malicious scripts."
+    },
+    {
+      "name": "Информация.js",
+      "kind": "malicious script",
+      "gloss": "A malicious JavaScript file that downloads and executes ransomware payloads."
+    },
+    {
+      "name": "ssj.jpg",
+      "kind": "malware payload",
+      "gloss": "A ransomware executable disguised as an image file downloaded by malicious scripts."
+    },
+    {
+      "name": "csrss.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable dropped on the system as a copy of the ransomware payload."
+    },
+    {
+      "name": "www.michiganmastereltiempo.com",
+      "kind": "domain",
+      "gloss": "A compromised or malicious domain used to host malware payloads."
+    },
+    {
+      "name": "vuonorganic.com",
+      "kind": "domain",
+      "gloss": "A compromised or malicious domain used to host malware payloads."
+    },
+    {
+      "name": "thaibbqculver.com",
+      "kind": "domain",
+      "gloss": "A compromised or malicious domain used to host malware payloads."
+    },
+    {
+      "name": "integramultimedia.com.mx",
+      "kind": "domain",
+      "gloss": "A compromised or malicious domain used to host malware payloads."
+    },
+    {
+      "name": "motocheck.in",
+      "kind": "domain",
+      "gloss": "A compromised or malicious domain used to host malware payloads."
+    },
+    {
+      "name": "ereservices.com",
+      "kind": "domain",
+      "gloss": "A compromised or malicious domain used to host malware payloads."
+    },
+    {
+      "name": "myelectrive.com",
+      "kind": "domain",
+      "gloss": "A compromised or malicious domain used to host malware payloads."
+    },
+    {
+      "name": "biengrandir37.com",
+      "kind": "domain",
+      "gloss": "A compromised or malicious domain used to host malware payloads."
+    },
+    {
+      "name": "smartideabusiness.com",
+      "kind": "domain",
+      "gloss": "A compromised or malicious domain used to host malware payloads."
+    },
+    {
+      "name": "site-1.work",
+      "kind": "domain",
+      "gloss": "A compromised or malicious domain used to host malware payloads."
+    },
+    {
+      "name": "webknives.com",
+      "kind": "domain",
+      "gloss": "A compromised or malicious domain used to host malware payloads."
+    },
+    {
+      "name": "expeditionabroad.com",
+      "kind": "domain",
+      "gloss": "A compromised or malicious domain used to host malware payloads."
+    },
+    {
+      "name": "product-reviews.website",
+      "kind": "domain",
+      "gloss": "A compromised or malicious domain used to host malware payloads."
+    },
+    {
+      "name": "fernandoherrera.me",
+      "kind": "domain",
+      "gloss": "A compromised or malicious domain used to host malware payloads."
+    },
+    {
+      "name": "nowpropitup.com",
+      "kind": "domain",
+      "gloss": "A compromised or malicious domain used to host malware payloads."
+    },
+    {
+      "name": "ghaniyu.com",
+      "kind": "domain",
+      "gloss": "A compromised or malicious domain used to host malware payloads."
+    },
+    {
+      "name": "193.23.244.244",
+      "kind": "ip address",
+      "gloss": "A command and control server IP address associated with ransomware activity."
+    },
+    {
+      "name": "76.73.17.194",
+      "kind": "ip address",
+      "gloss": "A command and control server IP address associated with ransomware activity."
+    },
+    {
+      "name": "86.59.21.38",
+      "kind": "ip address",
+      "gloss": "A command and control server IP address associated with ransomware activity."
+    },
+    {
+      "name": "208.83.223.34",
+      "kind": "ip address",
+      "gloss": "A command and control server IP address associated with ransomware activity."
+    }
+  ],
+  "relations": [
+    {
+      "head": "info.zip",
+      "type": "delivers",
+      "tail": "Информация.js",
+      "evidence": "У подвійному архіві знаходиться джава скрипт “Информация.js”"
+    },
+    {
+      "head": "Информация.js",
+      "type": "delivers",
+      "tail": "ssj.jpg",
+      "evidence": "джава скрипт “Информация.js”, який при виконанні завантажує файл “ssj.jpg”"
+    },
+    {
+      "head": "www.michiganmastereltiempo.com",
+      "type": "hosts",
+      "tail": "ssj.jpg",
+      "evidence": "hxxp://www.michiganmastereltiempo.com/wp-content/themes/bizworx/images/ssj.jpg"
+    },
+    {
+      "head": "vuonorganic.com",
+      "type": "hosts",
+      "tail": "ssj.jpg",
+      "evidence": "hxxp://vuonorganic.com/wp-content/themes/voice/images/admin/ssj.jpg"
+    },
+    {
+      "head": "thaibbqculver.com",
+      "type": "hosts",
+      "tail": "ssj.jpg",
+      "evidence": "hxxp://thaibbqculver.com/Aold-web/PICTURES/ssj.jpg"
+    },
+    {
+      "head": "integramultimedia.com.mx",
+      "type": "hosts",
+      "tail": "ssj.jpg",
+      "evidence": "hxxp://integramultimedia.com.mx/.well-known/acme-challenge/ssj.jpg"
+    },
+    {
+      "head": "motocheck.in",
+      "type": "hosts",
+      "tail": "ssj.jpg",
+      "evidence": "hxxp://motocheck.in/.well-known/pki-validation/ssj.jpg"
+    },
+    {
+      "head": "ereservices.com",
+      "type": "hosts",
+      "tail": "ssj.jpg",
+      "evidence": "hxxp://ereservices.com/.well-known/pki-validation/ssj.jpg"
+    },
+    {
+      "head": "myelectrive.com",
+      "type": "hosts",
+      "tail": "ssj.jpg",
+      "evidence": "hххps://myelectrive.com/wp-content/themes/theme-files/mediacenter/framework/inc/post-formats/css/ssj.jpg"
+    },
+    {
+      "head": "biengrandir37.com",
+      "type": "hosts",
+      "tail": "ssj.jpg",
+      "evidence": "hххp://biengrandir37.com/wp-content/themes/accelerate/js/ssj.jpg"
+    },
+    {
+      "head": "smartideabusiness.com",
+      "type": "hosts",
+      "tail": "ssj.jpg",
+      "evidence": "hххps://smartideabusiness.com/wp-content/themes/peflican/assets/css/default-skin/ssj.jpg"
+    },
+    {
+      "head": "site-1.work",
+      "type": "hosts",
+      "tail": "ssj.jpg",
+      "evidence": "hххp://site-1.work/wordpress-4.9.8-ja-jetpack_webfont-undernavicontrol/ssj.jpg"
+    },
+    {
+      "head": "webknives.com",
+      "type": "hosts",
+      "tail": "ssj.jpg",
+      "evidence": "hххps://webknives.com/wp-content/themes/CherryFramework/js/ssj.jpg"
+    },
+    {
+      "head": "expeditionabroad.com",
+      "type": "hosts",
+      "tail": "ssj.jpg",
+      "evidence": "hххp://expeditionabroad.com/wp-content/themes/twentynineteen/fonts/ssj.jpg"
+    },
+    {
+      "head": "product-reviews.website",
+      "type": "hosts",
+      "tail": "ssj.jpg",
+      "evidence": "hххps://product-reviews.website/.well-known/acme-challenge/ssj.jpg"
+    },
+    {
+      "head": "fernandoherrera.me",
+      "type": "hosts",
+      "tail": "ssj.jpg",
+      "evidence": "hххp://fernandoherrera.me/wp-includes/ID3/ssj.jpg"
+    },
+    {
+      "head": "nowpropitup.com",
+      "type": "hosts",
+      "tail": "ssj.jpg",
+      "evidence": "hххp://nowpropitup.com/css/ssj.jpg"
+    },
+    {
+      "head": "ghaniyu.com",
+      "type": "hosts",
+      "tail": "ssj.jpg",
+      "evidence": "hххp://ghaniyu.com/wp-content/themes/landingpress-wp/assets/css/ssj.jpg"
+    }
+  ],
+  "newRelationTypes": []
+}

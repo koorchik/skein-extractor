@@ -1,0 +1,128 @@
+{
+  "entities": [
+    {
+      "name": "Вниманию.doc",
+      "kind": "file name",
+      "gloss": "A malicious RTF document lure used to deliver malware by exploiting MS Office Word vulnerabilities."
+    },
+    {
+      "name": "17.06.2022_Протокол_МРГ_Подгруппа_ИБ.doc",
+      "kind": "file name",
+      "gloss": "A malicious RTF document lure masquerading as an information security working group protocol."
+    },
+    {
+      "name": "замечания таблица 20.06.2022.doc",
+      "kind": "file name",
+      "gloss": "A malicious RTF document lure used in targeted cyberattacks."
+    },
+    {
+      "name": "О_формировании_проекта_ПНС_2022_файл_отображен.doc",
+      "kind": "file name",
+      "gloss": "A malicious RTF document lure related to project planning used in cyber espionage."
+    },
+    {
+      "name": "dcnx18pwh.wmf",
+      "kind": "file name",
+      "gloss": "An encrypted WMF file dropped and executed as part of the malware infection chain."
+    },
+    {
+      "name": "dcnx18pwh.exe",
+      "kind": "file name",
+      "gloss": "A malicious executable payload dropped during the exploitation process."
+    },
+    {
+      "name": "MS Office Word",
+      "kind": "software product",
+      "gloss": "A word processor developed by Microsoft targeted by malicious exploit documents."
+    },
+    {
+      "name": "RoyalRoad",
+      "kind": "malware tool",
+      "gloss": "A weaponizer builder used by various threat actors to generate weaponized RTF documents exploiting Microsoft Word vulnerabilities."
+    },
+    {
+      "name": "Bisonal",
+      "kind": "malware family",
+      "gloss": "A remote access trojan associated with Chinese cyber espionage threat actors."
+    },
+    {
+      "name": "QuickMute",
+      "kind": "malware family",
+      "gloss": "A C/C++ based malware loader that decrypts via RC4 and executes payloads in memory."
+    },
+    {
+      "name": "TontoTeam (UAC-0018)",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage threat group associated with China, also tracked as UAC-0018."
+    },
+    {
+      "name": "Китай",
+      "kind": "country",
+      "gloss": "An East Asian sovereign state associated with various state-sponsored cyber espionage groups."
+    },
+    {
+      "name": "російська федерація",
+      "kind": "country",
+      "gloss": "A transcontinental country whose state bodies and aviation/tech enterprises were targeted in this campaign."
+    },
+    {
+      "name": "upportteam.lingrevelat.com",
+      "kind": "internet domain",
+      "gloss": "A command-and-control domain used by QuickMute malware."
+    },
+    {
+      "name": "lingrevelat.com",
+      "kind": "internet domain",
+      "gloss": "A domain name associated with malicious command-and-control infrastructure."
+    },
+    {
+      "name": "137.220.176.165",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious command-and-control infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "TontoTeam (UAC-0018)",
+      "type": "uses-malware",
+      "tail": "Bisonal",
+      "evidence": "Bisonal, як приклад, є інструментом групи TontoTeam (UAC-0018)"
+    },
+    {
+      "head": "TontoTeam (UAC-0018)",
+      "type": "attributed-to-country",
+      "tail": "Китай",
+      "evidence": "ознак для угруповань, що пов'язують з Китаєм"
+    },
+    {
+      "head": "QuickMute",
+      "type": "communicates-with-c2",
+      "tail": "upportteam.lingrevelat.com",
+      "evidence": "hXXps://upportteam.lingrevelat[.]com/update/v32/default"
+    },
+    {
+      "head": "RoyalRoad",
+      "type": "exploits-vulnerability-in",
+      "tail": "MS Office Word",
+      "evidence": "експлуатацію однієї або декількох відомих вразливостей в MS Office Word (вірогідно, документи створено за допомогою білдера RoyalRoad)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-malware",
+      "definition": "Indicates that a threat actor utilizes a specific malware family in their operations."
+    },
+    {
+      "name": "attributed-to-country",
+      "definition": "Indicates the state or geopolitical sponsor to which a threat group is attributed."
+    },
+    {
+      "name": "communicates-with-c2",
+      "definition": "Indicates that a malware sample communicates with a specific command-and-control host or network indicator."
+    },
+    {
+      "name": "exploits-vulnerability-in",
+      "definition": "Indicates that a tool or exploit targets vulnerabilities in a specific software product."
+    }
+  ]
+}

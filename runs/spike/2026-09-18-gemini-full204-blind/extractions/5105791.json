@@ -1,0 +1,174 @@
+{
+  "entities": [
+    {
+      "name": "APT28",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group associated with the Main Directorate of the General Staff of the Armed Forces of the Russian Federation."
+    },
+    {
+      "name": "гу гш зс рф",
+      "kind": "government body",
+      "gloss": "The Main Directorate of the General Staff of the Armed Forces of the Russian Federation, Russia's military intelligence service."
+    },
+    {
+      "name": "рф",
+      "kind": "country",
+      "gloss": "The Russian Federation, a country spanning Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country located in Eastern Europe."
+    },
+    {
+      "name": "Посольство Ісламської Республіки Іран в Тірані",
+      "kind": "diplomatic mission",
+      "gloss": "The diplomatic mission representing the Islamic Republic of Iran in Tirana, Republic of Albania."
+    },
+    {
+      "name": "Ісламська Республіка Іран",
+      "kind": "country",
+      "gloss": "A sovereign country located in Western Asia."
+    },
+    {
+      "name": "Республіка Албанія",
+      "kind": "country",
+      "gloss": "A sovereign country located in Southeast Europe on the Balkan Peninsula."
+    },
+    {
+      "name": "iri_1357@yahoo.com",
+      "kind": "email address",
+      "gloss": "An email address belonging to the Embassy of the Islamic Republic of Iran in Tirana."
+    },
+    {
+      "name": "Yahoo.com",
+      "kind": "web service",
+      "gloss": "A web portal and email service provider whose interface was impersonated in credential harvesting attacks."
+    },
+    {
+      "name": "UKR.NET",
+      "kind": "web service",
+      "gloss": "A Ukrainian web portal and email provider whose interface was impersonated in phishing attacks."
+    },
+    {
+      "name": "Ubiquiti",
+      "kind": "hardware vendor",
+      "gloss": "A network technology company that manufactures networking hardware and routers."
+    },
+    {
+      "name": "EdgeOS",
+      "kind": "operating system",
+      "gloss": "A network operating system developed by Ubiquiti for EdgeRouter devices."
+    },
+    {
+      "name": "Центр оборонних стратегій",
+      "kind": "organization",
+      "gloss": "A Ukrainian think tank whose reports were used as lures in malicious HTML documents."
+    },
+    {
+      "name": "detail.html",
+      "kind": "file",
+      "gloss": "A malicious HTML phishing file designed to exfiltrate entered authentication credentials via HTTP POST requests."
+    },
+    {
+      "name": "CDS Daily Brief 23.03.2023.html",
+      "kind": "file",
+      "gloss": "A malicious HTML lure file mimicking a Center for Defence Strategies daily brief."
+    },
+    {
+      "name": "e41f3ea1cd183f22b691e396cbb50df3.zip",
+      "kind": "file",
+      "gloss": "A malicious ZIP archive identified during the investigation."
+    },
+    {
+      "name": "Повідомлення.zip",
+      "kind": "file",
+      "gloss": "A malicious ZIP archive identified as part of the phishing campaign."
+    },
+    {
+      "name": "13.40.77.34",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the Forge hosting service."
+    },
+    {
+      "name": "37.191.122.186",
+      "kind": "ip address",
+      "gloss": "An IP address of a compromised Ubiquiti device used to route exfiltrated credentials."
+    },
+    {
+      "name": "62.4.36.126",
+      "kind": "ip address",
+      "gloss": "An IP address of a compromised Ubiquiti device used for credential exfiltration."
+    },
+    {
+      "name": "robot-876.frge.io",
+      "kind": "hostname",
+      "gloss": "A malicious domain name hosted on the frge.io service."
+    },
+    {
+      "name": "eos93vb2cwsu3xf.m.pipedream.net",
+      "kind": "hostname",
+      "gloss": "A Pipedream webhook endpoint used for exfiltrating stolen user credentials."
+    },
+    {
+      "name": "eopkne8kapj01xi.m.pipedream.net",
+      "kind": "hostname",
+      "gloss": "A Pipedream webhook endpoint identified in network indicators."
+    },
+    {
+      "name": "setnewcreds.ukr.net.frge.io",
+      "kind": "hostname",
+      "gloss": "A phishing domain spoofing the UKR.NET service on the frge.io infrastructure."
+    },
+    {
+      "name": "mail-gov-ua.frge.io",
+      "kind": "hostname",
+      "gloss": "A phishing domain mimicking Ukrainian government email infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "APT28",
+      "type": "part-of",
+      "tail": "гу гш зс рф",
+      "evidence": "угрупуванням APT28, діяльність якого скеровується гу гш зс рф"
+    },
+    {
+      "head": "гу гш зс рф",
+      "type": "located-in",
+      "tail": "рф",
+      "evidence": "гу гш зс рф"
+    },
+    {
+      "head": "APT28",
+      "type": "attacks",
+      "tail": "Посольство Ісламської Республіки Іран в Тірані",
+      "evidence": "APT28... здійснено цільову кібератаку у відношенні закордонної дипломатичної установи Ірану"
+    },
+    {
+      "head": "Посольство Ісламської Республіки Іран в Тірані",
+      "type": "located-in",
+      "tail": "Республіка Албанія",
+      "evidence": "Посольству Ісламської Республіки Іран в Тірані (Республіка Албанія)"
+    },
+    {
+      "head": "Посольство Ісламської Республіки Іран в Тірані",
+      "type": "part-of",
+      "tail": "Ісламська Республіка Іран",
+      "evidence": "Посольству Ісламської Республіки Іран в Тірані"
+    },
+    {
+      "head": "EdgeOS",
+      "type": "part-of",
+      "tail": "Ubiquiti",
+      "evidence": "пристроїв Ubiquiti (EdgeOS)"
+    },
+    {
+      "head": "detail.html",
+      "type": "communicates-with",
+      "tail": "eos93vb2cwsu3xf.m.pipedream.net",
+      "evidence": "eos93vb2cwsu3xf.m.pipedream.net?doc=iri_1357@yahoo.com"
+    }
+  ],
+  "newRelationTypes": []
+}

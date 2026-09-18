@@ -1,0 +1,222 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0184",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA targeting Ukrainian military personnel to steal documents and messaging data."
+    },
+    {
+      "name": "Сили оборони України",
+      "kind": "military organization",
+      "gloss": "The combined military and security forces responsible for the defense and security of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country located in Eastern Europe."
+    },
+    {
+      "name": "IDAT",
+      "kind": "malware loader",
+      "gloss": "A modular loader malware family, also known as HijackLoader, used to deliver second-stage malicious payloads."
+    },
+    {
+      "name": "REMCOSRAT",
+      "kind": "trojan",
+      "gloss": "A commercial remote access trojan frequently abused by threat actors for surveillance and unauthorized control."
+    },
+    {
+      "name": "VIOTTOKEYLOGGER",
+      "kind": "keylogger",
+      "gloss": "A commercial keylogger tool used to capture keystrokes and sensitive input from compromised computers."
+    },
+    {
+      "name": "XWORM",
+      "kind": "trojan",
+      "gloss": "A commodity remote access trojan and modular malware family featuring remote control and data theft capabilities."
+    },
+    {
+      "name": "SIGTOP",
+      "kind": "reconnaissance tool",
+      "gloss": "An open-source utility designed to extract messaging data and contacts from the Signal desktop application."
+    },
+    {
+      "name": "TUSC",
+      "kind": "exfiltration tool",
+      "gloss": "An open-source utility used for extracting and uploading data from targeted computer systems."
+    },
+    {
+      "name": "Signal",
+      "kind": "software application",
+      "gloss": "A cross-platform encrypted messaging service providing end-to-end encrypted voice, video, and text communication."
+    },
+    {
+      "name": "Центр кібербезпеки ІТС",
+      "kind": "military unit",
+      "gloss": "A Ukrainian military cybersecurity operations center associated with military unit A0334."
+    },
+    {
+      "name": "yeah-biches.kyiv.ua",
+      "kind": "internet domain",
+      "gloss": "A malicious domain name used to distribute malicious executable payloads."
+    },
+    {
+      "name": "i-like-hokku.co.ua",
+      "kind": "internet domain",
+      "gloss": "A malicious domain name utilized for hosting and delivering malware payloads."
+    },
+    {
+      "name": "the-new-age.co.ua",
+      "kind": "internet domain",
+      "gloss": "A malicious domain configured as command-and-control infrastructure for RemcosRAT malware."
+    },
+    {
+      "name": "biches-yeah.co.ua",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used for network communications by RemcosRAT malware instances."
+    },
+    {
+      "name": "178.33.57.148",
+      "kind": "ip address",
+      "gloss": "An IP address leveraged as command-and-control infrastructure for XWorm malware."
+    },
+    {
+      "name": "178.33.57.149",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command-and-control server for RemcosRAT malware connections."
+    },
+    {
+      "name": "178.33.57.159",
+      "kind": "ip address",
+      "gloss": "An IP address utilized for command-and-control communications by RemcosRAT."
+    },
+    {
+      "name": "88.151.192.14",
+      "kind": "ip address",
+      "gloss": "An IP address configured as a remote command-and-control node for RemcosRAT."
+    },
+    {
+      "name": "185.196.11.194",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "193.203.202.17",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious network infrastructure."
+    },
+    {
+      "name": "51.38.145.47",
+      "kind": "ip address",
+      "gloss": "An IP address used by threat actors to host malicious files."
+    },
+    {
+      "name": "78.153.139.61",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network threat infrastructure."
+    },
+    {
+      "name": "94.156.66.107",
+      "kind": "ip address",
+      "gloss": "An IP address used by threat actors to host webhooks."
+    },
+    {
+      "name": "filebin.net",
+      "kind": "internet domain",
+      "gloss": "A legitimate online file-sharing service abused by threat actors to host malicious payloads."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0184",
+      "type": "attacks",
+      "tail": "Сили оборони України",
+      "evidence": "підвищена активність угрупування UAC-0184, що має на меті отримання доступу до комп'ютерів представників Сил оборони України"
+    },
+    {
+      "head": "Сили оборони України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "представників Сил оборони України"
+    },
+    {
+      "head": "Центр кібербезпеки ІТС",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Центр кібербезпеки ІТС (в/ч А0334; email: csoc@post.mil.gov.ua"
+    },
+    {
+      "head": "UAC-0184",
+      "type": "uses-malware",
+      "tail": "IDAT",
+      "evidence": "зловмисники застосовують певний набір програмного забезпечення, серед якого як комерційні програми, так і утиліти з відкритим вихідним кодом, зокрема: IDAT"
+    },
+    {
+      "head": "UAC-0184",
+      "type": "uses-malware",
+      "tail": "REMCOSRAT",
+      "evidence": "зловмисники застосовують певний набір програмного забезпечення... REMCOSRAT"
+    },
+    {
+      "head": "UAC-0184",
+      "type": "uses-malware",
+      "tail": "VIOTTOKEYLOGGER",
+      "evidence": "зловмисники застосовують певний набір програмного забезпечення... VIOTTOKEYLOGGER"
+    },
+    {
+      "head": "UAC-0184",
+      "type": "uses-malware",
+      "tail": "XWORM",
+      "evidence": "зловмисники застосовують певний набір програмного забезпечення... XWORM"
+    },
+    {
+      "head": "UAC-0184",
+      "type": "uses-malware",
+      "tail": "SIGTOP",
+      "evidence": "зловмисники застосовують певний набір програмного забезпечення... SIGTOP"
+    },
+    {
+      "head": "UAC-0184",
+      "type": "uses-malware",
+      "tail": "TUSC",
+      "evidence": "зловмисники застосовують певний набір програмного забезпечення... TUSC"
+    },
+    {
+      "head": "REMCOSRAT",
+      "type": "communicates-with",
+      "tail": "the-new-age.co.ua",
+      "evidence": "remcos.exe (RemcosRAT; idelural; the-new-age.co.ua:443)"
+    },
+    {
+      "head": "REMCOSRAT",
+      "type": "communicates-with",
+      "tail": "biches-yeah.co.ua",
+      "evidence": "remcos.exe (RemcosRAT; biches-yeah.co.ua:443)"
+    },
+    {
+      "head": "XWORM",
+      "type": "communicates-with",
+      "tail": "178.33.57.148",
+      "evidence": "XClient3.exe (XWorm; 178.33.57.148:443)"
+    },
+    {
+      "head": "REMCOSRAT",
+      "type": "communicates-with",
+      "tail": "178.33.57.149",
+      "evidence": "remcos.exe (RemcosRAT; RemoteHost; 178.33.57.149:443)"
+    },
+    {
+      "head": "REMCOSRAT",
+      "type": "communicates-with",
+      "tail": "178.33.57.159",
+      "evidence": "remcos.exe (RemcosRAT; RemoteHost; 178.33.57.159:8899)"
+    },
+    {
+      "head": "REMCOSRAT",
+      "type": "communicates-with",
+      "tail": "88.151.192.14",
+      "evidence": "remcos.exe (RemcosRAT; tadzhik; 88.151.192.14:443)"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,130 @@
+{
+  "entities": [
+    {
+      "name": "SmokeLoader",
+      "kind": "malware family",
+      "gloss": "A modular malicious bot program used to download and execute additional malware payloads on compromised systems."
+    },
+    {
+      "name": "UAC-0006",
+      "kind": "threat actor",
+      "gloss": "A financially motivated cyber threat group known for mass phishing campaigns distributing SmokeLoader malware."
+    },
+    {
+      "name": "росія",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "iqhost.ru",
+      "kind": "internet domain",
+      "gloss": "A Russian hosting and internet service provider domain."
+    },
+    {
+      "name": "ruvds.com",
+      "kind": "internet domain",
+      "gloss": "A Russian cloud VPS and server hosting provider domain."
+    },
+    {
+      "name": "dnspod.com",
+      "kind": "internet domain",
+      "gloss": "A DNS hosting service used for domain name resolution."
+    },
+    {
+      "name": "193.106.174.173",
+      "kind": "ip address",
+      "gloss": "An IP address located in Russia associated with SmokeLoader command and control infrastructure."
+    },
+    {
+      "name": "193.108.114.148",
+      "kind": "ip address",
+      "gloss": "An IP address located in Russia used for SmokeLoader command and control infrastructure."
+    },
+    {
+      "name": "Windows Script Host",
+      "kind": "software component",
+      "gloss": "An automation technology for Microsoft Windows that executes scripts such as VBScript and JScript."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework consisting of a command-line shell and scripting language."
+    },
+    {
+      "name": "Акт_Звiрки_та_рах.факт_вiд_12_07_2023.zip",
+      "kind": "file",
+      "gloss": "A malicious ZIP archive distributed via email containing a VBScript payload."
+    },
+    {
+      "name": "рахунок_вiд_12_07_2023_до_оплати.vbs",
+      "kind": "file",
+      "gloss": "A malicious VBScript file designed to download and execute SmokeLoader malware."
+    },
+    {
+      "name": "Спісок_счетов_від_14_07_2023р.zip",
+      "kind": "file",
+      "gloss": "A malicious ZIP archive distributed in phishing emails containing malicious HTML attachments."
+    },
+    {
+      "name": "UKR_net_рахунки_№418_до_оплати_вiд_14_07_2023_Архив.html",
+      "kind": "file",
+      "gloss": "A malicious HTML attachment that triggers the download of an executable payload."
+    },
+    {
+      "name": "рахунки_до_оплати_вiд_14_07_2023_Архив_rar.exe",
+      "kind": "file",
+      "gloss": "A malicious executable file responsible for infecting the host with SmokeLoader."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "SmokeLoader",
+      "evidence": "Активність відстежується за ідентифікатором UAC-0006."
+    },
+    {
+      "head": "193.106.174.173",
+      "type": "located-in",
+      "tail": "росія",
+      "evidence": "IP-адреса: 193.106.174[.]173; провайдер @iqhost[.]ru, росія"
+    },
+    {
+      "head": "193.108.114.148",
+      "type": "located-in",
+      "tail": "росія",
+      "evidence": "IP-адреса: 193.108.114[.]148; провайдер @ruvds[.]com, росія"
+    },
+    {
+      "head": "Акт_Звiрки_та_рах.факт_вiд_12_07_2023.zip",
+      "type": "delivers",
+      "tail": "рахунок_вiд_12_07_2023_до_оплати.vbs",
+      "evidence": "вкладенням у вигляді файлу \"Акт_Звiрки_та_рах.факт_вiд_12_07_2023.zip \", що містить VBS-файл \"рахунок_вiд_12_07_2023_до_оплати.vbs\""
+    },
+    {
+      "head": "рахунок_вiд_12_07_2023_до_оплати.vbs",
+      "type": "delivers",
+      "tail": "SmokeLoader",
+      "evidence": "відкриття якого забезпечить завантаження і запуск шкідливої програми SmokeLoader."
+    },
+    {
+      "head": "Спісок_счетов_від_14_07_2023р.zip",
+      "type": "delivers",
+      "tail": "UKR_net_рахунки_№418_до_оплати_вiд_14_07_2023_Архив.html",
+      "evidence": "архіву \"Спісок_счетов_від_14_07_2023р.zip\", що містить три HTML-файли з назвами \"UKR_net_рахунки_№418_до_оплати_вiд_14_07_2023_Архив.html\""
+    },
+    {
+      "head": "UKR_net_рахунки_№418_до_оплати_вiд_14_07_2023_Архив.html",
+      "type": "delivers",
+      "tail": "рахунки_до_оплати_вiд_14_07_2023_Архив_rar.exe",
+      "evidence": "Відкриття одного з цих файлів призведе до завантаження виконуваного файлу \"рахунки_до_оплати_вiд_14_07_2023_Архив_rar.exe\""
+    },
+    {
+      "head": "рахунки_до_оплати_вiд_14_07_2023_Архив_rar.exe",
+      "type": "delivers",
+      "tail": "SmokeLoader",
+      "evidence": "запуск якого призведе до ураження комп'ютера шкідливою програмою SmokeLoader."
+    }
+  ],
+  "newRelationTypes": []
+}

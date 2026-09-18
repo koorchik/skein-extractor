@@ -1,0 +1,218 @@
+{
+  "entities": [
+    {
+      "name": "Служби безпеки України",
+      "kind": "government body",
+      "gloss": "The national security and intelligence service of Ukraine."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "Документи.zip",
+      "kind": "archive file",
+      "gloss": "A malicious ZIP archive referenced in phishing emails to deliver malware."
+    },
+    {
+      "name": "Scan_docs#40562153.msi",
+      "kind": "installer file",
+      "gloss": "A malicious Windows Installer file used to deploy the ANONVNC malware."
+    },
+    {
+      "name": "ANONVNC",
+      "kind": "malware family",
+      "gloss": "A modified remote administration tool used for unauthorized covert remote access."
+    },
+    {
+      "name": "MESHAGENT",
+      "kind": "software product",
+      "gloss": "An open-source remote management agent whose code was adapted into malware."
+    },
+    {
+      "name": "Github",
+      "kind": "web service",
+      "gloss": "A web-based platform for software development and version control hosting."
+    },
+    {
+      "name": "https://github.com/Ylianst/MeshAgent",
+      "kind": "uniform resource locator",
+      "gloss": "A GitHub repository hosting the open-source MeshAgent source code."
+    },
+    {
+      "name": "UAC-0198",
+      "kind": "threat actor",
+      "gloss": "A threat group tracked by CERT-UA conducting malicious cyber activity against Ukrainian targets."
+    },
+    {
+      "name": "pCloud",
+      "kind": "cloud service",
+      "gloss": "A legitimate cloud storage service abused to host malicious files."
+    },
+    {
+      "name": "Scan_docs#14107386.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable file associated with the threat campaign."
+    },
+    {
+      "name": "32x.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable dropped and executed on compromised systems."
+    },
+    {
+      "name": "chafik.zaalouk@ac-strasbourg.fr",
+      "kind": "email address",
+      "gloss": "An email address used in the phishing distribution campaign."
+    },
+    {
+      "name": "contact@ndkgk.co.jp",
+      "kind": "email address",
+      "gloss": "An email address used in the phishing distribution campaign."
+    },
+    {
+      "name": "info@co3ra.de",
+      "kind": "email address",
+      "gloss": "An email address used in the phishing distribution campaign."
+    },
+    {
+      "name": "filedn.eu",
+      "kind": "domain",
+      "gloss": "A domain associated with the pCloud file storage service."
+    },
+    {
+      "name": "gbshost.net",
+      "kind": "domain",
+      "gloss": "A domain name used in the threat actor's infrastructure."
+    },
+    {
+      "name": "gbshost.org",
+      "kind": "domain",
+      "gloss": "A domain name used in the threat actor's infrastructure."
+    },
+    {
+      "name": "syn.hiddenvnc.com",
+      "kind": "domain",
+      "gloss": "A domain name used for command and control communication."
+    },
+    {
+      "name": "sync.hiddenvnc.com",
+      "kind": "domain",
+      "gloss": "A domain name used for command and control communication."
+    },
+    {
+      "name": "sync.anonvnc.com",
+      "kind": "domain",
+      "gloss": "A domain name used for command and control communication."
+    },
+    {
+      "name": "sync.invoice-traffic.com",
+      "kind": "domain",
+      "gloss": "A domain name used for command and control communication."
+    },
+    {
+      "name": "sync.smart-vnc.com",
+      "kind": "domain",
+      "gloss": "A domain name used for command and control communication."
+    },
+    {
+      "name": "sync.smartcloudflare.com",
+      "kind": "domain",
+      "gloss": "A domain name used for command and control communication."
+    },
+    {
+      "name": "hiddenvnc.com",
+      "kind": "domain",
+      "gloss": "A domain name registered and used in the attacker's infrastructure."
+    },
+    {
+      "name": "anonvnc.com",
+      "kind": "domain",
+      "gloss": "A domain name registered and used in the attacker's infrastructure."
+    },
+    {
+      "name": "invoice-traffic.com",
+      "kind": "domain",
+      "gloss": "A domain name registered and used in the attacker's infrastructure."
+    },
+    {
+      "name": "smart-vnc.com",
+      "kind": "domain",
+      "gloss": "A domain name registered and used in the attacker's infrastructure."
+    },
+    {
+      "name": "smartcloudflare.com",
+      "kind": "domain",
+      "gloss": "A domain name registered and used in the attacker's infrastructure."
+    },
+    {
+      "name": "186.2.171.76",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious infrastructure."
+    },
+    {
+      "name": "66.94.109.162",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious infrastructure."
+    },
+    {
+      "name": "66.94.104.42",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Scan_docs#40562153.msi",
+      "type": "executes",
+      "tail": "ANONVNC",
+      "evidence": "відкриття якого призведе до запуску шкідливої програми ANONVNC"
+    },
+    {
+      "head": "ANONVNC",
+      "type": "derived-from",
+      "tail": "MESHAGENT",
+      "evidence": "може свідчити про запозичення вихідного коду"
+    },
+    {
+      "head": "UAC-0198",
+      "type": "distributes",
+      "tail": "ANONVNC",
+      "evidence": "Описана активність відстежується за ідентифікатором UAC-0198"
+    },
+    {
+      "head": "MESHAGENT",
+      "type": "hosted-on",
+      "tail": "https://github.com/Ylianst/MeshAgent",
+      "evidence": "вихідний код якої доступний на Github (https://github.com/Ylianst/MeshAgent)"
+    },
+    {
+      "head": "Служби безпеки України",
+      "type": "agency-of",
+      "tail": "України",
+      "evidence": "Служби безпеки України"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "executes",
+      "definition": "The source file or process starts or launches the target program or payload."
+    },
+    {
+      "name": "derived-from",
+      "definition": "The source software or malware is based on or borrows code from the target software."
+    },
+    {
+      "name": "distributes",
+      "definition": "The source entity spreads, delivers, or deploys the target malware or file."
+    },
+    {
+      "name": "hosted-on",
+      "definition": "The source software or content is stored or hosted at the target URL or service."
+    },
+    {
+      "name": "agency-of",
+      "definition": "The source governmental body belongs to or operates under the target country."
+    }
+  ]
+}

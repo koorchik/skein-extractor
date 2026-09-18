@@ -1,0 +1,122 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA виявлено розповсюдження в популярних мессенджерах шахрайських публікацій, в яких пропонується отримати соціальну виплату для українських біженців. Для цього необхідно перейти за посиланням та ввести дані для входу в онлайн-банкінг, які в результаті будуть скомпрометовані. Зловмисники використовують фішингові сайти, які імітують популярні українські банки.</p><p>Згадана шахрайська активність має систематичний характер та відстежується за ідентифікатором UAC-0100.</p><p><br></p><p><strong>Індикатори компрометації</strong></p><pre class="ql-syntax" spellcheck="false">hXXps://mono.gg-pay[.]me/
+hXXps://next24.gg-pay[.]me/
+hXXps://privat24.ua-wallet[.]pw/
+</pre><p><br></p><p><strong>Рекомендації</strong></p><p>1. Офіційний сайт Платформи єДопомога: <a href="https://aid.edopomoga.gov.ua/" rel="noopener noreferrer" target="_blank" style="color: rgb(5, 99, 193);">https://aid.edopomoga.gov.ua/</a></p><p>2. Відповіді Мінсоцполітики на найпоширеніші запитання щодо виплат від міжнародних організацій: <a href="https://www.msp.gov.ua/news/22077.html" rel="noopener noreferrer" target="_blank" style="color: rgb(5, 99, 193);">https://www.msp.gov.ua/news/22077.html</a></p><p>3. Ніколи не вводьте реквізити платіжних карток на незнайомих та підозрілих веб-сайтах, а також налаштуйте контроль руху коштів (підключіть SMS-інформування, встановіть ліміти на операції).</p><p>4. Якщо дані платіжної картки помилково введено на шахрайському веб-сайті - НЕГАЙНО заблокувати платіжну картку за допомогою мобільного застосунку, гарячої лінії банку (телефон зазначено на звороті картки) або через Інтернет-банкінг.</p><p>5. Скористайтеся основними порадами платіжної безпеки Національного банку України <a href="https://bank.gov.ua/promo/stopfraud/" rel="noopener noreferrer" target="_blank" style="color: rgb(5, 99, 193);">https://bank.gov.ua/promo/stopfraud/</a> та правилами кібергігієни <a href="https://cert.gov.ua/recommendation/31" rel="noopener noreferrer" target="_blank" style="color: rgb(5, 99, 193);">https://cert.gov.ua/recommendation/31</a></p><p><br></p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (5.0s, in 1631 / out 955 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "UAC-0100",
+      "kind": "threat actor",
+      "gloss": "A financially motivated threat group or activity cluster conducting phishing and banking fraud targeting Ukrainian citizens."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "hXXps://mono.gg-pay[.]me/",
+      "kind": "url",
+      "gloss": "A phishing URL used to harvest online banking credentials."
+    },
+    {
+      "name": "hXXps://next24.gg-pay[.]me/",
+      "kind": "url",
+      "gloss": "A phishing URL used to harvest online banking credentials."
+    },
+    {
+      "name": "hXXps://privat24.ua-wallet[.]pw/",
+      "kind": "url",
+      "gloss": "A phishing URL used to harvest online banking credentials."
+    },
+    {
+      "name": "Платформи єДопомога",
+      "kind": "web portal",
+      "gloss": "An official Ukrainian government platform providing social assistance and aid to citizens."
+    },
+    {
+      "name": "https://aid.edopomoga.gov.ua/",
+      "kind": "url",
+      "gloss": "The official website URL of the Ukrainian eDopomoga social aid platform."
+    },
+    {
+      "name": "Мінсоцполітики",
+      "kind": "government body",
+      "gloss": "The Ministry of Social Policy of Ukraine responsible for social security and welfare administration."
+    },
+    {
+      "name": "Національного банку України",
+      "kind": "central bank",
+      "gloss": "The central bank of Ukraine responsible for monetary policy and financial system regulation."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0100",
+      "type": "uses-infrastructure",
+      "tail": "hXXps://mono.gg-pay[.]me/",
+      "evidence": "Згадана шахрайська активність має систематичний характер та відстежується за ідентифікатором UAC-0100. Індикатори компрометації hXXps://mono.gg-pay[.]me/"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses-infrastructure",
+      "tail": "hXXps://next24.gg-pay[.]me/",
+      "evidence": "Згадана шахрайська активність має систематичний характер та відстежується за ідентифікатором UAC-0100. Індикатори компрометації hXXps://next24.gg-pay[.]me/"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses-infrastructure",
+      "tail": "hXXps://privat24.ua-wallet[.]pw/",
+      "evidence": "Згадана шахрайська активність має систематичний характер та відстежується за ідентифікатором UAC-0100. Індикатори компрометації hXXps://privat24.ua-wallet[.]pw/"
+    },
+    {
+      "head": "Платформи єДопомога",
+      "type": "has-website",
+      "tail": "https://aid.edopomoga.gov.ua/",
+      "evidence": "Офіційний сайт Платформи єДопомога: https://aid.edopomoga.gov.ua/"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-infrastructure",
+      "definition": "The threat actor operates, deploys, or leverages the specified network infrastructure or URL."
+    },
+    {
+      "name": "has-website",
+      "definition": "The entity maintains or is accessible via the specified web address."
+    }
+  ]
+}

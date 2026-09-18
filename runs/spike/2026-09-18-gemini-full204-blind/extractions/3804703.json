@@ -1,0 +1,178 @@
+{
+  "entities": [
+    {
+      "name": "АТ \"Укртелеком\"",
+      "kind": "telecommunications company",
+      "gloss": "A major Ukrainian telecommunications operator."
+    },
+    {
+      "name": "судовий лист, інформація щодо заборгування.rar",
+      "kind": "archive file",
+      "gloss": "A malicious RAR archive distributed via email containing lure documents and malware."
+    },
+    {
+      "name": "Ваш персональний код доступу -254507.txt",
+      "kind": "text file",
+      "gloss": "A text file contained within a malicious archive providing a password."
+    },
+    {
+      "name": "судовий лист, інформація щодо заборгування. pdf.rar",
+      "kind": "archive file",
+      "gloss": "A password-protected RAR archive containing a malicious executable."
+    },
+    {
+      "name": "судовий лист, інформація щодо заборгування.pdf.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable disguised as a PDF file used to install Remcos."
+    },
+    {
+      "name": "Remcos",
+      "kind": "remote access trojan",
+      "gloss": "A commercial remote control and surveillance software often abused by threat actors as a trojan."
+    },
+    {
+      "name": "BreakingSecurity",
+      "kind": "software company",
+      "gloss": "A software vendor that develops and sells the Remcos remote administration tool."
+    },
+    {
+      "name": "UAC-0050",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked for conducting espionage and cyberattacks primarily against Ukrainian targets."
+    },
+    {
+      "name": "RemoteUtilities",
+      "kind": "remote administration tool",
+      "gloss": "A legitimate remote desktop and administration software used in cyberattacks."
+    },
+    {
+      "name": "органи державної влади України",
+      "kind": "government body",
+      "gloss": "State authorities and government agencies of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "2.exe (sql.exe)",
+      "kind": "executable file",
+      "gloss": "An executable payload corresponding to the Remcos remote access tool."
+    },
+    {
+      "name": "info@telecomds.online",
+      "kind": "email address",
+      "gloss": "An email address used in malicious email distribution campaigns."
+    },
+    {
+      "name": "gluschko.i.k@ukrtelecom.ua",
+      "kind": "email address",
+      "gloss": "A spoofed email address impersonating Ukrtelecom."
+    },
+    {
+      "name": "telecomds.online",
+      "kind": "internet domain",
+      "gloss": "A domain name associated with malicious email distribution."
+    },
+    {
+      "name": "80.78.254.28",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor network infrastructure."
+    },
+    {
+      "name": "101.99.91.158",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor network infrastructure."
+    },
+    {
+      "name": "94.131.99.153",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor network infrastructure."
+    },
+    {
+      "name": "124.88.67.67",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor network infrastructure."
+    },
+    {
+      "name": "124.88.67.98",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor network infrastructure."
+    },
+    {
+      "name": "94.131.99.156",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor network infrastructure."
+    },
+    {
+      "name": "94.131.99.89",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor network infrastructure."
+    },
+    {
+      "name": "94.131.99.56",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor network infrastructure."
+    },
+    {
+      "name": "178.23.190.252",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor network infrastructure."
+    },
+    {
+      "name": "178.23.190.253",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor network infrastructure."
+    },
+    {
+      "name": "178.23.190.254",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor network infrastructure."
+    },
+    {
+      "name": "178.23.190.54",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "судовий лист, інформація щодо заборгування.pdf.exe",
+      "type": "delivers",
+      "tail": "Remcos",
+      "evidence": "Запуск EXE-файлу призведе до встановлення на комп'ютері жертви програми для віддаленого контролю та спостереження Remcos"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "Remcos",
+      "evidence": "Виявлена активність відстежується за ідентифікатором UAC-0050"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "RemoteUtilities",
+      "evidence": "Попередні кібератаки згаданої групи здійснювалися із застосуванням програми для віддаленого адміністрування RemoteUtilities."
+    },
+    {
+      "head": "UAC-0050",
+      "type": "attacks",
+      "tail": "органи державної влади України",
+      "evidence": "об'єктами кібератак, зазвичай (але не виключно), є органи державної влади України"
+    },
+    {
+      "head": "органи державної влади України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "органи державної влади України"
+    },
+    {
+      "head": "АТ \"Укртелеком\"",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "АТ \"Укртелеком\""
+    }
+  ],
+  "newRelationTypes": []
+}

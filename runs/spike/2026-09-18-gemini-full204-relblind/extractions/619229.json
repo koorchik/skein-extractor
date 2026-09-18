@@ -1,0 +1,99 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0056",
+      "kind": "hacking group",
+      "gloss": "A cyber espionage threat group known for targeting Ukrainian entities."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Інформація щодо наявності вакансій та їх укомплектування.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet used as an email attachment to trigger malware execution."
+    },
+    {
+      "name": "write.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable dropper that extracts and executes subsequent payload files."
+    },
+    {
+      "name": "%PROGRAMDATA%\\TRYxaEbX",
+      "kind": "malicious file",
+      "gloss": "An encrypted payload dropped on disk and decrypted using RC4."
+    },
+    {
+      "name": "TRYxaEbX.ps1",
+      "kind": "malicious file",
+      "gloss": "A malicious PowerShell script that bypasses AMSI and decodes the next stage script."
+    },
+    {
+      "name": "TRYxaEbX_2.ps1",
+      "kind": "malicious file",
+      "gloss": "A malicious PowerShell script responsible for executing Cobalt Strike Beacon."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware family",
+      "gloss": "A post-exploitation agent and payload of the Cobalt Strike framework."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A family of proprietary graphical operating systems developed by Microsoft."
+    },
+    {
+      "name": "skreatortemp[.]site",
+      "kind": "internet domain",
+      "gloss": "A malicious domain name used for command and control infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Інформація щодо наявності вакансій та їх укомплектування.xls",
+      "type": "drops-and-executes",
+      "tail": "write.exe",
+      "evidence": "призведе до створення на комп'ютері та запуску файлу \"write.exe\""
+    },
+    {
+      "head": "write.exe",
+      "type": "creates-file",
+      "tail": "%PROGRAMDATA%\\TRYxaEbX",
+      "evidence": "забезпечуючи створення на диску файлу \"%PROGRAMDATA%\\TRYxaEbX\""
+    },
+    {
+      "head": "write.exe",
+      "type": "executes",
+      "tail": "PowerShell",
+      "evidence": "подальший запуск PowerShell-скрипта"
+    },
+    {
+      "head": "TRYxaEbX_2.ps1",
+      "type": "executes",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "забезпечить виконання шкідливої програми Cobalt Strike Beacon"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "drops-and-executes",
+      "definition": "The source file creates and starts the target executable file on the system."
+    },
+    {
+      "name": "creates-file",
+      "definition": "The source process or file writes the target file to disk."
+    },
+    {
+      "name": "executes",
+      "definition": "The source process, script, or actor launches or invokes the target software or payload."
+    }
+  ]
+}

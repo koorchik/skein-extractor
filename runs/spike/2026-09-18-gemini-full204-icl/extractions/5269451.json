@@ -1,0 +1,131 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0006",
+      "kind": "threat actor",
+      "gloss": "A financially motivated cyber threat group known for targeting Ukrainian accounting systems and distributing SmokeLoader malware."
+    },
+    {
+      "name": "SmokeLoader",
+      "kind": "malware",
+      "gloss": "A modular malicious software family used as a dropper to download and execute additional malware payloads."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country located in Eastern Europe."
+    },
+    {
+      "name": "WinRAR",
+      "kind": "software product",
+      "gloss": "A widely used file archiver and data compression utility for Windows."
+    },
+    {
+      "name": "wscript.exe",
+      "kind": "software product",
+      "gloss": "A built-in Windows utility used to execute VBScript and JScript scripts."
+    },
+    {
+      "name": "cscript.exe",
+      "kind": "software product",
+      "gloss": "A command-line version of the Windows Script Host."
+    },
+    {
+      "name": "powershell.exe",
+      "kind": "software product",
+      "gloss": "A command-line shell and scripting framework developed by Microsoft."
+    },
+    {
+      "name": "mshta.exe",
+      "kind": "software product",
+      "gloss": "A Windows utility that executes Microsoft HTML Applications (HTA files)."
+    },
+    {
+      "name": "Pax_ipn_18.07.2023p.jpg",
+      "kind": "computer file",
+      "gloss": "A malicious executable disguised as an image file dropped during the attack."
+    },
+    {
+      "name": "2.Витяг з реeстру вiд 24.07.2023р_Код документа 9312-0580-6944-3255.xls.js",
+      "kind": "computer file",
+      "gloss": "A malicious JavaScript downloader file used in the attack chain."
+    },
+    {
+      "name": "1.Платiжна iнструкцiя iпн та вытяг з реестру Код документа 9312-0580-6944-3255.exe",
+      "kind": "computer file",
+      "gloss": "A malicious self-extracting SFX archive containing bait documents and scripts."
+    },
+    {
+      "name": "document_payment.docx",
+      "kind": "computer file",
+      "gloss": "A bait document dropped by a malicious SFX archive."
+    },
+    {
+      "name": "Платiжна iнструкцiя Приват_банк.docx",
+      "kind": "computer file",
+      "gloss": "A decoy financial document copied by the threat actor."
+    },
+    {
+      "name": "passport.bat",
+      "kind": "computer file",
+      "gloss": "A malicious batch script used to launch an executable payload."
+    },
+    {
+      "name": "weboffice.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable payload downloaded from external infrastructure."
+    },
+    {
+      "name": "smoke.exe",
+      "kind": "computer file",
+      "gloss": "An executable payload corresponding to the SmokeLoader malware."
+    },
+    {
+      "name": "194.87.32.152",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command and control or hosting infrastructure."
+    },
+    {
+      "name": "ukr-net-downloadfile.su",
+      "kind": "domain name",
+      "gloss": "A malicious domain used for hosting malware payloads."
+    },
+    {
+      "name": "mediaplatformapharm.ru",
+      "kind": "domain name",
+      "gloss": "A malicious domain used to deliver executable payloads."
+    },
+    {
+      "name": "tvpharm.ru",
+      "kind": "domain name",
+      "gloss": "A domain leveraged to host malicious payload downloads."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0006",
+      "type": "uses",
+      "tail": "SmokeLoader",
+      "evidence": "чергові атаки угрупування UAC-0006 із застосуванням шкідливої програми SmokeLoader"
+    },
+    {
+      "head": "1.Платiжна iнструкцiя iпн та вытяг з реестру Код документа 9312-0580-6944-3255.exe",
+      "type": "delivers",
+      "tail": "document_payment.docx",
+      "evidence": "SFX-архів \"1.Платiжна iнструкцiя iпн...\" з файлом-приманкою \"document_payment.docx\""
+    },
+    {
+      "head": "1.Платiжна iнструкцiя iпн та вытяг з реестру Код документа 9312-0580-6944-3255.exe",
+      "type": "delivers",
+      "tail": "passport.bat",
+      "evidence": "SFX-архів \"1.Платiжна iнструкцiя iпн...\" з ... BAT-скриптом \"passport.bat\""
+    },
+    {
+      "head": "passport.bat",
+      "type": "delivers",
+      "tail": "Pax_ipn_18.07.2023p.jpg",
+      "evidence": "BAT-скриптом \"passport.bat\", призначеним для запуску \"Pax_ipn_18.07.2023p.jpg\""
+    }
+  ],
+  "newRelationTypes": []
+}

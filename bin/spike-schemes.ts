@@ -25,6 +25,8 @@ import { createLlmBackend } from '../src/LlmClient/createBackend';
 import { prompts } from '../src/Normalization/PromptProvider';
 import { writeRunReadme } from '../src/RunReadme/runReadme';
 import { writeRunView } from '../src/RunViews/runViews';
+import { guardExtractionCache } from '../src/SchemeDiscovery/extractionCacheGuard';
+import { mapWithConcurrency } from '../src/utils/concurrency';
 import { ensureDir, sortByNumericId, writeJsonAtomic } from '../src/utils/fsUtils';
 import { extractAndParseJson } from '../src/utils/validationUtils';
 import { cosineNormalized, l2Normalize, meanPool } from '../src/utils/vectorUtils';
@@ -78,6 +80,12 @@ const CONFIG = {
   icl: process.env.SPIKE_ICL === '1',
   /** Relation-blind arm (E7): no relation inventory in the prompt; free verb phrases, canonicalized post hoc (extract-open-relblind-v1). */
   relBlind: process.env.SPIKE_REL_BLIND === '1',
+  /**
+   * Extraction calls in flight before the stream starts. Only the relation-blind prompt allows it:
+   * it renders no stream state, so the extraction of a document depends on that document alone and
+   * the order of the calls cannot matter. The fold that follows stays sequential.
+   */
+  concurrency: num(process.env.SPIKE_CONCURRENCY, 1),
   out: arg('out') || process.env.SPIKE_OUT || '',
   cacheDir: process.env.EMBEDDINGS_CACHE || 'runs/embeddings-cache',
 };
@@ -180,6 +188,16 @@ export function averageLinkage(vecs: number[][], cutoff: number): number[][] {
 }
 
 /**
+ * A provider safety block on the document itself (Gemini: no candidates, blockReason set). It is
+ * deterministic, so a retry or a resumed run meets it again: the document is recorded as
+ * extract-failed and the stream goes on. Anything else (network, quota, an empty answer) still
+ * throws, and the run is resumed from its cached extractions.
+ */
+export function isProviderContentBlock(error: unknown): boolean {
+  return error instanceof Error && /blockReason: \w+/.test(error.message);
+}
+
+/**
  * The free-form reasoning may contain braces despite the instruction, which makes the greedy
  * first-brace match unparseable (doc 2660 on the first spike run). Try each `{` as a start until
  * one yields an object with an `entities` array.
@@ -246,6 +264,14 @@ async function main() {
   const outDir = CONFIG.out || `runs/spike/${date}-${CONFIG.llmProvider}-${CONFIG.docs}`;
   await ensureDir(outDir);
   await ensureDir(path.join(outDir, 'extractions'));
+  // A cached extraction is valid only for the prompt text and the model that made it.
+  const extractPrompt = CONFIG.relBlind ? 'extract-open-relblind-v1' : CONFIG.icl ? 'extract-open-icl-v1' : 'extract-open-v1';
+  const cacheState = await guardExtractionCache(
+    outDir,
+    { promptId: extractPrompt, promptHash: prompts.hashesFor([extractPrompt])[extractPrompt], llmProvider: CONFIG.llmProvider, llmModel: CONFIG.llmModel },
+    { adopt: process.env.SPIKE_ADOPT_CACHE === '1' }
+  );
+  console.log(`extraction cache: ${cacheState} (${extractPrompt})`);
   await ensureDir(path.join(outDir, 'artifacts'));
 
   const runId = path.basename(outDir);
@@ -472,12 +498,56 @@ async function main() {
     return key;
   }
 
-  // ---------- stream ----------
   const files = sortByNumericId(await fs.readdir(CONFIG.inputDir)).slice(CONFIG.offset, CONFIG.offset + CONFIG.docs);
-  for (const file of files) {
+  const readDoc = async (file: string) => {
     const raw = JSON.parse(await fs.readFile(path.join(CONFIG.inputDir, file), 'utf8'));
-    const docId = Number(raw.id) || parseInt(file, 10);
-    const text = String(raw.text ?? '').replace(/<img[^>]*>/gi, '');
+    return { raw, docId: Number(raw.id) || parseInt(file, 10), text: String(raw.text ?? '').replace(/<img[^>]*>/gi, '') };
+  };
+
+  /** One extraction call. A provider block or an unparseable answer is a failed document, not a failed run. */
+  async function extractDocument(instructions: string, text: string, docId: number): Promise<{ extraction: Extraction; tokens: string } | { failed: string }> {
+    let response;
+    try {
+      response = await llm.send(instructions, text, { operator: 'extract', docId });
+    } catch (error) {
+      if (!isProviderContentBlock(error)) throw error;
+      return { failed: (error as Error).message };
+    }
+    const parsed = parseExtraction(response.text);
+    if (!parsed || !Array.isArray(parsed.entities)) return { failed: 'unparseable answer' };
+    return {
+      tokens: `${response.usage.inputTokens}+${response.usage.outputTokens}`,
+      extraction: {
+        entities: parsed.entities
+          .filter((e) => e && typeof e.name === 'string' && e.name.trim())
+          .map((e) => ({ name: e.name.trim(), kind: String(e.kind ?? '').trim().toLowerCase(), gloss: String(e.gloss ?? '').trim() })),
+        relations: (parsed.relations ?? []).filter((r) => r && r.head && r.tail && r.type),
+        newRelationTypes: parsed.newRelationTypes ?? [],
+      },
+    };
+  }
+
+  // ---------- pre-extraction (relation-blind prompt only): every document at once ----------
+  const preFailed = new Map<string, string>();
+  if (CONFIG.concurrency > 1) {
+    if (!CONFIG.relBlind) throw new Error('SPIKE_CONCURRENCY needs SPIKE_REL_BLIND=1: the other extraction prompts render stream state, so their calls are order-dependent');
+    const instructions = prompts.render('extract-open-relblind-v1', {});
+    const missing = files.filter((file) => !existsSync(path.join(outDir, 'extractions', file)));
+    console.log(`pre-extraction: ${missing.length} of ${files.length} documents, ${CONFIG.concurrency} calls in flight`);
+    let done = 0;
+    await mapWithConcurrency(missing, CONFIG.concurrency, async (file) => {
+      const { docId, text } = await readDoc(file);
+      const result = await extractDocument(instructions, text, docId);
+      if ('failed' in result) preFailed.set(file, result.failed);
+      else await writeJsonAtomic(path.join(outDir, 'extractions', file), result.extraction);
+      done += 1;
+      if (done % 20 === 0 || done === missing.length) console.log(`  pre-extraction: ${done}/${missing.length}${preFailed.size ? `, ${preFailed.size} failed` : ''}`);
+    });
+  }
+
+  // ---------- stream (sequential) ----------
+  for (const file of files) {
+    const { raw, docId, text } = await readDoc(file);
     docs.push({ id: docId, date: raw.date, title: raw.title });
     console.log(`\n=== doc ${docId} (${raw.date}) ${raw.title}`);
 
@@ -487,6 +557,10 @@ async function main() {
     if (existsSync(extractionPath)) {
       extraction = JSON.parse(await fs.readFile(extractionPath, 'utf8'));
       console.log(`  extraction: cached`);
+    } else if (preFailed.has(file)) {
+      console.error(`  EXTRACTION FAILED for ${file}: ${preFailed.get(file)}`);
+      await logEvent({ doc: docId, op: 'extract-failed', reason: preFailed.get(file) });
+      continue;
     } else {
       const known =
         relationTypes.length === 0
@@ -503,22 +577,15 @@ async function main() {
                 : schemes.map((s) => `- ${s.prefLabel}: ${s.definition}${s.altLabels.length ? ` (also: ${s.altLabels.join(', ')})` : ''}`).join('\n'),
           })
         : prompts.render('extract-open-v1', { knownRelationTypes: known });
-      const response = await llm.send(instructions, text, { operator: 'extract', docId });
-      const parsed = parseExtraction(response.text);
-      if (!parsed || !Array.isArray(parsed.entities)) {
-        console.error(`  EXTRACTION FAILED for ${file}`);
-        await logEvent({ doc: docId, op: 'extract-failed' });
+      const result = await extractDocument(instructions, text, docId);
+      if ('failed' in result) {
+        console.error(`  EXTRACTION FAILED for ${file}: ${result.failed}`);
+        await logEvent({ doc: docId, op: 'extract-failed', reason: result.failed });
         continue;
       }
-      extraction = {
-        entities: parsed.entities
-          .filter((e) => e && typeof e.name === 'string' && e.name.trim())
-          .map((e) => ({ name: e.name.trim(), kind: String(e.kind ?? '').trim().toLowerCase(), gloss: String(e.gloss ?? '').trim() })),
-        relations: (parsed.relations ?? []).filter((r) => r && r.head && r.tail && r.type),
-        newRelationTypes: parsed.newRelationTypes ?? [],
-      };
+      extraction = result.extraction;
       await writeJsonAtomic(extractionPath, extraction);
-      console.log(`  extraction: ${extraction.entities.length} entities, ${extraction.relations.length} relations, ${response.usage.inputTokens}+${response.usage.outputTokens} tokens`);
+      console.log(`  extraction: ${extraction.entities.length} entities, ${extraction.relations.length} relations, ${result.tokens} tokens`);
     }
 
     // dedupe by normalized surface within the document

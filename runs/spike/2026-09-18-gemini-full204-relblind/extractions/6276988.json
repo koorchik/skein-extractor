@@ -1,0 +1,195 @@
+{
+  "entities": [
+    {
+      "name": "Trendmicro",
+      "kind": "cybersecurity company",
+      "gloss": "A multinational cybersecurity software and defense company."
+    },
+    {
+      "name": "3-тьої окремої штурмової бригади",
+      "kind": "military unit",
+      "gloss": "A brigade of the Ukrainian Ground Forces."
+    },
+    {
+      "name": "Армії оборони Ізраїлю",
+      "kind": "armed forces",
+      "gloss": "The national military force of the State of Israel, also known as IDF or Tsahal."
+    },
+    {
+      "name": "Збройних Сил України",
+      "kind": "armed forces",
+      "gloss": "The military forces of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Ізраїль",
+      "kind": "country",
+      "gloss": "A country in the Middle East."
+    },
+    {
+      "name": "Signal",
+      "kind": "software product",
+      "gloss": "A cross-platform encrypted messaging and voice calling service."
+    },
+    {
+      "name": "REMCOSRAT",
+      "kind": "malware family",
+      "gloss": "A commercial remote access tool frequently abused by cyber threat actors for unauthorized access."
+    },
+    {
+      "name": "REVERSESSH",
+      "kind": "software tool",
+      "gloss": "A reverse SSH utility commonly used for persistent remote shell access."
+    },
+    {
+      "name": "mshta.exe",
+      "kind": "software product",
+      "gloss": "A Microsoft Windows utility used to execute HTML applications (HTA files)."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework from Microsoft."
+    },
+    {
+      "name": "UAC-0184",
+      "kind": "threat actor",
+      "gloss": "A cyber threat actor cluster tracked by CERT-UA targeting Ukrainian defense personnel."
+    },
+    {
+      "name": "Центр кібербезпеки ІТС",
+      "kind": "government body",
+      "gloss": "A military cybersecurity center within the Armed Forces of Ukraine (military unit A0334)."
+    },
+    {
+      "name": "csoc@post.mil.gov.ua",
+      "kind": "email address",
+      "gloss": "An operational email contact address for the Ukrainian military cybersecurity operations center."
+    },
+    {
+      "name": "funedunet[.]com",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used by threat actors to distribute malware and lure documents."
+    },
+    {
+      "name": "new-tech-savvy[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain leveraged by attackers to host and serve malicious payload files."
+    },
+    {
+      "name": "194[.]87.31.181",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious infrastructure in cyber operations."
+    },
+    {
+      "name": "194[.]87.31.229",
+      "kind": "ip address",
+      "gloss": "An IP address leveraged for malicious communication and control."
+    },
+    {
+      "name": "45[.]120.177.220",
+      "kind": "ip address",
+      "gloss": "An IP address listed as malicious network infrastructure."
+    },
+    {
+      "name": "46[.]249.49.148",
+      "kind": "ip address",
+      "gloss": "An IP address observed as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "46[.]249.58.40",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor network activity."
+    },
+    {
+      "name": "grabify[.]link",
+      "kind": "internet domain",
+      "gloss": "An online URL shortening and IP logger service domain."
+    },
+    {
+      "name": "iplogger[.]com",
+      "kind": "internet domain",
+      "gloss": "An online tracking and IP logging service domain."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0184",
+      "type": "targets",
+      "tail": "Збройних Сил України",
+      "evidence": "проводяться проти військовослужбовців Збройних Сил України... відстежується за ідентифікатором UAC-0184"
+    },
+    {
+      "head": "UAC-0184",
+      "type": "delivers-payload",
+      "tail": "REMCOSRAT",
+      "evidence": "ініціює ланцюг ураження шкідливими програмами REMCOSRAT і REVERSESSH"
+    },
+    {
+      "head": "UAC-0184",
+      "type": "delivers-payload",
+      "tail": "REVERSESSH",
+      "evidence": "ініціює ланцюг ураження шкідливими програмами REMCOSRAT і REVERSESSH"
+    },
+    {
+      "head": "UAC-0184",
+      "type": "uses-messenger-platform",
+      "tail": "Signal",
+      "evidence": "невстановленими особами засобами Signal здійснюється розповсюдження архівів"
+    },
+    {
+      "head": "UAC-0184",
+      "type": "uses-infrastructure",
+      "tail": "funedunet[.]com",
+      "evidence": "hXXp://funedunet[.]com/azov/uacybershieldx.exe"
+    },
+    {
+      "head": "UAC-0184",
+      "type": "uses-infrastructure",
+      "tail": "new-tech-savvy[.]com",
+      "evidence": "hXXp://new-tech-savvy[.]com/4/drvsysx86.exe"
+    },
+    {
+      "head": "Центр кібербезпеки ІТС",
+      "type": "part-of",
+      "tail": "Збройних Сил України",
+      "evidence": "в ІКС Збройних сил України просимо невідкладно інформувати Центр кібербезпеки ІТС"
+    },
+    {
+      "head": "Центр кібербезпеки ІТС",
+      "type": "uses-email-address",
+      "tail": "csoc@post.mil.gov.ua",
+      "evidence": "Центр кібербезпеки ІТС (в/ч А0334; email: csoc@post.mil.gov.ua)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets",
+      "definition": "The threat actor directs malicious cyber activities or attacks against a specific organization or entity."
+    },
+    {
+      "name": "delivers-payload",
+      "definition": "The threat actor or campaign distributes or deploys a specific piece of malware or utility."
+    },
+    {
+      "name": "uses-messenger-platform",
+      "definition": "The threat actor distributes malicious material using a specific messaging application or platform."
+    },
+    {
+      "name": "uses-infrastructure",
+      "definition": "The threat actor controls or utilizes a specific network domain, server, or IP address for malicious operations."
+    },
+    {
+      "name": "part-of",
+      "definition": "The head entity is a sub-unit, branch, or component of the tail entity."
+    },
+    {
+      "name": "uses-email-address",
+      "definition": "An organization or person uses a specific email address as an official or operational point of contact."
+    }
+  ]
+}

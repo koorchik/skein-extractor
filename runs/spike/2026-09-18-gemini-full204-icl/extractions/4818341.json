@@ -1,0 +1,143 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose government organizations and media editors were targeted in the cyber espionage campaign."
+    },
+    {
+      "name": "LONEPAGE",
+      "kind": "malware",
+      "gloss": "A malicious PowerShell script loader and backdoor used to execute commands and retrieve additional payloads."
+    },
+    {
+      "name": "THUMBCHOP",
+      "kind": "malware",
+      "gloss": "An infostealer malware targeting data and credentials from Chrome and Opera web browsers."
+    },
+    {
+      "name": "CLOGFLAG",
+      "kind": "malware",
+      "gloss": "A keylogger malware family used to intercept and record keystrokes on infected systems."
+    },
+    {
+      "name": "SEAGLOW",
+      "kind": "malware",
+      "gloss": "A malware strain written in Go detected during incident response."
+    },
+    {
+      "name": "OVERJAM",
+      "kind": "malware",
+      "gloss": "A malicious reverse proxy tool written in Go."
+    },
+    {
+      "name": "Chrome",
+      "kind": "software product",
+      "gloss": "A web browser developed by Google."
+    },
+    {
+      "name": "Opera",
+      "kind": "software product",
+      "gloss": "A web browser developed by Opera Software."
+    },
+    {
+      "name": "156.38.245.115",
+      "kind": "ip address",
+      "gloss": "An IP address associated with command and control infrastructure in the campaign."
+    },
+    {
+      "name": "179.48.251.182",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious network activity."
+    },
+    {
+      "name": "217.12.218.107",
+      "kind": "ip address",
+      "gloss": "An IP address used to host command and control endpoints and payload files."
+    },
+    {
+      "name": "45.148.121.6",
+      "kind": "ip address",
+      "gloss": "An IP address used for hosting malicious scripts and C2 communications."
+    },
+    {
+      "name": "62.210.204.94",
+      "kind": "ip address",
+      "gloss": "An IP address used as a network endpoint in malicious operations."
+    },
+    {
+      "name": "http://156.38.245.115/oHYgdtRwKJ/page69/upgrade.txt",
+      "kind": "uniform resource locator",
+      "gloss": "A URL used to download malicious TXT payload files."
+    },
+    {
+      "name": "http://156.38.245.115:38104/page69",
+      "kind": "uniform resource locator",
+      "gloss": "A URL used for malicious command and control communication."
+    },
+    {
+      "name": "http://217.12.218.107:25928/page121",
+      "kind": "uniform resource locator",
+      "gloss": "A URL endpoint used by malware to exfiltrate data or receive commands."
+    },
+    {
+      "name": "http://217.12.218.107:25928/page147",
+      "kind": "uniform resource locator",
+      "gloss": "A URL endpoint used for HTTP POST data transmission."
+    },
+    {
+      "name": "http://217.12.218.107:30139/aMPnGqjRPSQIOZQG/page147/upgrade.txt",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosting commands downloaded by the LONEPAGE script."
+    },
+    {
+      "name": "http://45.148.121.6:32341/slideshow.bat",
+      "kind": "uniform resource locator",
+      "gloss": "A URL hosting a malicious batch script."
+    },
+    {
+      "name": "http://45.148.121.6:32341/slideshow.php",
+      "kind": "uniform resource locator",
+      "gloss": "A URL used as a command and control endpoint."
+    }
+  ],
+  "relations": [
+    {
+      "head": "THUMBCHOP",
+      "type": "affects",
+      "tail": "Chrome",
+      "evidence": "THUMBCHOP (стілер для Chrome та Opera)"
+    },
+    {
+      "head": "THUMBCHOP",
+      "type": "affects",
+      "tail": "Opera",
+      "evidence": "THUMBCHOP (стілер для Chrome та Opera)"
+    },
+    {
+      "head": "217.12.218.107",
+      "type": "hosts",
+      "tail": "http://217.12.218.107:30139/aMPnGqjRPSQIOZQG/page147/upgrade.txt",
+      "evidence": "hXXp://217[.]12.218.107:30139/aMPnGqjRPSQIOZQG/page147/upgrade[.]txt"
+    },
+    {
+      "head": "156.38.245.115",
+      "type": "hosts",
+      "tail": "http://156.38.245.115/oHYgdtRwKJ/page69/upgrade.txt",
+      "evidence": "hXXp://156[.]38.245.115/oHYgdtRwKJ/page69/upgrade[.]txt"
+    },
+    {
+      "head": "45.148.121.6",
+      "type": "hosts",
+      "tail": "http://45.148.121.6:32341/slideshow.bat",
+      "evidence": "hXXp://45[.]148.121.6:32341/slideshow[.]bat"
+    },
+    {
+      "head": "45.148.121.6",
+      "type": "hosts",
+      "tail": "http://45.148.121.6:32341/slideshow.php",
+      "evidence": "hXXp://45[.]148.121.6:32341/slideshow[.]php"
+    }
+  ],
+  "newRelationTypes": []
+}

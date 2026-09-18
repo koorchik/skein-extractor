@@ -1,0 +1,124 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0041",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA associated with widespread credential theft and malware distribution campaigns."
+    },
+    {
+      "name": "RelicRace",
+      "kind": "malware family",
+      "gloss": "A .NET downloader malware designed to fetch, decode, and execute secondary payloads in memory."
+    },
+    {
+      "name": "RelicSource",
+      "kind": "malware family",
+      "gloss": "A .NET installer and loader malware that decrypts and executes embedded payloads."
+    },
+    {
+      "name": "Formbook",
+      "kind": "malware family",
+      "gloss": "An infostealer malware family designed to harvest credentials, keystrokes, and sensitive information from infected systems."
+    },
+    {
+      "name": "Snake Keylogger",
+      "kind": "malware family",
+      "gloss": "A keylogger and infostealer malware family capable of capturing user keystrokes and system credentials."
+    },
+    {
+      "name": "OneDrive",
+      "kind": "cloud service",
+      "gloss": "A cloud storage and file synchronization service developed by Microsoft."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software platform",
+      "gloss": "A cloud-based instant messaging service and application."
+    },
+    {
+      "name": "Остаточний платіж.tgz",
+      "kind": "file",
+      "gloss": "A malicious archive file attached to phishing emails to deliver malware."
+    },
+    {
+      "name": "Остаточний платіж.tar",
+      "kind": "file",
+      "gloss": "An archive file used in the malware delivery chain."
+    },
+    {
+      "name": "Остаточний платіж.exe",
+      "kind": "file",
+      "gloss": "An executable file containing the RelicRace downloader malware."
+    },
+    {
+      "name": "Mvbsbaoqmoffjfvhqvkpaia.dll",
+      "kind": "file",
+      "gloss": "A dynamic link library file associated with the RelicSource malware."
+    },
+    {
+      "name": "formbook.exe",
+      "kind": "file",
+      "gloss": "An executable payload delivering the Formbook malware."
+    },
+    {
+      "name": "clientes@taximadridclass.com",
+      "kind": "email address",
+      "gloss": "An email address used as an indicator of compromise in the phishing campaign."
+    },
+    {
+      "name": "info@kivanclardokum.com.tr",
+      "kind": "email address",
+      "gloss": "An email address identified as an indicator of compromise in the campaign."
+    },
+    {
+      "name": "barbacoalosmartinez.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0041",
+      "type": "uses-malware",
+      "tail": "RelicRace",
+      "evidence": "Активність має систематичний, масовий та географічно розосереджений характер і відстежується за ідентифікатором UAC-0041."
+    },
+    {
+      "head": "UAC-0041",
+      "type": "uses-malware",
+      "tail": "RelicSource",
+      "evidence": "Активність має систематичний, масовий та географічно розосереджений характер і відстежується за ідентифікатором UAC-0041."
+    },
+    {
+      "head": "UAC-0041",
+      "type": "uses-malware",
+      "tail": "Formbook",
+      "evidence": "Як пейлоад використовуються програми-стілери, а саме: Formbook та Snake Keylogger"
+    },
+    {
+      "head": "UAC-0041",
+      "type": "uses-malware",
+      "tail": "Snake Keylogger",
+      "evidence": "Як пейлоад використовуються програми-стілери, а саме: Formbook та Snake Keylogger"
+    },
+    {
+      "head": "RelicRace",
+      "type": "delivers",
+      "tail": "RelicSource",
+      "evidence": ".NET-даунлоадер RelicRace, призначений для завантаження... та запуску в пам'яті шкідливої .NET-програми RelicSource."
+    },
+    {
+      "head": "RelicSource",
+      "type": "delivers",
+      "tail": "Formbook",
+      "evidence": "RelicSource функціонально є інсталятором... Як пейлоад використовуються програми-стілери, а саме: Formbook"
+    },
+    {
+      "head": "RelicSource",
+      "type": "delivers",
+      "tail": "Snake Keylogger",
+      "evidence": "RelicSource функціонально є інсталятором... Як пейлоад використовуються програми-стілери, а саме: Formbook та Snake Keylogger"
+    }
+  ],
+  "newRelationTypes": []
+}

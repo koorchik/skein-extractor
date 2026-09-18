@@ -1,0 +1,108 @@
+{
+  "docId": 24,
+  "date": "21.02.2020",
+  "title": "УВАГА! Спостерігається масова розсилка фішингових листів, які використовують вразливість CVE-2017-11882",
+  "entities": [
+    {
+      "id": "24:0",
+      "name": "CVE-2017-11882",
+      "kind": "vulnerability identifier",
+      "gloss": "A memory corruption vulnerability in Microsoft Equation Editor allowing remote code execution.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "24:1",
+      "name": "MS Equation",
+      "kind": "software component",
+      "gloss": "A legacy equation editor component integrated into Microsoft Office products.",
+      "scheme": null,
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "24:2",
+      "name": "MS Office",
+      "kind": "software product",
+      "gloss": "A suite of productivity software developed by Microsoft.",
+      "scheme": "S3",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "24:3",
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "24:4",
+      "name": "major[.]exe",
+      "kind": "malware",
+      "gloss": "A malicious executable payload downloaded onto compromised systems following vulnerability exploitation.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "24:5",
+      "name": "216.170.123.111",
+      "kind": "ip address",
+      "gloss": "An IP address used to host and distribute the malicious executable major.exe.",
+      "scheme": null,
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "24:6",
+      "name": "PGMB New Order 18-2077[.]xlsx",
+      "kind": "malicious file",
+      "gloss": "A malicious spreadsheet file used as an indicator of compromise in the campaign.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2017-11882",
+      "type": "affects",
+      "tail": "MS Equation",
+      "evidence": "вразливість надає можливість виконання віддаленого коду, коли програмне забезпечення MS Equation не обробляє"
+    },
+    {
+      "head": "CVE-2017-11882",
+      "type": "affects",
+      "tail": "MS Office",
+      "evidence": "Дана вразливість може використовуватись в Microsoft Office 2016 та попередніх версіях"
+    },
+    {
+      "head": "MS Equation",
+      "type": "part-of",
+      "tail": "MS Office",
+      "evidence": "Відключити Microsoft Equation Editor в Office."
+    },
+    {
+      "head": "216.170.123.111",
+      "type": "hosts",
+      "tail": "major[.]exe",
+      "evidence": "завантажується файл major[.]exe з адреси hххp[:]//216.170.123.111/major[.]exe"
+    },
+    {
+      "head": "CVE-2017-11882",
+      "type": "delivers",
+      "tail": "major[.]exe",
+      "evidence": "Після експлуатації вразливості CVE-2017-11882 на цільову систему завантажується файл major[.]exe"
+    }
+  ],
+  "unclassified": [
+    "24:1",
+    "24:4",
+    "24:5",
+    "24:6"
+  ]
+}

@@ -1,0 +1,149 @@
+{
+  "entities": [
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Державного центру кіберзахисту",
+      "kind": "government organization",
+      "gloss": "A Ukrainian state authority operating under SSSCIP responsible for cybersecurity operations and defense."
+    },
+    {
+      "name": "BootPatch",
+      "kind": "malware",
+      "gloss": "A destructive malware that overwrites the Master Boot Record of storage drives to corrupt systems."
+    },
+    {
+      "name": "WhisperKill",
+      "kind": "malware",
+      "gloss": "A destructive malware component designed to overwrite and corrupt files based on specific extensions."
+    },
+    {
+      "name": "WhisperGate",
+      "kind": "malware",
+      "gloss": "A malicious .NET downloader used to retrieve and execute additional destructive payloads."
+    },
+    {
+      "name": "WhisperPack",
+      "kind": "malware",
+      "gloss": "An obfuscated .NET launcher malware component embedded with defense-evasion utilities."
+    },
+    {
+      "name": "OctoberCMS",
+      "kind": "software product",
+      "gloss": "A content management system platform based on the PHP programming language and Laravel framework."
+    },
+    {
+      "name": "Log4j",
+      "kind": "software product",
+      "gloss": "An open-source Java-based logging framework developed by the Apache Software Foundation."
+    },
+    {
+      "name": "Impacket",
+      "kind": "software product",
+      "gloss": "A collection of Python classes for working with network protocols, frequently leveraged in security testing."
+    },
+    {
+      "name": "Eazfuscator",
+      "kind": "software product",
+      "gloss": "A commercial obfuscation tool designed to protect .NET code from reverse engineering."
+    },
+    {
+      "name": "AdvancedRun.exe",
+      "kind": "software product",
+      "gloss": "A legitimate Windows utility by NirSoft used to run programs under custom settings and privileges."
+    },
+    {
+      "name": "NirSoft",
+      "kind": "company",
+      "gloss": "A software vendor known for developing lightweight freeware system utilities for Windows."
+    },
+    {
+      "name": "Windows Defender",
+      "kind": "software product",
+      "gloss": "An anti-malware software component developed by Microsoft for the Windows operating system."
+    },
+    {
+      "name": "179.43.176[.]38",
+      "kind": "ip address",
+      "gloss": "An IP address hosting infrastructure used in the cyberattack campaign."
+    },
+    {
+      "name": "179.43.176[.]42",
+      "kind": "ip address",
+      "gloss": "An IP address observed hosting malicious web assets during the incident."
+    },
+    {
+      "name": "179.43.176[.]60",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the malicious attack infrastructure."
+    },
+    {
+      "name": "179.43.176.0/24",
+      "kind": "ip address",
+      "gloss": "An IP subnet range identified in connection with the threat infrastructure."
+    },
+    {
+      "name": "hxxps://cdn.discordapp[.]com/attachments/928503440139771947/930108637681184768/Tbopbh.jpg",
+      "kind": "uniform resource locator",
+      "gloss": "A Discord CDN URL used by threat actors to host malicious payloads."
+    },
+    {
+      "name": "hxxp://179.43.176[.]42:8000/index.php",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosted on attacker infrastructure involved in the cyber incident."
+    },
+    {
+      "name": "hxxp://179.43.176[.]38:8000/index.php",
+      "kind": "uniform resource locator",
+      "gloss": "A URL hosted on attacker-controlled infrastructure used during the campaign."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Державного центру кіберзахисту",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "Державного центру кіберзахисту"
+    },
+    {
+      "head": "WhisperGate",
+      "type": "delivers",
+      "tail": "WhisperKill",
+      "evidence": "Для доставки використовується .NET-даунлоадер WhisperGate"
+    },
+    {
+      "head": "WhisperGate",
+      "type": "delivers",
+      "tail": "WhisperPack",
+      "evidence": "який завантажує з cdn.discorapp[.]com та декодує іншу .NET-програму-лаунчер WhisperPack"
+    },
+    {
+      "head": "WhisperPack",
+      "type": "uses",
+      "tail": "AdvancedRun.exe",
+      "evidence": "він також містить легітимну утиліту AdvancedRun.exe"
+    },
+    {
+      "head": "AdvancedRun.exe",
+      "type": "affects",
+      "tail": "Windows Defender",
+      "evidence": "використовується для відключення Windows Defender"
+    },
+    {
+      "head": "179.43.176[.]38",
+      "type": "hosts",
+      "tail": "hxxp://179.43.176[.]38:8000/index.php",
+      "evidence": "hxxp://179.43.176[.]38:8000/index.php"
+    },
+    {
+      "head": "179.43.176[.]42",
+      "type": "hosts",
+      "tail": "hxxp://179.43.176[.]42:8000/index.php",
+      "evidence": "hxxp://179.43.176[.]42:8000/index.php"
+    }
+  ],
+  "newRelationTypes": []
+}

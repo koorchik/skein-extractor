@@ -1,0 +1,121 @@
+{
+  "docId": 2724253,
+  "date": "11.11.2022",
+  "title": "Інформація щодо кібератак групи UAC-0118 (FRwL) з використанням шкідливої програми Somnia (CERT-UA#5185)",
+  "entities": [
+    {
+      "id": "2724253:0",
+      "name": "Somnia",
+      "kind": "ransomware",
+      "gloss": "A malware family used to encrypt and disrupt data availability on compromised systems.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2724253:1",
+      "name": "FRwL",
+      "kind": "threat actor",
+      "gloss": "A cyber threat group also known as Z-Team and tracked as UAC-0118.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "2724253:2",
+      "name": "Advanced IP Scanner",
+      "kind": "software product",
+      "gloss": "A legitimate network scanning tool frequently impersonated by threat actors to distribute malware.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2724253:3",
+      "name": "Vidar",
+      "kind": "infostealer malware",
+      "gloss": "An information-stealing malware designed to extract credentials, session data, and browser information from compromised devices.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2724253:4",
+      "name": "Telegram",
+      "kind": "software application",
+      "gloss": "A cloud-based instant messaging application and platform.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2724253:5",
+      "name": "Netscan",
+      "kind": "software tool",
+      "gloss": "A network reconnaissance and scanning utility.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2724253:6",
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware",
+      "gloss": "A post-exploitation agent used by threat actors for command and control and lateral movement.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2724253:7",
+      "name": "Rclone",
+      "kind": "software tool",
+      "gloss": "An open-source command-line program to manage and synchronize files on cloud storage.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2724253:8",
+      "name": "Anydesk",
+      "kind": "software product",
+      "gloss": "A remote desktop application used for remote access and management.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2724253:9",
+      "name": "Ngrok",
+      "kind": "software product",
+      "gloss": "A cross-platform application that exposes local network ports to the internet through secure tunnels.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2724253:10",
+      "name": "Ukraine",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "FRwL",
+      "type": "uses-malware",
+      "tail": "Somnia",
+      "evidence": "порушення цілісності та доступності інформації внаслідок застосування шкідливого програмного забезпечення Somnia"
+    },
+    {
+      "head": "FRwL",
+      "type": "uses-malware",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "виконали запуск програми Cobalt Strike Beacon"
+    }
+  ],
+  "unclassified": []
+}

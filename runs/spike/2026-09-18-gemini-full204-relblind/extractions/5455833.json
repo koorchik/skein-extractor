@@ -1,0 +1,109 @@
+{
+  "entities": [
+    {
+      "name": "ДЦКЗ Держспецзв'язку",
+      "kind": "government body",
+      "gloss": "The State Cyber Protection Centre of the State Special Communications Service of Ukraine."
+    },
+    {
+      "name": "Roundcube",
+      "kind": "software product",
+      "gloss": "A free and open-source webmail software suite."
+    },
+    {
+      "name": "InfinityFree",
+      "kind": "hosting service",
+      "gloss": "A free web hosting service provider."
+    },
+    {
+      "name": "Microsoft",
+      "kind": "technology company",
+      "gloss": "An American multinational technology corporation."
+    },
+    {
+      "name": "UAC-0170",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA for conducting phishing campaigns against Ukrainian organizations."
+    },
+    {
+      "name": "185.27.134.129",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious hosting infrastructure."
+    },
+    {
+      "name": "185.88.153.138",
+      "kind": "ip address",
+      "gloss": "An IP address identified in email transport headers of phishing messages."
+    },
+    {
+      "name": "mlcrosoft.rf.gd",
+      "kind": "domain name",
+      "gloss": "A typo-squatted domain name used to host phishing pages mimicking webmail services."
+    },
+    {
+      "name": "hr.damroodi@beroozresaan.com",
+      "kind": "email address",
+      "gloss": "An email address used to distribute phishing emails."
+    },
+    {
+      "name": "soraya@tataguyz.co.za",
+      "kind": "email address",
+      "gloss": "An email address used to distribute phishing emails."
+    },
+    {
+      "name": "UK",
+      "kind": "country",
+      "gloss": "A sovereign country located off the north-western coast of European mainland."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0170",
+      "type": "operates-infrastructure",
+      "tail": "mlcrosoft.rf.gd",
+      "evidence": "використано субдомен mlcrosoft.rf[.]gd... Активність відстежується за ідентифікатором UAC-0170"
+    },
+    {
+      "head": "mlcrosoft.rf.gd",
+      "type": "hosted-on",
+      "tail": "InfinityFree",
+      "evidence": "підробний вебресурс створено за допомогою безкоштовного сервісу InfinityFree; крім того, використано субдомен mlcrosoft.rf[.]gd"
+    },
+    {
+      "head": "mlcrosoft.rf.gd",
+      "type": "mimics",
+      "tail": "Roundcube",
+      "evidence": "посилання на вебресурс, що імітує вебінтерфейс програмного забезпечення Roundcube"
+    },
+    {
+      "head": "mlcrosoft.rf.gd",
+      "type": "mimics",
+      "tail": "Microsoft",
+      "evidence": "субдомен mlcrosoft.rf[.]gd, що, вірогідно, мав би імітувати сервіси Microsoft"
+    },
+    {
+      "head": "185.27.134.129",
+      "type": "located-in",
+      "tail": "UK",
+      "evidence": "185[.]27.134.129 (@ifastnet.com; UK)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "operates-infrastructure",
+      "definition": "The threat actor controls or utilizes the specified network infrastructure in a campaign."
+    },
+    {
+      "name": "hosted-on",
+      "definition": "The domain or web resource is hosted using the specified service or infrastructure provider."
+    },
+    {
+      "name": "mimics",
+      "definition": "The entity impersonates or visually/technically copies the brand, software, or organization."
+    },
+    {
+      "name": "located-in",
+      "definition": "The IP address or infrastructure is geographically located in the specified country or region."
+    }
+  ]
+}

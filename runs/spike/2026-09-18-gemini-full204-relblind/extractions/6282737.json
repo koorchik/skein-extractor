@@ -1,0 +1,178 @@
+{
+  "entities": [
+    {
+      "name": "Сили оборони України",
+      "kind": "military organization",
+      "gloss": "The combined military forces and defense sector responsible for the security and defense of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Signal",
+      "kind": "software product",
+      "gloss": "A cross-platform centralized encrypted instant messaging service."
+    },
+    {
+      "name": "DarkTortilla",
+      "kind": "malware family",
+      "gloss": "A complex .NET-based crypter and loader used to deliver secondary malware payloads."
+    },
+    {
+      "name": "Dark Crystal RAT",
+      "kind": "malware family",
+      "gloss": "A commercial remote access trojan targeting Windows systems, also known as DCRAT."
+    },
+    {
+      "name": "UAC-0200",
+      "kind": "threat actor",
+      "gloss": "A cyber threat group tracked by CERT-UA targeting Ukrainian defense and military entities."
+    },
+    {
+      "name": "Звіт 10.03.25.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive distributed via instant messaging to deliver loader malware."
+    },
+    {
+      "name": "Наказ 17.02.2025.pdf",
+      "kind": "file",
+      "gloss": "A decoy PDF document used in malicious archive lures."
+    },
+    {
+      "name": "Початковий матеріал.exe",
+      "kind": "file",
+      "gloss": "A malicious executable file delivering the DarkTortilla crypter."
+    },
+    {
+      "name": "Наказ 17.02.2025 .rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive containing decoy documents and executable payloads."
+    },
+    {
+      "name": "Fine Reader.exe",
+      "kind": "file",
+      "gloss": "A malicious executable disguised as ABBYY FineReader software."
+    },
+    {
+      "name": "pdfDecod.exe",
+      "kind": "file",
+      "gloss": "A malicious executable masquerading as a PDF decoder utility."
+    },
+    {
+      "name": "нарада.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive disguised as meeting documentation."
+    },
+    {
+      "name": "PDF-Office2025version46-v.exe",
+      "kind": "file",
+      "gloss": "A malicious executable payload disguised as PDF/Office software."
+    },
+    {
+      "name": "Разпорядження.zip",
+      "kind": "file",
+      "gloss": "A malicious ZIP archive disguised as an official directive document."
+    },
+    {
+      "name": "DecodPDF.exe",
+      "kind": "file",
+      "gloss": "A malicious executable disguised as a PDF decoder."
+    },
+    {
+      "name": "Разпорядження__5_.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive disguised as an official order."
+    },
+    {
+      "name": "DecofPDF.exe",
+      "kind": "file",
+      "gloss": "A malicious executable payload used to deliver malware."
+    },
+    {
+      "name": "q68235_labodtarinog.txt",
+      "kind": "file",
+      "gloss": "A malicious payload or stage hosted on an external file-sharing service."
+    },
+    {
+      "name": "q68235_labodtarinog.dll",
+      "kind": "file",
+      "gloss": "A dynamic link library payload associated with the malware execution chain."
+    },
+    {
+      "name": "imgurl.ir",
+      "kind": "internet domain",
+      "gloss": "A public file-hosting domain abused for distributing malicious payloads."
+    },
+    {
+      "name": "45.130.214.237",
+      "kind": "ip address",
+      "gloss": "An IP address used for malicious command and control or payload staging."
+    },
+    {
+      "name": "62.60.235.190",
+      "kind": "ip address",
+      "gloss": "An IP address used as command and control infrastructure."
+    },
+    {
+      "name": "87.249.50.64",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious PHP endpoints."
+    },
+    {
+      "name": "217.25.91.61",
+      "kind": "ip address",
+      "gloss": "An IP address used for threat actor network communication."
+    },
+    {
+      "name": "83.147.253.138",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious data or staging scripts."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0200",
+      "type": "targets",
+      "tail": "Сили оборони України",
+      "evidence": "кібератак як у відношенні співробітників підприємств оборонно-промислового комплексу, так й окремих представників Сил оборони України"
+    },
+    {
+      "head": "UAC-0200",
+      "type": "distributes-via",
+      "tail": "Signal",
+      "evidence": "у месенджері Signal виявлено факти розповсюдження повідомлень з архівами"
+    },
+    {
+      "head": "DarkTortilla",
+      "type": "launches",
+      "tail": "Dark Crystal RAT",
+      "evidence": "призначенням якого є розшифрування та запуск... Dark Crystal RAT (DCRAT)"
+    },
+    {
+      "head": "q68235_labodtarinog.txt",
+      "type": "hosted-on",
+      "tail": "imgurl.ir",
+      "evidence": "https://imgurl.ir/download.php?file=q68235_labodtarinog.txt"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets",
+      "definition": "The subject performs cyber attacks or malicious operations aimed at the target entity."
+    },
+    {
+      "name": "distributes-via",
+      "definition": "The threat actor or campaign delivers malicious payloads or lures through the specified medium or platform."
+    },
+    {
+      "name": "launches",
+      "definition": "The malware component unpacks, decrypts, or executes another payload."
+    },
+    {
+      "name": "hosted-on",
+      "definition": "The file or resource is located on or served by the specified network infrastructure or domain."
+    }
+  ]
+}

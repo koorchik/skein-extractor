@@ -1,0 +1,181 @@
+{
+  "docId": 38097,
+  "date": "22.03.2022",
+  "title": "Кібератака групи UAC-0026 з використанням шкідливої програми HeaderTip (CERT-UA#4244)",
+  "entities": [
+    {
+      "id": "38097:0",
+      "name": "UAC-0026",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA for conducting cyber attacks against Ukrainian targets.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "38097:1",
+      "name": "HeaderTip",
+      "kind": "malware",
+      "gloss": "A malware family designed to download and execute additional DLL files.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "38097:2",
+      "name": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive distributed in the cyber attack.",
+      "scheme": "S11",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "38097:3",
+      "name": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file packaged inside a RAR archive.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "38097:4",
+      "name": "#2163_02_33-2022.pdf",
+      "kind": "computer file",
+      "gloss": "A decoy PDF document mimicking an official letter of the National Police of Ukraine.",
+      "scheme": "S11",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "38097:5",
+      "name": "officecleaner.dat",
+      "kind": "computer file",
+      "gloss": "A payload file with a stripped header dropped onto the compromised system.",
+      "scheme": "S11",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "38097:6",
+      "name": "officecleaner.bat",
+      "kind": "computer file",
+      "gloss": "A batch script that reconstructs and launches the malicious DLL file.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "38097:7",
+      "name": "officecleaner.dll",
+      "kind": "computer file",
+      "gloss": "A reconstructed malicious dynamic-link library dropped and executed during the attack.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "38097:8",
+      "name": "httpshelper.dll",
+      "kind": "computer file",
+      "gloss": "A dynamic-link library identified as the HeaderTip malware.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "38097:9",
+      "name": "Національної поліції України",
+      "kind": "government organization",
+      "gloss": "The central government body that serves as the national police service of Ukraine.",
+      "scheme": "S5",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "38097:10",
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe.",
+      "scheme": "S4",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "38097:11",
+      "name": "Windows",
+      "kind": "software product",
+      "gloss": "A family of proprietary graphical operating systems developed by Microsoft.",
+      "scheme": "S2",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "38097:12",
+      "name": "product2020.mrbasic[.]com",
+      "kind": "domain name",
+      "gloss": "A domain name utilized in the threat actor's network infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "38097:13",
+      "name": "hxxps://product2020.mrbasic[.]com:8080",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL associated with the threat actor infrastructure.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "38097:14",
+      "name": "104[.]155.198.25",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the command and control infrastructure of the attack.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0026",
+      "type": "uses",
+      "tail": "HeaderTip",
+      "evidence": "Активність відстежується за ідентифікатором UAC-0026"
+    },
+    {
+      "head": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.rar",
+      "type": "delivers",
+      "tail": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.exe",
+      "evidence": "містить одноіменний EXE-файл"
+    },
+    {
+      "head": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.exe",
+      "type": "delivers",
+      "tail": "#2163_02_33-2022.pdf",
+      "evidence": "призведе до створення на комп'ютері документу-приманки \"#2163_02_33-2022.pdf\""
+    },
+    {
+      "head": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.exe",
+      "type": "delivers",
+      "tail": "officecleaner.dat",
+      "evidence": "призведе до створення на комп'ютері ... \"officecleaner.dat\""
+    },
+    {
+      "head": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.exe",
+      "type": "delivers",
+      "tail": "officecleaner.bat",
+      "evidence": "призведе до створення на комп'ютері ... \"officecleaner.bat\""
+    },
+    {
+      "head": "Національної поліції України",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "Національної поліції України"
+    }
+  ],
+  "unclassified": []
+}

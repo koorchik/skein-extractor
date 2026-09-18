@@ -1,0 +1,267 @@
+{
+  "entities": [
+    {
+      "name": "APT28",
+      "kind": "hacking group",
+      "gloss": "A Russian state-sponsored cyber espionage group associated with the General Staff Main Intelligence Directorate (GRU)."
+    },
+    {
+      "name": "MASEPIE",
+      "kind": "malware family",
+      "gloss": "A Python-based backdoor malware used for file download, upload, and arbitrary command execution."
+    },
+    {
+      "name": "STEELHOOK",
+      "kind": "malware family",
+      "gloss": "A PowerShell script designed to steal browser credentials and DPAPI master keys."
+    },
+    {
+      "name": "OCEANMAP",
+      "kind": "backdoor malware",
+      "gloss": "A C#-based backdoor that uses IMAP email drafts and inbox messages as its command and control channel."
+    },
+    {
+      "name": "OPENSSH",
+      "kind": "software product",
+      "gloss": "A suite of secure networking utilities based on the SSH protocol, often abused for network tunneling."
+    },
+    {
+      "name": "IMPACKET",
+      "kind": "software tool",
+      "gloss": "A collection of Python classes for working with network protocols, frequently used for lateral movement."
+    },
+    {
+      "name": "SMBEXEC",
+      "kind": "software tool",
+      "gloss": "A rapid psexec-style tool that enables command execution on remote Windows systems using SMB."
+    },
+    {
+      "name": "Chrome",
+      "kind": "software product",
+      "gloss": "A cross-platform web browser developed by Google."
+    },
+    {
+      "name": "Edge",
+      "kind": "software product",
+      "gloss": "A cross-platform web browser developed by Microsoft."
+    },
+    {
+      "name": "Trellix",
+      "kind": "cybersecurity company",
+      "gloss": "An American cybersecurity company specializing in extended detection and response."
+    },
+    {
+      "name": "Client.py",
+      "kind": "file name",
+      "gloss": "A Python script implementing the MASEPIE backdoor."
+    },
+    {
+      "name": "2.ps1",
+      "kind": "file name",
+      "gloss": "A PowerShell script implementing the STEELHOOK credential stealer."
+    },
+    {
+      "name": "VMSearch.exe",
+      "kind": "file name",
+      "gloss": "An executable file containing the OCEANMAP backdoor."
+    },
+    {
+      "name": "VMSearch.sfx.exe",
+      "kind": "file name",
+      "gloss": "A self-extracting archive containing the OCEANMAP backdoor executable."
+    },
+    {
+      "name": "VMSearch.url",
+      "kind": "file name",
+      "gloss": "A URL shortcut file used to achieve persistence for the OCEANMAP backdoor."
+    },
+    {
+      "name": "SystemUpdate.lnk",
+      "kind": "file name",
+      "gloss": "A Windows shortcut file used to achieve persistence for the MASEPIE backdoor."
+    },
+    {
+      "name": "KFP.311.152.2023.pdf.lnk",
+      "kind": "file name",
+      "gloss": "A malicious Windows shortcut file used in phishing attacks to trigger remote payload execution."
+    },
+    {
+      "name": "Стратегії України.pdf .lnk",
+      "kind": "file name",
+      "gloss": "A lure Windows shortcut file referencing Ukrainian strategy documents."
+    },
+    {
+      "name": "194.126.178.8",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious WebDAV and payload files."
+    },
+    {
+      "name": "88.209.251.6",
+      "kind": "ip address",
+      "gloss": "An IP address used for SSH tunneling and command-and-control communication."
+    },
+    {
+      "name": "74.124.219.71",
+      "kind": "ip address",
+      "gloss": "An IP address identified as a command-and-control server for the OCEANMAP backdoor."
+    },
+    {
+      "name": "173.239.196.66",
+      "kind": "ip address",
+      "gloss": "An originating IP address associated with malicious email distribution."
+    },
+    {
+      "name": "jrb@bahouholdings.com",
+      "kind": "email address",
+      "gloss": "An email address used as a C2 mailbox for the OCEANMAP backdoor."
+    },
+    {
+      "name": "qasim.m@facadesolutionsuae.com",
+      "kind": "email address",
+      "gloss": "An email address used as a C2 mailbox for the OCEANMAP backdoor."
+    },
+    {
+      "name": "nas-files.firstcloudit.com",
+      "kind": "internet domain",
+      "gloss": "A domain name observed in the threat actor's network infrastructure."
+    },
+    {
+      "name": "ua-calendar.firstcloudit.com",
+      "kind": "internet domain",
+      "gloss": "A domain name observed in the threat actor's network infrastructure."
+    },
+    {
+      "name": "e-nas.firstcloudit.com",
+      "kind": "internet domain",
+      "gloss": "A domain name observed in the threat actor's network infrastructure."
+    },
+    {
+      "name": "webmail.facadesolutionsuae.com",
+      "kind": "internet domain",
+      "gloss": "A mail server domain used as C2 infrastructure for the OCEANMAP backdoor."
+    },
+    {
+      "name": "czyrqdnvpujmmjkfhhvsclx05sfi23bfr.oast.fun",
+      "kind": "internet domain",
+      "gloss": "An OAST domain used for exfiltrating stolen browser credentials."
+    }
+  ],
+  "relations": [
+    {
+      "head": "APT28",
+      "type": "uses-malware",
+      "tail": "MASEPIE",
+      "evidence": "активність асоційовано з діяльністю угрупування APT28"
+    },
+    {
+      "head": "APT28",
+      "type": "uses-malware",
+      "tail": "OCEANMAP",
+      "evidence": "активність асоційовано з діяльністю угрупування APT28"
+    },
+    {
+      "head": "APT28",
+      "type": "uses-malware",
+      "tail": "STEELHOOK",
+      "evidence": "активність асоційовано з діяльністю угрупування APT28"
+    },
+    {
+      "head": "APT28",
+      "type": "uses-tool",
+      "tail": "OPENSSH",
+      "evidence": "довантажується та запускається OPENSSH (для побудови тонелю)"
+    },
+    {
+      "head": "APT28",
+      "type": "uses-tool",
+      "tail": "IMPACKET",
+      "evidence": "на комп'ютері створюються IMPACKET, SMBEXEC"
+    },
+    {
+      "head": "APT28",
+      "type": "uses-tool",
+      "tail": "SMBEXEC",
+      "evidence": "на комп'ютері створюються IMPACKET, SMBEXEC"
+    },
+    {
+      "head": "MASEPIE",
+      "type": "downloads-payload",
+      "tail": "OPENSSH",
+      "evidence": "З використанням MASEPIE на комп'ютер довантажується та запускається OPENSSH"
+    },
+    {
+      "head": "MASEPIE",
+      "type": "downloads-payload",
+      "tail": "STEELHOOK",
+      "evidence": "З використанням MASEPIE на комп'ютер довантажується та запускається... STEELHOOK"
+    },
+    {
+      "head": "MASEPIE",
+      "type": "downloads-payload",
+      "tail": "OCEANMAP",
+      "evidence": "З використанням MASEPIE на комп'ютер довантажується та запускається... OCEANMAP"
+    },
+    {
+      "head": "STEELHOOK",
+      "type": "steals-credentials-from",
+      "tail": "Chrome",
+      "evidence": "STEELHOOK (викрадення даних Інтернет-браузерів Chrome/Edge)"
+    },
+    {
+      "head": "STEELHOOK",
+      "type": "steals-credentials-from",
+      "tail": "Edge",
+      "evidence": "STEELHOOK (викрадення даних Інтернет-браузерів Chrome/Edge)"
+    },
+    {
+      "head": "OCEANMAP",
+      "type": "uses-c2-server",
+      "tail": "74.124.219.71",
+      "evidence": "74[.]124.219.71 (OCEANMAP C2)"
+    },
+    {
+      "head": "OCEANMAP",
+      "type": "uses-c2-email",
+      "tail": "jrb@bahouholdings.com",
+      "evidence": "jrb@bahouholdings.com (OCEANMAP C2)"
+    },
+    {
+      "head": "OCEANMAP",
+      "type": "uses-c2-email",
+      "tail": "qasim.m@facadesolutionsuae.com",
+      "evidence": "qasim.m@facadesolutionsuae.com (OCEANMAP C2)"
+    },
+    {
+      "head": "OCEANMAP",
+      "type": "uses-c2-server",
+      "tail": "webmail.facadesolutionsuae.com",
+      "evidence": "webmail.facadesolutionsuae[.]com (OCEANMAP C2)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-malware",
+      "definition": "The threat actor utilizes a specific malware family during their operations."
+    },
+    {
+      "name": "uses-tool",
+      "definition": "The threat actor employs a specific utility, tool, or framework during an attack."
+    },
+    {
+      "name": "downloads-payload",
+      "definition": "A malware program downloads and executes an additional malware payload or tool."
+    },
+    {
+      "name": "steals-credentials-from",
+      "definition": "A malware or script extracts stored credentials or session data from a target application."
+    },
+    {
+      "name": "uses-c2-server",
+      "definition": "The malware connects to a specific IP address or domain for command and control purposes."
+    },
+    {
+      "name": "uses-c2-email",
+      "definition": "The malware uses a specific email account to transmit or receive command and control instructions."
+    }
+  ]
+}

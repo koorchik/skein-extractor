@@ -1,0 +1,127 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+- uses-malware: A threat actor utilizes or deploys a specific malware tool or family in their operations.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p class="ql-align-justify">Урядовою командою реагування на комп’ютерні надзвичайні події України CERT-UA виявлено факт розповсюдження електронних листів що імітують повідомлення від UKR.NET та містять QR-код в якому закодовано URL-адресу, створену за допомогою одного з URL-shortener сервісів. У разі відвідування останньої буде здійснено перенаправлення на веб-сайт, що намагається імітувати сторінку зміни паролю UKR.NET. Введені користувачем дані за допомогою HTTP POST-запиту буде надіслано на веб-ресурс, розгорнутий зловмисниками на платформі Pipedream.</p><p class="ql-align-justify">З низьким рівнем впевненості, ураховуючи застосовану тактику, асоціюємо виявлену активність з діяльністю групи UAC-0028 (APT28).</p><p><br></p><p><strong>Індикатори компрометації</strong>&nbsp;</p><pre class="ql-syntax" spellcheck="false">hxxps://tinyurl[.]com/2p8kpb9v
+hxxps://panelunregistertle-348.frge[.]io/
+hxxps://eoy7zvsvn6xfcmy.m.pipedream[.]net
+hxxps://eo9p1d2bfmioiot.m.pipedream[.]net/?usr=
+hxxps://eoiw8lhjwuc3sh2.m.pipedream[.]net
+panelunregistertle-348.frge[.]io
+eo9p1d2bfmioiot.m.pipedream[.]net
+eoiw8lhjwuc3sh2.m.pipedream[.]net
+frge[.]io (2021-04-21)
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис. 1 Приклад фішингового сайту та листа-приманки</p>
+
+=== RESPONSE (5.2s, in 1650 / out 755 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "UKR.NET",
+      "kind": "web portal",
+      "gloss": "A major Ukrainian internet portal and webmail service provider."
+    },
+    {
+      "name": "Pipedream",
+      "kind": "cloud platform",
+      "gloss": "An integration and workflow automation platform used for building and running web applications."
+    },
+    {
+      "name": "UAC-0028 (APT28)",
+      "kind": "threat actor",
+      "gloss": "A Russian cyber espionage threat group linked to the Main Intelligence Directorate of the Russian General Staff (GRU)."
+    },
+    {
+      "name": "hxxps://tinyurl[.]com/2p8kpb9v",
+      "kind": "url",
+      "gloss": "A shortened URL used in phishing emails to redirect targets to a malicious credential-harvesting page."
+    },
+    {
+      "name": "panelunregistertle-348.frge[.]io",
+      "kind": "domain name",
+      "gloss": "A domain hosting a fraudulent page that imitates the UKR.NET password change interface."
+    },
+    {
+      "name": "frge[.]io",
+      "kind": "domain name",
+      "gloss": "A domain hosting infrastructure leveraged to support credential harvesting pages."
+    },
+    {
+      "name": "eoy7zvsvn6xfcmy.m.pipedream[.]net",
+      "kind": "domain name",
+      "gloss": "A Pipedream platform endpoint used by attackers to collect exfiltrated user credentials."
+    },
+    {
+      "name": "eo9p1d2bfmioiot.m.pipedream[.]net",
+      "kind": "domain name",
+      "gloss": "A Pipedream platform endpoint used to receive harvested credentials via HTTP POST requests."
+    },
+    {
+      "name": "eoiw8lhjwuc3sh2.m.pipedream[.]net",
+      "kind": "domain name",
+      "gloss": "A Pipedream endpoint utilized for capturing exfiltrated authentication information."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0028 (APT28)",
+      "type": "attacks",
+      "tail": "UKR.NET",
+      "evidence": "асоціюємо виявлену активність з діяльністю групи UAC-0028 (APT28)"
+    },
+    {
+      "head": "eo9p1d2bfmioiot.m.pipedream[.]net",
+      "type": "part-of",
+      "tail": "Pipedream",
+      "evidence": "надіслано на веб-ресурс, розгорнутий зловмисниками на платформі Pipedream"
+    },
+    {
+      "head": "panelunregistertle-348.frge[.]io",
+      "type": "part-of",
+      "tail": "frge[.]io",
+      "evidence": "panelunregistertle-348.frge[.]io"
+    }
+  ],
+  "newRelationTypes": []
+}

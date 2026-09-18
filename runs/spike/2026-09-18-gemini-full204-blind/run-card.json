@@ -1,0 +1,534 @@
+{
+  "runId": "2026-09-18-gemini-full204-blind",
+  "config": {
+    "docs": 204,
+    "offset": 0,
+    "inputDir": "data/fetched",
+    "frozenDir": "data/extractions/gpt-5",
+    "llmProvider": "gemini",
+    "llmModel": "gemini-3.7-flash",
+    "embedModel": "gemini-embedding-2",
+    "embedTaskType": "CLUSTERING",
+    "embedDims": 768,
+    "k": 10,
+    "tau": 0.8,
+    "delta": 0.1,
+    "poolLink": 0.85,
+    "mass": 3,
+    "relMerge": 0.85,
+    "repr": "combo",
+    "alpha": 0.7,
+    "kindFirst": 0.9,
+    "icl": false,
+    "relBlind": false,
+    "out": "runs/spike/2026-09-18-gemini-full204-blind",
+    "cacheDir": "runs/embeddings-cache"
+  },
+  "prompts": {
+    "extract-open-v1": "81914196ec311981ce4047c560cc86f86b4e4b8cec0651e9c87ed650bef5be76",
+    "scheme-name-v1": "bb1b66dab2ce5b681df1477d9eb79d2669b66fba6487b9ed437e1cdcd5b4d1b9"
+  },
+  "embeddings": {
+    "config": {
+      "provider": "gemini",
+      "model": "gemini-embedding-2",
+      "taskType": "CLUSTERING"
+    },
+    "dimensions": 768,
+    "cache": {
+      "hits": 3967,
+      "misses": 399,
+      "entries": 4340
+    }
+  },
+  "documents": 204,
+  "mentions": 3371,
+  "schemes": [
+    {
+      "id": "S1",
+      "label": "Software Vendor",
+      "members": 81,
+      "born": 22,
+      "altLabels": [
+        "Technology Vendor",
+        "Software Company",
+        "IT Vendor"
+      ]
+    },
+    {
+      "id": "S2",
+      "label": "Security Vulnerability",
+      "members": 116,
+      "born": 23,
+      "altLabels": [
+        "Software Vulnerability",
+        "Vulnerability",
+        "CVE"
+      ]
+    },
+    {
+      "id": "S3",
+      "label": "Software Product",
+      "members": 362,
+      "born": 23,
+      "altLabels": [
+        "Software Application",
+        "Software Package"
+      ]
+    },
+    {
+      "id": "S4",
+      "label": "Operating System",
+      "members": 60,
+      "born": 25,
+      "altLabels": [
+        "OS",
+        "Operating Environment"
+      ]
+    },
+    {
+      "id": "S5",
+      "label": "Country",
+      "members": 183,
+      "born": 25,
+      "altLabels": [
+        "Nation",
+        "Sovereign State"
+      ]
+    },
+    {
+      "id": "S6",
+      "label": "Government Agency",
+      "members": 136,
+      "born": 26,
+      "altLabels": [
+        "Government Body",
+        "State Agency",
+        "Government Organization"
+      ]
+    },
+    {
+      "id": "S7",
+      "label": "Security Advisory",
+      "members": 33,
+      "born": 2624,
+      "altLabels": [
+        "Security Bulletin",
+        "Vulnerability Advisory"
+      ]
+    },
+    {
+      "id": "S8",
+      "label": "Person",
+      "members": 14,
+      "born": 2691,
+      "altLabels": [
+        "Individual",
+        "Public Figure"
+      ]
+    },
+    {
+      "id": "S9",
+      "label": "Malicious File",
+      "members": 911,
+      "born": 2695,
+      "altLabels": [
+        "Malicious Document",
+        "Malicious Attachment",
+        "Weaponized File"
+      ]
+    },
+    {
+      "id": "S10",
+      "label": "Cybersecurity Company",
+      "members": 14,
+      "born": 2695,
+      "altLabels": [
+        "Cybersecurity Firm",
+        "Security Vendor",
+        "Information Security Company"
+      ]
+    },
+    {
+      "id": "S11",
+      "label": "IP Address",
+      "members": 391,
+      "born": 2697,
+      "altLabels": [
+        "Internet Protocol Address",
+        "IP"
+      ]
+    },
+    {
+      "id": "S12",
+      "label": "Internet Domain",
+      "members": 596,
+      "born": 2699,
+      "altLabels": [
+        "Domain Name",
+        "Domain",
+        "FQDN"
+      ]
+    },
+    {
+      "id": "S13",
+      "label": "Email Address",
+      "members": 114,
+      "born": 2699,
+      "altLabels": [
+        "E-mail Address",
+        "Mailbox Address"
+      ]
+    },
+    {
+      "id": "S14",
+      "label": "International Organization",
+      "members": 11,
+      "born": 2728,
+      "altLabels": [
+        "Intergovernmental Organization",
+        "Supranational Organization"
+      ]
+    },
+    {
+      "id": "S15",
+      "label": "Threat Actor",
+      "members": 150,
+      "born": 18273,
+      "altLabels": [
+        "Threat Group",
+        "Cyber Threat Actor",
+        "Advanced Persistent Threat"
+      ]
+    },
+    {
+      "id": "S16",
+      "label": "Social Media Platform",
+      "members": 10,
+      "born": 40263,
+      "altLabels": [
+        "Social Network",
+        "Social Media Service"
+      ]
+    },
+    {
+      "id": "S17",
+      "label": "Military Organization",
+      "members": 27,
+      "born": 3349703,
+      "altLabels": [
+        "Military Unit",
+        "Armed Forces"
+      ]
+    },
+    {
+      "id": "S18",
+      "label": "Online Service",
+      "members": 16,
+      "born": 4928679,
+      "altLabels": [
+        "Web Service",
+        "Online Platform",
+        "Cloud Service"
+      ]
+    },
+    {
+      "id": "S19",
+      "label": "Non-Governmental Organization",
+      "members": 7,
+      "born": 5077168,
+      "altLabels": [
+        "NGO",
+        "Non-Profit Organization",
+        "Civil Society Organization"
+      ]
+    },
+    {
+      "id": "S20",
+      "label": "Research Organization",
+      "members": 5,
+      "born": 5213167,
+      "altLabels": [
+        "Think Tank",
+        "Research Institute",
+        "Research Group"
+      ]
+    },
+    {
+      "id": "S21",
+      "label": "Autonomous System",
+      "members": 6,
+      "born": 6276824,
+      "altLabels": [
+        "Autonomous System Number",
+        "ASN"
+      ]
+    },
+    {
+      "id": "S22",
+      "label": "Telecommunications Provider",
+      "members": 3,
+      "born": 6276824,
+      "altLabels": [
+        "Telecommunications Company",
+        "Telecom Operator",
+        "Internet Service Provider"
+      ]
+    },
+    {
+      "id": "S23",
+      "label": "City",
+      "members": 4,
+      "born": 6277896,
+      "altLabels": [
+        "Town",
+        "Municipality"
+      ]
+    },
+    {
+      "id": "S24",
+      "label": "Incident Response Team",
+      "members": 9,
+      "born": 6279419,
+      "altLabels": [
+        "Computer Emergency Response Team",
+        "CSIRT",
+        "CERT"
+      ]
+    }
+  ],
+  "pool": 112,
+  "relationTypes": 12,
+  "overlay": {
+    "aligned": 2202,
+    "coverage": 0.6532186294867992,
+    "crossTab": {
+      "Software Vendor": {
+        "Organization": 66,
+        "Device": 8,
+        "(unaligned)": 5,
+        "Software": 2
+      },
+      "Software Product": {
+        "Software": 262,
+        "(unaligned)": 52,
+        "Organization": 42,
+        "Device": 2,
+        "Infrastructure": 2,
+        "Domain": 2
+      },
+      "Security Advisory": {
+        "(unaligned)": 12,
+        "Organization": 20,
+        "Software": 1
+      },
+      "Security Vulnerability": {
+        "Software": 106,
+        "(unaligned)": 10
+      },
+      "(pool)": {
+        "(unaligned)": 32,
+        "Software": 38,
+        "Organization": 30,
+        "Domain": 4,
+        "Infrastructure": 3,
+        "Government Body": 4,
+        "Device": 1
+      },
+      "Cybersecurity Company": {
+        "Organization": 13,
+        "(unaligned)": 1
+      },
+      "Country": {
+        "(unaligned)": 134,
+        "Country": 36,
+        "Sector": 4,
+        "Government Body": 8,
+        "Software": 1
+      },
+      "Government Agency": {
+        "Government Body": 95,
+        "(unaligned)": 31,
+        "Sector": 9,
+        "Country": 1
+      },
+      "Malicious File": {
+        "Domain": 59,
+        "Software": 441,
+        "(unaligned)": 406,
+        "Organization": 4,
+        "Government Body": 1
+      },
+      "Operating System": {
+        "Software": 39,
+        "(unaligned)": 18,
+        "Organization": 1,
+        "Device": 2
+      },
+      "IP Address": {
+        "(unaligned)": 387,
+        "Domain": 4
+      },
+      "Online Service": {
+        "Domain": 6,
+        "Organization": 7,
+        "(unaligned)": 3
+      },
+      "Email Address": {
+        "Domain": 77,
+        "(unaligned)": 35,
+        "Country": 1,
+        "Organization": 1
+      },
+      "Internet Domain": {
+        "Domain": 586,
+        "(unaligned)": 5,
+        "Infrastructure": 1,
+        "Organization": 4
+      },
+      "Non-Governmental Organization": {
+        "(unaligned)": 2,
+        "Organization": 5
+      },
+      "International Organization": {
+        "Organization": 7,
+        "(unaligned)": 4
+      },
+      "Person": {
+        "Individual": 13,
+        "(unaligned)": 1
+      },
+      "Threat Actor": {
+        "HackerGroup": 139,
+        "(unaligned)": 11
+      },
+      "City": {
+        "(unaligned)": 4
+      },
+      "Telecommunications Provider": {
+        "Organization": 3
+      },
+      "Incident Response Team": {
+        "Organization": 2,
+        "Government Body": 7
+      },
+      "Research Organization": {
+        "Organization": 5
+      },
+      "Social Media Platform": {
+        "(unaligned)": 5,
+        "Organization": 4,
+        "HackerGroup": 1
+      },
+      "Military Organization": {
+        "Government Body": 16,
+        "(unaligned)": 10,
+        "Sector": 1
+      },
+      "Autonomous System": {
+        "Organization": 3,
+        "(unaligned)": 1,
+        "Infrastructure": 2
+      }
+    }
+  },
+  "closestSchemePairs": [
+    {
+      "a": "Software Vendor",
+      "b": "Software Product",
+      "sim": 0.8604637460824762
+    },
+    {
+      "a": "Software Vendor",
+      "b": "Cybersecurity Company",
+      "sim": 0.8482754447659997
+    },
+    {
+      "a": "Malicious File",
+      "b": "Threat Actor",
+      "sim": 0.801109221187885
+    },
+    {
+      "a": "Cybersecurity Company",
+      "b": "Incident Response Team",
+      "sim": 0.7950654167175851
+    },
+    {
+      "a": "Software Product",
+      "b": "Malicious File",
+      "sim": 0.7914711084949981
+    },
+    {
+      "a": "Software Product",
+      "b": "Operating System",
+      "sim": 0.7901749738647622
+    },
+    {
+      "a": "Software Vendor",
+      "b": "Telecommunications Provider",
+      "sim": 0.7847181958609266
+    },
+    {
+      "a": "Software Product",
+      "b": "Online Service",
+      "sim": 0.7825938372077907
+    }
+  ],
+  "cost": {
+    "runId": "2026-09-18-gemini-full204-blind",
+    "totals": {
+      "calls": 83,
+      "inputTokens": 184071,
+      "outputTokens": 38274,
+      "costUsd": 0,
+      "unpricedCalls": 83,
+      "wallClockMs": 296022
+    },
+    "byOperator": {
+      "scheme-name": {
+        "calls": 27,
+        "inputTokens": 23743,
+        "outputTokens": 1696,
+        "costUsd": 0,
+        "unpricedCalls": 27,
+        "wallClockMs": 97017
+      },
+      "extract": {
+        "calls": 22,
+        "inputTokens": 160328,
+        "outputTokens": 36578,
+        "costUsd": 0,
+        "unpricedCalls": 22,
+        "wallClockMs": 183356
+      },
+      "embed-gloss": {
+        "calls": 22,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "costUsd": 0,
+        "unpricedCalls": 22,
+        "wallClockMs": 10805
+      },
+      "embed-kind": {
+        "calls": 11,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "costUsd": 0,
+        "unpricedCalls": 11,
+        "wallClockMs": 4477
+      },
+      "embed-relation": {
+        "calls": 1,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "costUsd": 0,
+        "unpricedCalls": 1,
+        "wallClockMs": 367
+      }
+    },
+    "unpricedModels": [
+      "gemini/gemini-3.7-flash",
+      "gemini/gemini-embedding-2"
+    ]
+  }
+}

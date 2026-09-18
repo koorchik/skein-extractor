@@ -1,0 +1,86 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose government organizations were targeted in the cyberattack."
+    },
+    {
+      "name": "UAC-0041",
+      "kind": "threat actor",
+      "gloss": "A threat activity cluster associated with financial and espionage cyberattacks delivering Formbook malware."
+    },
+    {
+      "name": "Formbook/XLoader",
+      "kind": "malware",
+      "gloss": "An info-stealer malware family designed to steal authentication credentials and sensitive data from infected systems."
+    },
+    {
+      "name": "лист підтримки.xlsx",
+      "kind": "computer file",
+      "gloss": "A malicious Excel document used as an email attachment lure to download and execute Formbook malware."
+    },
+    {
+      "name": "vbc.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file downloaded and executed during the Formbook infection chain."
+    },
+    {
+      "name": "formbook.exe",
+      "kind": "computer file",
+      "gloss": "An executable binary containing the Formbook malware payload."
+    },
+    {
+      "name": "mariya@posish[.]club",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors to distribute phishing emails."
+    },
+    {
+      "name": "104[.]168.247.233",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious infrastructure in the cyberattack."
+    },
+    {
+      "name": "103[.]167.92.57",
+      "kind": "ip address",
+      "gloss": "An IP address hosting a malicious payload used in the attack."
+    },
+    {
+      "name": "hxxp://103[.]167.92.57/xx_cloudprotect/vbc.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL from which the vbc.exe payload is downloaded."
+    },
+    {
+      "name": "gobits3[.]com",
+      "kind": "domain name",
+      "gloss": "A domain name identified as network infrastructure related to the attack."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0041",
+      "type": "uses",
+      "tail": "Formbook/XLoader",
+      "evidence": "асоціюються з кластером активностей, що відстежується за ідентифікатором UAC-0041"
+    },
+    {
+      "head": "лист підтримки.xlsx",
+      "type": "delivers",
+      "tail": "Formbook/XLoader",
+      "evidence": "відкриття якого призведе до активації макросу, що забезпечить завантаження і запуск шкідливої програми Formbook/XLoader"
+    },
+    {
+      "head": "103[.]167.92.57",
+      "type": "hosts",
+      "tail": "hxxp://103[.]167.92.57/xx_cloudprotect/vbc.exe",
+      "evidence": "hxxp://103[.]167.92.57/xx_cloudprotect/vbc.exe"
+    },
+    {
+      "head": "hxxp://103[.]167.92.57/xx_cloudprotect/vbc.exe",
+      "type": "delivers",
+      "tail": "vbc.exe",
+      "evidence": "hxxp://103[.]167.92.57/xx_cloudprotect/vbc.exe"
+    }
+  ],
+  "newRelationTypes": []
+}

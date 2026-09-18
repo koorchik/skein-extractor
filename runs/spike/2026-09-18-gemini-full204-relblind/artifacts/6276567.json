@@ -1,0 +1,178 @@
+{
+  "docId": 6276567,
+  "date": "30.11.2023",
+  "title": "\"Повістка до суду\": чергова цільова атака UAC-0050 з використанням RemcosRAT (CERT-UA#8150)",
+  "entities": [
+    {
+      "id": "6276567:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country located in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6276567:1",
+      "name": "Господарський суд Одеської області Повістка до суду.rar",
+      "kind": "archive file",
+      "gloss": "A malicious RAR archive distributed as an email attachment in phishing campaigns.",
+      "scheme": "S12",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "6276567:2",
+      "name": "Персональний код доступу-8161.txt",
+      "kind": "text file",
+      "gloss": "A text file containing an access password or code distributed in malicious archives.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6276567:3",
+      "name": "Повістка до суду.rar",
+      "kind": "archive file",
+      "gloss": "A password-protected RAR archive contained within another archive file.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6276567:4",
+      "name": "Повістка до суду.doc",
+      "kind": "document file",
+      "gloss": "A malicious Word document containing macros used to initiate malware downloads.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6276567:5",
+      "name": "explorer.exe",
+      "kind": "software product",
+      "gloss": "The default file manager and shell execution binary in Microsoft Windows.",
+      "scheme": "S1",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6276567:6",
+      "name": "scandoc.exe",
+      "kind": "executable file",
+      "gloss": "An obfuscated .NET executable downloader designed to decrypt and execute RemcosRAT.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "6276567:7",
+      "name": "SmartAssembly",
+      "kind": "software product",
+      "gloss": "A commercial obfuscator and protection tool for .NET applications.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6276567:8",
+      "name": "RemcosRAT",
+      "kind": "malware family",
+      "gloss": "A commercial remote access trojan frequently used by threat actors for unauthorized access.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6276567:9",
+      "name": "remcos.exe",
+      "kind": "executable file",
+      "gloss": "An executable payload corresponding to the RemcosRAT remote administration software.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6276567:10",
+      "name": "89.23.98.22",
+      "kind": "ip address",
+      "gloss": "An IP address hosting a malicious SMB share used to distribute executables.",
+      "scheme": "S13",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "6276567:11",
+      "name": "SmartApe LLC",
+      "kind": "company",
+      "gloss": "A hosting and internet service provider company.",
+      "scheme": "S10",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "6276567:12",
+      "name": "Matrix Telecom Ltd",
+      "kind": "company",
+      "gloss": "A telecommunications and network service provider company.",
+      "scheme": "S10",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "6276567:13",
+      "name": "8161.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable dropped into ProgramData as part of malware persistence.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Господарський суд Одеської області Повістка до суду.rar",
+      "type": "contains-file",
+      "tail": "Повістка до суду.rar",
+      "evidence": "Зазначений RAR-архів містить захищений паролем файл \"Повістка до суду.rar\""
+    },
+    {
+      "head": "Повістка до суду.rar",
+      "type": "contains-file",
+      "tail": "Повістка до суду.doc",
+      "evidence": "в якому знаходиться документ з макросом \"Повістка до суду.doc\""
+    },
+    {
+      "head": "Повістка до суду.doc",
+      "type": "downloads-payload",
+      "tail": "scandoc.exe",
+      "evidence": "код макросу за допомогою оглядача файлів (explorer.exe) з використанням протоколу SMB здійснить завантаження на ЕОМ та запуск файлу \"scandoc.exe\""
+    },
+    {
+      "head": "scandoc.exe",
+      "type": "obfuscated-with",
+      "tail": "SmartAssembly",
+      "evidence": "зазначений виконуваний файл є обфускованою за допомогою SmartAssembly .NET-програмою"
+    },
+    {
+      "head": "scandoc.exe",
+      "type": "executes-payload",
+      "tail": "RemcosRAT",
+      "evidence": "призначенням якої є дешифрування та запуск програми для віддаленого управління RemcosRAT"
+    },
+    {
+      "head": "89.23.98.22",
+      "type": "hosts-file",
+      "tail": "scandoc.exe",
+      "evidence": "\\\\89[.]23.98.22\\LN\\scandoc[.]exe"
+    },
+    {
+      "head": "89.23.98.22",
+      "type": "operates-autonomous-system",
+      "tail": "SmartApe LLC",
+      "evidence": "89[.]23.98.22 (AS56694; @smartape.ru; SmartApe LLC)"
+    }
+  ],
+  "unclassified": []
+}

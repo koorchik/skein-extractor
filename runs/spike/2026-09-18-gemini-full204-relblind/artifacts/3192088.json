@@ -1,0 +1,166 @@
+{
+  "docId": 3192088,
+  "date": "08.12.2022",
+  "title": "Кібератака на державні організації з використанням тематики іранських дронів-камікадзе Shahed-136 та шкідливої програми DolphinCape (CERT-UA#5683)",
+  "entities": [
+    {
+      "id": "3192088:0",
+      "name": "АТ \"Укрзалізниця\"",
+      "kind": "company",
+      "gloss": "The state-owned railway operator of Ukraine.",
+      "scheme": "S10",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "3192088:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "3192088:2",
+      "name": "Державна служба України з надзвичайних ситуацій",
+      "kind": "government body",
+      "gloss": "The central executive body of Ukraine responsible for civil defense and emergency rescue services.",
+      "scheme": "S7",
+      "category": "Government Body",
+      "role": "target"
+    },
+    {
+      "id": "3192088:3",
+      "name": "morgunov.a@dsns.com[.]ua",
+      "kind": "email address",
+      "gloss": "A spoofed or malicious email address used to distribute phishing messages impersonating Ukrainian emergency services.",
+      "scheme": "S14",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "3192088:4",
+      "name": "dsns.com[.]ua",
+      "kind": "internet domain",
+      "gloss": "A malicious domain registered to impersonate the State Emergency Service of Ukraine.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "3192088:5",
+      "name": "shahed-136.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive distributed via email as part of a cyber attack.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "3192088:6",
+      "name": "shahed.ppsx",
+      "kind": "file",
+      "gloss": "A malicious PPSX presentation file containing embedded script code.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "3192088:7",
+      "name": "SearchEmbdIndex.ps1",
+      "kind": "file",
+      "gloss": "A malicious PowerShell script used to download payloads and establish persistence.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "3192088:8",
+      "name": "CodeMeter.exe",
+      "kind": "software product",
+      "gloss": "A legitimate software executable abused for DLL side-loading.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "3192088:9",
+      "name": "WibuCm32.dll",
+      "kind": "file",
+      "gloss": "A malicious dynamic-link library containing the DolphinCape malware payload.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "3192088:10",
+      "name": "DolphinCape",
+      "kind": "malware family",
+      "gloss": "A Delphi-based malware family capable of system information gathering, file management, payload execution, and screenshot capture.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "3192088:11",
+      "name": "UAC-0140",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA responsible for phishing and malware campaigns targeting Ukraine.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": null
+    },
+    {
+      "id": "3192088:12",
+      "name": "195[.]123.237.147",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications in the UAC-0140 campaign.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "3192088:13",
+      "name": "202[.]157.187.190",
+      "kind": "ip address",
+      "gloss": "An IP address used for network infrastructure in the UAC-0140 campaign.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "shahed-136.rar",
+      "type": "contains-file",
+      "tail": "shahed.ppsx",
+      "evidence": "RAR-архів \"shahed-136.rar\", що містить PPSX-документ \"shahed.ppsx\""
+    },
+    {
+      "head": "WibuCm32.dll",
+      "type": "is-instance-of",
+      "tail": "DolphinCape",
+      "evidence": "Файл \"WibuCm32.dll\" класифіковано як шкідливу програму DolphinCape"
+    },
+    {
+      "head": "morgunov.a@dsns.com[.]ua",
+      "type": "impersonates",
+      "tail": "Державна служба України з надзвичайних ситуацій",
+      "evidence": "з адреси \"morgunov.a@dsns.com[.]ua\", начебто, від імені Державної служби України з надзвичайних ситуацій"
+    },
+    {
+      "head": "morgunov.a@dsns.com[.]ua",
+      "type": "uses-domain",
+      "tail": "dsns.com[.]ua",
+      "evidence": "morgunov.a@dsns.com[.]ua ... зареєстровано відповідне доменне імя"
+    },
+    {
+      "head": "Державна служба України з надзвичайних ситуацій",
+      "type": "located-in-country",
+      "tail": "Україна",
+      "evidence": "Державної служби України з надзвичайних ситуацій"
+    }
+  ],
+  "unclassified": []
+}

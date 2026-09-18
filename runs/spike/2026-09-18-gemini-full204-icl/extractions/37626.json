@@ -1,0 +1,136 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0057",
+      "kind": "threat actor",
+      "gloss": "A threat actor group, also known as UNC1151, associated with cyber espionage activities."
+    },
+    {
+      "name": "Mandiant",
+      "kind": "company",
+      "gloss": "An American cybersecurity firm providing threat intelligence and incident response services."
+    },
+    {
+      "name": "Dmytro Oleksiuk",
+      "kind": "person",
+      "gloss": "A software developer and security researcher also known by the alias cr4sh."
+    },
+    {
+      "name": "MicroBackdoor",
+      "kind": "malware",
+      "gloss": "An open-source C++ backdoor malware designed for remote access and control of compromised systems."
+    },
+    {
+      "name": "довідка.zip",
+      "kind": "computer file",
+      "gloss": "A malicious ZIP archive containing a Compiled HTML Help file used as an initial infection vector."
+    },
+    {
+      "name": "dovidka.chm",
+      "kind": "computer file",
+      "gloss": "A malicious Microsoft Compiled HTML Help file containing decoy and dropper components."
+    },
+    {
+      "name": "image.jpg",
+      "kind": "computer file",
+      "gloss": "A decoy image file detailing procedures during artillery shelling."
+    },
+    {
+      "name": "file.htm",
+      "kind": "computer file",
+      "gloss": "A malicious HTML Application file containing embedded VBScript code."
+    },
+    {
+      "name": "ignit.vbs",
+      "kind": "computer file",
+      "gloss": "A malicious VBScript dropper responsible for decoding and dropping secondary payloads."
+    },
+    {
+      "name": "core.dll",
+      "kind": "computer file",
+      "gloss": "A malicious .NET loader DLL that decodes and executes the MicroBackdoor payload."
+    },
+    {
+      "name": "desktop.ini",
+      "kind": "computer file",
+      "gloss": "A malicious script file used to launch the core.dll loader using regasm.exe."
+    },
+    {
+      "name": "Windows Prefetch.lNk",
+      "kind": "computer file",
+      "gloss": "A malicious Windows shortcut file placed in the startup folder for persistence."
+    },
+    {
+      "name": "microbackdoor.dll",
+      "kind": "computer file",
+      "gloss": "A dynamic-link library file containing the compiled MicroBackdoor payload."
+    },
+    {
+      "name": "xbeta.online",
+      "kind": "domain name",
+      "gloss": "A malicious domain name configured as a command-and-control server."
+    },
+    {
+      "name": "185.175.158.27",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command-and-control infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0057",
+      "type": "uses",
+      "tail": "MicroBackdoor",
+      "evidence": "Активність асоційовано з діяльністю групи UAC-0057"
+    },
+    {
+      "head": "довідка.zip",
+      "type": "delivers",
+      "tail": "dovidka.chm",
+      "evidence": "файл \"довідка.zip\", який містить файл контекстної довідки (Microsoft Compiled HTML Help) \"dovidka.chm\""
+    },
+    {
+      "head": "dovidka.chm",
+      "type": "delivers",
+      "tail": "image.jpg",
+      "evidence": "Згаданий CHM-файл, у свою чергу, містить зображення-приманку \"image.jpg\""
+    },
+    {
+      "head": "dovidka.chm",
+      "type": "delivers",
+      "tail": "file.htm",
+      "evidence": "CHM-файл, у свою чергу, містить... та HTA-файл \"file.htm\""
+    },
+    {
+      "head": "file.htm",
+      "type": "delivers",
+      "tail": "ignit.vbs",
+      "evidence": "Виконання останнього призведе до створення на комп'ютері і запуску дропера \"ignit.vbs\""
+    },
+    {
+      "head": "ignit.vbs",
+      "type": "delivers",
+      "tail": "core.dll",
+      "evidence": "\"ignit.vbs\", який забезпечить декодування .NET-лоадеру \"core.dll\""
+    },
+    {
+      "head": "ignit.vbs",
+      "type": "delivers",
+      "tail": "desktop.ini",
+      "evidence": "забезпечить декодування .NET-лоадеру \"core.dll\", а також файлів \"desktop.ini\""
+    },
+    {
+      "head": "ignit.vbs",
+      "type": "delivers",
+      "tail": "Windows Prefetch.lNk",
+      "evidence": "а також файлів \"desktop.ini\"... і \"Windows Prefetch.lNk\""
+    },
+    {
+      "head": "core.dll",
+      "type": "delivers",
+      "tail": "MicroBackdoor",
+      "evidence": ".NET-лоадер здійснить декодування і виконання шкідливої програми MicroBackdoor"
+    }
+  ],
+  "newRelationTypes": []
+}

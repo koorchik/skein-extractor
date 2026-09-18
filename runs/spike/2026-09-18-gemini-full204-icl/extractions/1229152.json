@@ -1,0 +1,93 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0010",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group also known as Armageddon or Gamaredon."
+    },
+    {
+      "name": "Armageddon",
+      "kind": "threat actor",
+      "gloss": "An alternative name for the Russian cyber espionage threat group UAC-0010."
+    },
+    {
+      "name": "GammaLoad.PS1",
+      "kind": "malware",
+      "gloss": "A PowerShell-based downloader malware family used by threat actor UAC-0010."
+    },
+    {
+      "name": "GammaSteel.PS1",
+      "kind": "malware",
+      "gloss": "A PowerShell-based information stealing malware family used to harvest files and browser credentials."
+    },
+    {
+      "name": "GammaSteel.NET",
+      "kind": "malware",
+      "gloss": "A .NET-based information stealing malware used to extract browser credentials and data."
+    },
+    {
+      "name": "HarvesterX",
+      "kind": "malware",
+      "gloss": "A legacy information-stealing malware tool used by UAC-0010."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework by Microsoft comprising a command-line shell and scripting language."
+    },
+    {
+      "name": "wscript.exe",
+      "kind": "software product",
+      "gloss": "A built-in Windows executable that provides an environment for executing VBScript and JScript scripts."
+    },
+    {
+      "name": "mshta.exe",
+      "kind": "software product",
+      "gloss": "A Windows utility used to execute Microsoft HTML Application (HTA) files."
+    },
+    {
+      "name": "Normal.dotm",
+      "kind": "computer file",
+      "gloss": "A default Microsoft Word macro-enabled template file targeted for remote template injection."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "GammaLoad.PS1",
+      "evidence": "ланцюг доставки GammaLoad.PS1 на комп'ютер жертви"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "GammaSteel.PS1",
+      "evidence": "для чого застосовується GammaSteel.PS1"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "GammaSteel.NET",
+      "evidence": "застосовується GammaSteel.PS1 та GammaSteel.NET"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "PowerShell",
+      "evidence": "Активно використовується PowerShell"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "wscript.exe",
+      "evidence": "а також wscript.exe, mshta.exe"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "mshta.exe",
+      "evidence": "а також wscript.exe, mshta.exe"
+    }
+  ],
+  "newRelationTypes": []
+}

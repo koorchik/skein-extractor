@@ -1,0 +1,193 @@
+{
+  "docId": 6281018,
+  "date": "16.10.2024",
+  "title": "Розповсюдження MEDUZASTEALER засобами Telegram, начебто, від імені технічної підтримки Резерв+ (CERT-UA#11603)",
+  "entities": [
+    {
+      "id": "6281018:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6281018:1",
+      "name": "Резерв+",
+      "kind": "software product",
+      "gloss": "An official Ukrainian mobile application used for military reservist and conscript data registration.",
+      "scheme": "S3",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6281018:2",
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cloud-based instant messaging service and application platform.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281018:3",
+      "name": "@reserveplusbot",
+      "kind": "social media account",
+      "gloss": "A Telegram bot account abused to distribute malicious files pretending to be Reserve+ technical support.",
+      "scheme": "S16",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "6281018:4",
+      "name": "MEDUZASTEALER",
+      "kind": "malware family",
+      "gloss": "An information stealer malware designed to exfiltrate documents, credentials, and sensitive files from compromised systems.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6281018:5",
+      "name": "Microsoft Defender",
+      "kind": "software product",
+      "gloss": "An integrated antivirus and security component for Microsoft Windows.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281018:6",
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A cross-platform task automation and configuration management framework by Microsoft.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6281018:7",
+      "name": "RESERVPLUS.zip",
+      "kind": "file name",
+      "gloss": "A malicious ZIP archive distributed via Telegram containing droppers for MeduzaStealer.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "6281018:8",
+      "name": "installer.exe",
+      "kind": "file name",
+      "gloss": "An executable payload delivered inside ZIP archives to drop secondary-stage installers.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "6281018:9",
+      "name": "install.exe",
+      "kind": "file name",
+      "gloss": "An intermediate loader executable used to fetch and launch MeduzaStealer.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "6281018:10",
+      "name": "79.137.202.152",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server for MeduzaStealer.",
+      "scheme": "S11",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6281018:11",
+      "name": "185.208.158.47",
+      "kind": "ip address",
+      "gloss": "An IP address hosting various malicious executable payloads.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281018:12",
+      "name": "212.34.150.110",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious dropper executables.",
+      "scheme": "S11",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "6281018:13",
+      "name": "5.252.118.50",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious executable files.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281018:14",
+      "name": "62.60.217.124",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious install executables.",
+      "scheme": "S11",
+      "category": null,
+      "role": "attacker"
+    }
+  ],
+  "relations": [
+    {
+      "head": "@reserveplusbot",
+      "type": "delivers",
+      "tail": "RESERVPLUS.zip",
+      "evidence": "за допомогою облікового запису Telegram @reserveplusbot... файл з назвою \"RESERVPLUS.zip\""
+    },
+    {
+      "head": "RESERVPLUS.zip",
+      "type": "delivers",
+      "tail": "installer.exe",
+      "evidence": "в розповсюджуваному ZIP-архіві знаходився виконуваний EXE-файл \"installer.exe\""
+    },
+    {
+      "head": "installer.exe",
+      "type": "delivers",
+      "tail": "install.exe",
+      "evidence": "запуск якого призводив до завантаження іншого файлу \"install.exe\""
+    },
+    {
+      "head": "install.exe",
+      "type": "delivers",
+      "tail": "MEDUZASTEALER",
+      "evidence": "забезпечував ураження комп'ютера шкідливим програмним забезпеченням MEDUZASTEALER"
+    },
+    {
+      "head": "MEDUZASTEALER",
+      "type": "communicates-with",
+      "tail": "79.137.202.152",
+      "evidence": "79.137.202.152:15666"
+    },
+    {
+      "head": "212.34.150.110",
+      "type": "hosts",
+      "tail": "install.exe",
+      "evidence": "http://212.34.150.110/install.exe"
+    },
+    {
+      "head": "62.60.217.124",
+      "type": "hosts",
+      "tail": "install.exe",
+      "evidence": "http://62.60.217.124/install.exe"
+    },
+    {
+      "head": "Резерв+",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA... “Резерв+”"
+    }
+  ],
+  "unclassified": []
+}

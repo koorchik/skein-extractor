@@ -1,0 +1,202 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p class="ql-align-justify"><strong>Загальна інформація</strong>&nbsp;</p><p class="ql-align-justify">Урядовою командою реагування на комп’ютерні надзвичайні події України CERT-UA від суб’єкту координації (Кіберцентр Державної прикордонної служби України) отримано інформацію щодо розповсюдження, начебто, від імені ДП «Адміністрація морських портів України», електронних поштових повідомлень із вкладенням у вигляді RAR-архіву «порти АРК.rar».&nbsp;</p><p class="ql-align-justify">Згаданий RAR-архів містить шкідливі DOCX-документи «Щодо заходження суден під&nbsp;іноземним прапором в порти АР Крим на 27.01.2022.docx» і «Щодо заходження суден під&nbsp;державним прапором в порти АР Крим на 27.01.2022.docx», кожен з яких, у свою чергу, містить вбудовану URL-адресу.&nbsp;</p><p class="ql-align-justify">У разі відкриття документів буде завантажено і відкрито DOC-файл з макросом. Останній забезпечить виконання шкідливого VBA-коду, що призведе до ураження комп’ютера шкідливою програмою GammaLoad.&nbsp;</p><p class="ql-align-justify">Атаку асоційовано з діяльністю групи Armageddon (відслідковується CERT-UA за ідентифікатором UAC-0010).&nbsp;&nbsp;</p><p class="ql-align-justify"><strong>Індикатори компрометації</strong>&nbsp;</p><p class="ql-align-justify"><em>Файли:</em>&nbsp;</p><pre class="ql-syntax ql-align-justify" spellcheck="false">9fe8203b06c899d15cb20d2497103dbb	порти АРК.rar&nbsp;
+178b0739ac2668910277cbf13f6386e8	Щодо заходження суден під&nbsp; державним прапором в порти АР Крим на 27.01.2022.docx&nbsp;
+fd4de6bb19fac13487ea72d938999fbd	Щодо заходження суден під&nbsp; іноземним прапором в порти АР Крим на 27.01.2022.docx&nbsp;
+8644a34af1bf278d4cbe28022f77fd69	derg.gif&nbsp;
+</pre><p class="ql-align-justify"><em>Мережеві:</em>&nbsp;</p><pre class="ql-syntax ql-align-justify" spellcheck="false">hxxp://surname192.temp.swtest[.]ru/prapor/su/derg.gif&nbsp;
+hxxp://surname192.temp.swtest[.]ru/prapor/su/ino.gif&nbsp;
+hxxp://&lt;IP-адреса&gt;/concession.mot&nbsp;
+surname192.temp.swtest[.]ru&nbsp;
+coagula[.]online&nbsp;
+tortunas[.]ru&nbsp;
+phymateus[.]online&nbsp;
+stopcovid@email[.]cz&nbsp;
+</pre><p class="ql-align-justify"><em>Хостові:</em>&nbsp;</p><pre class="ql-syntax ql-align-justify" spellcheck="false">%USERPROFILE%\Downloads\&lt;назва_файлу&gt;.exe&nbsp;&nbsp;
+</pre><p class="ql-align-justify"><strong>Додаткова інформація</strong>&nbsp;</p><p class="ql-align-justify">GammaLoad – шкідлива програма, розроблена з використанням мови програмування VB Script; основний функціонал – ідентифікація комп’ютера (визначення %COMPUTERNAME% і %SYSTEMDRIVE%) і подальше завантаження та запуск додаткових шкідливих програм. Персистентність забезпечується за допомогою запланованого завдання (Scheduled Task).&nbsp;</p><p class="ql-align-justify"><strong>Графічні зображення</strong>&nbsp;</p><p class="ql-align-justify"></p><p class="ql-align-justify"><span style="color: rgb(0, 0, 0);">Рис. 1 Приклад шкідливого електронного листа та вбудованої URL-адреси&nbsp;</span></p><p class="ql-align-justify"></p><p class="ql-align-justify"><span style="color: rgb(0, 0, 0);">Рис. 2 Приклад програмного коду шкідливої програми GammaLoad&nbsp;</span></p>
+
+=== RESPONSE (7.3s, in 2050 / out 1662 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Кіберцентр Державної прикордонної служби України",
+      "kind": "government body",
+      "gloss": "A cybersecurity unit within the State Border Guard Service of Ukraine."
+    },
+    {
+      "name": "Державна прикордонна служба України",
+      "kind": "government body",
+      "gloss": "The central government agency of Ukraine responsible for border protection."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "ДП «Адміністрація морських портів України»",
+      "kind": "state enterprise",
+      "gloss": "A Ukrainian state enterprise responsible for the management and maintenance of sea ports."
+    },
+    {
+      "name": "порти АРК.rar",
+      "kind": "malicious archive",
+      "gloss": "A malicious RAR archive distributed via phishing emails."
+    },
+    {
+      "name": "Щодо заходження суден під іноземним прапором в порти АР Крим на 27.01.2022.docx",
+      "kind": "malicious document",
+      "gloss": "A malicious DOCX document with embedded URLs used in phishing attacks."
+    },
+    {
+      "name": "Щодо заходження суден під державним прапором в порти АР Крим на 27.01.2022.docx",
+      "kind": "malicious document",
+      "gloss": "A malicious DOCX document with embedded URLs used in phishing attacks."
+    },
+    {
+      "name": "derg.gif",
+      "kind": "malicious file",
+      "gloss": "A malicious file used in the attack chain."
+    },
+    {
+      "name": "GammaLoad",
+      "kind": "malware family",
+      "gloss": "A VBScript-based malicious downloader associated with the Armageddon cyberespionage group."
+    },
+    {
+      "name": "Armageddon",
+      "kind": "hacking group",
+      "gloss": "A Russian state-sponsored cyberespionage group, also tracked by CERT-UA as UAC-0010."
+    },
+    {
+      "name": "surname192.temp.swtest.ru",
+      "kind": "internet domain",
+      "gloss": "A domain name used for hosting malicious payloads."
+    },
+    {
+      "name": "coagula.online",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious infrastructure."
+    },
+    {
+      "name": "tortunas.ru",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious infrastructure."
+    },
+    {
+      "name": "phymateus.online",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious infrastructure."
+    },
+    {
+      "name": "stopcovid@email.cz",
+      "kind": "email address",
+      "gloss": "An email address identified as an indicator of compromise."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Кіберцентр Державної прикордонної служби України",
+      "type": "is-part-of",
+      "tail": "Державна прикордонна служба України",
+      "evidence": "Кіберцентр Державної прикордонної служби України"
+    },
+    {
+      "head": "Державна прикордонна служба України",
+      "type": "belongs-to-country",
+      "tail": "Україна",
+      "evidence": "Державної прикордонної служби України"
+    },
+    {
+      "head": "ДП «Адміністрація морських портів України»",
+      "type": "belongs-to-country",
+      "tail": "Україна",
+      "evidence": "Адміністрація морських портів України"
+    },
+    {
+      "head": "Armageddon",
+      "type": "impersonates",
+      "tail": "ДП «Адміністрація морських портів України»",
+      "evidence": "розповсюдження, начебто, від імені ДП «Адміністрація морських портів України»"
+    },
+    {
+      "head": "порти АРК.rar",
+      "type": "contains-file",
+      "tail": "Щодо заходження суден під іноземним прапором в порти АР Крим на 27.01.2022.docx",
+      "evidence": "RAR-архів містить шкідливі DOCX-документи «Щодо заходження суден під іноземним прапором"
+    },
+    {
+      "head": "порти АРК.rar",
+      "type": "contains-file",
+      "tail": "Щодо заходження суден під державним прапором в порти АР Крим на 27.01.2022.docx",
+      "evidence": "RAR-архів містить шкідливі DOCX-документи «Щодо заходження суден під іноземним прапором... і «Щодо заходження суден під державним прапором"
+    },
+    {
+      "head": "Armageddon",
+      "type": "uses-malware",
+      "tail": "GammaLoad",
+      "evidence": "призведе до ураження комп’ютера шкідливою програмою GammaLoad. Атаку асоційовано з діяльністю групи Armageddon"
+    },
+    {
+      "head": "surname192.temp.swtest.ru",
+      "type": "hosts-file",
+      "tail": "derg.gif",
+      "evidence": "hxxp://surname192.temp.swtest[.]ru/prapor/su/derg.gif"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "is-part-of",
+      "definition": "Identifies a sub-unit, branch, or component belonging to a parent organization."
+    },
+    {
+      "name": "belongs-to-country",
+      "definition": "Identifies the country to which an organization or entity belongs."
+    },
+    {
+      "name": "impersonates",
+      "definition": "Indicates that an actor or campaign masquerades as a specific organization or entity."
+    },
+    {
+      "name": "contains-file",
+      "definition": "Indicates that an archive or container file contains a specific file inside it."
+    },
+    {
+      "name": "uses-malware",
+      "definition": "Indicates that a threat actor employs a specific malware family in their operations."
+    },
+    {
+      "name": "hosts-file",
+      "definition": "Indicates that an internet domain or server hosts a specific file."
+    }
+  ]
+}

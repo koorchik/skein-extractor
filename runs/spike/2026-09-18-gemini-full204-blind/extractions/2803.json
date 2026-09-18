@@ -1,0 +1,82 @@
+{
+  "entities": [
+    {
+      "name": "Troldesh",
+      "kind": "ransomware family",
+      "gloss": "A ransomware malware family that encrypts user files and demands payment for decryption."
+    },
+    {
+      "name": "Gazprombank.zakaz.docx.zip",
+      "kind": "archive file",
+      "gloss": "A malicious ZIP archive delivered via email containing a malicious script loader."
+    },
+    {
+      "name": "Газпромбанк заказ.js",
+      "kind": "script file",
+      "gloss": "A malicious JavaScript file that downloads and executes the ransomware payload."
+    },
+    {
+      "name": "sserv.jpg",
+      "kind": "executable file",
+      "gloss": "A malicious executable payload disguised as an image file containing the Troldesh ransomware."
+    },
+    {
+      "name": "WordPress",
+      "kind": "content management system",
+      "gloss": "A widely used open-source content management system and website creation platform."
+    },
+    {
+      "name": "Joomla",
+      "kind": "content management system",
+      "gloss": "A free and open-source content management system for publishing web content."
+    },
+    {
+      "name": "dishsouq[.]com",
+      "kind": "internet domain",
+      "gloss": "A compromised internet domain abused to host the Troldesh ransomware payload."
+    },
+    {
+      "name": "ansaigon[.]com",
+      "kind": "internet domain",
+      "gloss": "A compromised internet domain abused to host the Troldesh ransomware payload."
+    },
+    {
+      "name": "wanda.guo@163.com",
+      "kind": "email address",
+      "gloss": "An email address used by attackers to distribute malicious files in phishing emails."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Gazprombank.zakaz.docx.zip",
+      "type": "delivers",
+      "tail": "Газпромбанк заказ.js",
+      "evidence": "zip-архів Gazprombank.zakaz.docx.zip з файлом “Газпромбанк заказ.js”"
+    },
+    {
+      "head": "Газпромбанк заказ.js",
+      "type": "delivers",
+      "tail": "sserv.jpg",
+      "evidence": "завантажує та запускає файл sserv.jpg"
+    },
+    {
+      "head": "dishsouq[.]com",
+      "type": "hosts",
+      "tail": "sserv.jpg",
+      "evidence": "hxxp://dishsouq[.]com/wp-admin/css/colors/blue/sserv.jpg"
+    },
+    {
+      "head": "ansaigon[.]com",
+      "type": "hosts",
+      "tail": "sserv.jpg",
+      "evidence": "hxxp://ansaigon[.]com/templates/tm_parallaite/css/presets/sserv.jpg"
+    },
+    {
+      "head": "sserv.jpg",
+      "type": "part-of",
+      "tail": "Troldesh",
+      "evidence": "Посилання з яких завантажується основний файл вірусу Troldesh:"
+    }
+  ],
+  "newRelationTypes": []
+}

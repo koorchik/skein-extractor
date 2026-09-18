@@ -1,0 +1,211 @@
+{
+  "docId": 6277849,
+  "date": "24.02.2024",
+  "title": "UAC-0149: Цільові вибіркові атаки у відношенні Сил оборони України із застосуванням COOKBOX (CERT-UA#9204)",
+  "entities": [
+    {
+      "id": "6277849:0",
+      "name": "UAC-0149",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracking identifier associated with targeted cyberattacks against Ukrainian entities.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6277849:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S5",
+      "category": "Country",
+      "role": "related"
+    },
+    {
+      "id": "6277849:2",
+      "name": "Сили оборони України",
+      "kind": "military force",
+      "gloss": "The combined military and defense forces of Ukraine.",
+      "scheme": "S17",
+      "category": "Government Body",
+      "role": "target"
+    },
+    {
+      "id": "6277849:3",
+      "name": "ЦКБ ІТС в/ч А0334",
+      "kind": "military unit",
+      "gloss": "A cybersecurity center of information and telecommunication systems within a Ukrainian military unit.",
+      "scheme": "S17",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "6277849:4",
+      "name": "Signal",
+      "kind": "messaging application",
+      "gloss": "A cross-platform centralized encrypted instant messaging service.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6277849:5",
+      "name": "1_ф_5.39-2024.xlsm",
+      "kind": "malicious file",
+      "gloss": "A macro-enabled Excel document used to initiate the deployment of malicious PowerShell scripts.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "6277849:6",
+      "name": "mob2002.data",
+      "kind": "malicious file",
+      "gloss": "A PowerShell script payload downloaded from GitHub during the multi-stage infection chain.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "6277849:7",
+      "name": "COOKBOX",
+      "kind": "malware family",
+      "gloss": "A PowerShell-based backdoor designed to receive and execute arbitrary PowerShell cmdlets.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6277849:8",
+      "name": "Github",
+      "kind": "code hosting platform",
+      "gloss": "A cloud-based hosting service for software development and version control using Git.",
+      "scheme": "S3",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6277849:9",
+      "name": "Cloudflare Workers",
+      "kind": "cloud service",
+      "gloss": "A serverless application platform provided by Cloudflare.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277849:10",
+      "name": "gotdns.ch",
+      "kind": "dynamic dns service",
+      "gloss": "A dynamic DNS service provider domain.",
+      "scheme": null,
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6277849:11",
+      "name": "myftp.biz",
+      "kind": "dynamic dns service",
+      "gloss": "A dynamic DNS service provider domain.",
+      "scheme": null,
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6277849:12",
+      "name": "array.myftp.biz",
+      "kind": "domain name",
+      "gloss": "A dynamic DNS hostname used as command-and-control infrastructure.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "6277849:13",
+      "name": "bom02.gotdns.ch",
+      "kind": "domain name",
+      "gloss": "A dynamic DNS hostname used as command-and-control infrastructure.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "6277849:14",
+      "name": "worker-test-6f41.idv64828.workers.dev",
+      "kind": "domain name",
+      "gloss": "A Cloudflare Workers domain used for command-and-control communications.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "6277849:15",
+      "name": "34.199.8.144",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the dynamic DNS command-and-control infrastructure.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0149",
+      "type": "attacks",
+      "tail": "Сили оборони України",
+      "evidence": "цілеспрямованої кібератаки, що полягала у спробі ураження шкідливим програмним забезпеченням ЕОМ представників Сил оборони України"
+    },
+    {
+      "head": "UAC-0149",
+      "type": "uses-malware",
+      "tail": "COOKBOX",
+      "evidence": "Описана активність здійснюється, щонайменше, з осені 2023 року... та відстежується за ідентифікатором UAC-0149"
+    },
+    {
+      "head": "1_ф_5.39-2024.xlsm",
+      "type": "delivers",
+      "tail": "mob2002.data",
+      "evidence": "документ містив додатковий програмний VBA-код, який забезпечував запуск PowerShell-команди, призначеної для завантаження, декодування та виконання PowerShell-сценарію \"mob2002.data\""
+    },
+    {
+      "head": "mob2002.data",
+      "type": "delivers",
+      "tail": "COOKBOX",
+      "evidence": "основний пейлоад, після декодування, містить черговий PowerShell-скрипт, який здійснить GZIP-декомпресію та запуск шкідливої програми COOKBOX"
+    },
+    {
+      "head": "ЦКБ ІТС в/ч А0334",
+      "type": "part-of",
+      "tail": "Сили оборони України",
+      "evidence": "порядку захисту ІКС Сил оборони України, в т.ч, стосовно згаданих технологій, може бути отримана в ЦКБ ІТС в/ч А0334"
+    },
+    {
+      "head": "Сили оборони України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "представників Сил оборони України"
+    },
+    {
+      "head": "COOKBOX",
+      "type": "communicates-with",
+      "tail": "array.myftp.biz",
+      "evidence": "Для функціонування інфраструктури серверів управління використовуються сервіси динамічного DNS (наприклад, gotdns.ch, myftp.biz)"
+    },
+    {
+      "head": "COOKBOX",
+      "type": "communicates-with",
+      "tail": "bom02.gotdns.ch",
+      "evidence": "Для функціонування інфраструктури серверів управління використовуються сервіси динамічного DNS (наприклад, gotdns.ch, myftp.biz)"
+    },
+    {
+      "head": "COOKBOX",
+      "type": "communicates-with",
+      "tail": "worker-test-6f41.idv64828.workers.dev",
+      "evidence": "Для функціонування інфраструктури серверів управління використовуються сервіси динамічного DNS... та Cloudflare Workers."
+    }
+  ],
+  "unclassified": [
+    "6277849:10",
+    "6277849:11"
+  ]
+}

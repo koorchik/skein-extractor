@@ -1,0 +1,205 @@
+{
+  "docId": 2394117,
+  "date": "22.10.2022",
+  "title": "Кібератака на державні організації України з використанням шкідливої програми RomCom. Можлива причетність Cuba Ransomware aka Tropical Scorpius aka UNC2596 (CERT-UA#5509)",
+  "entities": [
+    {
+      "id": "2394117:0",
+      "name": "Генштаб ЗСУ",
+      "kind": "government organization",
+      "gloss": "The General Staff of the Armed Forces of Ukraine.",
+      "scheme": "S5",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "2394117:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S4",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "2394117:2",
+      "name": "RomCom",
+      "kind": "malware",
+      "gloss": "A modular backdoor trojan used for cyber espionage and ransomware operations.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2394117:3",
+      "name": "Cuba Ransomware",
+      "kind": "malware",
+      "gloss": "A ransomware strain targeting enterprise networks, linked to the threat group Tropical Scorpius.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2394117:4",
+      "name": "Tropical Scorpius",
+      "kind": "threat actor",
+      "gloss": "A threat group, also tracked as UNC2596 and UAC-0132, associated with Cuba ransomware and RomCom backdoor.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "2394117:5",
+      "name": "Unit42",
+      "kind": "company",
+      "gloss": "The threat intelligence and cybersecurity research organization of Palo Alto Networks.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2394117:6",
+      "name": "Mandiant",
+      "kind": "company",
+      "gloss": "An American cybersecurity and threat intelligence firm.",
+      "scheme": "S12",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "2394117:7",
+      "name": "CVE-2022-24521",
+      "kind": "security vulnerability",
+      "gloss": "A Windows Common Log File System (CLFS) driver elevation of privilege vulnerability.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2394117:8",
+      "name": "AcroRdrDCx642200120169_uk_UA.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable disguised as an Adobe PDF Reader installer used to drop RomCom.",
+      "scheme": "S11",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "2394117:9",
+      "name": "rmtpak.dll",
+      "kind": "computer file",
+      "gloss": "A malicious DLL file classified as the RomCom backdoor.",
+      "scheme": "S11",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "2394117:10",
+      "name": "Наказ_309.pdf",
+      "kind": "computer file",
+      "gloss": "A lure PDF document used in the phishing campaign.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2394117:11",
+      "name": "s.l.sinkewitch@ukr.net",
+      "kind": "email address",
+      "gloss": "A sender email address used in the phishing campaign impersonating Ukrainian military officials.",
+      "scheme": "S10",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2394117:12",
+      "name": "www.get.adobe.com.aspx.io",
+      "kind": "domain name",
+      "gloss": "A spoofed domain used to host malicious executable downloads.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "2394117:13",
+      "name": "gov.mil.ua.aspx.io",
+      "kind": "domain name",
+      "gloss": "A spoofed domain masquerading as Ukrainian government military services.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "2394117:14",
+      "name": "notfiled.com",
+      "kind": "domain name",
+      "gloss": "A domain used for command and control communications in the attack.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "2394117:15",
+      "name": "45.158.38.74",
+      "kind": "ip address",
+      "gloss": "An IP address involved in sending phishing emails.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2394117:16",
+      "name": "45.87.155.99",
+      "kind": "ip address",
+      "gloss": "A network IP address observed in the malicious campaign infrastructure.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2394117:17",
+      "name": "69.49.231.103",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the campaign infrastructure.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2394117:18",
+      "name": "Blythe Consulting sp. z o.o.",
+      "kind": "company",
+      "gloss": "A company name used in code-signing certificates to sign malware components.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Генштаб ЗСУ",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Пресслужби Генштабу ЗСУ"
+    },
+    {
+      "head": "Tropical Scorpius",
+      "type": "uses",
+      "tail": "RomCom",
+      "evidence": "використання бекдору RomCom, а також інші особливості пов'язаних файлів, вважаємо за можливе асоціювати виявлену активність з діяльністю групи Tropical Scorpius"
+    },
+    {
+      "head": "Tropical Scorpius",
+      "type": "uses",
+      "tail": "Cuba Ransomware",
+      "evidence": "групи Tropical Scorpius (Unit42) aka UNC2596 (Mandiant), що відповідальна за розповсюдження Cuba Ransomware"
+    },
+    {
+      "head": "AcroRdrDCx642200120169_uk_UA.exe",
+      "type": "delivers",
+      "tail": "rmtpak.dll",
+      "evidence": "Запуск згаданого файлу, в результаті, призведе до декодування та запуску файлу \"rmtpak.dll\""
+    }
+  ],
+  "unclassified": []
+}

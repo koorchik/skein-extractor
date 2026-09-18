@@ -1,0 +1,105 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0096",
+      "kind": "threat group",
+      "gloss": "A cyber threat group tracked by CERT-UA targeting Ukrainian government organizations and other entities."
+    },
+    {
+      "name": "Google Drive",
+      "kind": "software product",
+      "gloss": "A cloud-based file storage and synchronization service developed by Google."
+    },
+    {
+      "name": "DropMeFiles",
+      "kind": "software product",
+      "gloss": "A free online file sharing and transfer service."
+    },
+    {
+      "name": "Remote Utilities",
+      "kind": "software product",
+      "gloss": "A commercial remote desktop and computer management software product."
+    },
+    {
+      "name": "RManService",
+      "kind": "software product",
+      "gloss": "A system service associated with the Remote Utilities host software."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign state located in Eastern Europe."
+    },
+    {
+      "name": "Usoris",
+      "kind": "software vendor",
+      "gloss": "A software development company that creates the Remote Utilities remote administration software."
+    },
+    {
+      "name": "Судовий запит №9978364774635676778282.rar_pass_123.zip",
+      "kind": "computer file",
+      "gloss": "A password-protected ZIP archive used as a malicious lure file in phishing campaigns."
+    },
+    {
+      "name": "Судовий запит №9978364774635676778282.rar",
+      "kind": "computer file",
+      "gloss": "A RAR archive distributed as part of a phishing attack campaign."
+    },
+    {
+      "name": "Судовий запит №99783647746356767782828.pdf.rar",
+      "kind": "computer file",
+      "gloss": "A RAR archive masquerading as a legal document used in a phishing campaign."
+    },
+    {
+      "name": "Судовий запит №99783647746356767782828.pdf.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file masquerading as a PDF document."
+    },
+    {
+      "name": "101.99.93[.]49",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure related to cyberattack activity."
+    },
+    {
+      "name": "rmssrv2[.]ru",
+      "kind": "domain name",
+      "gloss": "An internet domain name used for remote connection server infrastructure."
+    },
+    {
+      "name": "rmssrv3[.]ru",
+      "kind": "domain name",
+      "gloss": "An internet domain name used for remote connection server infrastructure."
+    },
+    {
+      "name": "rmssrv4[.]ru",
+      "kind": "domain name",
+      "gloss": "An internet domain name used for remote connection server infrastructure."
+    },
+    {
+      "name": "https://cert.gov.ua/article/10011",
+      "kind": "uniform resource locator",
+      "gloss": "A web link to a CERT-UA security report describing previous group activity."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0096",
+      "type": "uses",
+      "tail": "Remote Utilities",
+      "evidence": "встановлено легітимну програму Remote Utilities... відслідковується CERT-UA за ідентифікатором UAC-0096"
+    },
+    {
+      "head": "Судовий запит №9978364774635676778282.rar_pass_123.zip",
+      "type": "delivers",
+      "tail": "Remote Utilities",
+      "evidence": "розпакування і запуску вмісту архіву на комп’ютер жертви буде встановлено легітимну програму Remote Utilities"
+    },
+    {
+      "head": "RManService",
+      "type": "part-of",
+      "tail": "Remote Utilities",
+      "evidence": "Персистентність програми забезпечується шляхом створення служби «RManService»"
+    }
+  ],
+  "newRelationTypes": []
+}

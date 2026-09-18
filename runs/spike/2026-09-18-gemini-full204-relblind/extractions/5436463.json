@@ -1,0 +1,180 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "Закон України \"Про основні засади забезпечення кібербезпеки України\"",
+      "kind": "legislation",
+      "gloss": "Ukrainian law establishing the legal and organizational framework for national cybersecurity."
+    },
+    {
+      "name": "@xaknet_team",
+      "kind": "telegram channel",
+      "gloss": "A pro-Russian hacktivist Telegram channel and threat group."
+    },
+    {
+      "name": "@CyberArmyofRussia_Reborn",
+      "kind": "telegram channel",
+      "gloss": "A pro-Russian hacktivist Telegram channel."
+    },
+    {
+      "name": "@solntsepekZ",
+      "kind": "telegram channel",
+      "gloss": "A pro-Russian hacktivist Telegram channel associated with cyberattacks."
+    },
+    {
+      "name": "@informZarya",
+      "kind": "telegram channel",
+      "gloss": "A pro-Russian Telegram channel publishing information on cyber incidents."
+    },
+    {
+      "name": "@frwl_team",
+      "kind": "telegram channel",
+      "gloss": "A pro-Russian hacktivist Telegram channel."
+    },
+    {
+      "name": "PHP",
+      "kind": "programming language",
+      "gloss": "A widely used open-source general-purpose scripting language especially suited for web development."
+    },
+    {
+      "name": "MS Exchange",
+      "kind": "software product",
+      "gloss": "A mail and calendaring server developed by Microsoft."
+    },
+    {
+      "name": "FortiGate",
+      "kind": "software product",
+      "gloss": "A line of network security appliances and firewalls by Fortinet."
+    },
+    {
+      "name": "Zimbra",
+      "kind": "software product",
+      "gloss": "An open-source software suite for email collaboration and messaging."
+    },
+    {
+      "name": "censys.io",
+      "kind": "internet service",
+      "gloss": "A search engine and platform for attack surface management and internet intelligence."
+    },
+    {
+      "name": "shodan.io",
+      "kind": "internet service",
+      "gloss": "A search engine that lets users search for internet-connected devices."
+    },
+    {
+      "name": "Nmap",
+      "kind": "software tool",
+      "gloss": "A free and open-source network scanner for vulnerability scanning and network discovery."
+    },
+    {
+      "name": "Windows Defender",
+      "kind": "software product",
+      "gloss": "An antivirus and security component built into Microsoft Windows."
+    },
+    {
+      "name": "ESET",
+      "kind": "software vendor",
+      "gloss": "A cybersecurity company offering antivirus and endpoint security products."
+    },
+    {
+      "name": "wscript.exe",
+      "kind": "executable file",
+      "gloss": "A Windows Script Host executable used to run VBScript and JScript files."
+    },
+    {
+      "name": "cscript.exe",
+      "kind": "executable file",
+      "gloss": "A command-line version of the Windows Script Host."
+    },
+    {
+      "name": "mshta.exe",
+      "kind": "executable file",
+      "gloss": "A native Windows utility used to execute Microsoft HTML Application (.hta) files."
+    },
+    {
+      "name": "powershell.exe",
+      "kind": "executable file",
+      "gloss": "The command-line interface executable for Microsoft PowerShell."
+    },
+    {
+      "name": "AppLocker",
+      "kind": "software feature",
+      "gloss": "A Microsoft Windows application whitelisting and control feature."
+    },
+    {
+      "name": "Sysmon",
+      "kind": "software tool",
+      "gloss": "A Windows system service and device driver that monitors and logs system activity."
+    },
+    {
+      "name": "pfSense",
+      "kind": "software product",
+      "gloss": "An open-source firewall and router software distribution based on FreeBSD."
+    },
+    {
+      "name": "Mikrotik",
+      "kind": "software vendor",
+      "gloss": "A Latvian manufacturer of network equipment and RouterOS software."
+    },
+    {
+      "name": "ЗСУ",
+      "kind": "military organization",
+      "gloss": "The Armed Forces of Ukraine."
+    },
+    {
+      "name": "csoc@post.mil.gov.ua",
+      "kind": "email address",
+      "gloss": "A contact email address for the cybersecurity operations center of the Armed Forces of Ukraine."
+    },
+    {
+      "name": "СБУ",
+      "kind": "government body",
+      "gloss": "The Security Service of Ukraine, the national security intelligence agency."
+    },
+    {
+      "name": "support@dis.gov.ua",
+      "kind": "email address",
+      "gloss": "A contact email address for the Security Service of Ukraine cybersecurity center."
+    },
+    {
+      "name": "НБУ",
+      "kind": "government body",
+      "gloss": "The National Bank of Ukraine, the central bank of Ukraine."
+    },
+    {
+      "name": "csirt-nbu@nbu.gov.ua",
+      "kind": "email address",
+      "gloss": "The CSIRT contact email address for the National Bank of Ukraine."
+    }
+  ],
+  "relations": [
+    {
+      "head": "ЗСУ",
+      "type": "uses-contact-email",
+      "tail": "csoc@post.mil.gov.ua",
+      "evidence": "ЗСУ: csoc@post.mil.gov.ua"
+    },
+    {
+      "head": "СБУ",
+      "type": "uses-contact-email",
+      "tail": "support@dis.gov.ua",
+      "evidence": "СБУ: support@dis.gov.ua"
+    },
+    {
+      "head": "НБУ",
+      "type": "uses-contact-email",
+      "tail": "csirt-nbu@nbu.gov.ua",
+      "evidence": "НБУ: csirt-nbu@nbu.gov.ua"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-contact-email",
+      "definition": "Specifies an official email contact address used by or designated for an organization."
+    }
+  ]
+}

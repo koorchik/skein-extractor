@@ -1,0 +1,169 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0102",
+      "kind": "threat actor",
+      "gloss": "A threat actor group known for conducting phishing campaigns targeting Ukrainian organizations and public email services."
+    },
+    {
+      "name": "UKR.NET",
+      "kind": "software product",
+      "gloss": "A popular Ukrainian web portal and free email service provider."
+    },
+    {
+      "name": "kyiv-zvern-1707.zip",
+      "kind": "computer file",
+      "gloss": "A malicious ZIP archive containing an HTML phishing attachment."
+    },
+    {
+      "name": "kyiv-zvern-1707.html",
+      "kind": "computer file",
+      "gloss": "A malicious HTML file that redirects victims to a credential phishing webpage."
+    },
+    {
+      "name": "терміново_23_07_2024.zip",
+      "kind": "computer file",
+      "gloss": "A malicious ZIP archive containing an HTML phishing attachment."
+    },
+    {
+      "name": "терміново_info_23_07_2024.html",
+      "kind": "computer file",
+      "gloss": "A malicious HTML file that redirects victims to a credential phishing webpage."
+    },
+    {
+      "name": "Терміново 1607.zip",
+      "kind": "computer file",
+      "gloss": "A malicious ZIP archive containing an HTML phishing attachment."
+    },
+    {
+      "name": "Терміново 1607.html",
+      "kind": "computer file",
+      "gloss": "A malicious HTML file that redirects victims to a credential phishing webpage."
+    },
+    {
+      "name": "82.221.139.200",
+      "kind": "ip address",
+      "gloss": "An IP address used to host phishing pages and decoy documents."
+    },
+    {
+      "name": "viddkhpolice@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors to distribute phishing messages."
+    },
+    {
+      "name": "kyivpolice17@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors to distribute phishing messages."
+    },
+    {
+      "name": "uaccsnet.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure in a phishing campaign."
+    },
+    {
+      "name": "ualogaccs.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure in a phishing campaign."
+    },
+    {
+      "name": "uasettings.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure in a phishing campaign."
+    },
+    {
+      "name": "uasetukr.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure in a phishing campaign."
+    },
+    {
+      "name": "uasystdoc.com",
+      "kind": "domain name",
+      "gloss": "A domain name used to host phishing pages and decoy documents."
+    },
+    {
+      "name": "uasystnet.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure in a phishing campaign."
+    },
+    {
+      "name": "ukainua.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure in a phishing campaign."
+    },
+    {
+      "name": "ukenlog.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure in a phishing campaign."
+    },
+    {
+      "name": "uknetlogin.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure in a phishing campaign."
+    },
+    {
+      "name": "ukrsets.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure in a phishing campaign."
+    },
+    {
+      "name": "ukrsett.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure in a phishing campaign."
+    },
+    {
+      "name": "ukrstnet.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure in a phishing campaign."
+    },
+    {
+      "name": "unetset.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure in a phishing campaign."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0102",
+      "type": "uses",
+      "tail": "kyiv-zvern-1707.zip",
+      "evidence": "угрупуванням UAC-0102 протягом липня 2024 року здійснюється розповсюдження електронних листів із вкладеннями у вигляді архівів"
+    },
+    {
+      "head": "kyiv-zvern-1707.zip",
+      "type": "delivers",
+      "tail": "kyiv-zvern-1707.html",
+      "evidence": "архівів, що містять HTML-файл"
+    },
+    {
+      "head": "терміново_23_07_2024.zip",
+      "type": "delivers",
+      "tail": "терміново_info_23_07_2024.html",
+      "evidence": "архівів, що містять HTML-файл"
+    },
+    {
+      "head": "Терміново 1607.zip",
+      "type": "delivers",
+      "tail": "Терміново 1607.html",
+      "evidence": "архівів, що містять HTML-файл"
+    },
+    {
+      "head": "UAC-0102",
+      "type": "uses",
+      "tail": "viddkhpolice@ukr.net",
+      "evidence": "viddkhpolice@ukr.net"
+    },
+    {
+      "head": "UAC-0102",
+      "type": "uses",
+      "tail": "kyivpolice17@ukr.net",
+      "evidence": "kyivpolice17@ukr.net"
+    },
+    {
+      "head": "UAC-0102",
+      "type": "uses",
+      "tail": "82.221.139.200",
+      "evidence": "82.221.139.200"
+    }
+  ],
+  "newRelationTypes": []
+}

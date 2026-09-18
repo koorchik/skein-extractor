@@ -1,0 +1,205 @@
+{
+  "docId": 6123309,
+  "date": "15.10.2023",
+  "title": "Особливості деструктивних кібератак Sandworm у відношенні українських провайдерів (CERT-UA#7627)",
+  "entities": [
+    {
+      "id": "6123309:0",
+      "name": "UAC-0165",
+      "kind": "threat actor",
+      "gloss": "A threat actor group that targeted Ukrainian telecommunications providers in 2023.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6123309:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S4",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "6123309:2",
+      "name": "masscan",
+      "kind": "software product",
+      "gloss": "An open-source high-speed Internet port scanner.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6123309:3",
+      "name": "ffuf",
+      "kind": "software product",
+      "gloss": "A fast web fuzzer written in Go used for discovering files, directories, and parameters.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6123309:4",
+      "name": "dirbuster",
+      "kind": "software product",
+      "gloss": "A multi-threaded Java application designed to brute force directories and file names on web application servers.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6123309:5",
+      "name": "gowitness",
+      "kind": "software product",
+      "gloss": "A web screenshot utility written in Go using Chrome Headless.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6123309:6",
+      "name": "nmap",
+      "kind": "software product",
+      "gloss": "A network exploration tool and security / port scanner.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6123309:7",
+      "name": "dante",
+      "kind": "software product",
+      "gloss": "A SOCKS proxy server and client implementation.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6123309:8",
+      "name": "POEMGATE",
+      "kind": "malware",
+      "gloss": "A malicious Linux PAM module designed to capture authentication credentials and provide backdoor access.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6123309:9",
+      "name": "WHITECAT",
+      "kind": "malware",
+      "gloss": "A utility used by threat actors to delete traces of unauthorized access on compromised systems.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6123309:10",
+      "name": "POSEIDON",
+      "kind": "malware",
+      "gloss": "A Linux backdoor program providing remote access and system management capabilities.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6123309:11",
+      "name": "Weevely",
+      "kind": "malware",
+      "gloss": "A stealth PHP web shell designed for post-exploitation and remote server administration.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6123309:12",
+      "name": "КіберБеркут",
+      "kind": "threat actor",
+      "gloss": "A pro-Russian hacktivist group active against Ukrainian entities since 2014.",
+      "scheme": "S14",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6123309:13",
+      "name": "Mikrotik",
+      "kind": "software vendor",
+      "gloss": "A Latvian manufacturer of network equipment and software such as RouterOS.",
+      "scheme": "S3",
+      "category": "Device",
+      "role": null
+    },
+    {
+      "id": "6123309:14",
+      "name": "eurotelle.com",
+      "kind": "domain name",
+      "gloss": "A network domain identified as infrastructure used in cyberattacks on telecommunications providers.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0165",
+      "type": "uses",
+      "tail": "masscan",
+      "evidence": "групою зловмисників, що відстежується за ідентифікатором UAC-0165... із застосуванням, зокрема, masscan"
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses",
+      "tail": "POEMGATE",
+      "evidence": "зловмисники встановлюють шкідливий PAM-модуль (відстежується як POEMGATE)"
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses",
+      "tail": "WHITECAT",
+      "evidence": "Видалення ознак несанкціонованого доступу досягається, серед іншого, запуском утиліти WHITECAT"
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses",
+      "tail": "POSEIDON",
+      "evidence": "Додатково на сервер може встановлюватися варіант програми POSEIDON"
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses",
+      "tail": "Weevely",
+      "evidence": "після компрометації вебсайту на вебсервер може завантажуватися бекдор Weevely"
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses",
+      "tail": "ffuf",
+      "evidence": "аналізуються за допомогою спеціалізованих програм, в тому числі: ffuf"
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses",
+      "tail": "dirbuster",
+      "evidence": "аналізуються за допомогою спеціалізованих програм, в тому числі: ffuf, dirbuster"
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses",
+      "tail": "gowitness",
+      "evidence": "аналізуються за допомогою спеціалізованих програм, в тому числі: ffuf, dirbuster, gowitness"
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses",
+      "tail": "nmap",
+      "evidence": "аналізуються за допомогою спеціалізованих програм, в тому числі: ffuf, dirbuster, gowitness, nmap"
+    },
+    {
+      "head": "UAC-0165",
+      "type": "affects",
+      "tail": "Україна",
+      "evidence": "здійснено втручання в інформаційно-комунікаційні системи (ІКС) не менше ніж 11 провайдерів телекомунікацій України"
+    }
+  ],
+  "unclassified": []
+}

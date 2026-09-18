@@ -1,0 +1,204 @@
+{
+  "entities": [
+    {
+      "name": "Pterodo",
+      "kind": "malware family",
+      "gloss": "A spyware and backdoor malware family used by Russian-aligned threat actors."
+    },
+    {
+      "name": "porohman@i.ua",
+      "kind": "email address",
+      "gloss": "An email address used by attackers to distribute malicious emails."
+    },
+    {
+      "name": "porohwoman@i.ua",
+      "kind": "email address",
+      "gloss": "An email address used by attackers to distribute malicious emails."
+    },
+    {
+      "name": "НПУ.rar",
+      "kind": "file",
+      "gloss": "A malicious archive attachment containing an executable and decoy document."
+    },
+    {
+      "name": "spisok_24.08.2018.com",
+      "kind": "file",
+      "gloss": "A malicious executable file disguised with a COM extension that unpacks components."
+    },
+    {
+      "name": "НПУ.docx",
+      "kind": "file",
+      "gloss": "A document file included as a decoy in malicious archives."
+    },
+    {
+      "name": "Icloud.exe",
+      "kind": "file",
+      "gloss": "A malicious executable component unpacked from the dropper."
+    },
+    {
+      "name": "Iclouding.exe",
+      "kind": "file",
+      "gloss": "A malicious executable component responsible for exfiltrating stolen data to C2 infrastructure."
+    },
+    {
+      "name": "ipad.system",
+      "kind": "file",
+      "gloss": "A malicious payload file unpacked by the dropper."
+    },
+    {
+      "name": "icloud.cmd",
+      "kind": "file",
+      "gloss": "A malicious batch script file deployed onto the victim system."
+    },
+    {
+      "name": "iclouds.cmd",
+      "kind": "file",
+      "gloss": "A malicious batch script component deployed on infected hosts."
+    },
+    {
+      "name": "IcloudSecurity.lnk",
+      "kind": "file",
+      "gloss": "A malicious shortcut file associated with malware persistence."
+    },
+    {
+      "name": "timeout.exe",
+      "kind": "file",
+      "gloss": "An executable process used to periodically reconnect to the command and control server."
+    },
+    {
+      "name": "cmd.exe",
+      "kind": "software product",
+      "gloss": "The default command-line interpreter on Microsoft Windows operating systems."
+    },
+    {
+      "name": "single-office.ddns.net",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS domain used as a command and control server."
+    },
+    {
+      "name": "95.142.45.58",
+      "kind": "ip address",
+      "gloss": "An IP address hosting command and control infrastructure."
+    },
+    {
+      "name": "Apple",
+      "kind": "technology company",
+      "gloss": "An American multinational technology company whose software branding was spoofed by malware."
+    },
+    {
+      "name": "Adobe",
+      "kind": "technology company",
+      "gloss": "An American multinational computer software company whose branding was spoofed by malware."
+    },
+    {
+      "name": "Лица, которые переместились из АР Крым и районов проведения антитерротистической операции.com",
+      "kind": "file",
+      "gloss": "A malicious executable file disguised with a COM extension used in phishing attachments."
+    },
+    {
+      "name": "забезпечте моніторинг мережевого обладнання на факт звертання до підозрілих адрес.com",
+      "kind": "file",
+      "gloss": "A malicious executable component disguised with a COM file extension."
+    }
+  ],
+  "relations": [
+    {
+      "head": "НПУ.rar",
+      "type": "contains-file",
+      "tail": "spisok_24.08.2018.com",
+      "evidence": "при активації виконуваних файлів з архіву НПУ.rar виконувана компонента spisok_24.08.2018.com"
+    },
+    {
+      "head": "НПУ.rar",
+      "type": "contains-file",
+      "tail": "НПУ.docx",
+      "evidence": "архів, який містить spisok_24.08.2018.com та НПУ.docx файли"
+    },
+    {
+      "head": "spisok_24.08.2018.com",
+      "type": "unpacks-file",
+      "tail": "Icloud.exe",
+      "evidence": "spisok_24.08.2018.com (ехе файл) автоматично розпаковується на виконувані (Icloud.exe"
+    },
+    {
+      "head": "spisok_24.08.2018.com",
+      "type": "unpacks-file",
+      "tail": "Iclouding.exe",
+      "evidence": "автоматично розпаковується на виконувані (Icloud.exe, Iclouding.exe"
+    },
+    {
+      "head": "spisok_24.08.2018.com",
+      "type": "unpacks-file",
+      "tail": "ipad.system",
+      "evidence": "автоматично розпаковується на виконувані (Icloud.exe, Iclouding.exe, ipad.system)"
+    },
+    {
+      "head": "spisok_24.08.2018.com",
+      "type": "unpacks-file",
+      "tail": "iclouds.cmd",
+      "evidence": "та командні файли (iclouds.cmd, iclouds.cmd)"
+    },
+    {
+      "head": "Iclouding.exe",
+      "type": "communicates-with-c2",
+      "tail": "single-office.ddns.net",
+      "evidence": "передача даних програмою Iclouding.exe до командного серверу single-office.ddns[.]net"
+    },
+    {
+      "head": "single-office.ddns.net",
+      "type": "resolves-to-ip",
+      "tail": "95.142.45.58",
+      "evidence": "на момент аналізу ІР-адреса домену була 95.142.45[.]58"
+    },
+    {
+      "head": "Icloud.exe",
+      "type": "spawns-process",
+      "tail": "cmd.exe",
+      "evidence": "створюється процес Icloud.exe який в свою чергу запускає cmd.exe"
+    },
+    {
+      "head": "Icloud.exe",
+      "type": "spawns-process",
+      "tail": "timeout.exe",
+      "evidence": "який в свою чергу запускає cmd.exe у прихованому режимі та процес timeout.exe"
+    },
+    {
+      "head": "porohman@i.ua",
+      "type": "distributes-malware",
+      "tail": "Pterodo",
+      "evidence": "листи відправляються з електронних адрес porohman@i.ua"
+    },
+    {
+      "head": "porohwoman@i.ua",
+      "type": "distributes-malware",
+      "tail": "Pterodo",
+      "evidence": "листи відправляються з електронних адрес porohman@i.ua та porohwoman@i.ua"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "contains-file",
+      "definition": "Indicates that an archive or container file holds another specified file."
+    },
+    {
+      "name": "unpacks-file",
+      "definition": "Indicates that an executable or dropper extracts or unpacks a payload file onto the system."
+    },
+    {
+      "name": "communicates-with-c2",
+      "definition": "Indicates that a malware component connects to or sends data to a command and control host."
+    },
+    {
+      "name": "resolves-to-ip",
+      "definition": "Indicates that a network domain maps or resolves to a specific IP address."
+    },
+    {
+      "name": "spawns-process",
+      "definition": "Indicates that a process launches another process during execution."
+    },
+    {
+      "name": "distributes-malware",
+      "definition": "Indicates that an entity or address is used to distribute or spread a malware family."
+    }
+  ]
+}

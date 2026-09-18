@@ -1,0 +1,149 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0041",
+      "kind": "threat group",
+      "gloss": "A threat group tracked by CERT-UA associated with mass malware distribution campaigns."
+    },
+    {
+      "name": "RelicRace",
+      "kind": "malware family",
+      "gloss": "A .NET downloader malware designed to fetch, decode, and launch secondary payloads."
+    },
+    {
+      "name": "RelicSource",
+      "kind": "malware family",
+      "gloss": "A .NET installer and loader malware used to decrypt and execute embedded payloads."
+    },
+    {
+      "name": "Formbook",
+      "kind": "malware family",
+      "gloss": "An infostealer and spyware malware family sold on underground forums."
+    },
+    {
+      "name": "Snake Keylogger",
+      "kind": "malware family",
+      "gloss": "A modular .NET-based keylogger and information stealer."
+    },
+    {
+      "name": "OneDrive",
+      "kind": "cloud service",
+      "gloss": "A cloud file storage and synchronization service provided by Microsoft."
+    },
+    {
+      "name": "Telegram",
+      "kind": "messaging service",
+      "gloss": "A cloud-based instant messaging service frequently abused by threat actors for C2 communication."
+    },
+    {
+      "name": "Остаточний платіж.tgz",
+      "kind": "file name",
+      "gloss": "A malicious TGZ archive attached to phishing emails."
+    },
+    {
+      "name": "Остаточний платіж.tar",
+      "kind": "file name",
+      "gloss": "A malicious TAR archive extracted during the infection chain."
+    },
+    {
+      "name": "Остаточний платіж.exe",
+      "kind": "file name",
+      "gloss": "An executable file containing the RelicRace downloader."
+    },
+    {
+      "name": "Mvbsbaoqmoffjfvhqvkpaia.dll",
+      "kind": "file name",
+      "gloss": "A dynamic link library file associated with the RelicSource installer."
+    },
+    {
+      "name": "formbook.exe",
+      "kind": "file name",
+      "gloss": "An executable file containing the Formbook stealer payload."
+    },
+    {
+      "name": "clientes@taximadridclass.com",
+      "kind": "email address",
+      "gloss": "An email address used in malicious phishing email distribution."
+    },
+    {
+      "name": "info@kivanclardokum.com.tr",
+      "kind": "email address",
+      "gloss": "An email address used in malicious phishing email distribution."
+    },
+    {
+      "name": "barbacoalosmartinez.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "RelicRace",
+      "type": "downloads-payload",
+      "tail": "RelicSource",
+      "evidence": "призначений для завантаження (здебільшого з OneDrive), декодування та запуску в пам'яті шкідливої .NET-програми RelicSource"
+    },
+    {
+      "head": "RelicRace",
+      "type": "downloads-from",
+      "tail": "OneDrive",
+      "evidence": "призначений для завантаження (здебільшого з OneDrive)"
+    },
+    {
+      "head": "RelicSource",
+      "type": "executes-payload",
+      "tail": "Formbook",
+      "evidence": "Як пейлоад використовуються програми-стілери, а саме: Formbook та Snake Keylogger"
+    },
+    {
+      "head": "RelicSource",
+      "type": "executes-payload",
+      "tail": "Snake Keylogger",
+      "evidence": "Як пейлоад використовуються програми-стілери, а саме: Formbook та Snake Keylogger"
+    },
+    {
+      "head": "RelicSource",
+      "type": "sends-notifications-to",
+      "tail": "Telegram",
+      "evidence": "відправка нотифікацій до Telegram"
+    },
+    {
+      "head": "Snake Keylogger",
+      "type": "exfiltrates-data-via",
+      "tail": "Telegram",
+      "evidence": "Snake Keylogger (ексфільтрація за допомогою API Telegram)"
+    },
+    {
+      "head": "Остаточний платіж.tgz",
+      "type": "contains-file",
+      "tail": "Остаточний платіж.exe",
+      "evidence": "Архів містить EXE-файл, що класифіковано як .NET-даунлоадер RelicRace"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "downloads-payload",
+      "definition": "The head malware fetches and prepares the tail malware for execution."
+    },
+    {
+      "name": "downloads-from",
+      "definition": "The head entity retrieves content or payloads from the tail hosting or cloud service."
+    },
+    {
+      "name": "executes-payload",
+      "definition": "The head malware or loader unpacks and launches the tail payload."
+    },
+    {
+      "name": "sends-notifications-to",
+      "definition": "The head malware transmits status updates or alerts to the tail messaging platform."
+    },
+    {
+      "name": "exfiltrates-data-via",
+      "definition": "The head malware transmits stolen information using the tail network protocol or platform API."
+    },
+    {
+      "name": "contains-file",
+      "definition": "The head archive or container file encloses the tail file."
+    }
+  ]
+}

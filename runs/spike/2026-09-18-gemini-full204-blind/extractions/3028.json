@@ -1,0 +1,60 @@
+{
+  "entities": [
+    {
+      "name": "Agent Tesla",
+      "kind": "malware family",
+      "gloss": "A .NET-based keylogger, stealer, and remote access trojan used to exfiltrate credentials and system data."
+    },
+    {
+      "name": "RegAsm.exe",
+      "kind": "executable file",
+      "gloss": "A legitimate Microsoft .NET assembly registration utility executed by the malware during infection."
+    },
+    {
+      "name": "AvqOUjZwpiXQ.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable dropped with a pseudorandom name during the initial unpacking stage of Agent Tesla."
+    },
+    {
+      "name": "DynDns.com",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS service used by malware for dynamic command-and-control server resolution."
+    },
+    {
+      "name": "BaDpDF.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain used for HTTP communication and data exfiltration by Agent Tesla."
+    },
+    {
+      "name": "cm.islamabad@chinagrill.co",
+      "kind": "e-mail address",
+      "gloss": "An email address used by Agent Tesla to exfiltrate collected victim data via SMTP."
+    },
+    {
+      "name": "Apple",
+      "kind": "technology company",
+      "gloss": "An American multinational technology company whose software credentials and keychains are targeted by malware."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Agent Tesla",
+      "type": "delivers",
+      "tail": "AvqOUjZwpiXQ.exe",
+      "evidence": "створює виконуваний файл з псевдовипадковою назвою (наприклад AvqOUjZwpiXQ.exe)"
+    },
+    {
+      "head": "Agent Tesla",
+      "type": "communicates-with",
+      "tail": "BaDpDF.com",
+      "evidence": "HTTP протокол, наприклад, “hххp://BaDpDF.com"
+    },
+    {
+      "head": "Agent Tesla",
+      "type": "communicates-with",
+      "tail": "cm.islamabad@chinagrill.co",
+      "evidence": "SMTP протокол – відправляючи дані на поштову адресу cm.islamabad@chinagrill.co"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,138 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0102",
+      "kind": "threat group",
+      "gloss": "A cyberespionage threat group tracked by CERT-UA targeting Ukrainian organizations and individuals."
+    },
+    {
+      "name": "UKR.NET",
+      "kind": "web service",
+      "gloss": "A major Ukrainian internet portal and public email service provider."
+    },
+    {
+      "name": "kyiv-zvern-1707.zip",
+      "kind": "file",
+      "gloss": "A malicious ZIP archive containing an HTML redirect file used in phishing attacks."
+    },
+    {
+      "name": "kyiv-zvern-1707.html",
+      "kind": "file",
+      "gloss": "A malicious HTML file designed to redirect users to a credential-harvesting phishing page."
+    },
+    {
+      "name": "терміново_23_07_2024.zip",
+      "kind": "file",
+      "gloss": "A malicious ZIP archive containing an HTML file used in email-based phishing."
+    },
+    {
+      "name": "терміново_info_23_07_2024.html",
+      "kind": "file",
+      "gloss": "A malicious HTML file used to redirect targets to a fake UKR.NET login page."
+    },
+    {
+      "name": "Терміново 1607.zip",
+      "kind": "file",
+      "gloss": "A malicious ZIP archive used as an email attachment in credential theft operations."
+    },
+    {
+      "name": "Терміново 1607.html",
+      "kind": "file",
+      "gloss": "A malicious HTML redirect file masquerading as urgent correspondence."
+    },
+    {
+      "name": "82.221.139.200",
+      "kind": "ip address",
+      "gloss": "An IP address hosting phishing resources and lure documents."
+    },
+    {
+      "name": "uasystdoc.com",
+      "kind": "domain",
+      "gloss": "A phishing domain used by UAC-0102 to impersonate legitimate services."
+    },
+    {
+      "name": "uaccsnet.com",
+      "kind": "domain",
+      "gloss": "A malicious domain used as infrastructure for credential theft campaigns."
+    },
+    {
+      "name": "ualogaccs.com",
+      "kind": "domain",
+      "gloss": "A phishing domain created to mimic Ukrainian web service login portals."
+    },
+    {
+      "name": "uasettings.com",
+      "kind": "domain",
+      "gloss": "A domain used for malicious credential harvesting operations."
+    },
+    {
+      "name": "uasetukr.com",
+      "kind": "domain",
+      "gloss": "A spoofed domain used to impersonate UKR.NET account settings."
+    },
+    {
+      "name": "uasystnet.com",
+      "kind": "domain",
+      "gloss": "A malicious domain used in UAC-0102 phishing infrastructure."
+    },
+    {
+      "name": "ukainua.com",
+      "kind": "domain",
+      "gloss": "A malicious domain used to host lure documents and phishing pages."
+    },
+    {
+      "name": "ukenlog.com",
+      "kind": "domain",
+      "gloss": "A lookalike domain used by threat actors to steal user credentials."
+    },
+    {
+      "name": "uknetlogin.com",
+      "kind": "domain",
+      "gloss": "A typo-squatted domain mimicking the UKR.NET login interface."
+    },
+    {
+      "name": "ukrsets.com",
+      "kind": "domain",
+      "gloss": "A malicious domain registered to facilitate phishing attacks against UKR.NET users."
+    },
+    {
+      "name": "ukrsett.com",
+      "kind": "domain",
+      "gloss": "A phishing domain simulating UKR.NET configuration and authentication services."
+    },
+    {
+      "name": "ukrstnet.com",
+      "kind": "domain",
+      "gloss": "A deceptive domain used as part of UAC-0102 credential phishing infrastructure."
+    },
+    {
+      "name": "unetset.com",
+      "kind": "domain",
+      "gloss": "A malicious domain associated with cyberattacks targeting Ukrainian email accounts."
+    },
+    {
+      "name": "viddkhpolice@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors to send malicious phishing correspondence."
+    },
+    {
+      "name": "kyivpolice17@ukr.net",
+      "kind": "email address",
+      "gloss": "A fraudulent email address masquerading as Kyiv police to distribute phishing lures."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0102",
+      "type": "impersonates-service",
+      "tail": "UKR.NET",
+      "evidence": "угрупуванням UAC-0102... імітує вебсторінку сервісу UKR.NET"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "impersonates-service",
+      "definition": "The subject threat actor or infrastructure mimics a legitimate service or organization to deceive victims."
+    }
+  ]
+}

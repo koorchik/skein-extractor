@@ -1,0 +1,221 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA у взаємодії з Центром кібернетичної безпеки інформаційно-телекомунікаційних систем військової частини А0334 (ЦКБ ІТС в/ч А0334) вжито заходів з дослідження цілеспрямованої кібератаки, що полягала у спробі ураження шкідливим програмним забезпеченням ЕОМ представників Сил оборони України.</p><p>Так, 22.02.2024 невстановленою особою за допомогою месенджеру Signal серед декількох військовослужбовців розповсюджено XLS-документ "1_ф_5.39-2024.xlsm" з повідомленням про, нібито, проблеми з формуванням звітності. Окрім легітимного макросу, згаданий документ містив додатковий програмний VBA-код, який забезпечував запуск PowerShell-команди, призначеної для завантаження, декодування та виконання PowerShell-сценарію "mob2002.data".</p><p>Завантажений з Github PowerShell-скрипт здійснює модифікацію реєстру операційної системи, зокрема:</p><ul><li>запис основного пейлоаду в base64-кодованому вигляді в гілку "HKEY_CURRENT_USER\SOFTWARE\Microsoft\XboxCache" (значення: "db1".."db27") </li><li>запис декодеру-лаунчеру в base64-кодованому вигляді в гілку "HKEY_CURRENT_USER\SOFTWARE \Microsoft\XboxCache" (значення: "db")</li><li>створення ключа 'xbox' в гілці автозапуску 'Run' зі значенням у вигляді PowerShell-команди "cmd /c start /min "" powershell -windowStyle hidden -c(powershell -windowStyle hidden -enC(gpv -Name 'db' -Path 'HKCU:\SOFTWARE\Microsoft\XboxCache'))", що призначена для запуску декодера, який забезпечить виконання основного пейлоаду</li></ul><p>Зазначений вище основний пейлоад, після декодування, містить черговий PowerShell-скрипт, який здійснить GZIP-декомпресію та запуск шкідливої програми COOKBOX.</p><p>COOKBOX - PowerShell-сценарій, що реалізує функціонал завантаження та виконання PowerShell-командлетів. Для кожної ураженої ЕОМ обчислюється унікальний ідентифікатор з використанням криптографічних перетворень (хеш-функцій SHA256/MD5) на основі комбінації значень імені комп'ютера та серійного номеру диску, який, під час взаємодії з сервером управління, передається в заголовку "X-Cookie" HTTP-запитів. Персистентність бекдору забезпечується відповідним ключем в гілці Run реєстру операційної системи (ОС), який створюється на етапі первинного ураження стороннім PowerShell-скриптом (в т.ч., COOKBOX deployer'ом). Зазвичай, в програмному коді використовуються елементи обфускації: chr-кодування символів, заміна символів (replace()), base64-перетворення, GZIP-компресія.</p><p>Для функціонування інфраструктури серверів управління використовуються сервіси динамічного DNS (наприклад, gotdns.ch, myftp.biz) та Cloudflare Workers.</p><p>Описана активність здійснюється, щонайменше, з осені 2023 року, має точковий характер та відстежується за ідентифікатором UAC-0149.</p><p>З огляду на типовість тактик, технік та процедур, успішна реалізація описаної загрози можлива у відношенні тих ЕОМ, на яких системними адміністраторами (адміністраторами безпеки) ще й досі не налаштовано елементарні безпекові політики, зокрема, блокування спроб запуску утиліт cmd.exe, powershell.exe, mshta.exe, w(c)script.exe, hh.exe та інших як в цілому, так і за умови, якщо батьківським є процес однієї з програм Microsoft Office (наприклад, EXCEL.EXE).</p><p>Зауважимо, що в одному з випадків ураженню ЕОМ вдалося запобігти завдяки завчасно інстальованій типовій для ЗСУ технології захисту (EDR), про необхідність невідкладного встановлення якої було неодноразово наголошено CERT-UA.</p><p>Найбільш актуальна та вичерпна інформація щодо порядку захисту ІКС Сил оборони України, в т.ч, стосовно згаданих технологій, може бути отримана в ЦКБ ІТС в/ч А0334.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">9654451a766b27fb9e678d47094d7dd7&nbsp; &nbsp; 894cd78af8e3ccf3bd19515bb2b60434012fcdaad896d9fde9d49eaa98866eef&nbsp; &nbsp; 1_ф_5.39-2024.xlsm
+32091993b1a864ec259429880d4c2809&nbsp; &nbsp; 5b2cbeec241ea3ce083e2adab5878f8ea982084f9a7674714cd4627f118c182d&nbsp; &nbsp; mob2002.data
+0ff0c9228a98dd55a4ab51ade7bfe10e&nbsp; &nbsp; 9309c2833242182b592d253fcb19c15c625425f614bdd614d1ffbb54f5c25f9a&nbsp; &nbsp; v0.dec.ps1 (COOKBOX)
+df167cd8a13e75585c5aecb6e57a4326&nbsp; &nbsp; d80526421527f63d3b7fdf60b980b31871526c905f9d6d0f4f3c1073b42773ba&nbsp; &nbsp; script_noarch_19.01.2024.cmd
+3d33bcef89039dba97ef243cc193d8a7&nbsp; &nbsp; 1f2057b60a31708fb397c6b27539d8643ae0e8d87cb26cb0256411da14d98c67&nbsp; &nbsp; xps2.ps1 (COOKBOX)
+f4efa1840c2fb39ebf8d6b1325617b3c&nbsp; &nbsp; 383023689bb2af75da5337ae864dd430086e2d7d7855a65b25f7682c344e082b&nbsp; &nbsp; xps3.ps1 (COOKBOX deployer)
+a32eebda67c5de1402b539e4ae51a37b&nbsp; &nbsp; e3b916c2bd7c09a9ecb3737be615b8f4560f1bde495506e3ff67b839a65054b9&nbsp; &nbsp; run.task.save.autorun.step4.ps1.w
+6854d326b3756b92708b5658b2a3313a&nbsp; &nbsp; f0b356b8485b2656da8ae4ecd13b64166da3c446bc0be124aad216b8688aa618&nbsp; &nbsp; data.enc
+5d9ab0fba328c0fb07f1ee1794c702ef&nbsp; &nbsp; fd791cae012145402c8fb903fbe29a91f56cd1c0a3e98203241701dc5f456d83&nbsp; &nbsp; data_nsm.enc
+c2a31573662e0b608f8c83016490822c&nbsp; &nbsp; 3293f76da5fa85d4a2b76a0eab30f11e4d61b81e8b4ad14efffa027d8d5f8aee&nbsp; &nbsp; data2.enc
+52ee3c6259c5aa85ece1037f7d76fd73&nbsp; &nbsp; 7bf2288b72775b7dc4b992d17b5dcbc0d6d6a6b1a049c3ec725b1d1f299bb88a&nbsp; &nbsp; data4.enc
+c4055568bcedad91df2ac5616395a823&nbsp; &nbsp; c630b95cee017b3d2536074ead8278e5415a3e6ff9dc21cd88c59d5d3a11c6dc&nbsp; &nbsp; script_noarch.cmd.enc
+ba1f2511fc30423bdbb183fe33f3dd0f&nbsp; &nbsp; 181210f8f9c779c26da1d9b2075bde0127302ee0e3fca38c9a83f5b1dd8e5d3b&nbsp; &nbsp; mob2005.data
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">HKEY_CURRENT_USER\Environment\XBoxD
+HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\'xbox'
+HKEY_CURRENT_USER\SOFTWARE\Microsoft\XboxCache
+HKEY_CURRENT_USER\SOFTWARE\Microsoft\XboxCache\'db'
+cmd /c start /min "" powershell -windowStyle hidden -c(powershell -windowStyle hidden -enC(gpv -Name 'db' -Path 'HKCU:\SOFTWARE\Microsoft\XboxCache'))
+C:\Windows\System32\cmd.exe /c start /min "" powershell -windowStyle hidden -c (powershell -windowStyle hidden -enc 'ZABvAHsAJAB2ADc[...REDACTED...]BsAHMAZQApADsA')
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">hXXps://shorturl[.]at/uvcpv
+hXXps://github[.]com/kekpelmeshek/testdatasearch/raw/main/mob2002.data
+hXXps://raw.githubusercontent[.]com/kekpelmeshek/testdatasearch/main/mob2002.data
+hXXp://array.myftp[.]biz
+hXXp://bom02.gotdns[.]ch
+hXXp://worker-test-6f41.idv64828.workers[.]dev
+array.myftp[.]biz
+bom02.gotdns[.]ch
+worker-test-6f41.idv64828.workers[.]dev
+34.199.8.144 (DDNS IP)
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Ланцюг ураження</p><p><br></p><p></p><p>Рис.2 Приклад BAT-скрипта, що призначений для запуску COOKBOX</p>
+
+=== RESPONSE (11.9s, in 3978 / out 1659 tok, STOP) ===
+An investigation conducted by CERT-UA and the Cyber Security Center of Military Unit A0334 revealed targeted cyberattacks by threat actor UAC-0149 against the Defense Forces of Ukraine. The threat actor distributed a malicious Excel macro file via the Signal messaging app, which retrieved a secondary PowerShell script (mob2002.data) from GitHub. This script established persistence via the Windows Registry and deployed the PowerShell backdoor COOKBOX, which used dynamic DNS domains and Cloudflare Workers for command-and-control communications.
+
+```json
+{
+  "entities": [
+    {
+      "name": "ЦКБ ІТС в/ч А0334",
+      "kind": "military organization",
+      "gloss": "A cybersecurity center within a military unit of the Armed Forces of Ukraine."
+    },
+    {
+      "name": "Сили оборони України",
+      "kind": "military organization",
+      "gloss": "The combined military and security forces defending the state of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0149",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracking identifier for cyber activity targeting Ukrainian defense entities since autumn 2023."
+    },
+    {
+      "name": "Signal",
+      "kind": "software product",
+      "gloss": "A cross-platform encrypted messaging service."
+    },
+    {
+      "name": "1_ф_5.39-2024.xlsm",
+      "kind": "malicious file",
+      "gloss": "A malicious macro-enabled Excel document used to initiate infection and download payloads."
+    },
+    {
+      "name": "mob2002.data",
+      "kind": "malicious file",
+      "gloss": "A malicious PowerShell script downloaded from GitHub to modify the Windows registry and launch payloads."
+    },
+    {
+      "name": "COOKBOX",
+      "kind": "malware family",
+      "gloss": "A PowerShell-based backdoor capable of downloading and executing PowerShell cmdlets."
+    },
+    {
+      "name": "COOKBOX deployer",
+      "kind": "malware tool",
+      "gloss": "A PowerShell script used to deploy and establish persistence for the COOKBOX backdoor."
+    },
+    {
+      "name": "Github",
+      "kind": "web service",
+      "gloss": "A cloud-based hosting service for software development and version control using Git."
+    },
+    {
+      "name": "Cloudflare Workers",
+      "kind": "cloud service",
+      "gloss": "A serverless application platform provided by Cloudflare."
+    },
+    {
+      "name": "shorturl.at",
+      "kind": "internet domain",
+      "gloss": "A public URL shortening service domain used to redirect to malicious payloads."
+    },
+    {
+      "name": "gotdns.ch",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS service domain utilized for command-and-control infrastructure."
+    },
+    {
+      "name": "myftp.biz",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS service domain utilized for command-and-control infrastructure."
+    },
+    {
+      "name": "array.myftp.biz",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS domain used as command-and-control infrastructure by COOKBOX."
+    },
+    {
+      "name": "bom02.gotdns.ch",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS domain used as command-and-control infrastructure by COOKBOX."
+    },
+    {
+      "name": "worker-test-6f41.idv64828.workers.dev",
+      "kind": "internet domain",
+      "gloss": "A Cloudflare Workers domain used as command-and-control infrastructure by COOKBOX."
+    },
+    {
+      "name": "34.199.8.144",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious dynamic DNS infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0149",
+      "type": "targets",
+      "tail": "Сили оборони України",
+      "evidence": "спробі ураження шкідливим програмним забезпеченням ЕОМ представників Сил оборони України"
+    },
+    {
+      "head": "1_ф_5.39-2024.xlsm",
+      "type": "downloads",
+      "tail": "mob2002.data",
+      "evidence": "призначеної для завантаження, декодування та виконання PowerShell-сценарію \"mob2002.data\""
+    },
+    {
+      "head": "mob2002.data",
+      "type": "hosted-on",
+      "tail": "Github",
+      "evidence": "Завантажений з Github PowerShell-скрипт здійснює модифікацію реєстру"
+    },
+    {
+      "head": "mob2002.data",
+      "type": "deploys",
+      "tail": "COOKBOX",
+      "evidence": "PowerShell-скрипт, який здійснить GZIP-декомпресію та запуск шкідливої програми COOKBOX"
+    },
+    {
+      "head": "COOKBOX deployer",
+      "type": "deploys",
+      "tail": "COOKBOX",
+      "evidence": "на етапі первинного ураження стороннім PowerShell-скриптом (в т.ч., COOKBOX deployer'ом)"
+    },
+    {
+      "head": "UAC-0149",
+      "type": "distributes-via",
+      "tail": "Signal",
+      "evidence": "22.02.2024 невстановленою особою за допомогою месенджеру Signal серед декількох військовослужбовців розповсюджено XLS-документ"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets",
+      "definition": "The subject threat actor focuses attacks against the object victim."
+    },
+    {
+      "name": "downloads",
+      "definition": "The subject file or process initiates the retrieval of the object file from a remote source."
+    },
+    {
+      "name": "hosted-on",
+      "definition": "The subject resource or payload is stored on and served from the object service or host."
+    },
+    {
+      "name": "deploys",
+      "definition": "The subject script or tool drops, installs, or executes the object malware payload."
+    },
+    {
+      "name": "distributes-via",
+      "definition": "The subject entity uses the object application or delivery vector to spread malicious content."
+    }
+  ]
+}
+```

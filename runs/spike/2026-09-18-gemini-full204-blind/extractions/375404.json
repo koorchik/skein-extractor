@@ -1,0 +1,123 @@
+{
+  "entities": [
+    {
+      "name": "TontoTeam (UAC-0018)",
+      "kind": "threat actor",
+      "gloss": "A Chinese state-sponsored advanced persistent threat group targeting various sectors globally."
+    },
+    {
+      "name": "Китай",
+      "kind": "country",
+      "gloss": "A country in East Asia."
+    },
+    {
+      "name": "російська федерація",
+      "kind": "country",
+      "gloss": "A country spanning Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "MS Office Word",
+      "kind": "software product",
+      "gloss": "A word processing software application developed by Microsoft."
+    },
+    {
+      "name": "RoyalRoad",
+      "kind": "exploit builder",
+      "gloss": "A malicious document builder tool frequently used by Chinese cyber espionage groups."
+    },
+    {
+      "name": "Bisonal",
+      "kind": "malware family",
+      "gloss": "A remote access trojan used in cyber espionage campaigns attributed to Chinese threat actors."
+    },
+    {
+      "name": "QuickMute",
+      "kind": "malware family",
+      "gloss": "A downloader malware designed to decrypt and execute payloads in memory."
+    },
+    {
+      "name": "Вниманию.doc",
+      "kind": "file",
+      "gloss": "A malicious RTF document used to exploit Microsoft Word vulnerabilities."
+    },
+    {
+      "name": "17.06.2022_Протокол_МРГ_Подгруппа_ИБ.doc",
+      "kind": "file",
+      "gloss": "A malicious RTF document masquerading as meeting protocol notes."
+    },
+    {
+      "name": "замечания таблица 20.06.2022.doc",
+      "kind": "file",
+      "gloss": "A malicious document used to deliver malware."
+    },
+    {
+      "name": "О_формировании_проекта_ПНС_2022_файл_отображен.doc",
+      "kind": "file",
+      "gloss": "A lure document used to exploit Microsoft Office vulnerabilities."
+    },
+    {
+      "name": "dcnx18pwh.wmf",
+      "kind": "file",
+      "gloss": "An obfuscated file dropped or used during the exploitation chain."
+    },
+    {
+      "name": "dcnx18pwh.exe",
+      "kind": "file",
+      "gloss": "A malicious executable file delivering QuickMute or Bisonal malware."
+    },
+    {
+      "name": "upportteam.lingrevelat.com",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used for command and control communication."
+    },
+    {
+      "name": "lingrevelat.com",
+      "kind": "internet domain",
+      "gloss": "A domain name associated with malicious command and control infrastructure."
+    },
+    {
+      "name": "137.220.176.165",
+      "kind": "ip address",
+      "gloss": "An external IP address associated with malicious infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "TontoTeam (UAC-0018)",
+      "type": "uses-malware",
+      "tail": "Bisonal",
+      "evidence": "Bisonal, як приклад, є інструментом групи TontoTeam (UAC-0018)"
+    },
+    {
+      "head": "TontoTeam (UAC-0018)",
+      "type": "located-in",
+      "tail": "Китай",
+      "evidence": "для угруповань, що пов'язують з Китаєм. Більше того... TontoTeam"
+    },
+    {
+      "head": "RoyalRoad",
+      "type": "delivers",
+      "tail": "Bisonal",
+      "evidence": "білдера RoyalRoad). Як результат, комп'ютер жертви буде уражено шкідливою програмою Bisonal"
+    },
+    {
+      "head": "RoyalRoad",
+      "type": "delivers",
+      "tail": "QuickMute",
+      "evidence": "в одному з випадків використовується завантажувач QuickMute"
+    },
+    {
+      "head": "QuickMute",
+      "type": "communicates-with",
+      "tail": "upportteam.lingrevelat.com",
+      "evidence": "hXXps://upportteam.lingrevelat[.]com/update/v32/default"
+    },
+    {
+      "head": "QuickMute",
+      "type": "communicates-with",
+      "tail": "137.220.176.165",
+      "evidence": "137[.]220.176.165"
+    }
+  ],
+  "newRelationTypes": []
+}

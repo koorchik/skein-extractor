@@ -1,0 +1,133 @@
+{
+  "docId": 40102,
+  "date": "06.05.2022",
+  "title": "Кібератака групи APT28 із застосуванням шкідливої програми CredoMap_v2 (CERT-UA#4622)",
+  "entities": [
+    {
+      "id": "40102:0",
+      "name": "APT28 (UAC-0028)",
+      "kind": "hacking group",
+      "gloss": "A Russian state-sponsored cyber espionage threat group affiliated with Russian military intelligence (GRU).",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "40102:1",
+      "name": "CredoMap_v2",
+      "kind": "malware family",
+      "gloss": "An information stealer malware family designed to harvest and exfiltrate user credentials over HTTP.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "40102:2",
+      "name": "Pipedream",
+      "kind": "cloud service",
+      "gloss": "An integration platform and cloud service used by developers to connect APIs and automate workflows.",
+      "scheme": "S3",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "40102:3",
+      "name": "UkrScanner.rar",
+      "kind": "file",
+      "gloss": "A password-protected RAR archive distributed as a malicious email attachment.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "40102:4",
+      "name": "UkrScanner.exe",
+      "kind": "file",
+      "gloss": "A self-extracting archive executable containing malicious payloads.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "40102:5",
+      "name": "scan.exe",
+      "kind": "file",
+      "gloss": "An executable file containing the CredoMap_v2 information stealer malware.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "40102:6",
+      "name": "SQLite.Interop.dll",
+      "kind": "file",
+      "gloss": "A legitimate dynamic link library supporting SQLite database interactions.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "40102:7",
+      "name": "mariachandran@ginaengg.com",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator of compromise in the phishing campaign.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "40102:8",
+      "name": "69.16.243.33",
+      "kind": "ip address",
+      "gloss": "An IP address identified in email transport headers as an indicator of compromise.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40102:9",
+      "name": "eo2mxtqmeqzafqi.m.pipedream.net",
+      "kind": "internet domain",
+      "gloss": "A Pipedream subdomain used by attackers to receive exfiltrated authentication credentials.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "40102:10",
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "APT28 (UAC-0028)",
+      "type": "uses-malware",
+      "tail": "CredoMap_v2",
+      "evidence": "Активність асоційовано з діяльністю групи APT28 (UAC-0028)."
+    },
+    {
+      "head": "UkrScanner.rar",
+      "type": "delivers",
+      "tail": "UkrScanner.exe",
+      "evidence": "згаданий архів містить одноіменний SFX-файл"
+    },
+    {
+      "head": "UkrScanner.exe",
+      "type": "delivers",
+      "tail": "scan.exe",
+      "evidence": "SFX-файл, який, у свою чергу, містить шкідливу програму CredoMap_v2"
+    },
+    {
+      "head": "CredoMap_v2",
+      "type": "communicates-with",
+      "tail": "eo2mxtqmeqzafqi.m.pipedream.net",
+      "evidence": "викрадені автентифікаційні дані надсилаються на веб-ресурс, розгорнутий на платформі Pipedream"
+    }
+  ],
+  "unclassified": []
+}

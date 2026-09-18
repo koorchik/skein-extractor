@@ -1,0 +1,190 @@
+{
+  "docId": 14624,
+  "date": "03.08.2021",
+  "title": "Виявлено шахрайські дії з викрадення даних платіжних карток громадян України",
+  "entities": [
+    {
+      "id": "14624:0",
+      "name": "НКЦК РНБО",
+      "kind": "government organization",
+      "gloss": "A Ukrainian state body coordinating cybersecurity activities under the National Security and Defense Council.",
+      "scheme": "S5",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "14624:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state located in Eastern Europe.",
+      "scheme": "S4",
+      "category": "Country",
+      "role": "related"
+    },
+    {
+      "id": "14624:2",
+      "name": "FaceBook",
+      "kind": "software product",
+      "gloss": "An online social media and networking service owned by Meta Platforms.",
+      "scheme": "S2",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "14624:3",
+      "name": "airmauritiusticket.com",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious domain used in a financial phishing campaign.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "14624:4",
+      "name": "РФ",
+      "kind": "country",
+      "gloss": "A transcontinental sovereign state located in Eastern Europe and Northern Asia.",
+      "scheme": "S4",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "14624:5",
+      "name": "92.63.103.235",
+      "kind": "ip address",
+      "gloss": "An IP address located in the Russian Federation used to host phishing infrastructure.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "14624:6",
+      "name": "gangbang6.monster",
+      "kind": "uniform resource locator",
+      "gloss": "A domain used to host fraudulent surveys to lure victims in a phishing scheme.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "14624:7",
+      "name": "CloudFlare",
+      "kind": "software vendor",
+      "gloss": "An American web infrastructure and website security company.",
+      "scheme": "S3",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "14624:8",
+      "name": "great-surveys.top",
+      "kind": "uniform resource locator",
+      "gloss": "A phishing domain used to host fraudulent survey questionnaires.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "14624:9",
+      "name": "165.227.174.93",
+      "kind": "ip address",
+      "gloss": "An IP address in Germany used to host fraudulent survey and payment pages.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "14624:10",
+      "name": "Німеччина",
+      "kind": "country",
+      "gloss": "A sovereign country located in Central Europe.",
+      "scheme": "S4",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "14624:11",
+      "name": "accept-pay.top",
+      "kind": "uniform resource locator",
+      "gloss": "A phishing domain used to steal victims' payment card details.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "14624:12",
+      "name": "Кіберполіція",
+      "kind": "government organization",
+      "gloss": "The specialized cybercrime division of the National Police of Ukraine.",
+      "scheme": "S5",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "14624:13",
+      "name": "Національний банк України",
+      "kind": "government organization",
+      "gloss": "The central bank of Ukraine responsible for financial system regulation and payment security.",
+      "scheme": "S5",
+      "category": "Government Body",
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "НКЦК РНБО",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "НКЦК РНБО вживаються заходи з блокування шахрайських ресурсів"
+    },
+    {
+      "head": "92.63.103.235",
+      "type": "located-in",
+      "tail": "РФ",
+      "evidence": "розміщено в РФ за ІР-адресою 92.63.103.235"
+    },
+    {
+      "head": "92.63.103.235",
+      "type": "hosts",
+      "tail": "airmauritiusticket.com",
+      "evidence": "Фішинговий сайт airmauritiusticket.com розміщено в РФ за ІР-адресою 92.63.103.235"
+    },
+    {
+      "head": "airmauritiusticket.com",
+      "type": "redirects-to",
+      "tail": "gangbang6.monster",
+      "evidence": "буде здійснено перенаправлення на інший сайт hХХps://gangbang6.monster/m4hp2k"
+    },
+    {
+      "head": "165.227.174.93",
+      "type": "located-in",
+      "tail": "Німеччина",
+      "evidence": "ІР-адреса 165.227.174.93, Німеччина"
+    },
+    {
+      "head": "165.227.174.93",
+      "type": "hosts",
+      "tail": "great-surveys.top",
+      "evidence": "сайт hХХps://great-surveys.top/internal-account.php, ІР-адреса 165.227.174.93"
+    },
+    {
+      "head": "165.227.174.93",
+      "type": "hosts",
+      "tail": "accept-pay.top",
+      "evidence": "сайт hххps://accept-pay.top/... який знаходиться на тій же ІР-адресі"
+    },
+    {
+      "head": "Кіберполіція",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "звернутися до Кіберполіції"
+    },
+    {
+      "head": "Національний банк України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "порадами платіжної безпеки Національного банку України"
+    }
+  ],
+  "unclassified": []
+}

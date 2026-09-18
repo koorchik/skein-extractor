@@ -1,0 +1,115 @@
+{
+  "docId": 4492467,
+  "date": "28.04.2023",
+  "title": "Кібератака групи APT28: розповсюдження електронних листів з \"інструкціями\" щодо \"оновлення операційної системи\" (CERT-UA#6562)",
+  "entities": [
+    {
+      "id": "4492467:0",
+      "name": "APT28",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group associated with the GRU.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "4492467:1",
+      "name": "державні органи України",
+      "kind": "government sector",
+      "gloss": "State and government bodies and agencies of Ukraine.",
+      "scheme": "S6",
+      "category": "Sector",
+      "role": "target"
+    },
+    {
+      "id": "4492467:2",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country located in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "4492467:3",
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A family of proprietary graphical operating systems developed by Microsoft.",
+      "scheme": "S4",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4492467:4",
+      "name": "PowerShell",
+      "kind": "command-line tool",
+      "gloss": "A task automation and configuration management framework developed by Microsoft.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "4492467:5",
+      "name": "Mocky",
+      "kind": "web service",
+      "gloss": "An online platform for mocking HTTP APIs and testing web applications.",
+      "scheme": null,
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4492467:6",
+      "name": "run.mocky.io",
+      "kind": "internet domain",
+      "gloss": "A domain endpoint associated with the Mocky API simulation platform.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4492467:7",
+      "name": "mockbin.org",
+      "kind": "internet domain",
+      "gloss": "A public web domain used to mock, log, and inspect HTTP requests.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4492467:8",
+      "name": "146.70.105.61",
+      "kind": "ip address",
+      "gloss": "An IP address observed as network infrastructure in the reported malicious campaign.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4492467:9",
+      "name": "77.75.78.125",
+      "kind": "ip address",
+      "gloss": "An IP address observed as network infrastructure in the reported malicious campaign.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "APT28",
+      "type": "attacks",
+      "tail": "державні органи України",
+      "evidence": "розповсюдження серед державних органів України... Активність здійснюється групою APT28."
+    },
+    {
+      "head": "державні органи України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "державних органів України"
+    }
+  ],
+  "unclassified": [
+    "4492467:4",
+    "4492467:5"
+  ]
+}

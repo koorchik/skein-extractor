@@ -1,0 +1,91 @@
+{
+  "docId": 2697,
+  "date": "04.02.2019",
+  "title": "Архів листування російської терористки М.Колєди",
+  "entities": [
+    {
+      "id": "2697:0",
+      "name": "органів державної влади",
+      "kind": "government sector",
+      "gloss": "State government authorities targeted by cyber attacks and phishing campaigns.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2697:1",
+      "name": "Архів листування російської терористки М.Колєди.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file used as a lure in a phishing campaign.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2697:2",
+      "name": "hxxp://antination.kherson[.]ua/nono/In%20the%20archive%20of%20more%20than%207%20dialogues-is-a-terrorist.exe",
+      "kind": "url",
+      "gloss": "A malicious URL used to distribute an executable payload.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "2697:3",
+      "name": "antination.kherson.ua",
+      "kind": "domain name",
+      "gloss": "A domain name used for phishing URLs and sender email addresses.",
+      "scheme": null,
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "2697:4",
+      "name": "185.234.176.14",
+      "kind": "ip address",
+      "gloss": "An IP address identified as the sending client in phishing email headers.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "2697:5",
+      "name": "stenislavboika@antination.kherson.ua",
+      "kind": "email address",
+      "gloss": "A sender email address used to distribute phishing emails.",
+      "scheme": null,
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "2697:6",
+      "name": "mx-out-14.default-host.net",
+      "kind": "hostname",
+      "gloss": "A mail server hostname observed in the HELO string of phishing email headers.",
+      "scheme": null,
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "hxxp://antination.kherson[.]ua/nono/In%20the%20archive%20of%20more%20than%207%20dialogues-is-a-terrorist.exe",
+      "type": "hosted-on-ip",
+      "tail": "antination.kherson.ua",
+      "evidence": "hxxp://antination.kherson[.]ua/nono/In%20the%20archive%20of%20more%20than%207%20dialogues-is-a-terrorist.exe"
+    },
+    {
+      "head": "stenislavboika@antination.kherson.ua",
+      "type": "originates-from-ip",
+      "tail": "185.234.176.14",
+      "evidence": "client-ip=185.234.176.14; envelope-from=stenislavboika@antination.kherson.ua"
+    }
+  ],
+  "unclassified": [
+    "2697:0",
+    "2697:3",
+    "2697:4",
+    "2697:5",
+    "2697:6"
+  ]
+}

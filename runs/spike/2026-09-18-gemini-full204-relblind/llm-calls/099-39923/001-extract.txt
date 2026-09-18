@@ -1,0 +1,406 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація:</strong></p><p>Урядовою командою реагування на комп’ютерні надзвичайні події України CERT-UA у тісній взаємодії з фахівцями Національного банку України (CSIRT-NBU) вжито заходів з дослідження DDoS-атак, для реалізації яких зловмисники розміщують шкідливий JavaScript-код (BrownFlood) у структурі веб-сторінок та файлах скомпрометованих веб-сайтів (переважно, під управлінням WordPress), в результаті чого обчислювальні ресурси комп'ютерів відвідувачів таких веб-сайтів використовуються для генерації аномальної кількості запитів до об'єктів атаки, URL-адреси яких статично визначено в шкідливому JavaScript-коді.</p><p>Згаданий шкідливий JavaScript-код може бути розміщено в структурі штатних файлів веб-сайту (HTML, JavaScript тощо), в тому числі, в base64-кодованому вигляді. На рис.1-3 наведено відповідні приклади.</p><p><br></p><p></p><p>Рис.1</p><p><br></p><p></p><p>Рис.2</p><p><br></p><p></p><p>Рис.3</p><p><br></p><p>Для виявлення аналогічної до згаданої аномальної активності в журнальних файлах веб-серверу слід звернути увагу на події з кодом відповіді 404 та, за умови їх нештатної кількості, скорелювати їх зі значеннями HTTP-заголовку "Referer", що буде містити адресу веб-ресурсу, який ініціював відповідний запит (Рис.4). Виходячи з дослідженої версії BrownFlood, URI формується функцією Math.random() та матиме вигляд, подібний до того, що відображено на рис.2. Такий шаблон також можна використовувати для пошуку із застосуванням регулярних виразів, проте, згадана особливість може бути змінена зловмисниками в будь-який момент.</p><p><br></p><p></p><p>Рис.4</p><p><br></p><p>Невичерпний перелік скомпрометованих веб-сайтів, в структурі яких міститься код BrownFlood, наведено в розділі "Індикатори компрометації". Правила Yara для виявлення згаданої шкідливої програми наведено в розділі "Засоби виявлення загрози".</p><p>CERT-UA вжито заходів з інформування про загрозу власників веб-сайтів, а також відповідних реєстраторів доменних імен та хостинг-провайдерів.</p><p>Активність відстежується за ідентифікатором UAC-0101.</p><p><br></p><p><strong>Індикатори компрометації:</strong></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">hxxp://cmtheodor[.]be
+hxxp://staystrongjewels[.]com
+hxxp://kesp[.]cl
+hxxp://moskeet[.]com
+hxxp://timeandbright[.]com
+hxxp://winchconstruction[.]com
+hxxp://nejsemlama[.]cz
+hxxp://mitraseo[.]hol[.]es
+hxxp://blog[.]gocon[.]in
+hxxp://anniversarygiftsforcouples[.]com
+hxxp://granitecsinks[.]ca
+hxxp://easternexecutiveclub[.]com
+hxxp://economiquity[.]org
+hxxp://enlamentedeunasesor[.]com
+hxxp://fan-guy[.]com
+hxxp://garagemusicschool[.]it
+hxxp://iforma[.]es
+hxxp://inter-webservices[.]com
+hxxp://karunadana[.]org
+hxxp://pius-studio[.]at
+hxxp://ludepa[.]ec
+hxxp://e-wwg[.]com
+hxxp://brunoboys[.]net
+hxxp://lesrochersblancs[.]com
+hxxp://lonelyatthetop[.]com
+hxxp://sea-dobbiaco.bz[.]it
+hxxp://gopoppers[.]com
+hxxp://aspe[.]ro
+hxxp://podologaneri[.]it
+hxxp://cuts-international[.]org
+hxxp://texlidia[.]com
+hxxp://programasparapc[.]net
+hxxp://hamnavard.sharif[.]ir/wp-content/plugins/visitors-traffic-real-time-statistics/js/front.js?ver=5.6.8
+hxxps://xcasinobonuses[.]net/wp-content/themes/xcasinobonuses/js/bootstrap.min.js
+hxxps://olei[.]ro/wp-content/plugins/translatepress-multilingual/assets/js/trp-frontend-compatibility.js
+hxxps://floorfix.com[.]au/wp-content/themes/evolve/library/media/js/parallax/parallax.js?ver=5.1.13
+</pre><p><br></p><p><strong>Рекомендації:</strong></p><p>1. Вжити заходів з виявлення та видалення шкідливого JavaScript-коду.</p><p>2. Забезпечити оновлення та підтримку в актуальному стані систем управління контентом (CMS) веб-сайтів.</p><p>3. Обмежити доступ до сторінок управління веб-сайтами.</p><p><br></p><p><strong>Засоби виявлення загрози:</strong></p><p><em>Yara:</em></p><pre class="ql-syntax" spellcheck="false">rule MAL_BrownFlood_1
+{
+&nbsp;meta:
+&nbsp;&nbsp;description = "To detect BrownFlood JavaScript DDoS implant"
+&nbsp;&nbsp;author = "CERT-UA"
+&nbsp;&nbsp;created = "2022-04-27"
+&nbsp;&nbsp;version = 2
+
+&nbsp;strings:
+&nbsp;&nbsp;$s1 = "://"
+&nbsp;&nbsp;$s2 = " fetch("
+
+&nbsp;&nbsp;$f1 = "AbortController()"
+&nbsp;&nbsp;$f2 = "Math.random()"
+&nbsp;&nbsp;$f3 = "await "
+&nbsp;&nbsp;$f4 = ".shift("
+&nbsp;&nbsp;$f5 = ".push("
+
+&nbsp;&nbsp;$m1 = "GET"
+&nbsp;&nbsp;$m2 = "no-cors"
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;$a1 = "fetchWithTimeout"
+&nbsp;&nbsp;$a2 = "CONCURRENCY_LIMIT"
+&nbsp;&nbsp;$a3 = "flood"
+&nbsp;&nbsp;
+&nbsp;condition:
+&nbsp;&nbsp;(
+&nbsp;&nbsp;&nbsp;all of ($s*) and
+&nbsp;&nbsp;&nbsp;for all of ($f*): (# == 1) and
+&nbsp;&nbsp;&nbsp;all of ($m*)
+&nbsp;&nbsp;) or
+&nbsp;&nbsp;(
+&nbsp;&nbsp;&nbsp;all of ($s*) and
+&nbsp;&nbsp;&nbsp;2 of ($a*)
+&nbsp;&nbsp;)
+}
+
+rule MAL_BrownFlood_2
+{
+&nbsp;meta:
+&nbsp;&nbsp;description = "To detect BrownFlood JavaScript DDoS implant (base64 encoded)"
+&nbsp;&nbsp;author = "CERT-UA"
+&nbsp;&nbsp;created = "2022-04-27"
+&nbsp;&nbsp;version = 2
+
+&nbsp;strings:
+&nbsp;&nbsp;$s1 = "http://" base64
+&nbsp;&nbsp;$s2 = "https://" base64
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;$i = " fetch(" base64
+
+&nbsp;&nbsp;$f1 = "AbortController()" base64
+&nbsp;&nbsp;$f2 = "Math.random()" base64
+&nbsp;&nbsp;$f3 = "await " base64
+&nbsp;&nbsp;$f4 = ".shift(" base64
+&nbsp;&nbsp;$f5 = ".push(" base64
+
+&nbsp;&nbsp;$m1 = "GET" base64
+&nbsp;&nbsp;$m2 = "no-cors" base64
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;$a1 = "fetchWithTimeout" base64
+&nbsp;&nbsp;$a2 = "CONCURRENCY_LIMIT" base64
+&nbsp;&nbsp;$a3 = "flood" base64
+&nbsp;&nbsp;
+&nbsp;condition:
+&nbsp;&nbsp;(
+&nbsp;&nbsp;&nbsp;any of ($s*) and
+&nbsp;&nbsp;&nbsp;$i and
+&nbsp;&nbsp;&nbsp;for all of ($f*): (# &lt; 6) and
+&nbsp;&nbsp;&nbsp;all of ($m*)
+&nbsp;&nbsp;)
+&nbsp;&nbsp;or
+&nbsp;&nbsp;(
+&nbsp;&nbsp;&nbsp;any of ($s*) and
+&nbsp;&nbsp;&nbsp;$i and
+&nbsp;&nbsp;&nbsp;2 of ($a*)
+&nbsp;&nbsp;)
+}
+</pre>
+
+=== RESPONSE (8.0s, in 3043 / out 2494 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Національного банку України",
+      "kind": "central bank",
+      "gloss": "The central bank of Ukraine responsible for monetary policy and financial system oversight."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "CSIRT-NBU",
+      "kind": "csirt",
+      "gloss": "The Computer Security Incident Response Team of the National Bank of Ukraine."
+    },
+    {
+      "name": "BrownFlood",
+      "kind": "malware",
+      "gloss": "A malicious JavaScript implant used to perform distributed denial-of-service (DDoS) attacks from infected websites."
+    },
+    {
+      "name": "WordPress",
+      "kind": "software product",
+      "gloss": "A widely used open-source content management system."
+    },
+    {
+      "name": "UAC-0101",
+      "kind": "threat actor",
+      "gloss": "A threat activity cluster tracked by CERT-UA associated with DDoS attacks using JavaScript implants."
+    },
+    {
+      "name": "hxxp://cmtheodor[.]be",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://staystrongjewels[.]com",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://kesp[.]cl",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://moskeet[.]com",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://timeandbright[.]com",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://winchconstruction[.]com",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://nejsemlama[.]cz",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://mitraseo[.]hol[.]es",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://blog[.]gocon[.]in",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://anniversarygiftsforcouples[.]com",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://granitecsinks[.]ca",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://easternexecutiveclub[.]com",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://economiquity[.]org",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://enlamentedeunasesor[.]com",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://fan-guy[.]com",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://garagemusicschool[.]it",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://iforma[.]es",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://inter-webservices[.]com",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://karunadana[.]org",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://pius-studio[.]at",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://ludepa[.]ec",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://e-wwg[.]com",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://brunoboys[.]net",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://lesrochersblancs[.]com",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://lonelyatthetop[.]com",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://sea-dobbiaco.bz[.]it",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://gopoppers[.]com",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://aspe[.]ro",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://podologaneri[.]it",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://cuts-international[.]org",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://texlidia[.]com",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://programasparapc[.]net",
+      "kind": "url",
+      "gloss": "A compromised website URL hosting malicious JavaScript code."
+    },
+    {
+      "name": "hxxp://hamnavard.sharif[.]ir/wp-content/plugins/visitors-traffic-real-time-statistics/js/front.js?ver=5.6.8",
+      "kind": "url",
+      "gloss": "A compromised script URL containing malicious JavaScript code."
+    },
+    {
+      "name": "hxxps://xcasinobonuses[.]net/wp-content/themes/xcasinobonuses/js/bootstrap.min.js",
+      "kind": "url",
+      "gloss": "A compromised script URL containing malicious JavaScript code."
+    },
+    {
+      "name": "hxxps://olei[.]ro/wp-content/plugins/translatepress-multilingual/assets/js/trp-frontend-compatibility.js",
+      "kind": "url",
+      "gloss": "A compromised script URL containing malicious JavaScript code."
+    },
+    {
+      "name": "hxxps://floorfix.com[.]au/wp-content/themes/evolve/library/media/js/parallax/parallax.js?ver=5.1.13",
+      "kind": "url",
+      "gloss": "A compromised script URL containing malicious JavaScript code."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CSIRT-NBU",
+      "type": "unit-of",
+      "tail": "Національного банку України",
+      "evidence": "фахівцями Національного банку України (CSIRT-NBU)"
+    },
+    {
+      "head": "Національного банку України",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "Національного банку України"
+    },
+    {
+      "head": "UAC-0101",
+      "type": "associated-with-malware",
+      "tail": "BrownFlood",
+      "evidence": "код BrownFlood... Активність відстежується за ідентифікатором UAC-0101."
+    },
+    {
+      "head": "BrownFlood",
+      "type": "injected-into-cms",
+      "tail": "WordPress",
+      "evidence": "розміщують шкідливий JavaScript-код (BrownFlood) у структурі веб-сторінок... скомпрометованих веб-сайтів (переважно, під управлінням WordPress)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "unit-of",
+      "definition": "Identifies an operational subunit or departmental team within a parent organization."
+    },
+    {
+      "name": "located-in",
+      "definition": "Indicates the country or geographic area where an entity is established or based."
+    },
+    {
+      "name": "associated-with-malware",
+      "definition": "Connects a threat activity cluster or actor to a malware family or tool they deploy."
+    },
+    {
+      "name": "injected-into-cms",
+      "definition": "Indicates that a malicious script or payload is embedded into websites running a specific content management system."
+    }
+  ]
+}

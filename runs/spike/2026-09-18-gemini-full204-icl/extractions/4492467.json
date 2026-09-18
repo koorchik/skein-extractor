@@ -1,0 +1,124 @@
+{
+  "entities": [
+    {
+      "name": "APT28",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage threat group associated with the GRU."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state located in Eastern Europe."
+    },
+    {
+      "name": "Windows",
+      "kind": "software product",
+      "gloss": "A family of proprietary operating systems developed and maintained by Microsoft."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "Mocky",
+      "kind": "software product",
+      "gloss": "A public web service for mocking HTTP APIs and handling web requests."
+    },
+    {
+      "name": "outlook.com",
+      "kind": "domain name",
+      "gloss": "A public email and personal information management domain operated by Microsoft."
+    },
+    {
+      "name": "mockbin.org",
+      "kind": "domain name",
+      "gloss": "An internet domain used for mocking and logging HTTP requests."
+    },
+    {
+      "name": "run.mocky.io",
+      "kind": "domain name",
+      "gloss": "A subdomain of the Mocky service used to simulate API responses."
+    },
+    {
+      "name": "146.70.105.61",
+      "kind": "ip address",
+      "gloss": "An IP address associated with network infrastructure observed in the incident."
+    },
+    {
+      "name": "77.75.78.125",
+      "kind": "ip address",
+      "gloss": "An IP address identified in email transport headers during the campaign."
+    },
+    {
+      "name": "https://www.catalog.update.microsoft.com/scopedviewinline.aspx?updateid=a4b6625c-226e-4dbc-baec-1dbd854b8015",
+      "kind": "uniform resource locator",
+      "gloss": "A Microsoft Update Catalog URL referenced in PowerShell commands."
+    },
+    {
+      "name": "http://mockbin.org/bin/4aa17a07-7635-4ee0-9f3a-449fcd91f342",
+      "kind": "uniform resource locator",
+      "gloss": "A Mockbin API endpoint used for staging payloads or exfiltration."
+    },
+    {
+      "name": "http://mockbin.org/bin/e8bfd045-2b14-4afc-9372-b723f7d76918",
+      "kind": "uniform resource locator",
+      "gloss": "A Mockbin API endpoint used for staging payloads or exfiltration."
+    },
+    {
+      "name": "http://mockbin.org/bin/b8427b58-7497-46cd-a5b2-6ff6a40b4592",
+      "kind": "uniform resource locator",
+      "gloss": "A Mockbin API endpoint used for staging payloads or exfiltration."
+    },
+    {
+      "name": "http://run.mocky.io/v3/1e88179a-3105-4a5c-9eb3-aebea36e9c21",
+      "kind": "uniform resource locator",
+      "gloss": "A Mocky API endpoint used to download a malicious PowerShell script."
+    },
+    {
+      "name": "http://run.mocky.io/v3/3b44f33d-b6e5-4ec6-b120-99b6ac52f74b",
+      "kind": "uniform resource locator",
+      "gloss": "A Mocky API endpoint used to download a malicious PowerShell script."
+    },
+    {
+      "name": "http://run.mocky.io/v3/a4b6625c-226e-4dbc-baec-1dbd854b8015",
+      "kind": "uniform resource locator",
+      "gloss": "A Mocky API endpoint used in malicious operations."
+    },
+    {
+      "name": "http://run.mocky.io/v3/acea62da-ca05-46d1-bb80-0b036af7467c",
+      "kind": "uniform resource locator",
+      "gloss": "A Mocky API endpoint used in malicious operations."
+    },
+    {
+      "name": "http://run.mocky.io/v3/ef206b51-4cf4-4c93-90bf-1e66673315b0",
+      "kind": "uniform resource locator",
+      "gloss": "A Mocky API endpoint used to download a malicious PowerShell script."
+    },
+    {
+      "name": "http://run.mocky.io/v3/ef4c7798-fc09-42cd-8431-91a22d5728d9",
+      "kind": "uniform resource locator",
+      "gloss": "A Mocky API endpoint used in malicious operations."
+    },
+    {
+      "name": "http://run.mocky.io/v3/a261411d-b869-4877-86f5-307e32ed6afa",
+      "kind": "uniform resource locator",
+      "gloss": "A Mocky API endpoint used in malicious operations."
+    }
+  ],
+  "relations": [
+    {
+      "head": "APT28",
+      "type": "uses",
+      "tail": "PowerShell",
+      "evidence": "виконання PowerShell-команди... Активність здійснюється групою APT28"
+    },
+    {
+      "head": "APT28",
+      "type": "uses",
+      "tail": "Mocky",
+      "evidence": "API сервісу Mocky... Активність здійснюється групою APT28"
+    }
+  ],
+  "newRelationTypes": []
+}

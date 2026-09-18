@@ -1,0 +1,115 @@
+{
+  "entities": [
+    {
+      "name": "CSIRT-NBU",
+      "kind": "incident response team",
+      "gloss": "The computer security incident response team of the National Bank of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "SuperOps RMM",
+      "kind": "software product",
+      "gloss": "A legitimate remote monitoring and management software tool leveraged for unauthorized access."
+    },
+    {
+      "name": "Dropbox",
+      "kind": "cloud storage service",
+      "gloss": "A cloud-based file hosting and storage platform used to distribute malicious files."
+    },
+    {
+      "name": "PyInstaller",
+      "kind": "software tool",
+      "gloss": "A program that freezes Python applications into stand-alone executables."
+    },
+    {
+      "name": "Minesweeper",
+      "kind": "software product",
+      "gloss": "A classic computer puzzle game whose Python source code was embedded into payloads."
+    },
+    {
+      "name": "anotepad.com",
+      "kind": "web service",
+      "gloss": "An online notepad service abused to host encoded Python scripts."
+    },
+    {
+      "name": "Європа",
+      "kind": "geographic region",
+      "gloss": "A continent comprising multiple European nations targeted by threat actors."
+    },
+    {
+      "name": "США",
+      "kind": "country",
+      "gloss": "A country primarily located in North America."
+    },
+    {
+      "name": "superops.com",
+      "kind": "internet domain",
+      "gloss": "A legitimate internet domain associated with the SuperOps RMM platform."
+    },
+    {
+      "name": "superops.ai",
+      "kind": "internet domain",
+      "gloss": "A legitimate internet domain associated with the SuperOps RMM service."
+    },
+    {
+      "name": "UAC-0188",
+      "kind": "threat actor",
+      "gloss": "A cyber threat group tracked by CERT-UA targeting organizations with remote access tools."
+    },
+    {
+      "name": "patient-docs-mail.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain used in cyberattack infrastructure."
+    },
+    {
+      "name": "support2@patient-docs-mail.com",
+      "kind": "e-mail address",
+      "gloss": "An email address associated with the malicious campaign infrastructure."
+    },
+    {
+      "name": "acmaiiykmm@protonmail.com",
+      "kind": "e-mail address",
+      "gloss": "An encrypted email address associated with the malicious campaign."
+    },
+    {
+      "name": "yemmyusa.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified in the incident indicators."
+    },
+    {
+      "name": "Медичні_Аналізи_від_20.05.2024.scr",
+      "kind": "malware payload",
+      "gloss": "A malicious SCR executable used to initiate the infection chain."
+    },
+    {
+      "name": "Lexical Analysis Software Ltd",
+      "kind": "company",
+      "gloss": "A software company referenced in host-based artifacts."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CSIRT-NBU",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Спільними зусиллями CSIRT-NBU та CERT-UA"
+    },
+    {
+      "head": "UAC-0188",
+      "type": "attacks",
+      "tail": "Україна",
+      "evidence": "кібератаку, спрямовану на отримання несанкціонованого віддаленого доступу до ЕОМ українських організацій"
+    },
+    {
+      "head": "UAC-0188",
+      "type": "attacks",
+      "tail": "США",
+      "evidence": "імена яких містили назви фінансових та страхових установ Європи і США"
+    }
+  ],
+  "newRelationTypes": []
+}

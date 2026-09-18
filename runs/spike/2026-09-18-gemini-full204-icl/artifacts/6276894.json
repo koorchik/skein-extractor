@@ -1,0 +1,319 @@
+{
+  "docId": 6276894,
+  "date": "28.12.2023",
+  "title": "APT28: від первинного ураження до створення загроз для контролеру домену за годину (CERT-UA#8399)",
+  "entities": [
+    {
+      "id": "6276894:0",
+      "name": "APT28",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group associated with the GRU.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6276894:1",
+      "name": "MASEPIE",
+      "kind": "malware",
+      "gloss": "A Python-based malware downloader and command execution tool.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "6276894:2",
+      "name": "STEELHOOK",
+      "kind": "malware",
+      "gloss": "A PowerShell script designed to steal browser credentials and DPAPI master keys.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6276894:3",
+      "name": "OCEANMAP",
+      "kind": "malware",
+      "gloss": "A C#-based backdoor utilizing IMAP email communication for command and control.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "6276894:4",
+      "name": "OPENSSH",
+      "kind": "software product",
+      "gloss": "An open-source suite of secure networking utilities based on the SSH protocol.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6276894:5",
+      "name": "IMPACKET",
+      "kind": "software product",
+      "gloss": "A collection of Python classes for working with network protocols, frequently abused by attackers.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6276894:6",
+      "name": "SMBEXEC",
+      "kind": "software product",
+      "gloss": "A post-exploitation tool used to execute commands remotely on Windows systems via SMB.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6276894:7",
+      "name": "Python",
+      "kind": "software product",
+      "gloss": "A high-level general-purpose programming language.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6276894:8",
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6276894:9",
+      "name": "Chrome",
+      "kind": "software product",
+      "gloss": "A cross-platform web browser developed by Google.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6276894:10",
+      "name": "Edge",
+      "kind": "software product",
+      "gloss": "A cross-platform web browser developed by Microsoft.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6276894:11",
+      "name": "Client.py",
+      "kind": "computer file",
+      "gloss": "A Python script implementing the core functionality of MASEPIE malware.",
+      "scheme": "S11",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6276894:12",
+      "name": "2.ps1",
+      "kind": "computer file",
+      "gloss": "A PowerShell script containing the STEELHOOK malware.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6276894:13",
+      "name": "VMSearch.exe",
+      "kind": "computer file",
+      "gloss": "An executable file containing the OCEANMAP backdoor.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6276894:14",
+      "name": "VMSearch.sfx.exe",
+      "kind": "computer file",
+      "gloss": "A self-extracting archive executable dropped during malicious activities.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6276894:15",
+      "name": "VMSearch.url",
+      "kind": "computer file",
+      "gloss": "An internet shortcut file used to achieve persistence for OCEANMAP.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6276894:16",
+      "name": "SystemUpdate.lnk",
+      "kind": "computer file",
+      "gloss": "A Windows shortcut file used to establish persistence for MASEPIE.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6276894:17",
+      "name": "194.126.178.8",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious files and command infrastructure.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "6276894:18",
+      "name": "88.209.251.6",
+      "kind": "ip address",
+      "gloss": "An IP address used for SSH tunneling and command-and-control communication.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6276894:19",
+      "name": "74.124.219.71",
+      "kind": "ip address",
+      "gloss": "An IP address associated with OCEANMAP command-and-control infrastructure.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6276894:20",
+      "name": "173.239.196.66",
+      "kind": "ip address",
+      "gloss": "An IP address identified as the originating IP in malicious email delivery.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6276894:21",
+      "name": "jrb@bahouholdings.com",
+      "kind": "email address",
+      "gloss": "An email address compromised and used for OCEANMAP IMAP command and control.",
+      "scheme": "S10",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "6276894:22",
+      "name": "qasim.m@facadesolutionsuae.com",
+      "kind": "email address",
+      "gloss": "An email address compromised and used for OCEANMAP IMAP command and control.",
+      "scheme": "S10",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6276894:23",
+      "name": "webmail.facadesolutionsuae.com",
+      "kind": "domain name",
+      "gloss": "A mail server domain used as OCEANMAP C2 infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "6276894:24",
+      "name": "nas-files.firstcloudit.com",
+      "kind": "domain name",
+      "gloss": "A domain name identified as network infrastructure in the attack.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6276894:25",
+      "name": "ua-calendar.firstcloudit.com",
+      "kind": "domain name",
+      "gloss": "A domain name identified as network infrastructure in the attack.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6276894:26",
+      "name": "e-nas.firstcloudit.com",
+      "kind": "domain name",
+      "gloss": "A domain name identified as network infrastructure in the attack.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "APT28",
+      "type": "uses",
+      "tail": "MASEPIE",
+      "evidence": "активність асоційовано з діяльністю угрупування APT28"
+    },
+    {
+      "head": "APT28",
+      "type": "uses",
+      "tail": "STEELHOOK",
+      "evidence": "активність асоційовано з діяльністю угрупування APT28"
+    },
+    {
+      "head": "APT28",
+      "type": "uses",
+      "tail": "OCEANMAP",
+      "evidence": "активність асоційовано з діяльністю угрупування APT28"
+    },
+    {
+      "head": "MASEPIE",
+      "type": "delivers",
+      "tail": "OPENSSH",
+      "evidence": "З використанням MASEPIE на комп'ютер довантажується та запускається OPENSSH"
+    },
+    {
+      "head": "MASEPIE",
+      "type": "delivers",
+      "tail": "STEELHOOK",
+      "evidence": "З використанням MASEPIE на комп'ютер довантажується та запускається ... STEELHOOK"
+    },
+    {
+      "head": "MASEPIE",
+      "type": "delivers",
+      "tail": "OCEANMAP",
+      "evidence": "З використанням MASEPIE на комп'ютер довантажується та запускається ... OCEANMAP"
+    },
+    {
+      "head": "194.126.178.8",
+      "type": "hosts",
+      "tail": "Client.py",
+      "evidence": "\\\\194[.]126.178.8@80\\webdav\\Python39\\Client[.]py"
+    },
+    {
+      "head": "OCEANMAP",
+      "type": "uses",
+      "tail": "74.124.219.71",
+      "evidence": "74[.]124.219.71 (OCEANMAP C2)"
+    },
+    {
+      "head": "OCEANMAP",
+      "type": "uses",
+      "tail": "jrb@bahouholdings.com",
+      "evidence": "jrb@bahouholdings.com (OCEANMAP C2)"
+    },
+    {
+      "head": "OCEANMAP",
+      "type": "uses",
+      "tail": "qasim.m@facadesolutionsuae.com",
+      "evidence": "qasim.m@facadesolutionsuae.com (OCEANMAP C2)"
+    },
+    {
+      "head": "OCEANMAP",
+      "type": "uses",
+      "tail": "webmail.facadesolutionsuae.com",
+      "evidence": "webmail.facadesolutionsuae[.]com (OCEANMAP C2)"
+    }
+  ],
+  "unclassified": []
+}

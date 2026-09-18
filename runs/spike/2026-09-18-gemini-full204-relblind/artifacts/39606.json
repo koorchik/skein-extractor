@@ -1,0 +1,150 @@
+{
+  "docId": 39606,
+  "date": "14.04.2022",
+  "title": "Кібератака на державні організації України з використанням експлойту для XSS вразливості в Zimbra Collaboration Suite (CVE-2018-6882) (CERT-UA#4461)",
+  "entities": [
+    {
+      "id": "39606:0",
+      "name": "Armed Forces of Ukraine",
+      "kind": "military organization",
+      "gloss": "The military forces of Ukraine responsible for national defense.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "39606:1",
+      "name": "Ukraine",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "39606:2",
+      "name": "CVE-2018-6882",
+      "kind": "vulnerability identifier",
+      "gloss": "A cross-site scripting vulnerability in Zimbra Collaboration Suite.",
+      "scheme": "S4",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "39606:3",
+      "name": "Zimbra Collaboration Suite",
+      "kind": "software product",
+      "gloss": "An enterprise email and collaboration software suite.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "39606:4",
+      "name": "UAC-0097",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA for cyber operations targeting Ukrainian entities.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "39606:5",
+      "name": "junit.js",
+      "kind": "malware script",
+      "gloss": "A malicious JavaScript script designed to configure email forwarding rules on compromised accounts.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "39606:6",
+      "name": "joey@kmtacn[.]com",
+      "kind": "email address",
+      "gloss": "An email address observed as the envelope sender in phishing attacks.",
+      "scheme": "S14",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "39606:7",
+      "name": "211.234.110[.]194",
+      "kind": "ip address",
+      "gloss": "An IP address observed in malicious network traffic.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "39606:8",
+      "name": "hxxps://cdn.jsdelivr[.]net/gh/sukaut/beta@main/junit.js",
+      "kind": "url",
+      "gloss": "A URL used to deliver malicious JavaScript code.",
+      "scheme": "S5",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "39606:9",
+      "name": "repo.ma@hotmail[.]com",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors for unauthorized data exfiltration.",
+      "scheme": "S14",
+      "category": "Domain",
+      "role": "target"
+    },
+    {
+      "id": "39606:10",
+      "name": "nov.td@yandex[.]ru",
+      "kind": "email address",
+      "gloss": "An email address associated with threat actor operations.",
+      "scheme": "S14",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "39606:11",
+      "name": "hxxps://github[.]com/sukaut",
+      "kind": "url",
+      "gloss": "A GitHub repository profile associated with threat activity.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2018-6882",
+      "type": "addresses-vulnerability-in",
+      "tail": "Zimbra Collaboration Suite",
+      "evidence": "вразливість в Zimbra Collaboration Suite"
+    },
+    {
+      "head": "UAC-0097",
+      "type": "exploited-vulnerability",
+      "tail": "CVE-2018-6882",
+      "evidence": "Технічна можливість реалізації описаної загрози класифікована за ідентифікатором CVE-2018-6882"
+    },
+    {
+      "head": "hxxps://cdn.jsdelivr[.]net/gh/sukaut/beta@main/junit.js",
+      "type": "delivers",
+      "tail": "junit.js",
+      "evidence": "hxxps://cdn.jsdelivr[.]net/gh/sukaut/beta@main/junit.js"
+    },
+    {
+      "head": "junit.js",
+      "type": "exfiltrates-data-to-email",
+      "tail": "repo.ma@hotmail[.]com",
+      "evidence": "repo.ma@hotmail[.]com (адреса електронної пошти для ексфільтрації)"
+    },
+    {
+      "head": "Armed Forces of Ukraine",
+      "type": "located-in-country",
+      "tail": "Ukraine",
+      "evidence": "Armed Forces of Ukraine"
+    }
+  ],
+  "unclassified": [
+    "39606:0"
+  ]
+}

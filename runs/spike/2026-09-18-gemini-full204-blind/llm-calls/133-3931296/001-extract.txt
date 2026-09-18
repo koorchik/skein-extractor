@@ -1,0 +1,397 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+- uses-malware: A threat actor utilizes or deploys a specific malware tool or family in their operations.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p><br></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA 21.02.2023 зафіксовано масове розповсюдження електронних листів начебто від імені Печерського районного суду міста Києва з темою "Печерський районний суд міста Києва" та додатком у вигляді RAR-архіву "електронний судовий запит № 7836071.rar".</p><p>Архів містить текстовий документ "код доступу 3527 .txt" та захищений паролем RAR-архів "електронний судовий запит № 7836071.rar", в якому знаходиться виконуваний файл "електронний судовий запит № 7836071.pdf.exe" розміром 688МБ з підробленим цифровим підписом.</p><p>Запуск EXE-файлу призведе до встановлення на комп'ютері жертви програми для віддаленого контролю та спостереження Remcos.</p><p>Зауважимо, що один з електронних листів містить заголовок "Received: from [91.228.10[.]77] (port=56344 helo=109x194x3x7.static-customer.bryansk.ertelecom[.]ru)"; при цьому, зазначена IP-адреса була застосована 13.02.2023 під час розсилання шкідливих електронних листів з темою "RE: Критичне оновлення безпеки" (MD5: 8fe5572d2683360d3483ad32e8bad9a1) та додатком у вигляді програми для віддаленого управління Remote Utilities (https://cert.gov.ua/article/3863542; CERT-UA#5961). </p><p>Виходячи з викладеного, вважаємо за можливе поєднати UAC-0050 та UAC-0096 в одну групу та продовжити відстеження активності за ідентифікатором UAC-0050.</p><p>Звертаємо увагу на той факт, що після успішного ураження комп'ютерів зловмисники здійснюють ексфільтрацію автентифікаційних даних, а також використовують інфіковану ЕОМ для розвідки локальної обчислювальної мережі та подальшого розвитку атаки на інформаційно-комунікаційну систему організації.</p><p><br></p><p><strong>Індикатори компрометації</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">6d4eccbdf2de6a8d251dd5d290472be8&nbsp;&nbsp;&nbsp; 8872d6afaa790c755ce42823549fa80f6594c9296d0f8fcc8dde5b0839d63c1b&nbsp;&nbsp;&nbsp; електронний судовий запит № 7836071.rar
+399327a4dd1ac365f99f6e77c6089897&nbsp;&nbsp;&nbsp; eb07ad9ca3b06aee903d38512cf1157dd3b38f9fcbe919593af37d53c1f17a83&nbsp;&nbsp;&nbsp; код доступу 3527 .txt
+90bc4319fc2bcf2d49d97e37fb99ea78&nbsp;&nbsp;&nbsp; ee4a2d34012f5ea2b2d1c6c60f322a5a36c31748700aa6ae73d1a7fa875dfed1&nbsp;&nbsp;&nbsp; електронний судовий запит № 7836071.rar
+099870d8fb21d5e9673711117ec4ff3e&nbsp;&nbsp;&nbsp; 86146b1265de8425e9c0960ba06464d2dfec7a0c803eaa31af29a7682700fa68&nbsp;&nbsp;&nbsp; електронний судовий запит № 7836071.pdf.exe (2023-02-20 09:18:57)
+fcc95f2d4edad0ff682f190406b35ff0    5b9ec22aef059dc09bf82d694934e52d7cbfd8fd696b4c4e68ac10d7280d31d6    remcos.exe (2023-02-19 10:16:49) (Remcos)
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%PROGRAMDATA%\word\wos.exe
+HKCU\Software\Microsoft\Windows\CurrentVersion\Run\word
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">courtgova[.]online&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;  2023-02-13&nbsp;&nbsp;&nbsp; @publicdomainregistry.com
+courtgova[.]site&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;  2023-02-13&nbsp;&nbsp;&nbsp; @publicdomainregistry.com
+courtbox[.]online&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   2023-02-13&nbsp;&nbsp;&nbsp; @publicdomainregistry.com
+95.163.235[.]80&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   RU&nbsp;&nbsp;&nbsp;         @reg.ru (Received)
+91.228.10[.]77&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   RU&nbsp;&nbsp;&nbsp;         @stark-industries.solutions (Received)
+80.78.248[.]17&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   RU&nbsp;&nbsp;&nbsp;         @reg.ru
+80.78.248[.]200&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   RU&nbsp;&nbsp;&nbsp;         @reg.ru
+info@courtgova[.]site
+info@courtgova[.]online
+
+(Remcos C2)
+77[.]91.100.6&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;  @stark-industries.solutions
+77[.]91.100.9
+94[.]131.99.153
+94[.]131.99.156
+94[.]131.99.159
+101[.]99.91.124&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;  @shinjiru.com.my
+101[.]99.91.158
+101[.]99.91.170
+101[.]99.91.176
+101[.]99.93.104
+111[.]90.148.194
+217[.]69.139.209&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;  @corp.mail.ru (?)
+217[.]69.139.232
+217[.]69.139.243
+(tcp)://77[.]91.100.6:5222
+(tcp)://77[.]91.100.9:5222
+(tcp)://94[.]131.99.153:5222
+(tcp)://94[.]131.99.156:5222
+(tcp)://94[.]131.99.159:5222
+(tcp)://111[.]90.148.194:5222
+(tcp)://111[.]90.148.194:81
+(tcp)://101[.]99.91.124:5222
+(tcp)://101[.]99.91.158:5222
+(tcp)://101[.]99.91.170:5222
+(tcp)://101[.]99.91.176:5222
+(tcp)://101[.]99.93.104:5222
+(tcp)://217[.]69.139.209:5222
+(tcp)://217[.]69.139.209:81
+(tcp)://217[.]69.139.232:81
+(tcp)://217[.]69.139.243:81
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (10.9s, in 3735 / out 3421 tok, STOP) ===
+UAC-0050 distributed phishing emails impersonating the Pechersk District Court of Kyiv, delivering malicious RAR archives containing an executable that installs Remcos RAT, while CERT-UA merged UAC-0096 activity into UAC-0050.
+
+```json
+{
+  "entities": [
+    {
+      "name": "Печерський районний суд міста Києва",
+      "kind": "judicial body",
+      "gloss": "A district court of general jurisdiction located in the city of Kyiv, Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "Remcos",
+      "kind": "malware family",
+      "gloss": "A commercial remote access tool and Trojan often used for surveillance and unauthorized system control."
+    },
+    {
+      "name": "Remote Utilities",
+      "kind": "software product",
+      "gloss": "A legitimate remote desktop software program frequently abused by threat actors for unauthorized access."
+    },
+    {
+      "name": "UAC-0050",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage and cybercrime threat group targeting Ukrainian organizations and public sector entities."
+    },
+    {
+      "name": "UAC-0096",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracking identifier merged by CERT-UA into UAC-0050."
+    },
+    {
+      "name": "електронний судовий запит № 7836071.rar",
+      "kind": "malicious file",
+      "gloss": "A malicious RAR archive containing decoy text and an executable payload disguised as a court request."
+    },
+    {
+      "name": "код доступу 3527 .txt",
+      "kind": "text file",
+      "gloss": "A text file contained within a malicious RAR archive providing an access code for a password-protected archive."
+    },
+    {
+      "name": "електронний судовий запит № 7836071.pdf.exe",
+      "kind": "malicious executable",
+      "gloss": "A malicious executable file disguised as a PDF document that installs Remcos remote access tool."
+    },
+    {
+      "name": "remcos.exe",
+      "kind": "malicious executable",
+      "gloss": "The executable payload binary for the Remcos remote access tool."
+    },
+    {
+      "name": "%PROGRAMDATA%\\word\\wos.exe",
+      "kind": "file path",
+      "gloss": "A persistence and execution file path associated with malware deployment on a compromised system."
+    },
+    {
+      "name": "courtgova[.]online",
+      "kind": "internet domain",
+      "gloss": "A malicious domain name registered to impersonate official Ukrainian court services in phishing campaigns."
+    },
+    {
+      "name": "courtgova[.]site",
+      "kind": "internet domain",
+      "gloss": "A malicious domain name registered to impersonate official Ukrainian court services in phishing attacks."
+    },
+    {
+      "name": "courtbox[.]online",
+      "kind": "internet domain",
+      "gloss": "A malicious domain name registered for phishing and cyberattack infrastructure."
+    },
+    {
+      "name": "info@courtgova[.]site",
+      "kind": "email address",
+      "gloss": "A spoofed or malicious email address used to distribute phishing emails impersonating court authorities."
+    },
+    {
+      "name": "info@courtgova[.]online",
+      "kind": "email address",
+      "gloss": "A spoofed or malicious email address used in phishing campaigns."
+    },
+    {
+      "name": "91.228.10[.]77",
+      "kind": "ip address",
+      "gloss": "An IP address used by threat actors to send malicious phishing emails."
+    },
+    {
+      "name": "95.163.235[.]80",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious email infrastructure."
+    },
+    {
+      "name": "80.78.248[.]17",
+      "kind": "ip address",
+      "gloss": "An IP address associated with attack infrastructure."
+    },
+    {
+      "name": "80.78.248[.]200",
+      "kind": "ip address",
+      "gloss": "An IP address associated with attack infrastructure."
+    },
+    {
+      "name": "77[.]91.100.6",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server for Remcos."
+    },
+    {
+      "name": "77[.]91.100.9",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server for Remcos."
+    },
+    {
+      "name": "94[.]131.99.153",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server for Remcos."
+    },
+    {
+      "name": "94[.]131.99.156",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server for Remcos."
+    },
+    {
+      "name": "94[.]131.99.159",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server for Remcos."
+    },
+    {
+      "name": "101[.]99.91.124",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server for Remcos."
+    },
+    {
+      "name": "101[.]99.91.158",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server for Remcos."
+    },
+    {
+      "name": "101[.]99.91.170",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server for Remcos."
+    },
+    {
+      "name": "101[.]99.91.176",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server for Remcos."
+    },
+    {
+      "name": "101[.]99.93.104",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server for Remcos."
+    },
+    {
+      "name": "111[.]90.148.194",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server for Remcos."
+    },
+    {
+      "name": "217[.]69.139.209",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server for Remcos."
+    },
+    {
+      "name": "217[.]69.139.232",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server for Remcos."
+    },
+    {
+      "name": "217[.]69.139.243",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server for Remcos."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Печерський районний суд міста Києва",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Печерського районного суду міста Києва"
+    },
+    {
+      "head": "електронний судовий запит № 7836071.rar",
+      "type": "delivers",
+      "tail": "код доступу 3527 .txt",
+      "evidence": "Архів містить текстовий документ \"код доступу 3527 .txt\""
+    },
+    {
+      "head": "електронний судовий запит № 7836071.rar",
+      "type": "delivers",
+      "tail": "електронний судовий запит № 7836071.pdf.exe",
+      "evidence": "в якому знаходиться виконуваний файл \"електронний судовий запит № 7836071.pdf.exe\""
+    },
+    {
+      "head": "електронний судовий запит № 7836071.pdf.exe",
+      "type": "delivers",
+      "tail": "Remcos",
+      "evidence": "Запуск EXE-файлу призведе до встановлення на комп'ютері жертви програми для віддаленого контролю та спостереження Remcos."
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "Remcos",
+      "evidence": "поєднати UAC-0050 та UAC-0096 в одну групу та продовжити відстеження активності за ідентифікатором UAC-0050."
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "Remote Utilities",
+      "evidence": "додатком у вигляді програми для віддаленого управління Remote Utilities"
+    },
+    {
+      "head": "Remcos",
+      "type": "communicates-with",
+      "tail": "77[.]91.100.6",
+      "evidence": "(Remcos C2) 77[.]91.100.6"
+    },
+    {
+      "head": "Remcos",
+      "type": "communicates-with",
+      "tail": "77[.]91.100.9",
+      "evidence": "(Remcos C2) 77[.]91.100.9"
+    },
+    {
+      "head": "Remcos",
+      "type": "communicates-with",
+      "tail": "94[.]131.99.153",
+      "evidence": "(Remcos C2) 94[.]131.99.153"
+    },
+    {
+      "head": "Remcos",
+      "type": "communicates-with",
+      "tail": "94[.]131.99.156",
+      "evidence": "(Remcos C2) 94[.]131.99.156"
+    },
+    {
+      "head": "Remcos",
+      "type": "communicates-with",
+      "tail": "94[.]131.99.159",
+      "evidence": "(Remcos C2) 94[.]131.99.159"
+    },
+    {
+      "head": "Remcos",
+      "type": "communicates-with",
+      "tail": "101[.]99.91.124",
+      "evidence": "(Remcos C2) 101[.]99.91.124"
+    },
+    {
+      "head": "Remcos",
+      "type": "communicates-with",
+      "tail": "101[.]99.91.158",
+      "evidence": "(Remcos C2) 101[.]99.91.158"
+    },
+    {
+      "head": "Remcos",
+      "type": "communicates-with",
+      "tail": "101[.]99.91.170",
+      "evidence": "(Remcos C2) 101[.]99.91.170"
+    },
+    {
+      "head": "Remcos",
+      "type": "communicates-with",
+      "tail": "101[.]99.91.176",
+      "evidence": "(Remcos C2) 101[.]99.91.176"
+    },
+    {
+      "head": "Remcos",
+      "type": "communicates-with",
+      "tail": "101[.]99.93.104",
+      "evidence": "(Remcos C2) 101[.]99.93.104"
+    },
+    {
+      "head": "Remcos",
+      "type": "communicates-with",
+      "tail": "111[.]90.148.194",
+      "evidence": "(Remcos C2) 111[.]90.148.194"
+    },
+    {
+      "head": "Remcos",
+      "type": "communicates-with",
+      "tail": "217[.]69.139.209",
+      "evidence": "(Remcos C2) 217[.]69.139.209"
+    },
+    {
+      "head": "Remcos",
+      "type": "communicates-with",
+      "tail": "217[.]69.139.232",
+      "evidence": "(Remcos C2) 217[.]69.139.232"
+    },
+    {
+      "head": "Remcos",
+      "type": "communicates-with",
+      "tail": "217[.]69.139.243",
+      "evidence": "(Remcos C2) 217[.]69.139.243"
+    }
+  ],
+  "newRelationTypes": []
+}
+```

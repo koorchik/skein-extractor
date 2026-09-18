@@ -1,0 +1,108 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "державних організацій України",
+      "kind": "government bodies",
+      "gloss": "State authorities and governmental organizations of Ukraine targeted in cyberattacks."
+    },
+    {
+      "name": "лист підтримки.xlsx",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet attachment containing macros used to download malware."
+    },
+    {
+      "name": "Formbook/XLoader v2.5",
+      "kind": "malware family",
+      "gloss": "An info-stealer and loader malware family designed to extract credentials from infected systems."
+    },
+    {
+      "name": "UAC-0041",
+      "kind": "threat actor",
+      "gloss": "A threat actor cluster tracked by CERT-UA known for distributing Formbook/XLoader malware."
+    },
+    {
+      "name": "vbc.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable payload downloaded during the infection process."
+    },
+    {
+      "name": "formbook.exe",
+      "kind": "malicious file",
+      "gloss": "An executable payload associated with the Formbook malware family."
+    },
+    {
+      "name": "mariya@posish.club",
+      "kind": "email address",
+      "gloss": "An email address used as a sender address in malicious email campaigns."
+    },
+    {
+      "name": "104.168.247.233",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure in the cyberattack."
+    },
+    {
+      "name": "103.167.92.57",
+      "kind": "ip address",
+      "gloss": "An IP address used to host and distribute malicious payloads."
+    },
+    {
+      "name": "hxxp://103.167.92.57/xx_cloudprotect/vbc.exe",
+      "kind": "url",
+      "gloss": "A malicious URL hosting the vbc.exe executable payload."
+    },
+    {
+      "name": "gobits3.com",
+      "kind": "domain name",
+      "gloss": "A domain name identified as network infrastructure used in the cyber incident."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0041",
+      "type": "associated-with-activity",
+      "tail": "Formbook/XLoader v2.5",
+      "evidence": "асоціюються з кластером активностей, що відстежується за ідентифікатором UAC-0041"
+    },
+    {
+      "head": "державних організацій України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "державних організацій України"
+    },
+    {
+      "head": "лист підтримки.xlsx",
+      "type": "downloads-and-executes",
+      "tail": "Formbook/XLoader v2.5",
+      "evidence": "забезпечить завантаження і запуск шкідливої програми Formbook/XLoader v2.5"
+    },
+    {
+      "head": "hxxp://103.167.92.57/xx_cloudprotect/vbc.exe",
+      "type": "hosts-payload",
+      "tail": "vbc.exe",
+      "evidence": "hxxp://103[.]167.92.57/xx_cloudprotect/vbc.exe"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "associated-with-activity",
+      "definition": "The threat actor is associated with or responsible for the campaign deploying the specified tool or malware."
+    },
+    {
+      "name": "located-in",
+      "definition": "The organization or entity is geographically or jurisdictionally located in the specified country."
+    },
+    {
+      "name": "downloads-and-executes",
+      "definition": "A file or macro downloads and runs another malicious file or malware payload upon execution."
+    },
+    {
+      "name": "hosts-payload",
+      "definition": "A network URL or server hosts a specified malicious executable or file for download."
+    }
+  ]
+}

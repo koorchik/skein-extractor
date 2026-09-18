@@ -1,0 +1,375 @@
+{
+  "docId": 4905829,
+  "date": "20.06.2023",
+  "title": "Групою APT28 застосовано три експлойти для Roundcube (CVE-2020-35730, CVE-2021-44026, CVE-2020-12641) під час чергової шпигунської кампанії (CERT-UA#6805)",
+  "entities": [
+    {
+      "id": "4905829:0",
+      "name": "APT28",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage threat group.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": null
+    },
+    {
+      "id": "4905829:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4905829:2",
+      "name": "NV",
+      "kind": "media organization",
+      "gloss": "A Ukrainian news media outlet and publishing company.",
+      "scheme": null,
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "4905829:3",
+      "name": "nv.ua",
+      "kind": "internet domain",
+      "gloss": "The web domain of the Ukrainian news outlet NV.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4905829:4",
+      "name": "ukraine_news@meta[.]ua",
+      "kind": "email address",
+      "gloss": "A malicious email address used to send phishing messages.",
+      "scheme": "S14",
+      "category": "Country",
+      "role": "attacker"
+    },
+    {
+      "id": "4905829:5",
+      "name": "str.vidil@meta[.]ua",
+      "kind": "email address",
+      "gloss": "An email address used by attackers for data exfiltration.",
+      "scheme": "S14",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4905829:6",
+      "name": "Roundcube",
+      "kind": "software product",
+      "gloss": "An open-source webmail software application.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "4905829:7",
+      "name": "Roundcube 1.4.1",
+      "kind": "software product",
+      "gloss": "An outdated version of the Roundcube webmail software.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "4905829:8",
+      "name": "CVE-2020-35730",
+      "kind": "vulnerability identifier",
+      "gloss": "A cross-site scripting vulnerability in Roundcube webmail.",
+      "scheme": "S4",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "4905829:9",
+      "name": "CVE-2021-44026",
+      "kind": "vulnerability identifier",
+      "gloss": "A SQL injection vulnerability in Roundcube webmail.",
+      "scheme": "S4",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "4905829:10",
+      "name": "CVE-2020-12641",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in Roundcube webmail.",
+      "scheme": "S4",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "4905829:11",
+      "name": "q.js",
+      "kind": "malicious script",
+      "gloss": "A malicious JavaScript file exploiting CVE-2021-44026 for database exfiltration.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "4905829:12",
+      "name": "e.js",
+      "kind": "malicious script",
+      "gloss": "A malicious JavaScript file used for email forwarding configuration and data exfiltration.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "4905829:13",
+      "name": "c.js",
+      "kind": "malicious script",
+      "gloss": "A malicious JavaScript file exploiting CVE-2020-12641 for command execution.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "4905829:14",
+      "name": "Recorded Future",
+      "kind": "company",
+      "gloss": "A private cybersecurity and threat intelligence company.",
+      "scheme": "S10",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "4905829:15",
+      "name": "185[.]225.226.57",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat actor infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4905829:16",
+      "name": "185[.]82.126.85",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat actor infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4905829:17",
+      "name": "77[.]243.181.238",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat actor infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4905829:18",
+      "name": "global-world-news[.]net",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used for receiving exfiltrated victim data.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4905829:19",
+      "name": "aneria[.]net",
+      "kind": "internet domain",
+      "gloss": "A domain identified as threat infrastructure in the campaign.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4905829:20",
+      "name": "armpress[.]net",
+      "kind": "internet domain",
+      "gloss": "A domain identified as threat infrastructure in the campaign.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4905829:21",
+      "name": "ceriossl[.]info",
+      "kind": "internet domain",
+      "gloss": "A domain identified as threat infrastructure in the campaign.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4905829:22",
+      "name": "fountainrate[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain identified as threat infrastructure in the campaign.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4905829:23",
+      "name": "global-news-world[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain identified as threat infrastructure in the campaign.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4905829:24",
+      "name": "lonejade[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain identified as threat infrastructure in the campaign.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4905829:25",
+      "name": "modeselling[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain identified as threat infrastructure in the campaign.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4905829:26",
+      "name": "oncetrips[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain identified as threat infrastructure in the campaign.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4905829:27",
+      "name": "vtxhospital[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain identified as threat infrastructure in the campaign.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4905829:28",
+      "name": "ns1.fountainrate[.]com",
+      "kind": "internet domain",
+      "gloss": "A name server domain identified as threat infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4905829:29",
+      "name": "ns2.fountainrate[.]com",
+      "kind": "internet domain",
+      "gloss": "A name server domain identified as threat infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4905829:30",
+      "name": "ns1.lonejade[.]com",
+      "kind": "internet domain",
+      "gloss": "A name server domain identified as threat infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4905829:31",
+      "name": "ns1.modeselling[.]com",
+      "kind": "internet domain",
+      "gloss": "A name server domain identified as threat infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4905829:32",
+      "name": "ns2.modeselling[.]com",
+      "kind": "internet domain",
+      "gloss": "A name server domain identified as threat infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4905829:33",
+      "name": "ns1.oncetrips[.]com",
+      "kind": "internet domain",
+      "gloss": "A name server domain identified as threat infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4905829:34",
+      "name": "ns2.oncetrips[.]com",
+      "kind": "internet domain",
+      "gloss": "A name server domain identified as threat infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4905829:35",
+      "name": "ns1.vtxhospital[.]com",
+      "kind": "internet domain",
+      "gloss": "A name server domain identified as threat infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4905829:36",
+      "name": "ns2.vtxhospital[.]com",
+      "kind": "internet domain",
+      "gloss": "A name server domain identified as threat infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2020-35730",
+      "type": "addresses-vulnerability-in",
+      "tail": "Roundcube",
+      "evidence": "вразливості в Roundcube CVE-2020-35730 (XSS)"
+    },
+    {
+      "head": "CVE-2021-44026",
+      "type": "addresses-vulnerability-in",
+      "tail": "Roundcube",
+      "evidence": "вразливості в Roundcube CVE-2021-44026 (SQLi)"
+    },
+    {
+      "head": "q.js",
+      "type": "exploited-vulnerability",
+      "tail": "CVE-2021-44026",
+      "evidence": "\"q.js\" містить експлойт для вразливості в Roundcube CVE-2021-44026"
+    },
+    {
+      "head": "c.js",
+      "type": "exploited-vulnerability",
+      "tail": "CVE-2020-12641",
+      "evidence": "\"c.js\", що містить експлойт для вразливості CVE-2020-12641"
+    },
+    {
+      "head": "ukraine_news@meta[.]ua",
+      "type": "distributes-malware",
+      "tail": "CVE-2020-35730",
+      "evidence": "отриманий 12.05.2023 з адреси \"ukraine_news@meta[.]ua\", що містив... експлойт для вразливості в Roundcube CVE-2020-35730"
+    }
+  ],
+  "unclassified": [
+    "4905829:2"
+  ]
+}

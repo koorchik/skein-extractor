@@ -1,0 +1,192 @@
+{
+  "entities": [
+    {
+      "name": "@reserveplusbot",
+      "kind": "online account",
+      "gloss": "A Telegram account compromised or spoofed to distribute malicious files disguised as official support."
+    },
+    {
+      "name": "Резерв+",
+      "kind": "software product",
+      "gloss": "A Ukrainian official mobile application for conscripts, persons liable for military service, and reservists."
+    },
+    {
+      "name": "RESERVPLUS.zip",
+      "kind": "computer file",
+      "gloss": "A malicious ZIP archive distributed via Telegram containing an installer executable."
+    },
+    {
+      "name": "installer.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file used as a dropper/loader in the infection chain."
+    },
+    {
+      "name": "install.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable downloaded to deploy the MeduzaStealer payload."
+    },
+    {
+      "name": "MEDUZASTEALER",
+      "kind": "malware",
+      "gloss": "An information-stealing malware family designed to extract sensitive files, credentials, and data from compromised systems."
+    },
+    {
+      "name": "Microsoft Defender",
+      "kind": "software product",
+      "gloss": "An antivirus and security software component developed by Microsoft."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "79.137.202.152",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server for MeduzaStealer."
+    },
+    {
+      "name": "185.208.158.47",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious executable files."
+    },
+    {
+      "name": "212.34.150.110",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious executable files."
+    },
+    {
+      "name": "5.252.118.50",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious executable files."
+    },
+    {
+      "name": "62.60.217.124",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious executable files."
+    },
+    {
+      "name": "http://185.208.158.47/Phantom.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosting the Phantom.exe executable."
+    },
+    {
+      "name": "http://185.208.158.47/lfkdjsnbrtuiapelegenda.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosting an executable payload."
+    },
+    {
+      "name": "http://185.208.158.47/oceanic.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosting the oceanic.exe payload."
+    },
+    {
+      "name": "http://185.208.158.47/phantomtoolsv2.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosting the phantomtoolsv2.exe payload."
+    },
+    {
+      "name": "http://212.34.150.110/install.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosting the install.exe payload."
+    },
+    {
+      "name": "http://5.252.118.50/Oldsetup.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosting the Oldsetup.exe payload."
+    },
+    {
+      "name": "http://62.60.217.124/install.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosting the install.exe payload."
+    },
+    {
+      "name": "Phantom.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file associated with MeduzaStealer activity."
+    },
+    {
+      "name": "lfkdjsnbrtuiapelegenda.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file hosted on threat infrastructure."
+    },
+    {
+      "name": "oceanic.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file hosted on threat infrastructure."
+    },
+    {
+      "name": "phantomtoolsv2.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file hosted on threat infrastructure."
+    },
+    {
+      "name": "Oldsetup.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file hosted on threat infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "RESERVPLUS.zip",
+      "type": "delivers",
+      "tail": "installer.exe",
+      "evidence": "в розповсюджуваному ZIP-архіві знаходився виконуваний EXE-файл \"installer.exe\""
+    },
+    {
+      "head": "installer.exe",
+      "type": "delivers",
+      "tail": "install.exe",
+      "evidence": "запуск якого призводив до завантаження іншого файлу \"install.exe\""
+    },
+    {
+      "head": "install.exe",
+      "type": "delivers",
+      "tail": "MEDUZASTEALER",
+      "evidence": "забезпечував ураження комп'ютера шкідливим програмним забезпеченням MEDUZASTEALER"
+    },
+    {
+      "head": "http://185.208.158.47/Phantom.exe",
+      "type": "hosts",
+      "tail": "Phantom.exe",
+      "evidence": "hXXp://185[.]208.158.47/Phantom.exe"
+    },
+    {
+      "head": "http://185.208.158.47/lfkdjsnbrtuiapelegenda.exe",
+      "type": "hosts",
+      "tail": "lfkdjsnbrtuiapelegenda.exe",
+      "evidence": "hXXp://185[.]208.158.47/lfkdjsnbrtuiapelegenda.exe"
+    },
+    {
+      "head": "http://185.208.158.47/oceanic.exe",
+      "type": "hosts",
+      "tail": "oceanic.exe",
+      "evidence": "hXXp://185[.]208.158.47/oceanic.exe"
+    },
+    {
+      "head": "http://185.208.158.47/phantomtoolsv2.exe",
+      "type": "hosts",
+      "tail": "phantomtoolsv2.exe",
+      "evidence": "hXXp://185[.]208.158.47/phantomtoolsv2.exe"
+    },
+    {
+      "head": "http://212.34.150.110/install.exe",
+      "type": "hosts",
+      "tail": "install.exe",
+      "evidence": "hXXp://212[.]34.150.110/install.exe"
+    },
+    {
+      "head": "http://5.252.118.50/Oldsetup.exe",
+      "type": "hosts",
+      "tail": "Oldsetup.exe",
+      "evidence": "hXXp://5[.]252.118.50/Oldsetup.exe"
+    },
+    {
+      "head": "http://62.60.217.124/install.exe",
+      "type": "hosts",
+      "tail": "install.exe",
+      "evidence": "hXXp://62[.]60.217.124/install.exe"
+    }
+  ],
+  "newRelationTypes": []
+}

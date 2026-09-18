@@ -1,0 +1,102 @@
+{
+  "entities": [
+    {
+      "name": "spysok_kursk.zip",
+      "kind": "archive file",
+      "gloss": "A malicious ZIP archive containing a CHM file used in cyberattacks."
+    },
+    {
+      "name": "список вп, що вибувають. курск.chm",
+      "kind": "chm file",
+      "gloss": "A compiled HTML help file used as an initial delivery mechanism for malicious scripts."
+    },
+    {
+      "name": "part.html",
+      "kind": "html file",
+      "gloss": "An HTML file embedded within a CHM file that executes malicious JavaScript."
+    },
+    {
+      "name": "SPECTR",
+      "kind": "malware family",
+      "gloss": "An information-stealing malware family designed to steal documents, screenshots, and browser data."
+    },
+    {
+      "name": "FIRMACHAGENT",
+      "kind": "malware family",
+      "gloss": "A malware program designed to exfiltrate stolen data to a command and control server."
+    },
+    {
+      "name": "IDCLIPNET_x86.dll",
+      "kind": "malware component",
+      "gloss": "A malicious DLL file acting as an orchestrator that manages plugins for SPECTR malware."
+    },
+    {
+      "name": "chrome_updater.dll",
+      "kind": "malware component",
+      "gloss": "A malicious dynamic-link library implementing the FIRMACHAGENT exfiltration malware."
+    },
+    {
+      "name": "agent.cer",
+      "kind": "file",
+      "gloss": "A certificate file associated with the malicious campaign."
+    },
+    {
+      "name": "stalenna2006@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address used in malicious phishing email distribution campaigns."
+    },
+    {
+      "name": "prozorro.online",
+      "kind": "internet domain",
+      "gloss": "An internet domain used by attackers to host malicious payloads and archives."
+    },
+    {
+      "name": "ukraero.space",
+      "kind": "internet domain",
+      "gloss": "An internet domain used by threat actors for malicious network infrastructure."
+    },
+    {
+      "name": "171.22.120.50",
+      "kind": "ip address",
+      "gloss": "An IP address used by threat actors to host malicious payload components."
+    },
+    {
+      "name": "91.225.219.185",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "список вп, що вибувають. курск.chm",
+      "type": "part-of",
+      "tail": "spysok_kursk.zip",
+      "evidence": "архів містить CHM-файл \"список вп, що вибувають. курск.chm\""
+    },
+    {
+      "head": "part.html",
+      "type": "part-of",
+      "tail": "список вп, що вибувають. курск.chm",
+      "evidence": "знаходиться HTML-файл \"part.html\""
+    },
+    {
+      "head": "chrome_updater.dll",
+      "type": "part-of",
+      "tail": "FIRMACHAGENT",
+      "evidence": "програми FIRMACHAGENT (\"chrome_updater.dll\""
+    },
+    {
+      "head": "IDCLIPNET_x86.dll",
+      "type": "part-of",
+      "tail": "SPECTR",
+      "evidence": "оркестратору \"IDCLIPNET_x86.dll\" (управляє плагінами SPECTR)"
+    },
+    {
+      "head": "prozorro.online",
+      "type": "hosts",
+      "tail": "spysok_kursk.zip",
+      "evidence": "https://prozorro.online/data/spysok_kursk.zip"
+    }
+  ],
+  "newRelationTypes": []
+}

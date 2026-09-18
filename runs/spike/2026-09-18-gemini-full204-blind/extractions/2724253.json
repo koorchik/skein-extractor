@@ -1,0 +1,74 @@
+{
+  "entities": [
+    {
+      "name": "Somnia",
+      "kind": "ransomware",
+      "gloss": "A malware family used to encrypt and disrupt data availability on compromised systems."
+    },
+    {
+      "name": "FRwL",
+      "kind": "threat actor",
+      "gloss": "A cyber threat group also known as Z-Team and tracked as UAC-0118."
+    },
+    {
+      "name": "Advanced IP Scanner",
+      "kind": "software product",
+      "gloss": "A legitimate network scanning tool frequently impersonated by threat actors to distribute malware."
+    },
+    {
+      "name": "Vidar",
+      "kind": "infostealer malware",
+      "gloss": "An information-stealing malware designed to extract credentials, session data, and browser information from compromised devices."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software application",
+      "gloss": "A cloud-based instant messaging application and platform."
+    },
+    {
+      "name": "Netscan",
+      "kind": "software tool",
+      "gloss": "A network reconnaissance and scanning utility."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware",
+      "gloss": "A post-exploitation agent used by threat actors for command and control and lateral movement."
+    },
+    {
+      "name": "Rclone",
+      "kind": "software tool",
+      "gloss": "An open-source command-line program to manage and synchronize files on cloud storage."
+    },
+    {
+      "name": "Anydesk",
+      "kind": "software product",
+      "gloss": "A remote desktop application used for remote access and management."
+    },
+    {
+      "name": "Ngrok",
+      "kind": "software product",
+      "gloss": "A cross-platform application that exposes local network ports to the internet through secure tunnels."
+    },
+    {
+      "name": "Ukraine",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    }
+  ],
+  "relations": [
+    {
+      "head": "FRwL",
+      "type": "uses-malware",
+      "tail": "Somnia",
+      "evidence": "порушення цілісності та доступності інформації внаслідок застосування шкідливого програмного забезпечення Somnia"
+    },
+    {
+      "head": "FRwL",
+      "type": "uses-malware",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "виконали запуск програми Cobalt Strike Beacon"
+    }
+  ],
+  "newRelationTypes": []
+}

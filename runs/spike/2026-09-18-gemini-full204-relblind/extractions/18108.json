@@ -1,0 +1,166 @@
+{
+  "entities": [
+    {
+      "name": "WhisperKill",
+      "kind": "malware family",
+      "gloss": "A wiper malware designed to irreversibly destroy files by overwriting their contents with 0xCC bytes."
+    },
+    {
+      "name": "3907c7fbd4148395284d8e6e3c1dba5d",
+      "kind": "md5 hash",
+      "gloss": "An MD5 hash corresponding to a WhisperKill wiper malware sample."
+    },
+    {
+      "name": "Encrpt3d Ransomware",
+      "kind": "malware family",
+      "gloss": "A fake ransomware malware family also known as WhiteBlackCrypt that destroys files without saving decryption keys."
+    },
+    {
+      "name": "19B5Bt11oUqYnwSXfBgRpwwDGg5Ajirbjn",
+      "kind": "cryptocurrency address",
+      "gloss": "A Bitcoin wallet address displayed in ransom notes and extortion emails."
+    },
+    {
+      "name": "Whiteblackgroup002@gmail.com",
+      "kind": "email address",
+      "gloss": "An email address listed as a contact in WhiteBlackCrypt ransom notes."
+    },
+    {
+      "name": "Wbgroup022@gmail.com",
+      "kind": "email address",
+      "gloss": "An email address listed as a contact in WhiteBlackCrypt ransom notes."
+    },
+    {
+      "name": "@tomhunter",
+      "kind": "social media account",
+      "gloss": "A Telegram channel also known as 'Интернет-розыск'."
+    },
+    {
+      "name": "Интернет-розыск",
+      "kind": "social media account",
+      "gloss": "A Telegram channel alternative name associated with the handle @tomhunter."
+    },
+    {
+      "name": "Росії",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "Костянтином Малофєєвим",
+      "kind": "person",
+      "gloss": "A Russian businessman and oligarch."
+    },
+    {
+      "name": "WEX",
+      "kind": "cryptocurrency exchange",
+      "gloss": "A defunct cryptocurrency exchange platform."
+    },
+    {
+      "name": "ФСБ",
+      "kind": "government body",
+      "gloss": "The Federal Security Service of the Russian Federation."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "Encrpt3d",
+      "kind": "threat actor",
+      "gloss": "A suspected hacker group referenced in relation to fake ransomware activity."
+    },
+    {
+      "name": "ССО ЗС України",
+      "kind": "government body",
+      "gloss": "The Special Operations Forces of the Armed Forces of Ukraine."
+    },
+    {
+      "name": "BinDiff",
+      "kind": "software tool",
+      "gloss": "A binary comparison tool for reverse engineers and security researchers."
+    },
+    {
+      "name": "e17f9959427a752f7287ee213dc55822",
+      "kind": "md5 hash",
+      "gloss": "An MD5 hash corresponding to a WhiteBlackCrypt malware sample."
+    },
+    {
+      "name": "b36e5c508efea796731d444c189b413c",
+      "kind": "md5 hash",
+      "gloss": "An MD5 hash corresponding to a WhiteBlackCrypt malware sample."
+    }
+  ],
+  "relations": [
+    {
+      "head": "WhisperKill",
+      "type": "has-hash",
+      "tail": "3907c7fbd4148395284d8e6e3c1dba5d",
+      "evidence": "WhisperKill; MD5: 3907c7fbd4148395284d8e6e3c1dba5d"
+    },
+    {
+      "head": "Encrpt3d Ransomware",
+      "type": "has-hash",
+      "tail": "e17f9959427a752f7287ee213dc55822",
+      "evidence": "e17f9959427a752f7287ee213dc55822 (WhiteBlackCrypt)"
+    },
+    {
+      "head": "Encrpt3d Ransomware",
+      "type": "has-hash",
+      "tail": "b36e5c508efea796731d444c189b413c",
+      "evidence": "WhiteBlackCrypt (MD5: b36e5c508efea796731d444c189b413c)"
+    },
+    {
+      "head": "Encrpt3d Ransomware",
+      "type": "displays-cryptocurrency-address",
+      "tail": "19B5Bt11oUqYnwSXfBgRpwwDGg5Ajirbjn",
+      "evidence": "повідомлення про викуп, що відображається шкідливою програмою WhiteBlackCrypt, містить... адресу Bitcoin-гаманця 19B5Bt11oUqYnwSXfBgRpwwDGg5Ajirbjn"
+    },
+    {
+      "head": "Encrpt3d Ransomware",
+      "type": "displays-email-address",
+      "tail": "Whiteblackgroup002@gmail.com",
+      "evidence": "повідомлення про викуп, що відображається шкідливою програмою WhiteBlackCrypt, містить... дві електронні поштові адреси: Whiteblackgroup002@gmail.com"
+    },
+    {
+      "head": "Encrpt3d Ransomware",
+      "type": "displays-email-address",
+      "tail": "Wbgroup022@gmail.com",
+      "evidence": "повідомлення про викуп, що відображається шкідливою програмою WhiteBlackCrypt, містить... дві електронні поштові адреси: Whiteblackgroup002@gmail.com, Wbgroup022@gmail.com"
+    },
+    {
+      "head": "WhisperKill",
+      "type": "shares-code-with",
+      "tail": "Encrpt3d Ransomware",
+      "evidence": "WhisperKill більш ніж на 80% схожа зі шкідливою програмою «Encrpt3d Ransomware»"
+    },
+    {
+      "head": "ССО ЗС України",
+      "type": "belongs-to-country",
+      "tail": "України",
+      "evidence": "ССО ЗС України"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "has-hash",
+      "definition": "Specifies a cryptographic hash value associated with a malware sample or file."
+    },
+    {
+      "name": "displays-cryptocurrency-address",
+      "definition": "Indicates that a malware sample or document presents a specific cryptocurrency wallet address to the victim."
+    },
+    {
+      "name": "displays-email-address",
+      "definition": "Indicates that a malware sample or ransom note presents a specific email address as contact information."
+    },
+    {
+      "name": "shares-code-with",
+      "definition": "Indicates that two software or malware families share significant binary or source code similarities."
+    },
+    {
+      "name": "belongs-to-country",
+      "definition": "Identifies the country to which a government or military organization belongs."
+    }
+  ]
+}

@@ -1,0 +1,215 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+- Country: A distinct territorial body or sovereign state with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Government Organization: An official agency, ministry, or administrative body operating as part of a national or state government. (also: Government Agency, Government Body, State Authority)
+- Malware: Malicious software, code, or executables designed to infiltrate, damage, or compromise computer systems and data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address specifying the location and retrieval mechanism of a resource on a computer network. (also: URL, Web Address, Web Link)
+- Person: An individual human being, such as a government official, cybersecurity expert, researcher, or executive. (also: Individual, Natural Person)
+- IP Address: A numerical label assigned to a device connected to a computer network that uses the Internet Protocol for communication. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Electronic Mail Address)
+- Computer File: A digital resource or named item stored on a computer system, containing data, code, or instructions. (also: File, Digital File, Filename)
+- Company: A commercial business, corporation, or enterprise operating in any economic sector or industry. (also: Enterprise, Corporation, Commercial Organization)
+- Domain Name: A human-readable identification string defining a realm of administrative autonomy or resource location within the Internet Domain Name System. (also: Internet Domain, FQDN, Fully Qualified Domain Name)
+- Threat Actor: An individual, group, or organization responsible for malicious cyber activities, attacks, or cyber espionage operations. (also: Threat Group, Cyber Threat Actor, Hacker Group)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA виявлено XLS-документи "PerekazF173_04072023.xls" та "Rahunok_05072023.xls", що містять як легітимний макрос, так і макрос, який здійснить декодування, забезпечення персистентності та запуск шкідливої програми <strong>PicassoLoader</strong>. </p><p>При цьому, окремо реалізовано перевірку встановленого засобу захисту: у випадку, якщо на ЕОМ виявлено продукти Avast, FireEye, Fortinet (назви процесів: "AvastUI.exe", "AvastSvc.exe", "xagt.exe", "fcappdb.exe", "FortiWF.exe") шкідливу програму створено не буде.</p><p>На момент дослідження PicassoLoader забезпечував завантаження, дешифрування (AES) та запуск шкідливої програми njRAT.</p><p>Активність здійснюється угрупуванням UAC-0057.</p><p>Принагідно інформуємо, що "GhostWriter" є назвою інформаційної операції, що була проведена угрупуванням UNC1151 (UAC-0057) про яку публічно інформувала компанія Mandiant у 2020 році [1]. Проте, для спрощення сприйняття в інформаційних повідомленнях CERT-UA назва "GhostWriter" може ототожнюватися із назвою/ідентифікатором загрози UAC-0057.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">6e6c39f498d0231417f6fa75e27b3008    4da99f963c26bcc4537ba0437c9cc1445be8bea64067d34308dda6c2e49c8c65    PerekazF173_04072023.xls
+6857da89a25728b066dcf7f47d25455b    0f3bdbc64446555c6ff611b02f2e64250fcaf39b78237ae4cca7c74d94731b32    gk40jklkgt3w094gh.dll (PicassoLoader) (2023-06-29 09:07:13)
+f09420169a24a54eff0fc35cd15d68bc    7893965d1861c712b751bc2d5fb53a34ec0d276bcf389b7fc574728940575152    Carpet_Shop_3b09adf.jpg
+4e23e56fb247e92980331ca23a1b7300    6dd40ea5e53754a7160801aa5e378089c7dcd9b76429c2536d115c022e3484e8    Carpet_Shop_3b09adf.exe (njRAT) (2023-06-20 01:52:20)
+c0dc96834b07ec32bc67d3bce7b60a28    3b7702a3c2434f8677dddcd44b8ab09bd23129df98ce76929d5731d156398c32    PerekazF173_04072023.zip
+5bf951438305f16e42f6a85b81d6c5d7    b27ec1a0d4e122765abbecc5e66742f4ed546adfda208b4320fbf277d37a38f5    04072023_2.jpg
+192e12e92dd0fe7a838e104eb65665ef    97894351c3c0728f3c2c740b0ea60af7bd9db955f2d3dc1a97668227956c89f3    04072023_1.jpg
+552d020c3c090c7b297a8f23f7c48648    4d9cca1d75d4691e794dfe9efb9eef6e9e64b4e978ad17831b459d4bb6722829    PerekazF173_04072023.xls
+6857da89a25728b066dcf7f47d25455b    0f3bdbc64446555c6ff611b02f2e64250fcaf39b78237ae4cca7c74d94731b32    gk40jklkgt3w094gh.dll
+f09420169a24a54eff0fc35cd15d68bc    7893965d1861c712b751bc2d5fb53a34ec0d276bcf389b7fc574728940575152    Carpet_Shop_3b09adf.jpg
+a85c94825f1420dd15cd80851e89efb1    5061bf0d671aacb5fc8e89918c6e5dc5e0b8cb14020422ca73ca5941a7f34b98    Rahunok_05072023 (1).zip
+4d8bc51e52067f4b983e4f60d5618a15    7f89ec40687564ad7bae34c3f9cddcea28624b3ecf4807e3cef9911d850aecf8    Rahunok_05072023.zip
+1d3f26e8b8f0a145d752bc089e5904e5    32cf2acd3300d5c0cf7aadc70f07d137d705f379e35510e25018578e3ee40f42    Pidtvird.JPG
+d43e0c177c7de3d311706609fecdabb8    1de7d03db87618e20b85c4e30e040168f26e4a0bdc98943736ef9a2c5f648e23    Rahunok_05072023.xls
+4f173e82336aec538124bc1f6a8435b2    52fe07167694935a5a6441c1e6de73b08f786f736057034de766a7fa3866e576    sgsdgkjsgkljsegseuigh38g.dll (PicassoLoader) (2023-07-05 12:49:04)
+f09420169a24a54eff0fc35cd15d68bc    7893965d1861c712b751bc2d5fb53a34ec0d276bcf389b7fc574728940575152    Carpet_Shop_3b09adf.jpg
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%APPDATA%\Microsoft\Windows\Start Menu\ADhk GKs h09k.lnk
+%APPDATA%\Microsoft\Windows\Start Menu\Ganmk2 Gk3o ADk30.lnk
+%LOCALAPPDATA%\VibErpEnDINgUpDaTe\sgsdgkjsgkljsegseuigh38g.dll
+%LOCALAPPDATA%\WhatsAppPendingUpdate\gk40jklkgt3w094gh.dll
+%WINDIR%\System32\rundll32.exe %LOCALAPPDATA%\WhatsAppPendingUpdate\gk40jklkgt3w094gh.dll,IETrackingProtectionEnabled
+%WINDIR%\System32\rundll32.exe %LOCALAPPDATA%\viberpendingupdate\sgsdgkjsgkljsegseuigh38g.dll,IETrackingProtectionEnabled
+RunDLL32.EXE shell32.dll,ShellExec_RunDLL "%APPDATA%\Microsoft\Windows\Start Menu\ADhk GKs h09k.lnk"
+RunDLL32.EXE shell32.dll,ShellExec_RunDLL "%APPDATA%\Microsoft\Windows\Start Menu\Ganmk2 Gk3o ADk30.lnk"
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">(tcp)://everything-everywhere.at.ply[.]gg:50709
+hXXps://carpetmarker[.]pw/images/carpet_shop_3b09adf.jpg
+Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.78.109.743 Safari/537.36 OPR/98.0.0.0
+carpetmarker[.]pw
+everything-everywhere.at.ply[.]gg
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p><strong>Посилання</strong></p><p>[1] <a href="https://www.mandiant.com/resources/blog/ghostwriter-influence-campaign" rel="noopener noreferrer" target="_blank">https://www.mandiant.com/resources/blog/ghostwriter-influence-campaign</a></p><p><br></p><p><br></p>
+
+=== RESPONSE (5.2s, in 4402 / out 1243 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "PerekazF173_04072023.xls",
+      "kind": "Computer File",
+      "gloss": "A malicious XLS spreadsheet containing macros designed to deploy PicassoLoader malware."
+    },
+    {
+      "name": "Rahunok_05072023.xls",
+      "kind": "Computer File",
+      "gloss": "A malicious XLS document containing macros designed to decode and execute PicassoLoader."
+    },
+    {
+      "name": "PicassoLoader",
+      "kind": "Malware",
+      "gloss": "A malware loader that downloads, decrypts, and executes secondary payloads like njRAT."
+    },
+    {
+      "name": "Avast",
+      "kind": "Company",
+      "gloss": "A cybersecurity software company known for antivirus and security solutions."
+    },
+    {
+      "name": "FireEye",
+      "kind": "Company",
+      "gloss": "A cybersecurity company providing threat intelligence and defense software."
+    },
+    {
+      "name": "Fortinet",
+      "kind": "Company",
+      "gloss": "An American cybersecurity company providing network and endpoint security products."
+    },
+    {
+      "name": "njRAT",
+      "kind": "Malware",
+      "gloss": "A remote access trojan allowing unauthorized control over infected Windows systems."
+    },
+    {
+      "name": "UAC-0057",
+      "kind": "Threat Actor",
+      "gloss": "A cyber threat actor also tracked as UNC1151 and associated with the GhostWriter campaign."
+    },
+    {
+      "name": "GhostWriter",
+      "kind": "Threat Actor",
+      "gloss": "An information operation and cyber threat cluster associated with threat actor UNC1151."
+    },
+    {
+      "name": "UNC1151",
+      "kind": "Threat Actor",
+      "gloss": "A cyber espionage threat group associated with the Belarusian government, also tracked as UAC-0057."
+    },
+    {
+      "name": "Mandiant",
+      "kind": "Company",
+      "gloss": "An American cybersecurity and incident response intelligence company."
+    },
+    {
+      "name": "gk40jklkgt3w094gh.dll",
+      "kind": "Computer File",
+      "gloss": "A malicious DLL file associated with PicassoLoader."
+    },
+    {
+      "name": "sgsdgkjsgkljsegseuigh38g.dll",
+      "kind": "Computer File",
+      "gloss": "A malicious DLL file implementing PicassoLoader."
+    },
+    {
+      "name": "Carpet_Shop_3b09adf.exe",
+      "kind": "Computer File",
+      "gloss": "An executable file containing njRAT malware."
+    },
+    {
+      "name": "carpetmarker[.]pw",
+      "kind": "Domain Name",
+      "gloss": "A malicious domain used for hosting image files and malware payloads."
+    },
+    {
+      "name": "everything-everywhere.at.ply[.]gg",
+      "kind": "Domain Name",
+      "gloss": "A network domain used for command and control or network communications."
+    },
+    {
+      "name": "hXXps://carpetmarker[.]pw/images/carpet_shop_3b09adf.jpg",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A URL used to host a payload or staging file disguised as an image."
+    }
+  ],
+  "relations": [
+    {
+      "head": "PerekazF173_04072023.xls",
+      "type": "delivers",
+      "tail": "PicassoLoader",
+      "evidence": "макрос, який здійснить декодування, забезпечення персистентності та запуск шкідливої програми PicassoLoader"
+    },
+    {
+      "head": "Rahunok_05072023.xls",
+      "type": "delivers",
+      "tail": "PicassoLoader",
+      "evidence": "макрос, який здійснить декодування, забезпечення персистентності та запуск шкідливої програми PicassoLoader"
+    },
+    {
+      "head": "PicassoLoader",
+      "type": "delivers",
+      "tail": "njRAT",
+      "evidence": "PicassoLoader забезпечував завантаження, дешифрування (AES) та запуск шкідливої програми njRAT"
+    },
+    {
+      "head": "UAC-0057",
+      "type": "uses",
+      "tail": "PicassoLoader",
+      "evidence": "Активність здійснюється угрупуванням UAC-0057."
+    },
+    {
+      "head": "carpetmarker[.]pw",
+      "type": "hosts",
+      "tail": "hXXps://carpetmarker[.]pw/images/carpet_shop_3b09adf.jpg",
+      "evidence": "hXXps://carpetmarker[.]pw/images/carpet_shop_3b09adf.jpg"
+    }
+  ],
+  "newRelationTypes": []
+}

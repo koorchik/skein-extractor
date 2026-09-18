@@ -1,0 +1,134 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0098",
+      "kind": "threat group",
+      "gloss": "A threat group tracked for cyber attacks targeting Ukrainian entities."
+    },
+    {
+      "name": "Військові на Азовсталі.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet containing a macro used to download and execute secondary malware."
+    },
+    {
+      "name": "pe.dll",
+      "kind": "malicious file",
+      "gloss": "A malicious dynamic-link library protected by a crypter that delivers Cobalt Strike Beacon."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware family",
+      "gloss": "A post-exploitation agent and payload of the Cobalt Strike framework."
+    },
+    {
+      "name": "TrickBot",
+      "kind": "threat group",
+      "gloss": "A financially motivated cybercrime group known for developing the TrickBot trojan and associated malware infrastructure."
+    },
+    {
+      "name": "spisok.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file referenced from a previous CERT-UA incident report."
+    },
+    {
+      "name": "CERT-UA#4464",
+      "kind": "security advisory",
+      "gloss": "A security advisory previously issued by CERT-UA regarding malicious activity."
+    },
+    {
+      "name": "shellcode.bin.packed.dll",
+      "kind": "malicious file",
+      "gloss": "A malicious packed dynamic-link library identified in the attack infrastructure."
+    },
+    {
+      "name": "notevil.dll",
+      "kind": "malicious file",
+      "gloss": "A malicious dynamic-link library containing a Cobalt Strike Beacon payload."
+    },
+    {
+      "name": "138[.]68.229.0",
+      "kind": "ip address",
+      "gloss": "An IP address used to host and distribute the malicious pe.dll file."
+    },
+    {
+      "name": "84[.]32.188.29",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the campaign's network infrastructure."
+    },
+    {
+      "name": "cherryservers[.]com",
+      "kind": "hosting provider",
+      "gloss": "A hosting and cloud infrastructure provider associated with malicious IP addresses."
+    },
+    {
+      "name": "hostkey[.]com",
+      "kind": "hosting provider",
+      "gloss": "A web hosting and server provider associated with malicious distribution infrastructure."
+    },
+    {
+      "name": "dezword[.]com",
+      "kind": "internet domain",
+      "gloss": "An internet domain used for command and control and configuration updates."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Військові на Азовсталі.xls",
+      "type": "downloads-and-executes",
+      "tail": "pe.dll",
+      "evidence": "макросу, останній здійснить завантаження, створення на диску та запуск файлу \"pe.dll\""
+    },
+    {
+      "head": "pe.dll",
+      "type": "installs-malware",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "Зазначене призведе до ураження комп'ютера шкідливою програмою Cobalt Strike Beacon."
+    },
+    {
+      "head": "TrickBot",
+      "type": "associated-with-crypter-for",
+      "tail": "pe.dll",
+      "evidence": "захищено за допомогою криптору, що має відношення до групи TrickBot."
+    },
+    {
+      "head": "TrickBot",
+      "type": "associated-with-crypter-for",
+      "tail": "spisok.exe",
+      "evidence": "файл \"spisok.exe\" з повідомлення CERT-UA#4464, захищено за допомогою криптору, що має відношення до групи TrickBot."
+    },
+    {
+      "head": "spisok.exe",
+      "type": "mentioned-in",
+      "tail": "CERT-UA#4464",
+      "evidence": "файл \"spisok.exe\" з повідомлення CERT-UA#4464"
+    },
+    {
+      "head": "UAC-0098",
+      "type": "tracks-activity-using",
+      "tail": "Військові на Азовсталі.xls",
+      "evidence": "Згадана активність має цільовий характер та відстежуватиметься за ідентифікатором UAC-0098."
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "downloads-and-executes",
+      "definition": "The source file downloads and executes the target payload on a compromised system."
+    },
+    {
+      "name": "installs-malware",
+      "definition": "The source file installs or deploys the target malware program."
+    },
+    {
+      "name": "associated-with-crypter-for",
+      "definition": "The threat group is associated with the crypter software used to protect the target file."
+    },
+    {
+      "name": "mentioned-in",
+      "definition": "The source entity is documented or cited within the target report or advisory."
+    },
+    {
+      "name": "tracks-activity-using",
+      "definition": "The threat group or tracking identifier is associated with malicious activity involving the target entity."
+    }
+  ]
+}

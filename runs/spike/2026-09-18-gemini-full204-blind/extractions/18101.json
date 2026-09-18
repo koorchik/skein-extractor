@@ -1,0 +1,126 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Державний центр кіберзахисту",
+      "kind": "government body",
+      "gloss": "A Ukrainian state cybersecurity center operating under the State Service of Special Communications and Information Protection."
+    },
+    {
+      "name": "Оперативний центр реагування на кіберінциденти та кібератаки (SOC)",
+      "kind": "government body",
+      "gloss": "The operational security operations center functioning within Ukraine's State Cyber Protection Centre."
+    },
+    {
+      "name": "BootPatch",
+      "kind": "malware family",
+      "gloss": "A destructive wiper malware that overwrites the master boot record of hard drives."
+    },
+    {
+      "name": "WhisperKill",
+      "kind": "malware family",
+      "gloss": "A destructive wiper malware that overwrites files with specific extensions."
+    },
+    {
+      "name": "WhisperGate",
+      "kind": "malware family",
+      "gloss": "A .NET downloader malware used to retrieve and execute additional destructive payloads."
+    },
+    {
+      "name": "WhisperPack",
+      "kind": "malware family",
+      "gloss": "An obfuscated .NET launcher malware payload containing auxiliary tools and scripts."
+    },
+    {
+      "name": "OctoberCMS",
+      "kind": "software product",
+      "gloss": "A content management system platform based on the PHP programming language."
+    },
+    {
+      "name": "Log4j",
+      "kind": "software product",
+      "gloss": "A widely used open-source Java logging utility developed by the Apache Software Foundation."
+    },
+    {
+      "name": "TOR",
+      "kind": "anonymity network",
+      "gloss": "An open-source network routing traffic anonymously through a series of encrypted relays."
+    },
+    {
+      "name": "Impacket",
+      "kind": "software framework",
+      "gloss": "A collection of Python classes for working with network protocols."
+    },
+    {
+      "name": "AdvancedRun.exe",
+      "kind": "software tool",
+      "gloss": "A legitimate Windows utility developed by NirSoft used to run programs with custom settings and privileges."
+    },
+    {
+      "name": "NirSoft",
+      "kind": "software vendor",
+      "gloss": "A software development project providing freeware Windows utilities and system tools."
+    },
+    {
+      "name": "Windows Defender",
+      "kind": "software product",
+      "gloss": "An integrated antimalware software component developed by Microsoft for Windows operating systems."
+    },
+    {
+      "name": "Eazfuscator",
+      "kind": "software product",
+      "gloss": "A commercial code obfuscation tool designed to protect .NET applications."
+    },
+    {
+      "name": "179.43.176[.]38",
+      "kind": "ip address",
+      "gloss": "An external IP address hosting files related to the cyberattack."
+    },
+    {
+      "name": "179.43.176[.]42",
+      "kind": "ip address",
+      "gloss": "An external IP address observed in malicious activity across targeted organizations."
+    },
+    {
+      "name": "179.43.176[.]60",
+      "kind": "ip address",
+      "gloss": "An external IP address listed as an indicator of compromise."
+    },
+    {
+      "name": "cdn.discordapp[.]com",
+      "kind": "internet domain",
+      "gloss": "A content delivery network domain used for hosting and downloading files."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Оперативний центр реагування на кіберінциденти та кібератаки (SOC)",
+      "type": "part-of",
+      "tail": "Державний центр кіберзахисту",
+      "evidence": "Оперативним центром реагування на кіберінциденти та кібератаки (SOC) Державного центру кіберзахисту"
+    },
+    {
+      "head": "Державний центр кіберзахисту",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Оперативним центром реагування на кіберінциденти та кібератаки (SOC) Державного центру кіберзахисту"
+    },
+    {
+      "head": "WhisperGate",
+      "type": "delivers",
+      "tail": "WhisperPack",
+      "evidence": "WhisperGate, що є програмою широкого вжитку ... і який завантажує з cdn.discorapp[.]com та декодує іншу .NET-програму-лаунчер WhisperPack"
+    },
+    {
+      "head": "WhisperGate",
+      "type": "communicates-with",
+      "tail": "cdn.discordapp[.]com",
+      "evidence": "WhisperGate ... завантажує з cdn.discorapp[.]com та декодує іншу .NET-програму-лаунчер"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,161 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0027",
+      "kind": "threat actor",
+      "gloss": "A threat activity cluster tracked by CERT-UA associated with DIRTYMOE (PURPLEFOX) malware operations."
+    },
+    {
+      "name": "DIRTYMOE",
+      "kind": "malware",
+      "gloss": "A modular backdoor and rootkit malware family, also known as PURPLEFOX, used for DDoS attacks and cryptocurrency mining."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose organizations and computer systems were targeted by the malware campaign."
+    },
+    {
+      "name": "Китай",
+      "kind": "country",
+      "gloss": "An East Asian country where a significant portion of intermediate command-and-control server infrastructure was located."
+    },
+    {
+      "name": "Avast",
+      "kind": "company",
+      "gloss": "A cybersecurity software company providing antivirus and threat intelligence research."
+    },
+    {
+      "name": "Trendmicro",
+      "kind": "company",
+      "gloss": "A global cybersecurity and antivirus software company."
+    },
+    {
+      "name": "Avast Free Antivirus",
+      "kind": "software product",
+      "gloss": "A free antivirus security solution developed by Avast used for detecting and removing malware."
+    },
+    {
+      "name": "WindowsXP",
+      "kind": "software product",
+      "gloss": "A legacy operating system developed by Microsoft."
+    },
+    {
+      "name": "Windows7",
+      "kind": "software product",
+      "gloss": "A legacy operating system developed by Microsoft."
+    },
+    {
+      "name": "rpc.1qw.us",
+      "kind": "domain name",
+      "gloss": "A domain name configured in command-and-control communications of DIRTYMOE malware."
+    },
+    {
+      "name": "ret.6bc.us",
+      "kind": "domain name",
+      "gloss": "A domain name utilized as infrastructure in the DIRTYMOE malware campaign."
+    },
+    {
+      "name": "kew.1qw.us",
+      "kind": "domain name",
+      "gloss": "A domain name configured for network communications by DIRTYMOE malware."
+    },
+    {
+      "name": "kew.8df.us",
+      "kind": "domain name",
+      "gloss": "A domain name associated with DIRTYMOE command-and-control infrastructure."
+    },
+    {
+      "name": "nk.1qw.us",
+      "kind": "domain name",
+      "gloss": "A domain name associated with DIRTYMOE malware infrastructure."
+    },
+    {
+      "name": "MsE96454E6App.dll",
+      "kind": "computer file",
+      "gloss": "A malicious backdoor DLL file component of DIRTYMOE installed on compromised systems."
+    },
+    {
+      "name": "TKE96454E6MS.sdb",
+      "kind": "computer file",
+      "gloss": "A database module file used by the DIRTYMOE rootkit framework."
+    },
+    {
+      "name": "RCE96454E6MS.sdb",
+      "kind": "computer file",
+      "gloss": "A database module file associated with DIRTYMOE malware operations."
+    },
+    {
+      "name": "DBE96454E6MK.sdb",
+      "kind": "computer file",
+      "gloss": "A database module file dropped during DIRTYMOE malware infection."
+    },
+    {
+      "name": "MSI9BB2.tmp",
+      "kind": "computer file",
+      "gloss": "A temporary MSI installer file used in the initial deployment of DIRTYMOE."
+    },
+    {
+      "name": "C558B828.Png",
+      "kind": "computer file",
+      "gloss": "A payload disguised as an image file distributed by DIRTYMOE infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0027",
+      "type": "uses",
+      "tail": "DIRTYMOE",
+      "evidence": "Описана активність відстежується за ідентифікатором UAC-0027."
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "affects",
+      "tail": "Україна",
+      "evidence": "виявлено більше 2000 уражених ЕОМ в українському сегменті мережі Інтернет"
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "delivers",
+      "tail": "MsE96454E6App.dll",
+      "evidence": "MsE96454E6App.dll (DIRTYMOE)"
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "uses",
+      "tail": "rpc.1qw.us",
+      "evidence": "rpc.1qw[.]us"
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "uses",
+      "tail": "ret.6bc.us",
+      "evidence": "ret.6bc[.]us"
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "uses",
+      "tail": "kew.1qw.us",
+      "evidence": "kew.1qw[.]us"
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "uses",
+      "tail": "kew.8df.us",
+      "evidence": "kew.8df[.]us"
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "uses",
+      "tail": "nk.1qw.us",
+      "evidence": "nk.1qw[.]us"
+    },
+    {
+      "head": "Avast",
+      "type": "publishes-advisory",
+      "tail": "Avast Free Antivirus",
+      "evidence": "вебсайту виробника (https://www.avast.ua/) програмний продукт \"Avast Free Antivirus\""
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,269 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0024",
+      "kind": "threat actor",
+      "gloss": "A cyber threat cluster associated with Turla targeting defense forces for espionage."
+    },
+    {
+      "name": "CAPIBAR",
+      "kind": "malware family",
+      "gloss": "A malware family also known as DeliveryCheck or GAMEDAY used for espionage."
+    },
+    {
+      "name": "DeliveryCheck",
+      "kind": "malware family",
+      "gloss": "A Microsoft tracking name for the CAPIBAR malware family."
+    },
+    {
+      "name": "GAMEDAY",
+      "kind": "malware family",
+      "gloss": "A Mandiant tracking name for the CAPIBAR malware family."
+    },
+    {
+      "name": "Microsoft",
+      "kind": "company",
+      "gloss": "An American multinational technology corporation producing software, services, and hardware."
+    },
+    {
+      "name": "Mandiant",
+      "kind": "company",
+      "gloss": "An American cybersecurity company and subsidiary of Google."
+    },
+    {
+      "name": "MS Exchange",
+      "kind": "software product",
+      "gloss": "A mail and calendaring server developed by Microsoft."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "KAZUAR",
+      "kind": "malware family",
+      "gloss": "A sophisticated multifunctional backdoor malware used by Russian cyber espionage actors."
+    },
+    {
+      "name": "rclone",
+      "kind": "software product",
+      "gloss": "An open-source command-line program to manage and synchronize files on cloud storage."
+    },
+    {
+      "name": "Turla",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group also known as UAC-0003, KRYPTON, and Secret Blizzard."
+    },
+    {
+      "name": "UAC-0003",
+      "kind": "threat actor",
+      "gloss": "A CERT-UA identifier for the Russian threat group Turla."
+    },
+    {
+      "name": "KRYPTON",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracking name synonymous with the Turla group."
+    },
+    {
+      "name": "Secret Blizzard",
+      "kind": "threat actor",
+      "gloss": "A Microsoft tracking name for the Russian cyber espionage group Turla."
+    },
+    {
+      "name": "фсб росії",
+      "kind": "government body",
+      "gloss": "The Federal Security Service of the Russian Federation."
+    },
+    {
+      "name": "росії",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "Microsoft Threat Intelligence",
+      "kind": "company division",
+      "gloss": "The security research and threat intelligence group within Microsoft."
+    },
+    {
+      "name": "www.adelaida[.]ua",
+      "kind": "internet domain",
+      "gloss": "A compromised or malicious domain used to host payloads."
+    },
+    {
+      "name": "atomydoc[.]kg",
+      "kind": "internet domain",
+      "gloss": "An internet domain used in cyber espionage activity."
+    },
+    {
+      "name": "aleimportadora[.]net",
+      "kind": "internet domain",
+      "gloss": "A domain used to host malicious scripts and payloads."
+    },
+    {
+      "name": "octoberoctopus.co[.]za",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious infrastructure."
+    },
+    {
+      "name": "sansaispa[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain used in the malicious campaign."
+    },
+    {
+      "name": "www.pierreagencement[.]fr",
+      "kind": "internet domain",
+      "gloss": "A compromised website used in malicious infrastructure."
+    },
+    {
+      "name": "mail.aet.in[.]ua",
+      "kind": "internet domain",
+      "gloss": "A compromised mail server domain used as CAPIBAR command-and-control infrastructure."
+    },
+    {
+      "name": "mail.kzp[.]bg",
+      "kind": "internet domain",
+      "gloss": "A mail server domain used as command-and-control infrastructure."
+    },
+    {
+      "name": "mail.numina[.]md",
+      "kind": "internet domain",
+      "gloss": "A compromised mail server domain used as CAPIBAR command-and-control."
+    },
+    {
+      "name": "mail.arlingtonhousing[.]us",
+      "kind": "internet domain",
+      "gloss": "A mail server domain leveraged as CAPIBAR command-and-control infrastructure."
+    },
+    {
+      "name": "mail.lechateaudelatour[.]fr",
+      "kind": "internet domain",
+      "gloss": "A compromised mail server domain used as a CAPIBAR command-and-control server."
+    },
+    {
+      "name": "mail.lebsack[.]de",
+      "kind": "internet domain",
+      "gloss": "A compromised mail server domain leveraged as CAPIBAR command-and-control."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0024",
+      "type": "uses-malware",
+      "tail": "CAPIBAR",
+      "evidence": "активність, що полягає у здійсненні цільових кібератак... із застосуванням шкідливої програми CAPIBAR"
+    },
+    {
+      "head": "UAC-0024",
+      "type": "associated-with-actor",
+      "tail": "Turla",
+      "evidence": "описану активність (UAC-0024) асоційовано з угрупуванням Turla"
+    },
+    {
+      "head": "фсб росії",
+      "type": "directs-threat-actor",
+      "tail": "Turla",
+      "evidence": "угрупуванням Turla (UAC-0003, KRYPTON, Secret Blizzard), діяльність яких скеровується фсб росії"
+    },
+    {
+      "head": "фсб росії",
+      "type": "subordinated-to-country",
+      "tail": "росії",
+      "evidence": "фсб росії"
+    },
+    {
+      "head": "Turla",
+      "type": "uses-malware",
+      "tail": "KAZUAR",
+      "evidence": "а також факту використанням програми KAZUAR, з достатнім рівнем впевненості описану активність (UAC-0024) асоційовано з угрупуванням Turla"
+    },
+    {
+      "head": "UAC-0024",
+      "type": "uses-tool",
+      "tail": "rclone",
+      "evidence": "випадки ексфільтрації з інфікованих ЕОМ файлів... з використанням легітимної програми rclone"
+    },
+    {
+      "head": "CAPIBAR",
+      "type": "targets-software",
+      "tail": "MS Exchange",
+      "evidence": "серверної частини, що, зазвичай, встановлюється на скомпрометованих серверах MS Exchange"
+    },
+    {
+      "head": "Microsoft Threat Intelligence",
+      "type": "division-of",
+      "tail": "Microsoft",
+      "evidence": "команді Microsoft Threat Intelligence (@MsftSecIntel)"
+    },
+    {
+      "head": "CAPIBAR",
+      "type": "uses-c2-domain",
+      "tail": "mail.numina[.]md",
+      "evidence": "hXXps://mail.numina[.]md/owa/scripts/logon.aspx (CAPIBAR C2URL)"
+    },
+    {
+      "head": "CAPIBAR",
+      "type": "uses-c2-domain",
+      "tail": "mail.aet.in[.]ua",
+      "evidence": "hXXps://mail.aet.in[.]ua/outlook/api/logoff.aspx (CAPIBAR C2URL)"
+    },
+    {
+      "head": "CAPIBAR",
+      "type": "uses-c2-domain",
+      "tail": "mail.arlingtonhousing[.]us",
+      "evidence": "hXXps://mail.arlingtonhousing[.]us/outlook/api/logoff.aspx (CAPIBAR C2URL)"
+    },
+    {
+      "head": "CAPIBAR",
+      "type": "uses-c2-domain",
+      "tail": "mail.kzp[.]bg",
+      "evidence": "hXXps://mail.kzp[.]bg/outlook/api/logoff.aspx (CAPIBAR C2URL)"
+    },
+    {
+      "head": "CAPIBAR",
+      "type": "uses-c2-domain",
+      "tail": "mail.lechateaudelatour[.]fr",
+      "evidence": "hXXps://mail.lechateaudelatour[.]fr/MICROSOFT.EXCHANGE.MAILBOXREPLICATIONSERVICE.PROXYSERVICE/RPCWITHCERT/SYNC (CAPIBAR C2URL)"
+    },
+    {
+      "head": "CAPIBAR",
+      "type": "uses-c2-domain",
+      "tail": "mail.lebsack[.]de",
+      "evidence": "hXXps://mail.lebsack[.]de/MICROSOFT.EXCHANGE.MAILBOXREPLICATIONSERVICE.PROXYSERVICE/RPCWITHCERT/SYNC (CAPIBAR C2URL)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-malware",
+      "definition": "A threat actor utilizes a specific malware family during their cyber operations."
+    },
+    {
+      "name": "associated-with-actor",
+      "definition": "An activity cluster or campaign is attributed or linked to a known threat group."
+    },
+    {
+      "name": "directs-threat-actor",
+      "definition": "A government body or sponsor commands or coordinates a threat actor's activities."
+    },
+    {
+      "name": "subordinated-to-country",
+      "definition": "A government body or military unit belongs to or operates under the jurisdiction of a specific country."
+    },
+    {
+      "name": "uses-tool",
+      "definition": "A threat actor employs a legitimate software tool or utility to achieve technical objectives."
+    },
+    {
+      "name": "targets-software",
+      "definition": "A malware family or threat actor installs on, compromises, or leverages a specific software product."
+    },
+    {
+      "name": "division-of",
+      "definition": "An organization unit or team is part of a parent company or institution."
+    },
+    {
+      "name": "uses-c2-domain",
+      "definition": "A malware family contacts or communicates with a specific command-and-control domain."
+    }
+  ]
+}

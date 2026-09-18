@@ -1,0 +1,248 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p class="ql-align-justify"><strong>Загальна інформація</strong></p><p class="ql-align-justify">Урядовою командою реагування на комп’ютерні надзвичайні події України CERT-UA виявлено файл "довідка.zip", який містить файл контекстної довідки (Microsoft Compiled HTML Help) "dovidka.chm". Згаданий CHM-файл, у свою чергу, містить зображення-приманку "image.jpg" (довідка про порядок дій під част артилерійських обстрілів) та HTA-файл "file.htm" зі шкідливим програмним кодом на мові VBScript. Виконання останнього призведе до створення на комп'ютері і запуску дропера "ignit.vbs", який забезпечить декодування .NET-лоадеру "core.dll", а також файлів "desktop.ini" (виконує запуск "core.dll" за допомогою regasm.exe) і "Windows Prefetch.lNk", який забезпечує запуск раніше згаданого "desktop.ini" за допомогою wscript.exe.</p><p class="ql-align-justify">Насамкінець, .NET-лоадер здійснить декодування і виконання шкідливої програми MicroBackdoor. Зауважимо, що дати компіляції бекдору та лоадеру - 28.01.2022 і 31.01.2022, відповідно; крім того, домен, що використовується сервером управління, створено 12.01.2022. Слід додати, що окрім стандартних команд ("id", "info", "ping", "exit", "upd", "uninst", "exec", "shell", "flist", "fget", "fput"), в цій версії бекдору додатково реалізовано команду "screenshot".</p><p class="ql-align-justify">Активність асоційовано з діяльністю групи UAC-0057, також відомою як unc1151 (за даними Mandiant).</p><p class="ql-align-justify"><br></p><p class="ql-align-justify"><strong>Індикатори компрометації</strong>&nbsp;</p><p><em>Файли:</em>&nbsp;</p><pre class="ql-syntax" spellcheck="false">e34d6387d3ab063b0d926ac1fca8c4c4&nbsp;&nbsp;довідка.zip
+2556a9e1d5e9874171f51620e5c5e09a&nbsp;&nbsp;dovidka.chm
+bc6932a0479045b2e60896567a37a36c&nbsp;&nbsp;file.htm
+bd65d0d59f6127b28f0af8a7f2619588&nbsp;&nbsp;ignit.vbs
+fb418bb5bd3e592651d0a4f9ae668962&nbsp;&nbsp;Windows Prefetch.lNk
+a9dcaf1c709f96bc125c8d1262bac4b6&nbsp;&nbsp;desktop.ini
+d2a795af12e937eb8a89d470a96f15a5&nbsp;&nbsp;core.dll (.NET-лоадер)
+65237e705e842da0a891c222e57fe095&nbsp;&nbsp;microbackdoor.dll (MicroBackdoor)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</pre><p><em>Мережеві:</em>&nbsp;</p><pre class="ql-syntax" spellcheck="false">xbeta[.]online:8443
+185[.]175.158.27
+</pre><p><em>Хостові:</em>&nbsp;</p><pre class="ql-syntax" spellcheck="false">%PUBLIC%\ignit.vbs
+%PUBLIC%\Favorites\desktop.ini
+%PUBLIC%\Libraries\core.dll
+%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\Windows Prefetch.lNk
+wscript.exe //B //E:vbs C:\Users\Public\Favorites\desktop.ini
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe /U C:\Users\Public\Libraries\core.dll
+</pre><p><br></p><p><strong>Додаткова інформація</strong>&nbsp;</p><p>MicroBackdoor - публічно доступна програма-бекдор, розроблена з&nbsp;використанням мови програмування C++. Автор: cr4sh (aka Dmytro Oleksiuk). Функціонал: id, info, ping, exit, upd, uninst, exec, shell, flist, fget, fput, screenshot (реалізовано окремо членами групи UAC-0057/unc1151). Серверна частина розроблена з використанням мови програмування Python та надає простий веб-інтерфейс для управління ботами. Персистентність: ключ Run реєстру Windows. Комунікація між ботом та сервером зашифрована за допомогою RC4.</p><p class="ql-align-justify"><br></p><p class="ql-align-justify"><strong>Графічні зображення</strong></p><p class="ql-align-center">Рис. 1 Приклад шкідливих файлів та зображення-приманки</p>
+
+=== RESPONSE (7.3s, in 2207 / out 2012 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "UAC-0057",
+      "kind": "threat actor",
+      "gloss": "A threat actor group, also tracked as UNC1151, associated with cyber operations in Eastern Europe."
+    },
+    {
+      "name": "unc1151",
+      "kind": "threat actor",
+      "gloss": "A threat group tracked by Mandiant, linked to cyber espionage activities."
+    },
+    {
+      "name": "Mandiant",
+      "kind": "cybersecurity company",
+      "gloss": "An American cybersecurity firm providing threat intelligence and incident response services."
+    },
+    {
+      "name": "довідка.zip",
+      "kind": "archive file",
+      "gloss": "A ZIP archive containing a malicious compiled HTML help file used in a cyber attack."
+    },
+    {
+      "name": "dovidka.chm",
+      "kind": "compiled help file",
+      "gloss": "A malicious Microsoft Compiled HTML Help file containing decoy content and malicious scripts."
+    },
+    {
+      "name": "image.jpg",
+      "kind": "decoy image file",
+      "gloss": "A decoy image file displaying instructions on safety procedures during artillery shelling."
+    },
+    {
+      "name": "file.htm",
+      "kind": "html application file",
+      "gloss": "An HTA/HTML file containing malicious VBScript code embedded in a CHM container."
+    },
+    {
+      "name": "ignit.vbs",
+      "kind": "dropper script",
+      "gloss": "A VBScript dropper responsible for decoding and dropping a .NET loader and persistence components."
+    },
+    {
+      "name": "core.dll",
+      "kind": "malware loader",
+      "gloss": "A .NET loader responsible for decoding and executing the MicroBackdoor payload."
+    },
+    {
+      "name": "desktop.ini",
+      "kind": "malicious script file",
+      "gloss": "A malicious file used to execute the .NET loader via regasm.exe."
+    },
+    {
+      "name": "Windows Prefetch.lNk",
+      "kind": "shortcut file",
+      "gloss": "A malicious Windows shortcut file placed in the Startup folder for persistence."
+    },
+    {
+      "name": "MicroBackdoor",
+      "kind": "backdoor malware",
+      "gloss": "An open-source C++ backdoor malware designed to execute arbitrary commands and exfiltrate data."
+    },
+    {
+      "name": "microbackdoor.dll",
+      "kind": "malware payload",
+      "gloss": "A dynamic link library containing the MicroBackdoor payload."
+    },
+    {
+      "name": "xbeta[.]online",
+      "kind": "domain name",
+      "gloss": "A domain name used for command and control communication by MicroBackdoor."
+    },
+    {
+      "name": "185[.]175.158.27",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the command and control infrastructure."
+    },
+    {
+      "name": "regasm.exe",
+      "kind": "system utility",
+      "gloss": "A legitimate Microsoft .NET Assembly Registration Tool abused to execute malicious code."
+    },
+    {
+      "name": "wscript.exe",
+      "kind": "system utility",
+      "gloss": "A legitimate Windows Open Script Host utility used to execute scripts."
+    },
+    {
+      "name": "cr4sh",
+      "kind": "person",
+      "gloss": "A software developer also known as Dmytro Oleksiuk who authored the open-source MicroBackdoor tool."
+    }
+  ],
+  "relations": [
+    {
+      "head": "довідка.zip",
+      "type": "contains-file",
+      "tail": "dovidka.chm",
+      "evidence": "файл \"довідка.zip\", який містить файл контекстної довідки ... \"dovidka.chm\""
+    },
+    {
+      "head": "dovidka.chm",
+      "type": "contains-file",
+      "tail": "image.jpg",
+      "evidence": "CHM-файл, у свою чергу, містить зображення-приманку \"image.jpg\""
+    },
+    {
+      "head": "dovidka.chm",
+      "type": "contains-file",
+      "tail": "file.htm",
+      "evidence": "CHM-файл, у свою чергу, містить ... та HTA-файл \"file.htm\""
+    },
+    {
+      "head": "file.htm",
+      "type": "creates-file",
+      "tail": "ignit.vbs",
+      "evidence": "призведе до створення на комп'ютері і запуску дропера \"ignit.vbs\""
+    },
+    {
+      "head": "ignit.vbs",
+      "type": "drops-file",
+      "tail": "core.dll",
+      "evidence": "дропера \"ignit.vbs\", який забезпечить декодування .NET-лоадеру \"core.dll\""
+    },
+    {
+      "head": "ignit.vbs",
+      "type": "drops-file",
+      "tail": "desktop.ini",
+      "evidence": "забезпечить декодування .NET-лоадеру \"core.dll\", а також файлів \"desktop.ini\""
+    },
+    {
+      "head": "ignit.vbs",
+      "type": "drops-file",
+      "tail": "Windows Prefetch.lNk",
+      "evidence": "а також файлів \"desktop.ini\" ... і \"Windows Prefetch.lNk\""
+    },
+    {
+      "head": "Windows Prefetch.lNk",
+      "type": "executes-with",
+      "tail": "wscript.exe",
+      "evidence": "\"Windows Prefetch.lNk\", який забезпечує запуск раніше згаданого \"desktop.ini\" за допомогою wscript.exe"
+    },
+    {
+      "head": "desktop.ini",
+      "type": "executes-with",
+      "tail": "regasm.exe",
+      "evidence": "\"desktop.ini\" (виконує запуск \"core.dll\" за допомогою regasm.exe)"
+    },
+    {
+      "head": "core.dll",
+      "type": "executes-payload",
+      "tail": "MicroBackdoor",
+      "evidence": ".NET-лоадер здійснить декодування і виконання шкідливої програми MicroBackdoor"
+    },
+    {
+      "head": "UAC-0057",
+      "type": "uses-malware",
+      "tail": "MicroBackdoor",
+      "evidence": "реалізовано окремо членами групи UAC-0057/unc1151"
+    },
+    {
+      "head": "cr4sh",
+      "type": "authored-tool",
+      "tail": "MicroBackdoor",
+      "evidence": "MicroBackdoor - публічно доступна програма-бекдор ... Автор: cr4sh"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "contains-file",
+      "definition": "Indicates that an archive, container, or composite file encloses another file."
+    },
+    {
+      "name": "creates-file",
+      "definition": "Indicates that execution of an entity results in the creation of a new file on the target system."
+    },
+    {
+      "name": "drops-file",
+      "definition": "Indicates that a component writes or unpacks another payload file to disk."
+    },
+    {
+      "name": "executes-with",
+      "definition": "Indicates that an entity executes another component or invokes execution via a specific executable."
+    },
+    {
+      "name": "executes-payload",
+      "definition": "Indicates that a loader or injector decodes, loads, and executes a final payload."
+    },
+    {
+      "name": "uses-malware",
+      "definition": "Indicates that a threat actor employs a specific malware family or utility."
+    },
+    {
+      "name": "authored-tool",
+      "definition": "Indicates that a person or developer created a specific software tool or malware."
+    }
+  ]
+}

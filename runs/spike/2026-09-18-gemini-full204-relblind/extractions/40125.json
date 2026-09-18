@@ -1,0 +1,169 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0104",
+      "kind": "threat actor",
+      "gloss": "A threat group tracked by CERT-UA associated with information-stealing malware campaigns."
+    },
+    {
+      "name": "JesterStealer",
+      "kind": "malware family",
+      "gloss": "An info-stealing malware designed to extract credentials, browser data, cryptocurrency wallets, and application secrets."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cross-platform instant messaging service often abused by threat actors for data exfiltration and command-and-control."
+    },
+    {
+      "name": "TOR",
+      "kind": "anonymity network",
+      "gloss": "An open-source software and overlay network enabling anonymous communication across the internet."
+    },
+    {
+      "name": "Map023.xlsb",
+      "kind": "file",
+      "gloss": "A malicious Excel binary workbook containing macros used to download malware."
+    },
+    {
+      "name": "Map021.xlsb",
+      "kind": "file",
+      "gloss": "A malicious Excel binary workbook containing macros used to download malware."
+    },
+    {
+      "name": "Map026.xlsb",
+      "kind": "file",
+      "gloss": "A malicious Excel binary workbook containing macros used to download malware."
+    },
+    {
+      "name": "Updater-Microsoft.exe",
+      "kind": "file",
+      "gloss": "A malicious executable file used in the deployment of JesterStealer."
+    },
+    {
+      "name": "a1.exe",
+      "kind": "file",
+      "gloss": "A malicious executable file associated with the infection chain."
+    },
+    {
+      "name": "OfficeUpdaterNew.exe",
+      "kind": "file",
+      "gloss": "A malicious executable payload hosted on a compromised server."
+    },
+    {
+      "name": "tachikawaobs@sv5206.xserver.jp",
+      "kind": "email address",
+      "gloss": "An email address used as an indicator of compromise in phishing campaigns."
+    },
+    {
+      "name": "157.112.183.47",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the malicious network infrastructure."
+    },
+    {
+      "name": "igshop.net",
+      "kind": "internet domain",
+      "gloss": "A compromised website used to host malicious files."
+    },
+    {
+      "name": "dcshost.net",
+      "kind": "internet domain",
+      "gloss": "A compromised website used to host malicious payloads."
+    },
+    {
+      "name": "marmaris.com.ua",
+      "kind": "internet domain",
+      "gloss": "A compromised web resource used to deliver executable payloads."
+    },
+    {
+      "name": "autodoka.com.ua",
+      "kind": "internet domain",
+      "gloss": "A compromised web resource used to distribute malware payloads."
+    },
+    {
+      "name": "lightnogu5owjjllyo4tj2sfos6fchnmcidlgo6c7e6fz2hgryhfhoyd.onion",
+      "kind": "internet domain",
+      "gloss": "A Tor hidden service address used in JesterStealer command-and-control communication."
+    },
+    {
+      "name": "wasabiwallet.online",
+      "kind": "internet domain",
+      "gloss": "A domain used for network infrastructure connections in the attack."
+    },
+    {
+      "name": "ip-api.com",
+      "kind": "internet domain",
+      "gloss": "A legitimate public IP geolocation API service queried by malware."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0104",
+      "type": "uses-malware",
+      "tail": "JesterStealer",
+      "evidence": "ураження комп'ютера шкідливою програмою JesterStealer... відстежується за ідентифікатором UAC-0104"
+    },
+    {
+      "head": "JesterStealer",
+      "type": "exfiltrates-data-to",
+      "tail": "Telegram",
+      "evidence": "Викрадені дані через статично визначені адреси проксі... передаються зловмиснику в Telegram"
+    },
+    {
+      "head": "igshop.net",
+      "type": "hosts-file",
+      "tail": "Map026.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map026.xlsb"
+    },
+    {
+      "head": "igshop.net",
+      "type": "hosts-file",
+      "tail": "Map023.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map023.xlsb"
+    },
+    {
+      "head": "igshop.net",
+      "type": "hosts-file",
+      "tail": "Map021.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map021.xlsb"
+    },
+    {
+      "head": "igshop.net",
+      "type": "hosts-file",
+      "tail": "Updater-Microsoft.exe",
+      "evidence": "hxxps://igshop[.]net/uploads/Updater-Microsoft.exe"
+    },
+    {
+      "head": "dcshost.net",
+      "type": "hosts-file",
+      "tail": "OfficeUpdaterNew.exe",
+      "evidence": "hxxps://dcshost[.]net/mail/OfficeUpdaterNew.exe"
+    },
+    {
+      "head": "marmaris.com.ua",
+      "type": "hosts-file",
+      "tail": "Updater-Microsoft.exe",
+      "evidence": "hxxps://marmaris.com[.]ua/misc/Updater-Microsoft.exe"
+    },
+    {
+      "head": "autodoka.com.ua",
+      "type": "hosts-file",
+      "tail": "Updater-Microsoft.exe",
+      "evidence": "hxxps://autodoka.com[.]ua/extra/Updater-Microsoft.exe"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-malware",
+      "definition": "The threat actor or group utilizes a specified malware tool or family during operations."
+    },
+    {
+      "name": "exfiltrates-data-to",
+      "definition": "The malware transmits stolen or collected information to an external system, service, or destination."
+    },
+    {
+      "name": "hosts-file",
+      "definition": "The internet domain, server, or web resource stores and serves a specific downloadable file."
+    }
+  ]
+}

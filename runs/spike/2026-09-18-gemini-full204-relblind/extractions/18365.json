@@ -1,0 +1,155 @@
+{
+  "entities": [
+    {
+      "name": "Кіберцентр Державної прикордонної служби України",
+      "kind": "government body",
+      "gloss": "A cybersecurity unit within the State Border Guard Service of Ukraine."
+    },
+    {
+      "name": "Державна прикордонна служба України",
+      "kind": "government body",
+      "gloss": "The central government agency of Ukraine responsible for border protection."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "ДП «Адміністрація морських портів України»",
+      "kind": "state enterprise",
+      "gloss": "A Ukrainian state enterprise responsible for the management and maintenance of sea ports."
+    },
+    {
+      "name": "порти АРК.rar",
+      "kind": "malicious archive",
+      "gloss": "A malicious RAR archive distributed via phishing emails."
+    },
+    {
+      "name": "Щодо заходження суден під іноземним прапором в порти АР Крим на 27.01.2022.docx",
+      "kind": "malicious document",
+      "gloss": "A malicious DOCX document with embedded URLs used in phishing attacks."
+    },
+    {
+      "name": "Щодо заходження суден під державним прапором в порти АР Крим на 27.01.2022.docx",
+      "kind": "malicious document",
+      "gloss": "A malicious DOCX document with embedded URLs used in phishing attacks."
+    },
+    {
+      "name": "derg.gif",
+      "kind": "malicious file",
+      "gloss": "A malicious file used in the attack chain."
+    },
+    {
+      "name": "GammaLoad",
+      "kind": "malware family",
+      "gloss": "A VBScript-based malicious downloader associated with the Armageddon cyberespionage group."
+    },
+    {
+      "name": "Armageddon",
+      "kind": "hacking group",
+      "gloss": "A Russian state-sponsored cyberespionage group, also tracked by CERT-UA as UAC-0010."
+    },
+    {
+      "name": "surname192.temp.swtest.ru",
+      "kind": "internet domain",
+      "gloss": "A domain name used for hosting malicious payloads."
+    },
+    {
+      "name": "coagula.online",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious infrastructure."
+    },
+    {
+      "name": "tortunas.ru",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious infrastructure."
+    },
+    {
+      "name": "phymateus.online",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious infrastructure."
+    },
+    {
+      "name": "stopcovid@email.cz",
+      "kind": "email address",
+      "gloss": "An email address identified as an indicator of compromise."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Кіберцентр Державної прикордонної служби України",
+      "type": "is-part-of",
+      "tail": "Державна прикордонна служба України",
+      "evidence": "Кіберцентр Державної прикордонної служби України"
+    },
+    {
+      "head": "Державна прикордонна служба України",
+      "type": "belongs-to-country",
+      "tail": "Україна",
+      "evidence": "Державної прикордонної служби України"
+    },
+    {
+      "head": "ДП «Адміністрація морських портів України»",
+      "type": "belongs-to-country",
+      "tail": "Україна",
+      "evidence": "Адміністрація морських портів України"
+    },
+    {
+      "head": "Armageddon",
+      "type": "impersonates",
+      "tail": "ДП «Адміністрація морських портів України»",
+      "evidence": "розповсюдження, начебто, від імені ДП «Адміністрація морських портів України»"
+    },
+    {
+      "head": "порти АРК.rar",
+      "type": "contains-file",
+      "tail": "Щодо заходження суден під іноземним прапором в порти АР Крим на 27.01.2022.docx",
+      "evidence": "RAR-архів містить шкідливі DOCX-документи «Щодо заходження суден під іноземним прапором"
+    },
+    {
+      "head": "порти АРК.rar",
+      "type": "contains-file",
+      "tail": "Щодо заходження суден під державним прапором в порти АР Крим на 27.01.2022.docx",
+      "evidence": "RAR-архів містить шкідливі DOCX-документи «Щодо заходження суден під іноземним прапором... і «Щодо заходження суден під державним прапором"
+    },
+    {
+      "head": "Armageddon",
+      "type": "uses-malware",
+      "tail": "GammaLoad",
+      "evidence": "призведе до ураження комп’ютера шкідливою програмою GammaLoad. Атаку асоційовано з діяльністю групи Armageddon"
+    },
+    {
+      "head": "surname192.temp.swtest.ru",
+      "type": "hosts-file",
+      "tail": "derg.gif",
+      "evidence": "hxxp://surname192.temp.swtest[.]ru/prapor/su/derg.gif"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "is-part-of",
+      "definition": "Identifies a sub-unit, branch, or component belonging to a parent organization."
+    },
+    {
+      "name": "belongs-to-country",
+      "definition": "Identifies the country to which an organization or entity belongs."
+    },
+    {
+      "name": "impersonates",
+      "definition": "Indicates that an actor or campaign masquerades as a specific organization or entity."
+    },
+    {
+      "name": "contains-file",
+      "definition": "Indicates that an archive or container file contains a specific file inside it."
+    },
+    {
+      "name": "uses-malware",
+      "definition": "Indicates that a threat actor employs a specific malware family in their operations."
+    },
+    {
+      "name": "hosts-file",
+      "definition": "Indicates that an internet domain or server hosts a specific file."
+    }
+  ]
+}

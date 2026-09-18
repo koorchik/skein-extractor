@@ -1,0 +1,174 @@
+{
+  "docId": 39934,
+  "date": "28.04.2022",
+  "title": "Кібератака групи UAC-0098 на державні органи України із застосуванням фреймворку Metasploit (CERT-UA#4560)",
+  "entities": [
+    {
+      "id": "39934:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "39934:1",
+      "name": "Указ Президента України No 151 про безпрецедентні заходи безпеки.iso",
+      "kind": "disk image file",
+      "gloss": "A malicious ISO disk image file distributed as an email attachment in a cyber attack.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "39934:2",
+      "name": "a.docx",
+      "kind": "document file",
+      "gloss": "A decoy Microsoft Word document embedded within a malicious disk image.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "39934:3",
+      "name": "УКАЗ ПРЕЗИДЕНТА УКРАЇНИ №151_2022.mp4.lnk",
+      "kind": "shortcut file",
+      "gloss": "A malicious Windows shortcut file used to trigger PowerShell script execution.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "39934:4",
+      "name": "z.ps1",
+      "kind": "script file",
+      "gloss": "A PowerShell script used to open a decoy document and execute a payload executable.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "39934:5",
+      "name": "b.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable file responsible for deploying Meterpreter.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "39934:6",
+      "name": "loader.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable file identified as an indicator of compromise.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "39934:7",
+      "name": "Meterpreter",
+      "kind": "malware family",
+      "gloss": "An advanced, dynamically extensible payload and post-exploitation tool from the Metasploit Framework.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "39934:8",
+      "name": "UAC-0098",
+      "kind": "threat actor",
+      "gloss": "A cyber threat actor group linked to attacks against Ukrainian entities and associated with TrickBot.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "related"
+    },
+    {
+      "id": "39934:9",
+      "name": "TrickBot",
+      "kind": "cybercrime group",
+      "gloss": "A notorious cybercrime group known for developing and operating the TrickBot banking trojan and malware ecosystem.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "related"
+    },
+    {
+      "id": "39934:10",
+      "name": "admin@rs500cosworth.com",
+      "kind": "email address",
+      "gloss": "An email address identified as network infrastructure in a cyber incident.",
+      "scheme": "S14",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "39934:11",
+      "name": "195.211.99.29",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control or network infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0098",
+      "type": "associated-with-group",
+      "tail": "TrickBot",
+      "evidence": "активність асоційовано з UAC-0098. Крім того, існують підстави вважати, що згадана активність має відношення до діяльності групи TrickBot"
+    },
+    {
+      "head": "Указ Президента України No 151 про безпрецедентні заходи безпеки.iso",
+      "type": "contains-file",
+      "tail": "a.docx",
+      "evidence": "згаданий ISO-файл містить документ-приманку \"a.docx\""
+    },
+    {
+      "head": "Указ Президента України No 151 про безпрецедентні заходи безпеки.iso",
+      "type": "contains-file",
+      "tail": "УКАЗ ПРЕЗИДЕНТА УКРАЇНИ №151_2022.mp4.lnk",
+      "evidence": "ISO-файл містить документ-приманку \"a.docx\", LNK-файл \"УКАЗ ПРЕЗИДЕНТА УКРАЇНИ №151_2022.mp4.lnk\""
+    },
+    {
+      "head": "Указ Президента України No 151 про безпрецедентні заходи безпеки.iso",
+      "type": "contains-file",
+      "tail": "z.ps1",
+      "evidence": "ISO-файл містить... PowerShell-скрипт \"z.ps1\""
+    },
+    {
+      "head": "Указ Президента України No 151 про безпрецедентні заходи безпеки.iso",
+      "type": "contains-file",
+      "tail": "b.exe",
+      "evidence": "ISO-файл містить... та EXE-файл \"b.exe\""
+    },
+    {
+      "head": "УКАЗ ПРЕЗИДЕНТА УКРАЇНИ №151_2022.mp4.lnk",
+      "type": "executes",
+      "tail": "z.ps1",
+      "evidence": "У випадку запуску LNK-файлу, останній виконає PowerShell-скрипт"
+    },
+    {
+      "head": "z.ps1",
+      "type": "opens-file",
+      "tail": "a.docx",
+      "evidence": "PowerShell-скрипт, який, у свою чергу, відкриє DOCX-файл"
+    },
+    {
+      "head": "z.ps1",
+      "type": "executes",
+      "tail": "b.exe",
+      "evidence": "здійснить виконання файлу \"b.exe\""
+    },
+    {
+      "head": "b.exe",
+      "type": "drops-malware",
+      "tail": "Meterpreter",
+      "evidence": "здійснить виконання файлу \"b.exe\". В результаті, комп'ютер буде уражено шкідливою програмою Meterpreter"
+    }
+  ],
+  "unclassified": [
+    "39934:1"
+  ]
+}

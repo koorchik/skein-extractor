@@ -1,0 +1,160 @@
+{
+  "docId": 38155,
+  "date": "23.03.2022",
+  "title": "Кібератака на державні організації України з використанням шкідливої програми Cobalt Strike Beacon (CERT-UA#4227)",
+  "entities": [
+    {
+      "id": "38155:0",
+      "name": "UAC-0057",
+      "kind": "threat actor",
+      "gloss": "A suspected state-sponsored cyber espionage group also tracked as UNC1151 or Ghostwriter.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "38155:1",
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware tool",
+      "gloss": "A post-exploitation agent and payload of the Cobalt Strike adversary simulation software.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "38155:2",
+      "name": "Диверсанти.rar",
+      "kind": "archive file",
+      "gloss": "A malicious RAR archive used in the initial stage of the attack.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "38155:3",
+      "name": "Диверсанти 21.03.rar",
+      "kind": "archive file",
+      "gloss": "A malicious RAR archive contained within another archive.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "38155:4",
+      "name": "Диверсанти filercs.rar",
+      "kind": "executable file",
+      "gloss": "A malicious SFX archive using a right-to-left override character in its filename.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "38155:5",
+      "name": "Thumbs.db",
+      "kind": "script file",
+      "gloss": "A malicious VBScript file disguised as a Windows thumbnail cache file.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "38155:6",
+      "name": "dhdhk0k34.com",
+      "kind": "executable file",
+      "gloss": "A malicious .NET executable dropped and executed during the infection process.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "38155:7",
+      "name": "inject.exe",
+      "kind": "executable file",
+      "gloss": "A malicious injector executable used to facilitate malware execution.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "38155:8",
+      "name": "Skype.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable dropped as part of the infection chain.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "38155:9",
+      "name": "csbeacon.bin",
+      "kind": "malware payload",
+      "gloss": "A binary payload containing Cobalt Strike Beacon.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "38155:10",
+      "name": "ao3.hmgo.pw",
+      "kind": "internet domain",
+      "gloss": "A subdomain used as command and control infrastructure.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "38155:11",
+      "name": "hmgo.pw",
+      "kind": "internet domain",
+      "gloss": "An internet domain used for malicious command and control infrastructure.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0057",
+      "type": "uses-malware",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "асоційовано з діяльністю групи UAC-0057"
+    },
+    {
+      "head": "Диверсанти.rar",
+      "type": "delivers",
+      "tail": "Диверсанти 21.03.rar",
+      "evidence": "Диверсанти.rar\", що містить RAR-архів \"Диверсанти 21.03.rar"
+    },
+    {
+      "head": "Диверсанти 21.03.rar",
+      "type": "delivers",
+      "tail": "Диверсанти filercs.rar",
+      "evidence": "який, у свою чергу, містить SFX-архів \"Диверсанти filercs.rar"
+    },
+    {
+      "head": "Диверсанти filercs.rar",
+      "type": "delivers",
+      "tail": "Thumbs.db",
+      "evidence": "Згаданий архів містить документи та зображення приманки, а також VBScript-код (Thumbs.db)"
+    },
+    {
+      "head": "Thumbs.db",
+      "type": "delivers",
+      "tail": "dhdhk0k34.com",
+      "evidence": "Thumbs.db), який забезпечить створення та запуск .NET-програми \"dhdhk0k34.com\""
+    },
+    {
+      "head": "dhdhk0k34.com",
+      "type": "delivers",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "В результаті комп'ютер буде уражено шкідливою програмою Cobalt Strike Beacon"
+    },
+    {
+      "head": "ao3.hmgo.pw",
+      "type": "part-of",
+      "tail": "hmgo.pw",
+      "evidence": "ao3.hmgo[.]pw"
+    }
+  ],
+  "unclassified": []
+}

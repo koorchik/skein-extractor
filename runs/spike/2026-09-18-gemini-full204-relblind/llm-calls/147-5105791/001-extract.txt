@@ -1,0 +1,296 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA виявлено HTML-файли, які імітують вебінтерфейс поштових сервісів (зокрема, UKR.NET, Yahoo.com) та реалізують технічну можливість ексфільтрації введених жертвою автентифікаційних даних за допомогою HTTP POST-запитів. При цьому, передавання викрадених даних здійснюється за допомогою заздалегдіь скомпрометованих пристроїв Ubiquiti (EdgeOS).</p><p>Слід окремо звернути увагу на той факт, що один з HTML-файлів ("detail.html", MD5: b0ef610dffa854e239fca9475f35272a) містить електронну адресу об'єкту атаки: "iri_1357@yahoo.com". За наявними даними зазначена адреса належить Посольству Ісламської Республіки Іран в Тірані (Республіка Албанія).</p><p>Виходячи з викладеного доцільно зробити висновок про те, що угрупуванням APT28, діяльність якого скеровується гу гш зс рф, у травні 2023 року, серед іншого, здійснено цільову кібератаку у відношенні закордонної дипломатичної установи Ірану.</p><p>Принагідно дякуємо представникам міжнародної дослідницької спільноти (@cyber__sloth, @BushidoToken), які сприяють боротьбі з кіберзагрозами, спрямованими, в тому числі, проти України.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">e41f3ea1cd183f22b691e396cbb50df3&nbsp;&nbsp;&nbsp;4754c4235bb0f5d2dbd0f12dea60b053855db8ab34ed1c226bfc89c3344d80d9&nbsp;&nbsp;&nbsp;e41f3ea1cd183f22b691e396cbb50df3.zip (2023-04-28 06:45:35)
+48d091b7601143e490aa7eef359010e2&nbsp;&nbsp;&nbsp;33c208cf0bafe98f0fc4ab9e7a3ddf25e2218d0bce01d6844780782a16ccab2f&nbsp;&nbsp;&nbsp;detail.html
+42254517193b38f49dd7590e5959b199&nbsp;&nbsp;&nbsp;1dd1d4541a0e7a6a9dd1a3734edf14b0e7ef30a63123f606ca6f8d585047109f&nbsp;&nbsp;&nbsp;CDS Daily Brief 23.03.2023.html (2023-04-03 13:51:52)
+358fcc8f7fae0aca138438ab013148bf&nbsp;&nbsp;&nbsp;5249526db77f3756dd683fc2672623edd14c96d19248a83994f25598879018d0&nbsp;&nbsp;&nbsp;Повідомлення.zip (2023-05-02 05:45:02)
+cef772f121afb26a057b7232bba6bc94&nbsp;&nbsp;&nbsp;4df72b051d8e3b97640ea3819da75ffb34df75aeb40403edb3e8482a8465dfab&nbsp;&nbsp;&nbsp;detail.html
+b0ef610dffa854e239fca9475f35272a&nbsp;&nbsp;&nbsp;69340ec5e6e03bd609679e4d280904ea3b5ec4b85353581d860a1c3314d90dfe&nbsp;&nbsp;&nbsp;detail.html (2023-05-18 14:52:11)
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">13[.]40.77.34 (сервіс Forge)
+37[.]191.122.186 (скомпрометований пристрій Ubiquiti)
+62[.]4.36.126 (скомпрометований пристрій Ubiquiti)
+hXXp://37[.]191.122.186:3578
+hXXp://62[.]4.36.126:8880
+hXXp://62[.]4.36.126:8880/captcha
+hXXp://robot-876.frge[.]io/
+hXXps://eos93vb2cwsu3xf.m.pipedream.net?doc=iri_1357@yahoo[.]com
+hXXps://eopkne8kapj01xi.m.pipedream[.]net
+hXXps://eos93vb2cwsu3xf.m.pipedream[.]net
+eopkne8kapj01xi.m.pipedream[.]net
+eos93vb2cwsu3xf.m.pipedream[.]net
+setnewcreds.ukr.net.frge[.]io
+setnewcred.ukr.net.frge[.]io
+mail-gov-ua.frge[.]io
+robot-876.frge[.]io
+_.ukr.net.frge[.]io
+ukr.net.frge[.]io
+net.frge[.]io
+frge[.]io
+</pre><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Приклад HTML-файлу, що імітує повідомлення поштового сервісу Yahoo.com</p><p><br></p><p></p><p>Рис.2 Приклад HTML-файлу, що, начебто, містить повідомлення про безпеку від UKR.NET</p><p><br></p><p></p><p>Рис.3 Приклад HTML-файлу "CDS Daily Brief 23.03.2023.html" з приманкою у вигляді звіту Центру оборонних стратегій</p><p><br></p><p><br></p>
+
+=== RESPONSE (8.6s, in 2616 / out 2379 tok, STOP) ===
+APT28 conducted cyberattacks using malicious HTML files that impersonate webmail interfaces such as UKR.NET and Yahoo.com to exfiltrate credentials via compromised Ubiquiti EdgeOS devices and services like Pipedream and frge.io. One attack targeted the Embassy of Iran in Tirana, Albania.
+
+{
+  "entities": [
+    {
+      "name": "UKR.NET",
+      "kind": "web portal",
+      "gloss": "A major Ukrainian internet portal and webmail service provider."
+    },
+    {
+      "name": "Yahoo.com",
+      "kind": "web service",
+      "gloss": "A multinational web portal and online services platform including webmail."
+    },
+    {
+      "name": "Ubiquiti",
+      "kind": "hardware vendor",
+      "gloss": "An American manufacturer of network communications equipment."
+    },
+    {
+      "name": "EdgeOS",
+      "kind": "operating system",
+      "gloss": "A network operating system developed by Ubiquiti for routing hardware."
+    },
+    {
+      "name": "detail.html",
+      "kind": "phishing file",
+      "gloss": "A malicious HTML file used to harvest and exfiltrate user credentials."
+    },
+    {
+      "name": "iri_1357@yahoo.com",
+      "kind": "email address",
+      "gloss": "An email address belonging to the Embassy of Iran in Tirana."
+    },
+    {
+      "name": "Посольство Ісламської Республіки Іран в Тірані",
+      "kind": "diplomatic mission",
+      "gloss": "The diplomatic mission of the Islamic Republic of Iran located in Tirana, Albania."
+    },
+    {
+      "name": "Ісламська Республіка Іран",
+      "kind": "country",
+      "gloss": "A sovereign country in Western Asia."
+    },
+    {
+      "name": "Республіка Албанія",
+      "kind": "country",
+      "gloss": "A sovereign country in Southeast Europe on the Balkan Peninsula."
+    },
+    {
+      "name": "APT28",
+      "kind": "hacking group",
+      "gloss": "A Russian state-sponsored cyber espionage threat group affiliated with Russian military intelligence."
+    },
+    {
+      "name": "гу гш зс рф",
+      "kind": "intelligence agency",
+      "gloss": "The military intelligence agency of the General Staff of the Armed Forces of the Russian Federation."
+    },
+    {
+      "name": "рф",
+      "kind": "country",
+      "gloss": "A transcontinental country located in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country located in Eastern Europe."
+    },
+    {
+      "name": "@cyber__sloth",
+      "kind": "person",
+      "gloss": "An independent cybersecurity researcher."
+    },
+    {
+      "name": "@BushidoToken",
+      "kind": "person",
+      "gloss": "An independent cybersecurity researcher."
+    },
+    {
+      "name": "e41f3ea1cd183f22b691e396cbb50df3.zip",
+      "kind": "file",
+      "gloss": "A malicious ZIP archive used in cyber operations."
+    },
+    {
+      "name": "CDS Daily Brief 23.03.2023.html",
+      "kind": "phishing file",
+      "gloss": "A malicious HTML file impersonating a daily brief from the Centre for Defence Strategies."
+    },
+    {
+      "name": "Повідомлення.zip",
+      "kind": "file",
+      "gloss": "A malicious ZIP archive used in cyber operations."
+    },
+    {
+      "name": "Центр оборонних стратегій",
+      "kind": "think tank",
+      "gloss": "A Ukrainian independent think tank focused on security and defence."
+    },
+    {
+      "name": "Forge",
+      "kind": "cloud service",
+      "gloss": "A web hosting or deployment platform used by threat actors."
+    },
+    {
+      "name": "13.40.77.34",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the Forge web hosting service."
+    },
+    {
+      "name": "37.191.122.186",
+      "kind": "ip address",
+      "gloss": "An IP address of a compromised Ubiquiti device used for data relay."
+    },
+    {
+      "name": "62.4.36.126",
+      "kind": "ip address",
+      "gloss": "An IP address of a compromised Ubiquiti device used for data relay."
+    },
+    {
+      "name": "frge.io",
+      "kind": "internet domain",
+      "gloss": "A domain name used for hosting phishing pages."
+    },
+    {
+      "name": "robot-876.frge.io",
+      "kind": "internet domain",
+      "gloss": "A subdomain of frge.io used in malicious operations."
+    },
+    {
+      "name": "setnewcreds.ukr.net.frge.io",
+      "kind": "internet domain",
+      "gloss": "A phishing domain mimicking UKR.NET hosted on frge.io."
+    },
+    {
+      "name": "setnewcred.ukr.net.frge.io",
+      "kind": "internet domain",
+      "gloss": "A phishing domain mimicking UKR.NET hosted on frge.io."
+    },
+    {
+      "name": "mail-gov-ua.frge.io",
+      "kind": "internet domain",
+      "gloss": "A phishing domain mimicking Ukrainian government mail services hosted on frge.io."
+    },
+    {
+      "name": "eos93vb2cwsu3xf.m.pipedream.net",
+      "kind": "internet domain",
+      "gloss": "A Pipedream platform endpoint used for exfiltrating stolen credentials."
+    },
+    {
+      "name": "eopkne8kapj01xi.m.pipedream.net",
+      "kind": "internet domain",
+      "gloss": "A Pipedream platform endpoint used for exfiltrating stolen credentials."
+    }
+  ],
+  "relations": [
+    {
+      "head": "APT28",
+      "type": "is-controlled-by",
+      "tail": "гу гш зс рф",
+      "evidence": "угрупуванням APT28, діяльність якого скеровується гу гш зс рф"
+    },
+    {
+      "head": "гу гш зс рф",
+      "type": "belongs-to-country",
+      "tail": "рф",
+      "evidence": "гу гш зс рф"
+    },
+    {
+      "head": "APT28",
+      "type": "targets",
+      "tail": "Посольство Ісламської Республіки Іран в Тірані",
+      "evidence": "APT28 ... здійснено цільову кібератаку у відношенні закордонної дипломатичної установи Ірану"
+    },
+    {
+      "head": "Посольство Ісламської Республіки Іран в Тірані",
+      "type": "belongs-to-country",
+      "tail": "Ісламська Республіка Іран",
+      "evidence": "Посольству Ісламської Республіки Іран"
+    },
+    {
+      "head": "Посольство Ісламської Республіки Іран в Тірані",
+      "type": "located-in-country",
+      "tail": "Республіка Албанія",
+      "evidence": "Посольству Ісламської Республіки Іран в Тірані (Республіка Албанія)"
+    },
+    {
+      "head": "EdgeOS",
+      "type": "developed-by",
+      "tail": "Ubiquiti",
+      "evidence": "пристроїв Ubiquiti (EdgeOS)"
+    },
+    {
+      "head": "13.40.77.34",
+      "type": "associated-with-service",
+      "tail": "Forge",
+      "evidence": "13[.]40.77.34 (сервіс Forge)"
+    },
+    {
+      "head": "CDS Daily Brief 23.03.2023.html",
+      "type": "impersonates",
+      "tail": "Центр оборонних стратегій",
+      "evidence": "приманкою у вигляді звіту Центру оборонних стратегій"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "is-controlled-by",
+      "definition": "The subject entity is directed, managed, or controlled by the object entity."
+    },
+    {
+      "name": "belongs-to-country",
+      "definition": "The subject organization or state entity belongs to the specified nation or country."
+    },
+    {
+      "name": "targets",
+      "definition": "The threat actor or attack targets the specified victim entity."
+    },
+    {
+      "name": "located-in-country",
+      "definition": "The subject entity is geographically situated within the specified country."
+    },
+    {
+      "name": "developed-by",
+      "definition": "The software or product was created or developed by the specified vendor."
+    },
+    {
+      "name": "associated-with-service",
+      "definition": "The infrastructure or IP address is linked to or hosted on the specified service."
+    },
+    {
+      "name": "impersonates",
+      "definition": "The malicious artifact or entity pretends to originate from or represent the specified legitimate organization or service."
+    }
+  ]
+}

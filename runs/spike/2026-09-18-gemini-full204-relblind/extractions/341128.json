@@ -1,0 +1,108 @@
+{
+  "entities": [
+    {
+      "name": "APT28",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group associated with the GRU military intelligence service."
+    },
+    {
+      "name": "Nuclear Terrorism A Very Real Threat.rtf",
+      "kind": "malicious file",
+      "gloss": "A malicious Rich Text Format document used as a lure to exploit vulnerabilities and drop malware."
+    },
+    {
+      "name": "CVE-2022-30190",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in the Microsoft Support Diagnostic Tool (MSDT), also known as Follina."
+    },
+    {
+      "name": "CredoMap",
+      "kind": "malware family",
+      "gloss": "A malware family used to steal credentials and system information."
+    },
+    {
+      "name": "article.html",
+      "kind": "file name",
+      "gloss": "An HTML file loaded by a malicious document to execute JavaScript and exploit CVE-2022-30190."
+    },
+    {
+      "name": "SQLite.Interop.dll",
+      "kind": "file name",
+      "gloss": "A legitimate SQLite dynamic-link library downloaded alongside the malicious executable."
+    },
+    {
+      "name": "docx.exe",
+      "kind": "file name",
+      "gloss": "A malicious executable file delivering the CredoMap malware."
+    },
+    {
+      "name": "kitten-268.frge[.]io",
+      "kind": "domain name",
+      "gloss": "An internet domain used to host the malicious article.html payload."
+    },
+    {
+      "name": "frge[.]io",
+      "kind": "domain name",
+      "gloss": "A web hosting or domain service used to host threat actor infrastructure."
+    },
+    {
+      "name": "kompartpomiar[.]pl",
+      "kind": "domain name",
+      "gloss": "A compromised website domain used to host and distribute malicious files."
+    },
+    {
+      "name": "162[.]241.216.236",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "seo@specialityllc[.]com",
+      "kind": "email address",
+      "gloss": "An email address identified as an indicator of compromise in the incident."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Nuclear Terrorism A Very Real Threat.rtf",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2022-30190",
+      "evidence": "відкриття якого призведе до завантаження HTML-файлу та виконання JavaScript-коду (CVE-2022-30190)"
+    },
+    {
+      "head": "Nuclear Terrorism A Very Real Threat.rtf",
+      "type": "downloads",
+      "tail": "article.html",
+      "evidence": "відкриття якого призведе до завантаження HTML-файлу"
+    },
+    {
+      "head": "docx.exe",
+      "type": "delivers-malware",
+      "tail": "CredoMap",
+      "evidence": "docx.exe (CredoMap)"
+    },
+    {
+      "head": "APT28",
+      "type": "associated-with-activity",
+      "tail": "CredoMap",
+      "evidence": "асоціювати виявлену активність з діяльністю групи APT28"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "exploits-vulnerability",
+      "definition": "The source file, payload, or actor leverages a specific software flaw to execute arbitrary actions."
+    },
+    {
+      "name": "downloads",
+      "definition": "The source entity initiates the retrieval of the target file or payload from a remote resource."
+    },
+    {
+      "name": "delivers-malware",
+      "definition": "The source executable, script, or payload contains or installs the target malware family."
+    },
+    {
+      "name": "associated-with-activity",
+      "definition": "The threat actor is attributed to or associated with the identified malicious software or activity."
+    }
+  ]
+}

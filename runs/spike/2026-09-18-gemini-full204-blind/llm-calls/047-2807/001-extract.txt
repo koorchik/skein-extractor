@@ -1,0 +1,168 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p>Виявлено розсилку шпигунського програмного забезпечення типу Pterodo, яке розповсюджується за допомогою електронної пошти під виглядом офіційної кореспонденції з доменів .gov.ua. Насправді, адреси відправників змінено, а листи відправляються з електронних адрес porohman@i.ua та&nbsp;porohwoman@i.ua.</p><p>До електронних листів прикріплений архів, який містить spisok_24.08.2018.com та НПУ.docx файли. За результатами аналізу встановлено, що при активації виконуваних файлів з архіву НПУ.rar виконувана компонента spisok_24.08.2018.com (ехе файл) автоматично розпаковується&nbsp;на виконувані (Icloud.exe, Iclouding.exe, ipad.system) та командні файли (iclouds.cmd, iclouds.cmd),&nbsp;метою яких є збір даних враженої системи та передача даних програмою <em>Iclouding.exe </em>до командного серверу single-office.ddns[.]net (на момент аналізу ІР-адреса домену була 95.142.45[.]58).</p><p></p><p><br></p><p>Компоненти вірусу маскуються під програмне забезпечення&nbsp;корпорацій Apple та Adobe. Крім того,&nbsp;шкідливе програмне забезпечення може видаляти системні файли та власні файли для приховування слідів діяльності, що може спричинити не можливість запуску операційної системи.</p><p>Під час активної дії виконуваної компоненти&nbsp;spisok_24.08.2018.com (або "забезпечте моніторинг мережевого обладнання на факт звертання до підозрілих адрес.com")&nbsp;створюється процес Icloud.exe який в свою чергу запускає cmd.exe&nbsp;у прихованому режимі та процес timeout.exe, мета якого періодично поновлювати зв'язок з командним сервером для передачі та отримання інформації. Не виключено отримання вказівок з командного сервера.</p><p>Зловмисники за допомогою даного шпигунського програмного забезпечення легко підключаються до системи, стежать за діями жертви і крадуть її конфіденційну інформацію.</p><p>&nbsp;</p><p><strong>Індикатори компрометації (IOC):</strong></p><p>&nbsp;</p><p><strong>Шкідливі домени та ІР (C2):</strong></p><p>single-office.ddns[.]net</p><p>95.142.45[.]58</p><p>&nbsp;</p><p><strong>Email:</strong></p><p>porohman@i.ua</p><p>porohwoman@i.ua</p><p>&nbsp;</p><p><strong>Приклад повідомлень :</strong></p><p></p><p></p><p><br></p><p>Вміст вкладень може відрізнятися, але спільним є те, що в архіві міститься файл (або файли) з схожою на достовірну інформацію та виконуваний файл з розширенням .соm, який і є вірусом.</p><p><br></p><p><strong>Приклади вкладень:</strong></p><p><br></p><p></p><p></p><p><br></p><p><strong>Шкідливі файли:</strong></p><p><span style="color: black;">"Лица, которые переместились из АР Крым и районов проведения антитерротистической операции.com"</span></p><p><span style="color: black;">MD5:&nbsp;76741F7B1FF4860475B34BAD2606DD16</span></p><p><a href="https://www.virustotal.com/#/file/97fe980403bebf0bd2b1dda6c0c674787fb945827fedabb0656ee40eb92a6efa/detection" rel="noopener noreferrer" target="_blank" style="color: black;">https://www.virustotal.com/#/file/97fe980403bebf0bd2b1dda6c0c674787fb945827fedabb0656ee40eb92a6efa/detection</a></p><p>&nbsp;</p><p><strong style="color: black;">spisok_24.08.2018.com </strong></p><p><span style="color: black;">MD5: 8717F3723C2BB557B548EF8483BEA91C</span></p><p><a href="https://www.virustotal.com/#/file/50181154303284c8dbd64287efa16bca82a350f565b32b0d9f2d9a8aedc889b4/detection" rel="noopener noreferrer" target="_blank" style="color: black;">https://www.virustotal.com/#/file/50181154303284c8dbd64287efa16bca82a350f565b32b0d9f2d9a8aedc889b4/detection</a></p><p>&nbsp;</p><p><span style="color: black;">./ipad.system</span></p><p><span style="color: black;">MD5: e5d73afdbd5b440cc45e59e6db509d71</span></p><p><a href="https://www.virustotal.com/#/file/b024234d583b3adb5ae4ec3809d316b4f2f48839b3d9baec615750f35ce231cc/detection" rel="noopener noreferrer" target="_blank" style="color: black;">https://www.virustotal.com/#/file/b024234d583b3adb5ae4ec3809d316b4f2f48839b3d9baec615750f35ce231cc/detection</a></p><p>&nbsp;</p><p><span style="color: black;">./IcloudSecurity.lnk</span></p><p><span style="color: black;">MD5: 355b8b3170f01c5db98461b7451008d6&nbsp;</span></p><p><a href="https://www.virustotal.com/#/file/cce68c4b705595610289293922b96513d71d8b376f6e9fe0b32513ccf1274178/detection" rel="noopener noreferrer" target="_blank" style="color: black;">https://www.virustotal.com/#/file/cce68c4b705595610289293922b96513d71d8b376f6e9fe0b32513ccf1274178/detection</a></p><p>&nbsp;</p><p><span style="color: black;">./НПУ.docx&nbsp;</span></p><p><span style="color: black;">MD5: 23577b4223db2762bc4521dcc8c9e5c5&nbsp;</span></p><p>&nbsp;</p><p><span style="color: black;">/Iclouding.exe</span></p><p><span style="color: black;">MD5: 834c709455bfefb9b0e8976bad13a8f4&nbsp;</span></p><p>.</p><p><span style="color: black;">./icloud.cmd</span></p><p><span style="color: black;">MD5: 9d03d5fb154b1cb54da8a6ab71999251&nbsp;&nbsp;</span></p><p>&nbsp;</p><p><span style="color: black;">./iclouds.cmd</span></p><p><span style="color: black;">MD5: 1d4874db97fcce7c3537f49ec8aa0672&nbsp;</span></p><p>&nbsp;</p><p><strong>Рекомендації CERT-UA:</strong></p><p><strong>- </strong>рекомендуємо адміністраторам слідкувати за спробами підключення&nbsp;до зазначеного C2 домену та ІР, для виявлення потенційно заражених систем.</p><p>- уникайте повідомлень вказаного та схожого змісту та застережіть персонал від запуску вкладень у підозрілих повідомленнях та файлів з виконуваними форматами ;</p><p>- адміністраторам поштових серверів, зверніть увагу на фільтрування вхідних/вихідних інформаційних потоків, зокрема поштового веб-трафіку, налаштуйте захист від спаму та підробки адреси відправника за допомогою технологій DKIM, SPF, DMARC;</p><p>- перевірте журнальні файли на предмет наявності записів з зазначеними вище індикаторами;</p><p>- обмежіть можливість запуску виконуваних файлів (*.exe) на комп’ютерах користувачів з директорій %TEMP%, %APPDATA%.</p><p>- регулярно оновлюйте антивірусну базу та сканувати потенційно заражені системи;</p><p>- регулярно робіть резервні копії важливого програмного забезпечення та данних;</p><p>- періодично робіть повну перевірку "чутливих" комп'ютерів на предмет наявності шкідливого програмного забезпечення;</p><p>- регулярно оновлюйте програмне забезпечення;</p>
+
+=== RESPONSE (5.5s, in 3615 / out 1251 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Pterodo",
+      "kind": "malware family",
+      "gloss": "A spyware and backdoor malware family attributed to the Russian threat group Gamaredon."
+    },
+    {
+      "name": "porohman@i.ua",
+      "kind": "email address",
+      "gloss": "An email address used to distribute phishing emails carrying malicious attachments."
+    },
+    {
+      "name": "porohwoman@i.ua",
+      "kind": "email address",
+      "gloss": "An email address used to distribute phishing emails carrying malicious attachments."
+    },
+    {
+      "name": "НПУ.rar",
+      "kind": "archive file",
+      "gloss": "A malicious RAR archive attached to phishing emails containing Pterodo components."
+    },
+    {
+      "name": "spisok_24.08.2018.com",
+      "kind": "executable file",
+      "gloss": "A malicious executable file masquerading as a document that unpacks Pterodo components."
+    },
+    {
+      "name": "НПУ.docx",
+      "kind": "document file",
+      "gloss": "A decoy Microsoft Word document included inside a malicious archive."
+    },
+    {
+      "name": "Icloud.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable component dropped by Pterodo masquerading as an Apple application."
+    },
+    {
+      "name": "Iclouding.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable component of Pterodo responsible for exfiltrating data to C2."
+    },
+    {
+      "name": "ipad.system",
+      "kind": "file",
+      "gloss": "A payload file dropped and utilized by Pterodo components."
+    },
+    {
+      "name": "icloud.cmd",
+      "kind": "script file",
+      "gloss": "A malicious command script component of Pterodo."
+    },
+    {
+      "name": "iclouds.cmd",
+      "kind": "script file",
+      "gloss": "A malicious command script component of Pterodo."
+    },
+    {
+      "name": "IcloudSecurity.lnk",
+      "kind": "shortcut file",
+      "gloss": "A malicious shortcut file associated with Pterodo execution."
+    },
+    {
+      "name": "single-office.ddns[.]net",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS domain used as a command and control server for Pterodo."
+    },
+    {
+      "name": "95.142.45[.]58",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the command and control server single-office.ddns[.]net."
+    },
+    {
+      "name": "Apple",
+      "kind": "software vendor",
+      "gloss": "An American multinational technology company whose software names are mimicked by malware."
+    },
+    {
+      "name": "Adobe",
+      "kind": "software vendor",
+      "gloss": "An American multinational computer software company whose software names are mimicked by malware."
+    },
+    {
+      "name": "Лица, которые переместились из АР Крым и районов проведения антитерротистической операции.com",
+      "kind": "executable file",
+      "gloss": "A malicious executable file used as a lure in phishing campaigns."
+    },
+    {
+      "name": "забезпечте моніторинг мережевого обладнання на факт звертання до підозрілих адрес.com",
+      "kind": "executable file",
+      "gloss": "A malicious executable file used as an alternative lure name in Pterodo campaigns."
+    }
+  ],
+  "relations": [
+    {
+      "head": "spisok_24.08.2018.com",
+      "type": "part-of",
+      "tail": "НПУ.rar",
+      "evidence": "при активації виконуваних файлів з архіву НПУ.rar виконувана компонента spisok_24.08.2018.com"
+    },
+    {
+      "head": "НПУ.docx",
+      "type": "part-of",
+      "tail": "НПУ.rar",
+      "evidence": "архів, який містить spisok_24.08.2018.com та НПУ.docx файли"
+    },
+    {
+      "head": "Iclouding.exe",
+      "type": "communicates-with",
+      "tail": "single-office.ddns[.]net",
+      "evidence": "передача даних програмою Iclouding.exe до командного серверу single-office.ddns[.]net"
+    },
+    {
+      "head": "single-office.ddns[.]net",
+      "type": "hosts",
+      "tail": "95.142.45[.]58",
+      "evidence": "на момент аналізу ІР-адреса домену була 95.142.45[.]58"
+    }
+  ],
+  "newRelationTypes": []
+}

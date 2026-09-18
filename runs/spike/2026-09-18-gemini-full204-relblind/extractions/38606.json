@@ -1,0 +1,99 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Міністерство освіти та науки України",
+      "kind": "government body",
+      "gloss": "The central executive body of Ukraine responsible for education and scientific development."
+    },
+    {
+      "name": "UAC-0041",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA specializing in credential theft."
+    },
+    {
+      "name": "MarsStealer",
+      "kind": "malware family",
+      "gloss": "An information-stealing malware family written in C and Assembly designed to steal credentials, crypto wallets, and browser data."
+    },
+    {
+      "name": "Racoon",
+      "kind": "malware family",
+      "gloss": "An information-stealing malware family sold under a malware-as-a-service model."
+    },
+    {
+      "name": "v_2.2.9.rar",
+      "kind": "file",
+      "gloss": "A RAR archive file used in the distribution of malware."
+    },
+    {
+      "name": "v_2.2.9.exe",
+      "kind": "file",
+      "gloss": "An executable file containing MarsStealer malware."
+    },
+    {
+      "name": "v_5.1.9.zip",
+      "kind": "file",
+      "gloss": "A ZIP archive file used to distribute malicious payloads."
+    },
+    {
+      "name": "v_5.1.9.exe",
+      "kind": "file",
+      "gloss": "An executable file containing MarsStealer malware."
+    },
+    {
+      "name": "api.dev-com[.]sc",
+      "kind": "domain name",
+      "gloss": "A domain name used to host and distribute malicious files."
+    },
+    {
+      "name": "dev-com[.]sc",
+      "kind": "domain name",
+      "gloss": "A domain name associated with malicious infrastructure."
+    },
+    {
+      "name": "176[.]57.189.191",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious dependency files and gate scripts."
+    },
+    {
+      "name": "95[.]111.231.126",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the malicious network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0041",
+      "type": "uses-malware",
+      "tail": "MarsStealer",
+      "evidence": "Виявлена активність відстежується за ідентифікатором UAC-0041 як діяльність однієї з груп"
+    },
+    {
+      "head": "v_2.2.9.exe",
+      "type": "is-sample-of",
+      "tail": "MarsStealer",
+      "evidence": "v_2.2.9.exe (MarsStealer)"
+    },
+    {
+      "head": "v_5.1.9.exe",
+      "type": "is-sample-of",
+      "tail": "MarsStealer",
+      "evidence": "v_5.1.9.exe (MarsStealer)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-malware",
+      "definition": "The threat actor or group utilizes a specified malware family in their operations."
+    },
+    {
+      "name": "is-sample-of",
+      "definition": "The file is an instance or payload of a particular malware family."
+    }
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "entities": [
+    {
+      "name": "gordon6.hopto.org",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS domain used as a command-and-control server in phishing campaigns."
+    },
+    {
+      "name": "62.76.105.46",
+      "kind": "ip address",
+      "gloss": "An IP address located in the Russian Federation used as a command-and-control server."
+    },
+    {
+      "name": "52.71.211.89",
+      "kind": "ip address",
+      "gloss": "An IP address located in the United States used as a command-and-control server."
+    },
+    {
+      "name": "Російська Федерація",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "США",
+      "kind": "country",
+      "gloss": "A country primarily located in North America."
+    },
+    {
+      "name": "Schwarze-Sonne-Remote-Access-Trojan",
+      "kind": "malware family",
+      "gloss": "A remote access trojan malware that enables unauthorized control of infected systems."
+    },
+    {
+      "name": "feb_13_18.doc.exe_",
+      "kind": "file name",
+      "gloss": "A malicious executable file disguised as an office document."
+    },
+    {
+      "name": "____28.02.docx.exe",
+      "kind": "file name",
+      "gloss": "A malicious executable file delivering remote access trojan payload."
+    },
+    {
+      "name": "Nano.exe",
+      "kind": "file name",
+      "gloss": "A malicious executable protected with .Net Reactor."
+    },
+    {
+      "name": "Як зміняться зарплати військовослужбовців у 2018 році",
+      "kind": "file name",
+      "gloss": "A malicious document exploiting a remote code execution vulnerability."
+    },
+    {
+      "name": "CVE-2017-8759",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in Microsoft .NET Framework."
+    },
+    {
+      "name": ".Net Reactor",
+      "kind": "software product",
+      "gloss": "A code protection and obfuscation tool for software developed for the .NET Framework."
+    },
+    {
+      "name": "antiteror2@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors to distribute malicious phishing emails."
+    },
+    {
+      "name": "otkachenko@me.gov.ua",
+      "kind": "email address",
+      "gloss": "An email address used to send phishing messages with malicious attachments."
+    },
+    {
+      "name": "a224368_1@s8.h.mchost.ru",
+      "kind": "email address",
+      "gloss": "An email address used to distribute phishing messages spoofing a diplomatic mission."
+    },
+    {
+      "name": "Mission of Ukraine to NATO",
+      "kind": "government body",
+      "gloss": "The official diplomatic representation of Ukraine to the North Atlantic Treaty Organization."
+    },
+    {
+      "name": "Ukraine",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "NATO",
+      "kind": "international organization",
+      "gloss": "An intergovernmental military alliance between North American and European countries."
+    }
+  ],
+  "relations": [
+    {
+      "head": "62.76.105.46",
+      "type": "located-in",
+      "tail": "Російська Федерація",
+      "evidence": "62.76.105.46 (Російська Федерація)"
+    },
+    {
+      "head": "52.71.211.89",
+      "type": "located-in",
+      "tail": "США",
+      "evidence": "52.71.211.89 (США)"
+    },
+    {
+      "head": "Як зміняться зарплати військовослужбовців у 2018 році",
+      "type": "exploits",
+      "tail": "CVE-2017-8759",
+      "evidence": "Цей файл є xml, який використовує вразливість CVE-2017-8759"
+    },
+    {
+      "head": "Schwarze-Sonne-Remote-Access-Trojan",
+      "type": "communicates-with",
+      "tail": "gordon6.hopto.org",
+      "evidence": "Schwarze-Sonne-Remote-Access-Trojan. Цей процес зв'язується з кк центром gordon6.hopto.org."
+    },
+    {
+      "head": "Mission of Ukraine to NATO",
+      "type": "part-of",
+      "tail": "Ukraine",
+      "evidence": "Mission of Ukraine to NATO"
+    }
+  ],
+  "newRelationTypes": []
+}

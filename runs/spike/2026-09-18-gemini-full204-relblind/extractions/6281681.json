@@ -1,0 +1,210 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0099",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage threat group known to target Ukrainian state organizations and enterprises."
+    },
+    {
+      "name": "WinRAR",
+      "kind": "software product",
+      "gloss": "A popular file archiver utility for Windows."
+    },
+    {
+      "name": "CVE-2023-38831",
+      "kind": "vulnerability identifier",
+      "gloss": "A vulnerability in WinRAR allowing remote code execution via specially crafted archive files."
+    },
+    {
+      "name": "LONEPAGE",
+      "kind": "malware family",
+      "gloss": "A command-executing malware script used by UAC-0099, implemented in VBScript or PowerShell."
+    },
+    {
+      "name": "Cloudflare",
+      "kind": "company",
+      "gloss": "An American company providing content delivery network, DDoS mitigation, and cloud security services."
+    },
+    {
+      "name": "Повід. порушення 336 КК України.rar",
+      "kind": "malicious archive file",
+      "gloss": "A malicious RAR archive used in spear-phishing lures."
+    },
+    {
+      "name": "Повід. порушення 336 КК України.hta",
+      "kind": "malicious script file",
+      "gloss": "A malicious HTML application file used in the attack chain."
+    },
+    {
+      "name": "update.win.app.com",
+      "kind": "executable file",
+      "gloss": "A .NET executable used to decrypt and execute PowerShell payloads in memory."
+    },
+    {
+      "name": "app.lib.conf",
+      "kind": "encrypted payload file",
+      "gloss": "A 3DES encrypted payload file containing malicious code."
+    },
+    {
+      "name": "app.lib.conf.ps1",
+      "kind": "malicious script file",
+      "gloss": "A decrypted PowerShell script representing the LONEPAGE malware."
+    },
+    {
+      "name": "316-1759-24.rar",
+      "kind": "malicious archive file",
+      "gloss": "A malicious RAR archive distributed via spear-phishing emails."
+    },
+    {
+      "name": "316-1759-24.hta",
+      "kind": "malicious script file",
+      "gloss": "A malicious HTML application file used to initiate infection."
+    },
+    {
+      "name": "скан паспорту.rar",
+      "kind": "malicious archive file",
+      "gloss": "A malicious RAR archive exploiting CVE-2023-38831."
+    },
+    {
+      "name": "скан паспорту.jpg .lnk",
+      "kind": "malicious shortcut file",
+      "gloss": "A malicious Windows shortcut file masquerading as an image."
+    },
+    {
+      "name": "skan.txt",
+      "kind": "data file",
+      "gloss": "A Base64-encoded text file retrieved during the infection process."
+    },
+    {
+      "name": "UpdateOfficeCore.vbs",
+      "kind": "malicious script file",
+      "gloss": "A VBScript implementation of the LONEPAGE malware."
+    },
+    {
+      "name": "kiev.gp.vid2@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors to distribute malicious files."
+    },
+    {
+      "name": "oksanakuli4@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address used in spear-phishing campaigns."
+    },
+    {
+      "name": "gosp16.spd.ics.gov.ua@ukr.net",
+      "kind": "email address",
+      "gloss": "A spoofed or compromised email address used to send phishing emails."
+    },
+    {
+      "name": "captcha-challenge.com",
+      "kind": "domain name",
+      "gloss": "A malicious domain used for command and control and payload delivery."
+    },
+    {
+      "name": "newyorktlimes.life",
+      "kind": "domain name",
+      "gloss": "A malicious domain used for payload hosting and command and control communication."
+    },
+    {
+      "name": "webappapiservice.life",
+      "kind": "domain name",
+      "gloss": "A domain used for command and control communication."
+    },
+    {
+      "name": "45.61.157.118",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure."
+    },
+    {
+      "name": "160.119.251.83",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor infrastructure."
+    },
+    {
+      "name": "172.86.117.53",
+      "kind": "ip address",
+      "gloss": "An IP address used in the cyberattack infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0099",
+      "type": "targets-entities-in",
+      "tail": "Україна",
+      "evidence": "кібератак, здійснених угрупуванням UAC-0099 у відношенні ряду державних організацій"
+    },
+    {
+      "head": "UAC-0099",
+      "type": "uses-malware",
+      "tail": "LONEPAGE",
+      "evidence": "на ЕОМ здійснюється запуск програми LONEPAGE"
+    },
+    {
+      "head": "UAC-0099",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2023-38831",
+      "evidence": "архіви можуть містити експлойт для відомої вразливості WinRAR CVE-2023-38831"
+    },
+    {
+      "head": "CVE-2023-38831",
+      "type": "is-vulnerability-in",
+      "tail": "WinRAR",
+      "evidence": "вразливості WinRAR CVE-2023-38831"
+    },
+    {
+      "head": "UAC-0099",
+      "type": "leverages-service",
+      "tail": "Cloudflare",
+      "evidence": "зловмисники продовжують використовувати Cloudflare"
+    },
+    {
+      "head": "скан паспорту.rar",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2023-38831",
+      "evidence": "скан паспорту.rar (CVE-2023-38831)"
+    },
+    {
+      "head": "UpdateOfficeCore.vbs",
+      "type": "implements-malware",
+      "tail": "LONEPAGE",
+      "evidence": "UpdateOfficeCore.vbs (LONEPAGE)"
+    },
+    {
+      "head": "app.lib.conf.ps1",
+      "type": "implements-malware",
+      "tail": "LONEPAGE",
+      "evidence": "app.lib.conf.ps1 (LONEPAGE)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets-entities-in",
+      "definition": "The threat actor conducts malicious cyber operations against entities located within a specific country or jurisdiction."
+    },
+    {
+      "name": "uses-malware",
+      "definition": "The threat actor deploys, executes, or operates the specified malware family in their campaigns."
+    },
+    {
+      "name": "exploits-vulnerability",
+      "definition": "The entity (actor or file) attempts to abuse or trigger the specified security vulnerability."
+    },
+    {
+      "name": "is-vulnerability-in",
+      "definition": "The vulnerability affects or exists within the specified software product."
+    },
+    {
+      "name": "leverages-service",
+      "definition": "The threat actor utilizes an external legitimate third-party service or platform for malicious infrastructure support."
+    },
+    {
+      "name": "implements-malware",
+      "definition": "The specific file is an implementation, component, or variant of the specified malware family."
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "docId": 3028,
+  "date": "07.08.2020",
+  "title": "Agent Tesla (шкідливе програмне забезпечення)",
+  "entities": [
+    {
+      "id": "3028:0",
+      "name": "Agent Tesla",
+      "kind": "malware family",
+      "gloss": "A .NET-based infostealer, keylogger, and remote access trojan used to harvest credentials and system information.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "3028:1",
+      "name": "RegAsm.exe",
+      "kind": "software tool",
+      "gloss": "A legitimate Microsoft .NET Assembly Registration utility often abused by malware to execute code.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "3028:2",
+      "name": "AvqOUjZwpiXQ.exe",
+      "kind": "file name",
+      "gloss": "A randomly named executable file dropped and executed by Agent Tesla during installation.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "3028:3",
+      "name": "DynDns.com",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS service provider utilized for dynamic domain resolution.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "3028:4",
+      "name": "BaDpDF.com",
+      "kind": "internet domain",
+      "gloss": "A malicious domain name associated with Agent Tesla command and control communications.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "3028:5",
+      "name": "cm.islamabad@chinagrill.co",
+      "kind": "email address",
+      "gloss": "An email address used by Agent Tesla to exfiltrate stolen credentials via SMTP.",
+      "scheme": "S14",
+      "category": "Domain",
+      "role": "target"
+    },
+    {
+      "id": "3028:6",
+      "name": "68AAFAD91C955972089F099B62FCA0F2F6D6AC43",
+      "kind": "sha1 hash",
+      "gloss": "A SHA-1 cryptographic hash identifying a sample of Agent Tesla malware.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "3028:7",
+      "name": "A857E20D897F5CF77A2E80129285F477B6B0F96A",
+      "kind": "sha1 hash",
+      "gloss": "A SHA-1 cryptographic hash identifying a sample of Agent Tesla malware.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "3028:8",
+      "name": "6A951FE5B72AC99090BEBE3C7A15039AB2A5757C",
+      "kind": "sha1 hash",
+      "gloss": "A SHA-1 cryptographic hash identifying a sample of Agent Tesla malware.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "3028:9",
+      "name": "8DAA8D63B10698130C84913F57B4B77AC5D08550",
+      "kind": "sha1 hash",
+      "gloss": "A SHA-1 cryptographic hash identifying a sample of Agent Tesla malware.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Agent Tesla",
+      "type": "executes",
+      "tail": "RegAsm.exe",
+      "evidence": "Далі програма запускає системний файл RegAsm.exe"
+    },
+    {
+      "head": "Agent Tesla",
+      "type": "creates-file",
+      "tail": "AvqOUjZwpiXQ.exe",
+      "evidence": "створює виконуваний файл з псевдовипадковою назвою (наприклад AvqOUjZwpiXQ.exe)"
+    },
+    {
+      "head": "Agent Tesla",
+      "type": "uses-service",
+      "tail": "DynDns.com",
+      "evidence": "використовується механізм динамічної зміни IP-адреси використовуючи послуги https://DynDns.com"
+    },
+    {
+      "head": "Agent Tesla",
+      "type": "communicates-with-c2",
+      "tail": "BaDpDF.com",
+      "evidence": "HTTP протокол, наприклад, “hххp://BaDpDF.com"
+    },
+    {
+      "head": "Agent Tesla",
+      "type": "exfiltrates-data-to-email",
+      "tail": "cm.islamabad@chinagrill.co",
+      "evidence": "відправляючи дані на поштову адресу cm.islamabad@chinagrill.co"
+    }
+  ],
+  "unclassified": [
+    "3028:6",
+    "3028:7",
+    "3028:8",
+    "3028:9"
+  ]
+}

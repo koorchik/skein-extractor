@@ -1,0 +1,268 @@
+{
+  "docId": 39138,
+  "date": "04.04.2022",
+  "title": "Кібератака групи UAC-0010 (Armageddon) на державні організації України (CERT-UA#4378)",
+  "entities": [
+    {
+      "id": "39138:0",
+      "name": "UAC-0010",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group also known as Armageddon or Gamaredon.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "39138:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "39138:2",
+      "name": "державні органи України",
+      "kind": "government body",
+      "gloss": "State and government authorities of Ukraine targeted in cyberattacks.",
+      "scheme": "S7",
+      "category": "Sector",
+      "role": "target"
+    },
+    {
+      "id": "39138:3",
+      "name": "GammaLoad.PS1",
+      "kind": "malware family",
+      "gloss": "A PowerShell-based malware loader used by the Armageddon threat group to deliver secondary payloads.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "39138:4",
+      "name": "Військові злочинці РФ.htm",
+      "kind": "malicious file",
+      "gloss": "A malicious HTML attachment designed to drop a RAR archive on the victim's computer.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "39138:5",
+      "name": "Viyskovi_zlochinci_RU.rar",
+      "kind": "malicious file",
+      "gloss": "A RAR archive dropped by a malicious HTML file containing a malicious shortcut.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "39138:6",
+      "name": "Військові-злочинці що знищують Україну (домашні адреси, фото, номера телефонів, сторінки у соціальних сетях).lnk",
+      "kind": "malicious file",
+      "gloss": "A malicious shortcut file that triggers the download and execution of VBScript and PowerShell code.",
+      "scheme": "S12",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "39138:7",
+      "name": "Інформація щодо військових злочинців РФ[REDACTED]2022-04-03 1459.eml",
+      "kind": "malicious file",
+      "gloss": "A phishing email file used to distribute malicious attachments.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "39138:8",
+      "name": "C:\\Users\\Public\\test.vbs",
+      "kind": "malicious file",
+      "gloss": "A VBScript file created on the victim host during infection.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "39138:9",
+      "name": "vadim_melnik88@i[.]ua",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors as the sender in a phishing campaign.",
+      "scheme": "S14",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "39138:10",
+      "name": "194[.]38.21.12",
+      "kind": "ip address",
+      "gloss": "An IP address observed as the originating sender of phishing emails.",
+      "scheme": "S13",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "39138:11",
+      "name": "66[.]175.219.231",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "39138:12",
+      "name": "jokotras[.]ru",
+      "kind": "internet domain",
+      "gloss": "A domain name used as malicious command and control or payload hosting infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "39138:13",
+      "name": "prefer[.]jokotras.ru",
+      "kind": "internet domain",
+      "gloss": "A subdomain used in malicious infrastructure to serve malicious files.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "39138:14",
+      "name": "tiloraso[.]ru",
+      "kind": "internet domain",
+      "gloss": "A domain name used to host PowerShell scripts and receive reconnaissance data.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "39138:15",
+      "name": "milotrad[.]ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain associated with threat actor infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "39138:16",
+      "name": "potrakit[.]ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain associated with threat actor infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "39138:17",
+      "name": "tortunas[.]ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain associated with threat actor infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "39138:18",
+      "name": "hxxp://jokotras[.]ru/su/faicon.ico",
+      "kind": "url",
+      "gloss": "A malicious URL hosted on attacker infrastructure.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "39138:19",
+      "name": "hxxp://prefer[.]jokotras.ru/hear/nephew/su",
+      "kind": "url",
+      "gloss": "A malicious URL used to download HTA or payload components.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "39138:20",
+      "name": "hxxp://tiloraso[.]ru/get.php",
+      "kind": "url",
+      "gloss": "A URL used to download the GammaLoad PowerShell script.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "39138:21",
+      "name": "hxxp://tiloraso[.]ru/index.php",
+      "kind": "url",
+      "gloss": "A malicious URL used in threat actor network communications.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": "attacker"
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0010",
+      "type": "targets-sector",
+      "tail": "державні органи України",
+      "evidence": "розповсюдження електронних листів з темою \"Інформація щодо військових злочинців РФ\" серед державних органів України"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "associated-with-activity",
+      "tail": "GammaLoad.PS1",
+      "evidence": "Активність асоційовано з діяльністю групи UAC-0010 (Armageddon)."
+    },
+    {
+      "head": "Військові злочинці РФ.htm",
+      "type": "creates-file",
+      "tail": "Viyskovi_zlochinci_RU.rar",
+      "evidence": "відкриття якого призведе до створення на комп'ютері RAR-архіву \"Viyskovi_zlochinci_RU.rar\""
+    },
+    {
+      "head": "Viyskovi_zlochinci_RU.rar",
+      "type": "contains-file",
+      "tail": "Військові-злочинці що знищують Україну (домашні адреси, фото, номера телефонів, сторінки у соціальних сетях).lnk",
+      "evidence": "Згаданий архів містить файл-ярлик \"Військові-злочинці що знищують Україну"
+    },
+    {
+      "head": "Військові-злочинці що знищують Україну (домашні адреси, фото, номера телефонів, сторінки у соціальних сетях).lnk",
+      "type": "executes",
+      "tail": "GammaLoad.PS1",
+      "evidence": "забезпечить завантаження і запуск powershell-скрипта \"get.php\" (GammaLoad.PS1)"
+    },
+    {
+      "head": "vadim_melnik88@i[.]ua",
+      "type": "originates-from-ip",
+      "tail": "194[.]38.21.12",
+      "evidence": "vadim_melnik88@i[.]ua (envelope-from)\n194[.]38.21.12 (X-Sender-IP)"
+    },
+    {
+      "head": "hxxp://jokotras[.]ru/su/faicon.ico",
+      "type": "hosted-on-ip",
+      "tail": "jokotras[.]ru",
+      "evidence": "hxxp://jokotras[.]ru/su/faicon.ico\njokotras[.]ru"
+    },
+    {
+      "head": "hxxp://prefer[.]jokotras.ru/hear/nephew/su",
+      "type": "hosted-on-ip",
+      "tail": "prefer[.]jokotras.ru",
+      "evidence": "hxxp://prefer[.]jokotras.ru/hear/nephew/su"
+    },
+    {
+      "head": "hxxp://tiloraso[.]ru/get.php",
+      "type": "hosted-on-ip",
+      "tail": "tiloraso[.]ru",
+      "evidence": "hxxp://tiloraso[.]ru/get.php\ntiloraso[.]ru"
+    },
+    {
+      "head": "hxxp://tiloraso[.]ru/index.php",
+      "type": "hosted-on-ip",
+      "tail": "tiloraso[.]ru",
+      "evidence": "hxxp://tiloraso[.]ru/index.php\ntiloraso[.]ru"
+    }
+  ],
+  "unclassified": []
+}

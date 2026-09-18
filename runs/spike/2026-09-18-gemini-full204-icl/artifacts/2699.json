@@ -1,0 +1,162 @@
+{
+  "docId": 2699,
+  "date": "29.01.2019",
+  "title": "Чергова фішинг-атака на органи державної влади",
+  "entities": [
+    {
+      "id": "2699:0",
+      "name": "Smokeloader",
+      "kind": "malware",
+      "gloss": "A modular malware family designed to download and execute additional malicious payloads on infected systems.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2699:1",
+      "name": "Україні",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S4",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2699:2",
+      "name": "К оплате за январь Агро.lzh",
+      "kind": "file",
+      "gloss": "A malicious archive file distributed via phishing emails.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2699:3",
+      "name": "Рахунок №6-19 от 29.01.2019р.xls.js",
+      "kind": "file",
+      "gloss": "A malicious JavaScript file used in phishing distribution campaigns.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2699:4",
+      "name": "договір та р.фактура від 30.01.19.lzh",
+      "kind": "file",
+      "gloss": "A malicious archive file used as an email attachment.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2699:5",
+      "name": "Pax. 19-208 - 30.01.2019p..js",
+      "kind": "file",
+      "gloss": "A malicious script file used in cyberattack delivery.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2699:6",
+      "name": "unit.exe",
+      "kind": "malware",
+      "gloss": "A malicious executable payload associated with SmokeLoader.",
+      "scheme": "S6",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "2699:7",
+      "name": "91.234.2.202",
+      "kind": "ip address",
+      "gloss": "An IP address involved in sending phishing emails.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2699:8",
+      "name": "91.198.36.68",
+      "kind": "ip address",
+      "gloss": "An IP address involved in phishing email transmission.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2699:9",
+      "name": "62.173.138.170",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious payloads.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "2699:10",
+      "name": "sekretar2@svit-mebliv.ua",
+      "kind": "email address",
+      "gloss": "An email address used to distribute malicious messages.",
+      "scheme": "S10",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2699:11",
+      "name": "abed@i.ua",
+      "kind": "email address",
+      "gloss": "An email address used as an envelope sender in phishing attacks.",
+      "scheme": "S10",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2699:12",
+      "name": "hххp://ceronamtinclube.icu/opuba/unit.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosting an executable payload.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "2699:13",
+      "name": "hххp://www.msftncsi.com/ncsi.txt",
+      "kind": "uniform resource locator",
+      "gloss": "A URL referenced in command and control configurations.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "2699:14",
+      "name": "hххp://aviatorssm.bit/",
+      "kind": "uniform resource locator",
+      "gloss": "A command and control URL using the .bit domain.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "hххp://ceronamtinclube.icu/opuba/unit.exe",
+      "type": "hosts",
+      "tail": "unit.exe",
+      "evidence": "hххp://ceronamtinclube.icu/opuba/unit.exe"
+    },
+    {
+      "head": "62.173.138.170",
+      "type": "hosts",
+      "tail": "hххp://ceronamtinclube.icu/opuba/unit.exe",
+      "evidence": "hххp://ceronamtinclube.icu/opuba/unit.exe [ 62.173.138.170]"
+    }
+  ],
+  "unclassified": [
+    "2699:2",
+    "2699:3",
+    "2699:4",
+    "2699:5"
+  ]
+}

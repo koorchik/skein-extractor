@@ -1,0 +1,156 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "державні органи України",
+      "kind": "government body",
+      "gloss": "Government institutions and executive bodies of Ukraine."
+    },
+    {
+      "name": "UAC-0035 (InvisiMole)",
+      "kind": "threat actor",
+      "gloss": "An advanced persistent threat group known for cyber espionage operations targeting Eastern Europe."
+    },
+    {
+      "name": "LoadEdge",
+      "kind": "malware family",
+      "gloss": "A C++ backdoor malware family providing reverse shell and file operation capabilities."
+    },
+    {
+      "name": "TunnelMole",
+      "kind": "malware family",
+      "gloss": "A DNS backdoor malware family associated with the InvisiMole threat group."
+    },
+    {
+      "name": "RC2CL",
+      "kind": "malware family",
+      "gloss": "A malware tool associated with the InvisiMole threat group arsenal."
+    },
+    {
+      "name": "501_25_103.zip",
+      "kind": "archive file",
+      "gloss": "A ZIP archive file distributed as a malicious email attachment."
+    },
+    {
+      "name": "501_25_103.lnk",
+      "kind": "shortcut file",
+      "gloss": "A malicious Windows shortcut file that triggers the download and execution of an HTA file."
+    },
+    {
+      "name": "We4Qu6.hta",
+      "kind": "script file",
+      "gloss": "An HTML Application file containing VBScript code used to drop and execute malware."
+    },
+    {
+      "name": "501_25_103.doc",
+      "kind": "decoy file",
+      "gloss": "A decoy document file decoded and displayed to distract the victim during infection."
+    },
+    {
+      "name": "EdgeNotification.dll",
+      "kind": "malware file",
+      "gloss": "A dynamic link library file representing the compiled LoadEdge backdoor malware."
+    },
+    {
+      "name": "45.95.11.34",
+      "kind": "ip address",
+      "gloss": "An IP address used for malicious payload hosting and command-and-control communications."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0035 (InvisiMole)",
+      "type": "targets",
+      "tail": "державні органи України",
+      "evidence": "розповсюдження електронних листів серед державних органів України. ... Активність асоційовано з діяльністю групи UAC-0035"
+    },
+    {
+      "head": "UAC-0035 (InvisiMole)",
+      "type": "uses-malware",
+      "tail": "LoadEdge",
+      "evidence": "шкідливої програми LoadEdge, яка... повинна була б забезпечити ураження... з арсеналу групи"
+    },
+    {
+      "head": "UAC-0035 (InvisiMole)",
+      "type": "uses-malware",
+      "tail": "TunnelMole",
+      "evidence": "програмами з арсеналу групи: TunnelMole"
+    },
+    {
+      "head": "UAC-0035 (InvisiMole)",
+      "type": "uses-malware",
+      "tail": "RC2CL",
+      "evidence": "програмами з арсеналу групи: TunnelMole (DNS backdoor), RC2CL"
+    },
+    {
+      "head": "501_25_103.zip",
+      "type": "contains-file",
+      "tail": "501_25_103.lnk",
+      "evidence": "архів \"501_25_103.zip\", що містить одноіменний файл-ярлик"
+    },
+    {
+      "head": "501_25_103.lnk",
+      "type": "downloads-and-executes",
+      "tail": "We4Qu6.hta",
+      "evidence": "У разі відкриття LNK-файлу на комп'ютер буде завантажено та виконано HTA-файл"
+    },
+    {
+      "head": "We4Qu6.hta",
+      "type": "downloads-and-executes",
+      "tail": "LoadEdge",
+      "evidence": "Останній містить VBScript-код, який забезпечить завантаження і декодування файлу-приманки та шкідливої програми LoadEdge"
+    },
+    {
+      "head": "We4Qu6.hta",
+      "type": "drops-decoy",
+      "tail": "501_25_103.doc",
+      "evidence": "VBScript-код, який забезпечить завантаження і декодування файлу-приманки"
+    },
+    {
+      "head": "LoadEdge",
+      "type": "implemented-as",
+      "tail": "EdgeNotification.dll",
+      "evidence": "EdgeNotification.dll (2022-02-24) (LoadEdge)"
+    },
+    {
+      "head": "державні органи України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "державних органів України"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets",
+      "definition": "The subject actor or campaign directs attacks or espionage towards the object victim or sector."
+    },
+    {
+      "name": "uses-malware",
+      "definition": "The threat actor develops, maintains, or deploys the specified malware family in its operations."
+    },
+    {
+      "name": "contains-file",
+      "definition": "An archive, container, or package file bundles and delivers the specified inner file."
+    },
+    {
+      "name": "downloads-and-executes",
+      "definition": "A script, shortcut, or payload retrieves and executes another component from remote or local storage."
+    },
+    {
+      "name": "drops-decoy",
+      "definition": "A malicious script or dropper unpacks and presents a benign-looking decoy document to deceive the user."
+    },
+    {
+      "name": "implemented-as",
+      "definition": "A malware family or payload is realized and distributed in the form of a specific binary or library file."
+    },
+    {
+      "name": "located-in",
+      "definition": "The subject entity is based, operates, or is geographically situated within the specified country or territory."
+    }
+  ]
+}

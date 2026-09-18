@@ -1,0 +1,344 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Security Flaw, Security Vulnerability)
+- Software Product: A program, application, operating system, or software component designed for end users or computing systems. (also: Software Application, Software Program, Software)
+- Technology Vendor: A company or organization that develops, manufactures, or supplies software, hardware, or technology services. (also: Software Vendor, Vendor, Technology Company)
+- Country: A sovereign nation, state, or distinct territorial body with its own government. (also: Nation, Sovereign State)
+- Government Agency: An official institution, ministry, department, or administrative body operating under the authority of a national or regional government. (also: Government Body, Government Organization, State Authority)
+- Malware: Software, code, or executable files intentionally designed to disrupt, damage, or gain unauthorized access to computer systems or data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address identifying the location of a specific resource or endpoint on a computer network. (also: URL, Web Address, Link)
+- Person: An individual human being, such as a government official, cybersecurity professional, diplomat, or other public figure. (also: Individual, Human)
+- IP Address: A numerical label assigned to a device or network interface to identify its location on a computer network. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Email)
+- Computer File: A digital file, script, document, or archive stored on a filesystem or transmitted across a network. (also: File, Digital File)
+- Company: A commercial business, corporation, or enterprise operating within a specific industry or market. (also: Commercial Enterprise, Business, Corporation)
+- Domain Name: A unique identification string that defines a realm of administrative autonomy, authority, or control within the Internet. (also: Internet Domain, Domain, Fully Qualified Domain Name)
+- Threat Actor: An individual or organized group responsible for conducting malicious cyber activities, attacks, or espionage campaigns. (also: Threat Group, Hacker Group, Advanced Persistent Threat)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p>Урядовою командою реагування на компʼютерні надзвичайні події CERT-UA фіксуються непоодинокі випадки здійснення цільових кібератак як у відношенні співробітників підприємств оборонно-промислового комплексу, так й окремих представників Сил оборони України.</p><p>Протягом березня 2025 року у месенджері Signal виявлено факти розповсюдження повідомлень з архівами, в яких, нібито, міститься звіт з результатами наради. При цьому, в деяких випадках для підвищення довіри відправка повідомлень може здійснюватися від осіб зі списку існуючих контактів, чиї облікові записи було заздалегідь скомпрометовано.</p><p>Як правило, згадані архіви містять файл з розширенням ".pdf", а також виконуваний файл, класифікований як DarkTortilla, що є програмним засобом типу криптор/лоадер, призначенням якого є розшифрування та запуск (в т.ч., шляхом інжектування) програмного засобу для&nbsp;віддаленого керування Dark Crystal RAT (DCRAT).</p><p>Нагадаємо, що дана активність відслідковується за ідентифікатором UAC-0200, щонайменше, <a href="https://cert.gov.ua/article/6279561" rel="noopener noreferrer" target="_blank">з літа 2024 року</a>. Водночас, починаючи з лютого 2025 року, зміст повідомлень-приманок стосується БПЛА, засобів РЕБ тощо.</p><p>Використання популярних месенджерів, як на мобільних пристроях, так і на комп'ютерах, значно розширює поверхню атаки, в тому числі за рахунок створення неконтрольованих (в контексті засобів захисту) каналів обміну інформацією.&nbsp;</p><p>Відтак, закликаємо бути пильними, а у випадку отримання подібних повідомлень просимо невідкладно інформувати CERT-UA всіма доступними засобами.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">9eece23aae381f57af03129e07ed9397&nbsp; &nbsp; ccfc8e6c0ffddd29786a7a15e8da549cdf2a062002de336c6d0480893d3c5a1b&nbsp; &nbsp; Звіт 10.03.25.rar
+e872ce06a8c3937430a8a4e929bea297&nbsp; &nbsp; dc15fe10ff5e7ede1b5e69c6f09e9a7cc0857bab9829f5537b3d0d073a81a53f&nbsp; &nbsp; Наказ 17.02.2025.pdf
+f8e866aa849b906a7ff73e1e3ee7b4d3&nbsp; &nbsp; 0403fabcc93887f2aa44194c5e6a68f71647ca18ad4b0f9033b0e704d27ab578&nbsp; &nbsp; Початковий матеріал.exe
+
+df18f3db862fc6a43340155950830e9e&nbsp; &nbsp; 586c6e65fcf391d6ee8d1270aa3cb902e79372b73f3a9be340785cd8620197a1&nbsp; &nbsp; Наказ 17.02.2025 .rar
+b4b2adf7473488abd01422cfc1f93f4f&nbsp; &nbsp; 51c17b08fc181798d500e253f2831883ca928076713eb251f826ce1c336f7944&nbsp; &nbsp; Fine Reader.exe
+
+951e3234392b95e36796a532cbe8d2be&nbsp; &nbsp; de41f1076ce46dd36ccf6b5d7975c070d0c5fe2e6556cedfad2dd0cd37653b06&nbsp; &nbsp; pdfDecod.exe
+
+315026b7efa87dbdc8bdea5f6e455e53&nbsp; &nbsp; cefa8cb6c1e7641ed22c250de4c9f7663c66e7fd18f93b69e1ff45401af855f7&nbsp; &nbsp; нарада.rar
+2a2e8c8b4a92429b4d9ae8b6bbd53f53&nbsp; &nbsp; 25a6a3a84fd0c070fbf3dfc9da4a3e2e1186d9165ec59c3aae2a82a6506d62d3&nbsp; &nbsp; PDF-Office2025version46-v.exe
+&nbsp; &nbsp;&nbsp;
+242774efc428275bc5557c153eaeb687&nbsp; &nbsp; 1ea7ecce3b51f8c0f5329bc79cf7c035e47c962ca0241d040548f2fd55e3f1c8&nbsp; &nbsp; 1ea7ecce3b51f8c0f5329bc79cf7c035e47c962ca0241d040548f2fd55e3f1c8
+719b944612d6afc1c6978ed943483bf4&nbsp; &nbsp; 788fd5a229d4776cca93f8628102cbaed704675eebe7cc8c92d1a731532dea3a&nbsp; &nbsp; Fine Reader.exe
+
+069746ac2e2220b75700004cc1f14fae&nbsp; &nbsp; ce41636e0733724c6531a9738b035e9743aee8c39fc7358410000a9706b14231&nbsp; &nbsp; ce41636e0733724c6531a9738b035e9743aee8c39fc7358410000a9706b14231
+
+17d4fe6d51d7500ac721aa0ff95f06d2&nbsp; &nbsp; eebc24a4f94b02f1fde7674887f20fe6029dc525ed9ad2256d3f79ab6579483a&nbsp; &nbsp; Разпорядження.zip
+c3726a7d98508c3e945ea57a26bbd19f&nbsp; &nbsp; 21b37fa1eca20402431ca88dd77db2ddd258b4bb69ea7a74dfeae54aeb7d7e14&nbsp; &nbsp; DecodPDF.exe
+&nbsp; &nbsp;&nbsp;
+30919bec432e51e272a96c418beb5a6e&nbsp; &nbsp; 81889343fd40c56f5d5440518b7969cde1f33d0eb263f3bed206bbe4a09e5619&nbsp; &nbsp; Разпорядження__5_.rar
+5af915f13e2bff2a8f9f4e4d4834dad2&nbsp; &nbsp; a8f5537a63fee5da18f64a0fe6108916a740fdda3ba961d425ec5a8a9419e409&nbsp; &nbsp; DecofPDF.exe
+f69ae6c871575af4b262145b8da36418&nbsp; &nbsp; d37f3441d3c74b2d36e38299f1c6df94063d40adfc551dc3ef34aa1efd493ff6&nbsp; &nbsp; q68235_labodtarinog.txt
+
+0a38bdc3773fb48a3a9a6b8a163043d5&nbsp; &nbsp; e6a7bdbbf05a76a68e1d5e1de15c63eeea1607245b5604ee5ac835aefec57d6d&nbsp; &nbsp; q68235_labodtarinog.dll
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">hXXp://45[.]130.214.237/cdn/7Temp/updateexternalprotonAsync/multiImagepythoncdn/Sqlwp/ProtectTo/AsyncTempjavascript/Image4/Base7trafficCentral/2LinuxJavascriptProcessor/trafficwordpressLine/defaultwp7/Multi/VmrequestPacketSqlPublicdownloads[.]php
+hXXp://62[.]60.235.190/mariadb9Php/videogameApiserver[.]php
+hXXp://87[.]249.50.64/Php05default/localGeowordpress/track/eternalWindows4Image/Linux/Proton/Flowerto4Js/windowsTrack/Trafficsecure94/41/LowLinux/Serverserver81/phpauthdump/HttpprocessCdn/74geoPoll/pythonbaseGeneratorlocal[.]php
+hXXp://217[.]25.91.61/Wp9local/JavascriptlongpollproviderTemporary/91pipeexternal/Bigloadpoll9/Pythondump/Image/dbCpu/cpugame/ExternalDlewp/sqlflowerprivateUploads[.]php
+hXXp://83[.]147.253.138/hostdata[.]txt
+hXXps://imgurl[.]ir/download.php?file=q68235_labodtarinog.txt
+45[.]130.214.237
+62[.]60.235.190
+87[.]249.50.64
+217[.]25.91.61
+83[.]147.253.138
+</pre><pre class="hidden" spellcheck="false">http://45.130.214.237/cdn/7Temp/updateexternalprotonAsync/multiImagepythoncdn/Sqlwp/ProtectTo/AsyncTempjavascript/Image4/Base7trafficCentral/2LinuxJavascriptProcessor/trafficwordpressLine/defaultwp7/Multi/VmrequestPacketSqlPublicdownloads[.]php
+http://62.60.235.190/mariadb9Php/videogameApiserver[.]php
+http://87.249.50.64/Php05default/localGeowordpress/track/eternalWindows4Image/Linux/Proton/Flowerto4Js/windowsTrack/Trafficsecure94/41/LowLinux/Serverserver81/phpauthdump/HttpprocessCdn/74geoPoll/pythonbaseGeneratorlocal[.]php
+http://217.25.91.61/Wp9local/JavascriptlongpollproviderTemporary/91pipeexternal/Bigloadpoll9/Pythondump/Image/dbCpu/cpugame/ExternalDlewp/sqlflowerprivateUploads[.]php
+http://83.147.253.138/hostdata[.]txt
+https://imgurl.ir/download.php?file=q68235_labodtarinog.txt
+45.130.214.237
+62.60.235.190
+87.249.50.64
+217.25.91.61
+83.147.253.138
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис. 1. Приклад ланцюга ураження&nbsp;</p>
+
+=== RESPONSE (10.5s, in 4996 / out 3034 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "Country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Сили оборони України",
+      "kind": "Government Agency",
+      "gloss": "The combined military and security forces responsible for the defense of Ukraine."
+    },
+    {
+      "name": "Signal",
+      "kind": "Software Product",
+      "gloss": "A cross-platform encrypted instant messaging service."
+    },
+    {
+      "name": "DarkTortilla",
+      "kind": "Malware",
+      "gloss": "A .NET-based crypter and loader malware used to decrypt and deliver secondary payloads."
+    },
+    {
+      "name": "Dark Crystal RAT",
+      "kind": "Malware",
+      "gloss": "A commercial remote access trojan used for surveillance, data exfiltration, and remote control."
+    },
+    {
+      "name": "UAC-0200",
+      "kind": "Threat Actor",
+      "gloss": "A threat actor tracked by CERT-UA targeting Ukrainian organizations and defense forces."
+    },
+    {
+      "name": "Звіт 10.03.25.rar",
+      "kind": "Computer File",
+      "gloss": "A malicious archive file distributed via messaging applications."
+    },
+    {
+      "name": "Наказ 17.02.2025.pdf",
+      "kind": "Computer File",
+      "gloss": "A PDF decoy document used in phishing lures."
+    },
+    {
+      "name": "Початковий матеріал.exe",
+      "kind": "Computer File",
+      "gloss": "A malicious executable file delivering DarkTortilla malware."
+    },
+    {
+      "name": "Наказ 17.02.2025 .rar",
+      "kind": "Computer File",
+      "gloss": "A malicious archive file distributed in phishing campaigns."
+    },
+    {
+      "name": "Fine Reader.exe",
+      "kind": "Computer File",
+      "gloss": "A malicious executable disguised as legitimate software."
+    },
+    {
+      "name": "pdfDecod.exe",
+      "kind": "Computer File",
+      "gloss": "A malicious executable file delivering malware."
+    },
+    {
+      "name": "нарада.rar",
+      "kind": "Computer File",
+      "gloss": "A malicious archive file used as a lure in messaging attacks."
+    },
+    {
+      "name": "PDF-Office2025version46-v.exe",
+      "kind": "Computer File",
+      "gloss": "A malicious executable disguised as an office or PDF tool."
+    },
+    {
+      "name": "Разпорядження.zip",
+      "kind": "Computer File",
+      "gloss": "A malicious ZIP archive used as a phishing lure."
+    },
+    {
+      "name": "DecodPDF.exe",
+      "kind": "Computer File",
+      "gloss": "A malicious executable file delivering malware."
+    },
+    {
+      "name": "Разпорядження__5_.rar",
+      "kind": "Computer File",
+      "gloss": "A malicious RAR archive distributed in phishing messages."
+    },
+    {
+      "name": "DecofPDF.exe",
+      "kind": "Computer File",
+      "gloss": "A malicious executable file used in cyber attacks."
+    },
+    {
+      "name": "q68235_labodtarinog.txt",
+      "kind": "Computer File",
+      "gloss": "A payload or support file retrieved during infection."
+    },
+    {
+      "name": "q68235_labodtarinog.dll",
+      "kind": "Computer File",
+      "gloss": "A malicious dynamic link library executed during the attack chain."
+    },
+    {
+      "name": "45.130.214.237",
+      "kind": "IP Address",
+      "gloss": "An IP address used for malicious command and control or payload hosting."
+    },
+    {
+      "name": "62.60.235.190",
+      "kind": "IP Address",
+      "gloss": "An IP address used for malicious command and control or payload hosting."
+    },
+    {
+      "name": "87.249.50.64",
+      "kind": "IP Address",
+      "gloss": "An IP address used for malicious command and control or payload hosting."
+    },
+    {
+      "name": "217.25.91.61",
+      "kind": "IP Address",
+      "gloss": "An IP address used for malicious command and control or payload hosting."
+    },
+    {
+      "name": "83.147.253.138",
+      "kind": "IP Address",
+      "gloss": "An IP address used for malicious command and control or payload hosting."
+    },
+    {
+      "name": "imgurl.ir",
+      "kind": "Domain Name",
+      "gloss": "A domain name hosting malicious payload files."
+    },
+    {
+      "name": "http://45.130.214.237/cdn/7Temp/updateexternalprotonAsync/multiImagepythoncdn/Sqlwp/ProtectTo/AsyncTempjavascript/Image4/Base7trafficCentral/2LinuxJavascriptProcessor/trafficwordpressLine/defaultwp7/Multi/VmrequestPacketSqlPublicdownloads.php",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL used for payload delivery or network communication."
+    },
+    {
+      "name": "http://62.60.235.190/mariadb9Php/videogameApiserver.php",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL used for payload delivery or network communication."
+    },
+    {
+      "name": "http://87.249.50.64/Php05default/localGeowordpress/track/eternalWindows4Image/Linux/Proton/Flowerto4Js/windowsTrack/Trafficsecure94/41/LowLinux/Serverserver81/phpauthdump/HttpprocessCdn/74geoPoll/pythonbaseGeneratorlocal.php",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL used for payload delivery or network communication."
+    },
+    {
+      "name": "http://217.25.91.61/Wp9local/JavascriptlongpollproviderTemporary/91pipeexternal/Bigloadpoll9/Pythondump/Image/dbCpu/cpugame/ExternalDlewp/sqlflowerprivateUploads.php",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL used for payload delivery or network communication."
+    },
+    {
+      "name": "http://83.147.253.138/hostdata.txt",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL used to download configuration or data files."
+    },
+    {
+      "name": "https://imgurl.ir/download.php?file=q68235_labodtarinog.txt",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL used to download payload files."
+    }
+  ],
+  "relations": [
+    {
+      "head": "DarkTortilla",
+      "type": "delivers",
+      "tail": "Dark Crystal RAT",
+      "evidence": "DarkTortilla, що є програмним засобом типу криптор/лоадер, призначенням якого є розшифрування та запуск"
+    },
+    {
+      "head": "UAC-0200",
+      "type": "uses",
+      "tail": "DarkTortilla",
+      "evidence": "DarkTortilla, що є програмним засобом типу криптор/лоадер... активність відслідковується за ідентифікатором UAC-0200"
+    },
+    {
+      "head": "UAC-0200",
+      "type": "uses",
+      "tail": "Dark Crystal RAT",
+      "evidence": "запуск (в т.ч., шляхом інжектування) програмного засобу для віддаленого керування Dark Crystal RAT"
+    },
+    {
+      "head": "UAC-0200",
+      "type": "affects",
+      "tail": "Сили оборони України",
+      "evidence": "здійснення цільових кібератак як у відношенні співробітників підприємств оборонно-промислового комплексу, так й окремих представників Сил оборони України."
+    },
+    {
+      "head": "Сили оборони України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Сил оборони України"
+    },
+    {
+      "head": "45.130.214.237",
+      "type": "hosts",
+      "tail": "http://45.130.214.237/cdn/7Temp/updateexternalprotonAsync/multiImagepythoncdn/Sqlwp/ProtectTo/AsyncTempjavascript/Image4/Base7trafficCentral/2LinuxJavascriptProcessor/trafficwordpressLine/defaultwp7/Multi/VmrequestPacketSqlPublicdownloads.php",
+      "evidence": "http://45.130.214.237/cdn/7Temp/updateexternalprotonAsync/multiImagepythoncdn/Sqlwp/ProtectTo/AsyncTempjavascript/Image4/Base7trafficCentral/2LinuxJavascriptProcessor/trafficwordpressLine/defaultwp7/Multi/VmrequestPacketSqlPublicdownloads.php"
+    },
+    {
+      "head": "62.60.235.190",
+      "type": "hosts",
+      "tail": "http://62.60.235.190/mariadb9Php/videogameApiserver.php",
+      "evidence": "http://62.60.235.190/mariadb9Php/videogameApiserver.php"
+    },
+    {
+      "head": "87.249.50.64",
+      "type": "hosts",
+      "tail": "http://87.249.50.64/Php05default/localGeowordpress/track/eternalWindows4Image/Linux/Proton/Flowerto4Js/windowsTrack/Trafficsecure94/41/LowLinux/Serverserver81/phpauthdump/HttpprocessCdn/74geoPoll/pythonbaseGeneratorlocal.php",
+      "evidence": "http://87.249.50.64/Php05default/localGeowordpress/track/eternalWindows4Image/Linux/Proton/Flowerto4Js/windowsTrack/Trafficsecure94/41/LowLinux/Serverserver81/phpauthdump/HttpprocessCdn/74geoPoll/pythonbaseGeneratorlocal.php"
+    },
+    {
+      "head": "217.25.91.61",
+      "type": "hosts",
+      "tail": "http://217.25.91.61/Wp9local/JavascriptlongpollproviderTemporary/91pipeexternal/Bigloadpoll9/Pythondump/Image/dbCpu/cpugame/ExternalDlewp/sqlflowerprivateUploads.php",
+      "evidence": "http://217.25.91.61/Wp9local/JavascriptlongpollproviderTemporary/91pipeexternal/Bigloadpoll9/Pythondump/Image/dbCpu/cpugame/ExternalDlewp/sqlflowerprivateUploads.php"
+    },
+    {
+      "head": "83.147.253.138",
+      "type": "hosts",
+      "tail": "http://83.147.253.138/hostdata.txt",
+      "evidence": "http://83.147.253.138/hostdata.txt"
+    },
+    {
+      "head": "imgurl.ir",
+      "type": "hosts",
+      "tail": "https://imgurl.ir/download.php?file=q68235_labodtarinog.txt",
+      "evidence": "https://imgurl.ir/download.php?file=q68235_labodtarinog.txt"
+    }
+  ],
+  "newRelationTypes": []
+}

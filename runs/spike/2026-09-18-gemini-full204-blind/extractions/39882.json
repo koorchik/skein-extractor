@@ -1,0 +1,61 @@
+{
+  "entities": [
+    {
+      "name": "Aid request COVID-19-04_5_22.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet with macros used to deliver malware loaders."
+    },
+    {
+      "name": "GraphSteel",
+      "kind": "malware family",
+      "gloss": "A Go-based backdoor and information-stealing malware family."
+    },
+    {
+      "name": "GrimPlant",
+      "kind": "malware family",
+      "gloss": "A Go-based backdoor malware family capable of remote command execution."
+    },
+    {
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage threat actor group known for targeting Ukrainian entities."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "212.192.246.115",
+      "kind": "ip address",
+      "gloss": "An IP address used as malicious command and control infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "GraphSteel",
+      "evidence": "Активність асоційовано з діяльністю групи UAC-0056."
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "GrimPlant",
+      "evidence": "Активність асоційовано з діяльністю групи UAC-0056."
+    },
+    {
+      "head": "Aid request COVID-19-04_5_22.xls",
+      "type": "delivers",
+      "tail": "GraphSteel",
+      "evidence": "будуть завантажені та виконані шкідливі програми GraphSteel"
+    },
+    {
+      "head": "Aid request COVID-19-04_5_22.xls",
+      "type": "delivers",
+      "tail": "GrimPlant",
+      "evidence": "будуть завантажені та виконані шкідливі програми GraphSteel (дата компіляції: 2022-04-21) та GrimPlant."
+    }
+  ],
+  "newRelationTypes": []
+}

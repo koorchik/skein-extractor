@@ -1,0 +1,109 @@
+{
+  "entities": [
+    {
+      "name": "APT28",
+      "kind": "hacking group",
+      "gloss": "A Russian state-sponsored cyber espionage group associated with the General Staff Main Intelligence Directorate (GRU)."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "державні органи України",
+      "kind": "government sector",
+      "gloss": "State authorities and government organizations of Ukraine."
+    },
+    {
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A proprietary graphical operating system family developed by Microsoft."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software tool",
+      "gloss": "A task automation and configuration management framework consisting of a command-line shell and scripting language."
+    },
+    {
+      "name": "Mocky",
+      "kind": "web service",
+      "gloss": "A legitimate online mock API service designed for testing HTTP requests and responses."
+    },
+    {
+      "name": "@outlook.com",
+      "kind": "email service",
+      "gloss": "A free personal webmail service domain provided by Microsoft."
+    },
+    {
+      "name": "146[.]70.105.61",
+      "kind": "ip address",
+      "gloss": "An IP address associated with infrastructure used in the cyberattack."
+    },
+    {
+      "name": "77[.]75.78.125",
+      "kind": "ip address",
+      "gloss": "An IP address observed in the network indicators of the attack."
+    },
+    {
+      "name": "mockbin[.]org",
+      "kind": "internet domain",
+      "gloss": "A legitimate API testing web service domain abused by attackers."
+    },
+    {
+      "name": "run.mocky[.]io",
+      "kind": "internet domain",
+      "gloss": "A subdomain of the Mocky web service used to host mock API endpoints."
+    }
+  ],
+  "relations": [
+    {
+      "head": "APT28",
+      "type": "targets",
+      "tail": "державні органи України",
+      "evidence": "розповсюдження серед державних органів України ... Активність здійснюється групою APT28"
+    },
+    {
+      "head": "державні органи України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "державних органів України"
+    },
+    {
+      "head": "APT28",
+      "type": "uses-service",
+      "tail": "Mocky",
+      "evidence": "відправку отриманих результатів за допомогою HTTP запиту до API сервісу Mocky"
+    },
+    {
+      "head": "APT28",
+      "type": "abuses-domain",
+      "tail": "run.mocky[.]io",
+      "evidence": "hXXp://run.mocky[.]io/v3/1e88179a-3105-4a5c-9eb3-aebea36e9c21"
+    },
+    {
+      "head": "APT28",
+      "type": "abuses-domain",
+      "tail": "mockbin[.]org",
+      "evidence": "hXXp://mockbin[.]org/bin/4aa17a07-7635-4ee0-9f3a-449fcd91f342"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets",
+      "definition": "The threat actor or campaign directs malicious activities against the specified entity."
+    },
+    {
+      "name": "located-in",
+      "definition": "The entity is geographically or administratively situated within the specified country or region."
+    },
+    {
+      "name": "uses-service",
+      "definition": "The threat actor or malware leverages an online service for malicious operations."
+    },
+    {
+      "name": "abuses-domain",
+      "definition": "The threat actor uses or exploits the specified internet domain to deliver payloads or receive exfiltrated data."
+    }
+  ]
+}

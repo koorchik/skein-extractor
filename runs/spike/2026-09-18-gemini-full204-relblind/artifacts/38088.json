@@ -1,0 +1,106 @@
+{
+  "docId": 38088,
+  "date": "22.03.2022",
+  "title": "Кібератака на українські підприємства з використанням програми-деструктора DoubleZero (CERT-UA#4243)",
+  "entities": [
+    {
+      "id": "38088:0",
+      "name": "DoubleZero",
+      "kind": "malware family",
+      "gloss": "A destructive wiper malware developed in C# that overwrites files and registry hives.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "38088:1",
+      "name": "UAC-0088",
+      "kind": "threat actor",
+      "gloss": "A threat actor cluster tracked by CERT-UA targeting information systems of Ukrainian enterprises.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "38088:2",
+      "name": "Вирус... крайне опасно!!!.zip",
+      "kind": "malicious archive",
+      "gloss": "A ZIP archive used to distribute the DoubleZero wiper malware.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "38088:3",
+      "name": "csrss.zip",
+      "kind": "malicious archive",
+      "gloss": "A ZIP archive containing malicious components associated with DoubleZero wiper.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "38088:4",
+      "name": "cpcrs.exe",
+      "kind": "malicious executable",
+      "gloss": "A DoubleZero wiper executable file disguised as a system process.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "38088:5",
+      "name": "csrss.exe",
+      "kind": "malicious executable",
+      "gloss": "A DoubleZero wiper executable file disguised as the Windows Client Server Runtime Process.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "38088:6",
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A family of proprietary graphical operating systems developed by Microsoft.",
+      "scheme": "S2",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "38088:7",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose enterprises were targeted in this campaign.",
+      "scheme": "S6",
+      "category": null,
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0088",
+      "type": "uses-malware",
+      "tail": "DoubleZero",
+      "evidence": "виявлені програми класифіковано як DoubleZero... Активність відстежується за ідентифікатором UAC-0088"
+    },
+    {
+      "head": "UAC-0088",
+      "type": "operates-from",
+      "tail": "Україна",
+      "evidence": "порушення штатного режиму фунціонування інформаційних систем українських підприємств"
+    },
+    {
+      "head": "Вирус... крайне опасно!!!.zip",
+      "type": "contains-malware",
+      "tail": "DoubleZero",
+      "evidence": "Кожен з архівів містить обфусковану .NET-програму. В результаті проведеного аналізу виявлені програми класифіковано як DoubleZero"
+    },
+    {
+      "head": "DoubleZero",
+      "type": "targets-os",
+      "tail": "Windows",
+      "evidence": "знищуються гілки реєстру Windows: HKCU, HKU, HKLM, HKLM\\BCD"
+    }
+  ],
+  "unclassified": []
+}

@@ -1,0 +1,55 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "MS Office",
+      "kind": "office software suite",
+      "gloss": "A suite of productivity software applications developed by Microsoft."
+    },
+    {
+      "name": "MS Word",
+      "kind": "word processor software",
+      "gloss": "A word processing software application developed by Microsoft."
+    },
+    {
+      "name": "MS Excel",
+      "kind": "spreadsheet software",
+      "gloss": "A spreadsheet software application developed by Microsoft."
+    },
+    {
+      "name": "MS PowerPoint",
+      "kind": "presentation software",
+      "gloss": "A presentation software application developed by Microsoft."
+    }
+  ],
+  "relations": [
+    {
+      "head": "MS Word",
+      "type": "part-of",
+      "tail": "MS Office",
+      "evidence": "програм MS Office (наприклад MS Word"
+    },
+    {
+      "head": "MS Excel",
+      "type": "part-of",
+      "tail": "MS Office",
+      "evidence": "програм MS Office (наприклад MS Word, MS Excel"
+    },
+    {
+      "head": "MS PowerPoint",
+      "type": "part-of",
+      "tail": "MS Office",
+      "evidence": "програм MS Office (наприклад MS Word, MS Excel, MS PowerPoint)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "part-of",
+      "definition": "An entity or component is a constituent sub-part of a larger system, suite, or organization."
+    }
+  ]
+}

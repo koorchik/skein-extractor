@@ -1,0 +1,153 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Пресслужба Генштабу ЗСУ",
+      "kind": "government body",
+      "gloss": "The press service of the General Staff of the Armed Forces of Ukraine."
+    },
+    {
+      "name": "ЗСУ",
+      "kind": "military organization",
+      "gloss": "The Armed Forces of Ukraine, the military forces of Ukraine."
+    },
+    {
+      "name": "PDF Reader",
+      "kind": "software product",
+      "gloss": "A category or brand of software applications designed to view Portable Document Format files."
+    },
+    {
+      "name": "AcroRdrDCx642200120169_uk_UA.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable file masquerading as an Adobe Acrobat Reader installer."
+    },
+    {
+      "name": "rmtpak.dll",
+      "kind": "executable file",
+      "gloss": "A malicious dynamic-link library file delivering the RomCom backdoor."
+    },
+    {
+      "name": "RomCom",
+      "kind": "malware family",
+      "gloss": "A backdoor malware family used for cyber espionage and financial operations."
+    },
+    {
+      "name": "Tropical Scorpius",
+      "kind": "threat actor",
+      "gloss": "A financially motivated cyber threat group also known as UNC2596 and UAC-0132."
+    },
+    {
+      "name": "Unit42",
+      "kind": "cybersecurity company",
+      "gloss": "The threat intelligence and security research division of Palo Alto Networks."
+    },
+    {
+      "name": "Mandiant",
+      "kind": "cybersecurity company",
+      "gloss": "An American cybersecurity firm providing threat intelligence and incident response services."
+    },
+    {
+      "name": "Cuba Ransomware",
+      "kind": "malware family",
+      "gloss": "A ransomware strain distributed by the threat actor group Tropical Scorpius."
+    },
+    {
+      "name": "UAC-0132",
+      "kind": "threat actor",
+      "gloss": "A threat actor designation used by CERT-UA for Tropical Scorpius/UNC2596."
+    },
+    {
+      "name": "UNC2596",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracking identifier assigned by Mandiant to Tropical Scorpius."
+    },
+    {
+      "name": "CVE-2022-24521",
+      "kind": "vulnerability identifier",
+      "gloss": "A privilege escalation vulnerability in the Windows Common Log File System (CLFS) driver."
+    },
+    {
+      "name": "s.l.sinkewitch@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address used as the sender in a malicious email distribution campaign."
+    },
+    {
+      "name": "Blythe Consulting sp. z o.o.",
+      "kind": "organization",
+      "gloss": "An entity name used as a digital signature certificate subject on malicious files."
+    },
+    {
+      "name": "Wechapaisch Consulting & Construction Limited",
+      "kind": "organization",
+      "gloss": "An entity name used as a digital signature certificate subject on malicious files."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Пресслужба Генштабу ЗСУ",
+      "type": "is-part-of",
+      "tail": "ЗСУ",
+      "evidence": "Пресслужби Генштабу ЗСУ"
+    },
+    {
+      "head": "ЗСУ",
+      "type": "belongs-to-country",
+      "tail": "Україна",
+      "evidence": "Генштабу ЗСУ"
+    },
+    {
+      "head": "AcroRdrDCx642200120169_uk_UA.exe",
+      "type": "drops-and-executes",
+      "tail": "rmtpak.dll",
+      "evidence": "Запуск згаданого файлу, в результаті, призведе до декодування та запуску файлу \"rmtpak.dll\""
+    },
+    {
+      "head": "rmtpak.dll",
+      "type": "is-instance-of",
+      "tail": "RomCom",
+      "evidence": "Останній класифіковано як шкідливу програму RomCom"
+    },
+    {
+      "head": "Tropical Scorpius",
+      "type": "distributes-malware",
+      "tail": "Cuba Ransomware",
+      "evidence": "Tropical Scorpius (Unit42) aka UNC2596 (Mandiant), що відповідальна за розповсюдження Cuba Ransomware"
+    },
+    {
+      "head": "Tropical Scorpius",
+      "type": "uses-malware",
+      "tail": "RomCom",
+      "evidence": "використання бекдору RomCom... асоціювати виявлену активність з діяльністю групи Tropical Scorpius"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "is-part-of",
+      "definition": "The head entity is a subunit, department, or subdivision of the tail entity."
+    },
+    {
+      "name": "belongs-to-country",
+      "definition": "The head entity is based in or represents the specified tail country."
+    },
+    {
+      "name": "drops-and-executes",
+      "definition": "The head file decodes, drops, or initiates the execution of the tail file."
+    },
+    {
+      "name": "is-instance-of",
+      "definition": "The head file is a specific sample or component belonging to the tail malware family."
+    },
+    {
+      "name": "distributes-malware",
+      "definition": "The head actor or entity disseminates or delivers the tail malware family."
+    },
+    {
+      "name": "uses-malware",
+      "definition": "The head threat actor deploys or operates the tail malware family."
+    }
+  ]
+}

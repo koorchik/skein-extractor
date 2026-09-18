@@ -1,0 +1,178 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Сили безпеки і оборони України",
+      "kind": "government body",
+      "gloss": "The collective state military and law enforcement apparatus of Ukraine."
+    },
+    {
+      "name": "UAC-0028",
+      "kind": "hacking group",
+      "gloss": "A Russian state-sponsored cyber espionage threat group also known as APT28 or Fancy Bear."
+    },
+    {
+      "name": "UAC-0003",
+      "kind": "hacking group",
+      "gloss": "A Russian state-sponsored advanced persistent threat group also known as Turla."
+    },
+    {
+      "name": "KAZUAR",
+      "kind": "malware family",
+      "gloss": "A sophisticated backdoor trojan associated with the Turla threat group."
+    },
+    {
+      "name": "UAC-0050",
+      "kind": "hacking group",
+      "gloss": "A financially and politically motivated cyber threat group linked to Russian law enforcement."
+    },
+    {
+      "name": "Росія",
+      "kind": "country",
+      "gloss": "A country spanning Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "DaVinci Group",
+      "kind": "hacking group",
+      "gloss": "A previous operational brand name used by the threat actor UAC-0050."
+    },
+    {
+      "name": "REMCOS RAT",
+      "kind": "malware family",
+      "gloss": "A commercial remote access trojan frequently used by malicious actors for surveillance."
+    },
+    {
+      "name": "QUASAR RAT",
+      "kind": "malware family",
+      "gloss": "An open-source remote access tool frequently abused by threat actors for remote administration and espionage."
+    },
+    {
+      "name": "VENOM RAT",
+      "kind": "malware family",
+      "gloss": "A remote access trojan derived from Quasar RAT used for remote control and data theft."
+    },
+    {
+      "name": "REMOTE UTILITIES",
+      "kind": "software product",
+      "gloss": "A legitimate remote desktop software program often abused by threat actors for unauthorized access."
+    },
+    {
+      "name": "LUMMASTEALER",
+      "kind": "malware family",
+      "gloss": "An information-stealing malware designed to exfiltrate credentials and sensitive data."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cloud-based instant messaging and social media platform."
+    },
+    {
+      "name": "UAC-0010",
+      "kind": "hacking group",
+      "gloss": "A Russian state-sponsored cyber threat group linked to the FSB, also known as Gamaredon or Armageddon."
+    },
+    {
+      "name": "Sandworm",
+      "kind": "hacking group",
+      "gloss": "A Russian military cyber warfare unit within the GRU known for destructive attacks."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0028",
+      "type": "targets",
+      "tail": "Сили безпеки і оборони України",
+      "evidence": "кібершпигунством у відношенні Сил безпеки і оборони України, які були здійсненні угрупуванням UAC-0028"
+    },
+    {
+      "head": "UAC-0003",
+      "type": "targets",
+      "tail": "Сили безпеки і оборони України",
+      "evidence": "кібершпигунством у відношенні Сил безпеки і оборони України, які були здійсненні угрупуванням UAC-0028 (APT28) та UAC-0003"
+    },
+    {
+      "head": "UAC-0003",
+      "type": "uses-malware",
+      "tail": "KAZUAR",
+      "evidence": "UAC-0003 (Turla), зокрема, із застосуванням модифікованого флагманського шкідливого програмного забезпечення KAZUAR"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "associated-with-country",
+      "tail": "Росія",
+      "evidence": "угрупування найманців UAC-0050, пов'язаних з правоохоронними структурами Росії"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "formerly-known-as",
+      "tail": "DaVinci Group",
+      "evidence": "UAC-0050... оголосивши про припинення \"професійної\" діяльності під \"брендом\" DaVinci Group"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "REMCOS RAT",
+      "evidence": "зловмисниками застосовано, щонайменше, п'ять різновидів шкідливих програм: REMCOS RAT"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "QUASAR RAT",
+      "evidence": "застосовано, щонайменше, п'ять різновидів шкідливих програм: REMCOS RAT, QUASAR RAT"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "VENOM RAT",
+      "evidence": "застосовано, щонайменше, п'ять різновидів шкідливих програм: REMCOS RAT, QUASAR RAT, VENOM RAT"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "REMOTE UTILITIES",
+      "evidence": "застосовано, щонайменше, п'ять різновидів шкідливих програм: REMCOS RAT, QUASAR RAT, VENOM RAT, REMOTE UTILITIES"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "LUMMASTEALER",
+      "evidence": "п'ять різновидів шкідливих програм: REMCOS RAT, QUASAR RAT, VENOM RAT, REMOTE UTILITIES та LUMMASTEALER"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "publishes-to-platform",
+      "tail": "Telegram",
+      "evidence": "незначна частина \"здобутків\" оприлюднюється в Telegram-каналі"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets",
+      "definition": "Specifies an organization, entity, or sector subjected to attack or espionage by a threat actor."
+    },
+    {
+      "name": "uses-malware",
+      "definition": "Indicates that a threat actor deploys or operates a specific malware family."
+    },
+    {
+      "name": "associated-with-country",
+      "definition": "Identifies the geopolitical origin or state affiliation of a threat actor."
+    },
+    {
+      "name": "formerly-known-as",
+      "definition": "Indicates a previous brand name or identity previously operated by a threat group."
+    },
+    {
+      "name": "uses-tool",
+      "definition": "Denotes that a threat actor employs a specific malware, software application, or utility during attacks."
+    },
+    {
+      "name": "publishes-to-platform",
+      "definition": "Indicates that an actor shares or publishes data or communication on a particular online service or platform."
+    }
+  ]
+}

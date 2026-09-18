@@ -1,0 +1,108 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0026",
+      "kind": "threat group",
+      "gloss": "A cyber threat group tracked by CERT-UA."
+    },
+    {
+      "name": "HeaderTip",
+      "kind": "malware family",
+      "gloss": "A malicious DLL downloader designed to fetch and execute additional DLL payloads."
+    },
+    {
+      "name": "Національної поліції України",
+      "kind": "law enforcement agency",
+      "gloss": "The national police service of Ukraine."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "російської федерації",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.rar",
+      "kind": "archive file",
+      "gloss": "A malicious RAR archive distributed in cyber attacks."
+    },
+    {
+      "name": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable extracted from a RAR archive to drop payloads."
+    },
+    {
+      "name": "#2163_02_33-2022.pdf",
+      "kind": "document file",
+      "gloss": "A decoy PDF document mimicking official correspondence from Ukrainian law enforcement."
+    },
+    {
+      "name": "officecleaner.bat",
+      "kind": "script file",
+      "gloss": "A batch script used to assemble and execute a malicious DLL and establish persistence."
+    },
+    {
+      "name": "officecleaner.dat",
+      "kind": "data file",
+      "gloss": "A payload file with a stripped header used to construct a malicious DLL."
+    },
+    {
+      "name": "httpshelper.dll",
+      "kind": "dynamic link library",
+      "gloss": "A malicious dynamic link library identified as the HeaderTip malware."
+    },
+    {
+      "name": "product2020.mrbasic.com",
+      "kind": "domain name",
+      "gloss": "A network domain used for command and control infrastructure."
+    },
+    {
+      "name": "104.155.198.25",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command and control servers."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0026",
+      "type": "uses-malware",
+      "tail": "HeaderTip",
+      "evidence": "Активність відстежується за ідентифікатором UAC-0026."
+    },
+    {
+      "head": "Національної поліції України",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "Національної поліції України"
+    },
+    {
+      "head": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.rar",
+      "type": "delivers",
+      "tail": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.exe",
+      "evidence": "який містить одноіменний EXE-файл"
+    },
+    {
+      "head": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.exe",
+      "type": "delivers",
+      "tail": "#2163_02_33-2022.pdf",
+      "evidence": "призведе до створення на комп'ютері документу-приманки \"#2163_02_33-2022.pdf\""
+    },
+    {
+      "head": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.exe",
+      "type": "delivers",
+      "tail": "officecleaner.dat",
+      "evidence": "а також DLL-файлу з видаленим MZ-заголовком \"officecleaner.dat\""
+    },
+    {
+      "head": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.exe",
+      "type": "delivers",
+      "tail": "officecleaner.bat",
+      "evidence": "та BAT-файлу \"officecleaner.bat\""
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,171 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p><span style="background-color: transparent; color: rgb(0, 0, 0);">Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA на виконання Закону України "Про основні засади забезпечення кібербезпеки України" вживаються організаційно-технічні заходи із запобігання, виявлення та реагування на кіберінциденти і кібератаки та усунення їх наслідків.</span></p><p><span style="background-color: transparent; color: rgb(0, 0, 0);">За фактом отримання інформації про втручання в роботу інформаційно-комунікаційної системи (ІКС) однієї з державних організацій&nbsp; України ініційовано заходи з дослідження кібератаки. З'ясовано, що працездатність електронно-обчислювальних машин (серверного обладнання, автоматизованих робочих місць користувачів, систем зберігання даних) була порушена в результаті деструктивного впливу, здійсненого із застосуванням відповідного програмного забезпечення.</span></p><p><span style="background-color: transparent; color: rgb(0, 0, 0);">Зокрема, для виведення з ладу ЕОМ, що функціонують під управлінням операційної системи (ОС) Windows, застосовано RoarBat - BAT-скрипт, що здійснює рекурсивний пошук файлів (на дисках та у конкретних каталогах) за визначеним переліком розширень (.doc, .docx, .rtf, .txt, .xls, .xlsx, .ppt, .pptx, .vsd, .vsdx, .pdf, .png, .jpeg, .jpg, .zip, .rar, .7z, .mp4, .sql, .php, .vbk, .vib, .vrb, .p7s та .sys, .dll, .exe, .bin, .dat) з метою їх подальшого архівування за допомогою легітимної програми WinRAR з опцією "-df", яка передбачає видалення вихідного файлу, а також подальше видалення створених архівів. Запуск згаданого скрипта здійснено за допомогою запланованого завдання, яке, за попередньою інформацією, було створено та централізовано розповсюджено засобами групової політики (GPO).</span></p><p><span style="background-color: transparent; color: rgb(0, 0, 0);">Виведення з ладу ЕОМ під управлінням ОС Linux здійснено за допомогою BASH-скрипта, що, серед іншого, забезпечував використанням штатної утиліти "dd" для перезапису файлів нульовими байтами.</span></p><p><span style="color: rgb(31, 31, 31);">Доступ до ІКС об'єкту атаки імовірно отримано шляхом підключення до VPN із застосуванням скомпрометованих автентифікаційних даних.</span></p><p><span style="background-color: transparent; color: rgb(0, 0, 0);">Спосіб реалізації зловмисного задуму, IP-адреси суб'єктів доступу, а також факт використання модифікованої версії RoarBat свідчать про схожість з кібератакою на Укрінформ, інформація про яку була опублікована в телеграм-каналі "CyberArmyofRussia_Reborn" 17.01.2023.&nbsp;&nbsp;</span></p><p>Таким чином, незважаючи на висвітлення факту кібератаки за допомогою іншого телеграм-каналу, описану активнісь з помірним рівнем впевненості CERT-UA асоціює з діяльністю угрупування Sandworm, проте для її точкового відстежування створено відповідний ідентифікатор UAC-0165.<span style="background-color: transparent; color: rgb(0, 0, 0);">&nbsp;</span></p><p>Звертаємо увагу, що успішній реалізації атаки сприяли відсутність багатофакторної автентифікації при здійсненні віддалених підключень до VPN, відсутність сегментації мережі та фільтрації вхідних, вихідних та міжсегментних інформаційних потоків.</p><p><span style="background-color: transparent; color: rgb(0, 0, 0);">Вкотре закликаємо відповідальних співробітників організацій не ігнорувати повідомлення про виявлення ознак аномальної активності та вживати невідкладних заходів зі зменшення "поверхні" атаки: проаналізувати та убезпечити "зовнішній" периметр ІКС організації (ліквідувати вразливості, відключити сервіси, обмежити доступ до інтерфейсів управління тощо), забезпечити фільтрацію вхідних, вихідних, міжсегментних інформаційних потоків за принципом "заборонено все, що явно не дозволено" та запровадити використання багатофакторної автентифікації при здійсненні віддаленого доступу до ІКС (VPN) і/або корпоративних сервісів, таких як електронна пошта, документообіг та інші (</span><a href="https://cert.gov.ua/article/1751036" rel="noopener noreferrer" target="_blank" style="background-color: transparent; color: rgb(0, 0, 0);">https://cert.gov.ua/article/1751036</a><span style="background-color: transparent; color: rgb(0, 0, 0);">).</span></p><p><span style="background-color: transparent; color: rgb(0, 0, 0);">Інформація може оновлюватися.</span></p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">c0a7da9ba353c272a694c2f215b29a63&nbsp; &nbsp; 76f06d84d24d080201afee5095e4c9a595f7f2944d9911d17870653bbfefefe8&nbsp; &nbsp; UpdateRarService
+6b30bd1ff03098dcf78b938965333f6e&nbsp; &nbsp; 27ff9d3f925f636dcdc0993a2caaec0fa6e05c3ab22700f055353a839b49ab38&nbsp; &nbsp; update1.bat (RoarBat)
+4e75f4c7bcc4db8ff51cee9b192488d6&nbsp; &nbsp; cb3cc656bb0d0eb8ebea98d3ef1779fb0c4eadcce43ddb72547d9411bcd858bc&nbsp; &nbsp; WinRAR.exe (Command line RAR)
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">C:\Users\update1.bat
+UpdateRarService
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">188[.]72.101.3
+188[.]72.101.4
+194[.]28.172.172
+194[.]28.172.81
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (5.9s, in 2747 / out 1205 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A proprietary graphical operating system developed by Microsoft."
+    },
+    {
+      "name": "RoarBat",
+      "kind": "malware",
+      "gloss": "A malicious batch script that archives and deletes files to cause system disruption."
+    },
+    {
+      "name": "WinRAR",
+      "kind": "software product",
+      "gloss": "A popular file archiver utility for Windows."
+    },
+    {
+      "name": "Linux",
+      "kind": "operating system",
+      "gloss": "An open-source Unix-like operating system."
+    },
+    {
+      "name": "dd",
+      "kind": "software utility",
+      "gloss": "A standard Unix command-line utility used for copying and converting raw data."
+    },
+    {
+      "name": "Укрінформ",
+      "kind": "news agency",
+      "gloss": "The national news agency of Ukraine."
+    },
+    {
+      "name": "CyberArmyofRussia_Reborn",
+      "kind": "telegram channel",
+      "gloss": "A Telegram channel used by pro-Russian hacktivists to claim and publicize cyberattacks."
+    },
+    {
+      "name": "Sandworm",
+      "kind": "hacking group",
+      "gloss": "A Russian state-sponsored advanced persistent threat group associated with the GRU."
+    },
+    {
+      "name": "UAC-0165",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracking identifier designated by CERT-UA associated with Sandworm activity."
+    },
+    {
+      "name": "UpdateRarService",
+      "kind": "service name",
+      "gloss": "A scheduled task or service name used to execute malicious scripts."
+    },
+    {
+      "name": "update1.bat",
+      "kind": "file name",
+      "gloss": "A malicious batch script file implementing the RoarBat malware."
+    },
+    {
+      "name": "WinRAR.exe",
+      "kind": "file name",
+      "gloss": "An executable file of the command-line RAR archiving utility."
+    },
+    {
+      "name": "C:\\Users\\update1.bat",
+      "kind": "file path",
+      "gloss": "A Windows file system path where the malicious batch script was located."
+    },
+    {
+      "name": "188.72.101.3",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure used in the cyberattack."
+    },
+    {
+      "name": "188.72.101.4",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure used in the cyberattack."
+    },
+    {
+      "name": "194.28.172.172",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure used in the cyberattack."
+    },
+    {
+      "name": "194.28.172.81",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure used in the cyberattack."
+    }
+  ],
+  "relations": [
+    {
+      "head": "RoarBat",
+      "type": "abuses-tool",
+      "tail": "WinRAR",
+      "evidence": "подальшого архівування за допомогою легітимної програми WinRAR"
+    },
+    {
+      "head": "Sandworm",
+      "type": "tracked-as",
+      "tail": "UAC-0165",
+      "evidence": "асоціює з діяльністю угрупування Sandworm, проте для її точкового відстежування створено відповідний ідентифікатор UAC-0165"
+    },
+    {
+      "head": "CyberArmyofRussia_Reborn",
+      "type": "publicized-attack-on",
+      "tail": "Укрінформ",
+      "evidence": "кібератакою на Укрінформ, інформація про яку була опублікована в телеграм-каналі \"CyberArmyofRussia_Reborn\""
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "abuses-tool",
+      "definition": "The subject malware or threat actor leverages a legitimate software utility for malicious purposes."
+    },
+    {
+      "name": "tracked-as",
+      "definition": "The subject threat actor group is tracked under an alternative specific identifier or alias."
+    },
+    {
+      "name": "publicized-attack-on",
+      "definition": "The subject entity published or publicized information about a cyberattack targeting the object organization."
+    }
+  ]
+}

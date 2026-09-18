@@ -1,0 +1,94 @@
+{
+  "entities": [
+    {
+      "name": "Petya",
+      "kind": "ransomware",
+      "gloss": "A family of encrypting ransomware targeting Microsoft Windows-based systems."
+    },
+    {
+      "name": "Misha",
+      "kind": "ransomware",
+      "gloss": "A ransomware strain distributed alongside the Petya ransomware family."
+    },
+    {
+      "name": "CVE-2017-0199",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in the Microsoft Office and WordPad OLE interface."
+    },
+    {
+      "name": "Microsoft Word",
+      "kind": "software product",
+      "gloss": "A widely used word processor developed by Microsoft."
+    },
+    {
+      "name": "Microsoft Windows",
+      "kind": "operating system",
+      "gloss": "A widely used group of graphical operating system families developed by Microsoft."
+    },
+    {
+      "name": "Microsoft Office",
+      "kind": "software suite",
+      "gloss": "A suite of productivity software developed by Microsoft."
+    },
+    {
+      "name": "Office 2007",
+      "kind": "software suite",
+      "gloss": "A version of the Microsoft Office productivity suite."
+    },
+    {
+      "name": "Office 2010",
+      "kind": "software suite",
+      "gloss": "A version of the Microsoft Office productivity suite."
+    },
+    {
+      "name": "Office 2013",
+      "kind": "software suite",
+      "gloss": "A version of the Microsoft Office productivity suite."
+    },
+    {
+      "name": "Office 2016",
+      "kind": "software suite",
+      "gloss": "A version of the Microsoft Office productivity suite."
+    },
+    {
+      "name": "Windows 7",
+      "kind": "operating system",
+      "gloss": "A major release of the Microsoft Windows operating system."
+    },
+    {
+      "name": "Windows Vista",
+      "kind": "operating system",
+      "gloss": "A major release of the Microsoft Windows operating system."
+    },
+    {
+      "name": "Windows Server 2008",
+      "kind": "operating system",
+      "gloss": "A server operating system developed by Microsoft."
+    },
+    {
+      "name": "Windows Server 2012",
+      "kind": "operating system",
+      "gloss": "A server operating system developed by Microsoft."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Petya",
+      "type": "exploited-vulnerability",
+      "tail": "CVE-2017-0199",
+      "evidence": "атаки шифрувальників Petya та Misha у 2017 для поширення яких використовувалася вразливість... CVE-2017-0199"
+    },
+    {
+      "head": "Misha",
+      "type": "exploited-vulnerability",
+      "tail": "CVE-2017-0199",
+      "evidence": "атаки шифрувальників Petya та Misha у 2017 для поширення яких використовувалася вразливість... CVE-2017-0199"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "exploited-vulnerability",
+      "definition": "Identifies a security vulnerability leveraged by malware or a threat actor to execute code or compromise a system."
+    }
+  ]
+}

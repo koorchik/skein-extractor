@@ -1,0 +1,147 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p>Наразі зловмисники використовують ситуацію пов’язану з пандемією коронавірусу, як підхід соціальної інженерії направлений проти користувачів. У фішингових листах користувачам пропонується встановити додаток, який обіцяє надавати актуальну інформацію щодо епідеміологічного стану в світі. Як приклад, при запуску зловмисної програми CoronaMap.exe відображається інформація з онлайн карт щодо поширення коронавірусу, яка розміщена на сайті&nbsp;Університету Джона Хопкінса, а в прихованному режимі ініціюється запуск шкідливого програмного забезпечення, відомого як AZORult.</p><p>AZORult – шкідливе програмне забезпечення (далі – ШПЗ) типу «троянський кінь», призначене для збору різноманітної конфіденційної інформації користувача, такої як дані з месенджерів та браузерів, в тому числі файли cookie, ідентифікатори користувачів та пристроїв, паролі та інформація, що пов’язана з інтернет-банкінгом чи криптовалютами. Для ідентифікації при з’єднанні з командно-контрольним сервером використовуються дані про інфікований пристрій.&nbsp;</p><p>Фахівцями урядової команди реагування на комп’ютерні надзвичайні події України CERT-UA проаналізовано інциденти пов’язані з даним способом отримання несанкціонованого доступу до інформації користувачів, способи розповсюдження, вектори зараження та методологію роботи ШПЗ та звіти про подібні інциденти.</p><p>Встановлено, що зловмисники поширюють ШПЗ за допомогою розсилки спам-повідомлень на електронні скриньки. Електронні листи зазвичай містять оманливий текст, що спонукає користувачів відкрити вкладені файли (наприклад – актуальна інформація, щодо розповсюдження коронавірусу в світі). Після завантаження та запуску вкладення користувачем виконується певний перелік команд, що дає змогу AZORult бути виконаним на цільовій системі.</p><p></p><p>&nbsp;&nbsp;Дерево процесів, що породжується під час запуску зловмисної програми CoronaMap.exe</p><p><br></p><p></p><p>Дане ШПЗ працює на всіх версіях Windows (від Windows XP до Windows 10, 32- та 64-bit), для запуску потребує Java будь-якої версії та за необхідності може її оновлювати, а також завантажувати додаткові компоненти ШПЗ, через що йому не потрібні MS Office та .NET.</p><p>Враховуючи вищезазначене, звертаємо особливу увагу представників державних органів та об’єктів критичної інфраструктури на те, що подібний підхід може використовуватись APT групами для розвідки, викрадення даних чи реалізації інших атак. Рекомендуємо провести відповідні інструктажі персоналу щодо розповсюдження фішингу.</p><p>Механізм ураження системи ускладнює видалення ШПЗ з інфікованих пристроїв, через що доцільніше відновити систему з резервної копії. Наголошуємо, що у випадках інфікування системи, крім видалення ШПЗ або відновлення системи, потрібно змінити паролі та інші дані, що використовуються для автентифікації.</p><h3><strong>Що робити?</strong></h3><ul><li>Встановити відображення електронних листів у форматі «звичайний текст», без вкладень чи активних елементів.</li><li>Одразу видаляти підозрілі листи, не переходити за невідомими посиланнями.</li><li>Не завантажувати та не запускати додатки з листів, які ви не очікували отримати.</li><li>Перевіряти підозрілі файли на VirusTotal.</li><li>Не встановлюйте програмне забезпечення з невідомих чи неперевірених ресурсів.</li></ul><h3><strong>Корисні посилання:</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3><ul><li>Основні правила кібергігієни</li></ul><p><a href="https://cert.gov.ua/recommendation/31" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/recommendation/31</a></p><ul><li>&nbsp;Як розпізнати фейк?</li></ul><p><a href="https://cert.gov.ua/recommendation/30" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/recommendation/30</a></p><ul><li>Загальні рекомендації Державного центру кіберзахисту та протидії кіберзагрозам Держспецзв’язку для підвищення рівня захисту інформаційних ресурсів та систем і для запобігання кіберінцидентам в установах, на підприємствах і в організаціях.</li></ul><p><a href="https://cert.gov.ua/files/pdf/Rec0301.pdf" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/files/pdf/Rec0301.pdf</a></p><ul><li>Служба, що перевіряє підозрілі файли та полегшує швидке виявлення вірусів, черв'яків, троянів і всіх видів шкідливих програм, визначуваних антивірусами.</li></ul><p>https://www.virustotal.com/</p><p>&nbsp;</p><h3><strong>Хеш-значення деяких шкідливих файлів:</strong>&nbsp;</h3><p>&nbsp;</p><p>2b35aa9c70ef66197abfb9bc409952897f9f70818633ab43da85b3825b256307&nbsp;&nbsp;&nbsp;–&nbsp;Corona-virus-Map.com.exe&nbsp;&nbsp;</p><p>f195f28ad0823fd6430b8999fb112bbecba81538b7eb28b88d0925ea4e8e5c95&nbsp;&nbsp;&nbsp;–&nbsp;CoronaMap (AZORult Trojan)</p><p>63fcf6b19ac3a6a232075f65b4b58d69cfd4e7f396f573d4da46aaf210f82564&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;–&nbsp;CoronaMap (AZORult Trojan)</p>
+
+=== RESPONSE (9.4s, in 2827 / out 1006 tok, STOP) ===
+CoronaMap.exe delivers AZORult trojan malware targeting Windows users by exploiting interest in COVID-19 epidemic data, disguised as information from Johns Hopkins University.
+
+{
+  "entities": [
+    {
+      "name": "CoronaMap.exe",
+      "kind": "malware",
+      "gloss": "A malicious executable disguised as a coronavirus tracking application that executes the AZORult trojan in the background."
+    },
+    {
+      "name": "AZORult",
+      "kind": "malware",
+      "gloss": "An information-stealing Trojan malware designed to collect browser credentials, cookies, and sensitive user information from infected systems."
+    },
+    {
+      "name": "Університету Джона Хопкінса",
+      "kind": "academic institution",
+      "gloss": "A private research university in the United States known for publishing global epidemiological tracking data."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "Windows",
+      "kind": "Software Product",
+      "gloss": "A proprietary operating system family developed and maintained by Microsoft."
+    },
+    {
+      "name": "Java",
+      "kind": "Software Product",
+      "gloss": "A software platform and runtime environment developed by Oracle for running applications."
+    },
+    {
+      "name": "MS Office",
+      "kind": "Software Product",
+      "gloss": "A suite of desktop productivity applications developed by Microsoft."
+    },
+    {
+      "name": ".NET",
+      "kind": "Software Product",
+      "gloss": "A software development framework created by Microsoft for building and running Windows applications."
+    },
+    {
+      "name": "VirusTotal",
+      "kind": "online service",
+      "gloss": "A free online service that analyzes suspicious files and URLs to detect types of malware."
+    },
+    {
+      "name": "Державного центру кіберзахисту та протидії кіберзагрозам Держспецзв’язку",
+      "kind": "government body",
+      "gloss": "A specialized cybersecurity unit operating under the State Service of Special Communications and Information Protection of Ukraine."
+    },
+    {
+      "name": "Держспецзв’язку",
+      "kind": "government body",
+      "gloss": "The State Service of Special Communications and Information Protection of Ukraine responsible for state telecommunications and cybersecurity."
+    },
+    {
+      "name": "Corona-virus-Map.com.exe",
+      "kind": "malware",
+      "gloss": "A malicious executable file used to deliver information-stealing malware under the guise of a coronavirus map."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CoronaMap.exe",
+      "type": "delivers",
+      "tail": "AZORult",
+      "evidence": "при запуску зловмисної програми CoronaMap.exe... ініціюється запуск шкідливого програмного забезпечення, відомого як AZORult"
+    },
+    {
+      "head": "AZORult",
+      "type": "affects",
+      "tail": "Windows",
+      "evidence": "Дане ШПЗ працює на всіх версіях Windows"
+    },
+    {
+      "head": "Державного центру кіберзахисту та протидії кіберзагрозам Держспецзв’язку",
+      "type": "part-of",
+      "tail": "Держспецзв’язку",
+      "evidence": "Державного центру кіберзахисту та протидії кіберзагрозам Держспецзв’язку"
+    },
+    {
+      "head": "Держспецзв’язку",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "Державного центру кіберзахисту та протидії кіберзагрозам Держспецзв’язку"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "delivers",
+      "definition": "The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload."
+    }
+  ]
+}

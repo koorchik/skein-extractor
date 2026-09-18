@@ -1,0 +1,66 @@
+{
+  "entities": [
+    {
+      "name": "Smokeloader",
+      "kind": "malware family",
+      "gloss": "A modular backdoor and downloader malware family used to deploy secondary payloads."
+    },
+    {
+      "name": "Monero",
+      "kind": "cryptocurrency",
+      "gloss": "A privacy-centric cryptocurrency often mined maliciously by threat actors."
+    },
+    {
+      "name": "Заявка.js",
+      "kind": "file name",
+      "gloss": "A malicious JavaScript attachment used to download and execute secondary malware payloads."
+    },
+    {
+      "name": "enterwords.ru",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to distribute malicious executable files."
+    },
+    {
+      "name": "crsse.exe",
+      "kind": "file name",
+      "gloss": "A malicious executable representing a Smokeloader sample disguised as a legitimate Windows system process."
+    },
+    {
+      "name": "parodadoca.ru",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host cryptocurrency mining malware."
+    },
+    {
+      "name": "curl.exe",
+      "kind": "file name",
+      "gloss": "A malicious executable configured to mine Monero cryptocurrency on infected systems."
+    }
+  ],
+  "relations": [
+    {
+      "head": "enterwords.ru",
+      "type": "hosts",
+      "tail": "crsse.exe",
+      "evidence": "скачує з сайту hXXp://enterwords.ru/uadoc/crsse.exe файл crsse.exe"
+    },
+    {
+      "head": "parodadoca.ru",
+      "type": "hosts",
+      "tail": "curl.exe",
+      "evidence": "скачує з hXXp://parodadoca.ru/panel/mr/curl.exe файл curl.exe"
+    },
+    {
+      "head": "Заявка.js",
+      "type": "delivers",
+      "tail": "crsse.exe",
+      "evidence": "Він скачує з сайту hXXp://enterwords.ru/uadoc/crsse.exe файл crsse.exe"
+    },
+    {
+      "head": "Smokeloader",
+      "type": "delivers",
+      "tail": "curl.exe",
+      "evidence": "Smokeloader, який скачував на комп’ютери жертв програму для майнингу"
+    }
+  ],
+  "newRelationTypes": []
+}

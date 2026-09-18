@@ -1,0 +1,53 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe whose government institutions and public sector were targeted in cyberattacks."
+    },
+    {
+      "name": "gov.ua",
+      "kind": "internet domain",
+      "gloss": "The second-level domain zone allocated for government bodies and state organizations of Ukraine."
+    },
+    {
+      "name": "Zimbra",
+      "kind": "software product",
+      "gloss": "An enterprise collaborative software suite and email server platform impersonated in phishing attacks."
+    },
+    {
+      "name": "Zimbra Web Access",
+      "kind": "software product",
+      "gloss": "A webmail client interface for accessing the Zimbra collaboration suite."
+    },
+    {
+      "name": "Російська Федерація",
+      "kind": "country",
+      "gloss": "A country where IP addresses used in connection attempts to compromised mail servers were registered."
+    }
+  ],
+  "relations": [
+    {
+      "head": "gov.ua",
+      "type": "is-domain-zone-of",
+      "tail": "Україна",
+      "evidence": "електронні адреси організацій в домені gov.ua... державний сектор України"
+    },
+    {
+      "head": "Zimbra Web Access",
+      "type": "is-component-of",
+      "tail": "Zimbra",
+      "evidence": "веб-пошти Zimbra Web Access для ваших потреб спілкування"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "is-domain-zone-of",
+      "definition": "Identifies the country or governing entity to which an internet domain zone is designated."
+    },
+    {
+      "name": "is-component-of",
+      "definition": "Identifies a software feature, module, or sub-client that belongs to a parent software suite."
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Диверсанти.rar",
+      "kind": "malicious archive file",
+      "gloss": "A malicious RAR archive file used in an attack campaign."
+    },
+    {
+      "name": "Диверсанти 21.03.rar",
+      "kind": "malicious archive file",
+      "gloss": "A nested malicious RAR archive file containing an SFX archive."
+    },
+    {
+      "name": "Диверсанти filercs.rar",
+      "kind": "malicious executable file",
+      "gloss": "A self-extracting archive using a right-to-left override character in its name to mask its file extension."
+    },
+    {
+      "name": "Thumbs.db",
+      "kind": "malicious script file",
+      "gloss": "A malicious VBScript file masquerading as a Windows thumbnail database file."
+    },
+    {
+      "name": "dhdhk0k34.com",
+      "kind": "malicious executable file",
+      "gloss": "A malicious .NET executable launched by a VBScript to infect the system with Cobalt Strike Beacon."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware family",
+      "gloss": "A post-exploitation adversary emulation agent frequently used by threat actors for remote control."
+    },
+    {
+      "name": "inject.exe",
+      "kind": "malicious executable file",
+      "gloss": "An injector executable used to deploy malicious payloads."
+    },
+    {
+      "name": "UAC-0057",
+      "kind": "threat group",
+      "gloss": "A threat group also known as UNC1151 or Ghostwriter."
+    },
+    {
+      "name": "Skype.exe",
+      "kind": "malicious executable file",
+      "gloss": "A malicious executable dropped to the public user directory during compromise."
+    },
+    {
+      "name": "csbeacon.bin",
+      "kind": "malware file",
+      "gloss": "A payload binary file containing Cobalt Strike Beacon shellcode."
+    },
+    {
+      "name": "ao3.hmgo.pw",
+      "kind": "hostname",
+      "gloss": "A fully qualified domain name used as malicious network infrastructure."
+    },
+    {
+      "name": "hmgo.pw",
+      "kind": "domain name",
+      "gloss": "An internet domain used in cyberattack infrastructure."
+    },
+    {
+      "name": "hXXps://ao3.hmgo[.]pw/tags/Akihabara@TODEEP/works",
+      "kind": "url",
+      "gloss": "A malicious URL associated with the attack infrastructure."
+    },
+    {
+      "name": "hXXps://ao3.hmgo[.]pw/tags/Akihabara@TODEEP/works/update",
+      "kind": "url",
+      "gloss": "A malicious URL associated with command and control communication or payload delivery."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Диверсанти.rar",
+      "type": "contains-file",
+      "tail": "Диверсанти 21.03.rar",
+      "evidence": "містить RAR-архів \"Диверсанти 21.03.rar\""
+    },
+    {
+      "head": "Диверсанти 21.03.rar",
+      "type": "contains-file",
+      "tail": "Диверсанти filercs.rar",
+      "evidence": "містить SFX-архів \"Диверсанти filercs.rar\""
+    },
+    {
+      "head": "Диверсанти filercs.rar",
+      "type": "contains-file",
+      "tail": "Thumbs.db",
+      "evidence": "архів містить документи та зображення приманки, а також VBScript-код (Thumbs.db)"
+    },
+    {
+      "head": "Thumbs.db",
+      "type": "drops-and-executes",
+      "tail": "dhdhk0k34.com",
+      "evidence": "забезпечить створення та запуск .NET-програми \"dhdhk0k34.com\""
+    },
+    {
+      "head": "dhdhk0k34.com",
+      "type": "infects-with",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "В результаті комп'ютер буде уражено шкідливою програмою Cobalt Strike Beacon"
+    },
+    {
+      "head": "UAC-0057",
+      "type": "suspected-author-of",
+      "tail": "Thumbs.db",
+      "evidence": "специфічності VBScript-коду, з середнім рівнем впевненості асоційовано з діяльністю групи UAC-0057"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "contains-file",
+      "definition": "The head archive or container holds the tail file."
+    },
+    {
+      "name": "drops-and-executes",
+      "definition": "The head file creates and launches the tail executable file."
+    },
+    {
+      "name": "infects-with",
+      "definition": "The execution of the head program leads to infection of the host with the tail malware."
+    },
+    {
+      "name": "suspected-author-of",
+      "definition": "The head threat actor is linked or attributed with some level of confidence to the creation or use of the tail artifact."
+    }
+  ]
+}

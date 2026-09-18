@@ -1,0 +1,59 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0133",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA associated with cyberattacks against Ukrainian targets."
+    },
+    {
+      "name": "online.ua",
+      "kind": "internet domain",
+      "gloss": "A Ukrainian web portal and email service provider."
+    },
+    {
+      "name": "sbu@online[.]ua",
+      "kind": "email address",
+      "gloss": "A compromised email address used to send phishing messages impersonating CERT-UA."
+    },
+    {
+      "name": "ESET_scanner.rar",
+      "kind": "archive file",
+      "gloss": "A malicious archive file distributed in phishing emails containing a fake scanner executable."
+    },
+    {
+      "name": "ESET Online Scanner.exe",
+      "kind": "malware",
+      "gloss": "A malicious executable that masquerades as an antivirus scanner and downloads payloads via SFTP."
+    },
+    {
+      "name": "Renci.SshNet",
+      "kind": "software library",
+      "gloss": "An open-source .NET library providing SSH and SFTP capabilities."
+    },
+    {
+      "name": "185[.]225.114.108",
+      "kind": "ip address",
+      "gloss": "An IP address hosting an SFTP server used to deliver malware payloads."
+    },
+    {
+      "name": "ipfib[.]com",
+      "kind": "internet domain",
+      "gloss": "An internet domain associated with the network infrastructure hosting the attacker's server."
+    }
+  ],
+  "relations": [
+    {
+      "head": "ESET_scanner.rar",
+      "type": "delivers",
+      "tail": "ESET Online Scanner.exe",
+      "evidence": "В додатку до електронного листа знаходиться архів \"ESET_scanner.rar\", що містить файл \"ESET Online Scanner.exe\""
+    },
+    {
+      "head": "ESET Online Scanner.exe",
+      "type": "communicates-with",
+      "tail": "185[.]225.114.108",
+      "evidence": "завантаження пейлоаду здійснюється по протоколу SFTP з використанням бібліотеки \"Renci.SshNet\""
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,69 @@
+{
+  "entities": [
+    {
+      "name": "APT28",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group associated with the GRU."
+    },
+    {
+      "name": "державні органи України",
+      "kind": "government sector",
+      "gloss": "State and government bodies and agencies of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country located in Eastern Europe."
+    },
+    {
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A family of proprietary graphical operating systems developed by Microsoft."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "command-line tool",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "Mocky",
+      "kind": "web service",
+      "gloss": "An online platform for mocking HTTP APIs and testing web applications."
+    },
+    {
+      "name": "run.mocky.io",
+      "kind": "internet domain",
+      "gloss": "A domain endpoint associated with the Mocky API simulation platform."
+    },
+    {
+      "name": "mockbin.org",
+      "kind": "internet domain",
+      "gloss": "A public web domain used to mock, log, and inspect HTTP requests."
+    },
+    {
+      "name": "146.70.105.61",
+      "kind": "ip address",
+      "gloss": "An IP address observed as network infrastructure in the reported malicious campaign."
+    },
+    {
+      "name": "77.75.78.125",
+      "kind": "ip address",
+      "gloss": "An IP address observed as network infrastructure in the reported malicious campaign."
+    }
+  ],
+  "relations": [
+    {
+      "head": "APT28",
+      "type": "attacks",
+      "tail": "державні органи України",
+      "evidence": "розповсюдження серед державних органів України... Активність здійснюється групою APT28."
+    },
+    {
+      "head": "державні органи України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "державних органів України"
+    }
+  ],
+  "newRelationTypes": []
+}

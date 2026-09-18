@@ -1,0 +1,115 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyberespionage threat group targeting Ukrainian organizations and government bodies."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "державного органу України",
+      "kind": "government body",
+      "gloss": "A governmental authority or agency of Ukraine."
+    },
+    {
+      "name": "Aid request COVID-19-04_5_22.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel document containing macros used to deploy downloaders."
+    },
+    {
+      "name": "GraphSteel",
+      "kind": "malware family",
+      "gloss": "A Go-based malware strain designed to exfiltrate sensitive files and credentials."
+    },
+    {
+      "name": "GrimPlant",
+      "kind": "malware family",
+      "gloss": "A Go-based backdoor malware used for remote command execution."
+    },
+    {
+      "name": "base_update.exe",
+      "kind": "malicious file",
+      "gloss": "A Go-based loader executable used to download and execute secondary malware payloads."
+    },
+    {
+      "name": "java-sdk.exe",
+      "kind": "malicious file",
+      "gloss": "A Go-based loader executable disguised as a Java SDK component."
+    },
+    {
+      "name": "microsoft-cortana.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file delivering the GraphSteel malware payload."
+    },
+    {
+      "name": "oracle-java.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file delivering the GrimPlant malware payload."
+    },
+    {
+      "name": "212.192.246.115",
+      "kind": "ip address",
+      "gloss": "An IP address used for malicious command and control communications."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "associated-with",
+      "tail": "Aid request COVID-19-04_5_22.xls",
+      "evidence": "Активність асоційовано з діяльністю групи UAC-0056."
+    },
+    {
+      "head": "державного органу України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "облікового запису співробітника державного органу України."
+    },
+    {
+      "head": "Aid request COVID-19-04_5_22.xls",
+      "type": "delivers",
+      "tail": "GraphSteel",
+      "evidence": "будуть завантажені та виконані шкідливі програми GraphSteel"
+    },
+    {
+      "head": "Aid request COVID-19-04_5_22.xls",
+      "type": "delivers",
+      "tail": "GrimPlant",
+      "evidence": "будуть завантажені та виконані шкідливі програми GraphSteel (дата компіляції: 2022-04-21) та GrimPlant."
+    },
+    {
+      "head": "microsoft-cortana.exe",
+      "type": "instance-of",
+      "tail": "GraphSteel",
+      "evidence": "microsoft-cortana.exe (2022-04-21) (GraphSteel)"
+    },
+    {
+      "head": "oracle-java.exe",
+      "type": "instance-of",
+      "tail": "GrimPlant",
+      "evidence": "oracle-java.exe (GrimPlant)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "associated-with",
+      "definition": "Specifies that an activity, tool, or artifact is attributed to or associated with a threat actor."
+    },
+    {
+      "name": "located-in",
+      "definition": "Indicates the physical or administrative country or jurisdiction where an organization is situated."
+    },
+    {
+      "name": "delivers",
+      "definition": "Indicates that a malicious file or loader results in the installation or execution of another malware."
+    },
+    {
+      "name": "instance-of",
+      "definition": "Specifies that a particular executable file sample belongs to a specific malware family."
+    }
+  ]
+}

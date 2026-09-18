@@ -1,0 +1,109 @@
+{
+  "docId": 17961,
+  "date": "18.01.2022",
+  "title": "Інформація щодо вразливості в продуктах Microsoft CVE-2022-21907",
+  "entities": [
+    {
+      "id": "17961:0",
+      "name": "Microsoft",
+      "kind": "software vendor",
+      "gloss": "A multinational technology corporation that develops computer software, hardware, and related services.",
+      "scheme": "S3",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "17961:1",
+      "name": "CVE-2022-21907",
+      "kind": "security vulnerability",
+      "gloss": "A remote code execution vulnerability in the Windows HTTP Protocol Stack (http.sys).",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "17961:2",
+      "name": "HTTP Protocol Stack (http.sys)",
+      "kind": "computer file",
+      "gloss": "A Windows operating system kernel-mode device driver handling HTTP requests.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "17961:3",
+      "name": "IIS",
+      "kind": "software product",
+      "gloss": "An extensible web server software created by Microsoft for use with the Windows NT family.",
+      "scheme": "S2",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "17961:4",
+      "name": "Windows Server 2019",
+      "kind": "software product",
+      "gloss": "A server operating system developed by Microsoft as part of the Windows NT family.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "17961:5",
+      "name": "Windows 10 версії 1809",
+      "kind": "software product",
+      "gloss": "A major update release of Microsoft's Windows 10 operating system.",
+      "scheme": "S2",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "17961:6",
+      "name": "ОС Windows",
+      "kind": "software product",
+      "gloss": "A family of proprietary graphical operating system families developed by Microsoft.",
+      "scheme": "S2",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "17961:7",
+      "name": "https://msrc.microsoft.com/update-guide/en-US/vulnerability/CVE-2022-21907",
+      "kind": "uniform resource locator",
+      "gloss": "A Microsoft Security Response Center advisory webpage for vulnerability CVE-2022-21907.",
+      "scheme": "S7",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "17961:8",
+      "name": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-21907",
+      "kind": "uniform resource locator",
+      "gloss": "A MITRE CVE dictionary webpage containing details for CVE-2022-21907.",
+      "scheme": "S7",
+      "category": "Software",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2022-21907",
+      "type": "affects",
+      "tail": "HTTP Protocol Stack (http.sys)",
+      "evidence": "Ця вразливість стосується файлу HTTP Protocol Stack (http.sys)"
+    },
+    {
+      "head": "CVE-2022-21907",
+      "type": "affects",
+      "tail": "Windows Server 2019",
+      "evidence": "впливу вразливості на Windows Server 2019"
+    },
+    {
+      "head": "CVE-2022-21907",
+      "type": "affects",
+      "tail": "Windows 10 версії 1809",
+      "evidence": "впливу вразливості на Windows Server 2019 та Windows 10 версії 1809"
+    }
+  ],
+  "unclassified": []
+}

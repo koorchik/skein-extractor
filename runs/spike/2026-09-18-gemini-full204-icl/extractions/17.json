@@ -1,0 +1,65 @@
+{
+  "entities": [
+    {
+      "name": "WP Data Reset",
+      "kind": "software plugin",
+      "gloss": "An open-source WordPress plugin designed to reset database tables to default settings."
+    },
+    {
+      "name": "WordPress",
+      "kind": "software product",
+      "gloss": "A widely used open-source content management system."
+    },
+    {
+      "name": "WebFactory Ltd",
+      "kind": "software vendor",
+      "gloss": "A software development company that maintains WordPress plugins and tools."
+    },
+    {
+      "name": "CVE-2020-7048",
+      "kind": "vulnerability",
+      "gloss": "A critical vulnerability allowing unauthorized users to reset database tables in WordPress."
+    },
+    {
+      "name": "CVE-2020-7047",
+      "kind": "vulnerability",
+      "gloss": "A high-severity vulnerability allowing authenticated users to gain administrative privileges by altering user tables."
+    },
+    {
+      "name": "WP Dataset Reset 3.15",
+      "kind": "software product",
+      "gloss": "A patched release version of the WP Database Reset plugin."
+    },
+    {
+      "name": "WordFence",
+      "kind": "cybersecurity company",
+      "gloss": "A cybersecurity company providing security solutions and threat intelligence for WordPress."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2020-7048",
+      "type": "affects",
+      "tail": "WP Data Reset",
+      "evidence": "Критичні помилки, знайдені у використовуваному понад 80 000 сайтів плагін"
+    },
+    {
+      "head": "CVE-2020-7047",
+      "type": "affects",
+      "tail": "WP Data Reset",
+      "evidence": "Дві вразливості, відстежувані як CVE-2020-7048 та CVE-2020-7047"
+    },
+    {
+      "head": "WP Dataset Reset 3.15",
+      "type": "fixes-vulnerability-in",
+      "tail": "WP Data Reset",
+      "evidence": "були виправлені з випуском програми WP Dataset Reset 3.15"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "affects",
+      "definition": "The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization."
+    }
+  ]
+}

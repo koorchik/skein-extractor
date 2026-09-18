@@ -1,0 +1,161 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0006",
+      "kind": "threat actor",
+      "gloss": "A financially motivated cyber threat group targeting Ukrainian organizations."
+    },
+    {
+      "name": "SMOKELOADER",
+      "kind": "malware",
+      "gloss": "A modular bot malware used to download and execute additional malicious payloads."
+    },
+    {
+      "name": "Microsoft Access",
+      "kind": "software product",
+      "gloss": "A database management system developed by Microsoft."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "TALESHOT",
+      "kind": "malware",
+      "gloss": "A malicious software program used by threat actors to perform unauthorized actions on infected systems."
+    },
+    {
+      "name": "RMS",
+      "kind": "software product",
+      "gloss": "A legitimate remote desktop utility frequently abused by threat actors for remote administration access."
+    },
+    {
+      "name": "Новая папка.zip",
+      "kind": "computer file",
+      "gloss": "A malicious ZIP archive used in cyber attacks to distribute malware."
+    },
+    {
+      "name": "Новая папка.img",
+      "kind": "computer file",
+      "gloss": "A disk image file containing malicious executable payloads."
+    },
+    {
+      "name": "Акт_звiрки_за_травень.xls.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable disguised as an Excel document."
+    },
+    {
+      "name": "smoke.exe",
+      "kind": "computer file",
+      "gloss": "An executable file containing the SmokeLoader malware payload."
+    },
+    {
+      "name": "Додаток.accdb",
+      "kind": "computer file",
+      "gloss": "A malicious Microsoft Access database file containing macros to download malware."
+    },
+    {
+      "name": "Оплата_документи.accdb",
+      "kind": "computer file",
+      "gloss": "A malicious Microsoft Access database file containing macros designed to execute PowerShell commands."
+    },
+    {
+      "name": "1.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file downloaded and executed on compromised systems."
+    },
+    {
+      "name": "WmiPrvSE.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable disguised as the legitimate Windows WMI Provider Host binary."
+    },
+    {
+      "name": "xmrig.exe",
+      "kind": "software product",
+      "gloss": "An open-source cryptocurrency mining application commonly abused by malicious actors."
+    },
+    {
+      "name": "agentsuperpupervinil[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious command and control infrastructure."
+    },
+    {
+      "name": "ccbaminumpot[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name associated with malicious cyber activity."
+    },
+    {
+      "name": "picwalldoor[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used as command and control infrastructure in cyber attacks."
+    },
+    {
+      "name": "rafraystore[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name utilized for malicious command and control communications."
+    },
+    {
+      "name": "sephoraofficetz[.]ru",
+      "kind": "domain name",
+      "gloss": "A malicious domain name used in cyber operations."
+    },
+    {
+      "name": "vikompalion[.]ru",
+      "kind": "domain name",
+      "gloss": "A malicious domain name associated with cyber attack infrastructure."
+    },
+    {
+      "name": "vivianstyler[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name utilized for command and control communication."
+    },
+    {
+      "name": "monopoliafromyou[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used to distribute malicious executable files."
+    },
+    {
+      "name": "hXXp://monopoliafromyou[.]ru/download/1.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosting a downloadable executable payload."
+    },
+    {
+      "name": "xmr.2miners[.]com",
+      "kind": "domain name",
+      "gloss": "A mining pool domain used for cryptocurrency mining operations."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0006",
+      "type": "uses",
+      "tail": "SMOKELOADER",
+      "evidence": "кампанії по розповсюдженню шкідливого програмного забезпечення SMOKELOADER"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses",
+      "tail": "TALESHOT",
+      "evidence": "після успішного первинного ураження на ЕОМ довантажуються шкідливі програми TALESHOT"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses",
+      "tail": "RMS",
+      "evidence": "довантажуються шкідливі програми TALESHOT, RMS та інші"
+    },
+    {
+      "head": "monopoliafromyou[.]ru",
+      "type": "hosts",
+      "tail": "1.exe",
+      "evidence": "hXXp://monopoliafromyou[.]ru/download/1.exe"
+    }
+  ],
+  "newRelationTypes": []
+}

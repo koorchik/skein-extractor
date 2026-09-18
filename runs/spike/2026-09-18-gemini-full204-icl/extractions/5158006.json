@@ -1,0 +1,136 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0006",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA known for financially motivated attacks distributing SmokeLoader malware."
+    },
+    {
+      "name": "SmokeLoader",
+      "kind": "malware",
+      "gloss": "A modular malicious software family primarily used as a dropper to download and execute additional malware payloads."
+    },
+    {
+      "name": "Акт_Звiрки_та_рах.факт_вiд_12_07_2023.zip",
+      "kind": "computer file",
+      "gloss": "A malicious ZIP archive distributed via email attachments containing a VBScript file."
+    },
+    {
+      "name": "рахунок_вiд_12_07_2023_до_оплати.vbs",
+      "kind": "computer file",
+      "gloss": "A malicious VBScript file that downloads and executes SmokeLoader malware."
+    },
+    {
+      "name": "Спісок_счетов_від_14_07_2023р.zip",
+      "kind": "computer file",
+      "gloss": "A malicious ZIP archive distributed in phishing emails containing malicious HTML files."
+    },
+    {
+      "name": "UKR_net_рахунки_№418_до_оплати_вiд_14_07_2023_Архив.html",
+      "kind": "computer file",
+      "gloss": "A malicious HTML file that initiates the download of an executable file."
+    },
+    {
+      "name": "рахунки_до_оплати_вiд_14_07_2023_Архив_rar.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file delivering SmokeLoader malware."
+    },
+    {
+      "name": "193.106.174.173",
+      "kind": "ip address",
+      "gloss": "An IP address associated with command and control infrastructure for SmokeLoader."
+    },
+    {
+      "name": "193.108.114.148",
+      "kind": "ip address",
+      "gloss": "An IP address associated with SmokeLoader command and control infrastructure."
+    },
+    {
+      "name": "iqhost.ru",
+      "kind": "company",
+      "gloss": "A Russian hosting and internet service provider."
+    },
+    {
+      "name": "ruvds.com",
+      "kind": "company",
+      "gloss": "A Russian cloud hosting and virtual private server provider."
+    },
+    {
+      "name": "росія",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "dnspod.com",
+      "kind": "domain name",
+      "gloss": "A domain name management and DNS hosting service provider."
+    },
+    {
+      "name": "Windows Script Host",
+      "kind": "software product",
+      "gloss": "A Microsoft Windows automation technology that provides scripting abilities."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0006",
+      "type": "uses",
+      "tail": "SmokeLoader",
+      "evidence": "ураження комп'ютера шкідливою програмою SmokeLoader... Активність відстежується за ідентифікатором UAC-0006"
+    },
+    {
+      "head": "Акт_Звiрки_та_рах.факт_вiд_12_07_2023.zip",
+      "type": "delivers",
+      "tail": "рахунок_вiд_12_07_2023_до_оплати.vbs",
+      "evidence": "Акт_Звiрки_та_рах.факт_вiд_12_07_2023.zip \", що містить VBS-файл \"рахунок_вiд_12_07_2023_до_оплати.vbs\""
+    },
+    {
+      "head": "рахунок_вiд_12_07_2023_до_оплати.vbs",
+      "type": "delivers",
+      "tail": "SmokeLoader",
+      "evidence": "відкриття якого забезпечить завантаження і запуск шкідливої програми SmokeLoader"
+    },
+    {
+      "head": "Спісок_счетов_від_14_07_2023р.zip",
+      "type": "delivers",
+      "tail": "UKR_net_рахунки_№418_до_оплати_вiд_14_07_2023_Архив.html",
+      "evidence": "Спісок_счетов_від_14_07_2023р.zip\", що містить три HTML-файли з назвами \"UKR_net_рахунки_№418_до_оплати_вiд_14_07_2023_Архив.html\""
+    },
+    {
+      "head": "UKR_net_рахунки_№418_до_оплати_вiд_14_07_2023_Архив.html",
+      "type": "delivers",
+      "tail": "рахунки_до_оплати_вiд_14_07_2023_Архив_rar.exe",
+      "evidence": "Відкриття одного з цих файлів призведе до завантаження виконуваного файлу \"рахунки_до_оплати_вiд_14_07_2023_Архив_rar.exe\""
+    },
+    {
+      "head": "рахунки_до_оплати_вiд_14_07_2023_Архив_rar.exe",
+      "type": "delivers",
+      "tail": "SmokeLoader",
+      "evidence": "запуск якого призведе до ураження комп'ютера шкідливою програмою SmokeLoader"
+    },
+    {
+      "head": "iqhost.ru",
+      "type": "located-in",
+      "tail": "росія",
+      "evidence": "провайдер @iqhost[.]ru, росія"
+    },
+    {
+      "head": "ruvds.com",
+      "type": "located-in",
+      "tail": "росія",
+      "evidence": "провайдер @ruvds[.]com, росія"
+    },
+    {
+      "head": "SmokeLoader",
+      "type": "uses",
+      "tail": "dnspod.com",
+      "evidence": "визначення актуальних A-записів для доменних імен шляхом зверення до DNS-серверів сервісу @dnspod[.]com"
+    }
+  ],
+  "newRelationTypes": []
+}

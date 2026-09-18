@@ -1,0 +1,231 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0057",
+      "kind": "hacking group",
+      "gloss": "A threat group tracked by CERT-UA associated with cyberattacks against Ukrainian organizations."
+    },
+    {
+      "name": "PICASSOLOADER",
+      "kind": "malware family",
+      "gloss": "A malware loader used to deliver secondary malicious payloads to compromised systems."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware tool",
+      "gloss": "A post-exploitation agent and beacon payload from the Cobalt Strike adversary simulation software."
+    },
+    {
+      "name": "USAID",
+      "kind": "government agency",
+      "gloss": "An independent agency of the United States federal government responsible for administering foreign aid."
+    },
+    {
+      "name": "DAI",
+      "kind": "company",
+      "gloss": "A global development company that implements technical assistance and development projects worldwide."
+    },
+    {
+      "name": "HOVERLA",
+      "kind": "project",
+      "gloss": "A USAID-funded project implemented by DAI to support local governance reform in Ukraine."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "oborona.rar",
+      "kind": "file",
+      "gloss": "A malicious archive file used as a lure in the cyberattack."
+    },
+    {
+      "name": "66_oborona_PURGED.xls",
+      "kind": "file",
+      "gloss": "A malicious macro-enabled spreadsheet file used as a lure."
+    },
+    {
+      "name": "trix.xls",
+      "kind": "file",
+      "gloss": "A malicious macro-enabled spreadsheet file used in the attack campaign."
+    },
+    {
+      "name": "equipment_survey_regions_.xls",
+      "kind": "file",
+      "gloss": "A malicious macro-enabled spreadsheet file themed around local governance surveys."
+    },
+    {
+      "name": "accounts.xls",
+      "kind": "file",
+      "gloss": "A malicious macro-enabled spreadsheet file used to deliver malware."
+    },
+    {
+      "name": "spreadsheet.xls",
+      "kind": "file",
+      "gloss": "A malicious macro-enabled spreadsheet file used in the campaign."
+    },
+    {
+      "name": "attachment.xls",
+      "kind": "file",
+      "gloss": "A malicious macro-enabled spreadsheet file distributed to victims."
+    },
+    {
+      "name": "Податок_2024.xls",
+      "kind": "file",
+      "gloss": "A malicious tax-themed spreadsheet file used as an attack lure."
+    },
+    {
+      "name": "runbll32.dll",
+      "kind": "file",
+      "gloss": "A malicious dynamic-link library dropped or executed during the attack."
+    },
+    {
+      "name": "ruhbll32.dll",
+      "kind": "file",
+      "gloss": "A malicious dynamic-link library associated with the malware execution chain."
+    },
+    {
+      "name": "mens-freeze.html",
+      "kind": "file",
+      "gloss": "A web resource or HTML file hosted on malicious infrastructure."
+    },
+    {
+      "name": "Loader.dll",
+      "kind": "file",
+      "gloss": "A malicious dynamic-link library acting as a loader component."
+    },
+    {
+      "name": "ResetEngine.dll",
+      "kind": "file",
+      "gloss": "A malicious dynamic-link library placed in system directories."
+    },
+    {
+      "name": "CobaltStrikeBeacon.shellcode",
+      "kind": "file",
+      "gloss": "A shellcode file containing the Cobalt Strike Beacon payload."
+    },
+    {
+      "name": "virus_12.07.2024.rar",
+      "kind": "file",
+      "gloss": "A malicious archive file observed in the campaign."
+    },
+    {
+      "name": "trix2.xls",
+      "kind": "file",
+      "gloss": "A malicious macro-enabled spreadsheet file used by the threat actor."
+    },
+    {
+      "name": "accounts2.xls",
+      "kind": "file",
+      "gloss": "A malicious macro-enabled spreadsheet lure file."
+    },
+    {
+      "name": "backstagemerch.shop",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as malicious command and control or delivery infrastructure."
+    },
+    {
+      "name": "empoweringparents.shop",
+      "kind": "internet domain",
+      "gloss": "An internet domain used in the threat actor's network infrastructure."
+    },
+    {
+      "name": "lauramcinerney.shop",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to distribute malicious payloads."
+    },
+    {
+      "name": "https://backstagemerch.shop/the-simpsons/mens-freeze.html",
+      "kind": "url",
+      "gloss": "A malicious URL hosted on backstagemerch.shop used in the attack campaign."
+    },
+    {
+      "name": "https://empoweringparents.shop/voorraad/hyundai/ioniq-6",
+      "kind": "url",
+      "gloss": "A malicious URL hosted on empoweringparents.shop."
+    },
+    {
+      "name": "https://empoweringparents.shop/voorraad/peugeot/408",
+      "kind": "url",
+      "gloss": "A malicious URL used to stage malware on empoweringparents.shop."
+    },
+    {
+      "name": "https://lauramcinerney.shop/a-cumulatively-effective-way-of-dealing-with-worries.html",
+      "kind": "url",
+      "gloss": "A malicious URL hosted on lauramcinerney.shop used in the attack."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0057",
+      "type": "deploys-malware",
+      "tail": "PICASSOLOADER",
+      "evidence": "угрупування UAC-0057, що полягала в розповсюдженні документів з макросами, призначеними для запуску на ЕОМ шкідливої програми PICASSOLOADER"
+    },
+    {
+      "head": "PICASSOLOADER",
+      "type": "delivers-payload",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "запуску на ЕОМ шкідливої програми PICASSOLOADER з метою доставки на комп'ютер жертви Cobalt Strike Beacon"
+    },
+    {
+      "head": "USAID",
+      "type": "funds-project",
+      "tail": "HOVERLA",
+      "evidence": "проєкт USAID/DAI \"HOVERLA\""
+    },
+    {
+      "head": "DAI",
+      "type": "implements-project",
+      "tail": "HOVERLA",
+      "evidence": "проєкт USAID/DAI \"HOVERLA\""
+    },
+    {
+      "head": "https://backstagemerch.shop/the-simpsons/mens-freeze.html",
+      "type": "hosted-on-domain",
+      "tail": "backstagemerch.shop",
+      "evidence": "hXXps://backstagemerch[.]shop/the-simpsons/mens-freeze.html"
+    },
+    {
+      "head": "https://empoweringparents.shop/voorraad/hyundai/ioniq-6",
+      "type": "hosted-on-domain",
+      "tail": "empoweringparents.shop",
+      "evidence": "hXXps://empoweringparents[.]shop/voorraad/hyundai/ioniq-6"
+    },
+    {
+      "head": "https://empoweringparents.shop/voorraad/peugeot/408",
+      "type": "hosted-on-domain",
+      "tail": "empoweringparents.shop",
+      "evidence": "hXXps://empoweringparents[.]shop/voorraad/peugeot/408"
+    },
+    {
+      "head": "https://lauramcinerney.shop/a-cumulatively-effective-way-of-dealing-with-worries.html",
+      "type": "hosted-on-domain",
+      "tail": "lauramcinerney.shop",
+      "evidence": "hXXps://lauramcinerney[.]shop/a-cumulatively-effective-way-of-dealing-with-worries.html"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "deploys-malware",
+      "definition": "A threat actor utilizes or disseminates a specific malware program or family."
+    },
+    {
+      "name": "delivers-payload",
+      "definition": "A malware component drops, downloads, or launches a subsequent malicious payload on a system."
+    },
+    {
+      "name": "funds-project",
+      "definition": "An entity sponsors, finances, or provides grant funding for an initiative or project."
+    },
+    {
+      "name": "implements-project",
+      "definition": "An organization manages or executes an operational program or project."
+    },
+    {
+      "name": "hosted-on-domain",
+      "definition": "A specific URL path is hosted under an internet domain name."
+    }
+  ]
+}

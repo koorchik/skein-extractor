@@ -1,0 +1,88 @@
+{
+  "entities": [
+    {
+      "name": "DoubleZero",
+      "kind": "malware family",
+      "gloss": "A destructive wiper malware developed in C# that overwrites files and registry hives."
+    },
+    {
+      "name": "UAC-0088",
+      "kind": "threat actor",
+      "gloss": "A threat actor cluster tracked by CERT-UA targeting information systems of Ukrainian enterprises."
+    },
+    {
+      "name": "Вирус... крайне опасно!!!.zip",
+      "kind": "malicious archive",
+      "gloss": "A ZIP archive used to distribute the DoubleZero wiper malware."
+    },
+    {
+      "name": "csrss.zip",
+      "kind": "malicious archive",
+      "gloss": "A ZIP archive containing malicious components associated with DoubleZero wiper."
+    },
+    {
+      "name": "cpcrs.exe",
+      "kind": "malicious executable",
+      "gloss": "A DoubleZero wiper executable file disguised as a system process."
+    },
+    {
+      "name": "csrss.exe",
+      "kind": "malicious executable",
+      "gloss": "A DoubleZero wiper executable file disguised as the Windows Client Server Runtime Process."
+    },
+    {
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A family of proprietary graphical operating systems developed by Microsoft."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose enterprises were targeted in this campaign."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0088",
+      "type": "uses-malware",
+      "tail": "DoubleZero",
+      "evidence": "виявлені програми класифіковано як DoubleZero... Активність відстежується за ідентифікатором UAC-0088"
+    },
+    {
+      "head": "UAC-0088",
+      "type": "targets-country",
+      "tail": "Україна",
+      "evidence": "порушення штатного режиму фунціонування інформаційних систем українських підприємств"
+    },
+    {
+      "head": "Вирус... крайне опасно!!!.zip",
+      "type": "contains-malware",
+      "tail": "DoubleZero",
+      "evidence": "Кожен з архівів містить обфусковану .NET-програму. В результаті проведеного аналізу виявлені програми класифіковано як DoubleZero"
+    },
+    {
+      "head": "DoubleZero",
+      "type": "targets-os",
+      "tail": "Windows",
+      "evidence": "знищуються гілки реєстру Windows: HKCU, HKU, HKLM, HKLM\\BCD"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-malware",
+      "definition": "The threat actor uses or deploys the specified malware family in their operations."
+    },
+    {
+      "name": "targets-country",
+      "definition": "The threat actor conducts malicious cyber operations against entities located in the specified country."
+    },
+    {
+      "name": "contains-malware",
+      "definition": "The archive or container file carries the specified malware executable or code."
+    },
+    {
+      "name": "targets-os",
+      "definition": "The malware is designed to execute against or impact components of the specified operating system."
+    }
+  ]
+}

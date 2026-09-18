@@ -1,0 +1,162 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0173",
+      "kind": "threat actor",
+      "gloss": "A financially motivated cybercriminal group targeting Ukrainian organizations and public registries."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Міністерство юстиції України",
+      "kind": "government agency",
+      "gloss": "The central executive body responsible for state legal policy and registers in Ukraine."
+    },
+    {
+      "name": "DARKCRYSTALRAT",
+      "kind": "malware",
+      "gloss": "A commercial remote access trojan also known as DCRAT used for information theft and surveillance."
+    },
+    {
+      "name": "RDPWRAPPER",
+      "kind": "software product",
+      "gloss": "An open-source utility that enables concurrent Remote Desktop Protocol sessions on Windows systems."
+    },
+    {
+      "name": "BORE",
+      "kind": "software product",
+      "gloss": "A lightweight tunneling tool designed to expose local ports to the Internet."
+    },
+    {
+      "name": "NMAP",
+      "kind": "software product",
+      "gloss": "A widely used open-source network scanning and security auditing tool."
+    },
+    {
+      "name": "FIDDLER",
+      "kind": "software product",
+      "gloss": "A debugging proxy and packet sniffing tool used to capture HTTP and HTTPS traffic."
+    },
+    {
+      "name": "XWORM",
+      "kind": "malware",
+      "gloss": "A commodity modular remote access trojan and info-stealer targeting Windows platforms."
+    },
+    {
+      "name": "SENDEMAIL",
+      "kind": "software product",
+      "gloss": "A command-line SMTP email client used for automated email transmission."
+    },
+    {
+      "name": "PEAKLIGHT",
+      "kind": "malware",
+      "gloss": "A malware dropper that executes payloads in memory."
+    },
+    {
+      "name": "Нотаріальна палата України",
+      "kind": "company",
+      "gloss": "A non-governmental self-regulatory professional organization of notaries in Ukraine."
+    },
+    {
+      "name": "ДП \"НАІС\"",
+      "kind": "company",
+      "gloss": "A Ukrainian state enterprise responsible for maintaining and developing official state registries."
+    },
+    {
+      "name": "ram.gps@bestank.ph",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator in UAC-0173 malicious activities."
+    },
+    {
+      "name": "89.105.201.98",
+      "kind": "ip address",
+      "gloss": "An IP address identified as a command and control server used by UAC-0173."
+    },
+    {
+      "name": "193.233.48.166",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious payloads in attacks targeting Ukrainian notaries."
+    },
+    {
+      "name": "194.0.234.155",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious executable files in cyberattacks."
+    },
+    {
+      "name": "87.120.126.48",
+      "kind": "ip address",
+      "gloss": "An IP address used to deliver malicious payloads and scripts in the campaign."
+    },
+    {
+      "name": "91.92.246.18",
+      "kind": "ip address",
+      "gloss": "An IP address used for hosting and downloading malware payloads."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Міністерство юстиції України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Міністерства юстиції України"
+    },
+    {
+      "head": "Нотаріальна палата України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Нотаріальної палати України"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "uses",
+      "tail": "DARKCRYSTALRAT",
+      "evidence": "призведе до ураження комп'ютера шкідливою програмою DARKCRYSTALRAT (DCRAT)"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "uses",
+      "tail": "RDPWRAPPER",
+      "evidence": "встановлення додаткового інструментарію, зокрема, RDPWRAPPER"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "uses",
+      "tail": "BORE",
+      "evidence": "поєднанні із застосуванням утиліти BORE"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "uses",
+      "tail": "NMAP",
+      "evidence": "мережевого сканеру NMAP"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "uses",
+      "tail": "FIDDLER",
+      "evidence": "проксі/сніферу FIDDLER"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "uses",
+      "tail": "XWORM",
+      "evidence": "стілеру XWORM"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "uses",
+      "tail": "SENDEMAIL",
+      "evidence": "для цього використовується консольна утиліта SENDEMAIL"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "uses",
+      "tail": "89.105.201.98",
+      "evidence": "89.105.201.98 (C2)"
+    }
+  ],
+  "newRelationTypes": []
+}

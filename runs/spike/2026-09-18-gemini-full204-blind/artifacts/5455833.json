@@ -1,0 +1,106 @@
+{
+  "docId": 5455833,
+  "date": "11.08.2023",
+  "title": "\"Змініть пароль до Roundcube\": чергова фішингова атака з використанням атрибутів CERT-UA та символіки ДЦКЗ Держспецзв'язку (CERT-UA#7223)",
+  "entities": [
+    {
+      "id": "5455833:0",
+      "name": "UAC-0170",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA known for conducting phishing and credential harvesting campaigns.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": null
+    },
+    {
+      "id": "5455833:1",
+      "name": "ДЦКЗ Держспецзв'язку",
+      "kind": "government body",
+      "gloss": "The State Cyber Protection Centre of the State Service of Special Communications and Information Protection of Ukraine.",
+      "scheme": "S6",
+      "category": "Government Body",
+      "role": null
+    },
+    {
+      "id": "5455833:2",
+      "name": "Roundcube",
+      "kind": "software product",
+      "gloss": "An open-source webmail software suite providing a web-based email client interface.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "5455833:3",
+      "name": "InfinityFree",
+      "kind": "web hosting service",
+      "gloss": "A free web hosting platform offering domain hosting and web application services.",
+      "scheme": "S3",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "5455833:4",
+      "name": "Microsoft",
+      "kind": "technology company",
+      "gloss": "A multinational technology corporation providing software products, cloud infrastructure, and operating systems.",
+      "scheme": "S1",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "5455833:5",
+      "name": "mlcrosoft.rf[.]gd",
+      "kind": "internet domain",
+      "gloss": "A phishing domain configured to impersonate Microsoft and Roundcube webmail services.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "5455833:6",
+      "name": "185[.]27.134.129",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the hosting infrastructure used in the phishing campaign.",
+      "scheme": "S11",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "5455833:7",
+      "name": "185[.]88.153.138",
+      "kind": "ip address",
+      "gloss": "An IP address observed in the email headers of the phishing messages.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5455833:8",
+      "name": "hr.damroodi@beroozresaan.com",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator in the phishing campaign.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "5455833:9",
+      "name": "soraya@tataguyz.co.za",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator in the phishing campaign.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "185[.]27.134.129",
+      "type": "hosts",
+      "tail": "mlcrosoft.rf[.]gd",
+      "evidence": "185[.]27.134.129 (@ifastnet.com; UK)"
+    }
+  ],
+  "unclassified": []
+}

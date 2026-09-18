@@ -1,0 +1,149 @@
+{
+  "docId": 18163,
+  "date": "28.01.2022",
+  "title": "Кібератака на організації та установи України з використанням програми Remote Utilities (CERT-UA#3751)",
+  "entities": [
+    {
+      "id": "18163:0",
+      "name": "UAC-0096",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA targeting Ukrainian government organizations.",
+      "scheme": null,
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "18163:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "18163:2",
+      "name": "Google Drive",
+      "kind": "cloud storage service",
+      "gloss": "A cloud-based file storage and synchronization service developed by Google.",
+      "scheme": null,
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "18163:3",
+      "name": "DropMeFiles",
+      "kind": "file sharing service",
+      "gloss": "A free public file sharing and transfer service.",
+      "scheme": null,
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "18163:4",
+      "name": "Remote Utilities",
+      "kind": "software product",
+      "gloss": "A legitimate remote desktop access and administration software program.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "18163:5",
+      "name": "Судовий запит №9978364774635676778282.rar_pass_123.zip",
+      "kind": "archive file",
+      "gloss": "A password-protected ZIP archive file used in phishing distribution.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "18163:6",
+      "name": "Судовий запит №9978364774635676778282.rar",
+      "kind": "archive file",
+      "gloss": "A password-protected RAR archive file distributed in phishing emails.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "18163:7",
+      "name": "Судовий запит №99783647746356767782828.pdf.rar",
+      "kind": "archive file",
+      "gloss": "A RAR archive file masquerading as a PDF document.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "18163:8",
+      "name": "Судовий запит №99783647746356767782828.pdf.exe",
+      "kind": "executable file",
+      "gloss": "An executable file masquerading as a PDF document.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "18163:9",
+      "name": "101.99.93[.]49",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious network infrastructure.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "18163:10",
+      "name": "rmssrv2[.]ru",
+      "kind": "domain name",
+      "gloss": "An internet domain used as network infrastructure.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "18163:11",
+      "name": "rmssrv3[.]ru",
+      "kind": "domain name",
+      "gloss": "An internet domain used as network infrastructure.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "18163:12",
+      "name": "rmssrv4[.]ru",
+      "kind": "domain name",
+      "gloss": "An internet domain used as network infrastructure.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0096",
+      "type": "attacks",
+      "tail": "Україна",
+      "evidence": "активністю, що здійснюється у відношенні державних органів України (але не виключно) та відслідковується CERT-UA за ідентифікатором UAC-0096"
+    },
+    {
+      "head": "Google Drive",
+      "type": "hosts",
+      "tail": "Судовий запит №9978364774635676778282.rar_pass_123.zip",
+      "evidence": "архіви (наприклад, «Судовий запит №9978364774635676778282.rar_pass_123.zip»), розміщені на публічних сервісах Google Drive"
+    },
+    {
+      "head": "DropMeFiles",
+      "type": "hosts",
+      "tail": "Судовий запит №9978364774635676778282.rar_pass_123.zip",
+      "evidence": "архіви (наприклад, «Судовий запит №9978364774635676778282.rar_pass_123.zip»), розміщені на публічних сервісах Google Drive і DropMeFiles"
+    }
+  ],
+  "unclassified": [
+    "18163:0",
+    "18163:2",
+    "18163:3"
+  ]
+}

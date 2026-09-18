@@ -1,0 +1,77 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0100",
+      "kind": "threat actor",
+      "gloss": "A threat group tracked by CERT-UA associated with financial fraud and phishing campaigns targeting Ukrainian banking users."
+    },
+    {
+      "name": "hXXps://mono.gg-pay[.]me/",
+      "kind": "uniform resource locator",
+      "gloss": "A phishing web address masquerading as a Ukrainian online banking service to harvest user credentials."
+    },
+    {
+      "name": "hXXps://next24.gg-pay[.]me/",
+      "kind": "uniform resource locator",
+      "gloss": "A fraudulent web address used in phishing operations to impersonate legitimate banking infrastructure."
+    },
+    {
+      "name": "hXXps://privat24.ua-wallet[.]pw/",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious web address mimicking an authentic Ukrainian online banking interface."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country located in Eastern Europe."
+    },
+    {
+      "name": "Платформа єДопомога",
+      "kind": "software product",
+      "gloss": "An official Ukrainian state platform coordinating social support and humanitarian assistance."
+    },
+    {
+      "name": "Мінсоцполітики",
+      "kind": "government organization",
+      "gloss": "The central executive body of Ukraine responsible for state social policy and assistance programs."
+    },
+    {
+      "name": "Національний банк України",
+      "kind": "government organization",
+      "gloss": "The central bank of Ukraine regulating the national monetary and financial systems."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0100",
+      "type": "uses",
+      "tail": "hXXps://mono.gg-pay[.]me/",
+      "evidence": "шахрайська активність має систематичний характер та відстежується за ідентифікатором UAC-0100"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses",
+      "tail": "hXXps://next24.gg-pay[.]me/",
+      "evidence": "шахрайська активність має систематичний характер та відстежується за ідентифікатором UAC-0100"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses",
+      "tail": "hXXps://privat24.ua-wallet[.]pw/",
+      "evidence": "шахрайська активність має систематичний характер та відстежується за ідентифікатором UAC-0100"
+    },
+    {
+      "head": "Мінсоцполітики",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Відповіді Мінсоцполітики на найпоширеніші запитання щодо виплат"
+    },
+    {
+      "head": "Національний банк України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "порадами платіжної безпеки Національного банку України"
+    }
+  ],
+  "newRelationTypes": []
+}

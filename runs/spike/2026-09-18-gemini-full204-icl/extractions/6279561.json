@@ -1,0 +1,110 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "DarkCrystal RAT",
+      "kind": "malware",
+      "gloss": "A commercial remote access trojan that provides unauthorized remote access and control over infected systems."
+    },
+    {
+      "name": "Signal",
+      "kind": "software product",
+      "gloss": "A cross-platform encrypted messaging service application."
+    },
+    {
+      "name": "UAC-0200",
+      "kind": "threat actor",
+      "gloss": "A threat group tracked by CERT-UA targeting Ukrainian military, defense, and government personnel."
+    },
+    {
+      "name": "Plan10062024.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file used as part of the infection chain."
+    },
+    {
+      "name": "Plan01062024.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file used in cyber attack campaigns."
+    },
+    {
+      "name": "DarkCrystalRAT.exe",
+      "kind": "computer file",
+      "gloss": "An executable payload file containing the DarkCrystal RAT malware."
+    },
+    {
+      "name": "du5a30GGdpnw9V1NAPFxiabLpStvK7yQccZnAiiXNdT4B.bat",
+      "kind": "computer file",
+      "gloss": "A malicious batch script used in the execution chain."
+    },
+    {
+      "name": "NjNYM6fdF5Fixp.vbe",
+      "kind": "computer file",
+      "gloss": "An encoded VBScript file used to execute malicious actions."
+    },
+    {
+      "name": "agentWinintoHostDhcp.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable associated with DarkCrystal RAT."
+    },
+    {
+      "name": "Plan_na_10.06.2024.rar",
+      "kind": "computer file",
+      "gloss": "A malicious archive file distributed to targets via messaging applications."
+    },
+    {
+      "name": "Plan_na_10.06.2024.pif",
+      "kind": "computer file",
+      "gloss": "A malicious shortcut executable file delivered in an archive."
+    },
+    {
+      "name": "2VGPnHOLToAOwqq.vbe",
+      "kind": "computer file",
+      "gloss": "An encoded VBScript file deployed during the infection chain."
+    },
+    {
+      "name": "0WgIlnTNpgbtjiE2xGB5FgwFA.bat",
+      "kind": "computer file",
+      "gloss": "A malicious batch file executed to facilitate infection."
+    },
+    {
+      "name": "bridgeSurrogatewin.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable associated with DarkCrystal RAT."
+    },
+    {
+      "name": "188.245.50.32",
+      "kind": "ip address",
+      "gloss": "An IP address used by threat actors as malicious network infrastructure."
+    },
+    {
+      "name": "http://188.245.50.32/VideocentralLocal/PublicdownloadsWp/python4RequestRequest/Javascript8Geovoiddb/pipepacketServer/cdn/18/_auth/ToBigloadPublic/dump/VideoPipephpHttpServerlinuxPublic.php",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosted on threat actor infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0200",
+      "type": "uses",
+      "tail": "DarkCrystal RAT",
+      "evidence": "здійснення цільових кібератак... з використанням шкідливої програми DarkCrystal RAT"
+    },
+    {
+      "head": "UAC-0200",
+      "type": "uses",
+      "tail": "Signal",
+      "evidence": "яка розповсюджується засобами месенджеру Signal"
+    },
+    {
+      "head": "188.245.50.32",
+      "type": "hosts",
+      "tail": "http://188.245.50.32/VideocentralLocal/PublicdownloadsWp/python4RequestRequest/Javascript8Geovoiddb/pipepacketServer/cdn/18/_auth/ToBigloadPublic/dump/VideoPipephpHttpServerlinuxPublic.php",
+      "evidence": "hXXp://188[.]245.50.32/VideocentralLocal/PublicdownloadsWp/..."
+    }
+  ],
+  "newRelationTypes": []
+}

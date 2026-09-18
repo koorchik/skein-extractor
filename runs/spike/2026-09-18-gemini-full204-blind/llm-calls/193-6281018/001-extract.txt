@@ -1,0 +1,269 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+- uses-malware: A threat actor utilizes or deploys a specific malware tool or family in their operations.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація&nbsp;</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA 15.10.2024&nbsp;отримано інформацію щодо розповсюдження підозрілих повідомлень за допомогою облікового запису Telegram @reserveplusbot, який у травні 2024 року зазначався як один із способів зв'язку з технічною підтримкою “Резерв+”.&nbsp;</p><p>Згадані повідомлення містили текст із закликом до встановлення "спеціального програмного забезпечення", а також файл з назвою "RESERVPLUS.zip". Натомість, в розповсюджуваному ZIP-архіві знаходився виконуваний EXE-файл "installer.exe" (дата компіляції: 2024-10-15 15:32:21), запуск якого призводив до завантаження іншого файлу "install.exe" (дата компіляції: 2024-10-15 14:16:44), який, у свою чергу, забезпечував ураження комп'ютера шкідливим програмним забезпеченням MEDUZASTEALER (дата компіляції: 2024-10-10 07:03:40).&nbsp;&nbsp;</p><p>Відповідно до конфігураційного файлу стілер було налаштовано для&nbsp;викрадення файлів з розширеннями ".txt, .doc, .docx, .pdf, .xls, .xlsx, .log, .db, .sqlite", і подальшого самовидалення.&nbsp;</p><p>З метою обходу програмних засобів захисту каталог, до якого зберігався файл шкідливої програми, за допомогою PowerShell-командлету&nbsp;додавався до виключень Microsoft Defender (приклад: 'Add-MpPreference -ExclusionPath "%USERPROFILE%\yqpedcpefpenrwim"').&nbsp;</p><p>З метою мінімізації вірогідності реалізації кіберзагрози CERT-UA вжито відповідних технічних заходів.&nbsp;</p><p><br></p><p><strong>Індикатори кіберзагроз&nbsp;</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">dce7e7b91db9e94dc8e563e913b15d9b	42c40cfeae634b1a77413f3f6fb0f5ae79c91bf547cf500bd39bb926899bfba9	RESERVPLUS.zip (16.10.2024)
+eb553e88093bcacb164672acc815e541	78646e58b8957efe81ce14a66d62cef712d50cc6c350a1f5f67f39bb84691ae5	installer.exe
+89daca495420186dfeaefa366bbafad9	d43e86e82ef187833db13a8547580526e08a279f37a128d3e0853fe75d041455	install.exe
+
+e5f2b840e42f326776cd17cdb2617085	8a10fd6ac519af3a54586fcf604689bfe5ecb2bbd54c9d6dd2f987f3107685a3	RESERVPLUS.zip (15.10.2024)
+2f782c565740c053169946c976702b54	468b30583cb3beaa83db89fa7c6013b23a491970c3a89377c1efdfea5f4e042a	installer.exe
+a7e8391c266c58b5252c729c1a952067	3b8ea42a0807abcfc3ea4beb13310e4d1b9dd9f6b3ae287d8b2a94e4c02af564	install.exe
+
+d8bf9193cac79b8e5f8afd81f91515d8	264b73d98a8292be7b2c63d21d68010330b49f2412984931021cba80402ec9a7	RESERVPLUS.zip (15.10.2024)
+ecccf477f007a3a6fcceaa9a3b096a75	4906f8ace725ca6573aaabf05f8fd032571182e17cdccf8365dabfec724cdf07	installer.exe
+a7e8391c266c58b5252c729c1a952067	3b8ea42a0807abcfc3ea4beb13310e4d1b9dd9f6b3ae287d8b2a94e4c02af564	install.exe
+
+59cd2a3b7ddee69e1683e28f0649c4c6	dca33e6134b1f72a9e8fb71cdddd7fc22c7435b787249656a8e3645c51b4eb1f	OceanicTool.exe (13.10.2024)
+c1b1c74a04385493fe7ff91c681c7057	5b7ece89ff8ac4b16287c07a3667786b31bf211bb4ca2aacc6223e5b32a32015	lfkdjsnbrtuiapelegenda.exe
+00a057e573d08f2e1d89d541d08b2130	685d82d1abda91d494e667122fd6ab60723c849cb98e971fe2b775583da256c6	payload.dll
+
+9f041364d158d78420b2d189ae8bcdba	dbdd23b486e3bd1592548b9b02de4b7c7995227fed3c2001bb4e4312b68a0499	OceanicTools.zip (13.10.2024)
+e2888a1dc5bbee19a7bf76e202498c0c	f1098d8723c418e88f10d3eab5cfab40e875fb151710050cf03ead36176ab0bd	installer.exe
+84bc1f94656169d7970b0976dc7871af	128239d727e66737beffe666a019f2729a67195f4f91a75dd48aa228102cb268	oceanic.exe
+
+f975ef6b34160bff3ba3c8c815f9e77c	ae04f1bc929f6f83a4010f59fcc1f78caea5d198ae3779c7e058608effcc56af	OceanicTools.exe (12.10.2024)
+2b6ab87107446cdccaa97b473b60a1e1	93032eec0e82686634ef790f4ec25518470cae3fb67592381ee5442f92900661	PhantomTools.exe
+0c01cfc0685211b3c655c7a9526f1849	8d6ee227c57e825bc978db47c7587d46e7df06e3656d493486ee26b1426c98a6	phantomtoolsv2.exe
+bc690cc3a740f79f71732e6dba60b67a	3fb6b027285db00651f0257df8f5ca9db5665a24a5e23f476cd3e71244bfbc7f	payload.dll
+
+a4da964b94aa138edbcd7b07ef33f380	35474c418c25ed6c016cf5fb9dd07c04598a0b2eec95e93c89f8b01ce02cb9e6	installer.zip (10.10.2024)
+d98a51b87d72d70a8f2dd54c03a723dc	2e5754b6450e7cb2238331d80d9f8cf7b04e7ee003f5714eaece7e278f514217	installer.exe
+ae2414d162454346d9a520ea3835e94c	5a9437344ef2448175995360fbb9f7d7baefc26dc28bdc4b4a01df7187170fc5	Oldsetup.exe
+faf6cf4fa2c6acdbd73dbbfb23bd39dd	cf3d4b66bb6547b0699bafe2dc7a954c8241df5529f219e8724d7b3824516696	payload.dll
+
+c846e238b4f110f93ba14382ae551fa4	7a9ed093267e9a7e715ecab7ece40f4824678c6a37e2a47760ff5feedec540f0	PhantomTools.zip (10.10.2024)
+97fa22128258a61d77c18189f1eb4b5b	bf7c786b6860fec5e0bdb88f9623349bfae0234164f649b524d8705f321126b0	PhantomTools.exe
+f2521fcfd92b5bedc9c431d9bfd49e32	747d3c5cbab29f1411fb3a550906b8c1cbc1e33904635e18402665128f3a9f2f	Phantom.exe
+baf4416e74e8c3f9fe318d466078ff8a	4c6390d47d6446f8125ba2e169569d42c4a3e825115b7a4303316026c263d3d1	payload.dll
+
+9cd846ea50a04e3d926b8adbfdcb9dff	156cc4ef32137f0f9a8df03c32c1b0b506c72355c08bbf6f8c07279a53a7922b	installer.exe (09.10.2024)
+ae2414d162454346d9a520ea3835e94c	5a9437344ef2448175995360fbb9f7d7baefc26dc28bdc4b4a01df7187170fc5	Oldsetup.exe
+faf6cf4fa2c6acdbd73dbbfb23bd39dd	cf3d4b66bb6547b0699bafe2dc7a954c8241df5529f219e8724d7b3824516696	payload.dll
+c1d9f60cd95a73f8e44ea94e3aa7c0a4	a91d9f566a433a99e842f33931932c66b86f8c5b74b4322484e54acaa06a2cff	install.exe
+
+0f685f2dd7a3d9f0f422360830f381ed	a535f7675295528718a078243838c9297b35fd14f33c92554086e7e0ff834ef6	MeduzaStealer.exe
+e094d896461a918f66b15d4765b1d224	aa26224f01e95b630da572442cf28452fdafad2b24a216095e787cb73b45dd57	MeduzaStealer.exe
+17747274f644ff43cfe8765381bdf353	c4b55f3cdf8998841003c846dcd632e582b5b13930ad42ed05868eea1a62c723	MeduzaStealer.exe
+21210cd0cd5e01de3eb10ce223c45721	ed2e98360a69c9244516f41bc1515bb097d4150b32aa4f4d2e1ff9fe98d1ad3f	MeduzaStealer.exe
+
+481a9a7483ec1b10dc2e5feec532547c&nbsp;&nbsp;&nbsp;&nbsp;fb4cd4b147b972998888927b25c880d41a0ab33f7d4843706ca9d70111b4cb4c&nbsp;&nbsp;&nbsp;&nbsp;ValoHack.exe
+5c01cb541bf68c9f2969de1bc201a960&nbsp;&nbsp;&nbsp;&nbsp;fce5894872c3fb65cb4cedb6ddca7d16ebbb05c98e38eef7de510331a545ec59&nbsp;&nbsp;&nbsp;&nbsp;payload.dll
+
+6ec2a541fa04ed26f3ab57062c525df7&nbsp;&nbsp;&nbsp;&nbsp;bab8b9acf1a759190b26244d5e3f7315b9093270477d6d5f231245ffc38a889a&nbsp;&nbsp;&nbsp;&nbsp;setup_installer.exe
+a2a6ddf4d883030da40d090f8d12a931&nbsp;&nbsp;&nbsp;&nbsp;d143310d0bf0a885b85ad7442531718ad4c3972f0ffc30c890cf1dab22e3319d&nbsp;&nbsp;&nbsp;&nbsp;payload.dll
+
+(Коротка інформація із зазначенням дати компіляції, C&amp;C, значень 'build_name' та 'extensions')
+0f685f2dd7a3d9f0f422360830f381ed	2024-10-16 02:08:15	79.137.202.152:15666	Develop2	.txt;.doc;.docx;.pdf;.xls;.xlsx
+e094d896461a918f66b15d4765b1d224	2024-10-10 07:03:40	79.137.202.152:15666	Develop	.txt;.doc;.docx;.pdf;.xls;.xlsx;.log;.db;.sqlite
+17747274f644ff43cfe8765381bdf353	2024-10-10 07:03:40	79.137.202.152:15666	Legenda	.txt;.doc;.docx;.pdf;.xls;.xlsx;.log;.db;.sqlite
+21210cd0cd5e01de3eb10ce223c45721	2024-10-04 03:22:45	79.137.202.152:15666	OurOld2	.txt;.doc;.docx;.pdf;.xls;.xlsx;.log;.db;.sqlite
+c9690224cf903b5f9d2f48bcbc304a54&nbsp;&nbsp;&nbsp;&nbsp;2024-09-28&nbsp;21:02:31&nbsp;79.137.202.152:15666&nbsp;&nbsp;&nbsp;&nbsp;Kitten&nbsp;&nbsp;.txt;.doc;.docx;.pdf;.xls;.xlsx
+ef6222ceb4e9ff4478cfcc0dba87ae4f&nbsp;&nbsp;&nbsp;&nbsp;2024-10-04&nbsp;03:22:45&nbsp;79.137.202.152:15666&nbsp;&nbsp;&nbsp;&nbsp;Kitten3&nbsp;.txt;.doc;.docx;.pdf;.xls;.xlsx;.log;.db;.sqlite
+</pre><p><em>Мережеві:&nbsp;</em></p><pre class="ql-syntax" spellcheck="false">(tcp)://79[.]137.202.152:15666
+79[.]137.202.152
+185[.]208.158.47
+212[.]34.150.110
+5[.]252.118.50
+62[.]60.217.124
+hXXp://185[.]208.158.47/Phantom.exe
+hXXp://185[.]208.158.47/lfkdjsnbrtuiapelegenda.exe
+hXXp://185[.]208.158.47/oceanic.exe
+hXXp://185[.]208.158.47/phantomtoolsv2.exe
+hXXp://212[.]34.150.110/install.exe
+hXXp://5[.]252.118.50/Oldsetup.exe
+hXXp://62[.]60.217.124/install.exe
+</pre><pre class="hidden" spellcheck="false">tcp://79.137.202.152:15666
+79.137.202.152
+185.208.158.47
+212.34.150.110
+5.252.118.50
+62.60.217.124
+http://185.208.158.47/Phantom.exe
+http://185.208.158.47/lfkdjsnbrtuiapelegenda.exe
+http://185.208.158.47/oceanic.exe
+http://185.208.158.47/phantomtoolsv2.exe
+http://212.34.150.110/install.exe
+http://5.252.118.50/Oldsetup.exe
+http://62.60.217.124/install.exe
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%USERPROFILE%\lkeblpqkvqdejqyg\xilbbncapcrdmfnc.exe
+Add-MpPreference -ExclusionPath "%USERPROFILE%\lkeblpqkvqdejqyg\xilbbncapcrdmfnc.exe"
+powershell -Command $cmd = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('%BASE64_DATA%')); Invoke-Expression $cmd
+</pre><p><br></p><p><strong>Графічні зображення&nbsp;</strong></p><p></p><p>Рис.1 Приклад ланцюга ураження&nbsp;</p>
+
+=== RESPONSE (7.2s, in 6885 / out 1395 tok, STOP) ===
+Telegram account @reserveplusbot was used to distribute malicious ZIP archives (RESERVPLUS.zip) disguised as technical support software for the Ukrainian mobile application "Резерв+". The archive contained installer.exe, which downloaded install.exe, ultimately executing the MeduzaStealer infostealer malware communicating with C2 server 79.137.202.152.
+
+```json
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Резерв+",
+      "kind": "software product",
+      "gloss": "An official Ukrainian mobile application used for military reservist and conscript data registration."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cloud-based instant messaging service and application platform."
+    },
+    {
+      "name": "@reserveplusbot",
+      "kind": "social media account",
+      "gloss": "A Telegram bot account abused to distribute malicious files pretending to be Reserve+ technical support."
+    },
+    {
+      "name": "MEDUZASTEALER",
+      "kind": "malware family",
+      "gloss": "An information stealer malware designed to exfiltrate documents, credentials, and sensitive files from compromised systems."
+    },
+    {
+      "name": "Microsoft Defender",
+      "kind": "software product",
+      "gloss": "An integrated antivirus and security component for Microsoft Windows."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A cross-platform task automation and configuration management framework by Microsoft."
+    },
+    {
+      "name": "RESERVPLUS.zip",
+      "kind": "file name",
+      "gloss": "A malicious ZIP archive distributed via Telegram containing droppers for MeduzaStealer."
+    },
+    {
+      "name": "installer.exe",
+      "kind": "file name",
+      "gloss": "An executable payload delivered inside ZIP archives to drop secondary-stage installers."
+    },
+    {
+      "name": "install.exe",
+      "kind": "file name",
+      "gloss": "An intermediate loader executable used to fetch and launch MeduzaStealer."
+    },
+    {
+      "name": "79.137.202.152",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server for MeduzaStealer."
+    },
+    {
+      "name": "185.208.158.47",
+      "kind": "ip address",
+      "gloss": "An IP address hosting various malicious executable payloads."
+    },
+    {
+      "name": "212.34.150.110",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious dropper executables."
+    },
+    {
+      "name": "5.252.118.50",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious executable files."
+    },
+    {
+      "name": "62.60.217.124",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious install executables."
+    }
+  ],
+  "relations": [
+    {
+      "head": "@reserveplusbot",
+      "type": "delivers",
+      "tail": "RESERVPLUS.zip",
+      "evidence": "за допомогою облікового запису Telegram @reserveplusbot... файл з назвою \"RESERVPLUS.zip\""
+    },
+    {
+      "head": "RESERVPLUS.zip",
+      "type": "delivers",
+      "tail": "installer.exe",
+      "evidence": "в розповсюджуваному ZIP-архіві знаходився виконуваний EXE-файл \"installer.exe\""
+    },
+    {
+      "head": "installer.exe",
+      "type": "delivers",
+      "tail": "install.exe",
+      "evidence": "запуск якого призводив до завантаження іншого файлу \"install.exe\""
+    },
+    {
+      "head": "install.exe",
+      "type": "delivers",
+      "tail": "MEDUZASTEALER",
+      "evidence": "забезпечував ураження комп'ютера шкідливим програмним забезпеченням MEDUZASTEALER"
+    },
+    {
+      "head": "MEDUZASTEALER",
+      "type": "communicates-with",
+      "tail": "79.137.202.152",
+      "evidence": "79.137.202.152:15666"
+    },
+    {
+      "head": "212.34.150.110",
+      "type": "hosts",
+      "tail": "install.exe",
+      "evidence": "http://212.34.150.110/install.exe"
+    },
+    {
+      "head": "62.60.217.124",
+      "type": "hosts",
+      "tail": "install.exe",
+      "evidence": "http://62.60.217.124/install.exe"
+    },
+    {
+      "head": "Резерв+",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA... “Резерв+”"
+    }
+  ],
+  "newRelationTypes": []
+}
+```

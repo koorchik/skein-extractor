@@ -1,0 +1,310 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+- uses-malware: A threat actor utilizes or deploys a specific malware tool or family in their operations.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA виявлено зростання кількості шахрайських сторінок у соціальній мережі Facebook. Вміст оголошень на таких сторінках зазвичай стосується тематики грошових компенсацій, платформи єДопомога, фінансової допомоги від різних організації та партнерів (ООН, ЄС, Товариства Червоного Хреста та інші).&nbsp;&nbsp;</p><p>В оголошеннях пропонується перейти за посиланням, що веде на фішингову сторінку так званого "Єдиного Компенсаційного Центру Повернення Невиплачених Грошових Коштів".&nbsp;&nbsp;</p><p>На згаданому ресурсі пропонується отримати виплату, для чого необхідно надати персональну інформацію та здійснити додатковий платіж. В результаті дані платіжної картки будуть скомпрометовані.&nbsp;</p><p>Згадана шахрайська активність має систематичний характер та відстежується за ідентифікатором UAC-0100.&nbsp;&nbsp;</p><p><br></p><p><strong>Шахрайські сторінки FB:</strong></p><pre class="ql-syntax" spellcheck="false">hXXps://www.facebook[.]com/people/News-for-people/100081961447678/&nbsp;
+hXXps://www.facebook[.]com/ЄДoпoмoгa-107571865413656/&nbsp;
+hXXps://www.facebook[.]com/people/Фонд-Допомоги/100083883771031/&nbsp;
+hXXps://www.facebook[.]com/people/Фонд-Допомоги/100083117652085/&nbsp;
+hXXps://www.facebook[.]com/News-Info-UA-107681682060482/&nbsp;
+hXXps://www.facebook[.]com/Термінові-Новини-України-24-102528442546873/&nbsp;
+hXXps://www.facebook[.]com/Допомога-українцям-104110342431366/&nbsp;
+hXXps://www.facebook[.]com/people/Фонд-соціально-підтримки-громадян/100082904180219/&nbsp;
+hXXps://www.facebook[.]com/people/Новини-247/100084930128994/&nbsp;
+hXXps://www.facebook[.]com/UA-MEDIA-1330918720341094/&nbsp;
+</pre><p><br></p><p><strong>Індикатори компрометації&nbsp;</strong></p><pre class="ql-syntax" spellcheck="false">chis-gos[.]top
+compensationukr[.]com
+ec-compensation[.]xyz
+edopomogaonline.yolasite[.]com
+erinekenney[.]com
+fanlnk[.]to/uagovnew2
+hardingtwominuterule[.]com
+korrespondentnet.webflow[.]io
+lnk.ukr-compens[.]xyz
+mygraphbook[.]com
+myua-compensations[.]xyz
+off.ukr-compens[.]xyz
+oon24opros.yolasite[.]com
+pay.ukr-compens[.]xyz
+pro-gos[.]top
+tax-compensation[.]xyz
+tax-compenses[.]xyz
+tax-compenses[.]xyz
+uabayrakua[.]com
+ua-compens[.]top
+ua-compensation[.]top
+ua-compensations[.]xyz
+ua-compenses[.]top
+uadop.webflow[.]io
+uam-compensation[.]xyz
+uatax-compens[.]xyz
+uatax-compenses[.]xyz
+ua-taxes-compens[.]xyz
+ukrahelpforall.ucraft[.]site
+ukrainebayra[.]com
+ukrainecenter[.]yolasite[.]com
+</pre><p><br></p><p><strong>Рекомендації&nbsp;</strong></p><p>1. Офіційний сайт Платформи єДопомога: https://aid.edopomoga.gov.ua/&nbsp;</p><p>2. Відповіді Мінсоцполітики на найпоширеніші запитання щодо виплат від міжнародних організацій: https://www.msp.gov.ua/news/22077.html&nbsp;</p><p>3. Ніколи не вводьте реквізити платіжних карток на незнайомих та підозрілих веб-сайтах, а також налаштуйте контроль руху коштів (підключіть SMS-інформування, встановіть ліміти на операції).&nbsp;</p><p>4. Якщо дані платіжної картки помилково введено на шахрайському веб-сайті - НЕГАЙНО заблокувати платіжну картку за допомогою мобільного застосунку, гарячої лінії банку (телефон зазначено на звороті картки) або через Інтернет-банкінг.&nbsp;</p><p>5. Скористайтеся основними порадами платіжної безпеки Національного банку України https://bank.gov.ua/promo/stopfraud/ та правилами кібергігієни https://cert.gov.ua/recommendation/31&nbsp;</p><p><br></p><p><strong>Графічні зображення&nbsp;</strong></p><p></p><p></p><p></p>
+
+=== RESPONSE (8.0s, in 2544 / out 2156 tok, STOP) ===
+UAC-0100 is a threat group tracking identifier associated with systematic financial fraud and phishing campaigns targeting Ukrainian citizens through social media platforms such as Facebook, exploiting themes of monetary aid from organizations like ePohomoha, the UN, the EU, and the Red Cross.
+
+{
+  "entities": [
+    {
+      "name": "UAC-0100",
+      "kind": "threat actor",
+      "gloss": "A threat actor cluster tracked by CERT-UA involved in financially motivated phishing and fraud campaigns."
+    },
+    {
+      "name": "Facebook",
+      "kind": "software product",
+      "gloss": "An online social media and social networking service."
+    },
+    {
+      "name": "єДопомога",
+      "kind": "software product",
+      "gloss": "A Ukrainian state platform providing social support and international financial assistance to citizens."
+    },
+    {
+      "name": "ООН",
+      "kind": "international organization",
+      "gloss": "An intergovernmental organization whose stated purposes are to maintain international peace and security."
+    },
+    {
+      "name": "ЄС",
+      "kind": "international organization",
+      "gloss": "A political and economic union of European states."
+    },
+    {
+      "name": "Товариство Червоного Хреста",
+      "kind": "humanitarian organization",
+      "gloss": "An international humanitarian movement providing assistance to victims of armed conflicts and disasters."
+    },
+    {
+      "name": "Єдиний Компенсаційний Центр Повернення Невиплачених Грошових Коштів",
+      "kind": "infrastructure",
+      "gloss": "A fraudulent entity and phishing platform name used by threat actors to steal payment card details."
+    },
+    {
+      "name": "chis-gos[.]top",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "compensationukr[.]com",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "ec-compensation[.]xyz",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "edopomogaonline.yolasite[.]com",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "erinekenney[.]com",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "fanlnk[.]to/uagovnew2",
+      "kind": "internet domain",
+      "gloss": "A URL redirection link used in financial phishing operations."
+    },
+    {
+      "name": "hardingtwominuterule[.]com",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "korrespondentnet.webflow[.]io",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "lnk.ukr-compens[.]xyz",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "mygraphbook[.]com",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "myua-compensations[.]xyz",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "off.ukr-compens[.]xyz",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "oon24opros.yolasite[.]com",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "pay.ukr-compens[.]xyz",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "pro-gos[.]top",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "tax-compensation[.]xyz",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "tax-compenses[.]xyz",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "uabayrakua[.]com",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "ua-compens[.]top",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "ua-compensation[.]top",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "ua-compensations[.]xyz",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "ua-compenses[.]top",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "uadop.webflow[.]io",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "uam-compensation[.]xyz",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "uatax-compens[.]xyz",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "uatax-compenses[.]xyz",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "ua-taxes-compens[.]xyz",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "ukrahelpforall.ucraft[.]site",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "ukrainebayra[.]com",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "ukrainecenter[.]yolasite[.]com",
+      "kind": "internet domain",
+      "gloss": "An internet domain used as infrastructure in financial fraud and phishing operations."
+    },
+    {
+      "name": "Мінсоцполітики",
+      "kind": "government body",
+      "gloss": "The Ministry of Social Policy of Ukraine, responsible for social security and welfare administration."
+    },
+    {
+      "name": "Національного банку України",
+      "kind": "government body",
+      "gloss": "The central bank of Ukraine responsible for monetary policy and financial system stability."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Мінсоцполітики",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Відповіді Мінсоцполітики на найпоширеніші запитання щодо виплат"
+    },
+    {
+      "head": "Національного банку України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "порадами платіжної безпеки Національного банку України"
+    }
+  ],
+  "newRelationTypes": []
+}

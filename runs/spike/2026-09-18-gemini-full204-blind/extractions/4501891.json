@@ -1,0 +1,111 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "RoarBat",
+      "kind": "malware script",
+      "gloss": "A destructive Windows batch script designed to search for and delete files using WinRAR archive commands."
+    },
+    {
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A proprietary graphical operating system developed by Microsoft."
+    },
+    {
+      "name": "WinRAR",
+      "kind": "software product",
+      "gloss": "A file archiver utility for Windows used to compress and manage archive files."
+    },
+    {
+      "name": "Linux",
+      "kind": "operating system",
+      "gloss": "An open-source Unix-like operating system kernel and family of operating systems."
+    },
+    {
+      "name": "dd",
+      "kind": "software utility",
+      "gloss": "A standard Unix and Linux command-line utility used for converting and copying files and raw data."
+    },
+    {
+      "name": "Укрінформ",
+      "kind": "government body",
+      "gloss": "The national public news agency of Ukraine."
+    },
+    {
+      "name": "CyberArmyofRussia_Reborn",
+      "kind": "social media channel",
+      "gloss": "A pro-Russian hacktivist Telegram channel used to publicize cyberattacks."
+    },
+    {
+      "name": "Sandworm",
+      "kind": "threat actor",
+      "gloss": "A Russian advanced persistent threat group associated with the GRU."
+    },
+    {
+      "name": "UAC-0165",
+      "kind": "threat actor",
+      "gloss": "A threat group identifier assigned by CERT-UA to track specific destructive activities linked to Sandworm."
+    },
+    {
+      "name": "update1.bat",
+      "kind": "file",
+      "gloss": "A malicious batch script file containing an implementation of the RoarBat malware."
+    },
+    {
+      "name": "WinRAR.exe",
+      "kind": "file",
+      "gloss": "The executable binary of the WinRAR file archiver utility."
+    },
+    {
+      "name": "188.72.101.3",
+      "kind": "ip address",
+      "gloss": "An external IP address observed in malicious network access activity."
+    },
+    {
+      "name": "188.72.101.4",
+      "kind": "ip address",
+      "gloss": "An external IP address observed in malicious network access activity."
+    },
+    {
+      "name": "194.28.172.172",
+      "kind": "ip address",
+      "gloss": "An external IP address observed in malicious network access activity."
+    },
+    {
+      "name": "194.28.172.81",
+      "kind": "ip address",
+      "gloss": "An external IP address observed in malicious network access activity."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Sandworm",
+      "type": "uses-malware",
+      "tail": "RoarBat",
+      "evidence": "описану активнісь з помірним рівнем впевненості CERT-UA асоціює з діяльністю угрупування Sandworm"
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses-malware",
+      "tail": "RoarBat",
+      "evidence": "для її точкового відстежування створено відповідний ідентифікатор UAC-0165"
+    },
+    {
+      "head": "RoarBat",
+      "type": "attacks",
+      "tail": "Windows",
+      "evidence": "для виведення з ладу ЕОМ, що функціонують під управлінням операційної системи (ОС) Windows, застосовано RoarBat"
+    },
+    {
+      "head": "Укрінформ",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "кібератакою на Укрінформ"
+    }
+  ],
+  "newRelationTypes": []
+}

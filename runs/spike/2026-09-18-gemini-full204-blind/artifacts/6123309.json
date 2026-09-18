@@ -1,0 +1,169 @@
+{
+  "docId": 6123309,
+  "date": "15.10.2023",
+  "title": "Особливості деструктивних кібератак Sandworm у відношенні українських провайдерів (CERT-UA#7627)",
+  "entities": [
+    {
+      "id": "6123309:0",
+      "name": "UAC-0165",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA responsible for attacks against Ukrainian critical infrastructure and telecommunications.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6123309:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country located in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6123309:2",
+      "name": "masscan",
+      "kind": "software tool",
+      "gloss": "An open-source Internet-scale network port scanner.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6123309:3",
+      "name": "ffuf",
+      "kind": "software tool",
+      "gloss": "A fast web fuzzer written in Go used for discovering web resources.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6123309:4",
+      "name": "dirbuster",
+      "kind": "software tool",
+      "gloss": "A multi-threaded Java application designed to brute-force directories and files on web servers.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6123309:5",
+      "name": "gowitness",
+      "kind": "software tool",
+      "gloss": "A web screenshot utility using Chrome Headless to generate screenshots of web services.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6123309:6",
+      "name": "nmap",
+      "kind": "software tool",
+      "gloss": "A network exploration tool and security scanner.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6123309:7",
+      "name": "dante",
+      "kind": "software product",
+      "gloss": "A circuit-level SOCKS server and client implementation.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6123309:8",
+      "name": "POEMGATE",
+      "kind": "malware family",
+      "gloss": "A malicious PAM module backdoor that captures credentials and allows unauthorized authentication.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6123309:9",
+      "name": "WHITECAT",
+      "kind": "software tool",
+      "gloss": "A utility used to delete logs and erase evidence of unauthorized access on Unix-like systems.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6123309:10",
+      "name": "POSEIDON",
+      "kind": "malware family",
+      "gloss": "A Linux remote access tool providing full remote system control capabilities.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6123309:11",
+      "name": "Weevely",
+      "kind": "malware family",
+      "gloss": "A stealth PHP web shell designed for post-exploitation access and administration.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6123309:12",
+      "name": "КіберБеркут",
+      "kind": "threat actor",
+      "gloss": "A pro-Russian hacktivist group known for conducting cyber operations against Ukrainian targets.",
+      "scheme": "S15",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6123309:13",
+      "name": "Mikrotik",
+      "kind": "hardware vendor",
+      "gloss": "A Latvian network equipment manufacturer producing routers and wireless ISP systems.",
+      "scheme": "S1",
+      "category": "Device",
+      "role": null
+    },
+    {
+      "id": "6123309:14",
+      "name": "eurotelle[.]com",
+      "kind": "internet domain",
+      "gloss": "A network domain identified as part of the threat actor's infrastructure.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0165",
+      "type": "uses-malware",
+      "tail": "POEMGATE",
+      "evidence": "зловмисники встановлюють шкідливий PAM-модуль (відстежується як POEMGATE)"
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses-malware",
+      "tail": "WHITECAT",
+      "evidence": "досягається, серед іншого, запуском утиліти WHITECAT."
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses-malware",
+      "tail": "POSEIDON",
+      "evidence": "на сервер може встановлюватися варіант програми POSEIDON"
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses-malware",
+      "tail": "Weevely",
+      "evidence": "на вебсервер може завантажуватися бекдор Weevely"
+    }
+  ],
+  "unclassified": []
+}

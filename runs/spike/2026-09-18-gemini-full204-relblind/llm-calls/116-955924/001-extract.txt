@@ -1,0 +1,204 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA з 19.07.2022 фіксуються факти масового розсилання електронних листів з темою "Остаточний платіж" та одноіменним вкладенням у вигляді TGZ-архіву.</p><p>Архів містить EXE-файл, що класифіковано як .NET-даунлоадер RelicRace, призначений для завантаження (здебільшого з OneDrive), декодування та запуску в пам'яті шкідливої .NET-програми RelicSource.</p><p>RelicSource функціонально є інсталятором, що забезпечує дешифрування даних, які зберігаються в ресурсах (можливі варіанти: XOR/DES/DES3/AES/ARC2) та запуск (в т.ч. шляхом інжектування) отриманого пейлоаду. Передбачено декілька способів забезпечення персистентності, імплементовано техніки антианалізу (виявлення VM), а також відправка нотифікацій до Telegram та інше.</p><p>Як пейлоад використовуються програми-стілери, а саме: Formbook та Snake Keylogger (ексфільтрація за допомогою API Telegram).</p><p>Активність має систематичний, масовий та географічно розосереджений характер і відстежується за ідентифікатором UAC-0041.</p><p><br></p><p><strong>Індикатори компрометації</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">538efbb51d22ab4ee22525b17e0e38d8&nbsp; &nbsp; ca0c1e2011c1229ab3e369079dfb176ff57b64c54e72e900a9e6e32fe0aad1ad&nbsp; &nbsp; Остаточний платіж.tgz
+4ab25362247f8a6eb514e80542da4184&nbsp; &nbsp; 1d9aa41d306e5fd6c6ae7d0e6fc518de8d85a45e64a660820023a40234100690&nbsp; &nbsp; Остаточний платіж.tar
+22133c78289867c714dc8d2058003470&nbsp; &nbsp; 39fd4cb19145bc84f60b9ce160a872bae5217396b28819725ed008bbdbd026d0&nbsp; &nbsp; Остаточний платіж.tgz
+e21b77a652fa5b52f83ea2bb5adf3e88&nbsp; &nbsp; 60d2f8bc8fd84aae4e0bc4a1c59f95fd6e47d521ec3b9fc78a9eff09e08873da&nbsp; &nbsp; Остаточний платіж.tar
+3f7a9d78d7126c5ebb92b09a7077cf5b&nbsp; &nbsp; 704b0ac0db2351f5fbc213ecb4193f96e37600a5b28992eaf961ea1b9bc39f8f&nbsp; &nbsp; Остаточний платіж.exe (RelicRace)(XOR)
+9e209ae96f1efc0bf7e7df50ae359659&nbsp; &nbsp; 385cf7391e9edbe025702e55e488f6b706cfba3bc60a9158f6bfa8b04456b34a&nbsp; &nbsp; Остаточний платіж.exe (RelicRace)(GZip)
+9ca8df76fca206d90505afc1679ed997&nbsp; &nbsp; 2d3b9f680c4da580ef2e86302e42f4a98965e464b3e3419eb0d17ee8f12f1241&nbsp; &nbsp; Остаточний платіж.exe (RelicRace)
+8c7fd60c8dd2ca3ec68684f429e1e5a2&nbsp; &nbsp; 150d21ebf144edea3f56e4a527d2e80458807e0f354d5c9e9b268aded72a2ce0&nbsp; &nbsp; Остаточний платіж.exe (RelicRace)
+23d5d360f42203ab62ccdb1cc3a83f79&nbsp; &nbsp; 522833f73d833d6241ea7432376fd8ab4dfc17ed18330a9c5d197faa217d1f0b&nbsp; &nbsp; Mvbsbaoqmoffjfvhqvkpaia.dll (RelicSource)
+d62ae54fff793497fb9068e7349b02f4&nbsp; &nbsp; ed7cffa33cba2ae44d44f61137d598743a1e9a3c20a66d5a77381e39846ad3be&nbsp; &nbsp; formbook.exe (Formbook)
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">clientes@taximadridclass.com
+info@kivanclardokum.com.tr
+hXXps://onedrive.live[.]com/download?cid=3E1A8C2E090A51B7&amp;resid=3E1A8C2E090A51B7!282&amp;authkey=AIikDor10s4WKWQ
+hXXps://onedrive.live[.]com/download?cid=12A9EBEC0272967B&amp;resid=12A9EBEC0272967B!364&amp;authkey=AK88T1gFmq8_gPU
+hXXps://onedrive.live[.]com/download?cid=12A9EBEC0272967B&amp;resid=12A9EBEC0272967B!367&amp;authkey=AB5pQ7LlTKhBbyM
+hXXps://onedrive.live[.]com/download?cid=12A9EBEC0272967B&amp;resid=12A9EBEC0272967B!365&amp;authkey=ABQ0_o7NQY13GrE
+hXXps://onedrive.live[.]com/download?cid=3E1A8C2E090A51B7&amp;resid=3E1A8C2E090A51B7!283&amp;authkey=AEck4b6QqDPuHTw
+hXXps://onedrive.live[.]com/download?cid=12A9EBEC0272967B&amp;resid=12A9EBEC0272967B!369&amp;authkey=AK3mNivi07NlxBo
+hXXps://t[.]co/YLXVIKjfYf
+hXXp://barbacoalosmartinez[.]com/pg21/
+barbacoalosmartinez[.]com
+</pre><p><br></p><p class="ql-align-justify"><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (7.4s, in 2933 / out 1412 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "UAC-0041",
+      "kind": "threat group",
+      "gloss": "A threat group tracked by CERT-UA associated with mass malware distribution campaigns."
+    },
+    {
+      "name": "RelicRace",
+      "kind": "malware family",
+      "gloss": "A .NET downloader malware designed to fetch, decode, and launch secondary payloads."
+    },
+    {
+      "name": "RelicSource",
+      "kind": "malware family",
+      "gloss": "A .NET installer and loader malware used to decrypt and execute embedded payloads."
+    },
+    {
+      "name": "Formbook",
+      "kind": "malware family",
+      "gloss": "An infostealer and spyware malware family sold on underground forums."
+    },
+    {
+      "name": "Snake Keylogger",
+      "kind": "malware family",
+      "gloss": "A modular .NET-based keylogger and information stealer."
+    },
+    {
+      "name": "OneDrive",
+      "kind": "cloud service",
+      "gloss": "A cloud file storage and synchronization service provided by Microsoft."
+    },
+    {
+      "name": "Telegram",
+      "kind": "messaging service",
+      "gloss": "A cloud-based instant messaging service frequently abused by threat actors for C2 communication."
+    },
+    {
+      "name": "Остаточний платіж.tgz",
+      "kind": "file name",
+      "gloss": "A malicious TGZ archive attached to phishing emails."
+    },
+    {
+      "name": "Остаточний платіж.tar",
+      "kind": "file name",
+      "gloss": "A malicious TAR archive extracted during the infection chain."
+    },
+    {
+      "name": "Остаточний платіж.exe",
+      "kind": "file name",
+      "gloss": "An executable file containing the RelicRace downloader."
+    },
+    {
+      "name": "Mvbsbaoqmoffjfvhqvkpaia.dll",
+      "kind": "file name",
+      "gloss": "A dynamic link library file associated with the RelicSource installer."
+    },
+    {
+      "name": "formbook.exe",
+      "kind": "file name",
+      "gloss": "An executable file containing the Formbook stealer payload."
+    },
+    {
+      "name": "clientes@taximadridclass.com",
+      "kind": "email address",
+      "gloss": "An email address used in malicious phishing email distribution."
+    },
+    {
+      "name": "info@kivanclardokum.com.tr",
+      "kind": "email address",
+      "gloss": "An email address used in malicious phishing email distribution."
+    },
+    {
+      "name": "barbacoalosmartinez.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "RelicRace",
+      "type": "downloads-payload",
+      "tail": "RelicSource",
+      "evidence": "призначений для завантаження (здебільшого з OneDrive), декодування та запуску в пам'яті шкідливої .NET-програми RelicSource"
+    },
+    {
+      "head": "RelicRace",
+      "type": "downloads-from",
+      "tail": "OneDrive",
+      "evidence": "призначений для завантаження (здебільшого з OneDrive)"
+    },
+    {
+      "head": "RelicSource",
+      "type": "executes-payload",
+      "tail": "Formbook",
+      "evidence": "Як пейлоад використовуються програми-стілери, а саме: Formbook та Snake Keylogger"
+    },
+    {
+      "head": "RelicSource",
+      "type": "executes-payload",
+      "tail": "Snake Keylogger",
+      "evidence": "Як пейлоад використовуються програми-стілери, а саме: Formbook та Snake Keylogger"
+    },
+    {
+      "head": "RelicSource",
+      "type": "sends-notifications-to",
+      "tail": "Telegram",
+      "evidence": "відправка нотифікацій до Telegram"
+    },
+    {
+      "head": "Snake Keylogger",
+      "type": "exfiltrates-data-via",
+      "tail": "Telegram",
+      "evidence": "Snake Keylogger (ексфільтрація за допомогою API Telegram)"
+    },
+    {
+      "head": "Остаточний платіж.tgz",
+      "type": "contains-file",
+      "tail": "Остаточний платіж.exe",
+      "evidence": "Архів містить EXE-файл, що класифіковано як .NET-даунлоадер RelicRace"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "downloads-payload",
+      "definition": "The head malware fetches and prepares the tail malware for execution."
+    },
+    {
+      "name": "downloads-from",
+      "definition": "The head entity retrieves content or payloads from the tail hosting or cloud service."
+    },
+    {
+      "name": "executes-payload",
+      "definition": "The head malware or loader unpacks and launches the tail payload."
+    },
+    {
+      "name": "sends-notifications-to",
+      "definition": "The head malware transmits status updates or alerts to the tail messaging platform."
+    },
+    {
+      "name": "exfiltrates-data-via",
+      "definition": "The head malware transmits stolen information using the tail network protocol or platform API."
+    },
+    {
+      "name": "contains-file",
+      "definition": "The head archive or container file encloses the tail file."
+    }
+  ]
+}

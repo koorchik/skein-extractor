@@ -1,0 +1,184 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+- uses-malware: A threat actor utilizes or deploys a specific malware tool or family in their operations.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p class="ql-align-justify"><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп’ютерні надзвичайні події України CERT-UA виялено факт розповсюдження електронних листів з темою "Інформація щодо військових злочинців РФ" серед державних органів України. Електронний лист містить HTML-файл "Військові злочинці РФ.htm", відкриття якого призведе до створення на комп'ютері RAR-архіву "Viyskovi_zlochinci_RU.rar". Згаданий архів містить файл-ярлик "Військові-злочинці що знищують Україну (домашні адреси, фото, номера телефонів, сторінки у соціальних сетях).lnk", відкриття якого призведе до завантаження HTA-файлу, який містить VBScript-код, що, у свою чергу, забезпечить завантаження і запуск powershell-скрипта "get.php" (GammaLoad.PS1). Завданням останнього є визначення унікального ідентифікатору комп'ютера (на основі імені комп'ютера та серійного номеру системного диску), передача цієї інформації для використання як XOR-ключа на сервер управління за допомогою HTTP POST-запиту, а також завантаження, XOR-декодування та запуск пейлоаду.</p><p>Активність асоційовано з діяльністю групи UAC-0010 (Armageddon). </p><p>Звертаємо увагу на необхідність додаткової перевірки електронних листів із вкладеннями у вигляді HTM-файлів, адже, наразі, рівень їхнього детектування низький.</p><p><br></p><p class="ql-align-justify"><strong>Індикатори компрометації</strong></p><p class="ql-align-justify"><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">c1c62da5a36fed274f7777d5b8d111ae    ad03c5f2add8c629f4294b2a7df440cbae213f466e18f98af66db0b82a4e4142    Інформація щодо військових злочинців РФ[REDACTED]2022-04-03 1459.eml
+602e39a47a531b3f2b394a7176d6c87d    452a89dd1c760881e0066a5f6c0fc7b5f936a90a197859a4f3ee74b39f705da0    Військові злочинці РФ.htm
+35323ab59c094f3742a60998be6d0a27    ded51c96d161e9ac22782d7f9df37fe4816eae13be9369f9c8630ee706de53e1    Viyskovi_zlochinci_RU.rar
+73479ebeb7db408e1cabd3e5a9c3ab8d    baae0ac6b3873dfdec2587dcddfaf1a327aadf77f7fea6a1532960f31e3dd240    Військові-злочинці що знищують Україну (домашні адреси, фото, номера телефонів, сторінки у соціальних сетях).lnk
+</pre><p><br></p><p class="ql-align-justify"><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">vadim_melnik88@i[.]ua (envelope-from)
+194[.]38.21.12 (X-Sender-IP)
+hxxp://jokotras[.]ru/su/faicon.ico
+hxxp://prefer[.]jokotras.ru/hear/nephew/su
+hxxp://tiloraso[.]ru/get.php
+hxxp://tiloraso[.]ru/index.php
+jokotras[.]ru
+tiloraso[.]ru
+milotrad[.]ru
+potrakit[.]ru
+tortunas[.]ru
+66[.]175.219.231 (@linode.com)
+</pre><p><br></p><p class="ql-align-justify"><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">C:\Users\Public\test.vbs
+%TMP%\&lt;rand_digits&gt;.exe
+</pre><p><br></p><p class="ql-align-justify"><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (6.2s, in 2337 / out 1272 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "UAC-0010",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage threat group also known as Armageddon or Gamaredon."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country located in Eastern Europe."
+    },
+    {
+      "name": "державні органи України",
+      "kind": "government body",
+      "gloss": "State and governmental authorities of Ukraine targeted by cyberattacks."
+    },
+    {
+      "name": "GammaLoad.PS1",
+      "kind": "malware family",
+      "gloss": "A PowerShell-based reconnaissance and downloader malware script associated with the Gamaredon threat group."
+    },
+    {
+      "name": "Військові злочинці РФ.htm",
+      "kind": "malicious file",
+      "gloss": "A malicious HTML attachment designed to create a RAR archive on the victim computer."
+    },
+    {
+      "name": "Viyskovi_zlochinci_RU.rar",
+      "kind": "malicious file",
+      "gloss": "A malicious RAR archive dropped by an HTML file containing a malicious shortcut file."
+    },
+    {
+      "name": "Військові-злочинці що знищують Україну (домашні адреси, фото, номера телефонів, сторінки у соціальних сетях).lnk",
+      "kind": "malicious file",
+      "gloss": "A malicious shortcut file designed to trigger the download of an HTA payload."
+    },
+    {
+      "name": "vadim_melnik88@i.ua",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors as an envelope-from address in a phishing campaign."
+    },
+    {
+      "name": "194.38.21.12",
+      "kind": "ip address",
+      "gloss": "An IP address identified as the sender of malicious phishing emails."
+    },
+    {
+      "name": "66.175.219.231",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious infrastructure of the campaign."
+    },
+    {
+      "name": "jokotras.ru",
+      "kind": "domain name",
+      "gloss": "An internet domain used in the campaign to host malicious components."
+    },
+    {
+      "name": "tiloraso.ru",
+      "kind": "domain name",
+      "gloss": "An internet domain used as command and control infrastructure to host PowerShell scripts."
+    },
+    {
+      "name": "milotrad.ru",
+      "kind": "domain name",
+      "gloss": "An internet domain identified as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "potrakit.ru",
+      "kind": "domain name",
+      "gloss": "An internet domain identified as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "tortunas.ru",
+      "kind": "domain name",
+      "gloss": "An internet domain identified as part of the threat actor's network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0010",
+      "type": "attacks",
+      "tail": "державні органи України",
+      "evidence": "розповсюдження електронних листів з темою \"Інформація щодо військових злочинців РФ\" серед державних органів України"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-malware",
+      "tail": "GammaLoad.PS1",
+      "evidence": "запуск powershell-скрипта \"get.php\" (GammaLoad.PS1). Активність асоційовано з діяльністю групи UAC-0010"
+    },
+    {
+      "head": "державні органи України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "серед державних органів України"
+    },
+    {
+      "head": "Військові злочинці РФ.htm",
+      "type": "delivers",
+      "tail": "Viyskovi_zlochinci_RU.rar",
+      "evidence": "відкриття якого призведе до створення на комп'ютері RAR-архіву \"Viyskovi_zlochinci_RU.rar\""
+    },
+    {
+      "head": "Viyskovi_zlochinci_RU.rar",
+      "type": "delivers",
+      "tail": "Військові-злочинці що знищують Україну (домашні адреси, фото, номера телефонів, сторінки у соціальних сетях).lnk",
+      "evidence": "архів містить файл-ярлик \"Військові-злочинці що знищують Україну"
+    },
+    {
+      "head": "tiloraso.ru",
+      "type": "hosts",
+      "tail": "GammaLoad.PS1",
+      "evidence": "hxxp://tiloraso[.]ru/get.php"
+    }
+  ],
+  "newRelationTypes": []
+}

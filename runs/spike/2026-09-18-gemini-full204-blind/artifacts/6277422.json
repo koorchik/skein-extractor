@@ -1,0 +1,214 @@
+{
+  "docId": 6277422,
+  "date": "31.01.2024",
+  "title": "UAC-0027: DIRTYMOE (PURPLEFOX) уражено більше 2000 комп'ютерів в Україні",
+  "entities": [
+    {
+      "id": "6277422:0",
+      "name": "UAC-0027",
+      "kind": "threat actor",
+      "gloss": "A threat actor identifier tracked by CERT-UA associated with DIRTYMOE malware activity.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6277422:1",
+      "name": "DIRTYMOE",
+      "kind": "malware",
+      "gloss": "A modular backdoor and rootkit malware family, also known as Purple Fox, used for remote access and DDoS.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6277422:2",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277422:3",
+      "name": "Китай",
+      "kind": "country",
+      "gloss": "A country in East Asia.",
+      "scheme": "S5",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277422:4",
+      "name": "Avast",
+      "kind": "software company",
+      "gloss": "A cybersecurity software company that develops antivirus and security products.",
+      "scheme": "S1",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "6277422:5",
+      "name": "Trendmicro",
+      "kind": "software company",
+      "gloss": "A global cybersecurity and antivirus software provider.",
+      "scheme": "S1",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277422:6",
+      "name": "Avast Free Antivirus",
+      "kind": "software product",
+      "gloss": "A free antivirus security solution developed by Avast.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6277422:7",
+      "name": "rpc.1qw[.]us",
+      "kind": "hostname",
+      "gloss": "A domain name used as command and control infrastructure by DIRTYMOE malware.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "6277422:8",
+      "name": "ret.6bc[.]us",
+      "kind": "hostname",
+      "gloss": "A domain name used as command and control infrastructure by DIRTYMOE malware.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "6277422:9",
+      "name": "kew.1qw[.]us",
+      "kind": "hostname",
+      "gloss": "A domain name used as command and control infrastructure by DIRTYMOE malware.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "6277422:10",
+      "name": "kew.8df[.]us",
+      "kind": "hostname",
+      "gloss": "A domain name used as command and control infrastructure by DIRTYMOE malware.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "6277422:11",
+      "name": "nk.1qw[.]us",
+      "kind": "hostname",
+      "gloss": "A domain name used as command and control infrastructure by DIRTYMOE malware.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "6277422:12",
+      "name": "MSI9BB2.tmp",
+      "kind": "file",
+      "gloss": "A malicious MSI installer artifact associated with DIRTYMOE infection.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277422:13",
+      "name": "C558B828.Png",
+      "kind": "file",
+      "gloss": "A malicious payload file disguised with a PNG extension used by DIRTYMOE.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277422:14",
+      "name": "MsE96454E6App.dll",
+      "kind": "file",
+      "gloss": "A DLL file serving as the backdoor component of DIRTYMOE.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277422:15",
+      "name": "TKE96454E6MS.sdb",
+      "kind": "file",
+      "gloss": "A malicious database module file used by DIRTYMOE.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277422:16",
+      "name": "RCE96454E6MS.sdb",
+      "kind": "file",
+      "gloss": "A malicious database module file used by DIRTYMOE.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277422:17",
+      "name": "DBE96454E6MK.sdb",
+      "kind": "file",
+      "gloss": "A malicious database module file used by DIRTYMOE.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0027",
+      "type": "uses-malware",
+      "tail": "DIRTYMOE",
+      "evidence": "Описана активність відстежується за ідентифікатором UAC-0027."
+    },
+    {
+      "head": "Avast",
+      "type": "publishes",
+      "tail": "Avast Free Antivirus",
+      "evidence": "Завантажити з офіційного вебсайту виробника (https://www.avast.ua/) програмний продукт \"Avast Free Antivirus\""
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "communicates-with",
+      "tail": "rpc.1qw[.]us",
+      "evidence": "Мережеві:\nrpc.1qw[.]us"
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "communicates-with",
+      "tail": "ret.6bc[.]us",
+      "evidence": "ret.6bc[.]us"
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "communicates-with",
+      "tail": "kew.1qw[.]us",
+      "evidence": "kew.1qw[.]us"
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "communicates-with",
+      "tail": "kew.8df[.]us",
+      "evidence": "kew.8df[.]us"
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "communicates-with",
+      "tail": "nk.1qw[.]us",
+      "evidence": "nk.1qw[.]us"
+    }
+  ],
+  "unclassified": []
+}

@@ -1,0 +1,231 @@
+{
+  "entities": [
+    {
+      "name": "CyberArmyofRussia_Reborn",
+      "kind": "threat actor",
+      "gloss": "A pro-Russian hacktivist Telegram channel used to claim cyberattacks and destructive operations."
+    },
+    {
+      "name": "Українського національного інформаційного агентства \"Укрінформ\"",
+      "kind": "government organization",
+      "gloss": "The national news agency of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "CaddyWiper",
+      "kind": "malware",
+      "gloss": "A destructive data wiper malware targeting Windows operating systems."
+    },
+    {
+      "name": "ZeroWipe",
+      "kind": "malware",
+      "gloss": "A destructive data wiping malware family designed to overwrite and corrupt files on Windows systems."
+    },
+    {
+      "name": "SDelete",
+      "kind": "software product",
+      "gloss": "A legitimate Sysinternals command-line utility used for securely deleting files and overwriting free disk space."
+    },
+    {
+      "name": "AwfulShred",
+      "kind": "malware",
+      "gloss": "A malicious shell script designed to wipe and destroy data on Linux systems."
+    },
+    {
+      "name": "BidSwipe",
+      "kind": "malware",
+      "gloss": "A malicious shell script wiper targeting FreeBSD systems."
+    },
+    {
+      "name": "news.bat",
+      "kind": "computer file",
+      "gloss": "A batch script used to launch the SDelete utility to destroy data."
+    },
+    {
+      "name": "UAC-0082",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage and threat group commonly known as Sandworm."
+    },
+    {
+      "name": "гу гш зс рф",
+      "kind": "government organization",
+      "gloss": "The Main Directorate of the General Staff of the Armed Forces of the Russian Federation."
+    },
+    {
+      "name": "рф",
+      "kind": "country",
+      "gloss": "A country spanning Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "new.exe",
+      "kind": "computer file",
+      "gloss": "An executable file containing the CaddyWiper malware."
+    },
+    {
+      "name": "upd.exe",
+      "kind": "computer file",
+      "gloss": "An executable file containing the ZeroWipe malware."
+    },
+    {
+      "name": "sdelete.exe",
+      "kind": "computer file",
+      "gloss": "An executable file of the legitimate SDelete utility."
+    },
+    {
+      "name": "r.sh",
+      "kind": "computer file",
+      "gloss": "A shell script file containing the AwfulShred wiper malware."
+    },
+    {
+      "name": "audit.sh",
+      "kind": "computer file",
+      "gloss": "A shell script file containing the BidSwipe wiper malware."
+    },
+    {
+      "name": "185.220.101.185",
+      "kind": "ip address",
+      "gloss": "An IP address associated with a Tor relay server in Germany."
+    },
+    {
+      "name": "185.220.102.244",
+      "kind": "ip address",
+      "gloss": "An IP address associated with a Tor relay server in Germany."
+    },
+    {
+      "name": "185.220.102.245",
+      "kind": "ip address",
+      "gloss": "An IP address associated with a Tor relay server in Germany."
+    },
+    {
+      "name": "185.220.102.248",
+      "kind": "ip address",
+      "gloss": "An IP address associated with a Tor relay server in Germany."
+    },
+    {
+      "name": "185.220.102.250",
+      "kind": "ip address",
+      "gloss": "An IP address associated with a Tor relay server in Germany."
+    },
+    {
+      "name": "185.220.102.251",
+      "kind": "ip address",
+      "gloss": "An IP address associated with a Tor relay server in Germany."
+    },
+    {
+      "name": "45.154.98.225",
+      "kind": "ip address",
+      "gloss": "An IP address associated with a Tor relay server in the Netherlands."
+    },
+    {
+      "name": "77.91.123.136",
+      "kind": "ip address",
+      "gloss": "An IP address associated with a Tor relay server in the Netherlands."
+    },
+    {
+      "name": "80.67.167.81",
+      "kind": "ip address",
+      "gloss": "An IP address associated with a Tor relay server in France."
+    },
+    {
+      "name": "194.28.172.172",
+      "kind": "ip address",
+      "gloss": "An IP address located in Ukraine used in network activity."
+    },
+    {
+      "name": "194.28.172.81",
+      "kind": "ip address",
+      "gloss": "An IP address located in Ukraine used in network activity."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Українського національного інформаційного агентства \"Укрінформ\"",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Українського національного інформаційного агентства \"Укрінформ\""
+    },
+    {
+      "head": "гу гш зс рф",
+      "type": "located-in",
+      "tail": "рф",
+      "evidence": "гу гш зс рф"
+    },
+    {
+      "head": "UAC-0082",
+      "type": "affects",
+      "tail": "Українського національного інформаційного агентства \"Укрінформ\"",
+      "evidence": "кібератаку здійснено групою UAC-0082 (Sandworm)"
+    },
+    {
+      "head": "UAC-0082",
+      "type": "uses",
+      "tail": "CaddyWiper",
+      "evidence": "здійснено невдалу спробу порушення штатного режиму роботи комп'ютерів користувачів з використанням шкідливих програм-деструкторів CaddyWiper"
+    },
+    {
+      "head": "UAC-0082",
+      "type": "uses",
+      "tail": "ZeroWipe",
+      "evidence": "здійснено невдалу спробу порушення штатного режиму роботи комп'ютерів користувачів з використанням шкідливих програм-деструкторів CaddyWiper та ZeroWipe"
+    },
+    {
+      "head": "UAC-0082",
+      "type": "uses",
+      "tail": "SDelete",
+      "evidence": "а також легітимної утиліти SDelete"
+    },
+    {
+      "head": "UAC-0082",
+      "type": "uses",
+      "tail": "AwfulShred",
+      "evidence": "виявлено 5 зразків шкідливих програм (скриптів)... AwfulShred"
+    },
+    {
+      "head": "UAC-0082",
+      "type": "uses",
+      "tail": "BidSwipe",
+      "evidence": "виявлено 5 зразків шкідливих програм (скриптів)... BidSwipe"
+    },
+    {
+      "head": "news.bat",
+      "type": "delivers",
+      "tail": "SDelete",
+      "evidence": "запуск якої передбачалося здійснити за допомогою \"news.bat\""
+    },
+    {
+      "head": "new.exe",
+      "type": "delivers",
+      "tail": "CaddyWiper",
+      "evidence": "new.exe (CaddyWiper v3)"
+    },
+    {
+      "head": "upd.exe",
+      "type": "delivers",
+      "tail": "ZeroWipe",
+      "evidence": "upd.exe (ZeroWipe)"
+    },
+    {
+      "head": "sdelete.exe",
+      "type": "delivers",
+      "tail": "SDelete",
+      "evidence": "sdelete.exe (SDelete)"
+    },
+    {
+      "head": "r.sh",
+      "type": "delivers",
+      "tail": "AwfulShred",
+      "evidence": "r.sh (AwfulShred)"
+    },
+    {
+      "head": "audit.sh",
+      "type": "delivers",
+      "tail": "BidSwipe",
+      "evidence": "audit.sh (BidSwipe)"
+    }
+  ],
+  "newRelationTypes": []
+}

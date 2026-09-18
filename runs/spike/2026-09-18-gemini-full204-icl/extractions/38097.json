@@ -1,0 +1,118 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0026",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA for conducting cyber attacks against Ukrainian targets."
+    },
+    {
+      "name": "HeaderTip",
+      "kind": "malware",
+      "gloss": "A malware family designed to download and execute additional DLL files."
+    },
+    {
+      "name": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive distributed in the cyber attack."
+    },
+    {
+      "name": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file packaged inside a RAR archive."
+    },
+    {
+      "name": "#2163_02_33-2022.pdf",
+      "kind": "computer file",
+      "gloss": "A decoy PDF document mimicking an official letter of the National Police of Ukraine."
+    },
+    {
+      "name": "officecleaner.dat",
+      "kind": "computer file",
+      "gloss": "A payload file with a stripped header dropped onto the compromised system."
+    },
+    {
+      "name": "officecleaner.bat",
+      "kind": "computer file",
+      "gloss": "A batch script that reconstructs and launches the malicious DLL file."
+    },
+    {
+      "name": "officecleaner.dll",
+      "kind": "computer file",
+      "gloss": "A reconstructed malicious dynamic-link library dropped and executed during the attack."
+    },
+    {
+      "name": "httpshelper.dll",
+      "kind": "computer file",
+      "gloss": "A dynamic-link library identified as the HeaderTip malware."
+    },
+    {
+      "name": "Національної поліції України",
+      "kind": "government organization",
+      "gloss": "The central government body that serves as the national police service of Ukraine."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "Windows",
+      "kind": "software product",
+      "gloss": "A family of proprietary graphical operating systems developed by Microsoft."
+    },
+    {
+      "name": "product2020.mrbasic[.]com",
+      "kind": "domain name",
+      "gloss": "A domain name utilized in the threat actor's network infrastructure."
+    },
+    {
+      "name": "hxxps://product2020.mrbasic[.]com:8080",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL associated with the threat actor infrastructure."
+    },
+    {
+      "name": "104[.]155.198.25",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the command and control infrastructure of the attack."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0026",
+      "type": "uses",
+      "tail": "HeaderTip",
+      "evidence": "Активність відстежується за ідентифікатором UAC-0026"
+    },
+    {
+      "head": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.rar",
+      "type": "delivers",
+      "tail": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.exe",
+      "evidence": "містить одноіменний EXE-файл"
+    },
+    {
+      "head": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.exe",
+      "type": "delivers",
+      "tail": "#2163_02_33-2022.pdf",
+      "evidence": "призведе до створення на комп'ютері документу-приманки \"#2163_02_33-2022.pdf\""
+    },
+    {
+      "head": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.exe",
+      "type": "delivers",
+      "tail": "officecleaner.dat",
+      "evidence": "призведе до створення на комп'ютері ... \"officecleaner.dat\""
+    },
+    {
+      "head": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.exe",
+      "type": "delivers",
+      "tail": "officecleaner.bat",
+      "evidence": "призведе до створення на комп'ютері ... \"officecleaner.bat\""
+    },
+    {
+      "head": "Національної поліції України",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "Національної поліції України"
+    }
+  ],
+  "newRelationTypes": []
+}

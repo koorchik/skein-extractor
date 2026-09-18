@@ -1,0 +1,343 @@
+{
+  "docId": 40125,
+  "date": "07.05.2022",
+  "title": "Масове розповсюдження шкідливої програми JesterStealer з використанням тематики хімічної атаки (CERT-UA#4625)",
+  "entities": [
+    {
+      "id": "40125:0",
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S4",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40125:1",
+      "name": "JesterStealer",
+      "kind": "malware",
+      "gloss": "An information-stealing malware family designed to extract credentials, browser data, and cryptocurrency wallet information.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "40125:2",
+      "name": "UAC-0104",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA associated with cyberattacks delivering information-stealing malware.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "40125:3",
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cross-platform instant messaging and VoIP service used by attackers for data exfiltration and command communication.",
+      "scheme": "S2",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "40125:4",
+      "name": "Map023.xlsb",
+      "kind": "computer file",
+      "gloss": "A malicious Excel binary workbook containing macros used to download executable payloads.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40125:5",
+      "name": "Map021.xlsb",
+      "kind": "computer file",
+      "gloss": "A malicious Excel binary workbook containing macros used in phishing campaigns.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40125:6",
+      "name": "Map026.xlsb",
+      "kind": "computer file",
+      "gloss": "A malicious Excel binary workbook used to drop and execute malware.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40125:7",
+      "name": "Updater-Microsoft.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file delivering malware payloads.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40125:8",
+      "name": "a1.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file associated with the incident.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40125:9",
+      "name": "ckloc",
+      "kind": "computer file",
+      "gloss": "An executable file identified as a sample of JesterStealer malware.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40125:10",
+      "name": "tachikawaobs@sv5206.xserver.jp",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator of compromise.",
+      "scheme": "S10",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "40125:11",
+      "name": "157.112.183.47",
+      "kind": "ip address",
+      "gloss": "An IP address observed as an indicator of compromise.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40125:12",
+      "name": "igshop.net",
+      "kind": "domain name",
+      "gloss": "A compromised website domain used to host malicious files.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "40125:13",
+      "name": "dcshost.net",
+      "kind": "domain name",
+      "gloss": "A compromised website domain used to host malicious files.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "40125:14",
+      "name": "marmaris.com.ua",
+      "kind": "domain name",
+      "gloss": "A compromised website domain used to host malicious executables.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "40125:15",
+      "name": "autodoka.com.ua",
+      "kind": "domain name",
+      "gloss": "A compromised website domain used to host malicious files.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "40125:16",
+      "name": "lightnogu5owjjllyo4tj2sfos6fchnmcidlgo6c7e6fz2hgryhfhoyd.onion",
+      "kind": "domain name",
+      "gloss": "A Tor hidden service onion domain used for malicious infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "40125:17",
+      "name": "wasabiwallet.online",
+      "kind": "domain name",
+      "gloss": "A network domain observed as an indicator of compromise.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "40125:18",
+      "name": "ip-api.com",
+      "kind": "domain name",
+      "gloss": "A legitimate public IP geolocation API service queried by malware.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "40125:19",
+      "name": "hxxps://igshop[.]net/uploads/Map026.xlsb",
+      "kind": "uniform resource locator",
+      "gloss": "A URL hosted on a compromised server used to deliver malicious files.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "40125:20",
+      "name": "hxxps://igshop[.]net/uploads/Map023.xlsb",
+      "kind": "uniform resource locator",
+      "gloss": "A URL hosted on a compromised server used to deliver malicious files.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "40125:21",
+      "name": "hxxps://igshop[.]net/uploads/Map021.xlsb",
+      "kind": "uniform resource locator",
+      "gloss": "A URL hosted on a compromised server used to deliver malicious files.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "40125:22",
+      "name": "hxxps://igshop[.]net/uploads/Updater-Microsoft.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A URL hosted on a compromised server used to distribute malicious executable files.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "40125:23",
+      "name": "hxxps://dcshost[.]net/mail/OfficeUpdaterNew.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A URL on a compromised web resource used to distribute executable malware.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "40125:24",
+      "name": "hxxps://marmaris.com[.]ua/misc/Updater-Microsoft.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A URL on a compromised web resource hosting malicious executables.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "40125:25",
+      "name": "hxxps://autodoka.com[.]ua/extra/Updater-Microsoft.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A URL on a compromised web resource hosting malicious executables.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "40125:26",
+      "name": "hxxp://lightnogu5owjjllyo4tj2sfos6fchnmcidlgo6c7e6fz2hgryhfhoyd[.]onion/stealer/1026977440",
+      "kind": "uniform resource locator",
+      "gloss": "A Tor onion URL associated with JesterStealer infrastructure.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "40125:27",
+      "name": "hxxp://ip-api[.]com/json",
+      "kind": "uniform resource locator",
+      "gloss": "A URL of a legitimate IP geolocation service queried by malware.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "40125:28",
+      "name": "tcp://wasabiwallet[.]online:7777",
+      "kind": "uniform resource locator",
+      "gloss": "A network endpoint used as an indicator of compromise.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0104",
+      "type": "uses",
+      "tail": "JesterStealer",
+      "evidence": "ураження комп'ютера шкідливою програмою JesterStealer. Активність тимчасово відстежується за ідентифікатором UAC-0104."
+    },
+    {
+      "head": "JesterStealer",
+      "type": "uses",
+      "tail": "Telegram",
+      "evidence": "Викрадені дані через статично визначені адреси проксі передаються зловмиснику в Telegram."
+    },
+    {
+      "head": "igshop.net",
+      "type": "hosts",
+      "tail": "hxxps://igshop[.]net/uploads/Map026.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map026.xlsb"
+    },
+    {
+      "head": "igshop.net",
+      "type": "hosts",
+      "tail": "hxxps://igshop[.]net/uploads/Map023.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map023.xlsb"
+    },
+    {
+      "head": "igshop.net",
+      "type": "hosts",
+      "tail": "hxxps://igshop[.]net/uploads/Map021.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map021.xlsb"
+    },
+    {
+      "head": "igshop.net",
+      "type": "hosts",
+      "tail": "hxxps://igshop[.]net/uploads/Updater-Microsoft.exe",
+      "evidence": "hxxps://igshop[.]net/uploads/Updater-Microsoft.exe"
+    },
+    {
+      "head": "dcshost.net",
+      "type": "hosts",
+      "tail": "hxxps://dcshost[.]net/mail/OfficeUpdaterNew.exe",
+      "evidence": "hxxps://dcshost[.]net/mail/OfficeUpdaterNew.exe"
+    },
+    {
+      "head": "marmaris.com.ua",
+      "type": "hosts",
+      "tail": "hxxps://marmaris.com[.]ua/misc/Updater-Microsoft.exe",
+      "evidence": "hxxps://marmaris.com[.]ua/misc/Updater-Microsoft.exe"
+    },
+    {
+      "head": "autodoka.com.ua",
+      "type": "hosts",
+      "tail": "hxxps://autodoka.com[.]ua/extra/Updater-Microsoft.exe",
+      "evidence": "hxxps://autodoka.com[.]ua/extra/Updater-Microsoft.exe"
+    },
+    {
+      "head": "lightnogu5owjjllyo4tj2sfos6fchnmcidlgo6c7e6fz2hgryhfhoyd.onion",
+      "type": "hosts",
+      "tail": "hxxp://lightnogu5owjjllyo4tj2sfos6fchnmcidlgo6c7e6fz2hgryhfhoyd[.]onion/stealer/1026977440",
+      "evidence": "hxxp://lightnogu5owjjllyo4tj2sfos6fchnmcidlgo6c7e6fz2hgryhfhoyd[.]onion/stealer/1026977440"
+    },
+    {
+      "head": "ip-api.com",
+      "type": "hosts",
+      "tail": "hxxp://ip-api[.]com/json",
+      "evidence": "hxxp://ip-api[.]com/json"
+    },
+    {
+      "head": "wasabiwallet.online",
+      "type": "hosts",
+      "tail": "tcp://wasabiwallet[.]online:7777",
+      "evidence": "tcp://wasabiwallet[.]online:7777"
+    }
+  ],
+  "unclassified": []
+}

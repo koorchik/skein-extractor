@@ -1,0 +1,130 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "UAC-0057 (unc1151/GhostWriter)",
+      "kind": "threat actor",
+      "gloss": "A suspected state-sponsored cyber espionage group associated with Belarus."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware",
+      "gloss": "A post-exploitation agent and payload of the Cobalt Strike adversary simulation framework."
+    },
+    {
+      "name": "Диверсанти.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive used in cyber attacks to deliver nested payload files."
+    },
+    {
+      "name": "Диверсанти 21.03.rar",
+      "kind": "computer file",
+      "gloss": "A nested RAR archive contained within a malicious archive."
+    },
+    {
+      "name": "Диверсанти file‮‮rar.scr",
+      "kind": "computer file",
+      "gloss": "A malicious SFX archive disguised using a right-to-left override character."
+    },
+    {
+      "name": "Thumbs.db",
+      "kind": "computer file",
+      "gloss": "A malicious VBScript file disguised as a thumbnail cache file."
+    },
+    {
+      "name": "dhdhk0k34.com",
+      "kind": "computer file",
+      "gloss": "A malicious .NET executable dropped and launched during infection."
+    },
+    {
+      "name": "Skype.exe",
+      "kind": "computer file",
+      "gloss": "A malicious file dropped or executed in a public directory."
+    },
+    {
+      "name": "inject.exe",
+      "kind": "computer file",
+      "gloss": "A malicious injector executable used to deliver payloads into memory."
+    },
+    {
+      "name": "csbeacon.bin",
+      "kind": "computer file",
+      "gloss": "A binary payload file containing Cobalt Strike Beacon."
+    },
+    {
+      "name": "https://ao3.hmgo.pw/tags/Akihabara@TODEEP/works",
+      "kind": "uniform resource locator",
+      "gloss": "A network URL used for malicious command and control communication."
+    },
+    {
+      "name": "https://ao3.hmgo.pw/tags/Akihabara@TODEEP/works/update",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL associated with command and control infrastructure."
+    },
+    {
+      "name": "ao3.hmgo.pw",
+      "kind": "domain name",
+      "gloss": "A subdomain used in threat actor network infrastructure."
+    },
+    {
+      "name": "hmgo.pw",
+      "kind": "domain name",
+      "gloss": "A domain name utilized for malicious network operations."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Диверсанти.rar",
+      "type": "delivers",
+      "tail": "Диверсанти 21.03.rar",
+      "evidence": "RAR-архів \"Диверсанти.rar\", що містить RAR-архів \"Диверсанти 21.03.rar\""
+    },
+    {
+      "head": "Диверсанти 21.03.rar",
+      "type": "delivers",
+      "tail": "Диверсанти file‮‮rar.scr",
+      "evidence": "який, у свою чергу, містить SFX-архів \"Диверсанти filercs.rar\""
+    },
+    {
+      "head": "Thumbs.db",
+      "type": "delivers",
+      "tail": "dhdhk0k34.com",
+      "evidence": "VBScript-код (Thumbs.db), який забезпечить створення та запуск .NET-програми \"dhdhk0k34.com\""
+    },
+    {
+      "head": "dhdhk0k34.com",
+      "type": "delivers",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "В результаті комп'ютер буде уражено шкідливою програмою Cobalt Strike Beacon."
+    },
+    {
+      "head": "UAC-0057 (unc1151/GhostWriter)",
+      "type": "uses",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "активність, виходячи зі специфічності VBScript-коду, з середнім рівнем впевненості асоційовано з діяльністю групи UAC-0057"
+    },
+    {
+      "head": "ao3.hmgo.pw",
+      "type": "part-of",
+      "tail": "hmgo.pw",
+      "evidence": "ao3.hmgo.pw hmgo.pw"
+    },
+    {
+      "head": "ao3.hmgo.pw",
+      "type": "hosts",
+      "tail": "https://ao3.hmgo.pw/tags/Akihabara@TODEEP/works",
+      "evidence": "hXXps://ao3.hmgo[.]pw/tags/Akihabara@TODEEP/works"
+    },
+    {
+      "head": "ao3.hmgo.pw",
+      "type": "hosts",
+      "tail": "https://ao3.hmgo.pw/tags/Akihabara@TODEEP/works/update",
+      "evidence": "hXXps://ao3.hmgo[.]pw/tags/Akihabara@TODEEP/works/update"
+    }
+  ],
+  "newRelationTypes": []
+}

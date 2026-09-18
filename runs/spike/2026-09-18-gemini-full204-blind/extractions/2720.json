@@ -1,0 +1,151 @@
+{
+  "entities": [
+    {
+      "name": "Україні",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "VPNFilter",
+      "kind": "malware family",
+      "gloss": "A multi-stage modular malware platform designed to compromise routers and network-attached storage devices."
+    },
+    {
+      "name": "Linksys",
+      "kind": "hardware vendor",
+      "gloss": "An American brand of data networking hardware products."
+    },
+    {
+      "name": "MikroTik",
+      "kind": "hardware vendor",
+      "gloss": "A Latvian manufacturer of network equipment and software."
+    },
+    {
+      "name": "NETGEAR",
+      "kind": "hardware vendor",
+      "gloss": "A multinational computer networking company."
+    },
+    {
+      "name": "TP-Link",
+      "kind": "hardware vendor",
+      "gloss": "A global manufacturer of computer networking products."
+    },
+    {
+      "name": "QNAP",
+      "kind": "hardware vendor",
+      "gloss": "A Taiwanese corporation specializing in network-attached storage devices."
+    },
+    {
+      "name": "Cisco",
+      "kind": "software vendor",
+      "gloss": "A multinational digital communications and networking technology company."
+    },
+    {
+      "name": "photobucket.com",
+      "kind": "internet domain",
+      "gloss": "An image hosting and video hosting website."
+    },
+    {
+      "name": "toknowall[.]com",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used as command and control infrastructure for VPNFilter malware."
+    },
+    {
+      "name": "zuh3vcyskd4gipkm[.]onion",
+      "kind": "onion service domain",
+      "gloss": "A Tor hidden service address utilized by VPNFilter for command and control."
+    },
+    {
+      "name": "91.121.109[.]209",
+      "kind": "ip address",
+      "gloss": "An IP address identified as VPNFilter command and control infrastructure."
+    },
+    {
+      "name": "217.12.202[.]40",
+      "kind": "ip address",
+      "gloss": "An IP address identified as VPNFilter command and control infrastructure."
+    },
+    {
+      "name": "94.242.222[.]68",
+      "kind": "ip address",
+      "gloss": "An IP address identified as VPNFilter command and control infrastructure."
+    },
+    {
+      "name": "82.118.242[.]124",
+      "kind": "ip address",
+      "gloss": "An IP address identified as VPNFilter command and control infrastructure."
+    },
+    {
+      "name": "46.151.209[.]33",
+      "kind": "ip address",
+      "gloss": "An IP address identified as VPNFilter command and control infrastructure."
+    },
+    {
+      "name": "217.79.179[.]14",
+      "kind": "ip address",
+      "gloss": "An IP address identified as VPNFilter command and control infrastructure."
+    },
+    {
+      "name": "91.214.203[.]144",
+      "kind": "ip address",
+      "gloss": "An IP address identified as VPNFilter command and control infrastructure."
+    },
+    {
+      "name": "95.211.198[.]231",
+      "kind": "ip address",
+      "gloss": "An IP address identified as VPNFilter command and control infrastructure."
+    },
+    {
+      "name": "195.154.180[.]60",
+      "kind": "ip address",
+      "gloss": "An IP address identified as VPNFilter command and control infrastructure."
+    },
+    {
+      "name": "5.149.250[.]54",
+      "kind": "ip address",
+      "gloss": "An IP address identified as VPNFilter command and control infrastructure."
+    },
+    {
+      "name": "91.200.13[.]76",
+      "kind": "ip address",
+      "gloss": "An IP address identified as VPNFilter command and control infrastructure."
+    },
+    {
+      "name": "94.185.80[.]82",
+      "kind": "ip address",
+      "gloss": "An IP address identified as VPNFilter command and control infrastructure."
+    },
+    {
+      "name": "62.210.180[.]229",
+      "kind": "ip address",
+      "gloss": "An IP address identified as VPNFilter command and control infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "VPNFilter",
+      "type": "attacks",
+      "tail": "Україні",
+      "evidence": "кібератаку в Україні з використанням ШПЗ VPNFilter"
+    },
+    {
+      "head": "VPNFilter",
+      "type": "hosts",
+      "tail": "toknowall[.]com",
+      "evidence": "командно-контрольний центр toknowall[.]com для завантаження файлу"
+    },
+    {
+      "head": "VPNFilter",
+      "type": "hosts",
+      "tail": "photobucket.com",
+      "evidence": "завантажити одне із декількох зображень на сайті photobucket.com"
+    },
+    {
+      "head": "VPNFilter",
+      "type": "hosts",
+      "tail": "zuh3vcyskd4gipkm[.]onion",
+      "evidence": "zuh3vcyskd4gipkm [.] Onion / bin32 / update .php"
+    }
+  ],
+  "newRelationTypes": []
+}

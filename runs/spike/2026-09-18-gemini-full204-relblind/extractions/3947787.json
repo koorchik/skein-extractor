@@ -1,0 +1,162 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyberespionage threat group also tracked as DEV-0586 and UNC2589."
+    },
+    {
+      "name": "DEV-0586",
+      "kind": "threat actor",
+      "gloss": "A threat actor designation associated with UAC-0056 and UNC2589."
+    },
+    {
+      "name": "unc2589",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracking identifier corresponding to UAC-0056 and DEV-0586."
+    },
+    {
+      "name": "CredPump",
+      "kind": "malware",
+      "gloss": "An SSH backdoor implemented as a malicious PAM module to harvest credentials and provide remote access."
+    },
+    {
+      "name": "HoaxPen",
+      "kind": "malware",
+      "gloss": "A backdoor malware allowing arbitrary command execution on compromised systems."
+    },
+    {
+      "name": "HoaxApe",
+      "kind": "malware",
+      "gloss": "A backdoor implemented as an Apache web server module enabling remote command execution."
+    },
+    {
+      "name": "GOST",
+      "kind": "software product",
+      "gloss": "A GO-based secure tunneling tool used for proxying and network port forwarding."
+    },
+    {
+      "name": "Ngrok",
+      "kind": "software product",
+      "gloss": "A cross-platform utility used to expose local network services to the internet."
+    },
+    {
+      "name": "P0wnyShell",
+      "kind": "malware",
+      "gloss": "A lightweight single-file PHP web shell used to execute remote commands."
+    },
+    {
+      "name": "Apache",
+      "kind": "software product",
+      "gloss": "An open-source cross-platform web server software."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "185.59.221.226",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure used in the cyberattack."
+    },
+    {
+      "name": "178.162.212.26",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure used in the cyberattack."
+    },
+    {
+      "name": "178.162.222.44",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure used in the cyberattack."
+    },
+    {
+      "name": "37.58.60.153",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure used in the cyberattack."
+    },
+    {
+      "name": "94.46.175.132",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure used in the cyberattack."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "attributed-to",
+      "tail": "DEV-0586",
+      "evidence": "здійснено групою UAC-0056 (DEV-0586, unc2589)"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "attributed-to",
+      "tail": "unc2589",
+      "evidence": "здійснено групою UAC-0056 (DEV-0586, unc2589)"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "CredPump",
+      "evidence": "ідентифіковано раніше відомий SSH-бекдор CredPump"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "HoaxPen",
+      "evidence": "виявлено бекдори HoaxPen та HoaxApe"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "HoaxApe",
+      "evidence": "виявлено бекдори HoaxPen та HoaxApe"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-tool",
+      "tail": "GOST",
+      "evidence": "застосовано GOST (Go Simple Tunnel)"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-tool",
+      "tail": "Ngrok",
+      "evidence": "застосовано GOST (Go Simple Tunnel) та програму Ngrok"
+    },
+    {
+      "head": "HoaxApe",
+      "type": "targets-software",
+      "tail": "Apache",
+      "evidence": "HoaxApe (у вигляді модулю для вебсерверу Apache)"
+    },
+    {
+      "head": "Ngrok",
+      "type": "tunnels-traffic-for",
+      "tail": "HoaxPen",
+      "evidence": "програму Ngrok (зокрема, для публікації в Інтернет сокету HoaxPen)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "attributed-to",
+      "definition": "Identifies an alternative tracking name, alias, or attribution for the same threat actor."
+    },
+    {
+      "name": "uses-malware",
+      "definition": "Indicates that a threat actor utilizes a specific malware family or malicious component in operations."
+    },
+    {
+      "name": "uses-tool",
+      "definition": "Indicates that an actor deploys or executes a legitimate utility or software tool during an attack."
+    },
+    {
+      "name": "targets-software",
+      "definition": "Indicates that a malware implant is designed to integrate with or operate inside a specific software product."
+    },
+    {
+      "name": "tunnels-traffic-for",
+      "definition": "Indicates that a networking or tunneling tool exposes or routes traffic for a specific malware implant or service."
+    }
+  ]
+}

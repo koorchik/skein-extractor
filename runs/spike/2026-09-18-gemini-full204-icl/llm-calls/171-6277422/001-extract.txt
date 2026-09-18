@@ -1,0 +1,870 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+- Country: A distinct territorial body or sovereign state with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Government Organization: An official agency, ministry, or administrative body operating as part of a national or state government. (also: Government Agency, Government Body, State Authority)
+- Malware: Malicious software, code, or executables designed to infiltrate, damage, or compromise computer systems and data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address specifying the location and retrieval mechanism of a resource on a computer network. (also: URL, Web Address, Web Link)
+- Person: An individual human being, such as a government official, cybersecurity expert, researcher, or executive. (also: Individual, Natural Person)
+- IP Address: A numerical label assigned to a device connected to a computer network that uses the Internet Protocol for communication. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Electronic Mail Address)
+- Computer File: A digital resource or named item stored on a computer system, containing data, code, or instructions. (also: File, Digital File, Filename)
+- Company: A commercial business, corporation, or enterprise operating in any economic sector or industry. (also: Enterprise, Corporation, Commercial Organization)
+- Domain Name: A human-readable identification string defining a realm of administrative autonomy or resource location within the Internet Domain Name System. (also: Internet Domain, FQDN, Fully Qualified Domain Name)
+- Threat Actor: An individual, group, or organization responsible for malicious cyber activities, attacks, or cyber espionage operations. (also: Threat Group, Cyber Threat Actor, Hacker Group)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA керуючись п.1 ст.9 Закону України "Про основні засади забезпечення кібербезпеки України" вжито заходів з надання практичної допомоги державному підприємству за фактом масового ураження ЕОМ організації шкідливою програмою DIRTYMOE (PURPLEFOX).</p><p>В рамках детального вивчення кіберзагрози проведено дослідження отриманих зразків шкідливих програм, встановлено особливості функціонування інфраструктури управляючих серверів та виявлено більше 2000 уражених ЕОМ в українському сегменті мережі Інтернет.</p><p>Під час проведення робіт використано матеріали зі статей компаній Avast <a href="https://decoded.avast.io/tag/dirtymoe/" rel="noopener noreferrer" target="_blank">[1]</a> та Trendmicro <a href="https://www.trendmicro.com/en_us/research/21/l/a-look-into-purple-fox-server-infrastructure.html" rel="noopener noreferrer" target="_blank">[2]</a>, спеціалисти яких свого часу фахово висвітлювали технічні деталі функціонування згаданих засобів реалізації кіберзагроз.</p><p>Ураховуючи кількість інфікованих комп'ютерів, а також складнощі видалення компонентів DIRTYMOE у зв'язку із застосуванням руткіту, в розділі "Технічна інформація" наведено необхідні технічні деталі.</p><p>Зауважимо, що у випадку експлуатації ЕОМ під управлінням застарілих операційних систем, в рамках зменшення потенційної поверхні атаки, наполегливо рекомендуємо виокремити такі комп'ютери (за допомогою VLAN і/або фізичної сегментації) до окремих мережевих сегментів з обов'язковою фільтрацією як вхідних так і вихідних інформаційних потоків.</p><p>Описана активність відстежується за ідентифікатором UAC-0027.</p><p>У разі отримання інформування від CERT-UA щодо виявлення факту ураження - просимо вжити заходів з ліквідації кіберзагрози з використанням наведеної інформації.</p><p><br></p><p><strong>Технічна інформація</strong></p><p><em><u>Шкідливе програмне забезпечення</u></em></p><p>DIRTYMOE - модульна шкідлива програма відома більше 5 років. Створює технічні можливості для віддаленого доступу до комп'ютера та, здебільшого, використовується для проведення DDoS-атак та майнінгу (але не виключно). Зазвичай, первинне ураження здійснюється в результаті запуску популярного програмного забезпечення, що містить MSI-інсталятор. Бекдор оснащено <strong>руткітом</strong>, що не дозволяє видалити компоненти з файлової системи та реєстру операційної системи в штатному режимі.&nbsp;</p><p>DIRTYMOE має функціонал для <strong>саморозповсюдження</strong> шляхом підбору автентифікаційних даних і/або експлуатації ряду вразливостей як у відношенні комп'ютерів, що знаходяться в локальній обчислювальній мережі, так і ЕОМ за переліком IP-адрес, який формується за окремим алгоритмом в залежності від "зовнішньої" IP-адреси об'єкту ураження.</p><p>З метою забезпечення відмовостійкості для комунікації з управляючою інфраструктурою використовується, щонайменше, три способи, один з яких полягає в отриманні значень A-записів для статично визначених доменних імен з використанням як локального так і зовнішніх DNS-серверів: 8.8.8.8, 1.1.1.1, 114.114.114.114, 119.29.29.29. При цьому, IP-адреси, що зберігаються в реєстрі операційної системи, а також ті, що отримуються в результаті DNS-запитів - <strong>обфусковані</strong>.</p><p>За період моніторингу (20-31 січня 2024 року) виявлено <strong>486</strong> IP-адрес проміжних управляючих серверів, переважна більшість яких належать (скомпрометованому) обладнанню, що знаходиться в Китаї. Протягом доби додається близько <strong>20</strong> нових IP-адрес (див. додаток).</p><p><br></p><p><em><u>Пошук ознак ураження</u></em></p><p>1. Дослідити мережеві з'єднання за переліком IP-адрес, наведених в додатку. Зазвичай вихідні підключення здійснюються на "високі" (10000+) мережеві порти.</p><p>2. За допомогою штатної утиліти regedit.exe перевірити значення в реєстрі операційної системи за ключами (Рис.1):</p><pre class="ql-syntax" spellcheck="false">- для WindowsXP: HKEY_LOCAL_MACHINE\ControlSet001\Services\AC0[0-9]
+- для Windows7:  HKEY_LOCAL_MACHINE\Software\Microsoft\DirectPlay8\Direct3D
+</pre><p>3. З використанням штатної утиліти Event Viewer в журналі "Application" (джерело: "MsiInstaller") дослідити записи з ідентифікаторами подій 1040 і 1042 (Рис.3).</p><p>4. Візуально оглянути каталог "C:\Program Files" на предмет наявності папок з довільно згенерованою назвою, наприклад: "C:\Program Files\dvhvA".</p><p>5. Постійність запуску шкідливої програми забезпечується шляхом створення сервісу. В свою чергу, файли бекдору та модулів зберігаються в типових каталогах (перелік нижче). Разом з тим, застосування руткіту перешкоджає виявленню і/або видаленню шкідливої програми безпосередньо з ураженої ЕОМ.</p><pre class="ql-syntax" spellcheck="false">HKEY_LOCAL_MACHINE\System\ControlSet001\services\MsXXXXXXXXApp
+C:\Windows\System32\MsXXXXXXXXApp.dll
+C:\Windows\AppPatch\DBXXXXXXXXMK.sdb
+C:\Windows\AppPatch\RCXXXXXXXXMS.sdb
+C:\Windows\AppPatch\TKXXXXXXXXMS.sdb
+</pre><p><em> *&nbsp;XXXXXXXX - довільно згенерована послідовність в діапазоні [A-F0-9]{8} (приклад: "MsBA4B6B3AApp.dll")</em></p><p><br></p><p><em><u>Знезараження</u></em></p><p>Для видалення шкідливої програми можливо скористатися, щонайменше, двома способами.</p><p>1. Завантажити з офіційного вебсайту виробника (https://www.avast.ua/) програмний продукт "Avast Free Antivirus", встановити на ЕОМ та в режимі "SMART" ініціювати сканування. Цей процес також потребуватиме подальшого перезавантаження ЕОМ та продовження сканування, під час якого буде виявлено та видалено модулі (Рис.4).</p><p>2. Завантажити уражену ЕОМ з LiveUSB (або підключити жорсткий диск ураженої ЕОМ до іншої ЕОМ) та в ручному режимі здійснити видалення файлу "MsXXXXXXXXApp.dll" та модулів (".sdb"), після чого, завантаживши ЕОМ в штатному режимі, видалити службу з реєстру. Приклад монтування жорсткого диску ураженої ЕОМ та проведення відповідних маніпуляцій наведено нижче.</p><p><br></p><p><em style="background-color: rgb(187, 187, 187);">("sda" - підключений диск ураженої ЕОМ; "sda2" - системний розділ диску ураженої ЕОМ)</em></p><pre class="ql-syntax" spellcheck="false"># lsblk&nbsp;
+NAME&nbsp;&nbsp;MAJ:MIN RM&nbsp;&nbsp;SIZE RO TYPE MOUNTPOINT
+...
+sda&nbsp;&nbsp;&nbsp;8:0&nbsp;&nbsp;0  465.8G&nbsp;0 disk&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+├─sda1&nbsp;&nbsp;8:1&nbsp;&nbsp;0&nbsp;&nbsp;100M  &nbsp;0 part&nbsp;
+├─sda2&nbsp;&nbsp;8:2&nbsp;&nbsp;0  172.7G&nbsp;0 part &nbsp;
+└─sda3&nbsp;&nbsp;8:3&nbsp;&nbsp;0&nbsp;&nbsp;293G&nbsp;  0 part
+...
+</pre><p><em style="color: rgb(36, 36, 36);">(визначення&nbsp;розділів&nbsp;на&nbsp;диску&nbsp;за&nbsp;допомогою&nbsp;"fdisk";&nbsp;"/dev/sda2"&nbsp;-&nbsp;системний&nbsp;розділ&nbsp;диску&nbsp;  ураженої&nbsp;ЕОМ;&nbsp;зміщення&nbsp;206848&nbsp;сектори)</em></p><pre class="ql-syntax" spellcheck="false">#&nbsp;fdisk&nbsp;-lu&nbsp;/dev/sda
+...
+Device&nbsp;&nbsp;&nbsp;Boot&nbsp;&nbsp;&nbsp;Start&nbsp;&nbsp;&nbsp;&nbsp; End&nbsp;&nbsp;     Sectors&nbsp;&nbsp;  Size&nbsp;  Id&nbsp; Type
+/dev/sda1&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2048&nbsp;&nbsp;    206847&nbsp;&nbsp;  204800&nbsp;&nbsp;   100M&nbsp;  7&nbsp;  HPFS/NTFS/exFAT
+/dev/sda2&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;206848&nbsp;   362371071&nbsp;362164224&nbsp; 172.7G&nbsp;7&nbsp;  HPFS/NTFS/exFAT
+/dev/sda3&nbsp;&nbsp;   &nbsp;&nbsp;362371072&nbsp;976771071&nbsp;614400000&nbsp;&nbsp;293G&nbsp;  7  &nbsp;HPFS/NTFS/exFAT
+</pre><p><em>(монтування&nbsp;в&nbsp;режимі&nbsp;"read-write"&nbsp;системного&nbsp;розділу&nbsp;диску&nbsp;з&nbsp;урахуванням&nbsp;зміщення)</em></p><pre class="ql-syntax" spellcheck="false">#&nbsp;mount&nbsp;-orw,offset=$((512*206848))&nbsp;/dev/sda&nbsp;/mnt/
+</pre><p><em>(перевірка&nbsp;вмісту&nbsp;каталогу&nbsp;"C:\Windows\AppPatch"&nbsp;для&nbsp;пошуку&nbsp;модулів)</em></p><pre class="ql-syntax" spellcheck="false">#&nbsp;ls&nbsp;-lat&nbsp;/mnt/Windows/AppPatch/
+</pre><p><em>(перевірка&nbsp;вмісту&nbsp;каталогу&nbsp;"C:\Windows\System32"&nbsp;для&nbsp;пошуку&nbsp;файлу&nbsp;бекдору)</em></p><pre class="ql-syntax" spellcheck="false">#&nbsp;ls&nbsp;-lat&nbsp;--time=ctime&nbsp;/mnt/Windows/System32/Ms*
+</pre><p><em>(видалення&nbsp;модулів&nbsp;та&nbsp;файлу&nbsp;бекдору)</em></p><pre class="ql-syntax" spellcheck="false">#&nbsp;rm&nbsp;-rf&nbsp;/mnt/Windows/AppPatch/RC2EE39E00MS.sdb
+#&nbsp;rm&nbsp;-rf&nbsp;/mnt/Windows/AppPatch/DB2EE39E00MK.sdb
+#&nbsp;rm&nbsp;-rf&nbsp;/mnt/Windows/AppPatch/TK2EE39E00MS.sdb
+#&nbsp;rm&nbsp;-rf&nbsp;/mnt/Windows/System32/Ms2EE39E00App.dll
+</pre><p><em>(розмонтування&nbsp;системного&nbsp;розділу)</em></p><pre class="ql-syntax" spellcheck="false">#&nbsp;umount&nbsp;/mnt/
+</pre><p><br></p><p><em><u>ВАЖЛИВО</u>: В будь-якому з випадків, з метою уникнення повторного інфікування через механізм саморозповсюдження бекдору, перш ніж виконати будь-які з вищеперелічених дій необхідно увімкнути штатний мережевий екран операційної системи ("Брендмауер") та створити правило для блокування </em><strong><em>вхідних</em></strong><em> інформаційних потоків на мережеві порти: 135, 137, 139, 445.</em></p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">843b9a7dac964a9d242b8174e8d16227&nbsp; &nbsp; 6d817e8cd54c3a21f6d4aa437b16663a2a40b726014a8de1cbf9343101a0ab62&nbsp; &nbsp; MSI9BB2.tmp (DIRTYMOE MSI)
+c12241be2c41ae69187ca9faf83494ff&nbsp; &nbsp; 43eef76fa966395bde56b4e3812831ca75ad010e3b8216103358deb09bdc14d1&nbsp; &nbsp; C558B828.Png (DIRTYMOE MSI)
+191a5e1c2fab01634748e6f30c097fbd&nbsp; &nbsp; 3eea47b22bc68089440a40b3f899665e3584c845d8c302872e1d93b62fa59fab&nbsp; &nbsp; sysupdate.log
+8c0768c82df223bebe24375f5964d2bb&nbsp; &nbsp; e8e529957fda9fc2c271d3fed6fe744bb62b3f5d3f47db0b6e45afdd7c9fd9fc&nbsp; &nbsp; winupdate32.log
+1c17d105e0ad36459ac40fbf1aec6f95&nbsp; &nbsp; 6dc323456042048bdd0260c87e0deea082c855c53b6f948dbb5be27a3d721ded&nbsp; &nbsp; winupdate64.log
+c6a26ec425627730c0e17c5e68ad7ee8&nbsp; &nbsp; ea4c2f895f7b1c46aa8de559e7a6d8201b49437332d6d5e859052276db50c6c4&nbsp; &nbsp; winupdate64.log.unpacked
+f9eac6143f31bdb4ea5bf8cc8017c7bf&nbsp; &nbsp; c4c6f2c4452a540b2c69dc6164887d6014f6ab02d203bb56753c89863e840e46&nbsp; &nbsp; KewDriver32L.bin
+f6284c8a22be3be7bc57e14533295584&nbsp; &nbsp; aaba7db353eb9400e3471eaaa1cf0105f6d1fab0ce63f1a2665c8ba0e8963a05&nbsp; &nbsp; KewDriver64L.bin
+9620e0d47aa20f31ac21a2fc2de21f46&nbsp; &nbsp; d627d4b6b8e15c4538776d8dcb03c4029b461144f921589655509b9f4aab4c65&nbsp; &nbsp; KewSetupAs32.bin
+a7f8fa8f44034ab8176e02f15ebae504&nbsp; &nbsp; f957af223174a135b23c48e40a4de50494737f3d6e10e193510446e27ebb7595&nbsp; &nbsp; KewRunCode.bin
+135605de47aaad4140bdce443b24b24d&nbsp; &nbsp; 326bb4222a2f42d4f4ca455fbe97c7ae0784fb14538b0f5d4f5088acb981fbe9&nbsp; &nbsp; KewSetupAs64.bin
+b5f85c26d7aa5a1fb4af5821b6b5ab9b&nbsp; &nbsp; b3b5fff57040c801a4392da2af83f4bf6200c575aa4a64ab9a135b58aa516080&nbsp; &nbsp; KewDriver32H.bin
+80ea4b5ada49ae2f18a62aa16665e060&nbsp; &nbsp; 29db0e21d078018f85bea7c0906a7894a4b78e74707f1cbac8f9f462eaecad23&nbsp; &nbsp; KewNetCode.bin
+75540c21874be37b2087de213b2f55c2&nbsp; &nbsp; eb29edd6211836e6d1877a1658e648beb749091ce7d459dbd82dc57c84bc52b1&nbsp; &nbsp; KewDriver64H.bin
+fde752850864fc4dde67f5da7e44b176&nbsp; &nbsp; 937e0068356e42654c9ab76cc34cf74dfa4c17b29e9439ebaa15d587757b14b0&nbsp; &nbsp; MsE96454E6App.dll (DIRTYMOE)
+f12332acf2b94bda02eabb5a5d24d179&nbsp; &nbsp; 31f50cb8ae6d41a410a39efd020ea0ed05add98df48c4257dfb8441bc6c57856&nbsp; &nbsp; TKE96454E6MS.sdb
+a240accad68ced374b9e90bb0b642d9f&nbsp; &nbsp; 395a3bd57246241f2c2b5efc427afbf5083facbde30b0199335f4102f73b8ae6&nbsp; &nbsp; RCE96454E6MS.sdb
+ae5fa12b6862cf49f5f44a4bfcdbfd0a&nbsp; &nbsp; 3184ecf43310e2487be0073a6041d292dab1f176560edf2e8e60d594ad5d2ab2&nbsp; &nbsp; DBE96454E6MK.sdb
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">C:\Program Files\dvhvA\dvhvA
+C:\Temp\MSI9BB2.tmp
+C:\Windows\AppPatch\DBAB4E9928MK.sdb
+C:\Windows\AppPatch\DBBA4B6B3AMK.sdb
+C:\Windows\AppPatch\DBE96454E6MK.sdb
+C:\Windows\AppPatch\RCAB4E9928MS.sdb
+C:\Windows\AppPatch\RCBA4B6B3AMS.sdb
+C:\Windows\AppPatch\RCE96454E6MS.sdb
+C:\Windows\AppPatch\TKAB4E9928MS.sdb
+C:\Windows\AppPatch\TKBA4B6B3AMS.sdb
+C:\Windows\AppPatch\TKE96454E6MS.sdb
+C:\Windows\System32\MsAB4E9928App.dll
+C:\Windows\System32\MsBA4B6B3AApp.dll
+C:\Windows\System32\MsE96454E6App.dll
+HKEY_LOCAL_MACHINE\ControlSet001\Services\AC0[0-9] (WindowsXP)
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\MsE96454E6App
+HKEY_LOCAL_MACHINE\System\ControlSet001\services\MsAB4E9928App
+HKEY_LOCAL_MACHINE\Software\Microsoft\DirectPlay8\Direct3D
+(додаткові артефакти)
+HKEY_LOCAL_MACHINE\System\ControlSet001\Control\SafeBoot\Minimal\dump_BA4B6B3A.sys
+HKEY_LOCAL_MACHINE\System\ControlSet001\Control\SafeBoot\Minimal\MsAB4E9928App
+HKEY_LOCAL_MACHINE\System\ControlSet001\Control\SafeBoot\Minimal\MsBA4B6B3AApp
+HKEY_LOCAL_MACHINE\System\ControlSet001\Control\SafeBoot\Network\MsAB4E9928App
+HKEY_LOCAL_MACHINE\System\ControlSet001\Control\SafeBoot\Network\MsBA4B6B3AApp
+HKEY_LOCAL_MACHINE\System\ControlSet001\Enum\Root\LEGACY_DUMP_BA4B6B3A
+HKEY_LOCAL_MACHINE\System\ControlSet001\Enum\Root\LEGACY_DUMP_LUAFV
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">hXXp://103[.]39.232.29:18601/C558B828[.]Png
+hXXp://103[.]73.161.184:17487/C558B828[.]Png
+hXXp://103[.]97.202.40:11592/08388E25[.]Png
+hXXp://110[.]45.196.155:14753/C558B828[.]Png
+hXXp://112[.]26.121.7:19139/C558B828[.]Png
+hXXp://113[.]161.145.95:19153/C558B828[.]Png
+hXXp://114[.]244.48.11:19650/C558B828[.]Png
+hXXp://118[.]97.59.84:18079/C558B828[.]Png
+hXXp://121[.]201.103.253:18101/C558B828[.]Png
+hXXp://121[.]22.124.78:17535/C558B828[.]Png
+hXXp://123[.]192.32.191:18102/C558B828[.]Png
+hXXp://138[.]68.78.116:11016/08388E25[.]Png
+hXXp://138[.]68.78.116:11016/C558B828[.]Png
+hXXp://144[.]172.122.165:15673/C558B828[.]Png
+hXXp://149[.]88.77.33:19566/C558B828[.]Png
+hXXp://159[.]89.31.59:16801/08388E25[.]Png
+hXXp://160[.]3.221.54:15591/08388E25[.]Png
+hXXp://160[.]3.221.54:15591/C558B828[.]Png
+hXXp://170[.]246.224.162:15427/08388E25[.]Png
+hXXp://170[.]246.224.162:15427/C558B828[.]Png
+hXXp://172[.]93.220.105:20127/08388E25[.]Png
+hXXp://172[.]93.220.105:20127/C558B828[.]Png
+hXXp://173[.]230.225.13:11843/C558B828[.]Png
+hXXp://178[.]128.103.246:17880/08388E25[.]Png
+hXXp://178[.]128.103.246:17880/C558B828[.]Png
+hXXp://187[.]189.218.211:16789/C558B828[.]Png
+hXXp://187[.]39.137.14:12399/C558B828[.]Png
+hXXp://187[.]84.208.218:17009/C558B828[.]Png
+hXXp://190[.]111.12.242:17742/C558B828[.]Png
+hXXp://192[.]250.197.178:16932/08388E25[.]Png
+hXXp://195[.]154.237.3:20175/C558B828[.]Png
+hXXp://195[.]189.28.244:17807/C558B828[.]Png
+hXXp://201[.]230.62.167:15840/C558B828[.]Png
+hXXp://212[.]233.205.81:17849/08388E25[.]Png
+hXXp://212[.]233.205.81:17849/C558B828[.]Png
+hXXp://219[.]150.217.124:11825/08388E25[.]Png
+hXXp://219[.]150.217.124:11825/C558B828[.]Png
+hXXp://220[.]194.177.52:14975/C558B828[.]Png
+hXXp://221[.]199.171.174:16543/08388E25[.]Png
+hXXp://221[.]199.171.174:16543/C558B828[.]Png
+hXXp://221[.]230.11.85:18156/C558B828[.]Png
+hXXp://222[.]186.134.123:11700/08388E25[.]Png
+hXXp://222[.]92.147.235:17538/C558B828[.]Png
+hXXp://36[.]7.175.92:18879/08388E25[.]Png
+hXXp://36[.]7.175.92:18879/C558B828[.]Png
+hXXp://41[.]33.183.69:19811/C558B828[.]Png
+hXXp://60[.]223.244.12:11053/C558B828[.]Png
+hXXp://61[.]146.235.242:17770/C558B828[.]Png
+hXXp://61[.]160.233.68:19583/C558B828[.]Png
+hXXp://64[.]227.152.193:18336/08388E25[.]Png
+hXXp://64[.]227.152.193:18336/C558B828[.]Png
+hXXp://74[.]96.232.10:19408/C558B828[.]Png
+hXXp://85[.]191.122.242:17756/C558B828[.]Png
+hXXp://89[.]111.243.60:17320/08388E25[.]Png
+hXXp://8[.]137.17.159:15066/C558B828[.]Png
+hXXp://91[.]135.200.114:10872/C558B828[.]Png
+rpc.1qw[.]us
+ret.6bc[.]us
+kew.1qw[.]us
+kew.8df[.]us
+nk.1qw[.]us
+(Перелік IP-адрес наведено в додатку)
+</pre><p><strong>Графічні зображення</strong></p><p>Рис.1 Індикатори ураження в реєстрі операційної системи (доступні у штатному режимі)</p><p><br></p><p></p><p>Рис.2 Сервіс, що забезпечує персистентність бекдору (не доступно в штатному режимі)</p><p><br></p><p></p><p>Рис.3 Приклад запису з журналу подій "Application" (ідентифікатори подій: 1040, 1042)</p><p><br></p><p></p><p>Рис.4 Приклад сканування ЕОМ за допомогою Avast</p><p><br></p><p><strong>Використані матеріали</strong></p><p>[1]<a href="https://decoded.avast.io/tag/dirtymoe/" rel="noopener noreferrer" target="_blank">https://decoded.avast.io/tag/dirtymoe/</a></p><p>[2]<a href="https://www.trendmicro.com/en_us/research/21/l/a-look-into-purple-fox-server-infrastructure.html" rel="noopener noreferrer" target="_blank">https://www.trendmicro.com/en_us/research/21/l/a-look-into-purple-fox-server-infrastructure.html</a></p><p><br></p><p><strong>Додатки</strong></p><p><em>Список IP-адрес (IP,CC,ASN,ISP) проміжних управляючих вузлів DIRTYMOE (станом на 31.01.2024)</em></p><pre class="ql-syntax" spellcheck="false">103.39.232.29	CN	4816	China Telecom (Group)
+103.97.202.40	ID	136831	DINAS KOMUNIKASI DAN INFORMATIKA KUTAI KARTANEGARA
+114.244.48.11	CN	4808	China Unicom Beijing Province Network
+118.97.59.84	ID	7713	PT Telekomunikasi Indonesia
+149.88.77.33	HK	142032	High Family Technology Co., Limited
+160.3.221.54	US	11492	CABLE ONE, INC.
+170.246.224.162	BR	264051	PROVEDOR ACTION
+187.189.218.211	MX	22884	TOTAL PLAY TELECOMUNICACIONES SA DE CV
+187.39.137.14	BR	28573	Claro NXT Telecomunicacoes Ltda
+187.84.208.218	BR	25933	Vogel Soluções em Telecom e Informática S/A
+192.250.197.178	US	40065	CNSERVERS LLC
+201.230.62.167	PE	6147	Telefonica del Peru S.A.A.
+212.233.205.81	BG	29582	Optisprint OOD
+219.150.217.124	CN	139019	Henan Xinxiang MAN
+221.230.11.85	CN	4134	CHINANET-BACKBONE
+60.223.244.12	CN	4837	CHINA UNICOM China169 Backbone
+61.160.233.68	CN	4134	CHINANET-BACKBONE
+85.191.122.242	DK	204274	Aura Fiber OE A/S
+8.137.17.159	CN	37963	Hangzhou Alibaba Advertising Co.,Ltd.
+
+
+41.111.188.14	DZ	36947	Telecom Algeria
+64.227.152.193	IN	14061	DigitalOcean, LLC
+103.224.54.210	IN	134922	R G TECHNOSOLUTIONS PVT LTD
+112.26.121.7	CN	9808	China Mobile Communications Group Co., Ltd.
+165.227.32.93	CA	14061	DigitalOcean, LLC
+78.38.31.71   	IR	58224	Iran Telecommunication Company PJS
+172.93.220.105	JP	3258	xTom Pty Ltd
+74.96.232.10	US	701 	Verizon Business
+198.199.80.121	US	14061	DigitalOcean, LLC
+222.178.221.62	CN	4134	CHINANET-BACKBONE
+190.111.12.242	GT	26617	Navega.com S.A.
+171.240.222.180	VN	7552	Viettel Group
+211.56.181.63	KR	9457	DREAMLINE CO.
+124.113.228.247	CN	4134	CHINANET-BACKBONE
+170.64.177.69	AU	14061	DigitalOcean, LLC
+159.89.31.59	DE	14061	DigitalOcean, LLC
+113.108.223.140	CN	4134	CHINANET-BACKBONE
+1.197.79.9  	CN	4134	CHINANET-BACKBONE
+206.189.97.95	NL	14061	DigitalOcean, LLC
+195.189.28.244	KZ	35104	Jusan Mobile JSC
+183.167.230.197	CN	4134	CHINANET-BACKBONE
+111.180.195.131	CN	148981	China Telecom
+149.88.81.77	HK	142032	High Family Technology Co., Limited
+14.241.97.145	VN	45899	VNPT Corp
+115.230.124.61	CN	58461	CT-HangZhou-IDC
+213.57.139.219	IL	12849	Hot-Net internet services Ltd.
+83.239.69.74	RU	25490	PJSC Rostelecom
+138.68.78.116	DE	14061	DigitalOcean, LLC
+121.22.93.50	CN	4837	CHINA UNICOM China169 Backbone
+192.100.188.37	MX	28414	TOTAL PLAY TELECOMUNICACIONES SA DE CV
+202.150.128.38	ID	23949	PT Comtronics Systems
+2.57.19.149 	NL	204914	LABIXE LTD
+39.77.236.66	CN	4837	CHINA UNICOM China169 Backbone
+103.103.200.23	CN	139019	Henan Xinxiang MAN
+91.214.48.197	UA	196767	INMART.UA LLC
+124.133.2.5  	CN	4837	CHINA UNICOM China169 Backbone
+217.115.186.99	RU	12714	PJSC MegaFon
+202.150.153.147	ID	23949	PT Comtronics Systems
+115.230.124.85	CN	58461	CT-HangZhou-IDC
+221.3.12.164	CN	4837	CHINA UNICOM China169 Backbone
+178.128.103.246	SG	14061	DigitalOcean, LLC
+211.233.4.236	KR	3786	LG DACOM Corporation
+92.46.30.210	KZ	9198	JSC Kazakhtelecom
+111.180.195.36	CN	148981	China Telecom
+12.24.187.179	US	7018	AT&amp;T Services, Inc.
+117.40.91.24	CN	4134	CHINANET-BACKBONE
+121.201.103.253	CN	38372	RJNET
+91.135.200.114	KZ	29046	Radiobaylanys LLP
+115.238.49.107	CN	4134	CHINANET-BACKBONE
+115.231.24.90	CN	58461	CT-HangZhou-IDC
+218.93.208.83	CN	4134	CHINANET-BACKBONE
+115.79.139.170	VN	7552	Viettel Group
+103.88.132.28	IN	134942	Ashok Secure Broadband Network Pvt Ltd
+113.160.235.95	VN	45899	VNPT Corp
+61.174.50.57	CN	4134	CHINANET-BACKBONE
+189.69.112.198	BR	27699	TELEFÔNICA BRASIL S.A
+61.240.16.107	CN	4837	CHINA UNICOM China169 Backbone
+103.233.65.226	IN	17465	Cable ISP in India
+183.91.28.162	VN	45903	CMC Telecom Infrastructure Company
+58.240.33.194	CN	4837	CHINA UNICOM China169 Backbone
+222.222.251.45	CN	4134	CHINANET-BACKBONE
+216.155.88.202	CL	14117	Telefonica del Sur S.A.
+112.168.11.135	KR	4766	Korea Telecom
+8.137.23.237	CN	37963	Hangzhou Alibaba Advertising Co.,Ltd.
+185.74.7.91	    UZ	202660	"Uzbektelekom" Joint Stock Company
+104.154.116.45	US	396982	Google LLC
+34.92.241.209	HK	396982	Google LLC
+35.228.174.104	FI	396982	Google LLC
+58.221.252.210	CN	4134	CHINANET-BACKBONE
+58.33.95.52 	CN	4812	China Telecom (Group)
+222.88.151.59	CN	4134	CHINANET-BACKBONE
+117.102.112.68	ID	17451	BIZNET NETWORKS
+114.95.122.148	CN	4812	China Telecom (Group)
+58.255.77.21	CN	17816	China Unicom IP network China169 Guangdong province
+202.84.37.155	BD	9230	Bangladesh Online Ltd.
+117.34.25.187	CN	4835	China Telecom (Group)
+111.42.237.27	CN	132525	HeiLongJiang Mobile Communication Company Limited
+201.99.98.88	MX	8151	UNINET
+180.140.243.140	CN	4134	CHINANET-BACKBONE
+222.174.241.25	CN	4134	CHINANET-BACKBONE
+43.224.0.108	IN	45916	Gujarat Telelink Pvt Ltd
+41.32.227.82	EG	8452	TE-AS
+217.197.233.114	RU	24739	SEVEREN TELECOM
+203.188.255.179	BD	9832	ISN, Internet Service Provider
+222.85.139.162	CN	4134	CHINANET-BACKBONE
+123.124.30.228	CN	4808	China Unicom Beijing Province Network
+223.85.52.6	    CN	9808	China Mobile Communications Group Co., Ltd.
+114.250.24.64	CN	4808	China Unicom Beijing Province Network
+117.141.188.223	CN	9808	China Mobile Communications Group Co., Ltd.
+103.73.160.183	HK	142032	High Family Technology Co., Limited
+176.98.231.98	KZ	41798	JSC Transtelecom
+59.11.209.222	KR	4766	Korea Telecom
+156.224.63.191	HK	137951	ASLINE LIMITED
+171.12.188.109	CN	4134	CHINANET-BACKBONE
+42.62.11.218	CN	9808	China Mobile Communications Group Co., Ltd.
+60.3.123.17   	CN	4837	CHINA UNICOM China169 Backbone
+202.85.222.160	CN	4847	China Networks Inter-Exchange
+123.125.14.133	CN	4808	China Unicom Beijing Province Network
+61.178.26.173	CN	4134	CHINANET-BACKBONE
+103.149.90.237	HK	142032	High Family Technology Co., Limited
+218.57.241.47	CN	4837	CHINA UNICOM China169 Backbone
+45.125.47.204	CN	139180	Shandong eshinton Network Technology Co., Ltd.
+115.236.74.59	CN	4134	CHINANET-BACKBONE
+219.150.218.63	CN	139019	Henan Xinxiang MAN
+47.108.71.71	CN	37963	Hangzhou Alibaba Advertising Co.,Ltd.
+103.38.252.34	CN	4812	China Telecom (Group)
+218.92.206.82	CN	4134	CHINANET-BACKBONE
+113.56.215.2	CN	4837	CHINA UNICOM China169 Backbone
+117.34.91.178	CN	4835	China Telecom (Group)
+111.85.88.103	CN	4837	CHINA UNICOM China169 Backbone
+185.238.45.200	IR	48359	Hesabgar Pardaz Gharb PJSC
+36.129.204.121	CN	56044	China Mobile communications corporation
+207.35.188.186	CA	577 	Bell Canada
+223.100.212.200	CN	56044	China Mobile communications corporation
+112.49.39.132	CN	9808	China Mobile Communications Group Co., Ltd.
+60.190.243.74	CN	58461	CT-HangZhou-IDC
+192.203.145.199	KR	9459	Konkuk University
+47.109.94.20	CN	37963	Hangzhou Alibaba Advertising Co.,Ltd.
+106.12.252.5	CN	134768	CHINANET SHAANXI province Cloud Base network
+41.32.245.167	EG	8452	TE-AS
+223.75.204.52	CN	9808	China Mobile Communications Group Co., Ltd.
+103.134.56.169	BD	138600	Achiever Broadband Internet
+121.201.65.116	CN	38372	RJNET
+61.147.103.131	CN	137697	CHINATELECOM JiangSu YangZhou IDC networkdescr: YangZhou , Jiangsu Province, P.R.China.
+58.221.101.138	CN	4134	CHINANET-BACKBONE
+211.147.232.181	CN	134773	CHINANET Guangdong province Guangzhou MAN network
+47.108.31.207	CN	37963	Hangzhou Alibaba Advertising Co.,Ltd.
+41.38.60.12 	EG	8452	TE-AS
+61.181.65.248	CN	4837	CHINA UNICOM China169 Backbone
+141.98.190.19	US	18978	Enzu Inc
+196.221.144.23	EG	24835	Vodafone Data
+88.250.186.238	TR	9121	Turk Telekomunikasyon Anonim Sirketi
+61.139.155.237	CN	4837	CHINA UNICOM China169 Backbone
+2.32.162.61 	IT	30722	Vodafone Italia S.p.A.
+60.10.60.167	CN	4837	CHINA UNICOM China169 Backbone
+47.109.105.41	CN	37963	Hangzhou Alibaba Advertising Co.,Ltd.
+1.14.140.47 	CN	45090	Shenzhen Tencent Computer Systems Company Limited
+222.188.85.232	CN	4134	CHINANET-BACKBONE
+222.186.134.123	CN	4134	CHINANET-BACKBONE
+183.6.28.254	CN	4134	CHINANET-BACKBONE
+200.111.56.44	CL	27651	ENTEL CHILE S.A.
+103.39.232.33	CN	4816	China Telecom (Group)
+114.135.61.205	CN	4134	CHINANET-BACKBONE
+178.157.12.206	TR	42807	Aerotek Bilisim Sanayi ve Ticaret AS
+183.245.37.223	CN	56041	China Mobile communications corporation
+110.93.244.146	PK	135407	Trans World Enterprise Services (Private) Limited
+190.201.217.133	VE	8048	CANTV Servicios, Venezuela
+142.149.135.21	CA	393952	Service Alberta
+145.172.220.183	NL	NoASN	NoISP
+60.170.59.138	CN	4134	CHINANET-BACKBONE
+222.212.84.184	CN	4134	CHINANET-BACKBONE
+36.135.78.19	CN	134810	China Mobile Group JiLin communications corporation
+103.149.92.254	HK	142032	High Family Technology Co., Limited
+111.9.29.235	CN	9808	China Mobile Communications Group Co., Ltd.
+61.247.233.134	IN	24560	Bharti Airtel Ltd., Telemedia Services
+123.59.230.34	CN	9808	China Mobile Communications Group Co., Ltd.
+72.255.233.216	HK	4760	HKT Limited
+182.180.110.125	PK	17557	Pakistan Telecommunication Company Limited
+61.153.148.51	CN	4134	CHINANET-BACKBONE
+112.30.158.228	CN	9808	China Mobile Communications Group Co., Ltd.
+195.154.237.3	FR	12876	SCALEWAY S.A.S.
+120.78.120.250	CN	37963	Hangzhou Alibaba Advertising Co.,Ltd.
+185.136.183.240	IR	51235	ARAAX DADEH GOSTAR information and communication Development Co (Private Joint Stock)
+221.199.171.174	CN	4837	CHINA UNICOM China169 Backbone
+223.75.237.39	CN	9808	China Mobile Communications Group Co., Ltd.
+124.70.202.82	CN	55990	Huawei Cloud Service data center
+123.59.195.28	CN	9808	China Mobile Communications Group Co., Ltd.
+60.170.183.101	CN	4134	CHINANET-BACKBONE
+114.98.95.44	CN	4134	CHINANET-BACKBONE
+113.18.255.253	CN	9808	China Mobile Communications Group Co., Ltd.
+125.211.217.14	CN	4837	CHINA UNICOM China169 Backbone
+183.223.86.103	CN	9808	China Mobile Communications Group Co., Ltd.
+139.211.28.203	CN	4837	CHINA UNICOM China169 Backbone
+58.220.41.126	CN	137697	CHINATELECOM JiangSu YangZhou IDC networkdescr: YangZhou , Jiangsu Province, P.R.China.
+210.64.173.5	TW	4780	Digital United Inc.
+36.154.186.147	CN	56046	China Mobile communications corporation
+103.150.142.75	IN	133296	Web Werks India Pvt. Ltd.
+111.47.22.111	CN	9808	China Mobile Communications Group Co., Ltd.
+112.31.26.68	CN	9808	China Mobile Communications Group Co., Ltd.
+211.137.1.169	CN	56044	China Mobile communications corporation
+196.218.136.178	EG	8452	TE-AS
+112.16.228.66	CN	56041	China Mobile communications corporation
+154.220.251.124	HK	139471	HWA CENT TELECOMMUNICATIONS LIMITED
+41.174.104.229	ZW	30844	Liquid Telecommunications Ltd
+212.16.167.25	SE	12552	GlobalConnect AB
+59.188.3.135	HK	10103	HK Broadband Network Ltd.
+60.216.100.210	CN	4837	CHINA UNICOM China169 Backbone
+103.73.161.184	HK	142032	High Family Technology Co., Limited
+222.217.69.29	CN	4134	CHINANET-BACKBONE
+5.201.191.235	IR	50810	Mobin Net Communication Company (Private Joint Stock)
+182.70.244.185	IN	24560	Bharti Airtel Ltd., Telemedia Services
+211.101.234.138	CN	58519	Cloud Computing Corporation
+59.44.198.162	CN	4134	CHINANET-BACKBONE
+110.45.196.155	KR	3786	LG DACOM Corporation
+45.207.27.18	HK	132698	Shenzhen Balian Network Technology Co., Ltd
+116.53.194.243	CN	4134	CHINANET-BACKBONE
+111.207.115.78	CN	4808	China Unicom Beijing Province Network
+223.72.134.186	CN	56048	China Mobile Communicaitons Corporation
+121.22.124.78	CN	4837	CHINA UNICOM China169 Backbone
+93.57.51.184	IT	12874	Fastweb SpA
+103.136.5.30	ID	38320	PT Maxindo Mitra Solusi
+119.28.16.48	HK	132203	Tencent Building, Kejizhongyi Avenue
+123.192.32.191	TW	38841	kbro CO. Ltd.
+112.103.156.113	CN	4134	CHINANET-BACKBONE
+194.54.90.57	UA	41665	Tehnologii Budushego LLC
+219.129.236.26	CN	4134	CHINANET-BACKBONE
+78.187.138.37	TR	9121	Turk Telekomunikasyon Anonim Sirketi
+61.146.235.242	CN	4134	CHINANET-BACKBONE
+121.18.196.126	CN	4837	CHINA UNICOM China169 Backbone
+27.223.74.74	CN	4837	CHINA UNICOM China169 Backbone
+182.106.136.45	CN	139201	Jiangxi Jiujiang IDC
+103.205.176.27	PK	38713	Broadband ISP, FTTH and Cable Service Provider
+219.150.218.173	CN	139019	Henan Xinxiang MAN
+91.98.126.48	IR	16322	Parsan Lin Co. PJS
+47.190.115.94	US	5650	Frontier Communications of America, Inc.
+222.92.147.235	CN	4134	CHINANET-BACKBONE
+101.231.201.234	CN	4812	China Telecom (Group)
+117.175.45.187	CN	9808	China Mobile Communications Group Co., Ltd.
+112.5.173.118	CN	9808	China Mobile Communications Group Co., Ltd.
+114.246.195.20	CN	4808	China Unicom Beijing Province Network
+176.33.138.186	TR	34984	Superonline Iletisim Hizmetleri A.S.
+103.149.92.208	HK	142032	High Family Technology Co., Limited
+181.65.199.34	PE	6147	Telefonica del Peru S.A.A.
+220.194.177.52	CN	4837	CHINA UNICOM China169 Backbone
+39.77.20.4  	CN	4837	CHINA UNICOM China169 Backbone
+121.46.232.15	CN	4811	China Telecom (Group)
+119.127.56.228	CN	4134	CHINANET-BACKBONE
+27.151.0.68  	CN	133774	Fuzhou
+173.230.225.13	US	27229	Webhosting.Net, Inc.
+180.178.35.226	HK	45753	Netsec Limited
+45.66.8.143 	NL	204601	Zomro B.V.
+61.147.69.83	CN	137697	CHINATELECOM JiangSu YangZhou IDC networkdescr: YangZhou , Jiangsu Province, P.R.China.
+156.234.80.170	HK	136800	MOACK.Co.LTD
+47.108.169.104	CN	37963	Hangzhou Alibaba Advertising Co.,Ltd.
+39.155.249.143	CN	56048	China Mobile Communicaitons Corporation
+92.204.241.140	FR	29066	velia.net Internetdienste GmbH
+61.181.131.90	CN	4837	CHINA UNICOM China169 Backbone
+125.118.218.28	CN	4134	CHINANET-BACKBONE
+123.59.195.147	CN	9808	China Mobile Communications Group Co., Ltd.
+5.201.163.11	IR	50810	Mobin Net Communication Company (Private Joint Stock)
+222.73.204.186	CN	4812	China Telecom (Group)
+121.17.222.30	CN	4837	CHINA UNICOM China169 Backbone
+103.28.204.82	CN	4837	CHINA UNICOM China169 Backbone
+103.161.31.10	IN	18229	CtrlS
+79.127.41.100	IR	43754	Asiatech Data Transmission company
+220.173.103.242	CN	4134	CHINANET-BACKBONE
+49.156.148.22	IN	17483	CityOnline Services Ltd
+218.15.171.38	CN	4134	CHINANET-BACKBONE
+120.211.1.52	CN	24547	Hebei Mobile Communication Company Limited
+103.148.245.46	HK	142032	High Family Technology Co., Limited
+156.224.63.33	HK	137951	ASLINE LIMITED
+219.139.134.179	CN	4134	CHINANET-BACKBONE
+88.249.94.231	TR	9121	Turk Telekomunikasyon Anonim Sirketi
+124.133.2.46	CN	4837	CHINA UNICOM China169 Backbone
+113.137.46.2	CN	134768	CHINANET SHAANXI province Cloud Base network
+60.167.184.160	CN	140527	China Telecom
+79.173.251.117	JO	8376	Jordan Data Communications Company LLC
+111.180.195.168	CN	148981	China Telecom
+84.23.38.142	RU	29319	Informational-measuring systems Ltd.
+61.147.107.94	CN	137697	CHINATELECOM JiangSu YangZhou IDC networkdescr: YangZhou , Jiangsu Province, P.R.China.
+180.71.56.200	KR	9318	SK Broadband Co Ltd
+41.203.223.149	KE	37061	Safaricom Limited
+188.165.124.181	FR	16276	OVH SAS
+220.160.23.161	CN	4134	CHINANET-BACKBONE
+39.109.88.38	HK	137969	HONG KONG BRIDGE INFO-TECH LIMITED
+103.243.26.157	HK	55933	Cloudie Limited
+124.163.218.57	CN	4837	CHINA UNICOM China169 Backbone
+222.222.182.35	CN	140903	CHINA TELECOM
+218.27.147.162	CN	4837	CHINA UNICOM China169 Backbone
+124.70.72.4 	CN	55990	Huawei Cloud Service data center
+117.187.66.174	CN	9808	China Mobile Communications Group Co., Ltd.
+36.158.133.177	CN	56047	China Mobile communications corporation
+47.104.66.145	CN	37963	Hangzhou Alibaba Advertising Co.,Ltd.
+103.218.25.69	BD	63526	Systems Solutions &amp; development Technologies Limited
+222.186.139.109	CN	4134	CHINANET-BACKBONE
+122.227.165.190	CN	4134	CHINANET-BACKBONE
+121.8.155.165	CN	4134	CHINANET-BACKBONE
+222.73.29.92	CN	4812	China Telecom (Group)
+110.170.166.6	TH	7470	TRUE INTERNET Co.,Ltd.
+61.178.43.239	CN	4134	CHINANET-BACKBONE
+122.166.203.170	IN	24560	Bharti Airtel Ltd., Telemedia Services
+110.78.114.244	TH	9931	The Communication Authoity of Thailand, CAT
+120.224.30.161	CN	24444	Shandong Mobile Communication Company Limited
+120.234.137.106	CN	9808	China Mobile Communications Group Co., Ltd.
+103.38.5.12 	IN	133597	Max tech media and communications pvt ltd
+103.149.93.168	HK	142032	High Family Technology Co., Limited
+122.160.253.219	IN	24560	Bharti Airtel Ltd., Telemedia Services
+103.149.92.50	HK	142032	High Family Technology Co., Limited
+122.185.161.11	IN	9498	BHARTI Airtel Ltd.
+110.173.183.91	IN	17426	Primesoftex Ltd
+103.113.231.38	IN	136342	Winux Communications Pvt. Ltd.
+202.65.170.151	BD	38592	Chittagong Online Limited AS38592 AP
+113.120.46.132	CN	4134	CHINANET-BACKBONE
+210.18.155.246	IN	17488	Hathway IP Over Cable Internet
+91.140.239.162	KW	3225	GULFNET COMMUNICATIONS CO. WLL
+47.109.70.125	CN	37963	Hangzhou Alibaba Advertising Co.,Ltd.
+121.37.136.106	CN	55990	Huawei Cloud Service data center
+202.12.80.91	IN	56224	PRISAC AVIATION TECHNOLOGIES PRIVATE LIMITED
+107.173.189.10	US	36352	HostPapa
+223.72.154.33	CN	56048	China Mobile Communicaitons Corporation
+218.63.252.159	CN	4134	CHINANET-BACKBONE
+3.249.36.102	IE	16509	Amazon.com, Inc.
+61.136.101.37	CN	4837	CHINA UNICOM China169 Backbone
+116.16.38.18	CN	4134	CHINANET-BACKBONE
+61.160.235.31	CN	4134	CHINANET-BACKBONE
+180.136.236.77	CN	4134	CHINANET-BACKBONE
+83.69.8.29  	RU	21191	Joint Stock Company TransTeleCom
+58.240.123.42	CN	4837	CHINA UNICOM China169 Backbone
+202.114.234.222	CN	4538	China Education and Research Network Center
+58.64.186.47	HK	17444	HKBN Enterprise Solutions Limited
+159.138.229.182	TH	136907	HUAWEI CLOUDS
+200.145.63.8	BR	53166	UNIVERSIDADE ESTADUAL PAULISTA
+61.147.108.22	CN	137697	CHINATELECOM JiangSu YangZhou IDC networkdescr: YangZhou , Jiangsu Province, P.R.China.
+117.177.73.246	CN	9808	China Mobile Communications Group Co., Ltd.
+115.240.198.102	IN	55836	Reliance Jio Infocomm Limited
+114.215.78.39	CN	37963	Hangzhou Alibaba Advertising Co.,Ltd.
+218.77.63.13	CN	4134	CHINANET-BACKBONE
+14.17.76.133	CN	4134	CHINANET-BACKBONE
+183.242.69.194	CN	56048	China Mobile Communicaitons Corporation
+36.7.175.92 	CN	4134	CHINANET-BACKBONE
+58.217.104.137	CN	4134	CHINANET-BACKBONE
+88.225.229.216	TR	9121	Turk Telekomunikasyon Anonim Sirketi
+103.215.205.147	IN	134004	Foxtel Telecommunications Pvt. Ltd.
+59.175.137.34	CN	4134	CHINANET-BACKBONE
+197.243.42.22	RW	37228	KT RWANDA NETWORK Ltd
+117.34.109.54	CN	4835	China Telecom (Group)
+222.134.42.85	CN	4837	CHINA UNICOM China169 Backbone
+203.128.8.5 	PK	17911	Brain Telecommunication Ltd.
+191.222.228.67	BR	8167	V tal
+165.16.112.186	LY	37284	Aljeel Aljadeed For Technology
+39.170.71.90	CN	56041	China Mobile communications corporation
+60.172.55.213	CN	4134	CHINANET-BACKBONE
+122.226.232.206	CN	4134	CHINANET-BACKBONE
+58.27.195.92	PK	38264	National WiMAX/IMS environment
+89.146.53.113	NL	28685	Routit BV
+172.86.180.106	US	19969	Joe's Datacenter, LLC
+195.135.213.128	RU	8774	OOO Kompaniya Etype
+202.148.2.222	ID	9794	PT. Core Mediatech (D-NET)
+120.202.191.60	CN	9808	China Mobile Communications Group Co., Ltd.
+112.6.210.212	CN	24444	Shandong Mobile Communication Company Limited
+110.53.71.110	CN	4837	CHINA UNICOM China169 Backbone
+144.48.227.75	IN	23860	Alliance Broadband Services Pvt. Ltd.
+27.123.249.22	IN	133278	Dehradun Enet Solutions Private Ltd
+180.97.215.95	CN	4134	CHINANET-BACKBONE
+103.151.53.138	VN	135918	VIET DIGITAL TECHNOLOGY LIABILITY COMPANY
+117.34.25.161	CN	4835	China Telecom (Group)
+122.176.21.43	IN	24560	Bharti Airtel Ltd., Telemedia Services
+217.131.25.154	TR	34984	Superonline Iletisim Hizmetleri A.S.
+220.185.144.22	CN	4134	CHINANET-BACKBONE
+58.56.164.82	CN	4134	CHINANET-BACKBONE
+156.224.63.3	HK	137951	ASLINE LIMITED
+14.194.76.98	IN	45820	Tata Teleservices ISP AS
+103.226.141.208	IN	55352	Microscan Infocommtech Private Limited
+211.58.255.26	KR	9318	SK Broadband Co Ltd
+122.226.37.50	CN	4134	CHINANET-BACKBONE
+41.111.188.21	DZ	36947	Telecom Algeria
+156.224.63.192	HK	137951	ASLINE LIMITED
+148.235.156.153	MX	8151	UNINET
+60.10.64.51 	CN	4837	CHINA UNICOM China169 Backbone
+111.26.164.238	CN	134810	China Mobile Group JiLin communications corporation
+41.111.165.18	DZ	36947	Telecom Algeria
+154.236.171.163	EG	36992	ETISALAT MISR
+111.198.38.230	CN	4808	China Unicom Beijing Province Network
+202.129.7.92	TH	9931	The Communication Authoity of Thailand, CAT
+217.219.88.22	IR	58224	Iran Telecommunication Company PJS
+124.107.139.69	PH	9299	Philippine Long Distance Telephone Company
+121.52.156.44	PK	45773	PERN AS Content Servie Provider, Islamabad, Pakistan
+60.10.1.45  	CN	4837	CHINA UNICOM China169 Backbone
+105.96.73.42	DZ	36947	Telecom Algeria
+103.47.181.124	PK	131471	Login.Me (Pvt) Ltd
+39.89.199.82	CN	4837	CHINA UNICOM China169 Backbone
+123.253.227.72	HK	18013	ASLINE LIMITED
+120.6.145.215	CN	4837	CHINA UNICOM China169 Backbone
+120.198.68.104	CN	9808	China Mobile Communications Group Co., Ltd.
+203.170.66.126	PK	17539	NetSol Connect
+111.207.70.158	CN	4808	China Unicom Beijing Province Network
+8.142.71.135	CN	37963	Hangzhou Alibaba Advertising Co.,Ltd.
+116.58.10.59	PK	17563	Autonomous System Number for Nexlinx
+192.250.197.90	US	40065	CNSERVERS LLC
+123.138.18.13	CN	4837	CHINA UNICOM China169 Backbone
+221.1.208.134	CN	4837	CHINA UNICOM China169 Backbone
+197.162.64.54	EG	24863	Link Egypt (Link.NET)
+175.9.189.81	CN	4134	CHINANET-BACKBONE
+171.217.71.15	CN	4134	CHINANET-BACKBONE
+121.52.91.78	ID	17885	PT XL Axiata Tbk
+178.163.142.2	BY	42772	Unitary enterprise A1
+36.129.152.17	CN	56044	China Mobile communications corporation
+218.93.148.142	CN	4134	CHINANET-BACKBONE
+220.178.14.30	CN	4134	CHINANET-BACKBONE
+222.71.98.206	CN	4812	China Telecom (Group)
+154.21.207.31	US	174 	Cogent Communications
+23.225.98.34	US	40065	CNSERVERS LLC
+211.181.173.2	KR	3786	LG DACOM Corporation
+117.176.173.180	CN	9808	China Mobile Communications Group Co., Ltd.
+197.134.249.157	EG	24835	Vodafone Data
+186.202.178.116	BR	27715	Locaweb Serviços de Internet S/A
+220.179.78.170	CN	4134	CHINANET-BACKBONE
+122.170.97.80	IN	24560	Bharti Airtel Ltd., Telemedia Services
+189.68.142.192	BR	27699	TELEFÔNICA BRASIL S.A
+122.156.224.22	CN	4837	CHINA UNICOM China169 Backbone
+115.28.180.250	CN	37963	Hangzhou Alibaba Advertising Co.,Ltd.
+103.23.144.53	VN	131349	Digital telecomminication service joint stock
+218.200.113.103	CN	9808	China Mobile Communications Group Co., Ltd.
+180.160.44.186	CN	4812	China Telecom (Group)
+61.163.1.158	CN	4837	CHINA UNICOM China169 Backbone
+111.93.35.141	IN	45820	Tata Teleservices ISP AS
+202.5.37.143	BD	45326	Broad Band Telecom Services Ltd
+223.87.43.14	CN	9808	China Mobile Communications Group Co., Ltd.
+122.185.161.13	IN	9498	BHARTI Airtel Ltd.
+222.85.107.148	CN	4134	CHINANET-BACKBONE
+103.186.100.35	VN	140817	ODS ONLINE DATA SOLUTION JOINT STOCK COMPANY
+139.196.35.32	CN	37963	Hangzhou Alibaba Advertising Co.,Ltd.
+82.194.18.42	AZ	60258	ENGINET LLC
+192.250.197.74	US	40065	CNSERVERS LLC
+112.30.131.68	CN	9808	China Mobile Communications Group Co., Ltd.
+183.62.179.180	CN	4134	CHINANET-BACKBONE
+117.4.113.117	VN	7552	Viettel Group
+60.15.204.34	CN	4837	CHINA UNICOM China169 Backbone
+120.24.1.55 	CN	37963	Hangzhou Alibaba Advertising Co.,Ltd.
+103.9.185.88	BD	63967	Bangla Trac Communications Ltd (ISP and Cloud Services)
+95.59.128.101	KZ	9198	JSC Kazakhtelecom
+45.7.228.51 	CL	52368	ZAM LTDA.
+45.232.214.129	BR	61614	67 TELECOM
+89.111.243.60	BA	25144	"Telekomunikacije Republike Srpske" akcionarsko drustvo Banja Luka
+185.82.202.152	NL	60117	Host Sailor Ltd
+117.220.198.37	IN	9829	National Internet Backbone
+109.74.70.14	TJ	24722	LLC Babilon-T
+125.64.228.173	CN	4134	CHINANET-BACKBONE
+196.219.45.202	EG	8452	TE-AS
+203.146.115.214	TH	4750	CS LOXINFO PUBLIC COMPANY LIMITED
+58.18.132.105	CN	4837	CHINA UNICOM China169 Backbone
+45.207.27.5 	HK	132698	Shenzhen Balian Network Technology Co., Ltd
+187.108.207.65	BR	53107	EVEO S.A.
+175.148.160.62	CN	4837	CHINA UNICOM China169 Backbone
+101.20.237.127	CN	4837	CHINA UNICOM China169 Backbone
+58.216.234.58	CN	4134	CHINANET-BACKBONE
+1.240.81.27 	KR	9318	SK Broadband Co Ltd
+59.95.101.125	IN	9829	National Internet Backbone
+117.40.91.23	CN	4134	CHINANET-BACKBONE
+61.177.56.98	CN	4134	CHINANET-BACKBONE
+222.175.21.126	CN	4134	CHINANET-BACKBONE
+47.109.106.251	CN	37963	Hangzhou Alibaba Advertising Co.,Ltd.
+83.239.7.166	RU	25490	PJSC Rostelecom
+114.199.75.134	TW	45250	Vocom International Telecommunications AP Area
+14.176.231.58	VN	45899	VNPT Corp
+186.114.153.47	CO	3816	COLOMBIA TELECOMUNICACIONES S.A. ESP
+124.248.64.97	CN	58461	CT-HangZhou-IDC
+123.160.10.201	CN	139019	Henan Xinxiang MAN
+122.3.86.105	PH	9299	Philippine Long Distance Telephone Company
+185.105.46.9	RU	8342	JSC RTComm.RU
+111.180.195.27	CN	148981	China Telecom
+181.188.185.214	BO	27882	Telefónica Celular de Bolivia S.A.
+14.17.76.202	CN	4134	CHINANET-BACKBONE
+102.187.121.71	EG	24835	Vodafone Data
+144.172.122.165	US	14956	RouterHosting LLC
+177.207.211.196	BR	18881	TELEFÔNICA BRASIL S.A
+118.70.131.216	VN	18403	FPT Telecom Company
+202.114.234.248	CN	4538	China Education and Research Network Center
+41.33.183.69	EG	8452	TE-AS
+113.161.145.95	VN	45899	VNPT Corp
+43.248.137.87	CN	56046	China Mobile communications corporation
+201.93.117.220	BR	27699	TELEFÔNICA BRASIL S.A
+103.204.191.158	IN	135718	DISHAWAVES INFONET PVT. LTD
+114.199.75.141	TW	45250	Vocom International Telecommunications AP Area
+222.220.250.194	CN	4134	CHINANET-BACKBONE
+116.58.70.229	PK	17563	Autonomous System Number for Nexlinx
+61.160.250.158	CN	4134	CHINANET-BACKBONE
+219.150.218.41	CN	139019	Henan Xinxiang MAN
+192.250.197.26	US	40065	CNSERVERS LLC
+14.139.245.95	IN	55824	NKN Core Network
+152.173.177.76	CL	7418	TELEFÓNICA CHILE S.A.
+111.180.195.216	CN	148981	China Telecom
+192.250.197.50	US	40065	CNSERVERS LLC
+192.250.197.194	US	40065	CNSERVERS LLC
+46.185.128.213	JO	8376	Jordan Data Communications Company LLC
+182.16.255.183	ID	45298	INTERLINK TECHNOLOGY, PT
+41.207.250.110	NG	37540	Winrock Nigeria Limited
+192.250.196.170	US	40065	CNSERVERS LLC
+193.112.70.226	CN	45090	Shenzhen Tencent Computer Systems Company Limited
+189.164.211.35	MX	8151	UNINET
+111.180.195.109	CN	148981	China Telecom
+60.212.216.10	CN	4837	CHINA UNICOM China169 Backbone
+125.211.150.69	CN	4837	CHINA UNICOM China169 Backbone
+221.6.239.114	CN	4837	CHINA UNICOM China169 Backbone
+36.7.105.104	CN	4134	CHINANET-BACKBONE
+</pre>
+
+=== RESPONSE (6.9s, in 25246 / out 1606 tok, STOP) ===
+UAC-0027 is a threat activity cluster associated with the distribution and operation of the DIRTYMOE (also known as PURPLEFOX) malware modular botnet and rootkit framework affecting systems in Ukraine and globally.
+
+```json
+{
+  "entities": [
+    {
+      "name": "UAC-0027",
+      "kind": "threat actor",
+      "gloss": "A threat activity cluster tracked by CERT-UA associated with DIRTYMOE (PURPLEFOX) malware operations."
+    },
+    {
+      "name": "DIRTYMOE",
+      "kind": "malware",
+      "gloss": "A modular backdoor and rootkit malware family, also known as PURPLEFOX, used for DDoS attacks and cryptocurrency mining."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose organizations and computer systems were targeted by the malware campaign."
+    },
+    {
+      "name": "Китай",
+      "kind": "country",
+      "gloss": "An East Asian country where a significant portion of intermediate command-and-control server infrastructure was located."
+    },
+    {
+      "name": "Avast",
+      "kind": "company",
+      "gloss": "A cybersecurity software company providing antivirus and threat intelligence research."
+    },
+    {
+      "name": "Trendmicro",
+      "kind": "company",
+      "gloss": "A global cybersecurity and antivirus software company."
+    },
+    {
+      "name": "Avast Free Antivirus",
+      "kind": "software product",
+      "gloss": "A free antivirus security solution developed by Avast used for detecting and removing malware."
+    },
+    {
+      "name": "WindowsXP",
+      "kind": "software product",
+      "gloss": "A legacy operating system developed by Microsoft."
+    },
+    {
+      "name": "Windows7",
+      "kind": "software product",
+      "gloss": "A legacy operating system developed by Microsoft."
+    },
+    {
+      "name": "rpc.1qw.us",
+      "kind": "domain name",
+      "gloss": "A domain name configured in command-and-control communications of DIRTYMOE malware."
+    },
+    {
+      "name": "ret.6bc.us",
+      "kind": "domain name",
+      "gloss": "A domain name utilized as infrastructure in the DIRTYMOE malware campaign."
+    },
+    {
+      "name": "kew.1qw.us",
+      "kind": "domain name",
+      "gloss": "A domain name configured for network communications by DIRTYMOE malware."
+    },
+    {
+      "name": "kew.8df.us",
+      "kind": "domain name",
+      "gloss": "A domain name associated with DIRTYMOE command-and-control infrastructure."
+    },
+    {
+      "name": "nk.1qw.us",
+      "kind": "domain name",
+      "gloss": "A domain name associated with DIRTYMOE malware infrastructure."
+    },
+    {
+      "name": "MsE96454E6App.dll",
+      "kind": "computer file",
+      "gloss": "A malicious backdoor DLL file component of DIRTYMOE installed on compromised systems."
+    },
+    {
+      "name": "TKE96454E6MS.sdb",
+      "kind": "computer file",
+      "gloss": "A database module file used by the DIRTYMOE rootkit framework."
+    },
+    {
+      "name": "RCE96454E6MS.sdb",
+      "kind": "computer file",
+      "gloss": "A database module file associated with DIRTYMOE malware operations."
+    },
+    {
+      "name": "DBE96454E6MK.sdb",
+      "kind": "computer file",
+      "gloss": "A database module file dropped during DIRTYMOE malware infection."
+    },
+    {
+      "name": "MSI9BB2.tmp",
+      "kind": "computer file",
+      "gloss": "A temporary MSI installer file used in the initial deployment of DIRTYMOE."
+    },
+    {
+      "name": "C558B828.Png",
+      "kind": "computer file",
+      "gloss": "A payload disguised as an image file distributed by DIRTYMOE infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0027",
+      "type": "uses",
+      "tail": "DIRTYMOE",
+      "evidence": "Описана активність відстежується за ідентифікатором UAC-0027."
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "affects",
+      "tail": "Україна",
+      "evidence": "виявлено більше 2000 уражених ЕОМ в українському сегменті мережі Інтернет"
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "delivers",
+      "tail": "MsE96454E6App.dll",
+      "evidence": "MsE96454E6App.dll (DIRTYMOE)"
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "uses",
+      "tail": "rpc.1qw.us",
+      "evidence": "rpc.1qw[.]us"
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "uses",
+      "tail": "ret.6bc.us",
+      "evidence": "ret.6bc[.]us"
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "uses",
+      "tail": "kew.1qw.us",
+      "evidence": "kew.1qw[.]us"
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "uses",
+      "tail": "kew.8df.us",
+      "evidence": "kew.8df[.]us"
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "uses",
+      "tail": "nk.1qw.us",
+      "evidence": "nk.1qw[.]us"
+    },
+    {
+      "head": "Avast",
+      "type": "publishes-advisory",
+      "tail": "Avast Free Antivirus",
+      "evidence": "вебсайту виробника (https://www.avast.ua/) програмний продукт \"Avast Free Antivirus\""
+    }
+  ],
+  "newRelationTypes": []
+}
+```

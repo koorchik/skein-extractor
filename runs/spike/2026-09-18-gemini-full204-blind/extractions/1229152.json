@@ -1,0 +1,76 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0010",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group also known as Armageddon or Gamaredon."
+    },
+    {
+      "name": "GammaLoad.PS1",
+      "kind": "malware family",
+      "gloss": "A PowerShell-based downloader malware used by UAC-0010 to drop secondary payloads."
+    },
+    {
+      "name": "GammaSteel.PS1",
+      "kind": "malware family",
+      "gloss": "A PowerShell-based information stealing malware used by UAC-0010 to exfiltrate files."
+    },
+    {
+      "name": "GammaSteel.NET",
+      "kind": "malware family",
+      "gloss": "A .NET-based credential-stealing malware used to extract authentication data from web browsers."
+    },
+    {
+      "name": "HarvesterX",
+      "kind": "malware family",
+      "gloss": "A data-harvesting malware tool previously utilized by UAC-0010."
+    },
+    {
+      "name": "Normal.dotm",
+      "kind": "file",
+      "gloss": "The default Microsoft Word template file frequently targeted for remote template injection."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "wscript.exe",
+      "kind": "software product",
+      "gloss": "A built-in Windows executable used to run VBScript and JScript scripts."
+    },
+    {
+      "name": "mshta.exe",
+      "kind": "software product",
+      "gloss": "A Windows utility that executes Microsoft HTML Applications (HTA)."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0010",
+      "type": "uses-malware",
+      "tail": "GammaLoad.PS1",
+      "evidence": "ініціюють ланцюг доставки GammaLoad.PS1 на комп'ютер жертви"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-malware",
+      "tail": "GammaSteel.PS1",
+      "evidence": "для чого застосовується GammaSteel.PS1 та GammaSteel.NET"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-malware",
+      "tail": "GammaSteel.NET",
+      "evidence": "для чого застосовується GammaSteel.PS1 та GammaSteel.NET"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-malware",
+      "tail": "HarvesterX",
+      "evidence": "PowerShell-реалізацією раніше використовуваного HarvesterX"
+    }
+  ],
+  "newRelationTypes": []
+}

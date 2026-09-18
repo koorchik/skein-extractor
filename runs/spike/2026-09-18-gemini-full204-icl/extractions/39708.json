@@ -1,0 +1,113 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0098",
+      "kind": "threat actor",
+      "gloss": "A cyber threat actor tracked by CERT-UA that conducts targeted attacks against Ukrainian entities."
+    },
+    {
+      "name": "TrickBot",
+      "kind": "threat actor",
+      "gloss": "A prominent cybercrime group known for developing and operating malware and associated infrastructure."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware",
+      "gloss": "A malicious implant component of the Cobalt Strike framework used for post-exploitation and command execution."
+    },
+    {
+      "name": "Військові на Азовсталі.xls",
+      "kind": "computer file",
+      "gloss": "A malicious Microsoft Excel document containing a macro used as an initial infection vector."
+    },
+    {
+      "name": "pe.dll",
+      "kind": "computer file",
+      "gloss": "A malicious dynamic-link library file dropped and executed by macro code."
+    },
+    {
+      "name": "spisok.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file referenced from a previous CERT-UA incident."
+    },
+    {
+      "name": "shellcode.bin.packed.dll",
+      "kind": "computer file",
+      "gloss": "A packed dynamic-link library file containing shellcode."
+    },
+    {
+      "name": "notevil.dll",
+      "kind": "computer file",
+      "gloss": "A malicious dynamic-link library file containing a Cobalt Strike Beacon payload."
+    },
+    {
+      "name": "hxxp://138[.]68.229.0/pe.dll",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL used to download a dynamic-link library payload."
+    },
+    {
+      "name": "hxxps://dezword[.]com/apiv8/getStatus",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL used for command and control communication."
+    },
+    {
+      "name": "hxxps://dezword[.]com/apiv8/updateConfig",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL used for updating configuration in command and control operations."
+    },
+    {
+      "name": "dezword[.]com",
+      "kind": "domain name",
+      "gloss": "A domain name used for malicious command and control infrastructure."
+    },
+    {
+      "name": "84[.]32.188.29",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious network infrastructure."
+    },
+    {
+      "name": "138[.]68.229.0",
+      "kind": "ip address",
+      "gloss": "An IP address used to host a malicious payload."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0098",
+      "type": "uses",
+      "tail": "Військові на Азовсталі.xls",
+      "evidence": "активність має цільовий характер та відстежуватиметься за ідентифікатором UAC-0098"
+    },
+    {
+      "head": "Військові на Азовсталі.xls",
+      "type": "delivers",
+      "tail": "pe.dll",
+      "evidence": "активації макросу, останній здійснить завантаження, створення на диску та запуск файлу \"pe.dll\""
+    },
+    {
+      "head": "pe.dll",
+      "type": "delivers",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "призведе до ураження комп'ютера шкідливою програмою Cobalt Strike Beacon"
+    },
+    {
+      "head": "138[.]68.229.0",
+      "type": "hosts",
+      "tail": "hxxp://138[.]68.229.0/pe.dll",
+      "evidence": "hxxp://138[.]68.229.0/pe.dll"
+    },
+    {
+      "head": "dezword[.]com",
+      "type": "hosts",
+      "tail": "hxxps://dezword[.]com/apiv8/getStatus",
+      "evidence": "hxxps://dezword[.]com/apiv8/getStatus"
+    },
+    {
+      "head": "dezword[.]com",
+      "type": "hosts",
+      "tail": "hxxps://dezword[.]com/apiv8/updateConfig",
+      "evidence": "hxxps://dezword[.]com/apiv8/updateConfig"
+    }
+  ],
+  "newRelationTypes": []
+}

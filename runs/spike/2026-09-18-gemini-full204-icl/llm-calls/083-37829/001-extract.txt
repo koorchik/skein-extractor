@@ -1,0 +1,204 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+- Country: A distinct territorial body or sovereign state with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Government Organization: An official agency, ministry, or administrative body operating as part of a national or state government. (also: Government Agency, Government Body, State Authority)
+- Malware: Malicious software, code, or executables designed to infiltrate, damage, or compromise computer systems and data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address specifying the location and retrieval mechanism of a resource on a computer network. (also: URL, Web Address, Web Link)
+- Person: An individual human being, such as a government official, cybersecurity expert, researcher, or executive. (also: Individual, Natural Person)
+- IP Address: A numerical label assigned to a device connected to a computer network that uses the Internet Protocol for communication. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Electronic Mail Address)
+- Computer File: A digital resource or named item stored on a computer system, containing data, code, or instructions. (also: File, Digital File, Filename)
+- Company: A commercial business, corporation, or enterprise operating in any economic sector or industry. (also: Enterprise, Corporation, Commercial Organization)
+- Domain Name: A human-readable identification string defining a realm of administrative autonomy or resource location within the Internet Domain Name System. (also: Internet Domain, FQDN, Fully Qualified Domain Name)
+- Threat Actor: An individual, group, or organization responsible for malicious cyber activities, attacks, or cyber espionage operations. (also: Threat Group, Cyber Threat Actor, Hacker Group)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп’ютерні надзвичайні події України CERT-UA від суб'єкту координації отримано повідомлення про розповсюдження електронних листів серед державних органів України. У додатку до листа знаходиться архів "501_25_103.zip", що містить одноіменний файл-ярлик. У разі відкриття LNK-файлу на комп'ютер буде завантажено та виконано  HTA-файл. Останній містить VBScript-код, який забезпечить завантаження і декодування файлу-приманки та шкідливої програми LoadEdge, яка, у свою чергу, повинна була б забезпечити ураження комп'ютера іншими шкідливими програмами з арсеналу групи: TunnelMole (DNS backdoor), RC2CL або іншими.</p><p>Активність асоційовано з діяльністю групи UAC-0035 (InvisiMole). Зауважимо, що дата компіляції шкідливої програми LoadEdge - 24.02.2022. </p><p>Крім того, виявлено факти, що свідчать про розробку шкідливої програми LoadEdge, щонайменше, з лютого 2021 року.</p><p><br></p><p><strong>Індикатори компрометації</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">MD5                                 SHA256
+dfb5a03f56769e3d1195bdfe6bb62070    4df873ea077bdbfe5389d30b5b0d0ad4a3fa663af4a4109859b61eb7f6099fc8    501_25_103.zip 
+72ed59f0d293ceede46bd69a09322f30    090997b4691f1a155187a181dbf54aec034eafc7b9344016867fe50da15829df    501_25_103.lnk
+5fb6202b8273a6a4cda73cee3f88ce1a    6b721ab9f73718c393aca2b9ad06f45b09dbfb23d105ca5872d8df7515ae14c4    We4Qu6.hta
+cd1a425e1ac6bc029fb4418523e43e88    5e06d688ac955b351c3ced0083dc7e372e447458e6604fd82ac118a6ac8e553c    501_25_103.doc (файл-приманка)
+03f12262a2846ebbce989aca5cec74a7    fd72080eca622fa3d9573b43c86a770f7467f3354225118ab2634383bd7b42eb    EdgeNotification.dll (2022-02-24) (LoadEdge)
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">hxxp://45[.]95.11.34:88/get[.]php?a=We4Qu6
+hxxp://45[.]95.11.34:88/_[A-Z0-9]{12}_AZ
+hxxp://45[.]95.11.34:88/_[A-Z0-9]{12}_BZ
+hxxp://45[.]95.11.34:3000/test
+45[.]95.11.34
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%TEMP%\501_25_103.doc.b2
+%TEMP%\EdgeNotification.dll.b2
+%TEMP%\501_25_103.doc
+%TEMP%\EdgeNotification.dll
+HKCU\Software\Microsoft\Windows\CurrentVersion\Run\Notification
+cmd.exe /c REG ADD HKCU\Software\Microsoft\Windows\CurrentVersion\Run /f /v Notification /t REG_SZ /d "rundll32.exe "%TEMP%\EdgeNotification.dll", GetApplicationNotificationFact"
+C:\1\Release\DLoad.pdb
+G:\projects\demo_rt\x64\Release\service.pdb
+G:\projects\demo_rt\Win32\Release\service.pdb
+wmic memorychip get /format: list
+wmic baseboard get /format: list
+wmic os get /format:list
+wmic cpu get /format: list
+</pre><p><br></p><p><strong>Додаткова інформація</strong>&nbsp;</p><p>LoadEdge - шкідлива програма-бекдор, розроблена з використанням мови програмування C++. Підтримувані команди: fileEx, copyOverNw, diskops, disks, download, upload, getconf, setinterval, startr, killr, kill. Функціонал: отримання інформації про диски, завантаження/вивантаження файлів, операції з файловою системою, інтерактивний реверс-шелл (віддалений порт 1337/tcp), видалення. Персистентність забезпечується HTA-файлом шляхом створення запису в гілці Run реєстру Windows (власний механізм забезпечення персистентності, також через реєстр Windows (значення: McAfee), відключено). Взаємодія з сервером управління здійснюється з використанням протоколу HTTP (формат представлення даних: JSON).</p><p><br></p><p><strong>Графічні зображення:</strong></p><p></p>
+
+=== RESPONSE (5.2s, in 3156 / out 1221 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0035",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage threat group also tracked as InvisiMole."
+    },
+    {
+      "name": "LoadEdge",
+      "kind": "malware",
+      "gloss": "A C++ backdoor malware designed to execute system commands and deliver secondary payloads."
+    },
+    {
+      "name": "TunnelMole",
+      "kind": "malware",
+      "gloss": "A DNS backdoor malware family associated with cyber espionage campaigns."
+    },
+    {
+      "name": "RC2CL",
+      "kind": "malware",
+      "gloss": "A malware tool associated with cyber espionage operations."
+    },
+    {
+      "name": "501_25_103.zip",
+      "kind": "computer file",
+      "gloss": "A malicious ZIP archive distributed via email attachments."
+    },
+    {
+      "name": "501_25_103.lnk",
+      "kind": "computer file",
+      "gloss": "A malicious Windows shortcut file that triggers the download and execution of an HTA payload."
+    },
+    {
+      "name": "We4Qu6.hta",
+      "kind": "computer file",
+      "gloss": "A malicious HTML Application file containing VBScript code to deploy malware."
+    },
+    {
+      "name": "501_25_103.doc",
+      "kind": "computer file",
+      "gloss": "A decoy document file dropped during the infection process."
+    },
+    {
+      "name": "EdgeNotification.dll",
+      "kind": "computer file",
+      "gloss": "A dynamic link library file containing the LoadEdge backdoor payload."
+    },
+    {
+      "name": "45.95.11.34",
+      "kind": "ip address",
+      "gloss": "An IP address used for command and control and hosting malicious payloads."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0035",
+      "type": "uses",
+      "tail": "LoadEdge",
+      "evidence": "Активність асоційовано з діяльністю групи UAC-0035 (InvisiMole)... LoadEdge"
+    },
+    {
+      "head": "UAC-0035",
+      "type": "uses",
+      "tail": "TunnelMole",
+      "evidence": "іншими шкідливими програмами з арсеналу групи: TunnelMole"
+    },
+    {
+      "head": "UAC-0035",
+      "type": "uses",
+      "tail": "RC2CL",
+      "evidence": "іншими шкідливими програмами з арсеналу групи: TunnelMole (DNS backdoor), RC2CL"
+    },
+    {
+      "head": "501_25_103.zip",
+      "type": "delivers",
+      "tail": "501_25_103.lnk",
+      "evidence": "архів \"501_25_103.zip\", що містить одноіменний файл-ярлик"
+    },
+    {
+      "head": "501_25_103.lnk",
+      "type": "delivers",
+      "tail": "We4Qu6.hta",
+      "evidence": "відкриття LNK-файлу на комп'ютер буде завантажено та виконано HTA-файл"
+    },
+    {
+      "head": "We4Qu6.hta",
+      "type": "delivers",
+      "tail": "LoadEdge",
+      "evidence": "VBScript-код, який забезпечить завантаження і декодування файлу-приманки та шкідливої програми LoadEdge"
+    },
+    {
+      "head": "We4Qu6.hta",
+      "type": "delivers",
+      "tail": "501_25_103.doc",
+      "evidence": "VBScript-код, який забезпечить завантаження і декодування файлу-приманки"
+    },
+    {
+      "head": "LoadEdge",
+      "type": "delivers",
+      "tail": "TunnelMole",
+      "evidence": "LoadEdge, яка, у свою чергу, повинна була б забезпечити ураження комп'ютера іншими шкідливими програмами з арсеналу групи: TunnelMole"
+    },
+    {
+      "head": "LoadEdge",
+      "type": "delivers",
+      "tail": "RC2CL",
+      "evidence": "LoadEdge, яка, у свою чергу, повинна була б забезпечити ураження комп'ютера іншими шкідливими програмами з арсеналу групи: TunnelMole (DNS backdoor), RC2CL"
+    }
+  ],
+  "newRelationTypes": []
+}

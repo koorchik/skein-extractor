@@ -1,0 +1,118 @@
+{
+  "docId": 37688,
+  "date": "09.03.2022",
+  "title": "Кібератака на державні організації України з використанням шкідливої програми Formbook/XLoader (CERT-UA#4125)",
+  "entities": [
+    {
+      "id": "37688:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37688:1",
+      "name": "UAC-0041",
+      "kind": "threat actor",
+      "gloss": "A threat actor cluster tracked by CERT-UA associated with cyberattacks delivering info-stealing malware.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "37688:2",
+      "name": "Formbook/XLoader v2.5",
+      "kind": "malware family",
+      "gloss": "An information-stealing malware family that harvests credentials and sensitive data from infected systems.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37688:3",
+      "name": "лист підтримки.xlsx",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel document used as a lure to execute macros and download malware.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "37688:4",
+      "name": "vbc.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable payload downloaded and executed during the infection chain.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37688:5",
+      "name": "formbook.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file containing the Formbook info-stealer malware.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "37688:6",
+      "name": "mariya@posish[.]club",
+      "kind": "email address",
+      "gloss": "An email address used to distribute malicious phishing emails.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "37688:7",
+      "name": "103[.]167.92.57",
+      "kind": "ip address",
+      "gloss": "An IP address used to host and distribute malicious executable files.",
+      "scheme": "S11",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "37688:8",
+      "name": "104[.]168.247.233",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure in the malicious campaign.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37688:9",
+      "name": "gobits3[.]com",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as part of the threat actor's network infrastructure.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0041",
+      "type": "uses-malware",
+      "tail": "Formbook/XLoader v2.5",
+      "evidence": "асоціюються з кластером активностей, що відстежується за ідентифікатором UAC-0041"
+    },
+    {
+      "head": "лист підтримки.xlsx",
+      "type": "delivers",
+      "tail": "Formbook/XLoader v2.5",
+      "evidence": "забезпечить завантаження і запуск шкідливої програми Formbook/XLoader v2.5"
+    },
+    {
+      "head": "103[.]167.92.57",
+      "type": "hosts",
+      "tail": "vbc.exe",
+      "evidence": "hxxp://103[.]167.92.57/xx_cloudprotect/vbc.exe"
+    }
+  ],
+  "unclassified": []
+}

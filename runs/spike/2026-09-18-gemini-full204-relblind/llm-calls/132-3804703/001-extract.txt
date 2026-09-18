@@ -1,0 +1,274 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p><br></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA зафіксовано масове розповсюдження електронних листів, начебто, від АТ "Укртелеком", з темою "Судова претензія за Вашим особовим рахунком # 7192206443063763 от: 06.02.2023" та додатком у вигляді RAR-архіву "судовий лист, інформація щодо заборгування.rar".</p><p>Архів містить текстовий документ "Ваш персональний код доступу -254507.txt" та ще один RAR-архів "судовий лист, інформація щодо заборгування. pdf.rar", захищений паролем. В другому архіві знаходиться виконуваний файл "судовий лист, інформація щодо заборгування.pdf.exe", розміром більше 600МБ.</p><p>Запуск EXE-файлу призведе до встановлення на комп'ютері жертви програми для віддаленого контролю та спостереження Remcos, що є розробкою компанії "BreakingSecurity" (на вебсайті виробника можливо завантажити безкоштовну версію продукту; мінімальная вартість варіанту "Professional" становить 58€).</p><p>Виявлена активність відстежується за ідентифікатором UAC-0050, щонайменше, з 2020 року. Попередні кібератаки згаданої групи здійснювалися із застосуванням програми для віддаленого адміністрування RemoteUtilities.</p><p>Виходячи з того, що об'єктами кібератак, зазвичай (але не виключно), є органи державної влади України, а також, беручи до уваги функціонал використовуваних програм, вважаємо, що активність здійснюється з метою шпигунства.</p><p><br></p><p><strong>Індикатори компрометації</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">5d2bc8cf04bef0aec1dc0fa65fb6ab53&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; f1103f0e35b7b47f020f951f07a87c74275aacec6a2610690a0f80e34e8eae73&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; судовий лист, інформація щодо заборгування.rar
+8712bdd0adcdab3a6cd7bc5886b6facc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6438fd91958ed9da098e6efd518cbad889f0411cabb7e5a9dd26f810907764e0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ваш персональний код доступу -254507.txt
+83db7ccad37b6be6cd10d5cd9301a1ea&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5047f53e2e496b38b1a11bc856c79d6602fb28f7a0b16a4c4082845dee225677&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; судовий лист, інформація щодо заборгування. pdf.rar
+43a4ce40b5f06ddce984176ae6c89058&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;644f8bf83d861db06b736b1d5e541e35d3eae75a74d6f2561fa26a9a271a2c2b&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;судовий лист, інформація щодо заборгування.pdf.exe
+ee42511075de43ee5be1f719b9d821f3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ca408a4f313a8dc8afe42b490e74b345d758bc319c0b5b251f03fed84e8deb0e&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.exe (sql.exe) Remcos
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%USERPROFILE%\sql\sql.exe
+%TEMP%\2.exe
+\Sessions\1\BaseNamedObjects\Rgh-LGM50O
+HKCU\Software\Rgh-LGM50O
+HKCU\Software\Microsoft\Windows\CurrentVersion\Run\skype_upd
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">info@telecomds.online
+gluschko.i.k@ukrtelecom.ua (підроблена адреса)
+telecomds[.]online
+80[.]78.254.28
+101[.]99.91.158
+94[.]131.99.153
+124[.]88.67.67
+124[.]88.67.98
+94[.]131.99.156
+94[.]131.99.89
+94[.]131.99.56
+178[.]23.190.252
+178[.]23.190.253
+178[.]23.190.254
+178[.]23.190.54
+tcp://101[.]99.91.158:5222
+tcp://94[.]131.99.153:8080
+tcp://124[.]88.67.67:5222
+tcp://124[.]88.67.98:5222
+tcp://94[.]131.99.153:5222
+tcp://94[.]131.99.156:5222
+tcp://94[.]131.99.89:5222
+tcp://94[.]131.99.56:5222
+tcp://178[.]23.190.252:8080
+tcp://178[.]23.190.253:8080
+tcp://178[.]23.190.254:8080
+tcp://178[.]23.190.54:8080
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (7.8s, in 2653 / out 2076 tok, STOP) ===
+```json
+{
+  "entities": [
+    {
+      "name": "АТ \"Укртелеком\"",
+      "kind": "telecommunications company",
+      "gloss": "A major Ukrainian telecommunications company."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "судовий лист, інформація щодо заборгування.rar",
+      "kind": "archive file",
+      "gloss": "A malicious RAR archive distributed as an email attachment."
+    },
+    {
+      "name": "Ваш персональний код доступу -254507.txt",
+      "kind": "text file",
+      "gloss": "A text file containing an access password for a protected archive."
+    },
+    {
+      "name": "судовий лист, інформація щодо заборгування. pdf.rar",
+      "kind": "archive file",
+      "gloss": "A password-protected nested RAR archive containing an executable."
+    },
+    {
+      "name": "судовий лист, інформація щодо заборгування.pdf.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable file disguised as a PDF document that installs Remcos."
+    },
+    {
+      "name": "Remcos",
+      "kind": "remote access trojan",
+      "gloss": "A commercial remote control and surveillance software frequently abused as malware."
+    },
+    {
+      "name": "BreakingSecurity",
+      "kind": "software company",
+      "gloss": "A software vendor that develops and sells the Remcos remote administration tool."
+    },
+    {
+      "name": "UAC-0050",
+      "kind": "threat actor",
+      "gloss": "A cyberespionage threat actor group active against Ukrainian targets since at least 2020."
+    },
+    {
+      "name": "RemoteUtilities",
+      "kind": "software product",
+      "gloss": "A legitimate remote administration software product previously abused by threat actors."
+    },
+    {
+      "name": "2.exe",
+      "kind": "executable file",
+      "gloss": "A temporary executable payload dropped during malware installation."
+    },
+    {
+      "name": "sql.exe",
+      "kind": "executable file",
+      "gloss": "An executable payload corresponding to the Remcos installation."
+    },
+    {
+      "name": "info@telecomds.online",
+      "kind": "email address",
+      "gloss": "An email address used in malicious email campaigns."
+    },
+    {
+      "name": "gluschko.i.k@ukrtelecom.ua",
+      "kind": "email address",
+      "gloss": "A spoofed email address impersonating Ukrtelecom personnel."
+    },
+    {
+      "name": "telecomds.online",
+      "kind": "domain name",
+      "gloss": "A malicious domain name associated with phishing infrastructure."
+    },
+    {
+      "name": "80.78.254.28",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat infrastructure."
+    },
+    {
+      "name": "101.99.91.158",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications by the malware."
+    },
+    {
+      "name": "94.131.99.153",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications by the malware."
+    },
+    {
+      "name": "124.88.67.67",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications by the malware."
+    },
+    {
+      "name": "124.88.67.98",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications by the malware."
+    },
+    {
+      "name": "94.131.99.156",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications by the malware."
+    },
+    {
+      "name": "94.131.99.89",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications by the malware."
+    },
+    {
+      "name": "94.131.99.56",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications by the malware."
+    },
+    {
+      "name": "178.23.190.252",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications by the malware."
+    },
+    {
+      "name": "178.23.190.253",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications by the malware."
+    },
+    {
+      "name": "178.23.190.254",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications by the malware."
+    },
+    {
+      "name": "178.23.190.54",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications by the malware."
+    }
+  ],
+  "relations": [
+    {
+      "head": "судовий лист, інформація щодо заборгування.rar",
+      "type": "contains-file",
+      "tail": "Ваш персональний код доступу -254507.txt",
+      "evidence": "Архів містить текстовий документ \"Ваш персональний код доступу -254507.txt\""
+    },
+    {
+      "head": "судовий лист, інформація щодо заборгування.rar",
+      "type": "contains-file",
+      "tail": "судовий лист, інформація щодо заборгування. pdf.rar",
+      "evidence": "Архів містить... ще один RAR-архів \"судовий лист, інформація щодо заборгування. pdf.rar\""
+    },
+    {
+      "head": "судовий лист, інформація щодо заборгування. pdf.rar",
+      "type": "contains-file",
+      "tail": "судовий лист, інформація щодо заборгування.pdf.exe",
+      "evidence": "В другому архіві знаходиться виконуваний файл \"судовий лист, інформація щодо заборгування.pdf.exe\""
+    },
+    {
+      "head": "судовий лист, інформація щодо заборгування.pdf.exe",
+      "type": "installs",
+      "tail": "Remcos",
+      "evidence": "Запуск EXE-файлу призведе до встановлення на комп'ютері жертви програми... Remcos"
+    },
+    {
+      "head": "BreakingSecurity",
+      "type": "develops-software",
+      "tail": "Remcos",
+      "evidence": "Remcos, що є розробкою компанії \"BreakingSecurity\""
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "Remcos",
+      "evidence": "Виявлена активність відстежується за ідентифікатором UAC-0050"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "RemoteUtilities",
+      "evidence": "Попередні кібератаки згаданої групи здійснювалися із застосуванням програми для віддаленого адміністрування RemoteUtilities"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "contains-file",
+      "definition": "An archive, container, or package includes the specified file within its contents."
+    },
+    {
+      "name": "installs",
+      "definition": "An installer or loader executable deploys and executes software or malware on the target system."
+    },
+    {
+      "name": "develops-software",
+      "definition": "An organization or software vendor creates and produces the specified software product."
+    },
+    {
+      "name": "uses-tool",
+      "definition": "A threat actor utilizes a specific software utility, tool, or malware family in their operations."
+    }
+  ]
+}
+```

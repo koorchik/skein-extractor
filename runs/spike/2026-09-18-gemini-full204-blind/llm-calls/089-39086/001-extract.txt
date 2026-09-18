@@ -1,0 +1,167 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+- uses-malware: A threat actor utilizes or deploys a specific malware tool or family in their operations.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p class="ql-align-justify"><strong>Загальна інформація</strong></p><p>Наприкінці березня 2022 року Урядовою командою реагування на комп’ютерні надзвичайні події України CERT-UA виявлено декілька RAR-архівів з іменами "Assistance.rar", "Necessary_military_assistance.rar". Кожен з таких архівів містив шкідливі файли-ярлики з назвами "List of necessary things for the provision of military humanitarian assistance to Ukraine.lnk", "Providing military humanitarian assistance to Ukraine.lnk". Крім того, з'ясовано, що способом доставки були електронні листи з посиланнями на згадані RAR-архіви.</p><p>Використання англійської мови в назвах файлів та тексті електронного листа, а також той факт, що лист надіслано на адресу державного органу Латвії, однозначно свідчить про здійснення атак групою UAC-0010 (Armageddon) на державні органи країн Європейського Союзу.</p><p><br></p><p class="ql-align-justify"><strong>Індикатори компрометації</strong></p><p class="ql-align-justify"><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">6ac4153b9ca93b8eefd83e304d2e5f5b    b73314087130fe98896add3430787744de7310d3342b219bd668cdce79368f91    Providing military humanitarian assistance to Ukraine.eml
+c0d3a0ab9b47ab9bc81cf5d831053431    596acbbfd7bc54dcc06123b7adfb7337f8ceab736004ce930d8286c8914b8e25    Assistance.rar
+6c4e8c4880e388a49681cc169ccd4032    fa7bbc46a7b062a5828380b7c70a67cb47ba10c2ef127fd2348647313f65aa11    Providing military humanitarian assistance to Ukraine.lnk
+a4fad68e152a0f63cc525ae770e31a66    7052cef3936c29707da0dd0d4696863b63971eefa1b0e7db611df2ce26b73f50    Necessary_military_assistance.rar
+7208e37192ad6f1d970a94d29ff02073    8f429996f5be9d59d86ba4346de535a25b9a2c3e89cf2e29dbc053d13ae99269    List of necessary things for the provision of military humanitarian assistance to Ukraine.lnk
+7b20e3ac2a4ebf507f6c8358245d5db5    ae3fabbbb2e2297e31435b7a57c486f0eaf0f01738da8d0ab68214dc92373666    Assistance.rar
+ab8bb3c1ff0c19358b5cd9867dbf2206    cf7570cbbca779c755729484792208900a89564669785cb26e88442278ac52b2    Providing military humanitarian assistance to Ukraine.lnk
+284aab4eada2fd522740315ee90efeed    0b63f6e7621421de9968d46de243ef769a343b61597816615222387c45df80ae    Necessary_military_assistance.rar
+fb69fdb35859be1141a85a2af804340b    303abc6d8ab41cb00e3e7a2165ecc1e7fb4377ba46a9f4213a05f764567182e5    List of necessary things for the provision of military humanitarian assistance to Ukraine.lnk
+e1fe781714ecb763ccd1568f7fa11443    a0a39c06f56d63b9d37f7e72c24ec0768fe0aff497870ef879d7ae813d84bf1e    Necessary_military_assistance.rar
+872ef25c5c544b277b6185d75f33f9fb    09472d6bfb1c142a3b02f73175254a5e961f91e792dc9b347b099944bcfeab6f    List of necessary things for the provision of military humanitarian assistance to Ukraine.lnk
+</pre><p><br></p><p class="ql-align-justify"><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">Info@military-ukraine[.]site (envelope-from)
+194[.]58.104.86 (Received from)
+hxxps://military-ukraine[.]site/Necessary_military_assistance.rar
+hxxp://military-ukraine[.]site/Assistance.rar
+hxxp://military-ukraine[.]online/predicate/images/favicon.ico
+hxxp://military-ukraine[.]online/headstone/images/favicon.ico
+hxxp://co87972.tmweb[.]ru/select/guarded/favicon.ico
+hxxp://co87972.tmweb[.]ru/intent/quick/favicon.ico
+hxxp://co87972.tmweb[.]ru/seeing/network/favicon.ico
+military-ukraine[.]site
+military-ukraine[.]online
+co87972.tmweb[.]ru
+</pre><p><br></p><p class="ql-align-justify"><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (4.5s, in 2803 / out 943 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Assistance.rar",
+      "kind": "archive file",
+      "gloss": "A malicious RAR archive file used to deliver shortcut files in phishing campaigns."
+    },
+    {
+      "name": "Necessary_military_assistance.rar",
+      "kind": "archive file",
+      "gloss": "A malicious RAR archive file used as a delivery mechanism in phishing campaigns."
+    },
+    {
+      "name": "List of necessary things for the provision of military humanitarian assistance to Ukraine.lnk",
+      "kind": "malicious shortcut file",
+      "gloss": "A malicious LNK file distributed inside archives to execute arbitrary commands."
+    },
+    {
+      "name": "Providing military humanitarian assistance to Ukraine.lnk",
+      "kind": "malicious shortcut file",
+      "gloss": "A malicious LNK shortcut file used to trigger payload execution."
+    },
+    {
+      "name": "Providing military humanitarian assistance to Ukraine.eml",
+      "kind": "email file",
+      "gloss": "A phishing email file used to deliver links to malicious archives."
+    },
+    {
+      "name": "Латвія",
+      "kind": "country",
+      "gloss": "A Baltic country in Northern Europe whose state body was targeted."
+    },
+    {
+      "name": "UAC-0010",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage threat group also known as Armageddon or Gamaredon."
+    },
+    {
+      "name": "Європейський Союз",
+      "kind": "international organization",
+      "gloss": "A political and economic union of European states whose government bodies were targeted."
+    },
+    {
+      "name": "Info@military-ukraine[.]site",
+      "kind": "email address",
+      "gloss": "A malicious sender email address used in phishing attacks."
+    },
+    {
+      "name": "194[.]58.104.86",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the infrastructure used to send malicious emails."
+    },
+    {
+      "name": "military-ukraine[.]site",
+      "kind": "domain name",
+      "gloss": "A malicious domain name used to host malicious archives and send emails."
+    },
+    {
+      "name": "military-ukraine[.]online",
+      "kind": "domain name",
+      "gloss": "A malicious domain name used as part of the threat actor's infrastructure."
+    },
+    {
+      "name": "co87972.tmweb[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious command-and-control or resource requests."
+    }
+  ],
+  "relations": [
+    {
+      "head": "military-ukraine[.]site",
+      "type": "hosts",
+      "tail": "Assistance.rar",
+      "evidence": "hxxp://military-ukraine[.]site/Assistance.rar"
+    },
+    {
+      "head": "military-ukraine[.]site",
+      "type": "hosts",
+      "tail": "Necessary_military_assistance.rar",
+      "evidence": "hxxps://military-ukraine[.]site/Necessary_military_assistance.rar"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "attacks",
+      "tail": "Латвія",
+      "evidence": "лист надіслано на адресу державного органу Латвії"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "attacks",
+      "tail": "Європейський Союз",
+      "evidence": "здійснення атак групою UAC-0010 (Armageddon) на державні органи країн Європейського Союзу"
+    }
+  ],
+  "newRelationTypes": []
+}

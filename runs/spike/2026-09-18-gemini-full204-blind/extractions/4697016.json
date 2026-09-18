@@ -1,0 +1,163 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0063",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage threat group active since at least 2021 targeting entities across Eurasia."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose government bodies were targeted in the incident."
+    },
+    {
+      "name": "Посольство Таджикистану в Україні",
+      "kind": "diplomatic mission",
+      "gloss": "The diplomatic mission of Tajikistan located in Ukraine whose email was compromised."
+    },
+    {
+      "name": "Таджикистан",
+      "kind": "country",
+      "gloss": "A landlocked country in Central Asia."
+    },
+    {
+      "name": "HATVIBE",
+      "kind": "malware family",
+      "gloss": "An encoded VBScript downloader malware used to deliver subsequent payloads."
+    },
+    {
+      "name": "LOGPIE",
+      "kind": "malware family",
+      "gloss": "A Python-based keylogger and clipboard logger malware."
+    },
+    {
+      "name": "CHERRYSPY",
+      "kind": "malware family",
+      "gloss": "A Python backdoor malware capable of executing code received from a command-and-control server."
+    },
+    {
+      "name": "STILLARCH",
+      "kind": "malware family",
+      "gloss": "A malware utility also known as DOWNEX used for file discovery and exfiltration."
+    },
+    {
+      "name": "DOWNEX",
+      "kind": "malware family",
+      "gloss": "An alternate name for the STILLARCH malware family."
+    },
+    {
+      "name": "PyArmor",
+      "kind": "software tool",
+      "gloss": "A command-line tool used to obfuscate and protect Python scripts."
+    },
+    {
+      "name": "Themida",
+      "kind": "software tool",
+      "gloss": "A software protection system used to protect applications against reverse engineering."
+    },
+    {
+      "name": "Монголія",
+      "kind": "country",
+      "gloss": "A landlocked country in East Asia identified among the threat group's targets."
+    },
+    {
+      "name": "Казахстан",
+      "kind": "country",
+      "gloss": "A transcontinental country in Central Asia and Eastern Europe targeted by UAC-0063."
+    },
+    {
+      "name": "Киргизстан",
+      "kind": "country",
+      "gloss": "A landlocked country in Central Asia targeted by the threat group."
+    },
+    {
+      "name": "Ізраїль",
+      "kind": "country",
+      "gloss": "A country in the Middle East identified as an interest of UAC-0063."
+    },
+    {
+      "name": "Індія",
+      "kind": "country",
+      "gloss": "A country in South Asia identified as a target of interest for the group."
+    },
+    {
+      "name": "206.166.251.216",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications in the campaign."
+    },
+    {
+      "name": "84.32.188.123",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the command and control infrastructure."
+    },
+    {
+      "name": "185.203.117.6",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's infrastructure."
+    },
+    {
+      "name": "79.124.60.180",
+      "kind": "ip address",
+      "gloss": "An IP address identified in the campaign's network indicators."
+    },
+    {
+      "name": "172.104.62.59",
+      "kind": "ip address",
+      "gloss": "An IP address listed among the network infrastructure indicators."
+    },
+    {
+      "name": "diagnostic-resolver.com",
+      "kind": "domain name",
+      "gloss": "A malicious domain used for command and control infrastructure."
+    },
+    {
+      "name": "net-certificate.services",
+      "kind": "domain name",
+      "gloss": "A malicious domain name associated with UAC-0063 infrastructure."
+    },
+    {
+      "name": "ms-webdav-miniredir.com",
+      "kind": "domain name",
+      "gloss": "A malicious domain name used for network communications and data collection."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Посольство Таджикистану в Україні",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Посольства Таджикистану в Україні"
+    },
+    {
+      "head": "UAC-0063",
+      "type": "uses-malware",
+      "tail": "HATVIBE",
+      "evidence": "Призначенням останнього є створення файлу \"SoftwareProtectionPlatform\", що класифіковано як HATVIBE"
+    },
+    {
+      "head": "UAC-0063",
+      "type": "uses-malware",
+      "tail": "LOGPIE",
+      "evidence": "створено додаткові програми: кейлогер LOGPIE"
+    },
+    {
+      "head": "UAC-0063",
+      "type": "uses-malware",
+      "tail": "CHERRYSPY",
+      "evidence": "та бекдор CHERRYSPY"
+    },
+    {
+      "head": "UAC-0063",
+      "type": "uses-malware",
+      "tail": "STILLARCH",
+      "evidence": "використовується шкідлива програма STILLARCH"
+    },
+    {
+      "head": "UAC-0063",
+      "type": "attacks",
+      "tail": "Україна",
+      "evidence": "кібератаку в інформаційно-комунікаційній системі одного з державних органів України"
+    }
+  ],
+  "newRelationTypes": []
+}

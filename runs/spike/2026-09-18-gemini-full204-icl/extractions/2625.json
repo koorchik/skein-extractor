@@ -1,0 +1,148 @@
+{
+  "entities": [
+    {
+      "name": "Агентство з питань кібербезпеки та інфраструктури (CISA)",
+      "kind": "government organization",
+      "gloss": "The United States federal agency responsible for national cybersecurity and critical infrastructure protection."
+    },
+    {
+      "name": "Microsoft",
+      "kind": "software vendor",
+      "gloss": "A multinational technology corporation that develops computer software, consumer electronics, and related services."
+    },
+    {
+      "name": "Microsoft Windows",
+      "kind": "software product",
+      "gloss": "A family of proprietary operating systems developed and maintained by Microsoft."
+    },
+    {
+      "name": "Windows 10",
+      "kind": "software product",
+      "gloss": "A major release of the Microsoft Windows NT operating system."
+    },
+    {
+      "name": "Windows Server 2016",
+      "kind": "software product",
+      "gloss": "A server operating system developed by Microsoft as part of the Windows NT family."
+    },
+    {
+      "name": "Windows Server 2019",
+      "kind": "software product",
+      "gloss": "A server operating system developed by Microsoft as part of the Windows NT family."
+    },
+    {
+      "name": "Windows Server 2012",
+      "kind": "software product",
+      "gloss": "A server operating system developed by Microsoft as part of the Windows NT family."
+    },
+    {
+      "name": "Windows 7",
+      "kind": "software product",
+      "gloss": "A legacy desktop operating system released by Microsoft."
+    },
+    {
+      "name": "Windows 2008 R2",
+      "kind": "software product",
+      "gloss": "A legacy server operating system developed by Microsoft."
+    },
+    {
+      "name": "CVE-2020-0601",
+      "kind": "security vulnerability",
+      "gloss": "A certificate spoofing vulnerability in the Windows CryptoAPI validating Elliptic Curve Cryptography certificates."
+    },
+    {
+      "name": "CVE-2020-0609",
+      "kind": "security vulnerability",
+      "gloss": "A remote code execution vulnerability in Windows Remote Desktop Gateway."
+    },
+    {
+      "name": "CVE-2020-0610",
+      "kind": "security vulnerability",
+      "gloss": "A remote code execution vulnerability in Windows Remote Desktop Gateway."
+    },
+    {
+      "name": "CVE-2020-0611",
+      "kind": "security vulnerability",
+      "gloss": "A remote code execution vulnerability in Windows Remote Desktop Client."
+    },
+    {
+      "name": "US-CERT",
+      "kind": "government organization",
+      "gloss": "An operational component of CISA responsible for analyzing and responding to cybersecurity threats."
+    },
+    {
+      "name": "NSA",
+      "kind": "government organization",
+      "gloss": "A national-level intelligence agency of the United States Department of Defense."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2020-0601",
+      "type": "affects",
+      "tail": "Windows 10",
+      "evidence": "Вразливість перевірки сертифікатів ECC є у MS Windows 10"
+    },
+    {
+      "head": "CVE-2020-0601",
+      "type": "affects",
+      "tail": "Windows Server 2016",
+      "evidence": "Вразливість перевірки сертифікатів ECC є у MS Windows 10, MS Server 2016"
+    },
+    {
+      "head": "CVE-2020-0601",
+      "type": "affects",
+      "tail": "Windows Server 2019",
+      "evidence": "MS Server 2016 та MS Server 2019"
+    },
+    {
+      "head": "CVE-2020-0609",
+      "type": "affects",
+      "tail": "Windows Server 2012",
+      "evidence": "RDP Gateway Server (є на Windows Server 2012, 2016, 2019)"
+    },
+    {
+      "head": "CVE-2020-0609",
+      "type": "affects",
+      "tail": "Windows Server 2016",
+      "evidence": "RDP Gateway Server (є на Windows Server 2012, 2016, 2019)"
+    },
+    {
+      "head": "CVE-2020-0609",
+      "type": "affects",
+      "tail": "Windows Server 2019",
+      "evidence": "RDP Gateway Server (є на Windows Server 2012, 2016, 2019)"
+    },
+    {
+      "head": "CVE-2020-0610",
+      "type": "affects",
+      "tail": "Windows Server 2012",
+      "evidence": "RDP Gateway Server (є на Windows Server 2012, 2016, 2019)"
+    },
+    {
+      "head": "CVE-2020-0610",
+      "type": "affects",
+      "tail": "Windows Server 2016",
+      "evidence": "RDP Gateway Server (є на Windows Server 2012, 2016, 2019)"
+    },
+    {
+      "head": "CVE-2020-0610",
+      "type": "affects",
+      "tail": "Windows Server 2019",
+      "evidence": "RDP Gateway Server (є на Windows Server 2012, 2016, 2019)"
+    },
+    {
+      "head": "CVE-2020-0611",
+      "type": "affects",
+      "tail": "Windows 7",
+      "evidence": "а також Windows 7 та Windows 2008 R2"
+    },
+    {
+      "head": "CVE-2020-0611",
+      "type": "affects",
+      "tail": "Windows 2008 R2",
+      "evidence": "а також Windows 7 та Windows 2008 R2"
+    }
+  ],
+  "newRelationTypes": []
+}

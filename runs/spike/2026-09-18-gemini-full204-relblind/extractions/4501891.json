@@ -1,0 +1,128 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A proprietary graphical operating system developed by Microsoft."
+    },
+    {
+      "name": "RoarBat",
+      "kind": "malware",
+      "gloss": "A malicious batch script that archives and deletes files to cause system disruption."
+    },
+    {
+      "name": "WinRAR",
+      "kind": "software product",
+      "gloss": "A popular file archiver utility for Windows."
+    },
+    {
+      "name": "Linux",
+      "kind": "operating system",
+      "gloss": "An open-source Unix-like operating system."
+    },
+    {
+      "name": "dd",
+      "kind": "software utility",
+      "gloss": "A standard Unix command-line utility used for copying and converting raw data."
+    },
+    {
+      "name": "Укрінформ",
+      "kind": "news agency",
+      "gloss": "The national news agency of Ukraine."
+    },
+    {
+      "name": "CyberArmyofRussia_Reborn",
+      "kind": "telegram channel",
+      "gloss": "A Telegram channel used by pro-Russian hacktivists to claim and publicize cyberattacks."
+    },
+    {
+      "name": "Sandworm",
+      "kind": "hacking group",
+      "gloss": "A Russian state-sponsored advanced persistent threat group associated with the GRU."
+    },
+    {
+      "name": "UAC-0165",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracking identifier designated by CERT-UA associated with Sandworm activity."
+    },
+    {
+      "name": "UpdateRarService",
+      "kind": "service name",
+      "gloss": "A scheduled task or service name used to execute malicious scripts."
+    },
+    {
+      "name": "update1.bat",
+      "kind": "file name",
+      "gloss": "A malicious batch script file implementing the RoarBat malware."
+    },
+    {
+      "name": "WinRAR.exe",
+      "kind": "file name",
+      "gloss": "An executable file of the command-line RAR archiving utility."
+    },
+    {
+      "name": "C:\\Users\\update1.bat",
+      "kind": "file path",
+      "gloss": "A Windows file system path where the malicious batch script was located."
+    },
+    {
+      "name": "188.72.101.3",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure used in the cyberattack."
+    },
+    {
+      "name": "188.72.101.4",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure used in the cyberattack."
+    },
+    {
+      "name": "194.28.172.172",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure used in the cyberattack."
+    },
+    {
+      "name": "194.28.172.81",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure used in the cyberattack."
+    }
+  ],
+  "relations": [
+    {
+      "head": "RoarBat",
+      "type": "abuses-tool",
+      "tail": "WinRAR",
+      "evidence": "подальшого архівування за допомогою легітимної програми WinRAR"
+    },
+    {
+      "head": "Sandworm",
+      "type": "tracked-as",
+      "tail": "UAC-0165",
+      "evidence": "асоціює з діяльністю угрупування Sandworm, проте для її точкового відстежування створено відповідний ідентифікатор UAC-0165"
+    },
+    {
+      "head": "CyberArmyofRussia_Reborn",
+      "type": "publicized-attack-on",
+      "tail": "Укрінформ",
+      "evidence": "кібератакою на Укрінформ, інформація про яку була опублікована в телеграм-каналі \"CyberArmyofRussia_Reborn\""
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "abuses-tool",
+      "definition": "The subject malware or threat actor leverages a legitimate software utility for malicious purposes."
+    },
+    {
+      "name": "tracked-as",
+      "definition": "The subject threat actor group is tracked under an alternative specific identifier or alias."
+    },
+    {
+      "name": "publicized-attack-on",
+      "definition": "The subject entity published or publicized information about a cyberattack targeting the object organization."
+    }
+  ]
+}

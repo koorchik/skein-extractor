@@ -1,0 +1,154 @@
+{
+  "entities": [
+    {
+      "name": "Smokeloader",
+      "kind": "malware family",
+      "gloss": "A modular bot and loader malware family used to download additional malicious payloads."
+    },
+    {
+      "name": "Україні",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "державних органів влади",
+      "kind": "government body",
+      "gloss": "Ukrainian state government authorities targeted by cyber operations."
+    },
+    {
+      "name": "К оплате за январь Агро.lzh",
+      "kind": "malicious file",
+      "gloss": "A malicious LZH archive file used in phishing distribution."
+    },
+    {
+      "name": "Рахунок №6-19 от 29.01.2019р.xls.js",
+      "kind": "malicious file",
+      "gloss": "A malicious JavaScript file used to execute malware payloads."
+    },
+    {
+      "name": "91.234.2.202",
+      "kind": "ip address",
+      "gloss": "An IP address observed sending phishing email messages."
+    },
+    {
+      "name": "91.234.2.202.hata.net.ua",
+      "kind": "hostname",
+      "gloss": "A hostname associated with an email sending host."
+    },
+    {
+      "name": "s4.uman.net.ua",
+      "kind": "mail server",
+      "gloss": "A mail server observed in the delivery path of phishing emails."
+    },
+    {
+      "name": "sekretar2@svit-mebliv.ua",
+      "kind": "email address",
+      "gloss": "An email address used as the envelope sender in phishing attacks."
+    },
+    {
+      "name": "договір та р.фактура від 30.01.19.lzh",
+      "kind": "malicious file",
+      "gloss": "A malicious LZH archive file attached to phishing emails."
+    },
+    {
+      "name": "Pax. 19-208 - 30.01.2019p..js",
+      "kind": "malicious file",
+      "gloss": "A malicious JavaScript script file distributed in archive attachments."
+    },
+    {
+      "name": "unit.exe",
+      "kind": "malicious file",
+      "gloss": "An executable payload associated with Smokeloader malware."
+    },
+    {
+      "name": "out14.mi6.kiev.ua",
+      "kind": "hostname",
+      "gloss": "A hostname of an email relay server used in phishing campaigns."
+    },
+    {
+      "name": "91.198.36.68",
+      "kind": "ip address",
+      "gloss": "An IP address associated with an email relay server."
+    },
+    {
+      "name": "prestol.it-mark.net",
+      "kind": "mail server",
+      "gloss": "A mail server observed receiving phishing messages."
+    },
+    {
+      "name": "abed@i.ua",
+      "kind": "email address",
+      "gloss": "An email address used as an envelope sender for phishing emails."
+    },
+    {
+      "name": "ceronamtinclube.icu",
+      "kind": "internet domain",
+      "gloss": "A domain used to host the malicious executable unit.exe."
+    },
+    {
+      "name": "62.173.138.170",
+      "kind": "ip address",
+      "gloss": "An IP address hosting a malicious payload distribution URL."
+    },
+    {
+      "name": "www.msftncsi.com",
+      "kind": "internet domain",
+      "gloss": "A legitimate domain abused or contacted for connectivity verification or command and control."
+    },
+    {
+      "name": "aviatorssm.bit",
+      "kind": "internet domain",
+      "gloss": "A Namecoin top-level domain used as a command and control server."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Smokeloader",
+      "type": "targets-sector",
+      "tail": "державних органів влади",
+      "evidence": "Листи приходять на адреси державних органів влади."
+    },
+    {
+      "head": "Smokeloader",
+      "type": "targets-country",
+      "tail": "Україні",
+      "evidence": "свідчить про цілеспрямоване розповсюдження в Україні."
+    },
+    {
+      "head": "ceronamtinclube.icu",
+      "type": "resolves-to-ip",
+      "tail": "62.173.138.170",
+      "evidence": "ceronamtinclube.icu/opuba/unit.exe [ 62.173.138.170]"
+    },
+    {
+      "head": "ceronamtinclube.icu",
+      "type": "hosts-file",
+      "tail": "unit.exe",
+      "evidence": "ceronamtinclube.icu/opuba/unit.exe"
+    },
+    {
+      "head": "out14.mi6.kiev.ua",
+      "type": "resolves-to-ip",
+      "tail": "91.198.36.68",
+      "evidence": "from out14.mi6.kiev.ua ([91.198.36.68])"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets-sector",
+      "definition": "The malware or threat actor directs malicious activities against a specific sector or group of organizations."
+    },
+    {
+      "name": "targets-country",
+      "definition": "The threat actor or malware targets entities located within a specific country."
+    },
+    {
+      "name": "resolves-to-ip",
+      "definition": "A domain name or hostname resolves to a specific IP address."
+    },
+    {
+      "name": "hosts-file",
+      "definition": "A network infrastructure element or domain serves or hosts a specific malicious file."
+    }
+  ]
+}

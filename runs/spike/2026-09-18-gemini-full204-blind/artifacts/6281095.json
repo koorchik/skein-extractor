@@ -1,0 +1,166 @@
+{
+  "docId": 6281095,
+  "date": "24.10.2024",
+  "title": "Тематика рахунків на озброєнні UAC-0218: викрадення файлів за допомогою HOMESTEEL (CERT-UA#11717)",
+  "entities": [
+    {
+      "id": "6281095:0",
+      "name": "UAC-0218",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA conducting document exfiltration attacks.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6281095:1",
+      "name": "Пароль.vbe",
+      "kind": "malicious script",
+      "gloss": "A VBScript file designed to search for and exfiltrate documents from targeted systems via HTTP PUT requests.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6281095:2",
+      "name": "Договір20102024.doc",
+      "kind": "decoy document",
+      "gloss": "A password-protected decoy document distributed within malicious RAR archives.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281095:3",
+      "name": "Рахунок20102024.xlsx",
+      "kind": "decoy document",
+      "gloss": "A password-protected decoy spreadsheet distributed within malicious RAR archives.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281095:4",
+      "name": "_№_601.rar",
+      "kind": "archive file",
+      "gloss": "A malicious RAR archive containing decoy documents and an exfiltration script.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6281095:5",
+      "name": "WEXTRACT.EXE",
+      "kind": "executable file",
+      "gloss": "A self-extracting executable archive used to execute PowerShell exfiltration commands.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6281095:6",
+      "name": "HostZealot",
+      "kind": "domain registrar",
+      "gloss": "A domain registrar and hosting provider whose services were used to host threat infrastructure.",
+      "scheme": "S12",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "6281095:7",
+      "name": "edisk.in.ua",
+      "kind": "internet domain",
+      "gloss": "A domain mimicking the eDisk service, used to distribute malicious RAR archives.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281095:8",
+      "name": "edisk.ukrnet.01mirror.com.ua",
+      "kind": "internet domain",
+      "gloss": "A spoofed domain used to distribute malicious RAR archives.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "6281095:9",
+      "name": "01mirror.com.ua",
+      "kind": "internet domain",
+      "gloss": "A domain used for hosting malicious phishing archives.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281095:10",
+      "name": "ukrnet.01mirror.com.ua",
+      "kind": "internet domain",
+      "gloss": "A subdomain used in attack infrastructure for payload distribution.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281095:11",
+      "name": "winupmirror.support",
+      "kind": "internet domain",
+      "gloss": "A domain identified as part of the threat actor's network infrastructure.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281095:12",
+      "name": "staticgl.one",
+      "kind": "internet domain",
+      "gloss": "A domain used as an exfiltration endpoint for data stolen by PowerShell commands.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281095:13",
+      "name": "109.205.195.233",
+      "kind": "ip address",
+      "gloss": "An IP address identified as a command and control server.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281095:14",
+      "name": "194.107.92.234",
+      "kind": "ip address",
+      "gloss": "An originating IP address associated with malicious email distribution.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281095:15",
+      "name": "46.149.173.221",
+      "kind": "ip address",
+      "gloss": "An originating IP address associated with malicious email distribution.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0218",
+      "type": "uses-malware",
+      "tail": "Пароль.vbe",
+      "evidence": "Для відстежування аналогічних кібератак використовується ідентифікатор UAC-0218"
+    },
+    {
+      "head": "edisk.ukrnet.01mirror.com.ua",
+      "type": "hosts",
+      "tail": "_№_601.rar",
+      "evidence": "hXXps://edisk.ukrnet.01mirror.com[.]ua/571df09c9c45758/ №_601.rar"
+    }
+  ],
+  "unclassified": []
+}

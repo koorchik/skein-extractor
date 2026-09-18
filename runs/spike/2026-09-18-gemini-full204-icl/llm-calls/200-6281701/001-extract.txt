@@ -1,0 +1,259 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Security Flaw, Security Vulnerability)
+- Software Product: A program, application, operating system, or software component designed for end users or computing systems. (also: Software Application, Software Program, Software)
+- Technology Vendor: A company or organization that develops, manufactures, or supplies software, hardware, or technology services. (also: Software Vendor, Vendor, Technology Company)
+- Country: A sovereign nation, state, or distinct territorial body with its own government. (also: Nation, Sovereign State)
+- Government Agency: An official institution, ministry, department, or administrative body operating under the authority of a national or regional government. (also: Government Body, Government Organization, State Authority)
+- Malware: Software, code, or executable files intentionally designed to disrupt, damage, or gain unauthorized access to computer systems or data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address identifying the location of a specific resource or endpoint on a computer network. (also: URL, Web Address, Link)
+- Person: An individual human being, such as a government official, cybersecurity professional, diplomat, or other public figure. (also: Individual, Human)
+- IP Address: A numerical label assigned to a device or network interface to identify its location on a computer network. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Email)
+- Computer File: A digital file, script, document, or archive stored on a filesystem or transmitted across a network. (also: File, Digital File)
+- Company: A commercial business, corporation, or enterprise operating within a specific industry or market. (also: Commercial Enterprise, Business, Corporation)
+- Domain Name: A unique identification string that defines a realm of administrative autonomy, authority, or control within the Internet. (also: Internet Domain, Domain, Fully Qualified Domain Name)
+- Threat Actor: An individual or organized group responsible for conducting malicious cyber activities, attacks, or espionage campaigns. (also: Threat Group, Hacker Group, Advanced Persistent Threat)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA 17.12.2024 від фахівців MIL.CERT-UA отримано інформацію щодо виявлення низки вебресурсів, які імітують офіційну сторінку додатку "Армія+" та опубліковані за допомогою сервісу Cloudlfare Workers.</p><p>У випадку відвідування згаданих вебсайтів користувачеві пропонується завантажити виконуваний файл "ArmyPlusInstaller-v.0.10.23722.exe" (назва змінюється).</p><p>Встановлено, що EXE-файл є інсталятором, створеним за допомогою NSIS (Nullsoft Scriptable Install System), який, окрім .NET файлу-приманки "ArmyPlus.exe", містить файли інтерпретатору Python, архів з файлами програми Tor, а також PowerShell-скрипт "init.ps1".</p><p>У випадку відкриття файлу "ArmyPlusInstaller-v.0.10.23722.exe" буде здійснено запуск файлу-приманки, а також PowerShell-скрипта, призначенням якого є:</p><ul><li>встановлення на ЕОМ жертви OpenSSH-серверу</li><li>генерація пари RSA-ключів</li><li>додавання публічного ключа до файлу "authorized_keys" для автентифікації</li><li>відправка приватного ключа за допомогою "curl" на сервер зловмисників (TOR-адреса)</li><li>публікація прихованого SSH-сервісу за допомогою Tor.&nbsp;</li></ul><p>В такий спосіб створюється технічна можливість для віддаленого прихованого доступу до комп'ютера жертви.</p><p>Згадана активність відстежується CERT-UA за ідентифікатором UAC-0125 та, з достатнім рівнем впевненості, асоціюється з кластером UAC-0002 (APT44 aka Sandworm). При цьому, в інцидентах, які мали місце в першій половині 2024 року вектором первинної компрометації слугував пакет програм Microsoft Office (наприклад, "Office16.iso", MD5: 79782773ffee7b8141674c27e9bfc109), що містив троянізований компонент "omas-x-none.msp" (MD5: 08a0c1166d8e50d95254b198b8168726), в якому знаходився файл "CommunicatorContentBinApp.cmd" (MD5: 4316eb790d186ffda2999257f8ded747) з PowerShell-командою.</p><p>Наголошуємо, що у випадку успішного проникнення та зацікавленості в об'єкті впливу, зловмисники надалі розвивають кібератаку на інформаційно-комунікаційну систему організації.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">0799756f104a70cb6ce0cfc422de25db	d2049157980b7ee0a54948d4def4ab62303ca51cadaada06fb51c583ecbce1a2	ArmyPlusInstaller-v.0.10.23672.exe
+a27a90a685dad9fc7f1c5962f278f197	4dca04f1e16cbe88776a3187031cff64981155cb3b992031250c6fed40496318	ArmyPlusInstaller-v.0.10.23722.exe
+52853b39922251a4166a5b032e577e7a	86039bc8b1a6bb823f5cbf27d1a4a3b319b83d242f09ffcd96f38bbdbbaaa78f	init.ps1
+ed0c7c1925ac23bd8b4d09e77aabb0ee	8ba4c3ede1ed05a3ad7075fee503215648ec078a13523492e2e91a59fa40c8da	guid.txt
+a2f355057ade20d32afc5c4192ce3986	b663e08cc267cdb7a02d5131cb04b8b05cb6ad13ac1d571c6aafe69e06bf8f80	ArmyPlus.exe (приманка)
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">(для workers[.]dev піддомени не наводяться)
+desktopapluscom.workers[.]dev
+desktopaplus.workers[.]dev
+armyplus-desktop.workers[.]dev
+aplusdesktop.workers[.]dev
+armylpus.workers[.]dev
+aplusmodgovua.workers[.]dev
+wvtmsouaa2gt6jmcuxj5hkfrqdss5lhecoqijt5dl7gfruueu3i5mkad[.]onion
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Приклад ланцюга ураження</p>
+
+=== RESPONSE (7.6s, in 3085 / out 1786 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "MIL.CERT-UA",
+      "kind": "government agency",
+      "gloss": "The computer emergency response team of the Ministry of Defence of Ukraine."
+    },
+    {
+      "name": "Армія+",
+      "kind": "software product",
+      "gloss": "An official Ukrainian mobile application designed for military personnel."
+    },
+    {
+      "name": "Cloudflare Workers",
+      "kind": "software product",
+      "gloss": "A serverless execution environment that allows developers to run code at the edge."
+    },
+    {
+      "name": "ArmyPlusInstaller-v.0.10.23722.exe",
+      "kind": "computer file",
+      "gloss": "A malicious NSIS installer masquerading as an Army+ application setup file."
+    },
+    {
+      "name": "ArmyPlusInstaller-v.0.10.23672.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable installer masquerading as an Army+ application setup file."
+    },
+    {
+      "name": "NSIS",
+      "kind": "software product",
+      "gloss": "An open-source script-driven system to create Windows installers."
+    },
+    {
+      "name": "ArmyPlus.exe",
+      "kind": "computer file",
+      "gloss": "A decoy .NET executable used in a malicious installer payload."
+    },
+    {
+      "name": "Python",
+      "kind": "software product",
+      "gloss": "A high-level programming language and interpreter."
+    },
+    {
+      "name": "Tor",
+      "kind": "software product",
+      "gloss": "Open-source software enabling anonymous communication and hidden network services."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "init.ps1",
+      "kind": "computer file",
+      "gloss": "A PowerShell script used to configure OpenSSH, Tor, and establish persistent remote access."
+    },
+    {
+      "name": "OpenSSH",
+      "kind": "software product",
+      "gloss": "A suite of secure networking utilities based on the SSH protocol."
+    },
+    {
+      "name": "curl",
+      "kind": "software product",
+      "gloss": "A command-line tool and library for transferring data with URLs."
+    },
+    {
+      "name": "UAC-0125",
+      "kind": "threat actor",
+      "gloss": "A cyber threat activity cluster associated with Russian state-sponsored actors."
+    },
+    {
+      "name": "UAC-0002",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber threat cluster also known as Sandworm or APT44."
+    },
+    {
+      "name": "APT44",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored advanced persistent threat group linked to the GRU."
+    },
+    {
+      "name": "Sandworm",
+      "kind": "threat actor",
+      "gloss": "A Russian military intelligence cyber espionage and sabotage group."
+    },
+    {
+      "name": "Microsoft Office",
+      "kind": "software product",
+      "gloss": "A suite of productivity applications developed by Microsoft."
+    },
+    {
+      "name": "Office16.iso",
+      "kind": "computer file",
+      "gloss": "A malicious disk image file used as an initial compromise vector."
+    },
+    {
+      "name": "omas-x-none.msp",
+      "kind": "computer file",
+      "gloss": "A trojanized patch component delivered within a malicious Office disk image."
+    },
+    {
+      "name": "CommunicatorContentBinApp.cmd",
+      "kind": "computer file",
+      "gloss": "A command script containing a PowerShell command contained in a trojanized MSP file."
+    },
+    {
+      "name": "guid.txt",
+      "kind": "computer file",
+      "gloss": "A text file identified as an indicator of compromise."
+    },
+    {
+      "name": "desktopapluscom.workers.dev",
+      "kind": "domain name",
+      "gloss": "A malicious domain hosted on Cloudflare Workers used for phishing."
+    },
+    {
+      "name": "desktopaplus.workers.dev",
+      "kind": "domain name",
+      "gloss": "A malicious domain hosted on Cloudflare Workers used for phishing."
+    },
+    {
+      "name": "armyplus-desktop.workers.dev",
+      "kind": "domain name",
+      "gloss": "A malicious domain hosted on Cloudflare Workers used for phishing."
+    },
+    {
+      "name": "aplusdesktop.workers.dev",
+      "kind": "domain name",
+      "gloss": "A malicious domain hosted on Cloudflare Workers used for phishing."
+    },
+    {
+      "name": "armylpus.workers.dev",
+      "kind": "domain name",
+      "gloss": "A malicious domain hosted on Cloudflare Workers used for phishing."
+    },
+    {
+      "name": "aplusmodgovua.workers.dev",
+      "kind": "domain name",
+      "gloss": "A malicious domain hosted on Cloudflare Workers used for phishing."
+    },
+    {
+      "name": "wvtmsouaa2gt6jmcuxj5hkfrqdss5lhecoqijt5dl7gfruueu3i5mkad.onion",
+      "kind": "domain name",
+      "gloss": "A Tor hidden service address used by threat actors for C2 communication."
+    }
+  ],
+  "relations": [
+    {
+      "head": "ArmyPlusInstaller-v.0.10.23722.exe",
+      "type": "delivers",
+      "tail": "ArmyPlus.exe",
+      "evidence": "окрім .NET файлу-приманки \"ArmyPlus.exe\", містить файли інтерпретатору Python"
+    },
+    {
+      "head": "ArmyPlusInstaller-v.0.10.23722.exe",
+      "type": "delivers",
+      "tail": "init.ps1",
+      "evidence": "а також PowerShell-скрипт \"init.ps1\""
+    },
+    {
+      "head": "Office16.iso",
+      "type": "delivers",
+      "tail": "omas-x-none.msp",
+      "evidence": "пакет програм Microsoft Office (наприклад, \"Office16.iso\"... що містив троянізований компонент \"omas-x-none.msp\""
+    },
+    {
+      "head": "omas-x-none.msp",
+      "type": "delivers",
+      "tail": "CommunicatorContentBinApp.cmd",
+      "evidence": "в якому знаходився файл \"CommunicatorContentBinApp.cmd\""
+    },
+    {
+      "head": "UAC-0125",
+      "type": "uses",
+      "tail": "ArmyPlusInstaller-v.0.10.23722.exe",
+      "evidence": "Згадана активність відстежується CERT-UA за ідентифікатором UAC-0125"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,90 @@
+{
+  "entities": [
+    {
+      "name": "Державний центр кіберзахисту Держспецзв’язку",
+      "kind": "government body",
+      "gloss": "A Ukrainian state cyber protection center operating under the State Service of Special Communications and Information Protection."
+    },
+    {
+      "name": "Держспецзв’язку",
+      "kind": "government body",
+      "gloss": "The State Service of Special Communications and Information Protection of Ukraine."
+    },
+    {
+      "name": "Правила обміну інформацією про кіберінциденти",
+      "kind": "regulatory document",
+      "gloss": "A set of official Ukrainian rules governing the exchange of cyber incident information."
+    },
+    {
+      "name": "Перелік категорій кіберінцидентів",
+      "kind": "regulatory document",
+      "gloss": "An official taxonomy and classification list of cyber incident categories in Ukraine."
+    },
+    {
+      "name": "Загальні правила обміну інформацією про кіберінциденти (Протокол TLP)",
+      "kind": "security framework",
+      "gloss": "General incident information sharing guidelines based on the Traffic Light Protocol (TLP)."
+    },
+    {
+      "name": "Національний координаційний центр кібербезпеки",
+      "kind": "government body",
+      "gloss": "The National Cyber Security Coordination Center of Ukraine."
+    },
+    {
+      "name": "Раді національної безпеки та оборони України",
+      "kind": "government body",
+      "gloss": "The National Security and Defense Council of Ukraine."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Державний центр кіберзахисту Держспецзв’язку",
+      "type": "subordinate-to",
+      "tail": "Держспецзв’язку",
+      "evidence": "Державний центр кіберзахисту Держспецзв’язку"
+    },
+    {
+      "head": "Державний центр кіберзахисту Держспецзв’язку",
+      "type": "implements-standard",
+      "tail": "Правила обміну інформацією про кіберінциденти",
+      "evidence": "Державний центр кіберзахисту Держспецзв’язку впроваджує Правила обміну інформацією про кіберінциденти"
+    },
+    {
+      "head": "Державний центр кіберзахисту Держспецзв’язку",
+      "type": "implements-standard",
+      "tail": "Перелік категорій кіберінцидентів",
+      "evidence": "Державний центр кіберзахисту Держспецзв’язку впроваджує ... Перелік категорій кіберінцидентів"
+    },
+    {
+      "head": "Національний координаційний центр кібербезпеки",
+      "type": "subordinate-to",
+      "tail": "Раді національної безпеки та оборони України",
+      "evidence": "Національним координаційним центром кібербезпеки при Раді національної безпеки та оборони України"
+    },
+    {
+      "head": "Раді національної безпеки та оборони України",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "Раді національної безпеки та оборони України"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "subordinate-to",
+      "definition": "Specifies that an organizational body operates under or is part of a parent organization."
+    },
+    {
+      "name": "implements-standard",
+      "definition": "Indicates that an organization adopts, introduces, or implements a specific regulatory document, framework, or standard."
+    },
+    {
+      "name": "located-in",
+      "definition": "Specifies the geographical country or jurisdiction an organization belongs to or is located in."
+    }
+  ]
+}

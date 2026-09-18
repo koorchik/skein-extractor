@@ -1,0 +1,165 @@
+{
+  "docId": 703548,
+  "date": "11.07.2022",
+  "title": "Атака групи UAC-0056 на державні організації України з використанням Cobalt Strike Beacon (CERT-UA#4941)",
+  "entities": [
+    {
+      "id": "703548:0",
+      "name": "UAC-0056",
+      "kind": "hacking group",
+      "gloss": "A threat actor group known for conducting cyberattacks and espionage against Ukrainian entities.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "related"
+    },
+    {
+      "id": "703548:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "703548:2",
+      "name": "Гуманітарна катастрофа України з 24 лютого 2022 року.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Microsoft Excel spreadsheet containing a macro used in phishing campaigns.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "703548:3",
+      "name": "baseupd.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable file dropped or executed via a macro to infect systems.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "703548:4",
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware",
+      "gloss": "An adversary simulation tool payload commonly used as post-exploitation malware by threat actors.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "703548:5",
+      "name": "oYUuQbXu",
+      "kind": "file",
+      "gloss": "A malicious payload or artifact file used during the attack.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "703548:6",
+      "name": "stage1.ps1",
+      "kind": "script file",
+      "gloss": "A PowerShell script file representing the initial stage of malicious script execution.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "703548:7",
+      "name": "stage2.ps1",
+      "kind": "script file",
+      "gloss": "A PowerShell script file representing a secondary stage of the execution chain.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "703548:8",
+      "name": "shellcode.x86.bin",
+      "kind": "file",
+      "gloss": "A binary file containing 32-bit shellcode used to execute Cobalt Strike Beacon.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "703548:9",
+      "name": "shellcode.x64.bin",
+      "kind": "file",
+      "gloss": "A binary file containing 64-bit shellcode used to execute Cobalt Strike Beacon.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "703548:10",
+      "name": "136.144.41.177",
+      "kind": "ip address",
+      "gloss": "An IP address used as command-and-control infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "703548:11",
+      "name": "http://136.144.41.177/s/Xnk75JwUcIebkrmENtufIiiKEmoqBN/field-keywords/",
+      "kind": "url",
+      "gloss": "A malicious network URL used for command-and-control communication.",
+      "scheme": "S5",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "703548:12",
+      "name": "http://136.144.41.177/nzXlLVas-VALvDh9lopkC/avp/amznussraps/",
+      "kind": "url",
+      "gloss": "A malicious network URL used for command-and-control communication.",
+      "scheme": "S5",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "703548:13",
+      "name": "C:\\ProgramData\\oYUuQbXu",
+      "kind": "file path",
+      "gloss": "A Windows file system path where a malicious artifact is written.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "703548:14",
+      "name": "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\Check License",
+      "kind": "registry key",
+      "gloss": "A Windows registry Run key modified to achieve persistence on an infected system.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Гуманітарна катастрофа України з 24 лютого 2022 року.xls",
+      "type": "executes",
+      "tail": "baseupd.exe",
+      "evidence": "активація якого призведе до запуску файлу \"baseupd.exe\""
+    },
+    {
+      "head": "baseupd.exe",
+      "type": "drops-and-executes",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "виконання якого призведе до ураження комп'ютера шкідливою програмою Cobalt Strike Beacon"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "attributed-to-country",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "активність асоційовано з діяльністю групи UAC-0056"
+    }
+  ],
+  "unclassified": [
+    "703548:14"
+  ]
+}

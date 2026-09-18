@@ -1,0 +1,241 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0063",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage threat group active since at least 2021 targeting entities across Central Asia and Eastern Europe."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Таджикистан",
+      "kind": "country",
+      "gloss": "A landlocked country in Central Asia."
+    },
+    {
+      "name": "Посольство Таджикистану в Україні",
+      "kind": "diplomatic mission",
+      "gloss": "The diplomatic mission of Tajikistan located in Ukraine."
+    },
+    {
+      "name": "Монголія",
+      "kind": "country",
+      "gloss": "A landlocked country in East Asia."
+    },
+    {
+      "name": "Казахстан",
+      "kind": "country",
+      "gloss": "A transcontinental country in Central Asia and Eastern Europe."
+    },
+    {
+      "name": "Киргизстан",
+      "kind": "country",
+      "gloss": "A landlocked country in Central Asia."
+    },
+    {
+      "name": "Ізраїль",
+      "kind": "country",
+      "gloss": "A country in Western Asia."
+    },
+    {
+      "name": "Індія",
+      "kind": "country",
+      "gloss": "A country in South Asia."
+    },
+    {
+      "name": "HATVIBE",
+      "kind": "malware family",
+      "gloss": "A malicious encoded VBScript downloader used to fetch and execute additional payloads."
+    },
+    {
+      "name": "LOGPIE",
+      "kind": "malware family",
+      "gloss": "A Python-based keylogger malware that records keystrokes and clipboard data to temporary files."
+    },
+    {
+      "name": "CHERRYSPY",
+      "kind": "malware family",
+      "gloss": "A Python-based backdoor malware capable of executing Python code received from a command-and-control server."
+    },
+    {
+      "name": "STILLARCH",
+      "kind": "malware family",
+      "gloss": "A malware family, also known as DOWNEX, used for searching and exfiltrating files of various extensions."
+    },
+    {
+      "name": "PyArmor",
+      "kind": "software product",
+      "gloss": "A command-line tool used to obfuscate and protect Python scripts."
+    },
+    {
+      "name": "Themida",
+      "kind": "software product",
+      "gloss": "A commercial software protection system designed to protect Windows executable files from reverse engineering."
+    },
+    {
+      "name": "SvcRestartTaskLogon",
+      "kind": "file",
+      "gloss": "A malicious Microsoft Word document containing a macro that generates additional payload stages."
+    },
+    {
+      "name": "WsSwapAssessmentTask",
+      "kind": "file",
+      "gloss": "An intermediate file containing a macro designed to create and schedule the HATVIBE payload."
+    },
+    {
+      "name": "SoftwareProtectionPlatform",
+      "kind": "file",
+      "gloss": "A malicious VBScript file representing the HATVIBE payload."
+    },
+    {
+      "name": "slmgr.vbe",
+      "kind": "file",
+      "gloss": "A malicious encoded VBScript file related to the HATVIBE infection chain."
+    },
+    {
+      "name": "WinTime.py",
+      "kind": "file",
+      "gloss": "A Python script implementing the LOGPIE keylogger functionality."
+    },
+    {
+      "name": "help.py",
+      "kind": "file",
+      "gloss": "A Python script implementing the CHERRYSPY backdoor functionality."
+    },
+    {
+      "name": "Diagsvc.exe",
+      "kind": "file",
+      "gloss": "An executable file identified as the STILLARCH malware."
+    },
+    {
+      "name": "driver.vbs",
+      "kind": "file",
+      "gloss": "A malicious VBScript file associated with the threat campaign."
+    },
+    {
+      "name": "diagnostic-resolver[.]com",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used for command-and-control communication."
+    },
+    {
+      "name": "net-certificate[.]services",
+      "kind": "internet domain",
+      "gloss": "A malicious domain associated with the threat group's infrastructure."
+    },
+    {
+      "name": "ms-webdav-miniredir[.]com",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used for command-and-control interactions and data exchange."
+    },
+    {
+      "name": "206.166.251[.]216",
+      "kind": "ip address",
+      "gloss": "An IP address utilized in the attacker's network infrastructure."
+    },
+    {
+      "name": "84.32.188[.]123",
+      "kind": "ip address",
+      "gloss": "An IP address utilized in the attacker's network infrastructure."
+    },
+    {
+      "name": "185.203.117[.]6",
+      "kind": "ip address",
+      "gloss": "An IP address utilized in the attacker's network infrastructure."
+    },
+    {
+      "name": "79.124.60[.]180",
+      "kind": "ip address",
+      "gloss": "An IP address utilized in the attacker's network infrastructure."
+    },
+    {
+      "name": "172.104.62[.]59",
+      "kind": "ip address",
+      "gloss": "An IP address utilized in the attacker's network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0063",
+      "type": "conducts-activity-against",
+      "tail": "Україна",
+      "evidence": "кібератаку в інформаційно-комунікаційній системі одного з державних органів України"
+    },
+    {
+      "head": "UAC-0063",
+      "type": "compromised",
+      "tail": "Посольство Таджикистану в Україні",
+      "evidence": "з офіційної поштової скриньки Посольства Таджикистану в Україні (вірогідно, в результаті компрометації"
+    },
+    {
+      "head": "SvcRestartTaskLogon",
+      "type": "drops-file",
+      "tail": "WsSwapAssessmentTask",
+      "evidence": "SvcRestartTaskLogon, який також містить макрос, що забезпечить створення ще одного файлу з макросом WsSwapAssessmentTask"
+    },
+    {
+      "head": "WsSwapAssessmentTask",
+      "type": "drops-file",
+      "tail": "SoftwareProtectionPlatform",
+      "evidence": "Призначенням останнього є створення файлу SoftwareProtectionPlatform, що класифіковано як HATVIBE"
+    },
+    {
+      "head": "HATVIBE",
+      "type": "drops-malware",
+      "tail": "LOGPIE",
+      "evidence": "вірогідно, за допомогою HATVIBE) на ЕОМ створено додаткові програми: кейлогер LOGPIE"
+    },
+    {
+      "head": "HATVIBE",
+      "type": "drops-malware",
+      "tail": "CHERRYSPY",
+      "evidence": "вірогідно, за допомогою HATVIBE) на ЕОМ створено додаткові програми: ... бекдор CHERRYSPY"
+    },
+    {
+      "head": "CHERRYSPY",
+      "type": "protected-by",
+      "tail": "PyArmor",
+      "evidence": "Згадані файли розроблено з використанням мови програмування Python та захищено за допомогою утиліти PyArmor"
+    },
+    {
+      "head": "LOGPIE",
+      "type": "protected-by",
+      "tail": "PyArmor",
+      "evidence": "Згадані файли розроблено з використанням мови програмування Python та захищено за допомогою утиліти PyArmor"
+    },
+    {
+      "head": "STILLARCH",
+      "type": "exfiltrates-data-from",
+      "tail": "LOGPIE",
+      "evidence": "для пошуку та ексфільтрації файлів, в тому числі результатів роботи кейлогеру LOGPIE"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "conducts-activity-against",
+      "definition": "The threat actor targets or carries out malicious cyber activity against an entity or jurisdiction."
+    },
+    {
+      "name": "compromised",
+      "definition": "The subject compromised the security or infrastructure of the object entity."
+    },
+    {
+      "name": "drops-file",
+      "definition": "A file or macro creates or writes another file to the filesystem."
+    },
+    {
+      "name": "drops-malware",
+      "definition": "A malware component drops or installs another malware payload on the system."
+    },
+    {
+      "name": "protected-by",
+      "definition": "A software file or code is packed, obfuscated, or protected using a specific protection tool."
+    },
+    {
+      "name": "exfiltrates-data-from",
+      "definition": "A tool or malware collects and exfiltrates data generated by another component."
+    }
+  ]
+}

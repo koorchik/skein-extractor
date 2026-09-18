@@ -1,0 +1,164 @@
+{
+  "entities": [
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose government bodies were targeted in the cyberattack."
+    },
+    {
+      "name": "РФ",
+      "kind": "country",
+      "gloss": "The Russian Federation, a sovereign state in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "Військові злочинці РФ.htm",
+      "kind": "computer file",
+      "gloss": "A malicious HTML attachment used to drop a RAR archive containing a malicious shortcut."
+    },
+    {
+      "name": "Viyskovi_zlochinci_RU.rar",
+      "kind": "computer file",
+      "gloss": "A RAR archive created by the HTML file containing a malicious shortcut file."
+    },
+    {
+      "name": "Військові-злочинці що знищують Україну (домашні адреси, фото, номера телефонів, сторінки у соціальних сетях).lnk",
+      "kind": "computer file",
+      "gloss": "A malicious Windows shortcut file that triggers the download and execution of further payloads."
+    },
+    {
+      "name": "get.php",
+      "kind": "computer file",
+      "gloss": "A malicious PowerShell script downloaded and executed to profile the victim system and retrieve payloads."
+    },
+    {
+      "name": "GammaLoad.PS1",
+      "kind": "malware",
+      "gloss": "A PowerShell-based reconnaissance and downloader malware family used by the Armageddon threat group."
+    },
+    {
+      "name": "UAC-0010",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage threat group also known as Armageddon or Gamaredon."
+    },
+    {
+      "name": "Інформація щодо військових злочинців РФ[REDACTED]2022-04-03 1459.eml",
+      "kind": "computer file",
+      "gloss": "An email file used to deliver the malicious HTML attachment in the phishing campaign."
+    },
+    {
+      "name": "vadim_melnik88@i[.]ua",
+      "kind": "email address",
+      "gloss": "An email address used as the envelope sender for phishing messages in the campaign."
+    },
+    {
+      "name": "194[.]38.21.12",
+      "kind": "ip address",
+      "gloss": "An IP address identified as the sender IP for malicious phishing emails."
+    },
+    {
+      "name": "hxxp://jokotras[.]ru/su/faicon.ico",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL associated with the threat actor infrastructure."
+    },
+    {
+      "name": "hxxp://prefer[.]jokotras.ru/hear/nephew/su",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL used in the threat actor's infrastructure."
+    },
+    {
+      "name": "hxxp://tiloraso[.]ru/get.php",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL used to download the GammaLoad.PS1 PowerShell script."
+    },
+    {
+      "name": "hxxp://tiloraso[.]ru/index.php",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL involved in the threat actor's command and control infrastructure."
+    },
+    {
+      "name": "jokotras[.]ru",
+      "kind": "domain name",
+      "gloss": "A malicious domain name utilized by the threat actor for attack operations."
+    },
+    {
+      "name": "tiloraso[.]ru",
+      "kind": "domain name",
+      "gloss": "A malicious domain name hosting the threat actor's scripts and payloads."
+    },
+    {
+      "name": "milotrad[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name identified as infrastructure used by the threat actor."
+    },
+    {
+      "name": "potrakit[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name identified as part of the threat actor's attack infrastructure."
+    },
+    {
+      "name": "tortunas[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "66[.]175.219.231",
+      "kind": "ip address",
+      "gloss": "An IP address hosted on Linode infrastructure used by the threat actor."
+    },
+    {
+      "name": "linode.com",
+      "kind": "company",
+      "gloss": "A cloud hosting and infrastructure provider whose services were used by threat actors."
+    },
+    {
+      "name": "C:\\Users\\Public\\test.vbs",
+      "kind": "computer file",
+      "gloss": "A malicious VBScript file created on the victim system during execution."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Військові злочинці РФ.htm",
+      "type": "delivers",
+      "tail": "Viyskovi_zlochinci_RU.rar",
+      "evidence": "відкриття якого призведе до створення на комп'ютері RAR-архіву \"Viyskovi_zlochinci_RU.rar\""
+    },
+    {
+      "head": "Viyskovi_zlochinci_RU.rar",
+      "type": "delivers",
+      "tail": "Військові-злочинці що знищують Україну (домашні адреси, фото, номера телефонів, сторінки у соціальних сетях).lnk",
+      "evidence": "архів містить файл-ярлик \"Військові-злочинці що знищують Україну"
+    },
+    {
+      "head": "Військові-злочинці що знищують Україну (домашні адреси, фото, номера телефонів, сторінки у соціальних сетях).lnk",
+      "type": "delivers",
+      "tail": "get.php",
+      "evidence": "забезпечить завантаження і запуск powershell-скрипта \"get.php\""
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "GammaLoad.PS1",
+      "evidence": "запуск powershell-скрипта \"get.php\" (GammaLoad.PS1)... Активність асоційовано з діяльністю групи UAC-0010"
+    },
+    {
+      "head": "tiloraso[.]ru",
+      "type": "hosts",
+      "tail": "hxxp://tiloraso[.]ru/get.php",
+      "evidence": "hxxp://tiloraso[.]ru/get.php"
+    },
+    {
+      "head": "tiloraso[.]ru",
+      "type": "hosts",
+      "tail": "hxxp://tiloraso[.]ru/index.php",
+      "evidence": "hxxp://tiloraso[.]ru/index.php"
+    },
+    {
+      "head": "jokotras[.]ru",
+      "type": "hosts",
+      "tail": "hxxp://jokotras[.]ru/su/faicon.ico",
+      "evidence": "hxxp://jokotras[.]ru/su/faicon.ico"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,387 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Security Flaw, Security Vulnerability)
+- Software Product: A program, application, operating system, or software component designed for end users or computing systems. (also: Software Application, Software Program, Software)
+- Technology Vendor: A company or organization that develops, manufactures, or supplies software, hardware, or technology services. (also: Software Vendor, Vendor, Technology Company)
+- Country: A sovereign nation, state, or distinct territorial body with its own government. (also: Nation, Sovereign State)
+- Government Agency: An official institution, ministry, department, or administrative body operating under the authority of a national or regional government. (also: Government Body, Government Organization, State Authority)
+- Malware: Software, code, or executable files intentionally designed to disrupt, damage, or gain unauthorized access to computer systems or data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address identifying the location of a specific resource or endpoint on a computer network. (also: URL, Web Address, Link)
+- Person: An individual human being, such as a government official, cybersecurity professional, diplomat, or other public figure. (also: Individual, Human)
+- IP Address: A numerical label assigned to a device or network interface to identify its location on a computer network. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Email)
+- Computer File: A digital file, script, document, or archive stored on a filesystem or transmitted across a network. (also: File, Digital File)
+- Company: A commercial business, corporation, or enterprise operating within a specific industry or market. (also: Commercial Enterprise, Business, Corporation)
+- Domain Name: A unique identification string that defines a realm of administrative autonomy, authority, or control within the Internet. (also: Internet Domain, Domain, Fully Qualified Domain Name)
+- Threat Actor: An individual or organized group responsible for conducting malicious cyber activities, attacks, or espionage campaigns. (also: Threat Group, Hacker Group, Advanced Persistent Threat)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA досліджено кібератаку угрупування UAC-0063, здійснену 08.07.2024 по відношенню до однієї з українських науково-дослідних установ з використанням шкідливих програм HATVIBE та CHERRYSPY.</p><p>На етапі первинного ураження зловмисник, маючи доступ до облікового запису електронної пошти співробітника установи, здійснив відправку копії нещодавно відправленого листа десяткам адресатів (включаючи самого відправника), замінивши оригінальний документ-вкладення іншим документом, в який було вбудовано макрос.</p><p>У випадку відкриття DOCX-документу та активації макросу на ЕОМ буде створено та відкрито ще один документ (DOC) з макросом, який, у свою чергу, забезпечить створення на ЕОМ закодованого HTA-файлу шкідливої програми HATVIBE "RecordsService", а також, файлу запланованого завдання "C:\Windows\System32\Tasks\vManage\StandaloneService", призначеного для запуску останньої.</p><p>Використовуючи створену технічну можливість прихованого віддаленого управління ЕОМ, на комп'ютер в каталог "C:\ProgramData\Python" згодом завантажено Python-інтерпретатор та файл шкідливої програми CHERRYSPY, який, на відміну від попередньої версії, обфускованої за допомогою pyArmor, скомпільовано в .pyd (DLL) файл.</p><p>Зазначимо, що активність, яка відстежується за ідентифікатором UAC-0063, з середнім рівнем впевненості асоційовано з діяльністю угрупування APT28 (UAC-0001), яке має безпосереднє відношення до ГУ ГШ ЗС РФ. При цьому, на Virustotal виявлено DOCX-документ (MD5:&nbsp;33c3e4599ad678133905e6c1589c12d2) з аналогічним макросом, який було завантажено з Вірменії 16.07.2024, контент-приманка якого містить (спотворений) текст, адресований Управлінню оборонної політики Міністерства оборони Республіки Вірменія від імені Управління міжнародного військового співробітництва Міністерства оборони Киргизької Республіки.</p><p>Слід додати, що в червні 2024 року зафіксовано числені випадки встановлення бекдору HATVIBE шляхом експлуатації вразливості (вірогідно, CVE-2024-23692) в програмному продукті HFS HTTP File Server (https://www.rejetto.com/hfs/), що свідчить про застосування угрупуванням UAC-0063 різних векторів первинної компрометації.</p><p>Реалізація кібератаки стала можливою у зв'язку з систематичним нехтуванням організацією типовими для поточного ландшафту кіберзагроз рекомендаціями, зокрема:</p><ul><li>відсутність двохфакторної автентифікації для облікових записів електронної пошти;</li><li>членство облікового запису користувача в групі "Administrators";</li><li>відсутність політик для блокування можливості запуску макросів, mshta.exe, а також інших програм (зокрема, інтерпретатору Python).</li></ul><p>Кожен керівник та системний адміністратор (адміністратор безпеки), який допускає кібератаки, засоби, тактики, техніки і процедури реалізації яких неодноразово публічно описані, сприяє досягенню ворогом поставлених цілей.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">197e86b76a41f154b64e092f7cc3b306&nbsp; &nbsp; 6c439e62fb404e9095392878ef32ffce18ce6155a1510f4005409243401e8caf&nbsp; &nbsp; punkt-1-07-10-24-na-zasid.doc
+81cdcda59c86f8aa636810e4a085d673&nbsp; &nbsp; f9baa77117f5a058461e859efc67c8ce1ac205d1536326e01a030ab22295af5b&nbsp; &nbsp; RecordsService (HATVIBE)
+7a2a8c002a5e22c6231885e1ccf82bd1&nbsp; &nbsp; 593ca6d639f7c3e99db768b318b765e7585496debfde553dc1df03f5894012e3&nbsp; &nbsp; 379[1].zip
+7f865b65a82dcb18385644e0fd894727&nbsp; &nbsp; 259619899c60aa46df4f83558606813c79927c141bbf4b21bbf07b21b40e7ac1&nbsp; &nbsp; pip_update.cp37-win32.pyd (CHERRYSPY)
+33c3e4599ad678133905e6c1589c12d2&nbsp; &nbsp; e6daa00e095948acfc176d71c5bf667a0403e5259653ea5ac8950aee13180ae0&nbsp; &nbsp; 33c3e4599ad678133905e6c1589c12d2.doc
+d618720afd0ee49601f7933c414ffbb5&nbsp; &nbsp; bcdbe035001af9d2cc173e975fa0b13b133e613b7d9b6e90df86672f9057e19b&nbsp; &nbsp; document.docm.doc.doc
+8e1b29046c7f5bd1ddd4f549e2555592&nbsp; &nbsp; f4ada2b858c84da8b53c08ce4579f8b5b5df25e0d0f17ee0b48e10c87c338d23&nbsp; &nbsp; document.docm.doc
+d84043b72bdceb92b2d60c2725bd674f&nbsp; &nbsp; 93322be0785556e627d2b09832c18e39c115e6a6fbff64b1e590e1ddcf8f6a43&nbsp; &nbsp; ~DFDDCA10BC52EE0534.TMP
+34ced721349626ce81c11693b9243c19&nbsp; &nbsp; a171e9c413518750806ae094e32f15791d4193229cc598642760af536cf6551d&nbsp; &nbsp; ~WRF{6A9E94D3-76E9-4BFA-ABA9-BAFFB470F23E}.tmp
+d0c3b49e788600ff3967f784eb5de973&nbsp; &nbsp; 332d9db35daa83c5ad226b9bf50e992713bc6a69c9ecd52a1223b81e992bc725&nbsp; &nbsp; RemoteAssistanceSvc.hta
+8159abd281783e0ae601afce3b7d23b1&nbsp; &nbsp; 48a30083f115ca0d359afc175cf942367207a73fdda28778e2b264534cf21830&nbsp; &nbsp; AccessProtection.hta
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">hXXp://trust-certificate[.]net/setup.php
+hXXp://trust-certificate[.]net/tmp/379.zip
+hXXps://enrollmentdm[.]com:443
+trust-certificate[.]net&nbsp; &nbsp;2024-07-09&nbsp; @namecheap.com
+enrollmentdm[.]com&nbsp; &nbsp; 2024-05-13&nbsp; @namecheap.com
+185.158.248[.]198 RO&nbsp; @m247.com
+193.124.65[.]97&nbsp; &nbsp;RU&nbsp; @mtw.ru
+45.136.198[.]184
+5.45.70[.]178
+hXXp://45.136.198[.]184/connect.php
+hXXp://45.136.198[.]184/input.php
+hXXp://45.136.198[.]184/output.php
+hXXp://5.45.70[.]178/RemoteAssistanceSvc.hta
+</pre><pre class="hidden" spellcheck="false">http://trust-certificate.net/setup.php
+http://trust-certificate.net/tmp/379.zip
+https://enrollmentdm.com:443
+trust-certificate.net&nbsp;&nbsp;2024-07-09&nbsp;@namecheap.com
+enrollmentdm.com&nbsp;&nbsp;2024-05-13&nbsp;@namecheap.com
+185.158.248.198 RO&nbsp;@m247.com
+193.124.65.97&nbsp;&nbsp;RU&nbsp;@mtw.ru
+45.136.198.184
+5.45.70.178
+http://45.136.198.184/connect.php
+http://45.136.198.184/input.php
+http://45.136.198.184/output.php
+http://5.45.70.178/RemoteAssistanceSvc.hta
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%TMP%\punkt-1-07-10-24-na-zasid.doc.doc
+%TMP%\punkt-1-07-10-24-na-zasid.docx.doc
+%PROGRAMDATA%\Python\DLLs
+%PROGRAMDATA%\Python\Lib
+%PROGRAMDATA%\Python\Scripts
+%PROGRAMDATA%\Python\include
+%PROGRAMDATA%\Python\pip_update.cp37-win32.pyd
+%PROGRAMDATA%\Python\pip_update.pyd
+%PROGRAMDATA%\Python\python.exe
+%PROGRAMDATA%\Python\pythonw.exe
+%PROGRAMDATA%\Python\pythonw.exe -m pip_update.pyd 20 30
+%PROGRAMDATA%\scripts
+%LOCALAPPDATA%\Microsoft\Windows\INetCache\IE\0Q0UYOEK\379[1].zip
+%LOCALAPPDATA%\records\RecordsService
+C:\HFS\RemoteAssistanceSvc.hta
+C:\temp\AccessProtection.hta
+C:\temp\RemoteAssistanceSvc.hta
+C:\Windows\System32\Tasks\Python\UpdateService
+C:\Windows\System32\Tasks\vManage\StandaloneService
+\Python\UpdateService
+\vManage\StandaloneService
+C:\Windows\System32\mshta.exe %LOCALAPPDATA%\records\RecordsService
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Ланцюг ураження</p><p><br></p><p></p><p>Рис.2 Приклад вмісту документу, використаного для атаки на Міністерство оборони Вірменії</p><p><br></p><p></p><p>Рис.3 Приклад ураження ЕОМ з вразливою версією HFS</p>
+
+=== RESPONSE (9.2s, in 4968 / out 2838 tok, STOP) ===
+```json
+{
+  "entities": [
+    {
+      "name": "UAC-0063",
+      "kind": "threat actor",
+      "gloss": "A cyber threat group tracked by CERT-UA associated with attacks against Ukrainian institutions."
+    },
+    {
+      "name": "HATVIBE",
+      "kind": "malware",
+      "gloss": "A malicious backdoor program used to execute commands and maintain persistence on compromised systems."
+    },
+    {
+      "name": "CHERRYSPY",
+      "kind": "malware",
+      "gloss": "A Python-based backdoor malware compiled into a dynamic link library."
+    },
+    {
+      "name": "APT28",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group affiliated with Russian military intelligence."
+    },
+    {
+      "name": "ГУ ГШ ЗС РФ",
+      "kind": "government agency",
+      "gloss": "The Main Directorate of the General Staff of the Armed Forces of the Russian Federation."
+    },
+    {
+      "name": "РФ",
+      "kind": "country",
+      "gloss": "A sovereign country spanning Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "Вірменія",
+      "kind": "country",
+      "gloss": "A landlocked country in the South Caucasus region."
+    },
+    {
+      "name": "Міністерство оборони Республіки Вірменія",
+      "kind": "government agency",
+      "gloss": "The central executive body overseeing the military and defense forces of Armenia."
+    },
+    {
+      "name": "Киргизька Республіка",
+      "kind": "country",
+      "gloss": "A landlocked country located in Central Asia."
+    },
+    {
+      "name": "Міністерство оборони Киргизької Республіки",
+      "kind": "government agency",
+      "gloss": "The central executive body overseeing the military and defense forces of Kyrgyzstan."
+    },
+    {
+      "name": "CVE-2024-23692",
+      "kind": "vulnerability",
+      "gloss": "A remote code execution vulnerability in Rejetto HTTP File Server."
+    },
+    {
+      "name": "HFS HTTP File Server",
+      "kind": "software product",
+      "gloss": "A free web server designed for publishing and sharing files over HTTP."
+    },
+    {
+      "name": "pyArmor",
+      "kind": "software product",
+      "gloss": "A command-line tool used to obfuscate and protect Python scripts."
+    },
+    {
+      "name": "punkt-1-07-10-24-na-zasid.doc",
+      "kind": "computer file",
+      "gloss": "A malicious document file containing macros used in a phishing campaign."
+    },
+    {
+      "name": "RecordsService",
+      "kind": "computer file",
+      "gloss": "An encoded HTA payload associated with the HATVIBE malware."
+    },
+    {
+      "name": "379[1].zip",
+      "kind": "computer file",
+      "gloss": "A zip archive containing malicious components downloaded during an attack."
+    },
+    {
+      "name": "pip_update.cp37-win32.pyd",
+      "kind": "computer file",
+      "gloss": "A compiled Python extension file containing the CHERRYSPY malware."
+    },
+    {
+      "name": "33c3e4599ad678133905e6c1589c12d2.doc",
+      "kind": "computer file",
+      "gloss": "A lure document containing malicious macros targeting the Armenian Ministry of Defense."
+    },
+    {
+      "name": "RemoteAssistanceSvc.hta",
+      "kind": "computer file",
+      "gloss": "A malicious HTML Application file used to execute payloads."
+    },
+    {
+      "name": "AccessProtection.hta",
+      "kind": "computer file",
+      "gloss": "A malicious HTML Application file used in attack operations."
+    },
+    {
+      "name": "trust-certificate.net",
+      "kind": "domain name",
+      "gloss": "A malicious domain name used for command and control or payload hosting."
+    },
+    {
+      "name": "enrollmentdm.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious network infrastructure."
+    },
+    {
+      "name": "185.158.248.198",
+      "kind": "IP address",
+      "gloss": "An IP address used by threat actors as network infrastructure."
+    },
+    {
+      "name": "193.124.65.97",
+      "kind": "IP address",
+      "gloss": "An IP address used by threat actors as network infrastructure."
+    },
+    {
+      "name": "45.136.198.184",
+      "kind": "IP address",
+      "gloss": "An IP address used as command and control infrastructure."
+    },
+    {
+      "name": "5.45.70.178",
+      "kind": "IP address",
+      "gloss": "An IP address used to host malicious HTA files."
+    },
+    {
+      "name": "http://trust-certificate.net/setup.php",
+      "kind": "uniform resource locator",
+      "gloss": "A URL used for payload distribution or command and control communication."
+    },
+    {
+      "name": "http://trust-certificate.net/tmp/379.zip",
+      "kind": "uniform resource locator",
+      "gloss": "A URL hosting a malicious zip archive payload."
+    },
+    {
+      "name": "https://enrollmentdm.com:443",
+      "kind": "uniform resource locator",
+      "gloss": "A network endpoint used for malicious communications."
+    },
+    {
+      "name": "http://45.136.198.184/connect.php",
+      "kind": "uniform resource locator",
+      "gloss": "A command and control connection endpoint."
+    },
+    {
+      "name": "http://45.136.198.184/input.php",
+      "kind": "uniform resource locator",
+      "gloss": "A command and control input reception endpoint."
+    },
+    {
+      "name": "http://45.136.198.184/output.php",
+      "kind": "uniform resource locator",
+      "gloss": "A command and control data transmission endpoint."
+    },
+    {
+      "name": "http://5.45.70.178/RemoteAssistanceSvc.hta",
+      "kind": "uniform resource locator",
+      "gloss": "A URL hosting the RemoteAssistanceSvc.hta malicious payload."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0063",
+      "type": "uses",
+      "tail": "HATVIBE",
+      "evidence": "кібератаку угрупування UAC-0063... з використанням шкідливих програм HATVIBE"
+    },
+    {
+      "head": "UAC-0063",
+      "type": "uses",
+      "tail": "CHERRYSPY",
+      "evidence": "кібератаку угрупування UAC-0063... з використанням шкідливих програм HATVIBE та CHERRYSPY"
+    },
+    {
+      "head": "UAC-0063",
+      "type": "exploits",
+      "tail": "CVE-2024-23692",
+      "evidence": "шляхом експлуатації вразливості (вірогідно, CVE-2024-23692)"
+    },
+    {
+      "head": "CVE-2024-23692",
+      "type": "affects",
+      "tail": "HFS HTTP File Server",
+      "evidence": "вразливості (вірогідно, CVE-2024-23692) в програмному продукті HFS HTTP File Server"
+    },
+    {
+      "head": "APT28",
+      "type": "part-of",
+      "tail": "ГУ ГШ ЗС РФ",
+      "evidence": "угрупування APT28 (UAC-0001), яке має безпосереднє відношення до ГУ ГШ ЗС РФ"
+    },
+    {
+      "head": "ГУ ГШ ЗС РФ",
+      "type": "located-in",
+      "tail": "РФ",
+      "evidence": "ГУ ГШ ЗС РФ"
+    },
+    {
+      "head": "Міністерство оборони Республіки Вірменія",
+      "type": "located-in",
+      "tail": "Вірменія",
+      "evidence": "Міністерства оборони Республіки Вірменія"
+    },
+    {
+      "head": "Міністерство оборони Киргизької Республіки",
+      "type": "located-in",
+      "tail": "Киргизька Республіка",
+      "evidence": "Міністерства оборони Киргизької Республіки"
+    },
+    {
+      "head": "trust-certificate.net",
+      "type": "hosts",
+      "tail": "http://trust-certificate.net/setup.php",
+      "evidence": "http://trust-certificate.net/setup.php"
+    },
+    {
+      "head": "trust-certificate.net",
+      "type": "hosts",
+      "tail": "http://trust-certificate.net/tmp/379.zip",
+      "evidence": "http://trust-certificate.net/tmp/379.zip"
+    },
+    {
+      "head": "enrollmentdm.com",
+      "type": "hosts",
+      "tail": "https://enrollmentdm.com:443",
+      "evidence": "https://enrollmentdm.com:443"
+    },
+    {
+      "head": "45.136.198.184",
+      "type": "hosts",
+      "tail": "http://45.136.198.184/connect.php",
+      "evidence": "http://45.136.198.184/connect.php"
+    },
+    {
+      "head": "45.136.198.184",
+      "type": "hosts",
+      "tail": "http://45.136.198.184/input.php",
+      "evidence": "http://45.136.198.184/input.php"
+    },
+    {
+      "head": "45.136.198.184",
+      "type": "hosts",
+      "tail": "http://45.136.198.184/output.php",
+      "evidence": "http://45.136.198.184/output.php"
+    },
+    {
+      "head": "5.45.70.178",
+      "type": "hosts",
+      "tail": "http://5.45.70.178/RemoteAssistanceSvc.hta",
+      "evidence": "http://5.45.70.178/RemoteAssistanceSvc.hta"
+    }
+  ],
+  "newRelationTypes": []
+}
+```

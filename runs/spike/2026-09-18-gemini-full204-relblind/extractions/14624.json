@@ -1,0 +1,154 @@
+{
+  "entities": [
+    {
+      "name": "НКЦК РНБО",
+      "kind": "government body",
+      "gloss": "The National Cyber Security Coordination Center of the National Security and Defense Council of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "FaceBook",
+      "kind": "social network",
+      "gloss": "An online social media and social networking service operated by Meta."
+    },
+    {
+      "name": "UA Blog",
+      "kind": "social media account",
+      "gloss": "A fraudulent Facebook page used to advertise fake survey campaigns."
+    },
+    {
+      "name": "airmauritiusticket.com",
+      "kind": "internet domain",
+      "gloss": "A phishing and redirect domain used in a fraudulent survey scheme."
+    },
+    {
+      "name": "ТСН",
+      "kind": "media organization",
+      "gloss": "A Ukrainian television news program and news brand whose website was spoofed by fraudsters."
+    },
+    {
+      "name": "РФ",
+      "kind": "country",
+      "gloss": "The Russian Federation, a country in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "92.63.103.235",
+      "kind": "ip address",
+      "gloss": "An IP address located in Russia that hosted the fraudulent airmauritiusticket.com website."
+    },
+    {
+      "name": "gangbang6.monster",
+      "kind": "internet domain",
+      "gloss": "A fraudulent intermediate domain used to redirect Ukrainian visitors to phishing survey sites."
+    },
+    {
+      "name": "CloudFlare",
+      "kind": "company",
+      "gloss": "An American web infrastructure and website security company providing CDN and reverse proxy services."
+    },
+    {
+      "name": "great-surveys.top",
+      "kind": "internet domain",
+      "gloss": "A fraudulent domain hosting a fake prize survey designed to lure victims into paying a fee."
+    },
+    {
+      "name": "165.227.174.93",
+      "kind": "ip address",
+      "gloss": "An IP address located in Germany hosting fraudulent survey and payment phishing sites."
+    },
+    {
+      "name": "Німеччина",
+      "kind": "country",
+      "gloss": "A country in Central Europe."
+    },
+    {
+      "name": "accept-pay.top",
+      "kind": "internet domain",
+      "gloss": "A phishing domain designed to steal payment card credentials under the guise of a small fee payment."
+    },
+    {
+      "name": "Кіберполіція",
+      "kind": "government body",
+      "gloss": "The Cyberpolice Department of the National Police of Ukraine."
+    },
+    {
+      "name": "Національний банк України",
+      "kind": "government body",
+      "gloss": "The central bank of Ukraine."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UA Blog",
+      "type": "hosted-on",
+      "tail": "FaceBook",
+      "evidence": "створено сторінку «UA Blog» в FaceBook"
+    },
+    {
+      "head": "airmauritiusticket.com",
+      "type": "hosted-on",
+      "tail": "92.63.103.235",
+      "evidence": "Фішинговий сайт airmauritiusticket.com розміщено в РФ за ІР-адресою 92.63.103.235"
+    },
+    {
+      "head": "92.63.103.235",
+      "type": "located-in",
+      "tail": "РФ",
+      "evidence": "airmauritiusticket.com розміщено в РФ за ІР-адресою 92.63.103.235"
+    },
+    {
+      "head": "airmauritiusticket.com",
+      "type": "redirects-to",
+      "tail": "gangbang6.monster",
+      "evidence": "переходити на сайт airmauritiusticket.com з ІР-адреси України, буде здійснено перенаправлення на інший сайт hХХps://gangbang6.monster/m4hp2k"
+    },
+    {
+      "head": "gangbang6.monster",
+      "type": "redirects-to",
+      "tail": "great-surveys.top",
+      "evidence": "При натисканні на кнопку «ОТРИМАТИ ГРОЩІ» відбувається перенаправлення на сайт hХХps://great-surveys.top/internal-account.php"
+    },
+    {
+      "head": "great-surveys.top",
+      "type": "hosted-on",
+      "tail": "165.227.174.93",
+      "evidence": "сайт hХХps://great-surveys.top/internal-account.php, ІР-адреса 165.227.174.93"
+    },
+    {
+      "head": "165.227.174.93",
+      "type": "located-in",
+      "tail": "Німеччина",
+      "evidence": "ІР-адреса 165.227.174.93, Німеччина"
+    },
+    {
+      "head": "great-surveys.top",
+      "type": "redirects-to",
+      "tail": "accept-pay.top",
+      "evidence": "виконується перенаправлення на сайт hххps://accept-pay.top/?am=138&who=11&sub="
+    },
+    {
+      "head": "accept-pay.top",
+      "type": "hosted-on",
+      "tail": "165.227.174.93",
+      "evidence": "знаходиться на тій же ІР-адресі"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "hosted-on",
+      "definition": "The subject domain or account is hosted on the specified platform, server, or IP address."
+    },
+    {
+      "name": "located-in",
+      "definition": "The subject network infrastructure is geographically situated in the specified country."
+    },
+    {
+      "name": "redirects-to",
+      "definition": "The subject website or domain forwards or navigates the user's browser to the tail website or domain."
+    }
+  ]
+}

@@ -1,0 +1,145 @@
+{
+  "docId": 39882,
+  "date": "26.04.2022",
+  "title": "Кібератака групи UAC-0056 з використанням шкідливих програм GraphSteel і GrimPlant та тематики COVID-19 (CERT-UA#4545)",
+  "entities": [
+    {
+      "id": "39882:0",
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyberespionage threat group targeting Ukrainian organizations and government bodies.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "related"
+    },
+    {
+      "id": "39882:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "39882:2",
+      "name": "державного органу України",
+      "kind": "government body",
+      "gloss": "A governmental authority or agency of Ukraine.",
+      "scheme": "S7",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "39882:3",
+      "name": "Aid request COVID-19-04_5_22.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel document containing macros used to deploy downloaders.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "39882:4",
+      "name": "GraphSteel",
+      "kind": "malware family",
+      "gloss": "A Go-based malware strain designed to exfiltrate sensitive files and credentials.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "39882:5",
+      "name": "GrimPlant",
+      "kind": "malware family",
+      "gloss": "A Go-based backdoor malware used for remote command execution.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "39882:6",
+      "name": "base_update.exe",
+      "kind": "malicious file",
+      "gloss": "A Go-based loader executable used to download and execute secondary malware payloads.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "39882:7",
+      "name": "java-sdk.exe",
+      "kind": "malicious file",
+      "gloss": "A Go-based loader executable disguised as a Java SDK component.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "39882:8",
+      "name": "microsoft-cortana.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file delivering the GraphSteel malware payload.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "39882:9",
+      "name": "oracle-java.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file delivering the GrimPlant malware payload.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "39882:10",
+      "name": "212.192.246.115",
+      "kind": "ip address",
+      "gloss": "An IP address used for malicious command and control communications.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "associated-with-activity",
+      "tail": "Aid request COVID-19-04_5_22.xls",
+      "evidence": "Активність асоційовано з діяльністю групи UAC-0056."
+    },
+    {
+      "head": "державного органу України",
+      "type": "located-in-country",
+      "tail": "Україна",
+      "evidence": "облікового запису співробітника державного органу України."
+    },
+    {
+      "head": "Aid request COVID-19-04_5_22.xls",
+      "type": "delivers",
+      "tail": "GraphSteel",
+      "evidence": "будуть завантажені та виконані шкідливі програми GraphSteel"
+    },
+    {
+      "head": "Aid request COVID-19-04_5_22.xls",
+      "type": "delivers",
+      "tail": "GrimPlant",
+      "evidence": "будуть завантажені та виконані шкідливі програми GraphSteel (дата компіляції: 2022-04-21) та GrimPlant."
+    },
+    {
+      "head": "microsoft-cortana.exe",
+      "type": "is-instance-of",
+      "tail": "GraphSteel",
+      "evidence": "microsoft-cortana.exe (2022-04-21) (GraphSteel)"
+    },
+    {
+      "head": "oracle-java.exe",
+      "type": "is-instance-of",
+      "tail": "GrimPlant",
+      "evidence": "oracle-java.exe (GrimPlant)"
+    }
+  ],
+  "unclassified": []
+}

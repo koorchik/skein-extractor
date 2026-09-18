@@ -1,0 +1,125 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0020",
+      "kind": "threat actor",
+      "gloss": "A cyber threat group linked to security structures in temporarily occupied Luhansk, also known as Vermin."
+    },
+    {
+      "name": "Сили оборони України",
+      "kind": "government agency",
+      "gloss": "The military and security formations tasked with defending Ukraine against aggression."
+    },
+    {
+      "name": "Центр кібербезпеки ЗСУ",
+      "kind": "government agency",
+      "gloss": "The cybersecurity defense unit operating within the Armed Forces of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country located in Eastern Europe."
+    },
+    {
+      "name": "SPECTR",
+      "kind": "malware",
+      "gloss": "A modular malware framework used for information theft, credential harvesting, and surveillance."
+    },
+    {
+      "name": "SyncThing",
+      "kind": "software product",
+      "gloss": "A legitimate peer-to-peer file synchronization software application."
+    },
+    {
+      "name": "InnoSetup",
+      "kind": "software product",
+      "gloss": "A free installer generator utility for Windows operating systems."
+    },
+    {
+      "name": "туррель.фоп.вовчок.rar",
+      "kind": "computer file",
+      "gloss": "A password-protected RAR archive distributed as a malicious email attachment."
+    },
+    {
+      "name": "туррель.фоп.вовчок.sfx.rar.scr",
+      "kind": "computer file",
+      "gloss": "A malicious self-extracting archive containing lures and payload installers."
+    },
+    {
+      "name": "Wowchok.pdf",
+      "kind": "computer file",
+      "gloss": "A decoy PDF document used to deceive victims during an attack."
+    },
+    {
+      "name": "sync.exe",
+      "kind": "computer file",
+      "gloss": "A malicious installer packaging SyncThing components alongside SPECTR malware."
+    },
+    {
+      "name": "run_user.bat",
+      "kind": "computer file",
+      "gloss": "A batch script designed to handle initial payload execution."
+    },
+    {
+      "name": "syncthing.net",
+      "kind": "domain name",
+      "gloss": "The official internet domain associated with the SyncThing file synchronization software."
+    },
+    {
+      "name": "csoc@post.mil.gov.ua",
+      "kind": "email address",
+      "gloss": "An official contact email address for the Cyber Security Center of the Ukrainian Armed Forces."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0020",
+      "type": "affects",
+      "tail": "Сили оборони України",
+      "evidence": "активність угрупування UAC-0020 (Vermin), спрямовану у відношенні Сил оборони України"
+    },
+    {
+      "head": "UAC-0020",
+      "type": "uses",
+      "tail": "SPECTR",
+      "evidence": "використано відомий з 2019 року інструментарій - шкідливе програмне забезпечення SPECTR"
+    },
+    {
+      "head": "UAC-0020",
+      "type": "uses",
+      "tail": "SyncThing",
+      "evidence": "використано штатний функціонал синхронізації легітимного програмного забезпечення SyncThing"
+    },
+    {
+      "head": "туррель.фоп.вовчок.rar",
+      "type": "delivers",
+      "tail": "туррель.фоп.вовчок.sfx.rar.scr",
+      "evidence": "В зазначеному архіві знаходиться RARSFX-архів \"туррель.фоп.вовчок.sfx.rar.scr\""
+    },
+    {
+      "head": "туррель.фоп.вовчок.sfx.rar.scr",
+      "type": "delivers",
+      "tail": "Wowchok.pdf",
+      "evidence": "містить файл-приманку \"Wowchok.pdf\""
+    },
+    {
+      "head": "туррель.фоп.вовчок.sfx.rar.scr",
+      "type": "delivers",
+      "tail": "sync.exe",
+      "evidence": "містить... ЕХЕ-інсталятор \"sync.exe\""
+    },
+    {
+      "head": "туррель.фоп.вовчок.sfx.rar.scr",
+      "type": "delivers",
+      "tail": "run_user.bat",
+      "evidence": "містить... BAT-файл \"run_user.bat\""
+    },
+    {
+      "head": "sync.exe",
+      "type": "delivers",
+      "tail": "SPECTR",
+      "evidence": "файл \"sync.exe\" містить... файли шкідливих програм SPECTR"
+    }
+  ],
+  "newRelationTypes": []
+}

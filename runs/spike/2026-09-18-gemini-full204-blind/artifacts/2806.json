@@ -1,0 +1,160 @@
+{
+  "docId": 2806,
+  "date": "18.09.2018",
+  "title": "Розсилка шкідливого програмного забезпечення AZORult",
+  "entities": [
+    {
+      "id": "2806:0",
+      "name": "AZORult",
+      "kind": "malware family",
+      "gloss": "An information-stealing malware family that collects passwords, browser data, cryptocurrency wallet information, and user credentials.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2806:1",
+      "name": "QUOTATION N0AB.doc",
+      "kind": "malicious file",
+      "gloss": "A malicious Microsoft Word document used as a lure to distribute malware via email.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2806:2",
+      "name": "PO.jpg",
+      "kind": "malicious file",
+      "gloss": "An executable payload disguised with an image file extension.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2806:3",
+      "name": "office.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable configured to execute on system startup.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2806:4",
+      "name": "office.lnk",
+      "kind": "file",
+      "gloss": "A shortcut file configured to persist and run malware on system startup.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2806:5",
+      "name": "67.199.248.10",
+      "kind": "ip address",
+      "gloss": "An IP address used as command and control infrastructure for malware.",
+      "scheme": "S11",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "2806:6",
+      "name": "67.199.248.11",
+      "kind": "ip address",
+      "gloss": "An IP address used as command and control infrastructure for malware.",
+      "scheme": "S11",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "2806:7",
+      "name": "192.198.87.130",
+      "kind": "ip address",
+      "gloss": "An IP address used as command and control infrastructure for malware.",
+      "scheme": "S11",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "2806:8",
+      "name": "185.193.38.78",
+      "kind": "ip address",
+      "gloss": "An IP address used as command and control infrastructure for malware.",
+      "scheme": "S11",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "2806:9",
+      "name": "CVE-2017-11882",
+      "kind": "vulnerability identifier",
+      "gloss": "A memory corruption vulnerability in the Microsoft Equation Editor component of Microsoft Office.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2806:10",
+      "name": "Outlook",
+      "kind": "software product",
+      "gloss": "An email client and personal information manager developed by Microsoft.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2806:11",
+      "name": "Thunderbird",
+      "kind": "software product",
+      "gloss": "A free and open-source email client developed by the Mozilla Foundation.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2806:12",
+      "name": "Filezilla",
+      "kind": "software product",
+      "gloss": "A free and open-source cross-platform FTP client.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2806:13",
+      "name": "WinSCP",
+      "kind": "software product",
+      "gloss": "A free and open-source SFTP and FTP client for Microsoft Windows.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "AZORult",
+      "type": "communicates-with",
+      "tail": "67.199.248.10",
+      "evidence": "Шкідливі домени та ІР (С2): 67.199.248.10"
+    },
+    {
+      "head": "AZORult",
+      "type": "communicates-with",
+      "tail": "67.199.248.11",
+      "evidence": "Шкідливі домени та ІР (С2): 67.199.248.11"
+    },
+    {
+      "head": "AZORult",
+      "type": "communicates-with",
+      "tail": "192.198.87.130",
+      "evidence": "Шкідливі домени та ІР (С2): 192.198.87.130"
+    },
+    {
+      "head": "AZORult",
+      "type": "communicates-with",
+      "tail": "185.193.38.78",
+      "evidence": "Шкідливі домени та ІР (С2): 185.193.38.78"
+    }
+  ],
+  "unclassified": []
+}

@@ -1,0 +1,162 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0099",
+      "kind": "threat actor",
+      "gloss": "A threat actor group known for conducting cyber espionage attacks against Ukrainian organizations."
+    },
+    {
+      "name": "LONEPAGE",
+      "kind": "malware",
+      "gloss": "A malicious script and program used by threat actors to execute commands on compromised systems."
+    },
+    {
+      "name": "WinRAR",
+      "kind": "software product",
+      "gloss": "A popular file archiver utility for Windows."
+    },
+    {
+      "name": "CVE-2023-38831",
+      "kind": "vulnerability",
+      "gloss": "A security vulnerability in WinRAR allowing remote code execution via specially crafted archive files."
+    },
+    {
+      "name": "Cloudflare",
+      "kind": "company",
+      "gloss": "An American web infrastructure and website security company providing CDN and DDoS mitigation services."
+    },
+    {
+      "name": "Повід. порушення 336 КК України.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive file used as a phishing attachment in cyberattacks."
+    },
+    {
+      "name": "Повід. порушення 336 КК України.hta",
+      "kind": "computer file",
+      "gloss": "A malicious HTML Application file contained within an archive attachment."
+    },
+    {
+      "name": "update.win.app.com",
+      "kind": "computer file",
+      "gloss": "A malicious .NET executable used to decrypt and execute PowerShell code in memory."
+    },
+    {
+      "name": "app.lib.conf",
+      "kind": "computer file",
+      "gloss": "An encrypted payload file downloaded and decoded during the attack chain."
+    },
+    {
+      "name": "app.lib.conf.ps1",
+      "kind": "computer file",
+      "gloss": "A PowerShell script implementing LONEPAGE malware functionality."
+    },
+    {
+      "name": "316-1759-24.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive file distributed in phishing emails."
+    },
+    {
+      "name": "316-1759-24.hta",
+      "kind": "computer file",
+      "gloss": "A malicious HTML Application file extracted from a phishing archive."
+    },
+    {
+      "name": "скан паспорту.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive exploiting vulnerability CVE-2023-38831."
+    },
+    {
+      "name": "скан паспорту.jpg .lnk",
+      "kind": "computer file",
+      "gloss": "A malicious Windows shortcut file masquerading as a JPEG image."
+    },
+    {
+      "name": "skan.txt",
+      "kind": "computer file",
+      "gloss": "A Base64-encoded file downloaded during malware execution."
+    },
+    {
+      "name": "UpdateOfficeCore.vbs",
+      "kind": "computer file",
+      "gloss": "A VBScript file representing a component or variant of the LONEPAGE malware."
+    },
+    {
+      "name": "kiev.gp.vid2@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator in cyberattack campaigns."
+    },
+    {
+      "name": "oksanakuli4@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address observed in connection with malicious email distributions."
+    },
+    {
+      "name": "gosp16.spd.ics.gov.ua@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address used in malicious email campaigns."
+    },
+    {
+      "name": "45.61.157.118",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command and control infrastructure."
+    },
+    {
+      "name": "160.119.251.83",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "172.86.117.53",
+      "kind": "ip address",
+      "gloss": "An IP address utilized in the malicious infrastructure."
+    },
+    {
+      "name": "captcha-challenge.com",
+      "kind": "domain name",
+      "gloss": "A domain name used by attackers for payload hosting and network communications."
+    },
+    {
+      "name": "newyorktlimes.life",
+      "kind": "domain name",
+      "gloss": "A malicious domain name spoofing a news media brand for C2 communications."
+    },
+    {
+      "name": "webappapiservice.life",
+      "kind": "domain name",
+      "gloss": "A domain name used as command and control infrastructure by the threat actor."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0099",
+      "type": "uses",
+      "tail": "LONEPAGE",
+      "evidence": "здійснених угрупуванням UAC-0099... на ЕОМ здійснюється запуск програми LONEPAGE"
+    },
+    {
+      "head": "UAC-0099",
+      "type": "exploits",
+      "tail": "CVE-2023-38831",
+      "evidence": "деякі архіви можуть містити експлойт для відомої вразливості WinRAR CVE-2023-38831"
+    },
+    {
+      "head": "CVE-2023-38831",
+      "type": "affects",
+      "tail": "WinRAR",
+      "evidence": "вразливості WinRAR CVE-2023-38831"
+    },
+    {
+      "head": "UAC-0099",
+      "type": "uses",
+      "tail": "Cloudflare",
+      "evidence": "зловмисники продовжують використовувати Cloudflare"
+    },
+    {
+      "head": "скан паспорту.rar",
+      "type": "exploits",
+      "tail": "CVE-2023-38831",
+      "evidence": "скан паспорту.rar (CVE-2023-38831)"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,205 @@
+{
+  "docId": 38374,
+  "date": "28.03.2022",
+  "title": "Кібератака групи UAC-0056 на державні органи України з використанням шкідливих програм GraphSteel та GrimPlant (CERT-UA#4293)",
+  "entities": [
+    {
+      "id": "38374:0",
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S4",
+      "category": "Sector",
+      "role": null
+    },
+    {
+      "id": "38374:1",
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyber threat actor associated with malicious activities targeting Ukrainian organizations.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "38374:2",
+      "name": "Заборгованість по зарплаті.xls",
+      "kind": "computer file",
+      "gloss": "A malicious Microsoft Excel spreadsheet containing macros used to drop malware.",
+      "scheme": "S11",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "38374:3",
+      "name": "Base-Update.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable downloader written in GoLang.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "38374:4",
+      "name": "GoDownloader",
+      "kind": "malware",
+      "gloss": "A malware downloader family developed in the Go programming language.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "38374:5",
+      "name": "java-sdk.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file functioning as a Go-based downloader.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "38374:6",
+      "name": "oracle-java.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file associated with the GrimPlant malware family.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "38374:7",
+      "name": "microsoft-cortana.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file associated with the GraphSteel malware family.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "38374:8",
+      "name": "GraphSteel",
+      "kind": "malware",
+      "gloss": "A Go-based malware family used for data theft and cyber espionage.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "38374:9",
+      "name": "GrimPlant",
+      "kind": "malware",
+      "gloss": "A Go-based backdoor malware family used for remote access and reconnaissance.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "38374:10",
+      "name": "194.31.98.124",
+      "kind": "ip address",
+      "gloss": "An IP address used for malicious command and control infrastructure.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "38374:11",
+      "name": "hxxp://194[.]31.98.124:443/i",
+      "kind": "uniform resource locator",
+      "gloss": "A network URL used for malicious communication and payload retrieval.",
+      "scheme": "S7",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "38374:12",
+      "name": "hxxp://194[.]31.98.124:443/p",
+      "kind": "uniform resource locator",
+      "gloss": "A network URL used for malicious communication and payload retrieval.",
+      "scheme": "S7",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "38374:13",
+      "name": "hxxp://194[.]31.98.124:443/m",
+      "kind": "uniform resource locator",
+      "gloss": "A network URL used for malicious communication and payload retrieval.",
+      "scheme": "S7",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "38374:14",
+      "name": "ws://194[.]31.98.124:443/c",
+      "kind": "uniform resource locator",
+      "gloss": "A WebSocket URL used for malicious command and control communication.",
+      "scheme": "S7",
+      "category": null,
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "Заборгованість по зарплаті.xls",
+      "evidence": "Виявлену активність асоційовано з дільністю групи UAC-0056"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "GraphSteel",
+      "evidence": "Виявлену активність асоційовано з дільністю групи UAC-0056"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "GrimPlant",
+      "evidence": "Виявлену активність асоційовано з дільністю групи UAC-0056"
+    },
+    {
+      "head": "Заборгованість по зарплаті.xls",
+      "type": "delivers",
+      "tail": "Base-Update.exe",
+      "evidence": "створення EXE-файлу \"Base-Update.exe\" на комп'ютері та його виконання"
+    },
+    {
+      "head": "Base-Update.exe",
+      "type": "delivers",
+      "tail": "GraphSteel",
+      "evidence": "забезпечить завантаження і запуск на комп'ютері шкідливих програм GraphSteel"
+    },
+    {
+      "head": "Base-Update.exe",
+      "type": "delivers",
+      "tail": "GrimPlant",
+      "evidence": "забезпечить завантаження і запуск на комп'ютері шкідливих програм GraphSteel та GrimPlant"
+    },
+    {
+      "head": "194.31.98.124",
+      "type": "hosts",
+      "tail": "hxxp://194[.]31.98.124:443/i",
+      "evidence": "hxxp://194[.]31.98.124:443/i"
+    },
+    {
+      "head": "194.31.98.124",
+      "type": "hosts",
+      "tail": "hxxp://194[.]31.98.124:443/p",
+      "evidence": "hxxp://194[.]31.98.124:443/p"
+    },
+    {
+      "head": "194.31.98.124",
+      "type": "hosts",
+      "tail": "hxxp://194[.]31.98.124:443/m",
+      "evidence": "hxxp://194[.]31.98.124:443/m"
+    },
+    {
+      "head": "194.31.98.124",
+      "type": "hosts",
+      "tail": "ws://194[.]31.98.124:443/c",
+      "evidence": "ws://194[.]31.98.124:443/c"
+    }
+  ],
+  "unclassified": []
+}

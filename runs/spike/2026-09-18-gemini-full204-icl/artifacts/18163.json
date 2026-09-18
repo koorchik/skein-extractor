@@ -1,0 +1,172 @@
+{
+  "docId": 18163,
+  "date": "28.01.2022",
+  "title": "Кібератака на організації та установи України з використанням програми Remote Utilities (CERT-UA#3751)",
+  "entities": [
+    {
+      "id": "18163:0",
+      "name": "UAC-0096",
+      "kind": "threat group",
+      "gloss": "A cyber threat group tracked by CERT-UA targeting Ukrainian government organizations and other entities.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "18163:1",
+      "name": "Google Drive",
+      "kind": "software product",
+      "gloss": "A cloud-based file storage and synchronization service developed by Google.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "18163:2",
+      "name": "DropMeFiles",
+      "kind": "software product",
+      "gloss": "A free online file sharing and transfer service.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "18163:3",
+      "name": "Remote Utilities",
+      "kind": "software product",
+      "gloss": "A commercial remote desktop and computer management software product.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "18163:4",
+      "name": "RManService",
+      "kind": "software product",
+      "gloss": "A system service associated with the Remote Utilities host software.",
+      "scheme": "S2",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "18163:5",
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign state located in Eastern Europe.",
+      "scheme": "S4",
+      "category": "Sector",
+      "role": null
+    },
+    {
+      "id": "18163:6",
+      "name": "Usoris",
+      "kind": "software vendor",
+      "gloss": "A software development company that creates the Remote Utilities remote administration software.",
+      "scheme": "S3",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "18163:7",
+      "name": "Судовий запит №9978364774635676778282.rar_pass_123.zip",
+      "kind": "computer file",
+      "gloss": "A password-protected ZIP archive used as a malicious lure file in phishing campaigns.",
+      "scheme": "S11",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "18163:8",
+      "name": "Судовий запит №9978364774635676778282.rar",
+      "kind": "computer file",
+      "gloss": "A RAR archive distributed as part of a phishing attack campaign.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "18163:9",
+      "name": "Судовий запит №99783647746356767782828.pdf.rar",
+      "kind": "computer file",
+      "gloss": "A RAR archive masquerading as a legal document used in a phishing campaign.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "18163:10",
+      "name": "Судовий запит №99783647746356767782828.pdf.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file masquerading as a PDF document.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "18163:11",
+      "name": "101.99.93[.]49",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure related to cyberattack activity.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "18163:12",
+      "name": "rmssrv2[.]ru",
+      "kind": "domain name",
+      "gloss": "An internet domain name used for remote connection server infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "18163:13",
+      "name": "rmssrv3[.]ru",
+      "kind": "domain name",
+      "gloss": "An internet domain name used for remote connection server infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "18163:14",
+      "name": "rmssrv4[.]ru",
+      "kind": "domain name",
+      "gloss": "An internet domain name used for remote connection server infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "18163:15",
+      "name": "https://cert.gov.ua/article/10011",
+      "kind": "uniform resource locator",
+      "gloss": "A web link to a CERT-UA security report describing previous group activity.",
+      "scheme": "S7",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0096",
+      "type": "uses",
+      "tail": "Remote Utilities",
+      "evidence": "встановлено легітимну програму Remote Utilities... відслідковується CERT-UA за ідентифікатором UAC-0096"
+    },
+    {
+      "head": "Судовий запит №9978364774635676778282.rar_pass_123.zip",
+      "type": "delivers",
+      "tail": "Remote Utilities",
+      "evidence": "розпакування і запуску вмісту архіву на комп’ютер жертви буде встановлено легітимну програму Remote Utilities"
+    },
+    {
+      "head": "RManService",
+      "type": "part-of",
+      "tail": "Remote Utilities",
+      "evidence": "Персистентність програми забезпечується шляхом створення служби «RManService»"
+    }
+  ],
+  "unclassified": []
+}

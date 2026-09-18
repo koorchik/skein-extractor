@@ -1,0 +1,173 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0010 (Armageddon)",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group primarily targeting Ukrainian government and military entities, also known as Gamaredon."
+    },
+    {
+      "name": "NO-IP",
+      "kind": "dynamic dns service",
+      "gloss": "A dynamic DNS provider offering free and paid domain redirection services."
+    },
+    {
+      "name": "1275_07.04.2022.htm",
+      "kind": "malicious file",
+      "gloss": "A malicious HTML attachment used to deliver an archive containing an LNK shortcut payload."
+    },
+    {
+      "name": "1275_07.04.2022.rar",
+      "kind": "malicious archive",
+      "gloss": "A RAR archive created by the malicious HTML file containing a malicious shortcut."
+    },
+    {
+      "name": "Щодо фактів переслідування та вбивства працівників Прокуратури з боку російських військових на тимчасово окупованих територіях.lnk",
+      "kind": "malicious file",
+      "gloss": "A malicious Windows shortcut file that downloads and executes next-stage payloads when opened."
+    },
+    {
+      "name": "1275_07.04.2022 (1).rar",
+      "kind": "malicious archive",
+      "gloss": "A secondary malicious RAR archive associated with the attack campaign."
+    },
+    {
+      "name": "military-prosecutor@post.cz",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors as an indicator in the campaign."
+    },
+    {
+      "name": "hXXp://m-vz.webhop[.]me/prk/faicon.ico",
+      "kind": "url",
+      "gloss": "A malicious URL hosted on dynamic DNS infrastructure used to deliver payloads."
+    },
+    {
+      "name": "hXXp://a0656203.xsph[.]ru/prescription/seized.xml",
+      "kind": "url",
+      "gloss": "A malicious URL hosted on a Russian hosting service used for staging payloads."
+    },
+    {
+      "name": "hXXp://a0656203.xsph[.]ru/prepared/semi.xml",
+      "kind": "url",
+      "gloss": "A malicious URL hosted on a Russian hosting service used in the cyber campaign."
+    },
+    {
+      "name": "m-vz.webhop[.]me",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS domain used as command and control or payload distribution infrastructure."
+    },
+    {
+      "name": "a0656203.xsph[.]ru",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious payload hosting by the threat actor."
+    },
+    {
+      "name": "a0322810.xsph[.]ru",
+      "kind": "internet domain",
+      "gloss": "A domain identified as infrastructure associated with the threat actor."
+    },
+    {
+      "name": "lnk-upload.dodortar[.]ru",
+      "kind": "internet domain",
+      "gloss": "A malicious subdomain used for attack infrastructure."
+    },
+    {
+      "name": "dod-upload.dodortar[.]ru",
+      "kind": "internet domain",
+      "gloss": "A malicious subdomain used for attack infrastructure."
+    },
+    {
+      "name": "ln-upl.ddns[.]net",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS domain used by the threat actor."
+    },
+    {
+      "name": "d-upl.ddns[.]net",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS domain used by the threat actor."
+    },
+    {
+      "name": "up-dot.myftp[.]org",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS domain used by the threat actor."
+    },
+    {
+      "name": "up-lnk.myftp[.]org",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS domain used by the threat actor."
+    },
+    {
+      "name": "nitikora[.]ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain identified as threat infrastructure."
+    },
+    {
+      "name": "dodortar[.]ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain identified as threat infrastructure."
+    },
+    {
+      "name": "kopratiso[.]ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain identified as threat infrastructure."
+    },
+    {
+      "name": "billyhot[.]ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain identified as threat infrastructure."
+    },
+    {
+      "name": "bilitora[.]ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain identified as threat infrastructure."
+    },
+    {
+      "name": "194[.]58.121.198",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the threat actor's network infrastructure."
+    },
+    {
+      "name": "194[.]180.174.105",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the threat actor's network infrastructure."
+    },
+    {
+      "name": "149[.]248.13.58",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the threat actor's network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0010 (Armageddon)",
+      "type": "uses-service",
+      "tail": "NO-IP",
+      "evidence": "члени групи, серед іншого, використовують Dynamic DNS сервіс NO-IP"
+    },
+    {
+      "head": "1275_07.04.2022.htm",
+      "type": "drops-file",
+      "tail": "1275_07.04.2022.rar",
+      "evidence": "HTML-файл, відриття якого призведе до створення на комп'ютері архіву \"1275_07.04.2022.rar\""
+    },
+    {
+      "head": "1275_07.04.2022.rar",
+      "type": "contains-file",
+      "tail": "Щодо фактів переслідування та вбивства працівників Прокуратури з боку російських військових на тимчасово окупованих територіях.lnk",
+      "evidence": "Останній містить LNK-файл \"Щодо фактів переслідування та вбивства працівників Прокуратури"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-service",
+      "definition": "The threat actor utilizes an external service or provider for operational purposes."
+    },
+    {
+      "name": "drops-file",
+      "definition": "A file creates, writes, or extracts another file onto the target system."
+    },
+    {
+      "name": "contains-file",
+      "definition": "An archive or container file contains a specific bundled file."
+    }
+  ]
+}

@@ -1,0 +1,145 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0010 (Armageddon)",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage threat group also known as Gamaredon."
+    },
+    {
+      "name": "NO-IP",
+      "kind": "service provider",
+      "gloss": "A dynamic DNS service provider frequently abused by threat actors for infrastructure resilience."
+    },
+    {
+      "name": "1275_07.04.2022.htm",
+      "kind": "malicious file",
+      "gloss": "A malicious HTML attachment that creates an archive file upon being opened."
+    },
+    {
+      "name": "1275_07.04.2022.rar",
+      "kind": "malicious file",
+      "gloss": "A malicious RAR archive containing an LNK shortcut file."
+    },
+    {
+      "name": "1275_07.04.2022 (1).rar",
+      "kind": "malicious file",
+      "gloss": "A malicious RAR archive used to deliver a shortcut payload."
+    },
+    {
+      "name": "Щодо фактів переслідування та вбивства працівників Прокуратури з боку російських військових на тимчасово окупованих територіях.lnk",
+      "kind": "malicious file",
+      "gloss": "A malicious Windows shortcut file designed to download and execute an external payload."
+    },
+    {
+      "name": "military-prosecutor@post.cz",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors in phishing operations."
+    },
+    {
+      "name": "m-vz.webhop.me",
+      "kind": "domain name",
+      "gloss": "A dynamic DNS domain used as command and control or payload distribution infrastructure."
+    },
+    {
+      "name": "a0656203.xsph.ru",
+      "kind": "domain name",
+      "gloss": "A domain used for malicious payload hosting or command and control communication."
+    },
+    {
+      "name": "a0322810.xsph.ru",
+      "kind": "domain name",
+      "gloss": "A domain used for malicious network infrastructure."
+    },
+    {
+      "name": "lnk-upload.dodortar.ru",
+      "kind": "domain name",
+      "gloss": "A malicious subdomain used for network communication or payload delivery."
+    },
+    {
+      "name": "dod-upload.dodortar.ru",
+      "kind": "domain name",
+      "gloss": "A malicious subdomain used for network communication or payload delivery."
+    },
+    {
+      "name": "ln-upl.ddns.net",
+      "kind": "domain name",
+      "gloss": "A dynamic DNS domain used by threat actors as network infrastructure."
+    },
+    {
+      "name": "d-upl.ddns.net",
+      "kind": "domain name",
+      "gloss": "A dynamic DNS domain used by threat actors as network infrastructure."
+    },
+    {
+      "name": "up-dot.myftp.org",
+      "kind": "domain name",
+      "gloss": "A dynamic DNS domain used by threat actors as network infrastructure."
+    },
+    {
+      "name": "up-lnk.myftp.org",
+      "kind": "domain name",
+      "gloss": "A dynamic DNS domain used by threat actors as network infrastructure."
+    },
+    {
+      "name": "nitikora.ru",
+      "kind": "domain name",
+      "gloss": "A domain associated with malicious threat infrastructure."
+    },
+    {
+      "name": "dodortar.ru",
+      "kind": "domain name",
+      "gloss": "A domain associated with malicious threat infrastructure."
+    },
+    {
+      "name": "kopratiso.ru",
+      "kind": "domain name",
+      "gloss": "A domain associated with malicious threat infrastructure."
+    },
+    {
+      "name": "billyhot.ru",
+      "kind": "domain name",
+      "gloss": "A domain associated with malicious threat infrastructure."
+    },
+    {
+      "name": "bilitora.ru",
+      "kind": "domain name",
+      "gloss": "A domain associated with malicious threat infrastructure."
+    },
+    {
+      "name": "194.58.121.198",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat infrastructure."
+    },
+    {
+      "name": "194.180.174.105",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat infrastructure."
+    },
+    {
+      "name": "149.248.13.58",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "1275_07.04.2022.htm",
+      "type": "delivers",
+      "tail": "1275_07.04.2022.rar",
+      "evidence": "призведе до створення на комп'ютері архіву \"1275_07.04.2022.rar\""
+    },
+    {
+      "head": "1275_07.04.2022.rar",
+      "type": "delivers",
+      "tail": "Щодо фактів переслідування та вбивства працівників Прокуратури з боку російських військових на тимчасово окупованих територіях.lnk",
+      "evidence": "Останній містить LNK-файл \"Щодо фактів переслідування та вбивства працівників Прокуратури"
+    },
+    {
+      "head": "UAC-0010 (Armageddon)",
+      "type": "uses-malware",
+      "tail": "1275_07.04.2022.htm",
+      "evidence": "Активність асоційовано з діяльністю групи UAC-0010 (Armageddon)"
+    }
+  ],
+  "newRelationTypes": []
+}

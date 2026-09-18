@@ -1,0 +1,196 @@
+{
+  "docId": 5269451,
+  "date": "24.07.2023",
+  "title": "Рівень загрози для бухгалтерів зростає: угрупуванням UAC-0006 проведено третю за 10 діб кібератаку (CERT-UA#7065, CERT-UA#7076)",
+  "entities": [
+    {
+      "id": "5269451:0",
+      "name": "UAC-0006",
+      "kind": "threat actor",
+      "gloss": "A financially motivated cybercriminal threat actor known for deploying SmokeLoader to compromise banking and financial systems.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "5269451:1",
+      "name": "SmokeLoader",
+      "kind": "malware family",
+      "gloss": "A modular malicious bot program used to download and execute additional malware payloads.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "5269451:2",
+      "name": "WinRAR",
+      "kind": "software product",
+      "gloss": "A widely used file archiver and utility software for Windows.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5269451:3",
+      "name": "Pax_ipn_18.07.2023p.jpg",
+      "kind": "malicious file",
+      "gloss": "An executable file disguised with an image extension used in malicious execution chains.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "5269451:4",
+      "name": "2.Витяг з реeстру вiд 24.07.2023р_Код документа 9312-0580-6944-3255.xls.js",
+      "kind": "malicious file",
+      "gloss": "A malicious JavaScript loader script used to download and execute secondary payloads.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "5269451:5",
+      "name": "1.Платiжна iнструкцiя iпн та вытяг з реестру Код документа 9312-0580-6944-3255.exe",
+      "kind": "malicious file",
+      "gloss": "A self-extracting archive containing malicious components and decoy documents.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "5269451:6",
+      "name": "document_payment.docx",
+      "kind": "decoy document",
+      "gloss": "A decoy Microsoft Word document deployed within an SFX archive.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5269451:7",
+      "name": "Платiжна iнструкцiя Приват_банк.docx",
+      "kind": "decoy document",
+      "gloss": "A legitimate-looking payment instruction decoy document mimicking PrivatBank.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5269451:8",
+      "name": "passport.bat",
+      "kind": "malicious file",
+      "gloss": "A batch script designed to execute a renamed payload.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "5269451:9",
+      "name": "weboffice.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable payload downloaded during the compromise chain.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "5269451:10",
+      "name": "wscript.exe",
+      "kind": "software product",
+      "gloss": "A Windows Script Host component used to execute scripts on Windows systems.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5269451:11",
+      "name": "cscript.exe",
+      "kind": "software product",
+      "gloss": "A command-line Windows Script Host utility for script execution.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5269451:12",
+      "name": "powershell.exe",
+      "kind": "software product",
+      "gloss": "A command-line shell and scripting tool included with Microsoft Windows.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5269451:13",
+      "name": "mshta.exe",
+      "kind": "software product",
+      "gloss": "A Windows utility used to execute Microsoft HTML Application (HTA) files.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5269451:14",
+      "name": "194.87.32.152",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the malicious network infrastructure.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5269451:15",
+      "name": "ukr-net-downloadfile[.]su",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used for hosting and distributing phishing or payload files.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "5269451:16",
+      "name": "mediaplatformapharm[.]ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used to host the executable payload weboffice.exe.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "5269451:17",
+      "name": "tvpharm[.]ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used to host the executable payload weboffice.exe.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": "attacker"
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "SmokeLoader",
+      "evidence": "атаки угрупування UAC-0006 із застосуванням шкідливої програми SmokeLoader"
+    },
+    {
+      "head": "passport.bat",
+      "type": "delivers",
+      "tail": "Pax_ipn_18.07.2023p.jpg",
+      "evidence": "BAT-скриптом \"passport.bat\", призначеним для запуску \"Pax_ipn_18.07.2023p.jpg\""
+    },
+    {
+      "head": "mediaplatformapharm[.]ru",
+      "type": "hosts",
+      "tail": "weboffice.exe",
+      "evidence": "hXXp://mediaplatformapharm[.]ru/officedownloadfile/weboffice.exe"
+    },
+    {
+      "head": "tvpharm[.]ru",
+      "type": "hosts",
+      "tail": "weboffice.exe",
+      "evidence": "hXXp://tvpharm[.]ru/officedownloadfile/weboffice.exe"
+    }
+  ],
+  "unclassified": []
+}

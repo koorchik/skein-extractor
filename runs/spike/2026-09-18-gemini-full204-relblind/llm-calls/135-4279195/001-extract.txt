@@ -1,0 +1,299 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA у березні 2023 року отримано інформацію щодо виявлення ознак несанкціонованого доступу до інформаційно-комунікаційної системи (ІКС) одного з комунальних підприємств.</p><p>Керуючись пп.1 п.2 ст.8 Закону України "Про основні засади забезпечення кібербезпеки України" CERT-UA вжито заходи з реагування на кіберінцидент, зокрема проведено комп'ютерно-технічне дослідження електронно-обчислювальних машин (ЕОМ).</p><p>З'ясовано, що первинна компрометація ЕОМ відбулася 19.01.2023 в результаті встановлення неліцензійної версії програмного продукту Microsoft Office 2019, BitTorrent-файл для завантаження якого ("Microsoft.Office-x64.v2019.x.iso.torrent", MD5: f2b0c6b3e7794d3f3d3b2bba5709c672, дата створення: 2022-09-13 08:48:58) було отримано з трекеру "Торрент-Толока" (hxxps://toloka[.]to/t661196).&nbsp;</p><p>Поряд з (неліцензійним) програмним продуктом Microsoft Office 2019 в ISO-образі "Microsoft.Office-x64.v2019.x.iso" (MD5: 0b1e980d569829c5748fb9acf6cfde00, SHA1: a398a3370c662ffbd0940a4a53197ebefc702cad, SHA256: b8b5fadf15b0e36575513bb2cb255f604d4caad54dbddd473eadf8110602e854) містився файл "AUTORUN.exe" (MD5: 29a1b4b547c6edb8383c2f865fb71e52, дата створення: 2022-09-09 11:54:08), запуск якого забезпечить дешифрування (XOR), декодування (base64), створення на ЕОМ в каталозі %TMP% (всього 441 варіант назви файлу) та запуск (API-функція: "CreateProcessA") виконуваного файлу, а також запуск файлу "\Office\AUTORUN.exe" (MD5: 83330eb9fc3b1bd8be730ac4a2aba352, дата створення: 2019-10-12 16:09:13; шлях зазначено відносно точки монтування), що ініціює процес встановлення&nbsp;Microsoft Office 2019 (варіант KMSAuto).</p><p>Створюваний виконуваний файл є шкідливою програмою DarkCrystal RAT (MD5: c97ade9038d492393113e5d8c2c63b75, дата створення: 2022-07-24 15:13:08). Процес запуску DarkCrystal RAT, серед іншого, супроводжується створенням власної копії (від 2 до 20 разів) за довільно сформованим шляхом, в якому назва файлу обирається довільно зі списку запущених процесів, а також додаванням відповідних ключів в гілці "Run" реєстру Windows та створенням за допомогою WMI запланованих завдань.</p><p>Наступної доби (20.01.2023) за допомогою DarkCrystal RAT на ЕОМ було завантажено Python-інтерпретатор (Python 2.7.18) "C:\ProgramData\Windows Events.exe" (MD5: 9767f3103c55c66cc2c9eb39d56db594), вихідний код засобу віддаленого адміністрування DWAgent (hxxps://github[.]com/dwservice/agent) та файл "C:\ProgramData\service\core\Windows Update.exe" (MD5: 69bbbd899e76b29a0250d8b73326b624, дата створення: 2022-10-12 16:44:44). Відповідно до вердикту Microsoft Defender - "Trojan:Win32/PinkyAgent.A!dha" - файл "Windows Update.exe" класифіковано як "PinkyAgent", призначенням якого є запуск за допомогою Python-інтерпретатору скрипта "C:\ProgramData\service\core\agent.py" (MD5: c83aebdbb21a3c7e155b4040e675b9a8), що, у свою чергу, здійснить запуск DWAgent (персистентність забезпечується за допомогою служби "Windows Update"). Зауважимо, що вихідний код "C:\ProgramData\service\core\agent.py" є частково модифікованою версією оригінального файлу "hxxps://github[.]com/dwservice/agent/blob/master/core/agent.py".</p><p>Таким чином, в результаті використання неліцензійної версії програмного продукту Microsoft Office 2019 на ЕОМ було встановлено шкідливу програму DarkCrystal RAT та засіб віддаленого адміністрування DWAgent, що створило передумови для несанкціонованого доступу до ІКС організації у період з 19.01.2023 по 22.03.2023.</p><p>Описана активність відстежується за ідентифікатором UAC-0145.</p><p>Слід зауважити, що такий вектор первинної компрометації зустрічається не вперше. Окрім програмних продуктів Microsoft Office, відомі випадки інфікування, в т.ч. під час встановлення операційних систем, завантажених з неофіційних джерел, а також інших програм (сканерів, засобів відновлення паролів тощо). При цьому, реалізації зловмисного задуму сприяє факт здійснення згаданих маніпуляцій на ЕОМ системного адміністратора і/або від імені привілейованого користувача.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">f2b0c6b3e7794d3f3d3b2bba5709c672&nbsp; &nbsp; 40d0ecca47f4ed2265f84b540b7a4fd2b1ce337c910846d56d698e072d7ead6e&nbsp; &nbsp; Microsoft.Office-x64.v2019.x.iso.torrent
+0b1e980d569829c5748fb9acf6cfde00&nbsp; &nbsp; b8b5fadf15b0e36575513bb2cb255f604d4caad54dbddd473eadf8110602e854&nbsp; &nbsp; Microsoft.Office-x64.v2019.x.iso
+29a1b4b547c6edb8383c2f865fb71e52&nbsp; &nbsp; 64def4f01bee099c0a95c240d00c1987b2309fd6513830322ae16874c7728714&nbsp; &nbsp; AUTORUN.exe (Dark Crystal RAT dropper)
+c97ade9038d492393113e5d8c2c63b75&nbsp; &nbsp; 41de9ed75aeac48f5c1ca94e5ed64a27227286c93a8df541f35d729f1ec87418&nbsp; &nbsp; firefox.exe (Dark Crystal RAT)
+c83aebdbb21a3c7e155b4040e675b9a8&nbsp; &nbsp; 8b19ab5cbee135e49a527a8bbfa8eedc2958a9625ffccf8d5f716696a9c18e5d&nbsp; &nbsp; agent.py
+69bbbd899e76b29a0250d8b73326b624&nbsp; &nbsp; 3de1ddc434c1c92fd4f5df8afc7bc5d746f093c3a2f6a58c975b53b24c2f5ca7&nbsp; &nbsp; Windows Update.exe (PinkyAgent)
+83330eb9fc3b1bd8be730ac4a2aba352&nbsp; &nbsp; 36a16af682c2c6d6bc575d3442472e483ada21424bf9be1c72c2e7e27651d73f&nbsp; &nbsp; AUTORUN.exe (KMSAuto)
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">(вихідний код, бібліотеки Python, DWAgent)
+C:\ProgramData\DLLs\
+C:\ProgramData\Lib\
+C:\ProgramData\service\
+C:\ProgramData\service\core\Windows Update.exe
+C:\ProgramData\service\core\agent.py
+
+(приклад файлів - копій Dark Crystal RAT)
+C:\%USERNAME%\Scaning\gudini\firefox.exe
+C:\Dell\DIMA\war\rdpclip.exe
+C:\Dell\UpdatePackage\Log\SecHealthUI.exe
+C:\Program Files\ACD Systems\ACDSee Pro\7.0\acdIDInTouch2.exe
+C:\Program Files\DellTPad\Apoint.exe
+C:\PuTTY\AUTORUN.exe
+C:\PuTTY\AggregatorHost.exe
+C:\SadpLog\msedgewebview2.exe
+C:\Temp\Rufus\explorer.exe
+C:\Temp\Rufus\msedgewebview2.exe
+C:\Temp\gramota_UA#1\AUTORUN.exe
+C:\Users\%USERNAME%\AppData\Local\Temp\upd_ReAgentc.exe
+C:\Users\Default User\firefox.exe
+C:\Users\Default\firefox.exe
+C:\Utilits\2015d\Drivers\Dot4\AMD64\winxp\msedge.exe
+C:\Utilits\2015d\Drivers\Dot4\AMD64\winxp\winlogon.exe
+C:\WebCMS\Config\msedge.exe
+C:\adb\1\RuntimeBroker.exe
+C:\adb\api\SearchHost.exe
+
+(приклад значень в реєстрі Windows)
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run\ACPW07EN
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run\AUTORUN
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run\AggregatorHost
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run\Apoint
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run\RuntimeBroker
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run\SearchHost
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run\SecHealthUI
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run\explorer
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run\firefox
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run\msedge
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run\msedgewebview2
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run\rdpclip
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run\winlogon
+
+DCR_MUTEX-DPoINAzPDTL4CyxempkC (м'ютекс)
+Windows Update (назва служби)
+cd C:\programdata\service\core &amp;&amp; cmd.exe /C ""C:\programdata\Windows Events.exe" "C:\programdata\service\core\agent.py""
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">95[.]217.99.28
+hXXp://95[.]217.99.28/Image_bigloadtrackuploads[.]php
+hXXps://toloka[.]to/t661196
+hXXps://toloka[.]to/p1893256
+hXXp://bt.toloka[.]tv/announce/?h=842tFzFUWo&amp;
+hXXp://bt.hurtom[.]com/announce/?h=842tFzFUWo&amp;
+hXXp://bt.toloka[.]to/announce/?h=842tFzFUWo&amp;
+hXXps://www.dwservice[.]net/getagentfile.dw?name=files.xml
+dwservice[.]net (офіційний домен DWService; рекомендовано забезпечити моніторинг)
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p><strong>﻿</strong></p>
+
+=== RESPONSE (7.5s, in 4359 / out 2118 tok, STOP) ===
+The report describes cyber threat activity tracked as UAC-0145, in which an employee of a Ukrainian municipal enterprise downloaded a pirated ISO image of Microsoft Office 2019 from the Torrent-Toloka tracker. The ISO image contained an executable dropper (AUTORUN.exe) that deployed DarkCrystal RAT (DCRat). The attackers subsequently deployed the DWAgent remote administration tool via a custom launcher identified as PinkyAgent, utilizing Python.
+
+```json
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0145",
+      "kind": "threat actor",
+      "gloss": "A threat group tracked by CERT-UA associated with cyberattacks utilizing trojanized software distributions and DarkCrystal RAT."
+    },
+    {
+      "name": "DarkCrystal RAT",
+      "kind": "malware family",
+      "gloss": "A commercial remote access trojan (RAT) offering extensive information stealing, remote surveillance, and execution capabilities."
+    },
+    {
+      "name": "PinkyAgent",
+      "kind": "malware family",
+      "gloss": "A malware component designed to launch Python-based payloads such as the DWAgent remote access utility."
+    },
+    {
+      "name": "DWAgent",
+      "kind": "software product",
+      "gloss": "An open-source remote administration tool used for remote access and desktop management."
+    },
+    {
+      "name": "Microsoft Office 2019",
+      "kind": "software product",
+      "gloss": "A suite of productivity software developed by Microsoft."
+    },
+    {
+      "name": "Python",
+      "kind": "software product",
+      "gloss": "A high-level programming language and interpreter."
+    },
+    {
+      "name": "KMSAuto",
+      "kind": "software tool",
+      "gloss": "A software utility used to activate Microsoft products without a valid license."
+    },
+    {
+      "name": "Торрент-Толока",
+      "kind": "website",
+      "gloss": "A Ukrainian BitTorrent tracker platform."
+    },
+    {
+      "name": "toloka.to",
+      "kind": "internet domain",
+      "gloss": "An internet domain hosting the Ukrainian BitTorrent tracker Toloka."
+    },
+    {
+      "name": "hurtom.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain associated with the Ukrainian BitTorrent community portal."
+    },
+    {
+      "name": "dwservice.net",
+      "kind": "internet domain",
+      "gloss": "The official domain and online service infrastructure for the DWAgent remote administration platform."
+    },
+    {
+      "name": "github.com",
+      "kind": "internet domain",
+      "gloss": "A web-based platform for software version control and code hosting."
+    },
+    {
+      "name": "95.217.99.28",
+      "kind": "ip address",
+      "gloss": "An IP address associated with network communication during the cyber incident."
+    },
+    {
+      "name": "Microsoft.Office-x64.v2019.x.iso.torrent",
+      "kind": "file name",
+      "gloss": "A BitTorrent file used to download a trojanized Microsoft Office ISO image."
+    },
+    {
+      "name": "Microsoft.Office-x64.v2019.x.iso",
+      "kind": "file name",
+      "gloss": "An ISO disk image containing trojanized installation files for Microsoft Office 2019."
+    },
+    {
+      "name": "AUTORUN.exe",
+      "kind": "file name",
+      "gloss": "An executable file embedded within the ISO image acting as a dropper for DarkCrystal RAT."
+    },
+    {
+      "name": "Windows Update.exe",
+      "kind": "file name",
+      "gloss": "An executable classified as PinkyAgent used to launch the DWAgent agent script."
+    },
+    {
+      "name": "agent.py",
+      "kind": "file name",
+      "gloss": "A modified Python script of the DWAgent remote access client."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0145",
+      "type": "tracks-activity-of",
+      "tail": "DarkCrystal RAT",
+      "evidence": "Описана активність відстежується за ідентифікатором UAC-0145."
+    },
+    {
+      "head": "Microsoft.Office-x64.v2019.x.iso.torrent",
+      "type": "hosted-on",
+      "tail": "Торрент-Толока",
+      "evidence": "було отримано з трекеру \"Торрент-Толока\""
+    },
+    {
+      "head": "Торрент-Толока",
+      "type": "uses-domain",
+      "tail": "toloka.to",
+      "evidence": "трекеру \"Торрент-Толока\" (hxxps://toloka[.]to/t661196)"
+    },
+    {
+      "head": "Microsoft.Office-x64.v2019.x.iso",
+      "type": "contains-file",
+      "tail": "AUTORUN.exe",
+      "evidence": "в ISO-образі \"Microsoft.Office-x64.v2019.x.iso\" ... містився файл \"AUTORUN.exe\""
+    },
+    {
+      "head": "AUTORUN.exe",
+      "type": "drops-payload",
+      "tail": "DarkCrystal RAT",
+      "evidence": "Створюваний виконуваний файл є шкідливою програмою DarkCrystal RAT"
+    },
+    {
+      "head": "DarkCrystal RAT",
+      "type": "downloads",
+      "tail": "Windows Update.exe",
+      "evidence": "за допомогою DarkCrystal RAT на ЕОМ було завантажено ... файл \"C:\\ProgramData\\service\\core\\Windows Update.exe\""
+    },
+    {
+      "head": "DarkCrystal RAT",
+      "type": "downloads",
+      "tail": "DWAgent",
+      "evidence": "за допомогою DarkCrystal RAT на ЕОМ було завантажено ... вихідний код засобу віддаленого адміністрування DWAgent"
+    },
+    {
+      "head": "Windows Update.exe",
+      "type": "classified-as",
+      "tail": "PinkyAgent",
+      "evidence": "файл \"Windows Update.exe\" класифіковано як \"PinkyAgent\""
+    },
+    {
+      "head": "Windows Update.exe",
+      "type": "executes-script",
+      "tail": "agent.py",
+      "evidence": "призначенням якого є запуск за допомогою Python-інтерпретатору скрипта \"C:\\ProgramData\\service\\core\\agent.py\""
+    },
+    {
+      "head": "agent.py",
+      "type": "executes-component",
+      "tail": "DWAgent",
+      "evidence": "що, у свою чергу, здійснить запуск DWAgent"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "tracks-activity-of",
+      "definition": "Identifies an actor tracking designation associated with the observed malicious activity or tool deployment."
+    },
+    {
+      "name": "hosted-on",
+      "definition": "Specifies the web service, server, or tracker where a file or resource is published."
+    },
+    {
+      "name": "uses-domain",
+      "definition": "Connects a service, platform, or organization to an internet domain name it operates."
+    },
+    {
+      "name": "contains-file",
+      "definition": "Indicates that an archive, image, or container holds a specific internal file."
+    },
+    {
+      "name": "drops-payload",
+      "definition": "Indicates that an installer or dropper extracts and executes a malware payload."
+    },
+    {
+      "name": "downloads",
+      "definition": "Indicates that a program or threat actor retrieves a remote file or tool to the system."
+    },
+    {
+      "name": "classified-as",
+      "definition": "Specifies the malware family or detection signature category assigned to a file."
+    },
+    {
+      "name": "executes-script",
+      "definition": "Denotes an executable program initiating the execution of a script file."
+    },
+    {
+      "name": "executes-component",
+      "definition": "Indicates that a script or process launches an application or tool."
+    }
+  ]
+}
+```

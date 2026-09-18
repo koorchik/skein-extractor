@@ -1,0 +1,188 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA від учасника інформаційного обміну отримано електронний лист з темою "Указ Президента України No 576/22 про безпрецедентні заходи безпеки" та вкладенням у вигляді ISO-файлу "Указ Президента України No 151 про безпрецедентні заходи безпеки.iso".&nbsp;</p><p>Встановлено, що згаданий ISO-файл містить документ-приманку "a.docx", LNK-файл "УКАЗ ПРЕЗИДЕНТА УКРАЇНИ №151_2022.mp4.lnk", PowerShell-скрипт "z.ps1" та EXE-файл "b.exe". У випадку запуску LNK-файлу, останній виконає PowerShell-скрипт, який, у свою чергу, відкриє DOCX-файл та здійснить виконання файлу "b.exe". В результаті, комп'ютер буде уражено шкідливою програмою Meterpreter.</p><p>Виходячи з результатів дослідження, активність асоційовано з UAC-0098. Крім того, існують підстави вважати, що згадана активність має відношення до діяльності групи TrickBot.</p><p><br></p><p><strong>Індикатори компрометації</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">66542f7db440f8d606013a4945c00bb7	c657d7dba12913557fbdbb61fbf3c9b69dbdb26812949e4a79b135a979023063	Указ Президента України No 151 про безпрецедентні заходи безпеки.iso
+1b52dc5730f7978319401485bd66e647	e5d51dbd9c88cd350c79b51285361be74f4dba64829fd92a603631c144bf6f63	a.docx
+37d115e4fe3c80529a97d914f03369a7	aa8de6a526ad97a967874ac6b2fb347b8f444dd126e7f7b3838a6822a7298c30	УКАЗ ПРЕЗИДЕНТА УКРАЇНИ №151_2022.mp4.lnk
+612bdb66d203829e65bfad98c19f48cf	d5d917bff6e5247b52b237c053a6c867aa242e1bdd88596d5e2422008cddfb09	z.ps1
+97d08c24c2690b8289a4054937db36bc	865fadf4aadd58cac4909de95fb5f4c1a9b194b9e1f84973b4266c9a464d196b	b.exe
+493c8de446f2c442d781cd0fe22ca813	a5f713ca2ba69af2ad2a2631b2369c250c3b359513ec93c26a075bde3f659389	loader.exe
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">admin@rs500cosworth.com
+tcp://195[.]211.99.29:28334
+195[.]211.99.29
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -exec bypass -w h -file z.ps1
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p><strong><span class="ql-cursor">﻿</span></strong></p>
+
+=== RESPONSE (6.9s, in 2007 / out 1576 tok, STOP) ===
+```json
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Указ Президента України No 151 про безпрецедентні заходи безпеки.iso",
+      "kind": "disk image file",
+      "gloss": "A malicious ISO disk image file distributed as an email attachment in a cyber attack."
+    },
+    {
+      "name": "a.docx",
+      "kind": "document file",
+      "gloss": "A decoy Microsoft Word document embedded within a malicious disk image."
+    },
+    {
+      "name": "УКАЗ ПРЕЗИДЕНТА УКРАЇНИ №151_2022.mp4.lnk",
+      "kind": "shortcut file",
+      "gloss": "A malicious Windows shortcut file used to trigger PowerShell script execution."
+    },
+    {
+      "name": "z.ps1",
+      "kind": "script file",
+      "gloss": "A PowerShell script used to open a decoy document and execute a payload executable."
+    },
+    {
+      "name": "b.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable file responsible for deploying Meterpreter."
+    },
+    {
+      "name": "loader.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable file identified as an indicator of compromise."
+    },
+    {
+      "name": "Meterpreter",
+      "kind": "malware family",
+      "gloss": "An advanced, dynamically extensible payload and post-exploitation tool from the Metasploit Framework."
+    },
+    {
+      "name": "UAC-0098",
+      "kind": "threat actor",
+      "gloss": "A cyber threat actor group linked to attacks against Ukrainian entities and associated with TrickBot."
+    },
+    {
+      "name": "TrickBot",
+      "kind": "cybercrime group",
+      "gloss": "A notorious cybercrime group known for developing and operating the TrickBot banking trojan and malware ecosystem."
+    },
+    {
+      "name": "admin@rs500cosworth.com",
+      "kind": "email address",
+      "gloss": "An email address identified as network infrastructure in a cyber incident."
+    },
+    {
+      "name": "195.211.99.29",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control or network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0098",
+      "type": "associated-with-group",
+      "tail": "TrickBot",
+      "evidence": "активність асоційовано з UAC-0098. Крім того, існують підстави вважати, що згадана активність має відношення до діяльності групи TrickBot"
+    },
+    {
+      "head": "Указ Президента України No 151 про безпрецедентні заходи безпеки.iso",
+      "type": "contains-file",
+      "tail": "a.docx",
+      "evidence": "згаданий ISO-файл містить документ-приманку \"a.docx\""
+    },
+    {
+      "head": "Указ Президента України No 151 про безпрецедентні заходи безпеки.iso",
+      "type": "contains-file",
+      "tail": "УКАЗ ПРЕЗИДЕНТА УКРАЇНИ №151_2022.mp4.lnk",
+      "evidence": "ISO-файл містить документ-приманку \"a.docx\", LNK-файл \"УКАЗ ПРЕЗИДЕНТА УКРАЇНИ №151_2022.mp4.lnk\""
+    },
+    {
+      "head": "Указ Президента України No 151 про безпрецедентні заходи безпеки.iso",
+      "type": "contains-file",
+      "tail": "z.ps1",
+      "evidence": "ISO-файл містить... PowerShell-скрипт \"z.ps1\""
+    },
+    {
+      "head": "Указ Президента України No 151 про безпрецедентні заходи безпеки.iso",
+      "type": "contains-file",
+      "tail": "b.exe",
+      "evidence": "ISO-файл містить... та EXE-файл \"b.exe\""
+    },
+    {
+      "head": "УКАЗ ПРЕЗИДЕНТА УКРАЇНИ №151_2022.mp4.lnk",
+      "type": "executes-file",
+      "tail": "z.ps1",
+      "evidence": "У випадку запуску LNK-файлу, останній виконає PowerShell-скрипт"
+    },
+    {
+      "head": "z.ps1",
+      "type": "opens-file",
+      "tail": "a.docx",
+      "evidence": "PowerShell-скрипт, який, у свою чергу, відкриє DOCX-файл"
+    },
+    {
+      "head": "z.ps1",
+      "type": "executes-file",
+      "tail": "b.exe",
+      "evidence": "здійснить виконання файлу \"b.exe\""
+    },
+    {
+      "head": "b.exe",
+      "type": "drops-malware",
+      "tail": "Meterpreter",
+      "evidence": "здійснить виконання файлу \"b.exe\". В результаті, комп'ютер буде уражено шкідливою програмою Meterpreter"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "associated-with-group",
+      "definition": "Indicates an operational or organizational link between two threat actors or groups."
+    },
+    {
+      "name": "contains-file",
+      "definition": "Indicates that an archive or disk image file contains another file within it."
+    },
+    {
+      "name": "executes-file",
+      "definition": "Indicates that a file triggers the execution of another file."
+    },
+    {
+      "name": "opens-file",
+      "definition": "Indicates that a script or program launches or displays a document file."
+    },
+    {
+      "name": "drops-malware",
+      "definition": "Indicates that an executable or component installs or infects the host with a specific malware family."
+    }
+  ]
+}
+```

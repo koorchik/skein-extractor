@@ -1,0 +1,90 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0096",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA targeting Ukrainian government organizations."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Google Drive",
+      "kind": "cloud storage service",
+      "gloss": "A cloud-based file storage and synchronization service developed by Google."
+    },
+    {
+      "name": "DropMeFiles",
+      "kind": "file sharing service",
+      "gloss": "A free public file sharing and transfer service."
+    },
+    {
+      "name": "Remote Utilities",
+      "kind": "software product",
+      "gloss": "A legitimate remote desktop access and administration software program."
+    },
+    {
+      "name": "Судовий запит №9978364774635676778282.rar_pass_123.zip",
+      "kind": "archive file",
+      "gloss": "A password-protected ZIP archive file used in phishing distribution."
+    },
+    {
+      "name": "Судовий запит №9978364774635676778282.rar",
+      "kind": "archive file",
+      "gloss": "A password-protected RAR archive file distributed in phishing emails."
+    },
+    {
+      "name": "Судовий запит №99783647746356767782828.pdf.rar",
+      "kind": "archive file",
+      "gloss": "A RAR archive file masquerading as a PDF document."
+    },
+    {
+      "name": "Судовий запит №99783647746356767782828.pdf.exe",
+      "kind": "executable file",
+      "gloss": "An executable file masquerading as a PDF document."
+    },
+    {
+      "name": "101.99.93[.]49",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious network infrastructure."
+    },
+    {
+      "name": "rmssrv2[.]ru",
+      "kind": "domain name",
+      "gloss": "An internet domain used as network infrastructure."
+    },
+    {
+      "name": "rmssrv3[.]ru",
+      "kind": "domain name",
+      "gloss": "An internet domain used as network infrastructure."
+    },
+    {
+      "name": "rmssrv4[.]ru",
+      "kind": "domain name",
+      "gloss": "An internet domain used as network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0096",
+      "type": "attacks",
+      "tail": "Україна",
+      "evidence": "активністю, що здійснюється у відношенні державних органів України (але не виключно) та відслідковується CERT-UA за ідентифікатором UAC-0096"
+    },
+    {
+      "head": "Google Drive",
+      "type": "hosts",
+      "tail": "Судовий запит №9978364774635676778282.rar_pass_123.zip",
+      "evidence": "архіви (наприклад, «Судовий запит №9978364774635676778282.rar_pass_123.zip»), розміщені на публічних сервісах Google Drive"
+    },
+    {
+      "head": "DropMeFiles",
+      "type": "hosts",
+      "tail": "Судовий запит №9978364774635676778282.rar_pass_123.zip",
+      "evidence": "архіви (наприклад, «Судовий запит №9978364774635676778282.rar_pass_123.zip»), розміщені на публічних сервісах Google Drive і DropMeFiles"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,21 @@
+{
+  "runId": "2026-09-18-gemini-full204-blind",
+  "seq": 2,
+  "timestamp": "2026-09-18T10:17:49.834Z",
+  "operator": "scheme-name",
+  "docId": 2691,
+  "provider": "gemini",
+  "model": "gemini-3.7-flash",
+  "sampling": {
+    "temperature": 0
+  },
+  "instructions": "### ROLE ###\nYou maintain a small, growing set of CONCEPT SCHEMES (entity categories) for a knowledge registry built from cybersecurity incident reports. A group of entities extracted from several reports has just been found to be close to each other and far from every existing scheme. Decide whether the group is a genuinely new scheme or an alias of an existing one, and name it.\n\n### EXISTING SCHEMES ###\n- Software Vendor: A company or organization that develops, sells, or maintains software, hardware, or technology products and services.\n- Vulnerability: A security flaw or weakness in software or hardware systems that can be exploited by threat actors.\n- Software Product: An application, operating system, utility, or program developed and distributed for use on computing devices.\n- Country: A sovereign nation, state, or distinct territorial body with its own government.\n- Government Body: A state department, ministry, agency, or public institution operating under government authority.\n- Security Advisory: A formal public notification or bulletin issued by an organization detailing security vulnerabilities, mitigations, or patches for products.\n\n### THE GROUP ###\nEach line is one entity with the description written at extraction time:\n- Роман Боярчук [person] — A cybersecurity expert, founder of an NGO, and former head of the State Cyber Protection Centre.\n- Микола Кулешов [person] — A department head within the Security Service of Ukraine.\n- Валентин Петров [person] — The Head of the State Service of Special Communications and Information Protection of Ukraine.\n- Микола Худинцев [person] — The head of the State Cyber Protection Centre of Ukraine.\n- Худинцев Микола Миколайович [person] — An official who served as acting head of the State Cyber Protection Centre of Ukraine.\n- Антоніу Гутерреш [person] — A Portuguese politician and diplomat serving as the Secretary-General of the United Nations.\n- Майкл Чертофф [person] — An American lawyer and former Homeland Security Secretary, serving as a co-chair of GCSC.\n\n### RULES ###\n- A scheme is a KIND of entity (e.g. \"Hacker group\", \"Malware family\", \"Software product\", \"Government body\", \"Internet domain\", \"Country\"), never a role in an incident and never a single entity.\n- Return `\"verdict\": \"alias-of\"` with `\"target\"` set to an existing scheme's label when the group is the same kind as that scheme (different wording, same meaning). Judge by MEANING of the descriptions, not by surface words.\n- Return `\"verdict\": \"new\"` when no existing scheme covers the group. Then give:\n  - `prefLabel`: a short English noun phrase, 1–3 words, singular, Title Case (e.g. \"Malware Family\").\n  - `definition`: one sentence, at most 25 words, stating what belongs to the scheme, general enough to hold across reports.\n  - `altLabels`: 0–3 alternative English labels.\n- If the group mixes clearly different kinds, name the kind of the MAJORITY and list the minority entity names in `outliers`.\n- If uncertain between alias and new, prefer `new`: an extra scheme can be merged later; a wrong merge cannot be undone cheaply.\n\n### OUTPUT ###\nA single raw JSON object, no markdown fences, no commentary:\n{ \"verdict\": \"new\" | \"alias-of\", \"target\": \"<existing label or null>\", \"prefLabel\": \"...\", \"definition\": \"...\", \"altLabels\": [...], \"outliers\": [...] }\n",
+  "text": "Decide and name the group now.",
+  "response": "{\"verdict\": \"new\", \"target\": null, \"prefLabel\": \"Person\", \"definition\": \"An individual human being, such as a government official, cybersecurity expert, public figure, or researcher.\", \"altLabels\": [\"Individual\"], \"outliers\": []}",
+  "usage": {
+    "inputTokens": 770,
+    "outputTokens": 56
+  },
+  "latencyMs": 2182,
+  "finishReason": "STOP"
+}

@@ -1,0 +1,124 @@
+{
+  "docId": 17899,
+  "date": "14.01.2022",
+  "title": "Кібератака на сайти державних органів",
+  "entities": [
+    {
+      "id": "17899:0",
+      "name": "МЗС",
+      "kind": "government body",
+      "gloss": "The central executive body and ministry of foreign affairs of Ukraine.",
+      "scheme": "S7",
+      "category": "Government Body",
+      "role": null
+    },
+    {
+      "id": "17899:1",
+      "name": "МОН",
+      "kind": "government body",
+      "gloss": "The Ministry of Education and Science of Ukraine.",
+      "scheme": "S7",
+      "category": "Government Body",
+      "role": null
+    },
+    {
+      "id": "17899:2",
+      "name": "Держспецзв'язку",
+      "kind": "government body",
+      "gloss": "The State Service of Special Communications and Information Protection of Ukraine.",
+      "scheme": "S7",
+      "category": "Government Body",
+      "role": null
+    },
+    {
+      "id": "17899:3",
+      "name": "Служба безпеки України",
+      "kind": "law enforcement agency",
+      "gloss": "The national security and intelligence agency of Ukraine.",
+      "scheme": null,
+      "category": "Government Body",
+      "role": null
+    },
+    {
+      "id": "17899:4",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S6",
+      "category": "Country",
+      "role": null
+    },
+    {
+      "id": "17899:5",
+      "name": "Кіберполіція",
+      "kind": "law enforcement agency",
+      "gloss": "The cyber law enforcement unit of the National Police of Ukraine.",
+      "scheme": null,
+      "category": "Government Body",
+      "role": null
+    },
+    {
+      "id": "17899:6",
+      "name": "October CMS",
+      "kind": "software product",
+      "gloss": "A content management system built on the PHP Laravel framework.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "17899:7",
+      "name": "CVE-2021-32648",
+      "kind": "vulnerability identifier",
+      "gloss": "A Common Vulnerabilities and Exposures identifier for an authentication bypass vulnerability in October CMS.",
+      "scheme": "S4",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "17899:8",
+      "name": "GHSA-mxr5-mc97-63rc",
+      "kind": "security advisory",
+      "gloss": "A GitHub Security Advisory documenting an improper authentication vulnerability in October CMS.",
+      "scheme": "S8",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "17899:9",
+      "name": "NGINX",
+      "kind": "software product",
+      "gloss": "An open-source web server and reverse proxy software.",
+      "scheme": "S1",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "17899:10",
+      "name": "APACHE",
+      "kind": "software product",
+      "gloss": "An open-source cross-platform HTTP web server software.",
+      "scheme": "S1",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2021-32648",
+      "type": "identifies-vulnerability-in",
+      "tail": "October CMS",
+      "evidence": "використання зловмисниками вразливості October CMS: https://www.cvedetails.com/cve/CVE-2021-32648/"
+    },
+    {
+      "head": "GHSA-mxr5-mc97-63rc",
+      "type": "documents-vulnerability-in",
+      "tail": "October CMS",
+      "evidence": "https://github.com/octobercms/october/security/advisories/GHSA-mxr5-mc97-63rc"
+    }
+  ],
+  "unclassified": [
+    "17899:3",
+    "17899:5"
+  ]
+}

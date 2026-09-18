@@ -1,0 +1,191 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p class="ql-align-justify"><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп’ютерні надзвичайні події України CERT-UA отримано інформацію щодо розповсюдження електронних листів з темою "Заборгованість по зарплаті" серед державних органів України. У додатку до листа знаходиться документ "Заборгованість по зарплаті.xls", який містить легітимні статистичні дані та макрос. Разом з тим, до згаданого документу у вигляді вкладення додано hex-кодовані дані. Макрос, після активації, здійснить декодування даних, створення EXE-файлу "Base-Update.exe" на комп'ютері та його виконання.</p><p>Згаданий файл є програмою-завантажувачем, розробленою з використанням мови програмування GoLang. Програма здійснить завантаження і запуск іншого завантажувача, який, у свою чергу, забезпечить завантаження і запуск на комп'ютері шкідливих програм GraphSteel та GrimPlant.</p><p>Виявлену активність асоційовано з дільністю групи UAC-0056.</p><p><br></p><p class="ql-align-justify"><strong>Індикатори компрометації</strong></p><p class="ql-align-justify"><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">da305627acf63792acb02afaf83d94d1    c1afb561cd5363ac5826ce7a72f0055b400b86bd7524da43474c94bc480d7eff    Заборгованість по зарплаті.xls
+06124da5b4d6ef31dbfd7a6094fc52a6    9e9fa8b3b0a59762b429853a36674608df1fa7d7f7140c8fccd7c1946070995a    Base-Update.exe (GoDownloader)
+36ff9ec87c458d6d76b2afbd5120dfae    8ffe7f2eeb0cbfbe158b77bbff3e0055d2ef7138f481b4fac8ade6bfb9b2b0a1    java-sdk.exe (GoDownloader)
+4a5de4784a6005aa8a19fb0889f1947a    99a2b79a4231806d4979aa017ff7e8b804d32bfe9dcc0958d403dfe06bdd0532    oracle-java.exe (GrimPlant)
+6b413beb61e46241481f556bb5cdb69c    c83d8b36402639ea3f1ad5d48edc1a22005923aee1c1826afabe27cb3989baa3    microsoft-cortana.exe (GraphSteel) (2022-03-20)
+</pre><p class="ql-align-justify"><br></p><p class="ql-align-justify"><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">hxxp://194[.]31.98.124:443/i
+hxxp://194[.]31.98.124:443/p
+hxxp://194[.]31.98.124:443/m
+ws://194[.]31.98.124:443/c
+194[.]31.98.124
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%TMP%\Base-Update.exe
+%USERPROFILE%\.java-sdk\java-sdk.exe
+%USERPROFILE%\.java-sdk\oracle-java.exe
+%USERPROFILE%\.java-sdk\microsoft-cortana.exe
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (8.2s, in 1949 / out 1336 tok, STOP) ===
+UAC-0056 targeted Ukrainian government bodies using spear-phishing emails containing a malicious spreadsheet with a macro. The macro decoded and executed a Go-based loader named Base-Update.exe, which further downloaded and launched GrimPlant and GraphSteel malware.
+
+{
+  "entities": [
+    {
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyberespionage threat group targeting Ukrainian organizations and government bodies."
+    },
+    {
+      "name": "державні органи України",
+      "kind": "government sector",
+      "gloss": "The state and governmental bodies and agencies of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "Заборгованість по зарплаті.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet containing macros used to drop an initial executable payload."
+    },
+    {
+      "name": "Base-Update.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable written in GoLang acting as a stage-one downloader."
+    },
+    {
+      "name": "GoDownloader",
+      "kind": "malware family",
+      "gloss": "A malware downloader family written in GoLang designed to fetch and execute secondary payloads."
+    },
+    {
+      "name": "GoLang",
+      "kind": "programming language",
+      "gloss": "An open-source compiled programming language developed by Google."
+    },
+    {
+      "name": "GraphSteel",
+      "kind": "malware family",
+      "gloss": "An information stealing malware family written in GoLang."
+    },
+    {
+      "name": "GrimPlant",
+      "kind": "malware family",
+      "gloss": "A backdoor malware family written in GoLang capable of executing remote commands."
+    },
+    {
+      "name": "java-sdk.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file functioning as a secondary GoDownloader payload."
+    },
+    {
+      "name": "oracle-java.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable payload associated with the GrimPlant backdoor."
+    },
+    {
+      "name": "microsoft-cortana.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable payload associated with the GraphSteel infostealer."
+    },
+    {
+      "name": "194.31.98.124",
+      "kind": "ip address",
+      "gloss": "An IP address used for hosting malicious payloads and command and control communication."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "targets",
+      "tail": "державні органи України",
+      "evidence": "розповсюдження електронних листів з темою \"Заборгованість по зарплаті\" серед державних органів України"
+    },
+    {
+      "head": "державні органи України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "державних органів України"
+    },
+    {
+      "head": "Заборгованість по зарплаті.xls",
+      "type": "drops-and-executes",
+      "tail": "Base-Update.exe",
+      "evidence": "створення EXE-файлу \"Base-Update.exe\" на комп'ютері та його виконання"
+    },
+    {
+      "head": "Base-Update.exe",
+      "type": "written-in",
+      "tail": "GoLang",
+      "evidence": "розробленою з використанням мови програмування GoLang"
+    },
+    {
+      "head": "Base-Update.exe",
+      "type": "instance-of",
+      "tail": "GoDownloader",
+      "evidence": "Base-Update.exe (GoDownloader)"
+    },
+    {
+      "head": "java-sdk.exe",
+      "type": "instance-of",
+      "tail": "GoDownloader",
+      "evidence": "java-sdk.exe (GoDownloader)"
+    },
+    {
+      "head": "oracle-java.exe",
+      "type": "instance-of",
+      "tail": "GrimPlant",
+      "evidence": "oracle-java.exe (GrimPlant)"
+    },
+    {
+      "head": "microsoft-cortana.exe",
+      "type": "instance-of",
+      "tail": "GraphSteel",
+      "evidence": "microsoft-cortana.exe (GraphSteel)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets",
+      "definition": "The subject attempts to compromise or direct malicious activity against the target."
+    },
+    {
+      "name": "located-in",
+      "definition": "The subject is geographically or organizationally situated within the target country or region."
+    },
+    {
+      "name": "drops-and-executes",
+      "definition": "The subject creates and executes another file on the victim's filesystem."
+    },
+    {
+      "name": "written-in",
+      "definition": "The subject is authored or developed using the specified programming language."
+    },
+    {
+      "name": "instance-of",
+      "definition": "The subject is a specific sample or file belonging to the specified malware family."
+    }
+  ]
+}

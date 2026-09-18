@@ -1,0 +1,174 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "INDUSTROYER2",
+      "kind": "malware",
+      "gloss": "A specialized industrial control systems malware designed to disrupt electrical substations."
+    },
+    {
+      "name": "Windows",
+      "kind": "software product",
+      "gloss": "A family of proprietary graphical operating systems developed by Microsoft."
+    },
+    {
+      "name": "CADDYWIPER",
+      "kind": "malware",
+      "gloss": "A destructive data wiper malware targeting Windows systems."
+    },
+    {
+      "name": "ARGUEPATCH",
+      "kind": "malware",
+      "gloss": "A malware loader used to decrypt and execute shellcode payloads."
+    },
+    {
+      "name": "TAILJUMP",
+      "kind": "malware",
+      "gloss": "A malicious shellcode used to decrypt and execute payload components."
+    },
+    {
+      "name": "Linux",
+      "kind": "software product",
+      "gloss": "An open-source Unix-like operating system."
+    },
+    {
+      "name": "ORCSHRED",
+      "kind": "malware",
+      "gloss": "A destructive wiper script targeting Linux systems."
+    },
+    {
+      "name": "SOLOSHRED",
+      "kind": "malware",
+      "gloss": "A destructive wiper script targeting Linux systems."
+    },
+    {
+      "name": "AWFULSHRED",
+      "kind": "malware",
+      "gloss": "A destructive wiper script targeting Linux systems."
+    },
+    {
+      "name": "POWERGAP",
+      "kind": "malware",
+      "gloss": "A malicious PowerShell script used to add group policies and schedule tasks."
+    },
+    {
+      "name": "IMPACKET",
+      "kind": "software product",
+      "gloss": "A collection of Python classes for working with network protocols, often used for remote command execution."
+    },
+    {
+      "name": "Microsoft",
+      "kind": "company",
+      "gloss": "An American multinational technology corporation producing software, hardware, and cloud services."
+    },
+    {
+      "name": "ESET",
+      "kind": "company",
+      "gloss": "A Slovak internet security company providing cybersecurity and antivirus products."
+    },
+    {
+      "name": "sc.sh",
+      "kind": "computer file",
+      "gloss": "A destructive Linux shell script associated with OrcShred."
+    },
+    {
+      "name": "wobf.sh",
+      "kind": "computer file",
+      "gloss": "A destructive Linux shell script associated with AwfulShred."
+    },
+    {
+      "name": "wsol.sh",
+      "kind": "computer file",
+      "gloss": "A destructive Linux shell script associated with SoloShred."
+    },
+    {
+      "name": "zrada.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file associated with the ArguePatch loader."
+    },
+    {
+      "name": "peremoga.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file associated with the ArguePatch loader."
+    },
+    {
+      "name": "vatt.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file associated with the ArguePatch loader."
+    },
+    {
+      "name": "pa.pay",
+      "kind": "computer file",
+      "gloss": "A payload file associated with the TailJump shellcode."
+    },
+    {
+      "name": "caddywiper.bin",
+      "kind": "computer file",
+      "gloss": "A binary payload file associated with CaddyWiper malware."
+    },
+    {
+      "name": "108_100.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file associated with the Industroyer2 malware."
+    },
+    {
+      "name": "91.245.255[.]243",
+      "kind": "ip address",
+      "gloss": "An IP address identified as an indicator of compromise."
+    },
+    {
+      "name": "195.230.23[.]19",
+      "kind": "ip address",
+      "gloss": "An IP address identified as an indicator of compromise."
+    }
+  ],
+  "relations": [
+    {
+      "head": "ARGUEPATCH",
+      "type": "delivers",
+      "tail": "CADDYWIPER",
+      "evidence": "для дешифрування і запуску останнього передбачено використання лоадеру ARGUEPATCH"
+    },
+    {
+      "head": "ARGUEPATCH",
+      "type": "uses",
+      "tail": "TAILJUMP",
+      "evidence": "передбачено використання лоадеру ARGUEPATCH та шелкоду TAILJUMP"
+    },
+    {
+      "head": "ORCSHRED",
+      "type": "affects",
+      "tail": "Linux",
+      "evidence": "серверного обладнання під управлінням операційної систем Linux – за допомогою шкідливих скриптів-деструкторів ORCSHRED"
+    },
+    {
+      "head": "SOLOSHRED",
+      "type": "affects",
+      "tail": "Linux",
+      "evidence": "серверного обладнання під управлінням операційної систем Linux – за допомогою шкідливих скриптів-деструкторів ORCSHRED, SOLOSHRED"
+    },
+    {
+      "head": "AWFULSHRED",
+      "type": "affects",
+      "tail": "Linux",
+      "evidence": "серверного обладнання під управлінням операційної систем Linux – за допомогою шкідливих скриптів-деструкторів ORCSHRED, SOLOSHRED, AWFULSHRED"
+    },
+    {
+      "head": "CADDYWIPER",
+      "type": "affects",
+      "tail": "Windows",
+      "evidence": "ЕОМ під управлінням операційної системи Windows... за допомогою шкідливої програми-деструктора CADDYWIPER"
+    },
+    {
+      "head": "INDUSTROYER2",
+      "type": "affects",
+      "tail": "Україна",
+      "evidence": "цільовою атакою на об’єкт енергетики України... за допомогою шкідливої програми INDUSTROYER2"
+    }
+  ],
+  "newRelationTypes": []
+}

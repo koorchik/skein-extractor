@@ -1,0 +1,364 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+- uses-malware: A threat actor utilizes or deploys a specific malware tool or family in their operations.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп’ютерні надзвичайні події України CERT-UA від Міністерства оборони України отримано повідомлення про розповсюдження електронних листів з темою "постачання" серед державних органів України. У додатку до листа знаходиться захищений паролем архів "ДВТПРОВТ.rar", який містить файл-ярлик "4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf.lnk" та EXE-файл з назвою "4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf", що буде виконаний у разі відкриття LNK-файлу.</p><p>В результаті атаки комп'ютер жертви буде уражено модульною шкідливою програмою SPECTR, що, серед іншого, включає: SPECTR.Usb, SPECTR.Shell, SPECTR.Fs, SPECTR.Info, SPECTR.Archiver та інші компоненти.</p><p>Атаку здійснено групою UAC-0020 (Vermin), діяльність якої асоційовано з т.з. органами безпеки т.з. ЛНР. Зауважимо, що для атаки 17.03.2022 року використано інфраструктуру, яка застосовувалася групою ще у липні 2019 року. Слід додати, що серверне обладнання групи UAC-0020 (Vermin) вже багато років розміщено на технічному майданчику луганського провайдера vServerCo (AS58271).</p><p><br></p><p><strong>Індикатори компрометації:</strong></p><p><strong>Файли:</strong></p><pre class="ql-syntax" spellcheck="false">baf502b4b823b6806cc91e2c1dd07613    ДВТПРОВТ.rar
+993415425b61183dd3f900d9b81ac57f    4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf
+1c2c41a5a5f89eccafea6e34183d5db9    4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf.lnk
+d34dbbd28775b2c3a0b55d86d418f293    data.out
+67274bdd5c9537affbd51567f4ba8d5f    license.dat (2022-02-25) (SPECTR.Installer)
+75e1ce42e0892ed04a43e3b68afdbc07    conhost.exe
+e08d7c4daa45beca5079870251e50236    PluginExec.exe (SPECTR.PluginLoader)
+adebdc32ef35209fb142d44050928083    Spectator2.exe (SPECTR.Spectator2)
+3ed8263abe009c19c4af8706d52060f8    Archiver.dll (2021-04-09) (SPECTR.Archiver)
+f0197bbb56465b5e2f1f17876c0da5ba    ClientInfo.dll (SPECTR.Info)
+d0632ef34514bbb0f675c59e6ecca717    FileSystem.dll (2021-04-09) (SPECTR.Fs)
+00a54a6496734d87dab6685aa90588f8    FileTransfer.dll (2021-04-09) (SPECTR.Ft)
+5db4313b8dbb9204f8f98f2c129fd734    Manager.dll (SPECTR.Mgr)
+32343f2a6b8ac9b6587e2e07989362ab    Shell.dll (2021-04-09) (SPECTR.Shell)
+ecc7bb2e4672b958bd82fe9ec9cfab14    Usb.dll (SPECTR.Usb)
+</pre><p><strong>Мережеві:</strong></p><pre class="ql-syntax" spellcheck="false">hxxp://176[.]119.2.212/web/t/data.out
+hxxp://getmod[.]host/DSGb3Y3X
+hxxp://getmod[.]host/ThlAHy3S
+hxxp://getmod[.]host/OcthdaLm
+getmod[.]host (2019-07-12)
+syncapp[.]host (2019-07-12)
+netbin[.]host (2019-07-12)
+stormpredictor[.]host
+meteolink[.]host
+176[.]119.2.212
+176[.]119.2.214
+176[.]119.5.194
+176[.]119.5.195
+AS58271
+</pre><p><strong>Хостові:</strong></p><pre class="ql-syntax" spellcheck="false">HKCU\Software\Google\Chrome\NativeMessagingHosts\com.microsoft.browsersec\EncodedProfile
+HKCU\Software\Google\Chrome\NativeMessagingHosts\com.microsoft.browsercli\EncodedProfile
+%APPDATA%\Microsoft\ExcelCnv\1033\license.dat
+%APPDATA%\Microsoft\ExcelCnv\1033\conhost.exe
+ESET_OPINIONS (змінна середовища)
+MSO (змінна середовища)
+MS Office Add-In Install Task (заплановане завдання)
+</pre><p><br></p><p><strong>Графічні зображення:</strong></p><p></p>
+
+=== RESPONSE (10.9s, in 2735 / out 3030 tok, STOP) ===
+The text describes a cyberattack targeting Ukrainian state bodies, reported by the Ministry of Defense of Ukraine. The threat actor UAC-0020 (Vermin), associated with security structures of the self-proclaimed LNR, carried out the attack using the modular malware SPECTR along with its components. Attack artifacts include malicious archives, shortcut files, executables, C2 IP addresses, and domains hosted on the infrastructure of provider vServerCo (AS58271).
+
+{
+  "entities": [
+    {
+      "name": "Міністерство оборони України",
+      "kind": "government body",
+      "gloss": "The central executive body and military department of Ukraine responsible for national defense policy."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0020 (Vermin)",
+      "kind": "hacking group",
+      "gloss": "A cyber espionage threat group associated with the security agencies of the self-proclaimed Luhansk People's Republic."
+    },
+    {
+      "name": "органи безпеки т.з. ЛНР",
+      "kind": "government body",
+      "gloss": "De facto security agencies operating within the Russian-backed separatist region of Luhansk."
+    },
+    {
+      "name": "vServerCo",
+      "kind": "internet service provider",
+      "gloss": "An internet hosting provider operating out of Luhansk, associated with AS58271."
+    },
+    {
+      "name": "AS58271",
+      "kind": "autonomous system",
+      "gloss": "An autonomous system number associated with the hosting infrastructure provider vServerCo."
+    },
+    {
+      "name": "SPECTR",
+      "kind": "malware family",
+      "gloss": "A modular spyware and backdoor malware family used by threat actor UAC-0020."
+    },
+    {
+      "name": "SPECTR.Usb",
+      "kind": "malware component",
+      "gloss": "A module of the SPECTR malware designed to monitor and exfiltrate data from USB drives."
+    },
+    {
+      "name": "SPECTR.Shell",
+      "kind": "malware component",
+      "gloss": "A module of the SPECTR malware designed to execute arbitrary command-line shell commands."
+    },
+    {
+      "name": "SPECTR.Fs",
+      "kind": "malware component",
+      "gloss": "A module of the SPECTR malware responsible for file system surveillance and manipulation."
+    },
+    {
+      "name": "SPECTR.Info",
+      "kind": "malware component",
+      "gloss": "A module of the SPECTR malware designed to gather victim host system information."
+    },
+    {
+      "name": "SPECTR.Archiver",
+      "kind": "malware component",
+      "gloss": "A module of the SPECTR malware used to compress gathered files and data for exfiltration."
+    },
+    {
+      "name": "SPECTR.Installer",
+      "kind": "malware component",
+      "gloss": "An installer module used to establish persistence and deploy the SPECTR malware suite."
+    },
+    {
+      "name": "SPECTR.PluginLoader",
+      "kind": "malware component",
+      "gloss": "A component of SPECTR responsible for executing and managing malicious plugins."
+    },
+    {
+      "name": "SPECTR.Spectator2",
+      "kind": "malware component",
+      "gloss": "A core payload and component within the SPECTR malware architecture."
+    },
+    {
+      "name": "SPECTR.Ft",
+      "kind": "malware component",
+      "gloss": "A file transfer module of the SPECTR malware ecosystem."
+    },
+    {
+      "name": "SPECTR.Mgr",
+      "kind": "malware component",
+      "gloss": "A management module within the SPECTR modular malware framework."
+    },
+    {
+      "name": "ДВТПРОВТ.rar",
+      "kind": "file",
+      "gloss": "A password-protected RAR archive attachment used to distribute the initial malicious payloads."
+    },
+    {
+      "name": "4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf.lnk",
+      "kind": "file",
+      "gloss": "A malicious Windows shortcut file that triggers the execution of an embedded executable."
+    },
+    {
+      "name": "4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf",
+      "kind": "file",
+      "gloss": "A disguised executable file containing an RTF extension that deploys the SPECTR malware."
+    },
+    {
+      "name": "data.out",
+      "kind": "file",
+      "gloss": "A data payload file hosted on an external web server for download."
+    },
+    {
+      "name": "license.dat",
+      "kind": "file",
+      "gloss": "A malicious payload file associated with the SPECTR.Installer module."
+    },
+    {
+      "name": "conhost.exe",
+      "kind": "file",
+      "gloss": "A malicious executable file masquerading as a legitimate Windows console host process."
+    },
+    {
+      "name": "PluginExec.exe",
+      "kind": "file",
+      "gloss": "An executable file responsible for loading SPECTR plugins."
+    },
+    {
+      "name": "Spectator2.exe",
+      "kind": "file",
+      "gloss": "An executable file implementing the SPECTR.Spectator2 component."
+    },
+    {
+      "name": "Archiver.dll",
+      "kind": "file",
+      "gloss": "A dynamic link library file implementing the SPECTR.Archiver plugin."
+    },
+    {
+      "name": "ClientInfo.dll",
+      "kind": "file",
+      "gloss": "A dynamic link library file implementing the SPECTR.Info component."
+    },
+    {
+      "name": "FileSystem.dll",
+      "kind": "file",
+      "gloss": "A dynamic link library file implementing the SPECTR.Fs component."
+    },
+    {
+      "name": "FileTransfer.dll",
+      "kind": "file",
+      "gloss": "A dynamic link library file implementing the SPECTR.Ft component."
+    },
+    {
+      "name": "Manager.dll",
+      "kind": "file",
+      "gloss": "A dynamic link library file implementing the SPECTR.Mgr component."
+    },
+    {
+      "name": "Shell.dll",
+      "kind": "file",
+      "gloss": "A dynamic link library file implementing the SPECTR.Shell component."
+    },
+    {
+      "name": "Usb.dll",
+      "kind": "file",
+      "gloss": "A dynamic link library file implementing the SPECTR.Usb component."
+    },
+    {
+      "name": "getmod.host",
+      "kind": "internet domain",
+      "gloss": "A domain name used as command-and-control infrastructure by threat actors."
+    },
+    {
+      "name": "syncapp.host",
+      "kind": "internet domain",
+      "gloss": "A domain name used for malicious infrastructure and communication."
+    },
+    {
+      "name": "netbin.host",
+      "kind": "internet domain",
+      "gloss": "A domain name used in connection with threat group infrastructure."
+    },
+    {
+      "name": "stormpredictor.host",
+      "kind": "internet domain",
+      "gloss": "A network domain used in the campaign's command and control infrastructure."
+    },
+    {
+      "name": "meteolink.host",
+      "kind": "internet domain",
+      "gloss": "A network domain associated with the threat actor's command infrastructure."
+    },
+    {
+      "name": "176.119.2.212",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious payload files used during the attack."
+    },
+    {
+      "name": "176.119.2.214",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command-and-control infrastructure."
+    },
+    {
+      "name": "176.119.5.194",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "176.119.5.195",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure used by the threat actor."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Міністерство оборони України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Міністерства оборони України"
+    },
+    {
+      "head": "UAC-0020 (Vermin)",
+      "type": "attacks",
+      "tail": "Міністерство оборони України",
+      "evidence": "Атаку здійснено групою UAC-0020 (Vermin)"
+    },
+    {
+      "head": "UAC-0020 (Vermin)",
+      "type": "uses-malware",
+      "tail": "SPECTR",
+      "evidence": "комп'ютер жертви буде уражено модульною шкідливою програмою SPECTR"
+    },
+    {
+      "head": "SPECTR.Usb",
+      "type": "part-of",
+      "tail": "SPECTR",
+      "evidence": "SPECTR, що, серед іншого, включає: SPECTR.Usb"
+    },
+    {
+      "head": "SPECTR.Shell",
+      "type": "part-of",
+      "tail": "SPECTR",
+      "evidence": "SPECTR, що, серед іншого, включає: SPECTR.Usb, SPECTR.Shell"
+    },
+    {
+      "head": "SPECTR.Fs",
+      "type": "part-of",
+      "tail": "SPECTR",
+      "evidence": "SPECTR, що, серед іншого, включає: SPECTR.Usb, SPECTR.Shell, SPECTR.Fs"
+    },
+    {
+      "head": "SPECTR.Info",
+      "type": "part-of",
+      "tail": "SPECTR",
+      "evidence": "SPECTR, що, серед іншого, включає: SPECTR.Usb, SPECTR.Shell, SPECTR.Fs, SPECTR.Info"
+    },
+    {
+      "head": "SPECTR.Archiver",
+      "type": "part-of",
+      "tail": "SPECTR",
+      "evidence": "SPECTR.Info, SPECTR.Archiver та інші компоненти."
+    },
+    {
+      "head": "ДВТПРОВТ.rar",
+      "type": "delivers",
+      "tail": "4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf.lnk",
+      "evidence": "архів \"ДВТПРОВТ.rar\", який містить файл-ярлик \"4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf.lnk\""
+    },
+    {
+      "head": "ДВТПРОВТ.rar",
+      "type": "delivers",
+      "tail": "4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf",
+      "evidence": "архів \"ДВТПРОВТ.rar\", який містить... та EXE-файл з назвою \"4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf\""
+    },
+    {
+      "head": "176.119.2.212",
+      "type": "hosts",
+      "tail": "data.out",
+      "evidence": "hxxp://176[.]119.2.212/web/t/data.out"
+    }
+  ],
+  "newRelationTypes": []
+}

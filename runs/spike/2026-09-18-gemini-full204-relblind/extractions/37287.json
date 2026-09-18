@@ -1,0 +1,54 @@
+{
+  "entities": [
+    {
+      "name": "Zabbix",
+      "kind": "software product",
+      "gloss": "An open-source network monitoring software tool."
+    },
+    {
+      "name": "CVE-2022-23131",
+      "kind": "vulnerability identifier",
+      "gloss": "A critical authentication bypass vulnerability in Zabbix with SAML SSO enabled."
+    },
+    {
+      "name": "CVE-2022-23134",
+      "kind": "vulnerability identifier",
+      "gloss": "A medium-severity vulnerability in Zabbix setup script allowing unauthorized configuration access."
+    },
+    {
+      "name": "setup.php",
+      "kind": "file name",
+      "gloss": "A PHP setup and configuration script in Zabbix."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2022-23131",
+      "type": "affects-software",
+      "tail": "Zabbix",
+      "evidence": "критичні вразливості в Zabbix (CVE-2022-23131, CVE-2022-23134)"
+    },
+    {
+      "head": "CVE-2022-23134",
+      "type": "affects-software",
+      "tail": "Zabbix",
+      "evidence": "критичні вразливості в Zabbix (CVE-2022-23131, CVE-2022-23134)"
+    },
+    {
+      "head": "CVE-2022-23134",
+      "type": "allows-unauthorized-access-to",
+      "tail": "setup.php",
+      "evidence": "CVE-2022-23134 оцінюється як середнього ступеня небезпеки і дозволяє отримати доступ до деяких методів файлу setup.php"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "affects-software",
+      "definition": "Identifies the software product or component containing the security vulnerability."
+    },
+    {
+      "name": "allows-unauthorized-access-to",
+      "definition": "Indicates a file, component, or system that can be accessed without proper authorization due to a vulnerability."
+    }
+  ]
+}

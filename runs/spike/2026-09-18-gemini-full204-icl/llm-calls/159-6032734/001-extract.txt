@@ -1,0 +1,284 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+- Country: A distinct territorial body or sovereign state with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Government Organization: An official agency, ministry, or administrative body operating as part of a national or state government. (also: Government Agency, Government Body, State Authority)
+- Malware: Malicious software, code, or executables designed to infiltrate, damage, or compromise computer systems and data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address specifying the location and retrieval mechanism of a resource on a computer network. (also: URL, Web Address, Web Link)
+- Person: An individual human being, such as a government official, cybersecurity expert, researcher, or executive. (also: Individual, Natural Person)
+- IP Address: A numerical label assigned to a device connected to a computer network that uses the Internet Protocol for communication. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Electronic Mail Address)
+- Computer File: A digital resource or named item stored on a computer system, containing data, code, or instructions. (also: File, Digital File, Filename)
+- Company: A commercial business, corporation, or enterprise operating in any economic sector or industry. (also: Enterprise, Corporation, Commercial Organization)
+- Domain Name: A human-readable identification string defining a realm of administrative autonomy or resource location within the Internet Domain Name System. (also: Internet Domain, FQDN, Fully Qualified Domain Name)
+- Threat Actor: An individual, group, or organization responsible for malicious cyber activities, attacks, or cyber espionage operations. (also: Threat Group, Cyber Threat Actor, Hacker Group)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA у період з 2 по 6 жовтня 2023 року зафіксовано, щонайменше, чотири хвилі кібератак, здійснених угрупування UAC-0006 із застосуванням шкідливої програми SmokeLoader.</p><p>Для відправки електронних листів застосовуються легітимні скомпрометовані електронні поштові скриньки, а доставка SmokeLoader на ЕОМ здійснюється декількома способами, зокрема:</p><ul><li>EML -&gt; ZIP (поліглот) -&gt; ZIP -&gt; SFX -&gt; BAT -&gt; EXE (SmokeLoader)</li><li>EML -&gt; ZIP (поліглот) -&gt; ZIP -&gt; JS (завантажувач) -&gt; EXE (SmokeLoader)</li><li>EML -&gt; ZIP (поліглот) -&gt; EXE (SmokeLoader)</li><li>EML -&gt; ZIP (поліглот) -&gt; JS -&gt; EXE (SmokeLoader)</li><li>EML -&gt; PDF -&gt; ZIP (поліглот) -&gt; JS -&gt; EXE (SmokeLoader)</li><li>EML -&gt; PDF -&gt; ZIP -&gt; ZIP -&gt; JS -&gt; EXE (SmokeLoader)</li></ul><p>Поточна конфігурація SmokeLoader (дата компіляції: 2023-09-11 11:58:47) використовується з другої декади вересня по теперішній час. Крім того, сервер управління шкідливою програмою розміщено на технічному майданчику ООО "Трейдер софт" (@simplecloud.ru, ОГРН:1089848043086, м.Санкт-Петербруг, Чекель Н.В.):</p><ul><li>85.143.216[.]129 (з 16.09.2023)</li><li>85.143.172[.]45 (з 01.10.2023)</li></ul><p>*<em>Слід зауважити, що використання інфраструктури ООО "Трейдер софт" для розміщення серверів управління шкідливими програмами заборонено п.5 додатку N1 до Договору оферти.</em></p><p>Нагадуємо, що задум зловмисників полягає в ураженні ЕОМ бухгалтерів для викрадення автентифікаційних даних (логін, пароль, ключ/сертифікат) та/або підміни реквізитів фінансових документів в системах дистанційного банківського обслуговування з метою відправки несанкціонованих платежів.</p><p>Звертаємо увагу на той факт, що протягом серпня-вересня 2023 року згаданим угрупуванням здійснено спроби по викраденню грошових коштів на десятки мільйонів гривень.</p><p>Вкотре наголошуємо на необхідності першочергового убезпечення автоматизованих робочих місць бухгалтерів шляхом застосування програмних засобів захисту, обмеження можливості запуску штатних утиліт (wscript.exe, cscript.exe, powershell.exe, mshta.exe) та фільтрації вихідних інформаційних потоків, деталі у статті "Як бути відповідальним та втримати кіберфронт" (<a href="https://cert.gov.ua/article/5436463" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/article/5436463</a>).</p><p>Додатково, на рівні відповідної банківської установи, впевнитись у застосуванні базових анти-фрод правил та інших налаштувань безпеки:</p><ul><li>платіж на нового контрагента;	</li><li>позалімітна сума;</li><li>обмеження доступу до клієнт-банку переліком довірених IP-адрес.</li></ul><p><br></p><p><strong>Індикатори кіберзагроз:</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">f0c949f396dca8bdf6d67cf6ad4adfeb&nbsp;&nbsp;&nbsp;&nbsp;31be756b4315098a94855a8b236bcf6e55d97acbc5cebe75d1a668dff45bb82b&nbsp;&nbsp;&nbsp;&nbsp;рахунок_фактура_СФ-0001871_та_акт_звiрки_вiд_29_09_2023р.zip&nbsp;
+ad3093db8fc1d9273bfd61db1c9f5f79&nbsp;&nbsp;&nbsp;&nbsp;3ac06154dea00c6f17fba1c52956affdda59eba036b3d5d077c37c93fe277a26&nbsp;&nbsp;&nbsp;&nbsp;Рахунок_фактура_СФ-0001871.XLS
+67d4e3736690f1863bb22681faecd2ba&nbsp;&nbsp;&nbsp;&nbsp;90ed5f6719265e25c3483b11704e3158622128816def1f7515988b7de5f5f1de&nbsp;&nbsp;&nbsp;&nbsp;спiсок.doc
+ae5a549b9d3f7efb1197df0928b28a47&nbsp;&nbsp;&nbsp;&nbsp;8b4b9b473f73b70c55d21d33149ced0c234fff919d15ff73cca22b93818a785c&nbsp;&nbsp;&nbsp;&nbsp;акт_звiрки_вiд_29_09_2023р_за_рах_UA493077700000026002711166191.JPEG.exe
+c4029c4f5ec1aa2db0d957fe712f57b8&nbsp;&nbsp;&nbsp;&nbsp;41fe1fea884daee189076a5bb5b288852ed5b72d3b89576b740be6baceaa69c5&nbsp;&nbsp;&nbsp;&nbsp;akt.jpeg
+861970dd2bc82ddea7fc4b6fff21b69d&nbsp;&nbsp;&nbsp;&nbsp;9b50c4624bd60aea94b85afeeac6d61c485bee42fdeeffedc5d9617f4650c51c&nbsp;&nbsp;&nbsp;&nbsp;Payment_9312_0580_6944_3255.bat
+e0abf9e0e69184f9a928382959c9ac80&nbsp;&nbsp;&nbsp;&nbsp;e5314f7a9969af109606c84567ecf951570dd1495c400a1e5bf215fd5cdb3fd2&nbsp;&nbsp;&nbsp;&nbsp;Pax_9312_0580_6944_3255_29.09.2023p.jpg
+3b6dbc53b1960269184585ede349e347&nbsp;&nbsp;&nbsp;&nbsp;55076f9a6e5ee25e2deb7b8417431bd71ff34a74c600efbd53144a9b0a178946&nbsp;&nbsp;&nbsp;&nbsp;Рахунок_до_акту_НП-010140544_вiд_30.09.2023_01102023223751.zip
+0c174d287a4af1ad05fd1b8ea40c7003&nbsp;&nbsp;&nbsp;&nbsp;7781122a4a2aea14f0d7cab9d9a1a9cf0e4e9ef5f31639449f56a0b1ecebb2d9&nbsp;&nbsp;&nbsp;&nbsp;Рахунок_до_акту_НП-010140544_вiд_30.09.2023_01102023223751.xlsx
+a12a7a8edd7fee2ec3b2b47e0a33830f&nbsp;&nbsp;&nbsp;&nbsp;143310670009099214b1b1a812e98a485db3e2879ab35dca8ba63005a62a610c&nbsp;&nbsp;&nbsp;&nbsp;Акт_звiрки_вiд_03.10.2023_Рах_UA493077700000026002711166194.XLS.exe
+24a3f685542a83934f311b69714e6392&nbsp;&nbsp;&nbsp;&nbsp;411525bb70e9579cc4dc62458bbcfc88ca44d6ca6046a43e4e2ef13873edb1a8&nbsp;&nbsp;&nbsp;&nbsp;Специфікація&nbsp;до&nbsp;акту&nbsp;№НП-010140544&nbsp;від&nbsp;30.09.2023.zip&nbsp;
+0c174d287a4af1ad05fd1b8ea40c7003&nbsp;&nbsp;&nbsp;&nbsp;7781122a4a2aea14f0d7cab9d9a1a9cf0e4e9ef5f31639449f56a0b1ecebb2d9&nbsp;&nbsp;&nbsp;&nbsp;Рахунок_до_акту_НП-010140544_вiд_30.09.2023_01102023223751.xlsx
+a3ca1983e0741d9d5816af3f89570472&nbsp;&nbsp;&nbsp;&nbsp;fdf8a89e8c90ed0653780acc77c180185b8971e62d2a02dcaabcfc456d05bd96&nbsp;&nbsp;&nbsp;&nbsp;1.Рахунок_до_акту_НП-010140544_вiд_30.09.2023_01102023223751.XLS.js
+65c7d9e822c9f2b8291202128644e825&nbsp;&nbsp;&nbsp;&nbsp;9a528b2b31d9d59018878fdf3b9d8db235df606500c67a4b8be3075701b014fc&nbsp;&nbsp;&nbsp;&nbsp;mstsc.exe
+b6c134f4f94612f903f6e555af707553&nbsp;&nbsp;&nbsp;&nbsp;493f708129bf25ff4bb734c179d336f223d9d21ea53b7e5e52f9535a72415bfd&nbsp;&nbsp;&nbsp;&nbsp;2.Акт_звiрки_вiд_03.10.2023_Рах_UA493077700000026002711166194.XLS.js
+ccbdbaa1f2ba8322554fcfa772d20862&nbsp;&nbsp;&nbsp;&nbsp;6999f5f3c6824f27b5a1fb436c59d369f6f1ec08365d48cd1c8d21d1058eaafc&nbsp;&nbsp;&nbsp;&nbsp;3.Витяг_з_реестру_вiд_03.10.2023_Рах_UA493077700000026002711166194.XLS.js
+0728c2a5375b615042020acdf26f4567&nbsp;&nbsp;&nbsp;&nbsp;d895f40a994cb90416881b88fadd2de5af165eec1cd41b0ddd08fa1d6b3262bb&nbsp;&nbsp;&nbsp;&nbsp;Список_документiв_для_ознакомлення.pdf&nbsp;
+45c63b6de683c5bb62cd93ace3c9433a&nbsp;&nbsp;&nbsp;&nbsp;2c44c9b445d2efc2f46e463d933da2ffc1d3ba6718bd67d3957c3f916b7c79fe&nbsp;&nbsp;&nbsp;&nbsp;Список_документiв_для_ознайомлення.zip
+b6c134f4f94612f903f6e555af707553&nbsp;&nbsp;&nbsp;&nbsp;493f708129bf25ff4bb734c179d336f223d9d21ea53b7e5e52f9535a72415bfd&nbsp;&nbsp;&nbsp;&nbsp;2.Акт_звiрки_вiд_03.10.2023_Рах_UA493077700000026002711166194.XLS.js
+65c7d9e822c9f2b8291202128644e825&nbsp;&nbsp;&nbsp;&nbsp;9a528b2b31d9d59018878fdf3b9d8db235df606500c67a4b8be3075701b014fc&nbsp;&nbsp;&nbsp;&nbsp;mstsc.exe
+ccbdbaa1f2ba8322554fcfa772d20862&nbsp;&nbsp;&nbsp;&nbsp;6999f5f3c6824f27b5a1fb436c59d369f6f1ec08365d48cd1c8d21d1058eaafc&nbsp;&nbsp;&nbsp;&nbsp;3.Витяг_з_реестру_вiд_03.10.2023_Рах_UA493077700000026002711166194.XLS.js
+a3ca1983e0741d9d5816af3f89570472&nbsp;&nbsp;&nbsp;&nbsp;fdf8a89e8c90ed0653780acc77c180185b8971e62d2a02dcaabcfc456d05bd96&nbsp;&nbsp;&nbsp;&nbsp;1.Рахунок_до_акту_НП-010140544_вiд_30.09.2023_01102023223751.XLS.js
+99c11a67c6ab54c5a14dbb0f44edea44&nbsp;&nbsp;&nbsp;&nbsp;739e735aa73cfdbfc08c696e0426434aa78139110b416313d2a39d93915ee318&nbsp;&nbsp;&nbsp;&nbsp;лист.zip&nbsp;
+fe7c42b5711cdc65af404ef5c299f9ce&nbsp;&nbsp;&nbsp;&nbsp;0f93344347469ebef7b0d6768f6f50928b8e6df7bc84a4293b7c4a7bb5b98072&nbsp;&nbsp;&nbsp;&nbsp;ЗАЯВА.xlsx
+66d62c348cb3b50d2edd5a9ae6778b51&nbsp;&nbsp;&nbsp;&nbsp;40c9bc7186f21b6e2a7da28632e70d9b9bce01cc63c692d4383ac03e13e45533&nbsp;&nbsp;&nbsp;&nbsp;лист.pdf&nbsp;
+b6d8f49b3d0f81514e8a40c9a03d8636&nbsp;&nbsp;&nbsp;&nbsp;ac1aedd7d08d3e92ded28d07944d8a8039650a36dec8b4a5d7b675ce2c5512c4&nbsp;&nbsp;&nbsp;&nbsp;2.Акт_звiрки_вiд_03.10.2023_Рах_UA493077700000026002711166194.XLS.js
+331ddbbd644c1088f56497ea066cf804&nbsp;&nbsp;&nbsp;&nbsp;ebbf474d69519b7ded60c1dab807dab492c33d9caf76e6495c2ee92be573011e&nbsp;&nbsp;&nbsp;&nbsp;mstsc.exe
+f9fb94165f54cd0b5b0c00e1880d5363&nbsp;&nbsp;&nbsp;&nbsp;41b74077e7707dfce2752668a3201e3bc596ade5594535c266e3249c2e697cb2&nbsp;&nbsp;&nbsp;&nbsp;Список_документiв_для_ознайомлення.zip
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">85.143.216[.]129
+85.143.172[.]45
+hXXp://diplombar[.]by/
+hXXp://dublebomber[.]ru/
+hXXp://iloveua[.]ir/
+hXXp://ipoluchayteudovolstvie[.]ru/
+hXXp://kozachok777[.]ru/
+hXXp://moyabelorussiya[.]by/
+hXXp://nomnetozhedenyuzhkanuzhna[.]ru/
+hXXp://popuasyfromua[.]ru/
+hXXp://propertyiran[.]ir/
+hXXp://propertyminsk[.]by/
+hXXp://prostosmeritesya[.]ru/
+hXXp://restmantra[.]by/
+hXXp://sakentoshi[.]ru/
+hXXp://specnaznachenie[.]ru/
+hXXp://super777bomba[.]ru/
+hXXp://tvoyaradostetoya[.]ru/
+hXXp://yavasponimayu[.]ru/
+hXXp://zakrylki809[.]ru/
+hXXp://zasadacafe[.]by/
+diplombar[.]by
+dublebomber[.]ru
+iloveua[.]ir
+ipoluchayteudovolstvie[.]ru
+kozachok777[.]ru
+moyabelorussiya[.]by
+nomnetozhedenyuzhkanuzhna[.]ru
+popuasyfromua[.]ru
+propertyiran[.]ir
+propertyminsk[.]by
+prostosmeritesya[.]ru
+restmantra[.]by
+sakentoshi[.]ru
+specnaznachenie[.]ru
+super777bomba[.]ru
+tvoyaradostetoya[.]ru
+yavasponimayu[.]ru
+zakrylki809[.]ru
+zasadacafe[.]by
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1. Ланцюг ураження 02.10.23</p>
+
+=== RESPONSE (8.1s, in 7114 / out 1493 tok, STOP) ===
+The text details cyberattacks by threat actor UAC-0006 targeting Ukrainian organizations, specifically accounting departments, to steal financial credentials and execute fraudulent payments. The actor used the SmokeLoader malware, delivered via malicious email attachments (archives, script loaders, polyglot ZIPs). SmokeLoader command and control infrastructure was hosted on IP addresses allocated to the company ООО "Трейдер софт".
+
+{
+  "entities": [
+    {
+      "name": "UAC-0006",
+      "kind": "threat actor",
+      "gloss": "A financially motivated cyber threat group that targets Ukrainian entities with malware to conduct financial fraud."
+    },
+    {
+      "name": "SmokeLoader",
+      "kind": "malware",
+      "gloss": "A modular bot and backdoor malware family used to download and execute secondary malware payloads."
+    },
+    {
+      "name": "ООО \"Трейдер софт\"",
+      "kind": "company",
+      "gloss": "A Russian hosting and technology service provider."
+    },
+    {
+      "name": "Чекель Н.В.",
+      "kind": "person",
+      "gloss": "An individual associated with the management or registration of ООО Trader Soft."
+    },
+    {
+      "name": "85.143.216.129",
+      "kind": "ip address",
+      "gloss": "An IP address used for hosting SmokeLoader command and control infrastructure."
+    },
+    {
+      "name": "85.143.172.45",
+      "kind": "ip address",
+      "gloss": "An IP address used for hosting SmokeLoader command and control infrastructure."
+    },
+    {
+      "name": "diplombar.by",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "dublebomber.ru",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "iloveua.ir",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "ipoluchayteudovolstvie.ru",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "kozachok777.ru",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "moyabelorussiya.by",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "nomnetozhedenyuzhkanuzhna.ru",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "popuasyfromua.ru",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "propertyiran.ir",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "propertyminsk.by",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "prostosmeritesya.ru",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "restmantra.by",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "sakentoshi.ru",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "specnaznachenie.ru",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "super777bomba.ru",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "tvoyaradostetoya.ru",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "yavasponimayu.ru",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "zakrylki809.ru",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "zasadacafe.by",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0006",
+      "type": "uses",
+      "tail": "SmokeLoader",
+      "evidence": "здійснених угрупування UAC-0006 із застосуванням шкідливої програми SmokeLoader"
+    },
+    {
+      "head": "ООО \"Трейдер софт\"",
+      "type": "hosts",
+      "tail": "85.143.216.129",
+      "evidence": "розміщено на технічному майданчику ООО \"Трейдер софт\" ... 85.143.216[.]129"
+    },
+    {
+      "head": "ООО \"Трейдер софт\"",
+      "type": "hosts",
+      "tail": "85.143.172.45",
+      "evidence": "розміщено на технічному майданчику ООО \"Трейдер софт\" ... 85.143.172[.]45"
+    }
+  ],
+  "newRelationTypes": []
+}

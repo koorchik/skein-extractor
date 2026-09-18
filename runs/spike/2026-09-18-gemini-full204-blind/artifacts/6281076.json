@@ -1,0 +1,183 @@
+{
+  "docId": 6281076,
+  "date": "23.10.2024",
+  "title": "Файли конфігурацій RDP як засіб отримання віддаленого доступу до комп'ютера або \"Rogue RDP\" (CERT-UA#11690)",
+  "entities": [
+    {
+      "id": "6281076:0",
+      "name": "UAC-0215",
+      "kind": "threat actor",
+      "gloss": "A threat activity group tracked by CERT-UA targeting Ukrainian organizations using malicious RDP configuration files.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6281076:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose public and private sectors were targeted in cyber operations.",
+      "scheme": "S5",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281076:2",
+      "name": "Amazon",
+      "kind": "software vendor",
+      "gloss": "An American multinational technology company focusing on cloud computing, e-commerce, and digital streaming.",
+      "scheme": "S1",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "6281076:3",
+      "name": "Microsoft",
+      "kind": "software vendor",
+      "gloss": "An American multinational corporation that develops computer software, consumer electronics, and related services.",
+      "scheme": "S1",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "6281076:4",
+      "name": "RDP",
+      "kind": "network protocol",
+      "gloss": "A proprietary protocol developed by Microsoft providing a user with a graphical interface to connect to another computer.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281076:5",
+      "name": "mstsc.exe",
+      "kind": "software product",
+      "gloss": "The built-in Microsoft Remote Desktop client executable for establishing remote desktop connections.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6281076:6",
+      "name": "Zero Trust Architecture Configuration.rdp",
+      "kind": "malicious file",
+      "gloss": "A malicious RDP configuration file used to initiate unauthorized remote desktop connections to attacker infrastructure.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6281076:7",
+      "name": "ZTS Device Compatibility Test.rdp",
+      "kind": "malicious file",
+      "gloss": "A malicious RDP configuration file used to connect client systems to threat actor servers.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281076:8",
+      "name": "Device Configuration Verification.rdp",
+      "kind": "malicious file",
+      "gloss": "A malicious RDP configuration file distributed via phishing emails.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281076:9",
+      "name": "Device Security Requirements Check.rdp",
+      "kind": "malicious file",
+      "gloss": "A malicious RDP file used to initiate outbound RDP connections.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281076:10",
+      "name": "Zero Trust Security Environment Compliance Check.rdp",
+      "kind": "malicious file",
+      "gloss": "A malicious RDP configuration file leveraging Zero Trust themes for lure purposes.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281076:11",
+      "name": "AWS IAM Quick Start.rdp",
+      "kind": "malicious file",
+      "gloss": "A malicious RDP configuration file themed around Amazon Web Services Identity and Access Management.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6281076:12",
+      "name": "AWS IAM Configuration.rdp",
+      "kind": "malicious file",
+      "gloss": "A malicious RDP configuration file disguised as an AWS IAM setup file.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281076:13",
+      "name": "AWS IAM Compliance Check.rdp",
+      "kind": "malicious file",
+      "gloss": "A malicious RDP configuration file used by attackers to gain remote access to victim hosts.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281076:14",
+      "name": "yulia.antonenko@townoflakelure.com",
+      "kind": "email address",
+      "gloss": "A sender email address used in the phishing campaign.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "6281076:15",
+      "name": "alexandra.gerst@townoflakelure.com",
+      "kind": "email address",
+      "gloss": "A sender email address used in the distribution of malicious emails.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281076:16",
+      "name": "oleksii.myronov@townoflakelure.com",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator of cyber threats.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0215",
+      "type": "delivers",
+      "tail": "Zero Trust Architecture Configuration.rdp",
+      "evidence": "Описана активність відстежується за ідентифікатором UAC-0215."
+    },
+    {
+      "head": "UAC-0215",
+      "type": "delivers",
+      "tail": "AWS IAM Quick Start.rdp",
+      "evidence": "Описана активність відстежується за ідентифікатором UAC-0215."
+    },
+    {
+      "head": "yulia.antonenko@townoflakelure.com",
+      "type": "delivers",
+      "tail": "Zero Trust Architecture Configuration.rdp",
+      "evidence": "розповсюдження серед органів державної влади... електронних листів"
+    }
+  ],
+  "unclassified": [
+    "6281076:4"
+  ]
+}

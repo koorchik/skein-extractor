@@ -1,0 +1,134 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0113",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA targeting Ukrainian organizations."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "DarkCrystal RAT",
+      "kind": "malware",
+      "gloss": "A commercial remote access trojan used for espionage and remote control."
+    },
+    {
+      "name": "Алгоритм дій членів сім’ї безвісти відсутнього військовослужбовця LegalAid.rar",
+      "kind": "computer file",
+      "gloss": "A password-protected RAR archive distributed via phishing emails."
+    },
+    {
+      "name": "Алгоритм_LegalAid.xlsm",
+      "kind": "computer file",
+      "gloss": "A malicious Excel document with macros used to download malware."
+    },
+    {
+      "name": "MSCommondll.exe",
+      "kind": "malware",
+      "gloss": "A .NET loader executable that downloads and executes DarkCrystal RAT."
+    },
+    {
+      "name": "MSCommonDriver.exe",
+      "kind": "malware",
+      "gloss": "A malicious executable payload associated with DarkCrystal RAT activity."
+    },
+    {
+      "name": "MSCommonDriver.DCRat.exe",
+      "kind": "malware",
+      "gloss": "An executable file containing the DarkCrystal RAT payload."
+    },
+    {
+      "name": "gov.ua",
+      "kind": "domain name",
+      "gloss": "The official Ukrainian government top-level domain zone."
+    },
+    {
+      "name": "plexbd.net",
+      "kind": "domain name",
+      "gloss": "An internet domain used to host malicious executable files."
+    },
+    {
+      "name": "datagroup.ddns.net",
+      "kind": "domain name",
+      "gloss": "A dynamic DNS domain used for DarkCrystal RAT command and control."
+    },
+    {
+      "name": "http://plexbd.net/MSCommonDriver.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosting the MSCommonDriver.exe payload."
+    },
+    {
+      "name": "http://plexbd.net/MSCommondll.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosting the MSCommondll.exe loader."
+    },
+    {
+      "name": "https://datagroup.ddns.net/PythonHttpGeolongpolldefault.php",
+      "kind": "uniform resource locator",
+      "gloss": "A command and control URL for DarkCrystal RAT."
+    },
+    {
+      "name": "103.27.202.127",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure in the incident."
+    },
+    {
+      "name": "203.96.191.70",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure in the incident."
+    },
+    {
+      "name": "31.7.58.82",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure in the incident."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0113",
+      "type": "uses",
+      "tail": "DarkCrystal RAT",
+      "evidence": "Активність відстежується за ідентифікатором UAC-0113."
+    },
+    {
+      "head": "Алгоритм дій членів сім’ї безвісти відсутнього військовослужбовця LegalAid.rar",
+      "type": "delivers",
+      "tail": "Алгоритм_LegalAid.xlsm",
+      "evidence": "Зазначений RAR-архів містить документ \"Алгоритм_LegalAid.xlsm\""
+    },
+    {
+      "head": "Алгоритм_LegalAid.xlsm",
+      "type": "delivers",
+      "tail": "MSCommondll.exe",
+      "evidence": "забезпечить завантаження та запуск .NET-завантажувача \"MSCommondll.exe\""
+    },
+    {
+      "head": "MSCommondll.exe",
+      "type": "delivers",
+      "tail": "DarkCrystal RAT",
+      "evidence": "здійснить завантаження та запуск шкідливої програми DarkCrystal RAT"
+    },
+    {
+      "head": "plexbd.net",
+      "type": "hosts",
+      "tail": "http://plexbd.net/MSCommondll.exe",
+      "evidence": "hXXp://plexbd[.]net/MSCommondll.exe"
+    },
+    {
+      "head": "plexbd.net",
+      "type": "hosts",
+      "tail": "http://plexbd.net/MSCommonDriver.exe",
+      "evidence": "hXXp://plexbd[.]net/MSCommonDriver.exe"
+    },
+    {
+      "head": "datagroup.ddns.net",
+      "type": "hosts",
+      "tail": "https://datagroup.ddns.net/PythonHttpGeolongpolldefault.php",
+      "evidence": "hXXps://datagroup.ddns[.]net/PythonHttpGeolongpolldefault.php"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,552 @@
+{
+  "docId": 6279600,
+  "date": "05.06.2024",
+  "title": "UAC-0020 (Vermin) атакує Сили оборони України з використанням ШПЗ SPECTR в тандемі з легітимним SyncThing (кампанія \"SickSync\") (CERT-UA#9934)",
+  "entities": [
+    {
+      "id": "6279600:0",
+      "name": "Центр кібербезпеки ЗСУ",
+      "kind": "military organization",
+      "gloss": "The cybersecurity center of the Armed Forces of Ukraine.",
+      "scheme": "S23",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "6279600:1",
+      "name": "ЗСУ",
+      "kind": "military organization",
+      "gloss": "The military forces of Ukraine.",
+      "scheme": "S23",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6279600:2",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279600:3",
+      "name": "UAC-0020",
+      "kind": "threat actor",
+      "gloss": "A cyberespionage threat group linked to security agencies in occupied Luhansk, also known as Vermin.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6279600:4",
+      "name": "Сили оборони України",
+      "kind": "military organization",
+      "gloss": "The defense and security forces protecting Ukraine.",
+      "scheme": "S23",
+      "category": "Government Body",
+      "role": "target"
+    },
+    {
+      "id": "6279600:5",
+      "name": "Луганськ",
+      "kind": "geographic location",
+      "gloss": "A city in eastern Ukraine, temporarily occupied by Russian forces.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6279600:6",
+      "name": "SPECTR",
+      "kind": "malware family",
+      "gloss": "A modular spyware and data theft malware suite known since 2019.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6279600:7",
+      "name": "SyncThing",
+      "kind": "software product",
+      "gloss": "An open-source peer-to-peer continuous file synchronization application.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6279600:8",
+      "name": "туррель.фоп.вовчок.rar",
+      "kind": "file",
+      "gloss": "A password-protected malicious RAR archive delivered as an email attachment.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6279600:9",
+      "name": "туррель.фоп.вовчок.sfx.rar.scr",
+      "kind": "file",
+      "gloss": "A malicious self-extracting archive containing decoy files, scripts, and an installer.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6279600:10",
+      "name": "Wowchok.pdf",
+      "kind": "decoy file",
+      "gloss": "A PDF decoy document contained inside a malicious SFX archive.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6279600:11",
+      "name": "sync.exe",
+      "kind": "malicious installer",
+      "gloss": "An InnoSetup-created executable installer deploying SyncThing and SPECTR malware components.",
+      "scheme": "S12",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "6279600:12",
+      "name": "InnoSetup",
+      "kind": "software product",
+      "gloss": "A popular open-source tool used to create Windows installation packages.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6279600:13",
+      "name": "run_user.bat",
+      "kind": "script",
+      "gloss": "A batch script designed for the initial launch of malicious components.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6279600:14",
+      "name": "SpecMon",
+      "kind": "malware module",
+      "gloss": "A SPECTR malware component that loads and executes DLL plugins.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "6279600:15",
+      "name": "PluginLoader.dll",
+      "kind": "malware module",
+      "gloss": "A SPECTR DLL component responsible for loading plugins implementing the IPlugin class.",
+      "scheme": "S16",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6279600:16",
+      "name": "Screengrabber",
+      "kind": "malware module",
+      "gloss": "A SPECTR spyware module designed to take periodic screenshots of specific application windows.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6279600:17",
+      "name": "FileGrabber",
+      "kind": "malware module",
+      "gloss": "A SPECTR malware component that copies specified files from user profiles and cloud storage.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6279600:18",
+      "name": "Usb",
+      "kind": "malware module",
+      "gloss": "A SPECTR malware component that copies specified file types from removable USB media.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6279600:19",
+      "name": "Social",
+      "kind": "malware module",
+      "gloss": "A SPECTR malware component designed to steal authentication and session data from messengers.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6279600:20",
+      "name": "Browsers",
+      "kind": "malware module",
+      "gloss": "A SPECTR malware component designed to steal authentication data, sessions, and history from web browsers.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6279600:21",
+      "name": "syncthing.net",
+      "kind": "domain name",
+      "gloss": "The official domain name for the SyncThing file synchronization project.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6279600:22",
+      "name": "crash.syncthing.net",
+      "kind": "domain name",
+      "gloss": "A subdomain used for SyncThing crash reporting.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6279600:23",
+      "name": "data.syncthing.net",
+      "kind": "domain name",
+      "gloss": "A subdomain used for SyncThing data collection and usage reporting.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6279600:24",
+      "name": "upgrades.syncthing.net",
+      "kind": "domain name",
+      "gloss": "A subdomain used for SyncThing upgrade checks and metadata.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6279600:25",
+      "name": "SickSync",
+      "kind": "cyber campaign",
+      "gloss": "A cyberespionage campaign conducted by UAC-0020 targeting Ukrainian defense forces.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6279600:26",
+      "name": "csoc@post.mil.gov.ua",
+      "kind": "email address",
+      "gloss": "An email contact address for the Cybersecurity Center of the Armed Forces of Ukraine.",
+      "scheme": "S14",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279600:27",
+      "name": "syncthing.exe",
+      "kind": "executable file",
+      "gloss": "The main executable file of the SyncThing synchronization software.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6279600:28",
+      "name": "SyncthingFirewallRule.js",
+      "kind": "script",
+      "gloss": "A JavaScript file used to configure firewall rules for SyncThing.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6279600:29",
+      "name": "SetSyncthingConfig.js",
+      "kind": "script",
+      "gloss": "A JavaScript file used to set configuration parameters for SyncThing.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6279600:30",
+      "name": "SyncthingLogonTask.js",
+      "kind": "script",
+      "gloss": "A JavaScript file used to configure a logon scheduled task for SyncThing.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6279600:31",
+      "name": "ConfigSyncthingService.js",
+      "kind": "script",
+      "gloss": "A JavaScript file used to configure the SyncThing service.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6279600:32",
+      "name": "StartSyncthing.js",
+      "kind": "script",
+      "gloss": "A JavaScript script used to silently launch SyncThing.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6279600:33",
+      "name": "config_final.xml",
+      "kind": "configuration file",
+      "gloss": "An XML configuration file for SyncThing.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279600:34",
+      "name": "startProc.ps1",
+      "kind": "script",
+      "gloss": "A PowerShell script used in the deployment of SyncThing and SPECTR.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279600:35",
+      "name": "Install-SyncthingService.ps1",
+      "kind": "script",
+      "gloss": "A PowerShell script designed to install SyncThing as a service.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6279600:36",
+      "name": "modConf.ps1",
+      "kind": "script",
+      "gloss": "A PowerShell script used to modify configurations.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279600:37",
+      "name": "install.ps1",
+      "kind": "script",
+      "gloss": "A PowerShell script used during the installation process.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279600:38",
+      "name": "startps.exe",
+      "kind": "executable file",
+      "gloss": "An executable file used to launch PowerShell scripts.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279600:39",
+      "name": "nssm.exe",
+      "kind": "utility",
+      "gloss": "The Non-Sucking Service Manager, a utility used to run applications as Windows services.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6279600:40",
+      "name": "SpecMon_x86.dll",
+      "kind": "malware module",
+      "gloss": "A 32-bit SPECTR dynamic link library component.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6279600:41",
+      "name": "SpecMon_x64.dll",
+      "kind": "malware module",
+      "gloss": "A 64-bit SPECTR dynamic link library component.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6279600:42",
+      "name": "Common.dll",
+      "kind": "malware module",
+      "gloss": "A supporting DLL library for SPECTR malware.",
+      "scheme": "S16",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279600:43",
+      "name": "MediaDevices.dll",
+      "kind": "malware module",
+      "gloss": "A supporting DLL library for SPECTR malware.",
+      "scheme": "S16",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279600:44",
+      "name": "Management.dll",
+      "kind": "malware module",
+      "gloss": "A supporting DLL library for SPECTR malware.",
+      "scheme": "S16",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279600:45",
+      "name": "Commander.dll",
+      "kind": "malware module",
+      "gloss": "A command and control plugin DLL for SPECTR malware.",
+      "scheme": "S16",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279600:46",
+      "name": "Browsers.dll",
+      "kind": "malware module",
+      "gloss": "A dynamic link library implementing browser data theft functionality for SPECTR.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6279600:47",
+      "name": "Social.dll",
+      "kind": "malware module",
+      "gloss": "A dynamic link library implementing messenger credential theft for SPECTR.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6279600:48",
+      "name": "Usb.dll",
+      "kind": "malware module",
+      "gloss": "A dynamic link library implementing USB media file theft for SPECTR.",
+      "scheme": "S16",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279600:49",
+      "name": "FileGrabber.dll",
+      "kind": "malware module",
+      "gloss": "A dynamic link library implementing file collection functionality for SPECTR.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6279600:50",
+      "name": "Screengrabber.dll",
+      "kind": "malware module",
+      "gloss": "A dynamic link library implementing screen capture functionality for SPECTR.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Центр кібербезпеки ЗСУ",
+      "type": "subordinate-to",
+      "tail": "ЗСУ",
+      "evidence": "Центром кібербезпеки ЗСУ"
+    },
+    {
+      "head": "UAC-0020",
+      "type": "targets-sector",
+      "tail": "Сили оборони України",
+      "evidence": "активність угрупування UAC-0020 (Vermin), спрямовану у відношенні Сил оборони України"
+    },
+    {
+      "head": "UAC-0020",
+      "type": "operates-from",
+      "tail": "Луганськ",
+      "evidence": "діяльність угрупування Vermin скеровується співробітниками силових відомств тимчасово окупованого Луганська"
+    },
+    {
+      "head": "UAC-0020",
+      "type": "uses-malware",
+      "tail": "SPECTR",
+      "evidence": "у якості засобів реалізації кіберзагрози використано... шкідливе програмне забезпечення SPECTR"
+    },
+    {
+      "head": "UAC-0020",
+      "type": "abuses-tool",
+      "tail": "SyncThing",
+      "evidence": "використано штатний функціонал синхронізації легітимного програмного забезпечення SyncThing"
+    },
+    {
+      "head": "туррель.фоп.вовчок.rar",
+      "type": "contains-file",
+      "tail": "туррель.фоп.вовчок.sfx.rar.scr",
+      "evidence": "В зазначеному архіві знаходиться RARSFX-архів \"туррель.фоп.вовчок.sfx.rar.scr\""
+    },
+    {
+      "head": "туррель.фоп.вовчок.sfx.rar.scr",
+      "type": "contains-file",
+      "tail": "Wowchok.pdf",
+      "evidence": "містить файл-приманку \"Wowchok.pdf\""
+    },
+    {
+      "head": "туррель.фоп.вовчок.sfx.rar.scr",
+      "type": "contains-file",
+      "tail": "sync.exe",
+      "evidence": "ЕХЕ-інсталятор \"sync.exe\", створений за допомогою InnoSetup"
+    },
+    {
+      "head": "туррель.фоп.вовчок.sfx.rar.scr",
+      "type": "contains-file",
+      "tail": "run_user.bat",
+      "evidence": "та BAT-файл \"run_user.bat\", призначений для первинного запуску"
+    },
+    {
+      "head": "sync.exe",
+      "type": "created-with",
+      "tail": "InnoSetup",
+      "evidence": "створений за допомогою InnoSetup"
+    },
+    {
+      "head": "sync.exe",
+      "type": "drops-malware",
+      "tail": "SPECTR",
+      "evidence": "містить як легітимні компоненти програми SyncThing, так і файли шкідливих програм SPECTR"
+    },
+    {
+      "head": "SpecMon",
+      "type": "executes-module",
+      "tail": "PluginLoader.dll",
+      "evidence": "SpecMon - викликає PluginLoader.dll"
+    },
+    {
+      "head": "UAC-0020",
+      "type": "conducted",
+      "tail": "SickSync",
+      "evidence": "Ураховуючи не дуже вдале повернення угрупування Vermin... виявленій кампанії надано назву \"SickSync\""
+    }
+  ],
+  "unclassified": [
+    "6279600:5",
+    "6279600:25",
+    "6279600:33",
+    "6279600:39"
+  ]
+}

@@ -1,0 +1,250 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Міністерство оборони України",
+      "kind": "government body",
+      "gloss": "The central executive body and military department in Ukraine."
+    },
+    {
+      "name": "Збройні сили України",
+      "kind": "military body",
+      "gloss": "The military forces of Ukraine."
+    },
+    {
+      "name": "в/ч А0334",
+      "kind": "military unit",
+      "gloss": "A Ukrainian military unit."
+    },
+    {
+      "name": "MILCERT",
+      "kind": "incident response team",
+      "gloss": "The joint cyber incident response team of the Ministry of Defense and Armed Forces of Ukraine."
+    },
+    {
+      "name": "ЦРК",
+      "kind": "military unit",
+      "gloss": "A structural subdivision of the Armed Forces of Ukraine participating in MILCERT."
+    },
+    {
+      "name": "ЦІРОТ",
+      "kind": "military unit",
+      "gloss": "A structural subdivision of the Armed Forces of Ukraine participating in MILCERT."
+    },
+    {
+      "name": "ЦМТР",
+      "kind": "military unit",
+      "gloss": "A structural subdivision of the Armed Forces of Ukraine participating in MILCERT."
+    },
+    {
+      "name": "Signal",
+      "kind": "software product",
+      "gloss": "A cross-platform encrypted messaging service."
+    },
+    {
+      "name": "GRISELDA",
+      "kind": "software product",
+      "gloss": "An automated Ukrainian military situational awareness and AI-assisted information processing system."
+    },
+    {
+      "name": "Очі",
+      "kind": "software product",
+      "gloss": "A Ukrainian military surveillance and situational awareness information and telecommunication system."
+    },
+    {
+      "name": "HYDRA",
+      "kind": "malware family",
+      "gloss": "An Android banking trojan and spyware malware family."
+    },
+    {
+      "name": "Google Drive",
+      "kind": "cloud service",
+      "gloss": "A cloud storage and file synchronization service developed by Google."
+    },
+    {
+      "name": "Google Cloud",
+      "kind": "company",
+      "gloss": "A suite of cloud computing services provided by Google."
+    },
+    {
+      "name": "Cloudflare",
+      "kind": "company",
+      "gloss": "An American web infrastructure and website security company."
+    },
+    {
+      "name": "UAC-0210",
+      "kind": "threat actor",
+      "gloss": "A threat actor cluster tracked by CERT-UA targeting Ukrainian military mobile devices."
+    },
+    {
+      "name": "Griselda.apk",
+      "kind": "file",
+      "gloss": "A malicious Android package file impersonating the GRISELDA system and delivering HYDRA malware."
+    },
+    {
+      "name": "1.9.4.apk",
+      "kind": "file",
+      "gloss": "A trojanized Android application package of the Ukrainian military system Очі."
+    },
+    {
+      "name": "Crew.java",
+      "kind": "file",
+      "gloss": "A malicious Java class file injected into the trojanized Очі Android application."
+    },
+    {
+      "name": "LocationEntity.java",
+      "kind": "file",
+      "gloss": "A malicious Java class file used to track and transmit GPS coordinates in trojanized software."
+    },
+    {
+      "name": "iniqestgoclued@proton.me",
+      "kind": "email address",
+      "gloss": "A Proton Mail email address used in malicious activity."
+    },
+    {
+      "name": "vasilyi1997@proton.me",
+      "kind": "email address",
+      "gloss": "A Proton Mail email address used in malicious activity."
+    },
+    {
+      "name": "152.89.198.76",
+      "kind": "ip address",
+      "gloss": "An IP address used as malicious infrastructure in cyber operations."
+    },
+    {
+      "name": "185.27.134.204",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious network infrastructure."
+    },
+    {
+      "name": "185.27.134.57",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious network infrastructure."
+    },
+    {
+      "name": "31.134.121.63",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious network infrastructure."
+    },
+    {
+      "name": "79.137.80.206",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious network infrastructure."
+    },
+    {
+      "name": "griselda-edu.com.ua",
+      "kind": "internet domain",
+      "gloss": "A domain name mimicking the GRISELDA project."
+    },
+    {
+      "name": "griselda.biz.ua",
+      "kind": "internet domain",
+      "gloss": "A domain name used to distribute fake GRISELDA applications."
+    },
+    {
+      "name": "griselda.co.ua",
+      "kind": "internet domain",
+      "gloss": "A domain name used to distribute malicious Android packages disguised as GRISELDA."
+    },
+    {
+      "name": "ochiplus.workers.dev",
+      "kind": "internet domain",
+      "gloss": "A Cloudflare Workers domain used for malicious command and control or data exfiltration."
+    },
+    {
+      "name": "bitter-hall-1c0c.ochiplus.workers.dev",
+      "kind": "internet domain",
+      "gloss": "A subdomain used in cyberattack infrastructure targeting the Очі system."
+    },
+    {
+      "name": "falling-rice-4afa.ochiplus.workers.dev",
+      "kind": "internet domain",
+      "gloss": "A subdomain used in cyberattack infrastructure targeting the Очі system."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Міністерство оборони України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Міністерства оборони України"
+    },
+    {
+      "head": "Збройні сили України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Збройних сил України"
+    },
+    {
+      "head": "MILCERT",
+      "type": "part-of",
+      "tail": "Міністерство оборони України",
+      "evidence": "об'єднаної команди реагування Міністерства оборони України"
+    },
+    {
+      "head": "MILCERT",
+      "type": "part-of",
+      "tail": "Збройні сили України",
+      "evidence": "об'єднаної команди реагування Міністерства оборони України та Збройних сил України"
+    },
+    {
+      "head": "ЦРК",
+      "type": "part-of",
+      "tail": "MILCERT",
+      "evidence": "MILCERT (у складі ЦРК, ЦІРОТ та ЦМТР)"
+    },
+    {
+      "head": "ЦІРОТ",
+      "type": "part-of",
+      "tail": "MILCERT",
+      "evidence": "MILCERT (у складі ЦРК, ЦІРОТ та ЦМТР)"
+    },
+    {
+      "head": "ЦМТР",
+      "type": "part-of",
+      "tail": "MILCERT",
+      "evidence": "MILCERT (у складі ЦРК, ЦІРОТ та ЦМТР)"
+    },
+    {
+      "head": "griselda.co.ua",
+      "type": "hosts",
+      "tail": "Griselda.apk",
+      "evidence": "hXXps://griselda.co[.]ua/file/griselda.apk"
+    },
+    {
+      "head": "Griselda.apk",
+      "type": "delivers",
+      "tail": "HYDRA",
+      "evidence": "Griselda.apk (HYDRA)"
+    },
+    {
+      "head": "Crew.java",
+      "type": "part-of",
+      "tail": "1.9.4.apk",
+      "evidence": "додавши сторонній JAVA-клас, та реалізувавши його виклик"
+    },
+    {
+      "head": "LocationEntity.java",
+      "type": "part-of",
+      "tail": "1.9.4.apk",
+      "evidence": "додавши сторонній JAVA-клас, та реалізувавши його виклик"
+    },
+    {
+      "head": "UAC-0210",
+      "type": "attacks",
+      "tail": "Очі",
+      "evidence": "повʼязаної з модифікацією програми “Очі”, створено ідентифікатор UAC-0210"
+    },
+    {
+      "head": "UAC-0210",
+      "type": "uses-malware",
+      "tail": "1.9.4.apk",
+      "evidence": "активності, повʼязаної з модифікацією програми “Очі”, створено ідентифікатор UAC-0210"
+    }
+  ],
+  "newRelationTypes": []
+}

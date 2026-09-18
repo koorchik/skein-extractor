@@ -1,0 +1,271 @@
+{
+  "docId": 37704,
+  "date": "11.03.2022",
+  "title": "Кібератака на державні організації України з використанням шкідливих програми Cobalt Strike Beacon, GrimPlant та GraphSteel (CERT-UA#4145)",
+  "entities": [
+    {
+      "id": "37704:0",
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage and threat group targeting Ukrainian organizations.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "37704:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe.",
+      "scheme": "S4",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37704:2",
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware",
+      "gloss": "A post-exploitation agent and remote access tool used for penetration testing and malicious operations.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37704:3",
+      "name": "GraphSteel",
+      "kind": "malware",
+      "gloss": "A backdoor malware written in GoLang designed to gather system information and steal credentials.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37704:4",
+      "name": "GrimPlant",
+      "kind": "malware",
+      "gloss": "A backdoor malware written in GoLang that executes commands received via gRPC.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37704:5",
+      "name": "Themida",
+      "kind": "software product",
+      "gloss": "A commercial software protection system used to pack and obfuscate executables against reverse engineering.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "37704:6",
+      "name": "BitdefenderWindowsUpdatePackage.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable disguised as a security update package.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "37704:7",
+      "name": "alt.exe",
+      "kind": "computer file",
+      "gloss": "A malicious downloader executable used to retrieve additional payloads.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "37704:8",
+      "name": "one.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable containing Cobalt Strike Beacon.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "37704:9",
+      "name": "dropper.exe",
+      "kind": "computer file",
+      "gloss": "A malicious GoLang-based dropper executable.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "37704:10",
+      "name": "wisw.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable used as a downloader.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37704:11",
+      "name": "cesdf.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable payload hosted on Discord.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37704:12",
+      "name": "java-sdk.exe",
+      "kind": "computer file",
+      "gloss": "A malicious GoLang-based downloader executable.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "37704:13",
+      "name": "microsoft-cortana.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable payload containing the GraphSteel backdoor.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37704:14",
+      "name": "oracle-java.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable payload containing the GrimPlant backdoor.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37704:15",
+      "name": "Інструкція з антивірусного захисту.doc",
+      "kind": "computer file",
+      "gloss": "A lure document used in phishing campaigns.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37704:16",
+      "name": "Інструкція користувачів.doc",
+      "kind": "computer file",
+      "gloss": "A lure document used in phishing campaigns.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37704:17",
+      "name": "forkscenter[.]fr",
+      "kind": "domain name",
+      "gloss": "A domain name used to host malicious files.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "37704:18",
+      "name": "nirsoft[.]me",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "37704:19",
+      "name": "45[.]84.0.116",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command and control infrastructure.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37704:20",
+      "name": "156[.]146.50.5",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure in cyber attacks.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "асоціюємо виявлену активність з діяльністю групи UAC-0056"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "GraphSteel",
+      "evidence": "асоціюємо виявлену активність з діяльністю групи UAC-0056"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "GrimPlant",
+      "evidence": "асоціюємо виявлену активність з діяльністю групи UAC-0056"
+    },
+    {
+      "head": "BitdefenderWindowsUpdatePackage.exe",
+      "type": "delivers",
+      "tail": "alt.exe",
+      "evidence": "файл забезпечить виконання завантажувача \"alt.exe\""
+    },
+    {
+      "head": "alt.exe",
+      "type": "delivers",
+      "tail": "one.exe",
+      "evidence": "здійснить завантаження файлів \"one.exe\" та \"dropper.exe\""
+    },
+    {
+      "head": "alt.exe",
+      "type": "delivers",
+      "tail": "dropper.exe",
+      "evidence": "здійснить завантаження файлів \"one.exe\" та \"dropper.exe\""
+    },
+    {
+      "head": "one.exe",
+      "type": "delivers",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "запуск \"one.exe\" призведе до ураження комп'ютера шкідливою програмою Cobalt Strike Beacon"
+    },
+    {
+      "head": "one.exe",
+      "type": "delivers",
+      "tail": "wisw.exe",
+      "evidence": "а також завантаження і виконання файлу \"wisw.exe\""
+    },
+    {
+      "head": "dropper.exe",
+      "type": "delivers",
+      "tail": "java-sdk.exe",
+      "evidence": "здійснить завантаження, base64-декодування, збереження на диск та виконання файлу \"java-sdk.exe\""
+    },
+    {
+      "head": "java-sdk.exe",
+      "type": "delivers",
+      "tail": "microsoft-cortana.exe",
+      "evidence": "збереження на диск та виконання двох інших файлів: \"microsoft-cortana.exe\""
+    },
+    {
+      "head": "java-sdk.exe",
+      "type": "delivers",
+      "tail": "oracle-java.exe",
+      "evidence": "виконання двох інших файлів: \"microsoft-cortana.exe\" ... та \"oracle-java.exe\""
+    },
+    {
+      "head": "forkscenter[.]fr",
+      "type": "hosts",
+      "tail": "BitdefenderWindowsUpdatePackage.exe",
+      "evidence": "посилання на веб-сайт hxxps://forkscenter[.]fr/, з якого пропонується завантажити \"критичні оновлення\" у вигляді файлу \"BitdefenderWindowsUpdatePackage.exe\""
+    }
+  ],
+  "unclassified": []
+}

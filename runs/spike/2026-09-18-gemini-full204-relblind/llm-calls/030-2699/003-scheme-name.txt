@@ -1,0 +1,48 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You maintain a small, growing set of CONCEPT SCHEMES (entity categories) for a knowledge registry built from cybersecurity incident reports. A group of entities extracted from several reports has just been found to be close to each other and far from every existing scheme. Decide whether the group is a genuinely new scheme or an alias of an existing one, and name it.
+
+### EXISTING SCHEMES ###
+- Software Product: A software application, program, plugin, utility, or suite developed to perform specific computing tasks or services.
+- Operating System: System software that manages computer hardware and software resources and provides common services for computer programs.
+- Software Vendor: An organization or commercial enterprise that develops, manufactures, or distributes software products and technology services.
+- Security Vulnerability: A flaw, bug, or weakness in a system or software that can be exploited by an attacker.
+- Uniform Resource Locator: A web address that specifies the location of a resource on a computer network and the mechanism for retrieving it.
+- Country: A distinct territorial body or sovereign state with its own government, borders, and population.
+- Government Organization: A public sector authority, ministry, department, or agency established by a state to perform specific administrative or regulatory functions.
+- Security Advisory: A formal public notice published by a vendor or organization detailing security vulnerabilities, risks, and remediation measures for software or hardware.
+- Person: An individual human being, such as a government official, cybersecurity expert, researcher, or public figure.
+- Company: A commercial business enterprise, corporation, or non-governmental firm providing goods or services.
+- Cybersecurity Company: A commercial organization that provides cybersecurity products, threat intelligence, security research, or information security services.
+- Malicious File: A digital file crafted, modified, or distributed by threat actors to execute attacks, deliver malware, or compromise systems.
+- IP Address: A unique numerical identifier assigned to a device or network endpoint communicating over the Internet Protocol.
+
+### THE GROUP ###
+Each line is one entity with the description written at extraction time:
+- moz_ukraine@i.ua [email address] — An email address used to send phishing messages impersonating official communications.
+- stenislavboika@antination.kherson.ua [email address] — A sender email address used to distribute phishing emails.
+- sekretar2@svit-mebliv.ua [email address] — An email address used as the envelope sender in phishing attacks.
+- abed@i.ua [email address] — An email address used as an envelope sender for phishing emails.
+
+### RULES ###
+- A scheme is a KIND of entity (e.g. "Hacker group", "Malware family", "Software product", "Government body", "Internet domain", "Country"), never a role in an incident and never a single entity.
+- Return `"verdict": "alias-of"` with `"target"` set to an existing scheme's label when the group is the same kind as that scheme (different wording, same meaning). Judge by MEANING of the descriptions, not by surface words.
+- Return `"verdict": "new"` when no existing scheme covers the group. Then give:
+  - `prefLabel`: a short English noun phrase, 1–3 words, singular, Title Case (e.g. "Malware Family").
+  - `definition`: one sentence, at most 25 words, stating what belongs to the scheme, general enough to hold across reports.
+  - `altLabels`: 0–3 alternative English labels.
+- If the group mixes clearly different kinds, name the kind of the MAJORITY and list the minority entity names in `outliers`.
+- If uncertain between alias and new, prefer `new`: an extra scheme can be merged later; a wrong merge cannot be undone cheaply.
+
+### OUTPUT ###
+A single raw JSON object, no markdown fences, no commentary:
+{ "verdict": "new" | "alias-of", "target": "<existing label or null>", "prefLabel": "...", "definition": "...", "altLabels": [...], "outliers": [...] }
+
+--- text ---
+Decide and name the group now.
+
+=== RESPONSE (5.4s, in 877 / out 65 tok, STOP) ===
+{"verdict": "new", "target": null, "prefLabel": "Email Address", "definition": "A unique identifier for an electronic mail account used to send and receive digital messages across a computer network.", "altLabels": ["E-mail Address", "Electronic Mail Address"], "outliers": []}

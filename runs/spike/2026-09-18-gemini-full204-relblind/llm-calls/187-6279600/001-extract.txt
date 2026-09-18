@@ -1,0 +1,485 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA у безпосередній взаємодії з Центром кібербезпеки ЗСУ (ЦКБ) виявлено та досліджено активність угрупування UAC-0020 (Vermin), спрямовану у відношенні Сил оборони України.</p><p><em>Нагадаємо, що діяльність угрупування Vermin скеровується співробітниками силових відомств тимчасово окупованого Луганська та в останнє була помічена у березні 2022 року.</em></p><p>Цього разу у якості засобів реалізації кіберзагрози використано відомий з 2019 року інструментарій - шкідливе програмне забезпечення SPECTR. При цьому, для вивантаження з комп'ютера викрадних документів, файлів, паролів та іншої інформації використано штатний функціонал синхронізації легітимного програмного забезпечення SyncThing, яке, серед іншого, підтримує встановлення peer-to-peer з'єднання між комп'ютерами.</p><p>Для проведення кібератаки жертві надіслано електронний лист із вкладенням у вигляді архіву "туррель.фоп.вовчок.rar", захищеного паролем. В зазначеному архіві знаходиться RARSFX-архів "туррель.фоп.вовчок.sfx.rar.scr", що містить файл-приманку "Wowchok.pdf", ЕХЕ-інсталятор "sync.exe", створений за допомогою InnoSetup та BAT-файл "run_user.bat", призначений для первинного запуску.&nbsp;</p><p>В свою чергу файл "sync.exe" містить як легітимні компоненти програми SyncThing, так і файли шкідливих програм SPECTR, в тому числі допоміжні бібліотеки та скрипти. При цьому, штатні файли програмного забезпечення SyncThing частково модифіковано з метою зміни назв каталогів, запланованих задач, відключення функціоналу відображення повідомлень користувачеві тощо.</p><p>Коротка інформація щодо модулів SPECTR наведена нижче.</p><ul><li><strong>SpecMon</strong> - викликає PluginLoader.dll, який, у свою чергу, забезпечить виконання всіх DLL-файлів, які містять клас "IPlugin".</li><li><strong>Screengrabber</strong> - забезпечує виготовлення знімків екрану кожні 10 секунд за умови, якщо вікно програми містить такі назви: "word", "excel", "wps", "office", "notepad", "gram", "signal", "wickr", "wire", "threema", "viber", "whatsapp", "skype", "silence", "session", "adamant", "discord", "confide", "chrome", "mozilla", "edge", "vpn", "tor", "bat", "mail", "почта", "пошта", "диск", "disk", "drive", "box", "crypt", "wallet", "coin", "money", "подключение к", "remote", "1c:enterprise", "1с:предприятие", "1с предприятие", "1с-предприятие", "1cv", "faststone", "foxit", "pdf24 reader", "anydesk", "yandex with", "browser", "viewer".</li><li><strong>FileGrabber</strong> - за допомогою robocopy.exe з каталогів %USERPROFILE%\{Desktop, MyPictures, Personal, Downloads, OneDrive} та %APPDATA%\DropBox здійснює копіювання файлів з розширеннями: ".one", ".pdf", ".doc", ".docx", ".docm", ".xls", ".xlsx", ".xlsm", ".ppt", ".pptx", ".odt", ".odm", ".ods", ".odp", ".cdr", ".jpg", ".png", ".bmp", ".eml", ".tiff", ".txt", ".zip", ".rar", ".7z"; додаткові аргументи: "/S /COPY:DT /R:3 /W:5 /XO /MAXAGE:%MAXAGE% /MAX:5242880".</li><li><strong>Usb</strong> - за допомогою robocopy.exe зі знімних (USB) носіїв здійснює копіювання файлів з розширеннями: ".pdf", ".doc", ".docx", ".docm", ".xls", ".xlsx", ".xlsm", ".ppt", ".pptx", ".odt", ".odm", ".ods", ".odp", ".jpg", ".png", ".bmp", ".ogg", ".wav", ".mp3", ".mp4", ".txt", ".zip", ".rar", ".7z".</li><li><strong>Social</strong> - здійснює викрадення конфігураційних (автентифікаційних) даних месенджерів: Telegram (tdata), Signal (databases, Session Storage, Local Storage, sql, config.json), Skype (Local Storage), Element (leveldb).</li><li><strong>Browsers</strong> - здійснює викрадення даних (автентифікаційних даних, даних сесій, історії) Інтернет-браузерів браузерів: Firefox, Edge, Chrome (в т.ч., "Chromium", "Google", "Google(x86)", "Opera Software", "Amigo", "Orbitum", "Yandex", "Comodo", "Maxthon3", "Brave-Browser").</li></ul><p>Слід зауважити, що викрадена інформація копіюється до підпапок в каталозі %APPDATA%\sync\Slave_Sync\, після чого, з використанням штатного функціоналу <strong>синхронізації</strong> легітимної програми <strong>SyncThing</strong>, вміст цих каталогів потрапляє на комп'ютер зловмисника, чим і забезпечується <strong>ексфільтрація</strong> даних.</p><p>З точки зору мережевих індикаторів (на випадок впевненості у не використанні згаданої технології санкціоновано), беручи до уваги встановлення peer-to-peer з'єднання, серед іншого, рекомендуємо звертати увагу на ознаки взаємодії з інфраструктурою SyncThing: *.syncthing.net.</p><p>Активність відстежується за ідентифікатором UAC-0020.&nbsp;</p><p>Ураховуючи не дуже вдале повернення угрупування Vermin після тривалої відсутності в публічному просторі та з метою спрощення сприйняття інформації, виявленій кампанії надано назву "SickSync".</p><p><span style="color: rgb(0, 0, 0);">Осіб, відповідальних за кіберзахист ІКС ЗСУ, з метою мінімізації вірогідності реалізації кіберзагроз закликаємо невідкладно звернутися до Центру кібербезпеки ЗСУ (email: csoc@post.mil.gov.ua, Signal: +380673321891) з метою отримання та подальшого встановлення на всі без виключення ЕОМ відповідних технологій захисту. Крім того, просимо впевнитись у наявності налаштувань на граничних мережевих пристроях для передачі по протоколу Syslog журналів мережевих з'єднань.</span></p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">30a590611403c94c41289ab68b56ca48 &nbsp; &nbsp;b452b0043533625da67e687c6050e9475d1a83337fa2b64735fc9a248179df10 &nbsp; &nbsp;туррель.фоп.вовчок.rar
+b51d8875e2502704416209c9eb46edf0 &nbsp; &nbsp;db1e53f9b03363d595c9daf1eaafd1d851b5d984af9e4062204f18746b012d37 &nbsp; &nbsp;туррель.фоп.вовчок.sfx.rar.scr
+5aaa6594f0249df48190568edfcc01ef &nbsp; &nbsp;456732417161a749541bbc4016c9334a01ff3b209c29bc3995f3589dccb80f31 &nbsp; &nbsp;run_user.bat
+251d8e41f89e5807140b786c89723d4c &nbsp; &nbsp;b4d4e2602cd6c5286be56b71a8659dff380eafd4bf65b61268b5d29a2bd6c52b &nbsp; &nbsp;sync.exe
+63892a6d1eccbaf0edd7cd55654e0150 &nbsp; &nbsp;bf895dca1ea67bf39a6bd87168af8d4fdfd6321d2f2d071295dbd4d25508eb68 &nbsp; &nbsp;syncthing.exe (SyncThing)
+49c40fb4f001a9b267b799f6d0b18500 &nbsp; &nbsp;48adf2450c4ae087c1c4982a2a789d8f1b1e88b8d959fb26db273a76ef8b1888 &nbsp; &nbsp;SyncthingFirewallRule.js
+b283b1d1e746ccc6112ef85a6d2d73ef &nbsp; &nbsp;8cccf28333d822da6b5d851ae4cb188fed6dd27a3046627c7a32850c9d959124 &nbsp; &nbsp;SetSyncthingConfig.js
+f357833157928395b65e9d17b26dee0e &nbsp; &nbsp;4d3c48917973daaf7e31aeab167e4611c60feed29bae25303c0543824bef027c &nbsp; &nbsp;SyncthingLogonTask.js
+f3a89edd5efe3a9269b4697ff3b386be &nbsp; &nbsp;29d9cc9a79750c6c1a3052317fb172b9d76a7044b94cd1da3be00ace748a9878 &nbsp; &nbsp;ConfigSyncthingService.js
+f6e436ad88fdf391b960ff28df25e80b &nbsp; &nbsp;1cc0257d93b4d1c0b3bb5c923c2997f222d271591addbd2da0da019dbb5fe579 &nbsp; &nbsp;StartSyncthing.js
+bd335dad7c46ec91d2816b5a0ca6d29a &nbsp; &nbsp;67571ad65881dd4feb309c22f8e508da40bbf4f573fd97c45265394ac5b06659 &nbsp; &nbsp;config_final.xml
+a1199e11d307e2c649c4b2487297896d &nbsp; &nbsp;9b3994f395309b0fb4db23e66d8de822b47cd9d4c9544bc48ed0e0fa082251b0 &nbsp; &nbsp;startProc.ps1
+2d1814ea39c8b33db1394dd2bf8e4a2a &nbsp; &nbsp;711100e90de58762aa121a5f4a5fc50f1efc05499f1ee63b6bc1e3d479eb4c69 &nbsp; &nbsp;Install-SyncthingService.ps1
+74874b31fcddef67d98cac666d86d375 &nbsp; &nbsp;0a43d77c67c0ff31660a19e69cdb26e55b5322cf63b51a97d4de0c4b48f78841 &nbsp; &nbsp;modConf.ps1
+64b378abcd1bb4f2d064dbbe72570d3e &nbsp; &nbsp;87f73bc1762913e46d4dad6464f92d0d3e3c785da4cc30a24460601a3ceed970 &nbsp; &nbsp;install.ps1
+45a58147de34d9d3029b62ac48636f26 &nbsp; &nbsp;806db134f3b9db4a58dd8ff65498d2841f645ef7252857e57c46cd6680edcec7 &nbsp; &nbsp;startps.exe
+8f3125d49dd0e38e2fd7a1351281005e &nbsp; &nbsp;4c4db56997d9a44cfc5a03f3b401f96d6890a56cd32146c5605f159a97112df9 &nbsp; &nbsp;nssm.exe
+d70e7aa26e5b90b971aaa5e16017249c &nbsp; &nbsp;5ef47edc207e404c57ac83e2b55fb0b7c1687d721f26fc7a5a6e5294b28a2f6f &nbsp; &nbsp;Wowchok.pdf (документ-приманка)
+bb38d0bf2246ed55b46dd61dcf5693a6 &nbsp; &nbsp;bef8cf172fd4535738e3aa06a9c303f93c83a4da0053aba4cbea986729d4620b &nbsp; &nbsp;README.txt
+8761d7bce160c25d9b2f1d0a72ad89a4 &nbsp; &nbsp;9221c2f936159b8446d329249fb4c0f25be510f447383a0f13336ac7985668a3 &nbsp; &nbsp;LICENSE.txt
+471bdb3bb2807636f56fb238e6a2e047 &nbsp; &nbsp;892a45e8adc92eb281a8f4cdba824cd69134bcb8378977747998b87c5a7fdec8 &nbsp; &nbsp;AUTHORS.txt
+(SPECTR DLLs)
+076586ea295ad521e7dc793a5a2c38b7 &nbsp; &nbsp;2b6622cc433aff6cb4bc582c7bc3bffc09e0fc6f0e1a97bab17485058bdcf3c9 &nbsp; &nbsp;SpecMon_x86.dll
+2666479686a91389afc44a02ee70038e &nbsp; &nbsp;0ad1cf00eed24ab07765d3670d1c8394b3d232f58bf939b69ada9e88c45b4b03 &nbsp; &nbsp;SpecMon_x64.dll
+52df00ffcb487f4967c480bc425376ba &nbsp; &nbsp;7198094549e30b8bff6865ce364e48dc324d92f2346dec9b0ce6664921c21888 &nbsp; &nbsp;PluginLoader.dll
+09570ab8f371adf8893c7e0da786cd2e &nbsp; &nbsp;c208408170c429af873849cecc4b7553598ba5a70fce7616e6adca66cfeb8d75 &nbsp; &nbsp;Common.dll
+39534c1234b3dbfe37b774b967cfb4ee &nbsp; &nbsp;f8b696ae1011f6c5457eea1e215da81e85aef1b1a62c56dce3606e0512afdbb4 &nbsp; &nbsp;MediaDevices.dll
+cd4bc0795ce5d04efc0a7644d8ff6159 &nbsp; &nbsp;00b3599f4bb48e2599f953191d526da432c280d5ae5bc43392eb37352fde5cb2 &nbsp; &nbsp;Management.dll
+debf2157d6192ac4d5be67104f7ba312 &nbsp; &nbsp;117078cd63225cfed7cbe4bc4c2ffed6db4d4bd93bf353a87cc10fb05cc0151c &nbsp; &nbsp;Commander.dll
+e508a05a71d29688b7916429894c09d5 &nbsp; &nbsp;b05c65897fc449760fa5867e436205313448007e904e02aa77c0733a21d15bb2 &nbsp; &nbsp;Browsers.dll
+83811960db65d0d430062ad1ff92b7ca &nbsp; &nbsp;c3ac906b3228c4c9ce3dd0e46b6c5b0bed4dacd61911dc006730a31f90f424c7 &nbsp; &nbsp;Social.dll
+ebe83a11b39bfd848fa557a79f2dff1b &nbsp; &nbsp;fbd8883e659d8082fe8e1ee15de12e2b710fd4c92d8d72b2cf34befcdc5be7fb &nbsp; &nbsp;Usb.dll
+aeda6f2d3669fb0d30b3e21437405d81 &nbsp; &nbsp;6a13b98c7dc82ea2a492c0022fd93fa97247912dfa8ad5f015fb4b50e6c05fbb &nbsp; &nbsp;FileGrabber.dll
+a816830220abe0cc2e3877eeadae0580 &nbsp; &nbsp;bf62d5e034b4ce4fd122ab72fa388ea461fd6e5f317ad3274fe847a526c00282 &nbsp; &nbsp;Screengrabber.dll
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">(Інфраструктура SyncThing)
+hXXps://crash.syncthing[.]net/newcrash
+hXXps://data.syncthing[.]net/newdata
+hXXps://upgrades.syncthing[.]net/meta.json
+crash.syncthing[.]net
+data.syncthing[.]net
+upgrades.syncthing[.]net
+syncthing[.]net
+</pre><pre class="hidden" spellcheck="false">syncthing.net
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%APPDATA%\Microsoft Configurator\
+%APPDATA%\sync\Slave_Sync\
+%APPDATA%\sync\Slave_Sync\.fs\
+%APPDATA%\sync\Slave_Sync\.scrn\
+%APPDATA%\sync\Slave_Sync\.usb\
+%LOCALAPPDATA%\Programs\MSConfigurator\
+%LOCALAPPDATA%\Programs\MSConfigurator\scrn\
+%LOCALAPPDATA%\Programs\MSConfigurator\scrn\SpecMon_x64.dll
+%LOCALAPPDATA%\Programs\MSConfigurator\scrn\SpecMon_x86.dll
+%LOCALAPPDATA%\Programs\MSConfigurator\scrn\install.ps1
+%LOCALAPPDATA%\Programs\MSConfigurator\syncthing.exe
+%LOCALAPPDATA%\Syncthing\config.xml
+C:\Projects\MediaDevices\Src\MediaDevicesFramework45\obj\Release\MediaDevices.pdb
+W:\Projects\DEV\SpecMon\Browsers\obj\Release\Browsers.pdb
+W:\Projects\DEV\SpecMon\Commander\obj\Release\Commander.pdb
+W:\Projects\DEV\SpecMon\Common\obj\Release\Common.pdb
+W:\Projects\DEV\SpecMon\FileGrabber\obj\Release\FileGrabber.pdb
+W:\Projects\DEV\SpecMon\Messengers\obj\Release\Social.pdb
+W:\Projects\DEV\SpecMon\PluginLoader\obj\Release\PluginLoader.pdb
+W:\Projects\DEV\SpecMon\Screengrabber\obj\Debug\Screengrabber.pdb
+W:\Projects\DEV\SpecMon\Usb\obj\Release\Usb.pdb
+cscript.exe "%userprofile%\Appdata\Local\Programs\MSConfigurator\StartSyncthing.js" /silent
+distr\sync.exe /verysilent /currentuser /noicons /SP- /SUPPRESSMSGBOXES /NOCANCEL
+GoogleChromeUpdateDailyTask (Scheduled Task)
+MicrosoftEdgeUpdateTaskMachineReg (Scheduled Task)
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Приклад електронного листа та вмісту шкідливого інсталятора</p>
+
+=== RESPONSE (11.7s, in 6725 / out 3649 tok, STOP) ===
+```json
+{
+  "entities": [
+    {
+      "name": "Центр кібербезпеки ЗСУ",
+      "kind": "military organization",
+      "gloss": "The cybersecurity center of the Armed Forces of Ukraine."
+    },
+    {
+      "name": "ЗСУ",
+      "kind": "military organization",
+      "gloss": "The military forces of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0020",
+      "kind": "threat actor",
+      "gloss": "A cyberespionage threat group linked to security agencies in occupied Luhansk, also known as Vermin."
+    },
+    {
+      "name": "Сили оборони України",
+      "kind": "military organization",
+      "gloss": "The defense and security forces protecting Ukraine."
+    },
+    {
+      "name": "Луганськ",
+      "kind": "geographic location",
+      "gloss": "A city in eastern Ukraine, temporarily occupied by Russian forces."
+    },
+    {
+      "name": "SPECTR",
+      "kind": "malware family",
+      "gloss": "A modular spyware and data theft malware suite known since 2019."
+    },
+    {
+      "name": "SyncThing",
+      "kind": "software product",
+      "gloss": "An open-source peer-to-peer continuous file synchronization application."
+    },
+    {
+      "name": "туррель.фоп.вовчок.rar",
+      "kind": "file",
+      "gloss": "A password-protected malicious RAR archive delivered as an email attachment."
+    },
+    {
+      "name": "туррель.фоп.вовчок.sfx.rar.scr",
+      "kind": "file",
+      "gloss": "A malicious self-extracting archive containing decoy files, scripts, and an installer."
+    },
+    {
+      "name": "Wowchok.pdf",
+      "kind": "decoy file",
+      "gloss": "A PDF decoy document contained inside a malicious SFX archive."
+    },
+    {
+      "name": "sync.exe",
+      "kind": "malicious installer",
+      "gloss": "An InnoSetup-created executable installer deploying SyncThing and SPECTR malware components."
+    },
+    {
+      "name": "InnoSetup",
+      "kind": "software product",
+      "gloss": "A popular open-source tool used to create Windows installation packages."
+    },
+    {
+      "name": "run_user.bat",
+      "kind": "script",
+      "gloss": "A batch script designed for the initial launch of malicious components."
+    },
+    {
+      "name": "SpecMon",
+      "kind": "malware module",
+      "gloss": "A SPECTR malware component that loads and executes DLL plugins."
+    },
+    {
+      "name": "PluginLoader.dll",
+      "kind": "malware module",
+      "gloss": "A SPECTR DLL component responsible for loading plugins implementing the IPlugin class."
+    },
+    {
+      "name": "Screengrabber",
+      "kind": "malware module",
+      "gloss": "A SPECTR spyware module designed to take periodic screenshots of specific application windows."
+    },
+    {
+      "name": "FileGrabber",
+      "kind": "malware module",
+      "gloss": "A SPECTR malware component that copies specified files from user profiles and cloud storage."
+    },
+    {
+      "name": "Usb",
+      "kind": "malware module",
+      "gloss": "A SPECTR malware component that copies specified file types from removable USB media."
+    },
+    {
+      "name": "Social",
+      "kind": "malware module",
+      "gloss": "A SPECTR malware component designed to steal authentication and session data from messengers."
+    },
+    {
+      "name": "Browsers",
+      "kind": "malware module",
+      "gloss": "A SPECTR malware component designed to steal authentication data, sessions, and history from web browsers."
+    },
+    {
+      "name": "syncthing.net",
+      "kind": "domain name",
+      "gloss": "The official domain name for the SyncThing file synchronization project."
+    },
+    {
+      "name": "crash.syncthing.net",
+      "kind": "domain name",
+      "gloss": "A subdomain used for SyncThing crash reporting."
+    },
+    {
+      "name": "data.syncthing.net",
+      "kind": "domain name",
+      "gloss": "A subdomain used for SyncThing data collection and usage reporting."
+    },
+    {
+      "name": "upgrades.syncthing.net",
+      "kind": "domain name",
+      "gloss": "A subdomain used for SyncThing upgrade checks and metadata."
+    },
+    {
+      "name": "SickSync",
+      "kind": "cyber campaign",
+      "gloss": "A cyberespionage campaign conducted by UAC-0020 targeting Ukrainian defense forces."
+    },
+    {
+      "name": "csoc@post.mil.gov.ua",
+      "kind": "email address",
+      "gloss": "An email contact address for the Cybersecurity Center of the Armed Forces of Ukraine."
+    },
+    {
+      "name": "syncthing.exe",
+      "kind": "executable file",
+      "gloss": "The main executable file of the SyncThing synchronization software."
+    },
+    {
+      "name": "SyncthingFirewallRule.js",
+      "kind": "script",
+      "gloss": "A JavaScript file used to configure firewall rules for SyncThing."
+    },
+    {
+      "name": "SetSyncthingConfig.js",
+      "kind": "script",
+      "gloss": "A JavaScript file used to set configuration parameters for SyncThing."
+    },
+    {
+      "name": "SyncthingLogonTask.js",
+      "kind": "script",
+      "gloss": "A JavaScript file used to configure a logon scheduled task for SyncThing."
+    },
+    {
+      "name": "ConfigSyncthingService.js",
+      "kind": "script",
+      "gloss": "A JavaScript file used to configure the SyncThing service."
+    },
+    {
+      "name": "StartSyncthing.js",
+      "kind": "script",
+      "gloss": "A JavaScript script used to silently launch SyncThing."
+    },
+    {
+      "name": "config_final.xml",
+      "kind": "configuration file",
+      "gloss": "An XML configuration file for SyncThing."
+    },
+    {
+      "name": "startProc.ps1",
+      "kind": "script",
+      "gloss": "A PowerShell script used in the deployment of SyncThing and SPECTR."
+    },
+    {
+      "name": "Install-SyncthingService.ps1",
+      "kind": "script",
+      "gloss": "A PowerShell script designed to install SyncThing as a service."
+    },
+    {
+      "name": "modConf.ps1",
+      "kind": "script",
+      "gloss": "A PowerShell script used to modify configurations."
+    },
+    {
+      "name": "install.ps1",
+      "kind": "script",
+      "gloss": "A PowerShell script used during the installation process."
+    },
+    {
+      "name": "startps.exe",
+      "kind": "executable file",
+      "gloss": "An executable file used to launch PowerShell scripts."
+    },
+    {
+      "name": "nssm.exe",
+      "kind": "utility",
+      "gloss": "The Non-Sucking Service Manager, a utility used to run applications as Windows services."
+    },
+    {
+      "name": "SpecMon_x86.dll",
+      "kind": "malware module",
+      "gloss": "A 32-bit SPECTR dynamic link library component."
+    },
+    {
+      "name": "SpecMon_x64.dll",
+      "kind": "malware module",
+      "gloss": "A 64-bit SPECTR dynamic link library component."
+    },
+    {
+      "name": "Common.dll",
+      "kind": "malware module",
+      "gloss": "A supporting DLL library for SPECTR malware."
+    },
+    {
+      "name": "MediaDevices.dll",
+      "kind": "malware module",
+      "gloss": "A supporting DLL library for SPECTR malware."
+    },
+    {
+      "name": "Management.dll",
+      "kind": "malware module",
+      "gloss": "A supporting DLL library for SPECTR malware."
+    },
+    {
+      "name": "Commander.dll",
+      "kind": "malware module",
+      "gloss": "A command and control plugin DLL for SPECTR malware."
+    },
+    {
+      "name": "Browsers.dll",
+      "kind": "malware module",
+      "gloss": "A dynamic link library implementing browser data theft functionality for SPECTR."
+    },
+    {
+      "name": "Social.dll",
+      "kind": "malware module",
+      "gloss": "A dynamic link library implementing messenger credential theft for SPECTR."
+    },
+    {
+      "name": "Usb.dll",
+      "kind": "malware module",
+      "gloss": "A dynamic link library implementing USB media file theft for SPECTR."
+    },
+    {
+      "name": "FileGrabber.dll",
+      "kind": "malware module",
+      "gloss": "A dynamic link library implementing file collection functionality for SPECTR."
+    },
+    {
+      "name": "Screengrabber.dll",
+      "kind": "malware module",
+      "gloss": "A dynamic link library implementing screen capture functionality for SPECTR."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Центр кібербезпеки ЗСУ",
+      "type": "subordinate-to",
+      "tail": "ЗСУ",
+      "evidence": "Центром кібербезпеки ЗСУ"
+    },
+    {
+      "head": "UAC-0020",
+      "type": "targets",
+      "tail": "Сили оборони України",
+      "evidence": "активність угрупування UAC-0020 (Vermin), спрямовану у відношенні Сил оборони України"
+    },
+    {
+      "head": "UAC-0020",
+      "type": "directed-from",
+      "tail": "Луганськ",
+      "evidence": "діяльність угрупування Vermin скеровується співробітниками силових відомств тимчасово окупованого Луганська"
+    },
+    {
+      "head": "UAC-0020",
+      "type": "uses-malware",
+      "tail": "SPECTR",
+      "evidence": "у якості засобів реалізації кіберзагрози використано... шкідливе програмне забезпечення SPECTR"
+    },
+    {
+      "head": "UAC-0020",
+      "type": "abuses-tool",
+      "tail": "SyncThing",
+      "evidence": "використано штатний функціонал синхронізації легітимного програмного забезпечення SyncThing"
+    },
+    {
+      "head": "туррель.фоп.вовчок.rar",
+      "type": "contains-file",
+      "tail": "туррель.фоп.вовчок.sfx.rar.scr",
+      "evidence": "В зазначеному архіві знаходиться RARSFX-архів \"туррель.фоп.вовчок.sfx.rar.scr\""
+    },
+    {
+      "head": "туррель.фоп.вовчок.sfx.rar.scr",
+      "type": "contains-file",
+      "tail": "Wowchok.pdf",
+      "evidence": "містить файл-приманку \"Wowchok.pdf\""
+    },
+    {
+      "head": "туррель.фоп.вовчок.sfx.rar.scr",
+      "type": "contains-file",
+      "tail": "sync.exe",
+      "evidence": "ЕХЕ-інсталятор \"sync.exe\", створений за допомогою InnoSetup"
+    },
+    {
+      "head": "туррель.фоп.вовчок.sfx.rar.scr",
+      "type": "contains-file",
+      "tail": "run_user.bat",
+      "evidence": "та BAT-файл \"run_user.bat\", призначений для первинного запуску"
+    },
+    {
+      "head": "sync.exe",
+      "type": "created-with",
+      "tail": "InnoSetup",
+      "evidence": "створений за допомогою InnoSetup"
+    },
+    {
+      "head": "sync.exe",
+      "type": "drops-malware",
+      "tail": "SPECTR",
+      "evidence": "містить як легітимні компоненти програми SyncThing, так і файли шкідливих програм SPECTR"
+    },
+    {
+      "head": "SpecMon",
+      "type": "executes-module",
+      "tail": "PluginLoader.dll",
+      "evidence": "SpecMon - викликає PluginLoader.dll"
+    },
+    {
+      "head": "UAC-0020",
+      "type": "conducts-campaign",
+      "tail": "SickSync",
+      "evidence": "Ураховуючи не дуже вдале повернення угрупування Vermin... виявленій кампанії надано назву \"SickSync\""
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "subordinate-to",
+      "definition": "The head entity is a subordinate department or division of the tail entity."
+    },
+    {
+      "name": "targets",
+      "definition": "The threat actor directs malicious cyber activities or attacks against the target entity."
+    },
+    {
+      "name": "directed-from",
+      "definition": "The threat actor's operations are coordinated or directed from a specific geographical location."
+    },
+    {
+      "name": "uses-malware",
+      "definition": "The threat actor employs a specific malware family in its operations."
+    },
+    {
+      "name": "abuses-tool",
+      "definition": "The threat actor or malware leverages legitimate software to perform malicious actions."
+    },
+    {
+      "name": "contains-file",
+      "definition": "An archive, installer, or package contains another specified file."
+    },
+    {
+      "name": "created-with",
+      "definition": "A file or executable was built or packaged using the specified software tool."
+    },
+    {
+      "name": "drops-malware",
+      "definition": "An installer or loader deploys or contains files belonging to a malware family."
+    },
+    {
+      "name": "executes-module",
+      "definition": "A program component loads, calls, or executes another software library or module."
+    },
+    {
+      "name": "conducts-campaign",
+      "definition": "A threat actor carries out a designated cyber campaign."
+    }
+  ]
+}
+```

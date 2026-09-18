@@ -1,0 +1,178 @@
+{
+  "docId": 6277422,
+  "date": "31.01.2024",
+  "title": "UAC-0027: DIRTYMOE (PURPLEFOX) уражено більше 2000 комп'ютерів в Україні",
+  "entities": [
+    {
+      "id": "6277422:0",
+      "name": "DIRTYMOE",
+      "kind": "malware family",
+      "gloss": "A modular backdoor malware equipped with rootkit capabilities, also known as PurpleFox, used for DDoS and mining.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6277422:1",
+      "name": "UAC-0027",
+      "kind": "threat group",
+      "gloss": "A threat activity cluster tracked by CERT-UA associated with DIRTYMOE malware infections.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "related"
+    },
+    {
+      "id": "6277422:2",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277422:3",
+      "name": "Китай",
+      "kind": "country",
+      "gloss": "A country in East Asia where a large portion of the intermediate C2 infrastructure was located.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277422:4",
+      "name": "Avast",
+      "kind": "software vendor",
+      "gloss": "A cybersecurity software company that develops antivirus and security tools.",
+      "scheme": "S3",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "6277422:5",
+      "name": "Trendmicro",
+      "kind": "software vendor",
+      "gloss": "A multinational cybersecurity software and solutions provider.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277422:6",
+      "name": "Avast Free Antivirus",
+      "kind": "software product",
+      "gloss": "A free security and antivirus software suite developed by Avast.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6277422:7",
+      "name": "WindowsXP",
+      "kind": "operating system",
+      "gloss": "A legacy operating system developed by Microsoft.",
+      "scheme": "S2",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277422:8",
+      "name": "Windows7",
+      "kind": "operating system",
+      "gloss": "A major release of the Microsoft Windows operating system.",
+      "scheme": "S2",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277422:9",
+      "name": "rpc.1qw.us",
+      "kind": "domain name",
+      "gloss": "A domain name associated with DIRTYMOE command-and-control communication.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "6277422:10",
+      "name": "ret.6bc.us",
+      "kind": "domain name",
+      "gloss": "A domain name used for command-and-control communication by DIRTYMOE malware.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "6277422:11",
+      "name": "kew.1qw.us",
+      "kind": "domain name",
+      "gloss": "A network domain utilized by the DIRTYMOE malware infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "6277422:12",
+      "name": "kew.8df.us",
+      "kind": "domain name",
+      "gloss": "A domain name leveraged by DIRTYMOE malware for infrastructure communications.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "6277422:13",
+      "name": "nk.1qw.us",
+      "kind": "domain name",
+      "gloss": "A domain name associated with DIRTYMOE C2 infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0027",
+      "type": "associated-with-activity",
+      "tail": "DIRTYMOE",
+      "evidence": "Описана активність відстежується за ідентифікатором UAC-0027."
+    },
+    {
+      "head": "Avast",
+      "type": "produces",
+      "tail": "Avast Free Antivirus",
+      "evidence": "виробника (https://www.avast.ua/) програмний продукт \"Avast Free Antivirus\""
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "communicates-with-c2",
+      "tail": "rpc.1qw.us",
+      "evidence": "rpc.1qw[.]us"
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "communicates-with-c2",
+      "tail": "ret.6bc.us",
+      "evidence": "ret.6bc[.]us"
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "communicates-with-c2",
+      "tail": "kew.1qw.us",
+      "evidence": "kew.1qw[.]us"
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "communicates-with-c2",
+      "tail": "kew.8df.us",
+      "evidence": "kew.8df[.]us"
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "communicates-with-c2",
+      "tail": "nk.1qw.us",
+      "evidence": "nk.1qw[.]us"
+    }
+  ],
+  "unclassified": []
+}

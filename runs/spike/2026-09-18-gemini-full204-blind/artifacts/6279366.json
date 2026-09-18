@@ -1,0 +1,181 @@
+{
+  "docId": 6279366,
+  "date": "21.05.2024",
+  "title": "Весняне загострення: UAC-0006 активізувало кібератаки",
+  "entities": [
+    {
+      "id": "6279366:0",
+      "name": "UAC-0006",
+      "kind": "threat actor",
+      "gloss": "A financially motivated threat actor known for targeting Ukrainian organizations to steal funds via remote banking systems.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6279366:1",
+      "name": "SMOKELOADER",
+      "kind": "malware family",
+      "gloss": "A modular bot and malware loader used to download and execute additional malicious payloads.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6279366:2",
+      "name": "Microsoft Access",
+      "kind": "software product",
+      "gloss": "A database management system developed by Microsoft, part of the Microsoft 365 / Office suite.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6279366:3",
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6279366:4",
+      "name": "TALESHOT",
+      "kind": "malware family",
+      "gloss": "A malicious software program used by threat actors to perform unauthorized operations on compromised machines.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6279366:5",
+      "name": "RMS",
+      "kind": "software product",
+      "gloss": "Remote Manipulator System, a legitimate remote administration tool frequently abused by threat actors for unauthorized access.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6279366:6",
+      "name": "Ukraine",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279366:7",
+      "name": "xmrig.exe",
+      "kind": "malware family",
+      "gloss": "An open-source cryptocurrency mining software tool frequently deployed maliciously to mine Monero.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6279366:8",
+      "name": "agentsuperpupervinil.ru",
+      "kind": "domain name",
+      "gloss": "A malicious domain used for network communication and malware distribution.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6279366:9",
+      "name": "ccbaminumpot.ru",
+      "kind": "domain name",
+      "gloss": "A sinkholed domain previously utilized in malicious campaigns.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6279366:10",
+      "name": "picwalldoor.ru",
+      "kind": "domain name",
+      "gloss": "A malicious domain used as network infrastructure by threat actors.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6279366:11",
+      "name": "rafraystore.ru",
+      "kind": "domain name",
+      "gloss": "A malicious domain utilized as command and control or payload distribution infrastructure.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6279366:12",
+      "name": "sephoraofficetz.ru",
+      "kind": "domain name",
+      "gloss": "A malicious domain used in cyberattack infrastructure.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6279366:13",
+      "name": "vikompalion.ru",
+      "kind": "domain name",
+      "gloss": "A sinkholed domain associated with threat actor network communications.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6279366:14",
+      "name": "vivianstyler.ru",
+      "kind": "domain name",
+      "gloss": "A malicious domain used by threat actors for network communication.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6279366:15",
+      "name": "monopoliafromyou.ru",
+      "kind": "domain name",
+      "gloss": "A domain used to host and deliver executable malware payloads.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6279366:16",
+      "name": "xmr.2miners.com",
+      "kind": "domain name",
+      "gloss": "A mining pool domain used for Monero cryptocurrency mining.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "SMOKELOADER",
+      "evidence": "кампанії по розповсюдженню шкідливого програмного забезпечення SMOKELOADER"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "TALESHOT",
+      "evidence": "довантажуються шкідливі програми TALESHOT"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "RMS",
+      "evidence": "довантажуються шкідливі програми TALESHOT, RMS та інші"
+    }
+  ],
+  "unclassified": []
+}

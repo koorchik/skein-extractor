@@ -1,0 +1,88 @@
+{
+  "entities": [
+    {
+      "name": "Smokeloader",
+      "kind": "malware family",
+      "gloss": "A modular loader malware used to download and execute additional malicious payloads on infected systems."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "chubanomania[.]icu",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used as command and control infrastructure for hosting and distributing malware."
+    },
+    {
+      "name": "93.179.69.41",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command and control infrastructure."
+    },
+    {
+      "name": "spi.exe",
+      "kind": "file",
+      "gloss": "A malicious executable payload associated with SmokeLoader."
+    },
+    {
+      "name": "ckZ89.ExE",
+      "kind": "file",
+      "gloss": "A malicious executable dropped into the temporary directory during malware execution."
+    },
+    {
+      "name": "До оплати від 11.12.18.lzh",
+      "kind": "file",
+      "gloss": "A malicious archive file distributed via phishing emails."
+    },
+    {
+      "name": "Рахунки и новые списки.lzh",
+      "kind": "file",
+      "gloss": "A malicious archive file distributed via phishing emails."
+    },
+    {
+      "name": "Рахунки за выполненные работы от 11.12.2018.js",
+      "kind": "file",
+      "gloss": "A malicious JavaScript loader used to download and execute malware payloads."
+    },
+    {
+      "name": "До оплати рах.ф. 74 - 2018р.js",
+      "kind": "file",
+      "gloss": "A malicious JavaScript loader used to download and execute malware payloads."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Smokeloader",
+      "type": "targets-country",
+      "tail": "України",
+      "evidence": "може свідчити про таргетованість атаки на Україну"
+    },
+    {
+      "head": "chubanomania[.]icu",
+      "type": "resolves-to-ip",
+      "tail": "93.179.69.41",
+      "evidence": "http://chubanomania[.]icu/prima/spi.exe?rCuz (IP: 93.179.69.41)"
+    },
+    {
+      "head": "chubanomania[.]icu",
+      "type": "hosts-file",
+      "tail": "spi.exe",
+      "evidence": "http://chubanomania[.]icu/prima/spi.exe?rCuz"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets-country",
+      "definition": "The malware or threat actor directs malicious activities or campaigns against a specific country."
+    },
+    {
+      "name": "resolves-to-ip",
+      "definition": "The domain name or host is mapped or resolves to the specified IP address."
+    },
+    {
+      "name": "hosts-file",
+      "definition": "The internet infrastructure or server hosts a specified file or payload."
+    }
+  ]
+}

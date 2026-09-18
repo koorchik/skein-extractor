@@ -1,0 +1,298 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><em>Оновлено 18.04.2022</em></p><p><br></p><p><strong>Загальна інформація:</strong></p><p>Урядовою командою реагування на комп’ютерні надзвичайні події України CERT-UA виявлено факт масового розповсюдження серед громадян України XLS-документів з назвою "Мобілізаційний реєстр.xls".</p><p>З'ясовано, що у разі відкриття документу та активації макросу, останній забезпечить завантаження і запуск виконуваного файлу. Завантажений EXE-файл забезпечить дешифрування та запуск на комп'ютері шкідливої програми GzipLoader, яка, в свою чергу, здійснить завантаження, дешифрування та запуск шкідливої програми IcedID. Згадана шкідлива програма (також відома як BankBot) відноситься до класу "банківських троянських програм", та, серед іншого, забезпечує викрадення автентифікаційних даних.</p><p>Активність має цільовий характер та відстежується за ідентифікатором UAC-0098.</p><p><br></p><p><br></p><p><strong>Індикатори компрометації:</strong></p><p><em> Файли:</em></p><pre class="ql-syntax" spellcheck="false">bdfca142fc1408ab2028019775a95a8a	8f7e3471c1bb2b264d1b8f298e7b7648dac84ffd8fb2125f3b2566353128e127	Мобілізаційний реєстр.xls
+9f33887a8e76c246753e71b896a904b3	65b208943d8cf82af902c39400bdd7a26fdbc94c23f9d4494cf0a2ca51233213	Мобілізаційний реєстр.xls
+5b4deca6a14eb777fdd882a712006303	de7bcc556dde40d347b003d891f36c2a733131593ce2b9382f0bd9ade123d54a	ggthvjhvjhb.xls
+c52150ad226963a07cfc144d9cea73c7	ac1d19c5942946f9eee6bc748dee032b97eb3ec3e4bb64fead3e5ac101fb1bc8	spisok.exe (2022-04-07)
+afc2d797a39caf4765c0c24e1afb1967	2e721087daafbfe9b7d5618dfcdaf23e04344f4f72b2c59e175196bada1cc687	gziploader.exe (2022-02-21)
+e731e2f1a70b2dd13a4995f9c0106dc4	789992e24d118d7bd213593aa849449c624eb275e000bc406dab25035b99479b	forest32.dat
+986ce06308ca327e5c75877e5e15d6b8	89594dbae3956eb2bf599e85cd761e89c9d189944b0ddc18cc3973f0fd41c466	init_dll_64.dll (2022-04-05)
+e9ad8fae2dd8f9d12e709af20d9aefad	84f016ece77ddd7d611ffc0cbb2ce24184aeee3a2fdbb9d44d0837bc533ba238	license.dat
+7e6a117ba018be2867329bc5a33e481d	6734ae02e66924b3f071e7d8ea97d2482a2a2a5bac27b251f20d320b0d04a324	module.bin
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">rivertimad[.]com
+winuvinnosluk[.]club
+successilin[.]top
+reteredelete[.]top
+naffalno[.]site
+ritionalvalueon[.]top
+oceriesfornot[.]top
+arelyevennot[.]top
+dogiraftig[.]com
+fikasterwer[.]top
+jevejosader[.]top
+ertimadifa[.]com
+rresteraftin[.]com
+ndlestomak[.]top
+168[.]100.8.42
+188[.]166.154.118
+134[.]209.144.87
+hXXp://168[.]100.8.42/micro[.]exe
+hXXp://168[.]100.8.42/spisok[.]exe
+hXXp://rivertimad[.]com/
+hXXp://168[.]100.8.42/list[.]exe
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%APPDATA%\%rand%\%rand%.dll",DllMain --iydu="SustainDream\license.dat"
+%APPDATA%\SustainDream\license.dat
+%APPDATA%\runsx.exe
+%TMP%\forest32.dat
+</pre><p><br></p><p><strong>Графічні зображення:</strong></p><p></p>
+
+=== RESPONSE (8.4s, in 2461 / out 2224 tok, STOP) ===
+UAC-0098 targets citizens of Ukraine by distributing malicious Excel documents titled Мобілізаційний реєстр.xls, which drop and execute GzipLoader, subsequently deploying the IcedID banking trojan.
+
+{
+  "entities": [
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0098",
+      "kind": "threat actor",
+      "gloss": "A financially and cyber-espionage motivated threat group tracked by CERT-UA."
+    },
+    {
+      "name": "GzipLoader",
+      "kind": "malware family",
+      "gloss": "A lightweight loader malware designed to decrypt and execute secondary payloads such as IcedID."
+    },
+    {
+      "name": "IcedID",
+      "kind": "malware family",
+      "gloss": "A modular banking trojan and malware loader also known as BankBot used to steal credentials."
+    },
+    {
+      "name": "Мобілізаційний реєстр.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet containing macros designed to deploy malware."
+    },
+    {
+      "name": "ggthvjhvjhb.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel file associated with malware deployment."
+    },
+    {
+      "name": "spisok.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file used in the attack chain."
+    },
+    {
+      "name": "gziploader.exe",
+      "kind": "malicious file",
+      "gloss": "An executable payload implementing the GzipLoader malware."
+    },
+    {
+      "name": "forest32.dat",
+      "kind": "malicious file",
+      "gloss": "A malicious data or payload file used during malware execution."
+    },
+    {
+      "name": "init_dll_64.dll",
+      "kind": "malicious file",
+      "gloss": "A dynamic link library file used as part of the malware payload."
+    },
+    {
+      "name": "license.dat",
+      "kind": "malicious file",
+      "gloss": "A malicious data file dropped and loaded by the malware."
+    },
+    {
+      "name": "module.bin",
+      "kind": "malicious file",
+      "gloss": "A binary payload file used in the malware execution chain."
+    },
+    {
+      "name": "%APPDATA%\\runsx.exe",
+      "kind": "malicious file",
+      "gloss": "An executable file path used by malware for execution in the AppData directory."
+    },
+    {
+      "name": "rivertimad.com",
+      "kind": "internet domain",
+      "gloss": "A domain name used as network infrastructure for malware distribution or command and control."
+    },
+    {
+      "name": "winuvinnosluk.club",
+      "kind": "internet domain",
+      "gloss": "A domain name used as network infrastructure for malware operations."
+    },
+    {
+      "name": "successilin.top",
+      "kind": "internet domain",
+      "gloss": "A domain name associated with malicious command and control infrastructure."
+    },
+    {
+      "name": "reteredelete.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used for malicious network communication."
+    },
+    {
+      "name": "naffalno.site",
+      "kind": "internet domain",
+      "gloss": "A domain name associated with malicious activity."
+    },
+    {
+      "name": "ritionalvalueon.top",
+      "kind": "internet domain",
+      "gloss": "A domain name utilized for malicious infrastructure."
+    },
+    {
+      "name": "oceriesfornot.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used for malicious infrastructure."
+    },
+    {
+      "name": "arelyevennot.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in malicious operations."
+    },
+    {
+      "name": "dogiraftig.com",
+      "kind": "internet domain",
+      "gloss": "A domain name used as infrastructure for malicious campaigns."
+    },
+    {
+      "name": "fikasterwer.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in malicious operations."
+    },
+    {
+      "name": "jevejosader.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in malicious operations."
+    },
+    {
+      "name": "ertimadifa.com",
+      "kind": "internet domain",
+      "gloss": "A domain name used for malicious operations."
+    },
+    {
+      "name": "rresteraftin.com",
+      "kind": "internet domain",
+      "gloss": "A domain name used in malicious infrastructure."
+    },
+    {
+      "name": "ndlestomak.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used for malicious operations."
+    },
+    {
+      "name": "168.100.8.42",
+      "kind": "ip address",
+      "gloss": "An IP address used for hosting and delivering malicious payloads."
+    },
+    {
+      "name": "188.166.154.118",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious network infrastructure."
+    },
+    {
+      "name": "134.209.144.87",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious network infrastructure."
+    },
+    {
+      "name": "http://168.100.8.42/micro.exe",
+      "kind": "url",
+      "gloss": "A URL hosting a malicious executable payload."
+    },
+    {
+      "name": "http://168.100.8.42/spisok.exe",
+      "kind": "url",
+      "gloss": "A URL hosting the spisok.exe malicious payload."
+    },
+    {
+      "name": "http://rivertimad.com/",
+      "kind": "url",
+      "gloss": "A URL used in malicious network operations."
+    },
+    {
+      "name": "http://168.100.8.42/list.exe",
+      "kind": "url",
+      "gloss": "A URL hosting a malicious executable payload."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0098",
+      "type": "targets-citizens-of",
+      "tail": "України",
+      "evidence": "масового розповсюдження серед громадян України"
+    },
+    {
+      "head": "UAC-0098",
+      "type": "distributes-file",
+      "tail": "Мобілізаційний реєстр.xls",
+      "evidence": "масового розповсюдження серед громадян України XLS-документів з назвою \"Мобілізаційний реєстр.xls\""
+    },
+    {
+      "head": "Мобілізаційний реєстр.xls",
+      "type": "drops-and-executes",
+      "tail": "GzipLoader",
+      "evidence": "дешифрування та запуск на комп'ютері шкідливої програми GzipLoader"
+    },
+    {
+      "head": "GzipLoader",
+      "type": "downloads-and-executes",
+      "tail": "IcedID",
+      "evidence": "GzipLoader, яка, в свою чергу, здійснить завантаження, дешифрування та запуск шкідливої програми IcedID"
+    },
+    {
+      "head": "http://168.100.8.42/spisok.exe",
+      "type": "hosts-file",
+      "tail": "spisok.exe",
+      "evidence": "hXXp://168[.]100.8.42/spisok[.]exe"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets-citizens-of",
+      "definition": "Indicates that a threat actor conducts a campaign directed against citizens of a specific country."
+    },
+    {
+      "name": "distributes-file",
+      "definition": "Indicates that an entity spreads or delivers a specific malicious file."
+    },
+    {
+      "name": "drops-and-executes",
+      "definition": "Indicates that a malicious file unpacks, decrypts, or launches a subsequent malware program."
+    },
+    {
+      "name": "downloads-and-executes",
+      "definition": "Indicates that a malware loader retrieves and executes an additional malware payload."
+    },
+    {
+      "name": "hosts-file",
+      "definition": "Indicates that a specific URL serves or hosts a named file."
+    }
+  ]
+}

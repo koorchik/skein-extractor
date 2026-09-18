@@ -1,0 +1,83 @@
+{
+  "entities": [
+    {
+      "name": "Київ",
+      "kind": "city",
+      "gloss": "The capital city of Ukraine."
+    },
+    {
+      "name": "МОН України",
+      "kind": "government body",
+      "gloss": "The Ministry of Education and Science of Ukraine, a central government agency."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "XVIІI Міжнародна науково-практична конференція «Побудова інформаційного суспільства: ресурси і технології»",
+      "kind": "conference",
+      "gloss": "An international scientific and practical conference on digital society and technologies held in Ukraine."
+    },
+    {
+      "name": "Державний центр кіберзахисту",
+      "kind": "government body",
+      "gloss": "The State Cyber Protection Centre, an executive cybersecurity subdivision in Ukraine."
+    },
+    {
+      "name": "Державна служба спеціального зв’язку та захисту інформації України",
+      "kind": "government body",
+      "gloss": "The state agency responsible for information protection and cybersecurity policy in Ukraine."
+    },
+    {
+      "name": "Худинцев Микола Миколайович",
+      "kind": "person",
+      "gloss": "An official who served as the acting head of the State Cyber Protection Centre of Ukraine."
+    }
+  ],
+  "relations": [
+    {
+      "head": "МОН України",
+      "type": "supported",
+      "tail": "XVIІI Міжнародна науково-практична конференція «Побудова інформаційного суспільства: ресурси і технології»",
+      "evidence": "за підтримки МОН України проходила XVIІI Міжнародна науково-практична конференція"
+    },
+    {
+      "head": "XVIІI Міжнародна науково-практична конференція «Побудова інформаційного суспільства: ресурси і технології»",
+      "type": "held-in",
+      "tail": "Київ",
+      "evidence": "у Києві за підтримки МОН України проходила XVIІI Міжнародна науково-практична конференція"
+    },
+    {
+      "head": "Худинцев Микола Миколайович",
+      "type": "acted-as-head-of",
+      "tail": "Державний центр кіберзахисту",
+      "evidence": "В.о начальника Державного центру кіберзахисту... Худинцевим Миколою Миколайовичем"
+    },
+    {
+      "head": "Державний центр кіберзахисту",
+      "type": "subordinate-to",
+      "tail": "Державна служба спеціального зв’язку та захисту інформації України",
+      "evidence": "Державного центру кіберзахисту Державної служби спеціального зв’язку та захисту інформації України"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "supported",
+      "definition": "The head entity sponsored, facilitated, or supported the tail event."
+    },
+    {
+      "name": "held-in",
+      "definition": "The head event took place in the tail geographic location."
+    },
+    {
+      "name": "acted-as-head-of",
+      "definition": "The head person served as the director or acting leader of the tail organization."
+    },
+    {
+      "name": "subordinate-to",
+      "definition": "The head organizational body is structurally part of or subordinated to the tail organization."
+    }
+  ]
+}

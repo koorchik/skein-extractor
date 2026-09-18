@@ -1,0 +1,186 @@
+{
+  "docId": 10011,
+  "date": "21.01.2021",
+  "title": "Масштабна фішингова атака на державні установи України 19.01.2021",
+  "entities": [
+    {
+      "id": "10011:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose government institutions were targeted in the phishing campaign.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "10011:1",
+      "name": "Адміністрація Держспецзв’язку",
+      "kind": "government body",
+      "gloss": "The State Service of Special Communications and Information Protection of Ukraine, impersonated in the phishing emails.",
+      "scheme": "S7",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "10011:2",
+      "name": "zapros@dsszzi.gov.ua",
+      "kind": "email address",
+      "gloss": "A spoofed email address used as the sender address in the phishing campaign.",
+      "scheme": "S14",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "10011:3",
+      "name": "212.44.151.60",
+      "kind": "ip address",
+      "gloss": "An IP address belonging to Vimpelcom from which the phishing emails were distributed.",
+      "scheme": "S13",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "10011:4",
+      "name": "Vimpelcom",
+      "kind": "telecommunications company",
+      "gloss": "A Russian telecommunications service provider owning the IP address used for sending phishing emails.",
+      "scheme": null,
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "10011:5",
+      "name": "Російська Федерація",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe and Northern Asia where the phishing email sender's IP address originated.",
+      "scheme": "S6",
+      "category": "Country",
+      "role": "related"
+    },
+    {
+      "id": "10011:6",
+      "name": "Електронний запит.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive attachment containing a password-protected archive and password.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "10011:7",
+      "name": "Електронний запит.exe",
+      "kind": "malware",
+      "gloss": "A remote access trojan executable unpacked from the malicious archive.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "10011:8",
+      "name": "installer.exe",
+      "kind": "file",
+      "gloss": "An installer executable dropped by the trojan to deploy Remote Utilities.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "10011:9",
+      "name": "host_news_mod_mod.msi",
+      "kind": "file",
+      "gloss": "A malicious MSI installer package dropped and executed by the trojan.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "10011:10",
+      "name": "Remote Utilities",
+      "kind": "software product",
+      "gloss": "A legitimate remote desktop software product abused by attackers for unauthorized remote access.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "10011:11",
+      "name": "killself.bat",
+      "kind": "file",
+      "gloss": "A batch script used to delete indicators of compromise from working directories after malware initialization.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "10011:12",
+      "name": "RMS",
+      "kind": "software product",
+      "gloss": "Remote Manipulator System, a remote administration software package deployed by the malware.",
+      "scheme": "S1",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "10011:13",
+      "name": "185.161.208.186",
+      "kind": "ip address",
+      "gloss": "A command-and-control server IP address contacted by the deployed malware.",
+      "scheme": "S13",
+      "category": null,
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "212.44.151.60",
+      "type": "belongs-to-network-of",
+      "tail": "Vimpelcom",
+      "evidence": "ІР-адреси 212.44.151.60, яка належить до пулу адрес провайдера \"Vimpelcom\""
+    },
+    {
+      "head": "Vimpelcom",
+      "type": "located-in-country",
+      "tail": "Російська Федерація",
+      "evidence": "провайдера \"Vimpelcom\" Російської Федерації"
+    },
+    {
+      "head": "Електронний запит.rar",
+      "type": "contains-file",
+      "tail": "Електронний запит.exe",
+      "evidence": "Запаролений архів містить файл «Електронний запит.exe»"
+    },
+    {
+      "head": "Електронний запит.exe",
+      "type": "drops-and-executes",
+      "tail": "installer.exe",
+      "evidence": "«Електронний запит.ехе» містить в собі файли «installer.exe»"
+    },
+    {
+      "head": "Електронний запит.exe",
+      "type": "drops-and-executes",
+      "tail": "host_news_mod_mod.msi",
+      "evidence": "«Електронний запит.ехе» містить в собі файли «installer.exe» та «host_news_mod_mod.msi»"
+    },
+    {
+      "head": "installer.exe",
+      "type": "installs-software",
+      "tail": "Remote Utilities",
+      "evidence": "«installer.exe» є старою версією легального програмного забезпечення для віддаленого доступу Remote Utilities"
+    },
+    {
+      "head": "Електронний запит.exe",
+      "type": "executes-script-via",
+      "tail": "killself.bat",
+      "evidence": "видаляють індикатори компрометації з робочих директорій ШПЗ за допомогою файлу «killself.bat»"
+    },
+    {
+      "head": "Електронний запит.exe",
+      "type": "communicates-with-c2",
+      "tail": "185.161.208.186",
+      "evidence": "встановлюється зв'язок з C2-сервером 185.161.208.186"
+    }
+  ],
+  "unclassified": [
+    "10011:4"
+  ]
+}

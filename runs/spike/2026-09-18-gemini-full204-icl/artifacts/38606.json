@@ -1,0 +1,145 @@
+{
+  "docId": 38606,
+  "date": "30.03.2022",
+  "title": "Масове розповсюдження шкідливої програми MarsStealer серед громадян України та вітчизняних організацій (CERT-UA#4315)",
+  "entities": [
+    {
+      "id": "38606:0",
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S4",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "38606:1",
+      "name": "Міністерства освіти та науки України",
+      "kind": "government organization",
+      "gloss": "The central executive body of Ukraine responsible for education and science policy.",
+      "scheme": "S5",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "38606:2",
+      "name": "MarsStealer",
+      "kind": "malware",
+      "gloss": "An information-stealing malware designed to exfiltrate credentials, browser data, cryptocurrency wallet information, and files.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "38606:3",
+      "name": "Racoon",
+      "kind": "malware",
+      "gloss": "An information-stealing malware family sold under a malware-as-a-service model.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "38606:4",
+      "name": "UAC-0041",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA focusing on stealing user authentication data.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "38606:5",
+      "name": "v_2.2.9.rar",
+      "kind": "computer file",
+      "gloss": "A RAR archive file distributed to deliver the MarsStealer malware.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "38606:6",
+      "name": "v_2.2.9.exe",
+      "kind": "computer file",
+      "gloss": "An executable file containing the MarsStealer malicious payload.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "38606:7",
+      "name": "v_5.1.9.zip",
+      "kind": "computer file",
+      "gloss": "A ZIP archive file distributed to deliver the MarsStealer malware.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "38606:8",
+      "name": "v_5.1.9.exe",
+      "kind": "computer file",
+      "gloss": "An executable file containing the MarsStealer malicious payload.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "38606:9",
+      "name": "api.dev-com[.]sc",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure to host malware files.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "38606:10",
+      "name": "dev-com[.]sc",
+      "kind": "domain name",
+      "gloss": "A parent domain associated with malicious delivery infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "38606:11",
+      "name": "176[.]57.189.191",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious files and a gate script for MarsStealer.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "38606:12",
+      "name": "95[.]111.231.126",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the malicious network infrastructure.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Міністерства освіти та науки України",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "Міністерства освіти та науки України"
+    },
+    {
+      "head": "UAC-0041",
+      "type": "uses",
+      "tail": "MarsStealer",
+      "evidence": "активність відстежується за ідентифікатором UAC-0041 як діяльність однієї з груп"
+    },
+    {
+      "head": "api.dev-com[.]sc",
+      "type": "part-of",
+      "tail": "dev-com[.]sc",
+      "evidence": "api.dev-com[.]sc dev-com[.]sc"
+    }
+  ],
+  "unclassified": []
+}

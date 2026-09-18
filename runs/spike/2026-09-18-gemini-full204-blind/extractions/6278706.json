@@ -1,0 +1,252 @@
+{
+  "entities": [
+    {
+      "name": "Sandworm",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage and sabotage group also tracked as UAC-0002 and APT44."
+    },
+    {
+      "name": "UAC-0133",
+      "kind": "threat actor",
+      "gloss": "A threat group and sub-cluster of Sandworm targeting Ukrainian critical infrastructure."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "QUEUESEED",
+      "kind": "malware",
+      "gloss": "A C++ backdoor malware family also known as KAPEKA, KNUCKLETOUCH, ICYWELL, and WRONGSENS."
+    },
+    {
+      "name": "LOADGRIP",
+      "kind": "malware",
+      "gloss": "A C-based ELF injector malware that executes payloads using the ptrace API."
+    },
+    {
+      "name": "BIASBOAT",
+      "kind": "malware",
+      "gloss": "A C-based ELF backdoor that acts as a Linux variant of QUEUESEED."
+    },
+    {
+      "name": "GOSSIPFLOW",
+      "kind": "malware",
+      "gloss": "A Go-based malware providing tunneling via Yamux and SOCKS5 proxy capabilities."
+    },
+    {
+      "name": "WEEVELY",
+      "kind": "malware",
+      "gloss": "A PHP webshell tool used for post-exploitation and remote control."
+    },
+    {
+      "name": "REGEORG.NEO",
+      "kind": "malware",
+      "gloss": "A web shell and tunneling tool used to proxy traffic into corporate networks."
+    },
+    {
+      "name": "PIVOTNACCI",
+      "kind": "malware",
+      "gloss": "A PHP-based tunneling tool used for pivoting within compromised networks."
+    },
+    {
+      "name": "SDELETE",
+      "kind": "tool",
+      "gloss": "A command-line utility for securely deleting files, abused for destructive purposes."
+    },
+    {
+      "name": "CHISEL",
+      "kind": "tool",
+      "gloss": "A fast TCP/UDP tunnel transported over HTTP and secured via SSH."
+    },
+    {
+      "name": "LIBPROCESSHIDER",
+      "kind": "malware",
+      "gloss": "A Linux library hook tool used to hide processes under Linux via LD_PRELOAD."
+    },
+    {
+      "name": "JUICYPOTATONG",
+      "kind": "tool",
+      "gloss": "A local privilege escalation tool for Windows."
+    },
+    {
+      "name": "ROTTENPOTATONG",
+      "kind": "tool",
+      "gloss": "A local privilege escalation tool for Windows systems."
+    },
+    {
+      "name": "185.38.150.8",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications by the threat actor."
+    },
+    {
+      "name": "165.231.34.106",
+      "kind": "ip address",
+      "gloss": "An IP address used as threat actor infrastructure."
+    },
+    {
+      "name": "178.250.188.114",
+      "kind": "ip address",
+      "gloss": "An IP address used as threat actor infrastructure."
+    },
+    {
+      "name": "185.225.114.90",
+      "kind": "ip address",
+      "gloss": "An IP address used as threat actor infrastructure."
+    },
+    {
+      "name": "193.189.100.203",
+      "kind": "ip address",
+      "gloss": "An IP address used as threat actor infrastructure."
+    },
+    {
+      "name": "194.61.121.211",
+      "kind": "ip address",
+      "gloss": "An IP address used as threat actor infrastructure."
+    },
+    {
+      "name": "195.154.182.165",
+      "kind": "ip address",
+      "gloss": "An IP address used as threat actor infrastructure."
+    },
+    {
+      "name": "196.245.156.154",
+      "kind": "ip address",
+      "gloss": "An IP address used as threat actor infrastructure."
+    },
+    {
+      "name": "196.245.156.34",
+      "kind": "ip address",
+      "gloss": "An IP address used as threat actor infrastructure."
+    },
+    {
+      "name": "88.80.145.239",
+      "kind": "ip address",
+      "gloss": "An IP address used as threat actor infrastructure."
+    },
+    {
+      "name": "91.92.137.6",
+      "kind": "ip address",
+      "gloss": "An IP address used as threat actor infrastructure."
+    },
+    {
+      "name": "5.45.75.45",
+      "kind": "ip address",
+      "gloss": "An IP address used as threat actor infrastructure."
+    },
+    {
+      "name": "5.45.74.11",
+      "kind": "ip address",
+      "gloss": "An IP address used as threat actor infrastructure."
+    },
+    {
+      "name": "195.154.166.87",
+      "kind": "ip address",
+      "gloss": "An IP address used as threat actor infrastructure."
+    },
+    {
+      "name": "185.153.199.43",
+      "kind": "ip address",
+      "gloss": "An IP address used as threat actor infrastructure."
+    },
+    {
+      "name": "91.92.137.164",
+      "kind": "ip address",
+      "gloss": "An IP address used as threat actor infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Sandworm",
+      "type": "attacks",
+      "tail": "Україна",
+      "evidence": "розкрито зловмисний задум угрупування Sandworm, спрямований на порушення сталого функціонування"
+    },
+    {
+      "head": "Sandworm",
+      "type": "uses-malware",
+      "tail": "QUEUESEED",
+      "evidence": "окрім відомого з 2022 року бекдору QUEUESEED"
+    },
+    {
+      "head": "Sandworm",
+      "type": "uses-malware",
+      "tail": "LOADGRIP",
+      "evidence": "виявлено новий інструментарій зловмисників, а саме, шкідливі програми LOADGRIP та BIASBOAT"
+    },
+    {
+      "head": "Sandworm",
+      "type": "uses-malware",
+      "tail": "BIASBOAT",
+      "evidence": "виявлено новий інструментарій зловмисників, а саме, шкідливі програми LOADGRIP та BIASBOAT"
+    },
+    {
+      "head": "Sandworm",
+      "type": "uses-malware",
+      "tail": "WEEVELY",
+      "evidence": "було виявлено заздалегідь створений PHP-вебшелл WEEVELY"
+    },
+    {
+      "head": "Sandworm",
+      "type": "uses-malware",
+      "tail": "REGEORG.NEO",
+      "evidence": "PHP-тунель REGEORG.NEO"
+    },
+    {
+      "head": "Sandworm",
+      "type": "uses-malware",
+      "tail": "PIVOTNACCI",
+      "evidence": "або PIVOTNACCI"
+    },
+    {
+      "head": "UAC-0133",
+      "type": "part-of",
+      "tail": "Sandworm",
+      "evidence": "UAC-0133 є субкластером UAC-0002 (Sandworm/APT44)"
+    },
+    {
+      "head": "UAC-0133",
+      "type": "uses-malware",
+      "tail": "GOSSIPFLOW",
+      "evidence": "кібератак угрупування UAC-0133 на об'єкти водопостачання, зокрема, з використанням SDELETE"
+    },
+    {
+      "head": "UAC-0133",
+      "type": "uses-malware",
+      "tail": "SDELETE",
+      "evidence": "угрупування UAC-0133 на об'єкти водопостачання, зокрема, з використанням SDELETE"
+    },
+    {
+      "head": "Sandworm",
+      "type": "uses-malware",
+      "tail": "CHISEL",
+      "evidence": "угрупуванням також застосовувалися, але не виключно: CHISEL"
+    },
+    {
+      "head": "Sandworm",
+      "type": "uses-malware",
+      "tail": "LIBPROCESSHIDER",
+      "evidence": "угрупуванням також застосовувалися, але не виключно: ... LIBPROCESSHIDER"
+    },
+    {
+      "head": "Sandworm",
+      "type": "uses-malware",
+      "tail": "JUICYPOTATONG",
+      "evidence": "угрупуванням також застосовувалися, але не виключно: ... JUICYPOTATONG"
+    },
+    {
+      "head": "Sandworm",
+      "type": "uses-malware",
+      "tail": "ROTTENPOTATONG",
+      "evidence": "угрупуванням також застосовувалися, але не виключно: ... ROTTENPOTATONG"
+    },
+    {
+      "head": "LOADGRIP",
+      "type": "delivers",
+      "tail": "BIASBOAT",
+      "evidence": "Запуск на ЕОМ здійснюється за допомогою інжектору LOADGRIP."
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,148 @@
+{
+  "docId": 4928679,
+  "date": "19.06.2023",
+  "title": "Цільові кібератаки UAC-0102 у відношенні користувачів сервісу UKR.NET (CERT-UA#6858)",
+  "entities": [
+    {
+      "id": "4928679:0",
+      "name": "UAC-0102",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracking identifier associated with credential phishing attacks targeting Ukrainian email users.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "4928679:1",
+      "name": "UAC-0036",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracking identifier previously associated with cyber attacks in Ukraine.",
+      "scheme": "S15",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4928679:2",
+      "name": "UKR.NET",
+      "kind": "web service",
+      "gloss": "A popular Ukrainian internet portal and email service provider.",
+      "scheme": "S18",
+      "category": "Organization",
+      "role": "target"
+    },
+    {
+      "id": "4928679:3",
+      "name": "account.support.0@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address used by attackers to spoof technical support and send phishing emails.",
+      "scheme": "S13",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "4928679:4",
+      "name": "Попередження про безпеку.pdf",
+      "kind": "malicious file",
+      "gloss": "A malicious PDF document containing links to a phishing website impersonating a mail service.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4928679:5",
+      "name": "Internet Domain Service BS Corp.",
+      "kind": "organization",
+      "gloss": "A domain name registrar company based in the Bahamas.",
+      "scheme": null,
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "4928679:6",
+      "name": "Багамські острови",
+      "kind": "country",
+      "gloss": "An island country in the West Indies.",
+      "scheme": "S5",
+      "category": "Country",
+      "role": "related"
+    },
+    {
+      "id": "4928679:7",
+      "name": "Нідерланди",
+      "kind": "country",
+      "gloss": "A country located in Northwestern Europe.",
+      "scheme": "S5",
+      "category": "Country",
+      "role": "related"
+    },
+    {
+      "id": "4928679:8",
+      "name": "Nice-IT",
+      "kind": "hosting provider",
+      "gloss": "A hosting platform associated with autonomous system AS49447.",
+      "scheme": "S3",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "4928679:9",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4928679:10",
+      "name": "CSIRT-NBU",
+      "kind": "csirt",
+      "gloss": "The Computer Security Incident Response Team of the National Bank of Ukraine.",
+      "scheme": null,
+      "category": "Government Body",
+      "role": null
+    },
+    {
+      "id": "4928679:11",
+      "name": "45.9.148.178",
+      "kind": "ip address",
+      "gloss": "An IP address located in the Netherlands associated with malicious phishing infrastructure.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4928679:12",
+      "name": "45.9.148.83",
+      "kind": "ip address",
+      "gloss": "An IP address located in the Netherlands associated with malicious phishing infrastructure.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Internet Domain Service BS Corp.",
+      "type": "located-in",
+      "tail": "Багамські острови",
+      "evidence": "компанією \"Internet Domain Service BS Corp.\" (@internet.bs, Багамські острови)"
+    },
+    {
+      "head": "Nice-IT",
+      "type": "located-in",
+      "tail": "Нідерланди",
+      "evidence": "розміщено в Нідерландах на технічному майданчику \"Nice-IT\""
+    },
+    {
+      "head": "UAC-0102",
+      "type": "attacks",
+      "tail": "UKR.NET",
+      "evidence": "Описана активність відстежується за ідентифікатором UAC-0102."
+    }
+  ],
+  "unclassified": [
+    "4928679:5",
+    "4928679:10"
+  ]
+}

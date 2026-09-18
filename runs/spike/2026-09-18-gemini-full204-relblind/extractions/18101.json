@@ -1,0 +1,213 @@
+{
+  "entities": [
+    {
+      "name": "BootPatch",
+      "kind": "malware family",
+      "gloss": "A destructive malware component written in C that overwrites the Master Boot Record of a target storage drive."
+    },
+    {
+      "name": "WhisperKill",
+      "kind": "malware family",
+      "gloss": "A destructive wiper malware written in C that overwrites specific file types with a fixed byte sequence."
+    },
+    {
+      "name": "OctoberCMS",
+      "kind": "software product",
+      "gloss": "An open-source content management system based on the PHP Laravel framework."
+    },
+    {
+      "name": "Log4j",
+      "kind": "software product",
+      "gloss": "A Java-based logging utility developed by the Apache Software Foundation."
+    },
+    {
+      "name": "TOR",
+      "kind": "anonymity network",
+      "gloss": "An open-source software and overlay network providing anonymous communication."
+    },
+    {
+      "name": "179.43.176[.]38",
+      "kind": "ip address",
+      "gloss": "An IP address hosting a web directory used for delivering attack-related files."
+    },
+    {
+      "name": "Державний центр кіберзахисту",
+      "kind": "government body",
+      "gloss": "A Ukrainian state centre responsible for cyber defence and incident response operations."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "179.43.176[.]42",
+      "kind": "ip address",
+      "gloss": "An IP address observed serving attack-related web files during the campaign."
+    },
+    {
+      "name": "Impacket",
+      "kind": "software tool",
+      "gloss": "A collection of Python classes and tools for working with network protocols, commonly used for lateral movement."
+    },
+    {
+      "name": "wmiexec",
+      "kind": "software tool",
+      "gloss": "A command-execution utility included in the Impacket toolset that leverages Windows Management Instrumentation."
+    },
+    {
+      "name": "smbexec",
+      "kind": "software tool",
+      "gloss": "A script in the Impacket toolset used for remote command execution via Server Message Block."
+    },
+    {
+      "name": "Sysmon",
+      "kind": "software product",
+      "gloss": "A Windows system service and device driver that logs system activity to the event log."
+    },
+    {
+      "name": "WhisperGate",
+      "kind": "malware family",
+      "gloss": "A .NET-based downloader malware used to retrieve and execute subsequent attack stages."
+    },
+    {
+      "name": "cdn.discorapp[.]com",
+      "kind": "domain name",
+      "gloss": "A domain name masquerading as Discord CDN used to host malicious payloads."
+    },
+    {
+      "name": "WhisperPack",
+      "kind": "malware family",
+      "gloss": "A .NET launcher component that unpacks and executes destructive payloads."
+    },
+    {
+      "name": "Eazfuscator",
+      "kind": "software product",
+      "gloss": "A commercial obfuscation utility for .NET applications."
+    },
+    {
+      "name": "AdvancedRun.exe",
+      "kind": "software tool",
+      "gloss": "A Windows utility by NirSoft allowing users to run programs with custom settings and privileges."
+    },
+    {
+      "name": "NirSoft",
+      "kind": "software vendor",
+      "gloss": "A software provider producing freeware utilities for Windows systems."
+    },
+    {
+      "name": "Windows Defender",
+      "kind": "software product",
+      "gloss": "An antivirus and security solution integrated into Microsoft Windows operating systems."
+    },
+    {
+      "name": "179.43.176[.]60",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the malicious infrastructure."
+    },
+    {
+      "name": "179.43.176.0/24",
+      "kind": "ip subnet",
+      "gloss": "A network subnet associated with attack-related server infrastructure."
+    },
+    {
+      "name": "hxxps://cdn.discordapp[.]com/attachments/928503440139771947/930108637681184768/Tbopbh.jpg",
+      "kind": "url",
+      "gloss": "A malicious URL hosted on Discord CDN used to retrieve payload files."
+    },
+    {
+      "name": "hxxp://179.43.176[.]42:8000/index.php",
+      "kind": "url",
+      "gloss": "A malicious URL hosted on server infrastructure used in the cyberattack."
+    },
+    {
+      "name": "hxxp://179.43.176[.]38:8000/index.php",
+      "kind": "url",
+      "gloss": "A malicious URL hosted on server infrastructure used in the cyberattack."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Державний центр кіберзахисту",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Державного центру кіберзахисту"
+    },
+    {
+      "head": "WhisperGate",
+      "type": "delivers",
+      "tail": "WhisperKill",
+      "evidence": "Для доставки використовується .NET-даунлоадер WhisperGate"
+    },
+    {
+      "head": "WhisperGate",
+      "type": "downloads-from",
+      "tail": "cdn.discorapp[.]com",
+      "evidence": "який завантажує з cdn.discorapp[.]com"
+    },
+    {
+      "head": "WhisperGate",
+      "type": "loads",
+      "tail": "WhisperPack",
+      "evidence": "завантажує з cdn.discorapp[.]com та декодує іншу .NET-програму-лаунчер WhisperPack"
+    },
+    {
+      "head": "WhisperPack",
+      "type": "protected-by",
+      "tail": "Eazfuscator",
+      "evidence": "Останній захищено за допомогою Eazfuscator"
+    },
+    {
+      "head": "WhisperPack",
+      "type": "contains",
+      "tail": "AdvancedRun.exe",
+      "evidence": "він також містить легітимну утиліту AdvancedRun.exe"
+    },
+    {
+      "head": "NirSoft",
+      "type": "develops",
+      "tail": "AdvancedRun.exe",
+      "evidence": "AdvancedRun.exe (NirSoft)"
+    },
+    {
+      "head": "AdvancedRun.exe",
+      "type": "disables",
+      "tail": "Windows Defender",
+      "evidence": "AdvancedRun.exe (NirSoft), що використовується для відключення Windows Defender"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "located-in",
+      "definition": "The subject entity is geographically or administratively based in the target location or country."
+    },
+    {
+      "name": "delivers",
+      "definition": "The subject malware or tool is used to distribute or deploy the target payload."
+    },
+    {
+      "name": "downloads-from",
+      "definition": "The subject entity retrieves data or payloads from the target domain, URL, or host."
+    },
+    {
+      "name": "loads",
+      "definition": "The subject entity decrypts, unpacks, or executes the target component in memory or on disk."
+    },
+    {
+      "name": "protected-by",
+      "definition": "The subject software file or malware is protected or obfuscated using the target software product."
+    },
+    {
+      "name": "contains",
+      "definition": "The subject file or package embeds or bundles the target tool or payload inside itself."
+    },
+    {
+      "name": "develops",
+      "definition": "The subject organisation or author created or maintains the target software product."
+    },
+    {
+      "name": "disables",
+      "definition": "The subject tool or command deactivates or stops the operation of the target security software."
+    }
+  ]
+}

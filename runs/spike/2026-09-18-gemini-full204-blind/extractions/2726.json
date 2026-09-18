@@ -1,0 +1,114 @@
+{
+  "entities": [
+    {
+      "name": "anketa_21_3_2018 (4).zip",
+      "kind": "malicious archive",
+      "gloss": "A malicious ZIP archive distributed via email containing a malicious JavaScript file."
+    },
+    {
+      "name": "anketa_21_3_2018 (4).js",
+      "kind": "malware loader",
+      "gloss": "An obfuscated malicious JavaScript file that downloads and drops executable malware using ADODB.Stream."
+    },
+    {
+      "name": "documents (5).zip",
+      "kind": "malicious archive",
+      "gloss": "A malicious ZIP archive distributed via email containing a malicious JavaScript file."
+    },
+    {
+      "name": "documents (5).js",
+      "kind": "malware loader",
+      "gloss": "An obfuscated malicious JavaScript file that downloads and drops executable malware."
+    },
+    {
+      "name": "ADODB.Stream",
+      "kind": "software component",
+      "gloss": "A Windows Component Object Model class used for reading, writing, and manipulating binary and text streams."
+    },
+    {
+      "name": "hxxp://chernilis.win/filename94.bin?ff1",
+      "kind": "malicious url",
+      "gloss": "A malicious URL hosting a binary payload downloaded by the JavaScript loader."
+    },
+    {
+      "name": "C:\\Users\\<username>\\AppData\\Local\\Temp\\62ea.exe",
+      "kind": "malware payload",
+      "gloss": "A malicious executable file dropped into the Temp directory containing the Ursnif banking Trojan."
+    },
+    {
+      "name": "Ursnif",
+      "kind": "malware family",
+      "gloss": "A banking Trojan and data-stealing malware family also known as Gozi."
+    },
+    {
+      "name": "explorer.exe",
+      "kind": "software component",
+      "gloss": "The core Windows operating system process responsible for the desktop user interface and file management."
+    },
+    {
+      "name": "35.189.126.95",
+      "kind": "ip address",
+      "gloss": "An IP address contacted by the Ursnif malware for command and control communications."
+    },
+    {
+      "name": "119.28.108.16",
+      "kind": "ip address",
+      "gloss": "An IP address contacted by the Ursnif malware for command and control communications."
+    },
+    {
+      "name": "86.59.21.38",
+      "kind": "ip address",
+      "gloss": "An IP address contacted by the Ursnif malware for command and control communications."
+    }
+  ],
+  "relations": [
+    {
+      "head": "anketa_21_3_2018 (4).zip",
+      "type": "delivers",
+      "tail": "anketa_21_3_2018 (4).js",
+      "evidence": "У вкладеному архіві anketa_21_3_2018 (4).zip міститься шкідливий Javascript: anketa_21_3_2018 (4).js"
+    },
+    {
+      "head": "documents (5).zip",
+      "type": "delivers",
+      "tail": "documents (5).js",
+      "evidence": "вкладених в архів documents (5).zip з назвою шкідливого Javascipt documents (5).js"
+    },
+    {
+      "head": "hxxp://chernilis.win/filename94.bin?ff1",
+      "type": "hosts",
+      "tail": "C:\\Users\\<username>\\AppData\\Local\\Temp\\62ea.exe",
+      "evidence": "записує потік даних з сайту hxxp://chernilis.win/filename94.bin?ff1 у виконуваний файл"
+    },
+    {
+      "head": "C:\\Users\\<username>\\AppData\\Local\\Temp\\62ea.exe",
+      "type": "part-of",
+      "tail": "Ursnif",
+      "evidence": "Даний вірус є Ursnif(або Gozi)"
+    },
+    {
+      "head": "Ursnif",
+      "type": "communicates-with",
+      "tail": "35.189.126.95",
+      "evidence": "Далі вірус з’єднується з адресами 35.189.126.95"
+    },
+    {
+      "head": "Ursnif",
+      "type": "communicates-with",
+      "tail": "119.28.108.16",
+      "evidence": "Далі вірус з’єднується з адресами 35.189.126.95, 119.28.108.16"
+    },
+    {
+      "head": "Ursnif",
+      "type": "communicates-with",
+      "tail": "86.59.21.38",
+      "evidence": "Далі вірус з’єднується з адресами 35.189.126.95, 119.28.108.16, 86.59.21.38"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "communicates-with",
+      "definition": "A malware payload or host establishes network connections to an external IP address or server."
+    }
+  ]
+}

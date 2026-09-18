@@ -1,0 +1,206 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "INDUSTROYER2",
+      "kind": "malware family",
+      "gloss": "An industrial control system malware variant targeting electrical substations."
+    },
+    {
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A family of proprietary graphical operating systems developed by Microsoft."
+    },
+    {
+      "name": "CADDYWIPER",
+      "kind": "malware family",
+      "gloss": "A destructive data-wiping malware family targeting Windows operating systems."
+    },
+    {
+      "name": "ARGUEPATCH",
+      "kind": "malware family",
+      "gloss": "A malware loader used to decrypt and execute secondary payloads."
+    },
+    {
+      "name": "TAILJUMP",
+      "kind": "malware family",
+      "gloss": "A shellcode execution tool used to run secondary malicious payloads."
+    },
+    {
+      "name": "Linux",
+      "kind": "operating system",
+      "gloss": "An open-source Unix-like operating system kernel and family of operating systems."
+    },
+    {
+      "name": "ORCSHRED",
+      "kind": "malware family",
+      "gloss": "A malicious wiper script designed to destroy data on Linux systems."
+    },
+    {
+      "name": "SOLOSHRED",
+      "kind": "malware family",
+      "gloss": "A malicious wiper script designed to destroy data on Linux systems."
+    },
+    {
+      "name": "AWFULSHRED",
+      "kind": "malware family",
+      "gloss": "A malicious wiper script designed to destroy data on Linux systems."
+    },
+    {
+      "name": "POWERGAP",
+      "kind": "malware family",
+      "gloss": "A malicious PowerShell script used to deploy group policies and schedule tasks."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "IMPACKET",
+      "kind": "software tool",
+      "gloss": "A collection of Python classes for working with network protocols, often abused for lateral movement."
+    },
+    {
+      "name": "Microsoft",
+      "kind": "software vendor",
+      "gloss": "An American multinational technology corporation providing software and cybersecurity services."
+    },
+    {
+      "name": "ESET",
+      "kind": "software vendor",
+      "gloss": "A Slovak internet security company offering antivirus and cybersecurity software."
+    },
+    {
+      "name": "sc.sh",
+      "kind": "file name",
+      "gloss": "A shell script associated with the OrcShred wiper malware."
+    },
+    {
+      "name": "wobf.sh",
+      "kind": "file name",
+      "gloss": "A shell script associated with the AwfulShred wiper malware."
+    },
+    {
+      "name": "wsol.sh",
+      "kind": "file name",
+      "gloss": "A shell script associated with the SoloShred wiper malware."
+    },
+    {
+      "name": "zrada.exe",
+      "kind": "file name",
+      "gloss": "An executable file associated with the ArguePatch malware loader."
+    },
+    {
+      "name": "peremoga.exe",
+      "kind": "file name",
+      "gloss": "An executable file associated with the ArguePatch malware loader."
+    },
+    {
+      "name": "vatt.exe",
+      "kind": "file name",
+      "gloss": "An executable file associated with the ArguePatch malware loader."
+    },
+    {
+      "name": "pa.pay",
+      "kind": "file name",
+      "gloss": "A payload file associated with the TailJump shellcode component."
+    },
+    {
+      "name": "caddywiper.bin",
+      "kind": "file name",
+      "gloss": "A binary payload file associated with CaddyWiper malware."
+    },
+    {
+      "name": "108_100.exe",
+      "kind": "file name",
+      "gloss": "An executable file containing the Industroyer2 malware."
+    },
+    {
+      "name": "link.ps1",
+      "kind": "file name",
+      "gloss": "A PowerShell script file identified on compromised hosts."
+    },
+    {
+      "name": "cdel.exe",
+      "kind": "file name",
+      "gloss": "An executable file identified on a compromised host."
+    },
+    {
+      "name": "91.245.255[.]243",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure in the cyber incident."
+    },
+    {
+      "name": "195.230.23[.]19",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure in the cyber incident."
+    }
+  ],
+  "relations": [
+    {
+      "head": "ARGUEPATCH",
+      "type": "loads-payload",
+      "tail": "CADDYWIPER",
+      "evidence": "для дешифрування і запуску останнього передбачено використання лоадеру ARGUEPATCH"
+    },
+    {
+      "head": "TAILJUMP",
+      "type": "executes-payload",
+      "tail": "CADDYWIPER",
+      "evidence": "для дешифрування і запуску останнього передбачено використання лоадеру ARGUEPATCH та шелкоду TAILJUMP"
+    },
+    {
+      "head": "CADDYWIPER",
+      "type": "targets-operating-system",
+      "tail": "Windows",
+      "evidence": "ЕОМ під управлінням операційної системи Windows... за допомогою шкідливої програми-деструктора CADDYWIPER"
+    },
+    {
+      "head": "ORCSHRED",
+      "type": "targets-operating-system",
+      "tail": "Linux",
+      "evidence": "серверного обладнання під управлінням операційної систем Linux – за допомогою шкідливих скриптів-деструкторів ORCSHRED"
+    },
+    {
+      "head": "SOLOSHRED",
+      "type": "targets-operating-system",
+      "tail": "Linux",
+      "evidence": "серверного обладнання під управлінням операційної систем Linux – за допомогою шкідливих скриптів-деструкторів ORCSHRED, SOLOSHRED"
+    },
+    {
+      "head": "AWFULSHRED",
+      "type": "targets-operating-system",
+      "tail": "Linux",
+      "evidence": "серверного обладнання під управлінням операційної систем Linux – за допомогою шкідливих скриптів-деструкторів ORCSHRED, SOLOSHRED, AWFULSHRED"
+    },
+    {
+      "head": "POWERGAP",
+      "type": "deploys-malware",
+      "tail": "CADDYWIPER",
+      "evidence": "Централізоване розповсюдження і запуск CADDYWIPER... використано PowerShell-скрипт POWERGAP"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "loads-payload",
+      "definition": "One software component or malware loader decrypts, loads, or executes another payload."
+    },
+    {
+      "name": "executes-payload",
+      "definition": "A piece of shellcode or execution mechanism executes a specific payload or malware component."
+    },
+    {
+      "name": "targets-operating-system",
+      "definition": "A malware family or tool is designed to run on or compromise a specific operating system."
+    },
+    {
+      "name": "deploys-malware",
+      "definition": "A script or tool is used to distribute and execute a malware payload across hosts."
+    }
+  ]
+}

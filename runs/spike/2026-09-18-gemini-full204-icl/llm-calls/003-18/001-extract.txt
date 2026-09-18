@@ -1,0 +1,74 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+(none yet — use your own wording)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p>Команда реагування на комп’ютерні надзвичайні події України CERT-UA Держспецзв’язку звертає увагу адміністраторів сайтів органів державної влади на стан безпеки інформаційних ресурсів. Закликаємо власників вебсайтів дбати про інформаційну безпеку та регулярно перевіряти стан захищеності та належного функціонування офіційних ресурсів.&nbsp;</p><p>Недоліки та вчасно невиявлені вразливості системи захисту вебресурсів можуть спричинити критичні наслідки для національної безпеки. Тому надзвичайно важливо здійснювати постійний моніторинг на наявність потенційних джерел небезпеки, оперативно реагувати та вживати заходів для усунення вже наявних вразливостей.&nbsp;</p><p>Метою кібератак на вебсайти державних органів є:&nbsp;</p><p>• отримання подальшого доступу до інформаційних систем організації;&nbsp;</p><p>• створення від імені вебсайту фейкових новин, або дефейси вебресурсів для підриву репутації організації і держави в цілому;&nbsp;</p><p>• викрадення чутливої інформації тощо.&nbsp;</p><p>Заходи для посилення захищеності вебсайту від несанкціонованих дій розміщено у розділі Рекомендації за посиланням:</p><p><a href="http://cert.gov.ua/recommendation/19" rel="noopener noreferrer" target="_blank" style="color: rgb(0, 123, 255);">Рекомендації CERT-UA з безпеки вебдодатків.&nbsp;</a></p><p>Пам’ятайте: вразливість вебресурсів та інформаційних систем органів державної влади – це безпека держави.</p>
+
+=== RESPONSE (8.1s, in 1423 / out 303 tok, STOP) ===
+The text is a general security warning and guidance issued to Ukrainian state bodies regarding the security of official web resources and government websites, highlighting potential threats such as defacement, fake news dissemination, and data theft. The only concrete named external entities are the State Service of Special Communications and Information Protection of Ukraine (Держспецзв’язку) and the country Ukraine.
+
+{
+  "entities": [
+    {
+      "name": "Держспецзв’язку",
+      "kind": "government body",
+      "gloss": "A Ukrainian state authority responsible for national cybersecurity, government communications, and information protection."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Держспецзв’язку",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "подій України CERT-UA Держспецзв’язку"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "located-in",
+      "definition": "The subject entity is based in, operates within, or belongs to the object country or geographic area."
+    }
+  ]
+}

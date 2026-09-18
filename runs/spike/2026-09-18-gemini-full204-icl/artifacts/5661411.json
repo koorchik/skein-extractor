@@ -1,0 +1,289 @@
+{
+  "docId": 5661411,
+  "date": "31.08.2023",
+  "title": "Кібератака UAC-0057: експлойт для CVE-2023-38831, JavaScript-варіація PicassoLoader, алгоритм Rabbit та Cobalt Strike Beacon (CERT-UA#7435)",
+  "entities": [
+    {
+      "id": "5661411:0",
+      "name": "UAC-0057",
+      "kind": "threat actor",
+      "gloss": "A threat actor group known for cyber espionage operations targeting Ukrainian entities.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "5661411:1",
+      "name": "CVE-2023-38831",
+      "kind": "security vulnerability",
+      "gloss": "A vulnerability in RARLAB WinRAR allowing code execution when attempting to view benign files within a ZIP archive.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "5661411:2",
+      "name": "WinRAR",
+      "kind": "software product",
+      "gloss": "A popular file archiver and data compression utility for Windows.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "5661411:3",
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware",
+      "gloss": "The payload component of the Cobalt Strike adversary simulation software frequently abused for post-exploitation.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "5661411:4",
+      "name": "PicassoLoader",
+      "kind": "malware",
+      "gloss": "A malware loader used to download, decrypt, and execute subsequent payloads.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "5661411:5",
+      "name": "Збірник_тез_НУОУ_23.rar",
+      "kind": "computer file",
+      "gloss": "A malicious archive file weaponized to exploit CVE-2023-38831.",
+      "scheme": "S11",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "5661411:6",
+      "name": "16872_16_2023_03049.pdf .cmd",
+      "kind": "computer file",
+      "gloss": "A malicious command script extracted and executed from an archive.",
+      "scheme": "S11",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "5661411:7",
+      "name": "16872_16_2023_03049.lnk",
+      "kind": "computer file",
+      "gloss": "A malicious Windows shortcut file used to trigger an HTA payload.",
+      "scheme": "S11",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "5661411:8",
+      "name": "16872_16_2023_03049.pdf",
+      "kind": "computer file",
+      "gloss": "A decoy PDF document displayed to the victim during the attack.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5661411:9",
+      "name": "113-1131910-clipart.svg",
+      "kind": "computer file",
+      "gloss": "A steganographic image file harboring an encrypted payload.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5661411:10",
+      "name": "mokpp9342jktihh.dll",
+      "kind": "computer file",
+      "gloss": "A malicious .NET DLL payload executed during the infection chain.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5661411:11",
+      "name": "regsvr.dll",
+      "kind": "computer file",
+      "gloss": "An encrypted DLL file containing Cobalt Strike Beacon.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5661411:12",
+      "name": "regsvr.decrypted.dll",
+      "kind": "computer file",
+      "gloss": "A decrypted Cobalt Strike Beacon payload.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5661411:13",
+      "name": "16872_16_2023_03049.hta",
+      "kind": "computer file",
+      "gloss": "An HTML application file containing malicious JavaScript.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5661411:14",
+      "name": "sdfhui2kjd.js",
+      "kind": "computer file",
+      "gloss": "A malicious JavaScript file implementing loader functionality.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5661411:15",
+      "name": "topibuzz[.]space",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious network infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "5661411:16",
+      "name": "windacarmelita[.]pw",
+      "kind": "domain name",
+      "gloss": "A domain name used to host a malicious payload.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "5661411:17",
+      "name": "hXXps://topibuzz[.]space/home/mngr/create",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL associated with threat actor infrastructure.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "5661411:18",
+      "name": "hXXps://topibuzz[.]space/home/mngr/example",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL associated with threat actor infrastructure.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "5661411:19",
+      "name": "hXXps://windacarmelita[.]pw/picdir/big/113-1131910-clipart.svg",
+      "kind": "uniform resource locator",
+      "gloss": "A URL hosting the malicious SVG file.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "5661411:20",
+      "name": "62[.]3.12.123",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command and control infrastructure.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5661411:21",
+      "name": "31[.]192.234.194",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor infrastructure.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5661411:22",
+      "name": "oksanagolub93@proton.me",
+      "kind": "email address",
+      "gloss": "An email address used to register malicious domain infrastructure.",
+      "scheme": "S10",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5661411:23",
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S4",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5661411:24",
+      "name": "рф",
+      "kind": "country",
+      "gloss": "A transcontinental country spanning Eastern Europe and Northern Asia.",
+      "scheme": "S4",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0057",
+      "type": "uses",
+      "tail": "CVE-2023-38831",
+      "evidence": "кібератаку угрупування UAC-0057. Так, виявлено файл \"Збірник_тез_НУОУ_23.rar\", що містить експлойт для вразливості CVE-2023-38831"
+    },
+    {
+      "head": "Збірник_тез_НУОУ_23.rar",
+      "type": "exploits",
+      "tail": "CVE-2023-38831",
+      "evidence": "файл \"Збірник_тез_НУОУ_23.rar\", що містить експлойт для вразливості CVE-2023-38831"
+    },
+    {
+      "head": "CVE-2023-38831",
+      "type": "affects",
+      "tail": "WinRAR",
+      "evidence": "експлуатацію вразливості CVE-2023-38831 у програмному забезпеченні WinRAR"
+    },
+    {
+      "head": "Збірник_тез_НУОУ_23.rar",
+      "type": "delivers",
+      "tail": "16872_16_2023_03049.pdf .cmd",
+      "evidence": "експлуатація якої призведе до виконання BAT-файлу \"16872_16_2023_03049.pdf .cmd\""
+    },
+    {
+      "head": "16872_16_2023_03049.pdf .cmd",
+      "type": "delivers",
+      "tail": "16872_16_2023_03049.lnk",
+      "evidence": "забезпечить запуск LNK-файлу \"16872_16_2023_03049.lnk\""
+    },
+    {
+      "head": "UAC-0057",
+      "type": "uses",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "забезпечить ураження ЕОМ програмою Cobalt Strike Beacon"
+    },
+    {
+      "head": "windacarmelita[.]pw",
+      "type": "hosts",
+      "tail": "hXXps://windacarmelita[.]pw/picdir/big/113-1131910-clipart.svg",
+      "evidence": "hXXps://windacarmelita[.]pw/picdir/big/113-1131910-clipart.svg"
+    },
+    {
+      "head": "topibuzz[.]space",
+      "type": "hosts",
+      "tail": "hXXps://topibuzz[.]space/home/mngr/create",
+      "evidence": "hXXps://topibuzz[.]space/home/mngr/create"
+    },
+    {
+      "head": "topibuzz[.]space",
+      "type": "hosts",
+      "tail": "hXXps://topibuzz[.]space/home/mngr/example",
+      "evidence": "hXXps://topibuzz[.]space/home/mngr/example"
+    }
+  ],
+  "unclassified": []
+}

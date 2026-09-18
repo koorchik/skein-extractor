@@ -1,0 +1,140 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0026",
+      "kind": "threat group",
+      "gloss": "A threat group tracked by CERT-UA associated with cyberattacks against Ukrainian targets."
+    },
+    {
+      "name": "HeaderTip",
+      "kind": "malware family",
+      "gloss": "A malicious DLL downloader designed to download and execute additional DLL files."
+    },
+    {
+      "name": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.rar",
+      "kind": "archive file",
+      "gloss": "A malicious RAR archive containing an executable payload."
+    },
+    {
+      "name": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable file that extracts decoy documents and payload components."
+    },
+    {
+      "name": "#2163_02_33-2022.pdf",
+      "kind": "decoy document",
+      "gloss": "A decoy PDF document mimicking official correspondence from the National Police of Ukraine."
+    },
+    {
+      "name": "officecleaner.dat",
+      "kind": "file",
+      "gloss": "A malicious file containing DLL data with a removed MZ header."
+    },
+    {
+      "name": "officecleaner.bat",
+      "kind": "batch script",
+      "gloss": "A batch script designed to reconstruct and execute a DLL payload and establish registry persistence."
+    },
+    {
+      "name": "httpshelper.dll",
+      "kind": "malware file",
+      "gloss": "A dynamic link library file identified as HeaderTip malware."
+    },
+    {
+      "name": "Національної поліції України",
+      "kind": "government body",
+      "gloss": "The central government body that provides policing services in Ukraine."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "російської федерації",
+      "kind": "country",
+      "gloss": "A country spanning Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A series of proprietary graphical operating systems developed by Microsoft."
+    },
+    {
+      "name": "product2020.mrbasic.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious command and control infrastructure."
+    },
+    {
+      "name": "104.155.198.25",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure used in a cyber attack."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.rar",
+      "type": "contains-file",
+      "tail": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.exe",
+      "evidence": "RAR-архів... який містить одноіменний EXE-файл"
+    },
+    {
+      "head": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.exe",
+      "type": "drops-file",
+      "tail": "#2163_02_33-2022.pdf",
+      "evidence": "призведе до створення на комп'ютері документу-приманки \"#2163_02_33-2022.pdf\""
+    },
+    {
+      "head": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.exe",
+      "type": "drops-file",
+      "tail": "officecleaner.dat",
+      "evidence": "а також DLL-файлу з видаленим MZ-заголовком \"officecleaner.dat\""
+    },
+    {
+      "head": "Про збереження відеоматеріалів з фіксацією злочинних дій армії російської федерації.exe",
+      "type": "drops-file",
+      "tail": "officecleaner.bat",
+      "evidence": "та BAT-файлу \"officecleaner.bat\""
+    },
+    {
+      "head": "#2163_02_33-2022.pdf",
+      "type": "impersonates",
+      "tail": "Національної поліції України",
+      "evidence": "документу-приманки \"#2163_02_33-2022.pdf\" (стосується листа Національної поліції України)"
+    },
+    {
+      "head": "httpshelper.dll",
+      "type": "instance-of-malware",
+      "tail": "HeaderTip",
+      "evidence": "httpshelper.dll (HeaderTip)"
+    },
+    {
+      "head": "UAC-0026",
+      "type": "attributed-to",
+      "tail": "HeaderTip",
+      "evidence": "Згаданий DLL-файл класифіковано як шкідливу програму HeaderTip... Активність відстежується за ідентифікатором UAC-0026"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "contains-file",
+      "definition": "Specifies that an archive or container file encapsulates another file."
+    },
+    {
+      "name": "drops-file",
+      "definition": "Specifies that an executable or script extracts and writes a file onto the target system."
+    },
+    {
+      "name": "impersonates",
+      "definition": "Specifies that a decoy file, document, or communication pretends to originate from an entity."
+    },
+    {
+      "name": "instance-of-malware",
+      "definition": "Specifies that a particular payload or sample is an instance or implementation of a malware family."
+    },
+    {
+      "name": "attributed-to",
+      "definition": "Specifies that malicious activity, malware, or infrastructure is attributed to a threat actor or identifier."
+    }
+  ]
+}

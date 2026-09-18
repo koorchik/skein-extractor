@@ -1,0 +1,123 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "DarkCrystal RAT",
+      "kind": "malware family",
+      "gloss": "A commercial remote access trojan used for unauthorized remote access and data theft."
+    },
+    {
+      "name": "Signal",
+      "kind": "software product",
+      "gloss": "A cross-platform encrypted messaging service."
+    },
+    {
+      "name": "UAC-0200",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA targeting Ukrainian organizations."
+    },
+    {
+      "name": "Plan10062024.exe",
+      "kind": "file",
+      "gloss": "A malicious executable file used to deliver malware."
+    },
+    {
+      "name": "Plan01062024.exe",
+      "kind": "file",
+      "gloss": "A malicious executable file used to deliver malware."
+    },
+    {
+      "name": "DarkCrystalRAT.exe",
+      "kind": "file",
+      "gloss": "An executable payload of the DarkCrystal RAT malware."
+    },
+    {
+      "name": "du5a30GGdpnw9V1NAPFxiabLpStvK7yQccZnAiiXNdT4B.bat",
+      "kind": "file",
+      "gloss": "A malicious batch script used in the attack chain."
+    },
+    {
+      "name": "NjNYM6fdF5Fixp.vbe",
+      "kind": "file",
+      "gloss": "A malicious VBScript Encoded file used in the attack chain."
+    },
+    {
+      "name": "agentWinintoHostDhcp.exe",
+      "kind": "file",
+      "gloss": "A malicious executable associated with DarkCrystal RAT."
+    },
+    {
+      "name": "Plan_na_10.06.2024.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive containing multi-stage malware payloads."
+    },
+    {
+      "name": "Plan_na_10.06.2024.pif",
+      "kind": "file",
+      "gloss": "A malicious Program Information File (PIF) used as a RAR SFX archive."
+    },
+    {
+      "name": "2VGPnHOLToAOwqq.vbe",
+      "kind": "file",
+      "gloss": "A malicious VBScript Encoded script used in the infection sequence."
+    },
+    {
+      "name": "0WgIlnTNpgbtjiE2xGB5FgwFA.bat",
+      "kind": "file",
+      "gloss": "A malicious batch script used in the infection sequence."
+    },
+    {
+      "name": "bridgeSurrogatewin.exe",
+      "kind": "file",
+      "gloss": "A malicious executable payload associated with DarkCrystal RAT."
+    },
+    {
+      "name": "188.245.50.32",
+      "kind": "ip address",
+      "gloss": "An IP address used for malicious command and control infrastructure."
+    },
+    {
+      "name": "http://188.245.50.32/VideocentralLocal/PublicdownloadsWp/python4RequestRequest/Javascript8Geovoiddb/pipepacketServer/cdn/18/_auth/ToBigloadPublic/dump/VideoPipephpHttpServerlinuxPublic.php",
+      "kind": "url",
+      "gloss": "A malicious URL hosted on the attacker infrastructure for command and control or payload retrieval."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0200",
+      "type": "uses-malware",
+      "tail": "DarkCrystal RAT",
+      "evidence": "здійснення цільових кібератак... з використанням шкідливої програми DarkCrystal RAT... Згадана активність відстежується за ідентифікатором UAC-0200"
+    },
+    {
+      "head": "UAC-0200",
+      "type": "targets-country",
+      "tail": "Україна",
+      "evidence": "здійснення цільових кібератак у відношенні державних службовців, військових, представників оборонних підприємств України"
+    },
+    {
+      "head": "DarkCrystal RAT",
+      "type": "distributed-via",
+      "tail": "Signal",
+      "evidence": "DarkCrystal RAT, яка розповсюджується засобами месенджеру Signal"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-malware",
+      "definition": "The threat actor employs a specific malware family during their operations."
+    },
+    {
+      "name": "targets-country",
+      "definition": "The threat actor directs malicious cyber activities against targets located within a specific country."
+    },
+    {
+      "name": "distributed-via",
+      "definition": "The malware is propagated or delivered using a specific service or platform."
+    }
+  ]
+}

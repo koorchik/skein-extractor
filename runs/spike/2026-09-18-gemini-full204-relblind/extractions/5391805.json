@@ -1,0 +1,164 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0154",
+      "kind": "threat actor",
+      "gloss": "A threat group tracked by CERT-UA associated with cyberattacks against Ukrainian organizations."
+    },
+    {
+      "name": "MS Office",
+      "kind": "software product",
+      "gloss": "A suite of productivity software developed by Microsoft."
+    },
+    {
+      "name": "ВНУТРІШНІ КІБЕРЗАГРОЗИ.chm",
+      "kind": "file",
+      "gloss": "A compiled HTML help file used as a malicious email attachment to deliver malware."
+    },
+    {
+      "name": "cert-ua@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address spoofed by attackers to distribute malicious emails."
+    },
+    {
+      "name": "New_Item1.htm",
+      "kind": "file",
+      "gloss": "An HTML file containing malicious JavaScript code embedded inside a CHM archive."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework by Microsoft."
+    },
+    {
+      "name": "ctlhost.exe.tmp",
+      "kind": "file",
+      "gloss": "An encrypted GZIP archive containing a malicious executable."
+    },
+    {
+      "name": "ctlhost.exe",
+      "kind": "file",
+      "gloss": "An executable file that deploys the MerlinAgent malware."
+    },
+    {
+      "name": "MerlinAgent",
+      "kind": "malware family",
+      "gloss": "An open-source post-exploitation agent and remote access tool written in Go."
+    },
+    {
+      "name": "GitHub",
+      "kind": "platform",
+      "gloss": "A web-based platform for version control and software collaboration."
+    },
+    {
+      "name": "Catbox",
+      "kind": "file hosting service",
+      "gloss": "A legitimate public file hosting service abused by attackers to host malicious payloads."
+    },
+    {
+      "name": "catbox.moe",
+      "kind": "internet domain",
+      "gloss": "An internet domain used for the Catbox file sharing service."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "CERT-UA#6995",
+      "kind": "security advisory",
+      "gloss": "A CERT-UA incident tracking identifier for a cyberattack in July 2023."
+    },
+    {
+      "name": "ctlhost.decrypted_golang.exe",
+      "kind": "file",
+      "gloss": "A decrypted Go-based malicious executable identified in the campaign."
+    },
+    {
+      "name": "Інфо про навчання по БПЛА для військових.chm",
+      "kind": "file",
+      "gloss": "A malicious CHM attachment used in a phishing campaign themed around drone training."
+    },
+    {
+      "name": "page1.html",
+      "kind": "file",
+      "gloss": "An HTML file contained within a malicious CHM file."
+    },
+    {
+      "name": "ublkdc.bin",
+      "kind": "file",
+      "gloss": "A malicious binary payload hosted on a remote file sharing service."
+    },
+    {
+      "name": "45.153.215.48",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the malicious network infrastructure."
+    },
+    {
+      "name": "files.catbox.moe",
+      "kind": "internet domain",
+      "gloss": "A subdomain used for hosting uploaded files on the Catbox service."
+    },
+    {
+      "name": "listen.servemp3.com",
+      "kind": "internet domain",
+      "gloss": "A domain name used as command and control infrastructure in the attack."
+    },
+    {
+      "name": "shorturl.at",
+      "kind": "internet domain",
+      "gloss": "A legitimate URL shortening service utilized in malicious communications."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0154",
+      "type": "attributed-to",
+      "tail": "MerlinAgent",
+      "evidence": "Описана активність відстежується за ідентифікатором UAC-0154."
+    },
+    {
+      "head": "ВНУТРІШНІ КІБЕРЗАГРОЗИ.chm",
+      "type": "contains-file",
+      "tail": "New_Item1.htm",
+      "evidence": "виконання JavaScript-коду (міститься у файлі \"New_Item1.htm\")"
+    },
+    {
+      "head": "ctlhost.exe.tmp",
+      "type": "contains-file",
+      "tail": "ctlhost.exe",
+      "evidence": "архіву \"ctlhost.exe.tmp\", який містить виконуваний файл \"ctlhost.exe\""
+    },
+    {
+      "head": "ctlhost.exe",
+      "type": "drops-malware",
+      "tail": "MerlinAgent",
+      "evidence": "Запуск зазначеного EXE-файлу призведе до ураження ЕОМ програмою MerlinAgent"
+    },
+    {
+      "head": "UAC-0154",
+      "type": "abuses-service",
+      "tail": "Catbox",
+      "evidence": "Слід звернути увагу на факт використанням легітимного файлового сервісу \"Catbox\""
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "attributed-to",
+      "definition": "Identifies the threat actor responsible for a particular malicious tool, campaign, or activity."
+    },
+    {
+      "name": "contains-file",
+      "definition": "Specifies that an archive or container file encapsulates another specific file."
+    },
+    {
+      "name": "drops-malware",
+      "definition": "Indicates that an executable or script installs or launches a specific malware family onto the system."
+    },
+    {
+      "name": "abuses-service",
+      "definition": "Indicates that an actor or campaign makes malicious use of a legitimate third-party service."
+    }
+  ]
+}

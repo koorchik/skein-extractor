@@ -1,0 +1,184 @@
+{
+  "docId": 37829,
+  "date": "18.03.2022",
+  "title": "Кібератака групи UAC-0035 (InvisiMole) на державні організації України (CERT-UA#4213)",
+  "entities": [
+    {
+      "id": "37829:0",
+      "name": "UAC-0035",
+      "kind": "threat actor",
+      "gloss": "A sophisticated threat actor group also tracked as InvisiMole, known for targeted cyberespionage operations.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "37829:1",
+      "name": "державні органи України",
+      "kind": "government sector",
+      "gloss": "Government institutions and public authorities of Ukraine.",
+      "scheme": "S6",
+      "category": "Sector",
+      "role": "target"
+    },
+    {
+      "id": "37829:2",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "37829:3",
+      "name": "LoadEdge",
+      "kind": "malware family",
+      "gloss": "A C++ backdoor malware used by threat actors to execute commands, manage files, and deploy additional payloads.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37829:4",
+      "name": "TunnelMole",
+      "kind": "malware family",
+      "gloss": "A DNS backdoor malware utilized by cyberespionage groups to establish command and control channels.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37829:5",
+      "name": "RC2CL",
+      "kind": "malware family",
+      "gloss": "A malware tool utilized by threat actor UAC-0035 for malicious operations.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37829:6",
+      "name": "501_25_103.zip",
+      "kind": "file",
+      "gloss": "A malicious ZIP archive distributed via email containing a shortcut file.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "37829:7",
+      "name": "501_25_103.lnk",
+      "kind": "file",
+      "gloss": "A malicious shortcut file designed to download and execute an HTA payload.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "37829:8",
+      "name": "We4Qu6.hta",
+      "kind": "file",
+      "gloss": "An HTML application file containing VBScript code to download and drop malware components.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "37829:9",
+      "name": "501_25_103.doc",
+      "kind": "file",
+      "gloss": "A decoy document dropped and displayed to victims during infection.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "37829:10",
+      "name": "EdgeNotification.dll",
+      "kind": "file",
+      "gloss": "A malicious dynamic-link library containing the LoadEdge backdoor payload.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37829:11",
+      "name": "45.95.11.34",
+      "kind": "ip address",
+      "gloss": "An IP address utilized for hosting malicious payloads and command and control communication.",
+      "scheme": "S11",
+      "category": null,
+      "role": "attacker"
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0035",
+      "type": "attacks",
+      "tail": "державні органи України",
+      "evidence": "розповсюдження електронних листів серед державних органів України. Активність асоційовано з діяльністю групи UAC-0035"
+    },
+    {
+      "head": "державні органи України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "державних органів України"
+    },
+    {
+      "head": "UAC-0035",
+      "type": "uses-malware",
+      "tail": "LoadEdge",
+      "evidence": "шкідливої програми LoadEdge... Активність асоційовано з діяльністю групи UAC-0035"
+    },
+    {
+      "head": "UAC-0035",
+      "type": "uses-malware",
+      "tail": "TunnelMole",
+      "evidence": "іншими шкідливими програмами з арсеналу групи: TunnelMole"
+    },
+    {
+      "head": "UAC-0035",
+      "type": "uses-malware",
+      "tail": "RC2CL",
+      "evidence": "іншими шкідливими програмами з арсеналу групи: TunnelMole (DNS backdoor), RC2CL"
+    },
+    {
+      "head": "501_25_103.zip",
+      "type": "delivers",
+      "tail": "501_25_103.lnk",
+      "evidence": "архів \"501_25_103.zip\", що містить одноіменний файл-ярлик"
+    },
+    {
+      "head": "501_25_103.lnk",
+      "type": "delivers",
+      "tail": "We4Qu6.hta",
+      "evidence": "У разі відкриття LNK-файлу на комп'ютер буде завантажено та виконано HTA-файл"
+    },
+    {
+      "head": "We4Qu6.hta",
+      "type": "delivers",
+      "tail": "501_25_103.doc",
+      "evidence": "Останній містить VBScript-код, який забезпечить завантаження і декодування файлу-приманки"
+    },
+    {
+      "head": "We4Qu6.hta",
+      "type": "delivers",
+      "tail": "LoadEdge",
+      "evidence": "забезпечить завантаження і декодування файлу-приманки та шкідливої програми LoadEdge"
+    },
+    {
+      "head": "45.95.11.34",
+      "type": "hosts",
+      "tail": "We4Qu6.hta",
+      "evidence": "hxxp://45[.]95.11.34:88/get[.]php?a=We4Qu6"
+    },
+    {
+      "head": "EdgeNotification.dll",
+      "type": "part-of",
+      "tail": "LoadEdge",
+      "evidence": "EdgeNotification.dll (2022-02-24) (LoadEdge)"
+    }
+  ],
+  "unclassified": []
+}

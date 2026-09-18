@@ -1,0 +1,235 @@
+{
+  "docId": 6277063,
+  "date": "11.01.2024",
+  "title": "RemcosRAT, QuasarRAT, RemoteUtilities на озброєнні UAC-0050 (CERT-UA#8453, CERT-UA#8494)",
+  "entities": [
+    {
+      "id": "6277063:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277063:1",
+      "name": "UAC-0050",
+      "kind": "threat actor",
+      "gloss": "A threat actor group known for conducting cyber espionage and financial crime campaigns against Ukrainian entities.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6277063:2",
+      "name": "RemcosRAT",
+      "kind": "malware family",
+      "gloss": "A commercial remote access tool frequently abused by threat actors for surveillance and unauthorized control.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6277063:3",
+      "name": "QuasarRAT",
+      "kind": "malware family",
+      "gloss": "An open-source remote access trojan written in C# used for system reconnaissance and remote control.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6277063:4",
+      "name": "Remote Utilities",
+      "kind": "software product",
+      "gloss": "A legitimate remote desktop software program often abused by malicious actors for unauthorized remote management.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6277063:5",
+      "name": "AutoIt",
+      "kind": "software product",
+      "gloss": "A freeware automation language and scripting tool used to automate Windows tasks and frequently abused by malware.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6277063:6",
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6277063:7",
+      "name": "Bitbucket",
+      "kind": "cloud service",
+      "gloss": "A Git-based source code repository hosting service operated by Atlassian.",
+      "scheme": "S21",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "6277063:8",
+      "name": "Google Диск",
+      "kind": "cloud service",
+      "gloss": "A cloud-based file storage and synchronization service developed by Google.",
+      "scheme": "S21",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277063:9",
+      "name": "Медок",
+      "kind": "company",
+      "gloss": "A Ukrainian software company and brand known for electronic document management and accounting software.",
+      "scheme": "S10",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "6277063:10",
+      "name": "AS215939",
+      "kind": "autonomous system",
+      "gloss": "An autonomous system network infrastructure utilized to host command and control servers.",
+      "scheme": "S31",
+      "category": "Infrastructure",
+      "role": "related"
+    },
+    {
+      "id": "6277063:11",
+      "name": "rmssrv.ru",
+      "kind": "domain name",
+      "gloss": "An internet domain name used for network communications.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6277063:12",
+      "name": "77.105.132.124",
+      "kind": "ip address",
+      "gloss": "An IPv4 address used as command and control infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277063:13",
+      "name": "77.105.132.70",
+      "kind": "ip address",
+      "gloss": "An IPv4 address used as command and control infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277063:14",
+      "name": "188.127.224.64",
+      "kind": "ip address",
+      "gloss": "An IPv4 address identified as network infrastructure in the campaign.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277063:15",
+      "name": "Запит.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive distributed via email attachments.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277063:16",
+      "name": "Запит документів.pdf.exe",
+      "kind": "file",
+      "gloss": "A malicious executable disguised as a PDF document used to execute AutoIt scripts.",
+      "scheme": "S12",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "6277063:17",
+      "name": "Електронний запит.EXE",
+      "kind": "file",
+      "gloss": "A malicious executable that downloads and executes QuasarRAT.",
+      "scheme": "S12",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "6277063:18",
+      "name": "Електронний запит Medoc.exe",
+      "kind": "file",
+      "gloss": "A malicious executable that installs the Remote Utilities software.",
+      "scheme": "S12",
+      "category": "Organization",
+      "role": "attacker"
+    }
+  ],
+  "relations": [
+    {
+      "head": "Запит документів.pdf.exe",
+      "type": "installs-software",
+      "tail": "RemcosRAT",
+      "evidence": "забезпечує встановлення програми для віддаленого управління RemcosRAT"
+    },
+    {
+      "head": "Електронний запит.EXE",
+      "type": "downloads-payload",
+      "tail": "Bitbucket",
+      "evidence": "ініціює завантаження з легітимного сервісу Bitbucket"
+    },
+    {
+      "head": "Електронний запит.EXE",
+      "type": "executes-payload",
+      "tail": "QuasarRAT",
+      "evidence": "ініціює завантаження з легітимного сервісу Bitbucket та запуск шкідливої програми QuasarRAT."
+    },
+    {
+      "head": "Електронний запит Medoc.exe",
+      "type": "installs-software",
+      "tail": "Remote Utilities",
+      "evidence": "призведе до встановлення в системі програми для віддаленого управління Remote Utilities."
+    },
+    {
+      "head": "UAC-0050",
+      "type": "hosts-infrastructure-on",
+      "tail": "AS215939",
+      "evidence": "сервери управління, розміщені в межах автономної системи AS215939. Активність відстежується за ідентифікатором UAC-0050."
+    },
+    {
+      "head": "UAC-0050",
+      "type": "impersonates-organization",
+      "tail": "Медок",
+      "evidence": "масове розпосюдження листів з темою \"Запит від компанії Медок\""
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "RemcosRAT",
+      "evidence": "забезпечує встановлення програми для віддаленого управління RemcosRAT... Активність відстежується за ідентифікатором UAC-0050."
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "QuasarRAT",
+      "evidence": "запуск шкідливої програми QuasarRAT... Активність відстежується за ідентифікатором UAC-0050."
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "Remote Utilities",
+      "evidence": "встановлення в системі програми для віддаленого управління Remote Utilities... Активність відстежується за ідентифікатором UAC-0050."
+    }
+  ],
+  "unclassified": []
+}

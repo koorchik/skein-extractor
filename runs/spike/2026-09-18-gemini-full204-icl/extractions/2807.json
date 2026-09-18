@@ -1,0 +1,134 @@
+{
+  "entities": [
+    {
+      "name": "Pterodo",
+      "kind": "malware",
+      "gloss": "A spyware and backdoor malware family used in targeted cyber attacks."
+    },
+    {
+      "name": "porohman@i.ua",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors to distribute malicious emails."
+    },
+    {
+      "name": "porohwoman@i.ua",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors to distribute malicious emails."
+    },
+    {
+      "name": "НПУ.rar",
+      "kind": "computer file",
+      "gloss": "A malicious archive file attached to phishing emails."
+    },
+    {
+      "name": "spisok_24.08.2018.com",
+      "kind": "computer file",
+      "gloss": "A malicious executable file disguised as a document used to drop malware components."
+    },
+    {
+      "name": "НПУ.docx",
+      "kind": "computer file",
+      "gloss": "A decoy document file included inside a malicious archive."
+    },
+    {
+      "name": "Icloud.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable component dropped by Pterodo malware."
+    },
+    {
+      "name": "Iclouding.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable responsible for data exfiltration to the command and control server."
+    },
+    {
+      "name": "ipad.system",
+      "kind": "computer file",
+      "gloss": "A malicious file component associated with Pterodo malware."
+    },
+    {
+      "name": "icloud.cmd",
+      "kind": "computer file",
+      "gloss": "A malicious batch script dropped and executed by Pterodo malware."
+    },
+    {
+      "name": "iclouds.cmd",
+      "kind": "computer file",
+      "gloss": "A malicious batch script dropped and executed by Pterodo malware."
+    },
+    {
+      "name": "IcloudSecurity.lnk",
+      "kind": "computer file",
+      "gloss": "A malicious shortcut file associated with Pterodo malware execution."
+    },
+    {
+      "name": "Лица, которые переместились из АР Крым и районов проведения антитерротистической операции.com",
+      "kind": "computer file",
+      "gloss": "A malicious executable file used as part of the phishing campaign."
+    },
+    {
+      "name": "single-office.ddns.net",
+      "kind": "uniform resource locator",
+      "gloss": "A dynamic DNS domain used as a command and control server for Pterodo malware."
+    },
+    {
+      "name": "95.142.45.58",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the command and control domain single-office.ddns.net."
+    },
+    {
+      "name": "Apple",
+      "kind": "software vendor",
+      "gloss": "A multinational technology company whose software names are spoofed by malware components."
+    },
+    {
+      "name": "Adobe",
+      "kind": "software vendor",
+      "gloss": "A multinational computer software company whose software names are spoofed by malware components."
+    }
+  ],
+  "relations": [
+    {
+      "head": "НПУ.rar",
+      "type": "delivers",
+      "tail": "spisok_24.08.2018.com",
+      "evidence": "при активації виконуваних файлів з архіву НПУ.rar виконувана компонента spisok_24.08.2018.com"
+    },
+    {
+      "head": "НПУ.rar",
+      "type": "delivers",
+      "tail": "НПУ.docx",
+      "evidence": "До електронних листів прикріплений архів, який містить spisok_24.08.2018.com та НПУ.docx файли"
+    },
+    {
+      "head": "spisok_24.08.2018.com",
+      "type": "delivers",
+      "tail": "Icloud.exe",
+      "evidence": "spisok_24.08.2018.com (ехе файл) автоматично розпаковується на виконувані (Icloud.exe"
+    },
+    {
+      "head": "spisok_24.08.2018.com",
+      "type": "delivers",
+      "tail": "Iclouding.exe",
+      "evidence": "розпаковується на виконувані (Icloud.exe, Iclouding.exe"
+    },
+    {
+      "head": "spisok_24.08.2018.com",
+      "type": "delivers",
+      "tail": "ipad.system",
+      "evidence": "розпаковується на виконувані (Icloud.exe, Iclouding.exe, ipad.system)"
+    },
+    {
+      "head": "spisok_24.08.2018.com",
+      "type": "delivers",
+      "tail": "iclouds.cmd",
+      "evidence": "розпаковується на виконувані ... та командні файли (iclouds.cmd, iclouds.cmd)"
+    },
+    {
+      "head": "95.142.45.58",
+      "type": "hosts",
+      "tail": "single-office.ddns.net",
+      "evidence": "серверу single-office.ddns[.]net (на момент аналізу ІР-адреса домену була 95.142.45[.]58)"
+    }
+  ],
+  "newRelationTypes": []
+}

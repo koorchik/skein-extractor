@@ -1,0 +1,148 @@
+{
+  "docId": 6282737,
+  "date": "18.03.2025",
+  "title": "UAC-0200: Шпигунство за оборонно-промисловим комплексом за допомогою DarkCrystal RAT (CERT-UA#14045)",
+  "entities": [
+    {
+      "id": "6282737:0",
+      "name": "UAC-0200",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA targeting Ukrainian defense and military entities.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6282737:1",
+      "name": "Сили оборони України",
+      "kind": "military organization",
+      "gloss": "The combined military forces and defense sector bodies of Ukraine.",
+      "scheme": "S17",
+      "category": "Government Body",
+      "role": "target"
+    },
+    {
+      "id": "6282737:2",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S5",
+      "category": "Country",
+      "role": "related"
+    },
+    {
+      "id": "6282737:3",
+      "name": "Signal",
+      "kind": "software product",
+      "gloss": "A cross-platform encrypted messaging service.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6282737:4",
+      "name": "DarkTortilla",
+      "kind": "malware family",
+      "gloss": "A complex .NET-based crypter and loader used to deliver secondary payloads.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "6282737:5",
+      "name": "Dark Crystal RAT",
+      "kind": "malware family",
+      "gloss": "A commercial remote access trojan also known as DCRAT.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6282737:6",
+      "name": "45.130.214.237",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure in the attack.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6282737:7",
+      "name": "62.60.235.190",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure in the attack.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6282737:8",
+      "name": "87.249.50.64",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure in the attack.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6282737:9",
+      "name": "217.25.91.61",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure in the attack.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6282737:10",
+      "name": "83.147.253.138",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure in the attack.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6282737:11",
+      "name": "imgurl.ir",
+      "kind": "internet domain",
+      "gloss": "An Iranian domain name observed hosting malicious files.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0200",
+      "type": "attacks",
+      "tail": "Сили оборони України",
+      "evidence": "цільових кібератак як у відношенні співробітників підприємств оборонно-промислового комплексу, так й окремих представників Сил оборони України"
+    },
+    {
+      "head": "UAC-0200",
+      "type": "uses-malware",
+      "tail": "DarkTortilla",
+      "evidence": "активність відслідковується за ідентифікатором UAC-0200... виконуваний файл, класифікований як DarkTortilla"
+    },
+    {
+      "head": "UAC-0200",
+      "type": "uses-malware",
+      "tail": "Dark Crystal RAT",
+      "evidence": "активність відслідковується за ідентифікатором UAC-0200... програмного засобу для віддаленого керування Dark Crystal RAT"
+    },
+    {
+      "head": "DarkTortilla",
+      "type": "delivers",
+      "tail": "Dark Crystal RAT",
+      "evidence": "DarkTortilla, що є програмним засобом типу криптор/лоадер, призначенням якого є розшифрування та запуск... Dark Crystal RAT"
+    },
+    {
+      "head": "Сили оборони України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Сил оборони України"
+    }
+  ],
+  "unclassified": []
+}

@@ -1,0 +1,118 @@
+{
+  "entities": [
+    {
+      "name": "Nuclear Terrorism A Very Real Threat.rtf",
+      "kind": "computer file",
+      "gloss": "A malicious Rich Text Format document used in phishing attacks to trigger remote code execution."
+    },
+    {
+      "name": "CVE-2022-30190",
+      "kind": "security vulnerability",
+      "gloss": "A Microsoft Windows Support Diagnostic Tool (MSDT) remote code execution vulnerability commonly known as Follina."
+    },
+    {
+      "name": "CredoMap",
+      "kind": "malware",
+      "gloss": "A malware family used by threat actors to compromise systems and steal credentials."
+    },
+    {
+      "name": "APT28",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage threat group associated with the GRU."
+    },
+    {
+      "name": "article.html",
+      "kind": "computer file",
+      "gloss": "A malicious HTML file containing JavaScript code designed to download and execute secondary payloads."
+    },
+    {
+      "name": "SQLite.Interop.dll",
+      "kind": "computer file",
+      "gloss": "A legitimate SQLite dynamic-link library downloaded alongside malicious payloads."
+    },
+    {
+      "name": "docx.exe",
+      "kind": "computer file",
+      "gloss": "An executable payload file containing the CredoMap malware."
+    },
+    {
+      "name": "http://kitten-268.frge.io/article.html",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosting the HTML payload used in the attack."
+    },
+    {
+      "name": "http://kompartpomiar.pl/grafika/SQLite.Interop.dll",
+      "kind": "uniform resource locator",
+      "gloss": "A URL on a compromised website hosting a SQLite dependency file."
+    },
+    {
+      "name": "http://kompartpomiar.pl/grafika/docx.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A URL on a compromised website used to distribute the CredoMap executable."
+    },
+    {
+      "name": "162.241.216.236",
+      "kind": "ip address",
+      "gloss": "An IP address associated with network infrastructure observed in the incident."
+    },
+    {
+      "name": "kitten-268.frge.io",
+      "kind": "domain name",
+      "gloss": "A domain name used to stage and serve malicious HTML files."
+    },
+    {
+      "name": "frge.io",
+      "kind": "domain name",
+      "gloss": "An apex internet domain associated with infrastructure used during the campaign."
+    },
+    {
+      "name": "kompartpomiar.pl",
+      "kind": "domain name",
+      "gloss": "A compromised website domain used to host malicious executable files."
+    },
+    {
+      "name": "seo@specialityllc.com",
+      "kind": "email address",
+      "gloss": "An email address identified as an indicator of compromise in the incident."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Nuclear Terrorism A Very Real Threat.rtf",
+      "type": "exploits",
+      "tail": "CVE-2022-30190",
+      "evidence": "Nuclear Terrorism A Very Real Threat.rtf\" відкриття якого призведе до завантаження HTML-файлу та виконання JavaScript-коду (CVE-2022-30190)"
+    },
+    {
+      "head": "Nuclear Terrorism A Very Real Threat.rtf",
+      "type": "delivers",
+      "tail": "CredoMap",
+      "evidence": "виконання JavaScript-коду (CVE-2022-30190), який забезпечить завантаження та запуск шкідливої програми CredoMap"
+    },
+    {
+      "head": "APT28",
+      "type": "uses",
+      "tail": "CredoMap",
+      "evidence": "вважаємо за можливе асоціювати виявлену активність з діяльністю групи APT28"
+    },
+    {
+      "head": "kitten-268.frge.io",
+      "type": "hosts",
+      "tail": "http://kitten-268.frge.io/article.html",
+      "evidence": "hXXp://kitten-268.frge[.]io/article.html"
+    },
+    {
+      "head": "kompartpomiar.pl",
+      "type": "hosts",
+      "tail": "http://kompartpomiar.pl/grafika/SQLite.Interop.dll",
+      "evidence": "hXXp://kompartpomiar[.]pl/grafika/SQLite.Interop.dll"
+    },
+    {
+      "head": "kompartpomiar.pl",
+      "type": "hosts",
+      "tail": "http://kompartpomiar.pl/grafika/docx.exe",
+      "evidence": "hXXp://kompartpomiar[.]pl/grafika/docx.exe"
+    }
+  ],
+  "newRelationTypes": []
+}

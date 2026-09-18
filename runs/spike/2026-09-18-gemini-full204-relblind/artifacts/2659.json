@@ -1,0 +1,52 @@
+{
+  "docId": 2659,
+  "date": "30.07.2019",
+  "title": "Не перевіряйте свої поштові акаунти на фішингових сайтах!",
+  "entities": [
+    {
+      "id": "2659:0",
+      "name": "перевірити діяльність.html",
+      "kind": "malicious file",
+      "gloss": "A malicious HTML attachment containing an obfuscated script used to redirect victims to a phishing site.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2659:1",
+      "name": "decpded_page.html",
+      "kind": "malicious file",
+      "gloss": "A decoded HTML script extracted from a phishing attachment that executes redirection to a malicious resource.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2659:2",
+      "name": "hххps://cautionphenomenon[.]co[.]kr/ukraine",
+      "kind": "url",
+      "gloss": "A malicious URL hosted on a compromised or attacker-controlled domain used to harvest user credentials.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "перевірити діяльність.html",
+      "type": "contains-script",
+      "tail": "decpded_page.html",
+      "evidence": "файл містить закодований скрипт: ... ./decpded_page.html – декодований скрипт"
+    },
+    {
+      "head": "decpded_page.html",
+      "type": "redirects-to",
+      "tail": "hххps://cautionphenomenon[.]co[.]kr/ukraine",
+      "evidence": "При активуванні такого скрипта відбувається перенаправлення на ресурс зловмисників."
+    }
+  ],
+  "unclassified": [
+    "2659:0",
+    "2659:1"
+  ]
+}

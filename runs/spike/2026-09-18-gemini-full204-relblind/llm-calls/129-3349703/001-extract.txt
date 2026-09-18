@@ -1,0 +1,325 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><em>Оновлено 22.12.2022</em></p><p><br></p><p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA 17.12.2022 від Центру інновацій та розвитку оборонних технологій Міністерства оборони України отримано інформацію щодо розповсюдження засобами електронної пошти (з використанням скомпрометованої електронної адреси одного зі співробітників оборонного відомства), а також, мессенджерів, повідомлення щодо необхідності оновлення сертифікатів в системі "DELTA". При цьому, вкладення у вигляді PDF-документів імітують легітимні дайджести підрозділу ISTAR ОУВ "Запоріжжя", але містять посилання на шкідливий ZIP-архів.</p><p>У разі переходу за посиланням на комп'ютер буде завантажено архів "certificates_rootca.zip", що містить виконуваний файл "certificates_rootCA.exe", захищений за допомогою VMProtect (файл скомпільовано та підписано цифровим підписом 15.12.2022).</p><p>Після запуску EXE-файлу на ЕОМ буде створено декілька DLL-файлів, також захищених VMProtect, і файл "ais.exe", що імітує процес встановлення сертифікату. В подальшому, на комп'ютері жертви буде здійснено запуск шкідливої програми RomCom (реєструється як COM-сервер замість oleaut32.dll), яка, у свою чергу, забезпечить виконання двох шкідливих програм: FateGrab ("FileInfo.dll"; "ftp_file_graber.dll"), функціонал якого передбачає викрадення файлів з розширеннями: '.txt', '.rtf', '.xls', '.xlsx', '.ods', '.cmd', '.pdf', '.vbs', '.ps1', '.one', '.kdb', '.kdbx', '.doc', '.docx', '.odt', '.eml', '.msg', '.email' з їх подальшою ексфільтрацією за допомогою FTP, та StealDeal ("procsys.dll"; "StealDll.dll"), призначений, серед іншого, для отримання та збереження даних Інтернет-браузерів у відповідні файли, що потім будуть ексфільтровані за допомогою RomCom з використанням протоколу HTTPS.</p><p>Активність відстежується за ідентифікатором UAC-0142, проте має схожості з кластером загроз UAC-0132 (CERT-UA#5509).</p><p><br></p><p><strong>Індикатори компрометації</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">d42e12a973be47c6ddd0b4a7c3a36536&nbsp; &nbsp; 60a7f038cad5086b85f0be169f478a6b06f59785c2138fc64c8fdce88f049968&nbsp; &nbsp; certificates_rootca.zip
+4ca23d887f85206d926c1caab0b7ddb3&nbsp; &nbsp; f671f9c7b8d6b2553db8c563d269aa52d573857f34d58b7a9539e9d8aea9f3d5&nbsp; &nbsp; certificates_rootCA.exe
+4e43623f2e9a31e39b62bc002b2223e9&nbsp; &nbsp; a1a8e73ff09d5b55a6156e68c56b5cbf80cc4b9957f02e6c52136654956e334d&nbsp; &nbsp; ais.exe (2022-12-15 08:57:54)
+3ddcd818f1e39467214c5b7153e2a3a0&nbsp; &nbsp; 5d3cf96ee5e42e8f3d6548dd4fcf804ef5d5844220157ae9242cadf60a3afbac&nbsp; &nbsp; temp.cmd
+8a54222486372f92323b9e4279e9e9c2&nbsp; &nbsp; 1c722ba09cdfb91fa6420b09f47aa15aaf7346d30f3974940d3bc73cdc84783f&nbsp; &nbsp; temp.cmd
+46cf25a8f1c22910cbc74a4b808fb926&nbsp; &nbsp; 6330248e2933a7ebdc873d05d7775f039a55b794eebdda78ca0902b110a54c31&nbsp; &nbsp; procsys.dll (StealDeal) (2022-12-14 13:21:47)
+ef802adb77dd0d0b8277994e720db2ca&nbsp; &nbsp; eadb75944134da5434174981bf295eed40d9b2404df8e6dbf12962b2e5075fa3&nbsp; &nbsp; FileInfo.dll (FateGrab) (2022-12-14 12:03:50)
+13942c7497a15176b39cac1ac7aa79df&nbsp; &nbsp; 03645ad472c8cce66b6089fb8f98bcd9027ca8ab2e01d404af09276efb84703f&nbsp; &nbsp; 19207187.dll (2022-12-15 09:01:47)
+e82f2226b6432fa41e15208c6f53e4ac&nbsp; &nbsp; 4122f8a6e211a8f1064ef793022ce94f64542b9eb643927a4a7beae643eee06b&nbsp; &nbsp; regInjecttNew_pumped.dll (2022-12-15 09:02:13)
+bf39ee86518f69a54f004fe734e22e3c&nbsp; &nbsp; 71dae65285224050c609c8c498160df604c6a00afa34dded6aea99ed843a21c3&nbsp; &nbsp; customizer.dll (RomCom) (2022-12-15 08:59:32)
+900d06af063b2cda241d04da62fa1662&nbsp; &nbsp; 6850e8c4d3d774dfac1c5e09df3a9acc6d97b7afb66c8417ad80b5632f9e936d&nbsp; &nbsp; Libraries19208093.dll (550MB+)
+6f3ca264e301ea5b68a61ffe2051e946&nbsp; &nbsp; 14765706b2de10b6f9a90268c7690222d2ea5155c9fa24317b86e6c0231d913e&nbsp; &nbsp; rtmpak2235685807.dll0 (700MB+)
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">Great C Technologies Inc
+0B 59 BB 29 99 06 6C A6 B0 A2 81 C1 B3 55 B9 9A
+C:\Users\Public\Libraries\FileInfo.dll
+C:\Users\Public\Libraries\BrowserData\procsys.dll
+C:\Users\Public\Libraries\BrowserData\Result\
+C:\Users\Public\Libraries\BrowserData\Result\LoginData.csv
+C:\Users\Public\Libraries\BrowserData\Result\Mozilla Firefox@%USERNAME%@Cookies.csv
+C:\Users\Public\Libraries\BrowserData\Result\%USERNAME%@Credits.csv
+C:\Users\Public\Libraries\BrowserData\Result\%USERNAME%@History.csv
+%TMP%\ais.exe
+%TMP%\temp.cmd
+%TMP%\19207187.dll (ім'я файлу динамічне)
+%TMP%\[0-9]+.dll
+C:\Users\Public\Libraries19208093.dll (ім'я файлу динамічне)
+C:\Users\Public\Libraries[0-9]+.dll
+C:\Users\Public\Libraries\rtmpak1981674535.dll0 (ім'я файлу динамічне)
+C:\Users\Public\Libraries\rtmpak[0-9]+.dll0
+rundll32.exe %TMP%\19207187.dll,MimeSource
+rundll32.exe C:\Users\Public\Libraries\rtmpak2235685807.dll0,fIt
+rundll32.exe C:\Users\Public\Libraries\BrowserData\procsys.dll,stub
+rundll32.exe C:\Users\Public\Libraries\FileInfo.dll,fSt %FTP_LOGIN%:%FTP_PASSWORD%:%CAMPAIGN_ID%
+cmd.exe /c C:\Users\Public\Libraries\temp.cmd C:\Users\Public\Libraries\FileInfo.dll
+cmd.exe /c %TMP%\temp.cmd %TMP%\ais.exe C:\Users\%USERNAME%\Desktop\certificates_rootCA.exe
+nltest /domain_trusts
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">hxxps://delta.mil.gov.ua.delta-storages[.]com/certificates/update
+hxxps://delta.mil.gov.ua.delta-storages[.]com/certificates/windows/certificates_rootca.zip
+hxxps://46.249.49[.]109:4444
+hxxps://hexactor[.]com:4444
+ftp://46.249.49[.]109
+delta.mil.gov.ua.delta-storages[.]com
+delta-storages[.]com (2022-12-15; @webnic[.]cc)
+hexactor[.]com (2022-11-12; @namesilo[.]com; gor4j3d@proton[.]me)
+46.249.49[.]109 (@serverius[.]net)
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (7.7s, in 3784 / out 2428 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Центр інновацій та розвитку оборонних технологій Міністерства оборони України",
+      "kind": "government body",
+      "gloss": "A defense technology innovation and development center within the Ministry of Defense of Ukraine."
+    },
+    {
+      "name": "Міністерство оборони України",
+      "kind": "government body",
+      "gloss": "The central executive authority responsible for national defense policy in Ukraine."
+    },
+    {
+      "name": "DELTA",
+      "kind": "software product",
+      "gloss": "A Ukrainian situational awareness and battle management software system used by defense forces."
+    },
+    {
+      "name": "ISTAR ОУВ \"Запоріжжя\"",
+      "kind": "military unit",
+      "gloss": "An intelligence, surveillance, target acquisition, and reconnaissance unit of the Zaporizhzhia operational grouping."
+    },
+    {
+      "name": "VMProtect",
+      "kind": "software product",
+      "gloss": "A commercial software protection and code virtualization tool."
+    },
+    {
+      "name": "RomCom",
+      "kind": "malware family",
+      "gloss": "A backdoor malware family that registers as a COM server and executes payloads."
+    },
+    {
+      "name": "FateGrab",
+      "kind": "malware family",
+      "gloss": "A malicious tool designed to steal documents and files of specific formats and exfiltrate them via FTP."
+    },
+    {
+      "name": "StealDeal",
+      "kind": "malware family",
+      "gloss": "An infostealer malware designed to harvest and save data from web browsers."
+    },
+    {
+      "name": "UAC-0142",
+      "kind": "threat actor",
+      "gloss": "A threat actor cluster tracked by CERT-UA targeting Ukrainian defense systems."
+    },
+    {
+      "name": "UAC-0132",
+      "kind": "threat actor",
+      "gloss": "A threat actor cluster tracked by CERT-UA associated with malicious campaigns against Ukrainian entities."
+    },
+    {
+      "name": "certificates_rootca.zip",
+      "kind": "file",
+      "gloss": "A malicious ZIP archive containing the installer executable."
+    },
+    {
+      "name": "certificates_rootCA.exe",
+      "kind": "file",
+      "gloss": "A VMProtect-packed malicious executable used to deploy RomCom and other payloads."
+    },
+    {
+      "name": "ais.exe",
+      "kind": "file",
+      "gloss": "An executable file mimicking a certificate installation process."
+    },
+    {
+      "name": "temp.cmd",
+      "kind": "file",
+      "gloss": "A batch script used in malicious execution on the host."
+    },
+    {
+      "name": "procsys.dll",
+      "kind": "file",
+      "gloss": "A dynamic link library associated with the StealDeal malware."
+    },
+    {
+      "name": "FileInfo.dll",
+      "kind": "file",
+      "gloss": "A dynamic link library associated with the FateGrab malware."
+    },
+    {
+      "name": "customizer.dll",
+      "kind": "file",
+      "gloss": "A dynamic link library associated with RomCom malware."
+    },
+    {
+      "name": "Great C Technologies Inc",
+      "kind": "company",
+      "gloss": "An entity name found on a digital certificate used to sign malicious executables."
+    },
+    {
+      "name": "delta.mil.gov.ua.delta-storages[.]com",
+      "kind": "internet domain",
+      "gloss": "A spoofed domain name imitating the Ukrainian military DELTA system update infrastructure."
+    },
+    {
+      "name": "delta-storages[.]com",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used for delivering phishing payloads."
+    },
+    {
+      "name": "hexactor[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain name used as command and control infrastructure."
+    },
+    {
+      "name": "46.249.49[.]109",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications and FTP exfiltration."
+    },
+    {
+      "name": "gor4j3d@proton[.]me",
+      "kind": "e-mail address",
+      "gloss": "An email address used to register malicious domain infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Центр інновацій та розвитку оборонних технологій Міністерства оборони України",
+      "type": "subordinate-to",
+      "tail": "Міністерство оборони України",
+      "evidence": "Центру інновацій та розвитку оборонних технологій Міністерства оборони України"
+    },
+    {
+      "head": "Міністерство оборони України",
+      "type": "government-body-of",
+      "tail": "Україна",
+      "evidence": "Міністерства оборони України"
+    },
+    {
+      "head": "certificates_rootca.zip",
+      "type": "contains-file",
+      "tail": "certificates_rootCA.exe",
+      "evidence": "архів \"certificates_rootca.zip\", що містить виконуваний файл \"certificates_rootCA.exe\""
+    },
+    {
+      "head": "certificates_rootCA.exe",
+      "type": "protected-by",
+      "tail": "VMProtect",
+      "evidence": "файл \"certificates_rootCA.exe\", захищений за допомогою VMProtect"
+    },
+    {
+      "head": "certificates_rootCA.exe",
+      "type": "drops-file",
+      "tail": "ais.exe",
+      "evidence": "буде створено декілька DLL-файлів, також захищених VMProtect, і файл \"ais.exe\""
+    },
+    {
+      "head": "RomCom",
+      "type": "executes-malware",
+      "tail": "FateGrab",
+      "evidence": "RomCom ... забезпечить виконання двох шкідливих програм: FateGrab"
+    },
+    {
+      "head": "RomCom",
+      "type": "executes-malware",
+      "tail": "StealDeal",
+      "evidence": "RomCom ... забезпечить виконання двох шкідливих програм: FateGrab ... та StealDeal"
+    },
+    {
+      "head": "FateGrab",
+      "type": "composed-of-file",
+      "tail": "FileInfo.dll",
+      "evidence": "FateGrab (\"FileInfo.dll\"; \"ftp_file_graber.dll\")"
+    },
+    {
+      "head": "StealDeal",
+      "type": "composed-of-file",
+      "tail": "procsys.dll",
+      "evidence": "StealDeal (\"procsys.dll\"; \"StealDll.dll\")"
+    },
+    {
+      "head": "RomCom",
+      "type": "composed-of-file",
+      "tail": "customizer.dll",
+      "evidence": "customizer.dll (RomCom)"
+    },
+    {
+      "head": "UAC-0142",
+      "type": "resembles-threat-actor",
+      "tail": "UAC-0132",
+      "evidence": "відстежується за ідентифікатором UAC-0142, проте має схожості з кластером загроз UAC-0132"
+    },
+    {
+      "head": "delta.mil.gov.ua.delta-storages[.]com",
+      "type": "subdomain-of",
+      "tail": "delta-storages[.]com",
+      "evidence": "delta.mil.gov.ua.delta-storages[.]com"
+    },
+    {
+      "head": "gor4j3d@proton[.]me",
+      "type": "registered-domain",
+      "tail": "hexactor[.]com",
+      "evidence": "hexactor[.]com (2022-11-12; @namesilo[.]com; gor4j3d@proton[.]me)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "subordinate-to",
+      "definition": "The head entity is an organizational subdivision or subordinate department of the tail entity."
+    },
+    {
+      "name": "government-body-of",
+      "definition": "The head entity is a governmental agency or body of the tail country."
+    },
+    {
+      "name": "contains-file",
+      "definition": "The head container or archive file contains the tail file."
+    },
+    {
+      "name": "protected-by",
+      "definition": "The head binary is obfuscated, packed, or protected by the tail software tool."
+    },
+    {
+      "name": "drops-file",
+      "definition": "The head executable drops, writes, or unpacks the tail file onto the host system."
+    },
+    {
+      "name": "executes-malware",
+      "definition": "The head malware launches or triggers the execution of the tail malware."
+    },
+    {
+      "name": "composed-of-file",
+      "definition": "The head malware family or component consists of or is delivered as the tail file."
+    },
+    {
+      "name": "resembles-threat-actor",
+      "definition": "The head threat actor or activity cluster shares technical characteristics or overlaps with the tail threat actor."
+    },
+    {
+      "name": "subdomain-of",
+      "definition": "The head domain is a subdomain under the tail parent domain."
+    },
+    {
+      "name": "registered-domain",
+      "definition": "The head email address was used to register the tail domain name."
+    }
+  ]
+}

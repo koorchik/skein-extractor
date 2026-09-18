@@ -1,0 +1,192 @@
+{
+  "docId": 5391805,
+  "date": "05.08.2023",
+  "title": "MerlinAgent: новий open-source інструмент для здійснення кібератак у відношенні державних організацій України (CERT-UA#6995, CERT-UA#7183)",
+  "entities": [
+    {
+      "id": "5391805:0",
+      "name": "UAC-0154",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA responsible for attacks targeting Ukrainian organizations.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "5391805:1",
+      "name": "MerlinAgent",
+      "kind": "malware family",
+      "gloss": "An open-source post-exploitation cross-platform HTTP/2 command and control agent written in Go.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "5391805:2",
+      "name": "GitHub",
+      "kind": "software repository",
+      "gloss": "A web-based hosting service for software development and version control using Git.",
+      "scheme": null,
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "5391805:3",
+      "name": "Catbox",
+      "kind": "cloud service",
+      "gloss": "A free public file hosting service used to store and share files.",
+      "scheme": "S3",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "5391805:4",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5391805:5",
+      "name": "cert-ua@ukr.net",
+      "kind": "email address",
+      "gloss": "A spoofed email address used in malicious phishing distributions.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "5391805:6",
+      "name": "ВНУТРІШНІ КІБЕРЗАГРОЗИ.chm",
+      "kind": "file",
+      "gloss": "A malicious compiled HTML help file used as an initial infection vector.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "5391805:7",
+      "name": "New_Item1.htm",
+      "kind": "file",
+      "gloss": "An HTML file embedded inside a CHM archive containing malicious JavaScript.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "5391805:8",
+      "name": "ctlhost.exe.tmp",
+      "kind": "file",
+      "gloss": "A compressed and encrypted staging archive containing the payload.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "5391805:9",
+      "name": "ctlhost.exe",
+      "kind": "file",
+      "gloss": "A malicious executable file delivering the MerlinAgent payload.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "5391805:10",
+      "name": "ctlhost.decrypted_golang.exe",
+      "kind": "file",
+      "gloss": "A decrypted Go-based malicious executable identified in the attack.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5391805:11",
+      "name": "Інфо про навчання по БПЛА для військових.chm",
+      "kind": "file",
+      "gloss": "A malicious CHM document distributed in a phishing attack regarding UAV training.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5391805:12",
+      "name": "page1.html",
+      "kind": "file",
+      "gloss": "An HTML component embedded within a malicious CHM file.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5391805:13",
+      "name": "ublkdc.bin",
+      "kind": "file",
+      "gloss": "An encrypted or binary payload hosted externally on a file sharing service.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5391805:14",
+      "name": "45.153.215.48",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command and control infrastructure.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5391805:15",
+      "name": "listen.servemp3.com",
+      "kind": "hostname",
+      "gloss": "A dynamic DNS hostname configured for command and control communications.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0154",
+      "type": "uses-malware",
+      "tail": "MerlinAgent",
+      "evidence": "Один з перших випадків використання MerlinAgent... Описана активність відстежується за ідентифікатором UAC-0154"
+    },
+    {
+      "head": "ВНУТРІШНІ КІБЕРЗАГРОЗИ.chm",
+      "type": "delivers",
+      "tail": "New_Item1.htm",
+      "evidence": "виконання JavaScript-коду (міститься у файлі \"New_Item1.htm\")"
+    },
+    {
+      "head": "New_Item1.htm",
+      "type": "delivers",
+      "tail": "ctlhost.exe.tmp",
+      "evidence": "призначеного для завантаження, розшифрування та декомпресії GZIP-архіву \"ctlhost.exe.tmp\""
+    },
+    {
+      "head": "ctlhost.exe.tmp",
+      "type": "delivers",
+      "tail": "ctlhost.exe",
+      "evidence": "GZIP-архіву \"ctlhost.exe.tmp\", який містить виконуваний файл \"ctlhost.exe\""
+    },
+    {
+      "head": "ctlhost.exe",
+      "type": "delivers",
+      "tail": "MerlinAgent",
+      "evidence": "Запуск зазначеного EXE-файлу призведе до ураження ЕОМ програмою MerlinAgent"
+    },
+    {
+      "head": "MerlinAgent",
+      "type": "communicates-with",
+      "tail": "listen.servemp3.com",
+      "evidence": "hXXps://listen.servemp3[.]com:443"
+    }
+  ],
+  "unclassified": [
+    "5391805:2"
+  ]
+}

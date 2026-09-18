@@ -1,0 +1,203 @@
+{
+  "entities": [
+    {
+      "name": "Troldesh/Shade",
+      "kind": "malware family",
+      "gloss": "A ransomware malware family known for encrypting files and demanding ransom payments."
+    },
+    {
+      "name": "Публичное Акционерное Общество «БИНБАНК»",
+      "kind": "commercial bank",
+      "gloss": "A Russian commercial bank impersonated in phishing email campaigns."
+    },
+    {
+      "name": "info.zip",
+      "kind": "file",
+      "gloss": "A malicious ZIP archive attached to phishing emails to deliver malware."
+    },
+    {
+      "name": "inf.zip",
+      "kind": "file",
+      "gloss": "A nested malicious ZIP archive used in the malware delivery chain."
+    },
+    {
+      "name": "Информация.js",
+      "kind": "file",
+      "gloss": "A malicious JavaScript script that downloads and executes the ransomware payload."
+    },
+    {
+      "name": "ssj.jpg",
+      "kind": "file",
+      "gloss": "A malicious executable payload disguised with an image file extension."
+    },
+    {
+      "name": "csrss.exe",
+      "kind": "file",
+      "gloss": "A malicious executable file copied from the payload and configured for system persistence."
+    },
+    {
+      "name": "www.michiganmastereltiempo.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host the malicious payload."
+    },
+    {
+      "name": "vuonorganic.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host the malicious payload."
+    },
+    {
+      "name": "thaibbqculver.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host the malicious payload."
+    },
+    {
+      "name": "integramultimedia.com.mx",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host the malicious payload."
+    },
+    {
+      "name": "motocheck.in",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host the malicious payload."
+    },
+    {
+      "name": "ereservices.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host the malicious payload."
+    },
+    {
+      "name": "myelectrive.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host the malicious payload."
+    },
+    {
+      "name": "biengrandir37.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host the malicious payload."
+    },
+    {
+      "name": "smartideabusiness.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host the malicious payload."
+    },
+    {
+      "name": "site-1.work",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host the malicious payload."
+    },
+    {
+      "name": "webknives.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host the malicious payload."
+    },
+    {
+      "name": "expeditionabroad.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host the malicious payload."
+    },
+    {
+      "name": "product-reviews.website",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host the malicious payload."
+    },
+    {
+      "name": "fernandoherrera.me",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host the malicious payload."
+    },
+    {
+      "name": "nowpropitup.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host the malicious payload."
+    },
+    {
+      "name": "ghaniyu.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host the malicious payload."
+    },
+    {
+      "name": "193.23.244.244",
+      "kind": "ip address",
+      "gloss": "An IP address functioning as a command and control server for Troldesh/Shade."
+    },
+    {
+      "name": "76.73.17.194",
+      "kind": "ip address",
+      "gloss": "An IP address functioning as a command and control server for Troldesh/Shade."
+    },
+    {
+      "name": "86.59.21.38",
+      "kind": "ip address",
+      "gloss": "An IP address functioning as a command and control server for Troldesh/Shade."
+    },
+    {
+      "name": "208.83.223.34",
+      "kind": "ip address",
+      "gloss": "An IP address functioning as a command and control server for Troldesh/Shade."
+    }
+  ],
+  "relations": [
+    {
+      "head": "info.zip",
+      "type": "contains-file",
+      "tail": "Информация.js",
+      "evidence": "У подвійному архіві знаходиться джава скрипт “Информация.js”"
+    },
+    {
+      "head": "info.zip",
+      "type": "contains-file",
+      "tail": "inf.zip",
+      "evidence": "“info.zip”->“info.zip”->\"inf.zip\""
+    },
+    {
+      "head": "inf.zip",
+      "type": "contains-file",
+      "tail": "Информация.js",
+      "evidence": "\"inf.zip\"->“Информация.js”"
+    },
+    {
+      "head": "Информация.js",
+      "type": "downloads-payload",
+      "tail": "ssj.jpg",
+      "evidence": "джава скрипт “Информация.js”, який при виконанні завантажує файл “ssj.jpg”"
+    },
+    {
+      "head": "Troldesh/Shade",
+      "type": "communicates-with-c2",
+      "tail": "193.23.244.244",
+      "evidence": "Контрольні сервери (C2): 193.23.244.244"
+    },
+    {
+      "head": "Troldesh/Shade",
+      "type": "communicates-with-c2",
+      "tail": "76.73.17.194",
+      "evidence": "Контрольні сервери (C2): 76.73.17.194"
+    },
+    {
+      "head": "Troldesh/Shade",
+      "type": "communicates-with-c2",
+      "tail": "86.59.21.38",
+      "evidence": "Контрольні сервери (C2): 86.59.21.38"
+    },
+    {
+      "head": "Troldesh/Shade",
+      "type": "communicates-with-c2",
+      "tail": "208.83.223.34",
+      "evidence": "Контрольні сервери (C2): 208.83.223.34"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "contains-file",
+      "definition": "An archive or package contains a specific file inside it."
+    },
+    {
+      "name": "downloads-payload",
+      "definition": "A script or dropper downloads a secondary payload or malicious component."
+    },
+    {
+      "name": "communicates-with-c2",
+      "definition": "A malware family contacts an external command and control server."
+    }
+  ]
+}

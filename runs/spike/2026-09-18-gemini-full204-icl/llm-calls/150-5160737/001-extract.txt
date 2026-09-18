@@ -1,0 +1,409 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+- Country: A distinct territorial body or sovereign state with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Government Organization: An official agency, ministry, or administrative body operating as part of a national or state government. (also: Government Agency, Government Body, State Authority)
+- Malware: Malicious software, code, or executables designed to infiltrate, damage, or compromise computer systems and data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address specifying the location and retrieval mechanism of a resource on a computer network. (also: URL, Web Address, Web Link)
+- Person: An individual human being, such as a government official, cybersecurity expert, researcher, or executive. (also: Individual, Natural Person)
+- IP Address: A numerical label assigned to a device connected to a computer network that uses the Internet Protocol for communication. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Electronic Mail Address)
+- Computer File: A digital resource or named item stored on a computer system, containing data, code, or instructions. (also: File, Digital File, Filename)
+- Company: A commercial business, corporation, or enterprise operating in any economic sector or industry. (also: Enterprise, Corporation, Commercial Organization)
+- Domain Name: A human-readable identification string defining a realm of administrative autonomy or resource location within the Internet Domain Name System. (also: Internet Domain, FQDN, Fully Qualified Domain Name)
+- Threat Actor: An individual, group, or organization responsible for malicious cyber activities, attacks, or cyber espionage operations. (also: Threat Group, Cyber Threat Actor, Hacker Group)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA на виконання Закону України "Про основні засади забезпечення кібербезпеки України", вживаються організаційно-технічні заходи із запобігання, виявлення та реагування на кіберінциденти і кібератаки та усунення їх наслідків.</p><p>Безперервне накопичення та проведення аналізу даних про кіберінциденти дозволяє зробити висновок про те, що однією з найбільш персистентних кіберзагроз є UAC-0010 (Armageddon), діяльність якої здійснюється колишніми "офіцерами" ГУ СБУ в АР Крим, які у 2014 році зрадили військовій присязі і почали прислужувати ФСБ росії.</p><p>Основним завданням угрупування є кібершпигунство у відношенні сил безпеки та оборони України. При цьому, відомо, щонайменше, про один випадок здійснення <strong>деструктивної діяльності </strong>на об'єкті інформаційної інфраструктури.</p><p>За наявною інформацією<span style="color: rgb(0, 0, 0); background-color: transparent;"> к</span>ількість одночасно інфікованих комп'ютерів, переважно функціонуючих в межах інформаційно-комунікаційних систем державних органів, може сягати <strong>кількох тисяч.</strong></p><p>Як вектор первинної компрометації, здебільшого, використовуються електронні листи та повідомлення в месенджерах (Telegram, WhatsApp, Signal), в більшості випадків, з використанням заздалегідь скомпрометованих облікових записів.</p><p>Окрім цього, з метою розповсюдження шкідливих програм передбачено можливість ураження <strong>знімних носіїв інформації</strong>, легітимних файлів (зокрема, <strong>ярликів</strong>), а також, модифікації <strong>шаблонів</strong> Microsoft Office Word, що, фактично, забезпечує інфікування всіх створюваних на ЕОМ документів за рахунок додавання відповідного макросу.</p><p>З огляду на проведені комп'ютерно-технічні дослідження можемо стверджувати, що після початкового ураження, за умови зацікавленості зловмисників в ЕОМ, <strong>викрадення</strong> файлів за визначеним переліком розширень (.doc, .docx, .xls, .xlsx, .rtf, .odt, .txt, .jpg, .jpeg, .pdf, .ps1, .rar, .zip, .7z, .mdb), зазвичай, здійснюється протягом <strong>30-50 хвилин</strong> (як правило, із застосуванням шкідливих програм GAMMASTEEL). Характерною ознакою відпрацювання згаданого стілера на комп'ютері є створення файлу-журналу (наприклад, %LOCALAPPDATA%\_profiles_1_new_.ini), який міститиме хеш-суми викрадених файлів (з урахування деяких мета-даних). Кількість записів у цьому журналі доцільно ототожнювати з кількістю викрадених файлів.</p><p>Комп'ютер, що функціонує в ураженому стані близько тижня, може налічувати від <strong>80 до 120 і більше</strong> шкідливих (інфікованих) файлів, не рахуючи тих файлів, що будуть створені на знімних носіях інформації, які будуть підключатися протягом цього періоду до ЕОМ.</p><p>Якщо в процесі знезараження, після очистки реєстру операційної системи, видалення файлів, запланованих завдань тощо, на ЕОМ буде залишено <strong>хоча б один</strong> інфікований файл чи документ (доволі часто користувачами здійснюється перевстановлення ОС і перенесення без перевірки "необхідних" документів), то інфікування комп’ютера з високою вірогідністю відбудеться <strong>повторно</strong>.</p><p>Наразі, найбільш розповсюдженим і актуальним способом первинної компрометації є відправка жертві архіву, що містить HTM або HTA-файл. Відкриття HTM-файлу призведе до створення архіву з релевантною назвою, який міститиме LNK-файл, запуск якого ініціює ланцюг інфікування.</p><p>На поточний момент більшість функціоналу, призначеного для викрадення документів та віддаленого виконання команд, реалізовано за допомогою <strong>PowerShell</strong>. За потреби здійснення інтерактивного віддаленого доступу за допомогою PowerShell на ЕОМ може бути встановлено <strong>Anydesk</strong>.</p><p>Слід зауважити, що угрупування постійно підлаштовується до вживаних засобів та методів захисту. Зокрема, з метою обходу двофакторної автентифікації реалізовано PowerShell-сценарій, який забезпечує <strong>викрадення даних сесії</strong> (Cookie).</p><p>Зловмисниками вживаються окремі заходи для забезпечення відмовостійкості їхньої мережевої інфраструктури та уникнення детектування на мережевому рівні. Наприклад, з метою обходу необхідності використання підсистеми DNS, для визначення IP-адрес серверів управління використовуються сторонні сервіси і/або ресурси Telegram (Telegraph).</p><ul><li><span style="color: rgb(36, 36, 36);">https://8.8.8.8/resolve?name=%FQDN%&amp;type=A</span></li><li><span style="color: rgb(36, 36, 36);">https://cloudflare-dns.com/dns-query?name=%FQDN%</span></li><li><span style="color: rgb(36, 36, 36);">https://t.me/s/%CHANNEL%</span></li><li><span style="color: rgb(36, 36, 36);">https://telegra.ph/%URI%</span></li></ul><p>Протягом доби IP-адреси проміжних управляючих вузлів можуть змінюватися <strong>від 3 до 6 і більше</strong> разів, що, серед іншого, свідчить про відповідну автоматизацію процесу.</p><p>Перелік автономних систем, що найбільше використовуються угрупуванням:</p><ul><li>207713	ООО "ГЛОБАЛ ИНТЕРНЕТ РЕШЕНИЯ" (Севастополь) [hxxps://gir[.]network/]</li><li>14061	@digitalocean.com</li><li>207651	ООО "ХОСТИНГ-ТЕХНОЛОГИИ" (росія) [hxxps://vdsina[.]ru/]</li><li>212189	ТОО "ИТ‑ГРАД" (Казахстан) [hxxps://it-grad[.]kz/]</li><li>211211	@it-develop.me (Чорногорія)</li></ul><p>На поточний момент найбільш дієвим способом мінімізації вірогідності реалізації загрози згаданим угрупованням є <strong>обмеження</strong> можливості запуску на ЕОМ таких процесів (утиліт):</p><ul><li>mshta.exe</li><li>wscript.exe</li><li>cscript.exe</li><li>powershell.exe</li></ul><p>Метою цієї публікації є висвітлення та візуальна демонстрація актуальних тактик, технік та процедур, що використовуються “офіцерами”-зрадниками під час ведення кібервійни проти Батьківщини.</p><p>Невичерпний перелік мережевих індикаторів кіберзагрози наведено у додатку (CERT-UA#6814).</p><p class="ql-align-justify"><strong style="background-color: transparent;">Якщо Ви військовослужбовець Збройних сил України і на вашому комп'ютері відсутній засіб захисту класу EDR (не “антивірус”) - негайно зверніться до Центру кібербезпеки ІТС (в/чА0334; email: csoc@post.mil.gov.ua) з метою встановлення відповідного програмного забезпечення.&nbsp;</strong></p><p class="ql-align-justify"><strong style="background-color: transparent;">В групі підвищеного ризику перебувають ЕОМ, що знаходяться за межами периметру захисту, зокрема ті, які для доступу до Інтернет використовують термінали Starlink.</strong></p><p class="ql-align-justify"><strong>Відсутність згаданої технології захисту підвищує вірогідність реалізації кіберзагроз як у відношенні окремого комп'ютера, так і всієї інформаційно-комунікаційної системи (мережі) підрозділу.</strong></p><p class="ql-align-justify"><strong style="background-color: transparent;">У випадку самостійного виявлення факту ураження за наведеними в статті індикаторами - невідкладно поінформувати Центр кібербезпеки ІТС.</strong></p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">AS207713 (@gir.network)
+45[.]82.13.86
+185[.]247.184.134
+195[.]133.88.34
+89[.]185.84.30
+185[.]39.204.183
+185[.]247.184.133
+89[.]23.107.203
+5[.]44.42.203
+89[.]185.84.140
+81[.]19.140.137
+5[.]44.42.198
+45[.]95.233.161
+89[.]185.84.130
+89[.]185.84.148
+89[.]185.84.142
+46[.]29.234.106
+185[.]247.184.136
+185[.]39.204.177
+89[.]185.84.138
+45[.]82.13.55
+185[.]39.204.189
+185[.]39.204.149
+5[.]44.42.204
+31[.]129.22.100
+89[.]185.84.143
+31[.]129.22.101
+194[.]87.45.101
+141[.]98.234.40
+45[.]82.13.60
+5[.]44.42.189
+31[.]129.22.89
+185[.]39.207.42
+141[.]98.234.134
+85[.]159.228.56
+194[.]87.45.111
+45[.]95.232.147
+89[.]23.108.95
+185[.]39.204.185
+31[.]129.22.99
+212[.]18.104.52
+193[.]228.128.94
+141[.]98.234.131
+45[.]95.233.145
+194[.]87.45.109
+31[.]129.22.95
+31[.]129.22.88
+194[.]87.45.108
+185[.]39.207.31
+31[.]129.22.102
+5[.]44.42.145
+31[.]129.22.98
+78[.]153.139.176
+185[.]39.207.38
+45[.]95.232.151
+141[.]98.234.135
+185[.]39.207.90
+46[.]29.234.99
+78[.]153.139.169
+5[.]44.42.130
+193[.]228.128.99
+185[.]39.204.161
+195[.]133.88.32
+5[.]44.42.137
+31[.]129.22.94
+185[.]39.204.192
+194[.]87.45.92
+185[.]247.184.120
+195[.]133.88.30
+89[.]185.84.141
+45[.]95.233.163
+185[.]247.184.127
+185[.]143.223.228
+89[.]23.108.97
+185[.]39.204.169
+78[.]153.139.151
+5[.]44.42.144
+185[.]247.184.130
+212[.]18.104.54
+195[.]133.88.31
+185[.]247.184.116
+89[.]23.108.123
+194[.]87.216.82
+212[.]18.104.38
+141[.]98.234.130
+185[.]247.184.115
+193[.]228.128.80
+185[.]39.204.162
+89[.]185.84.151
+194[.]87.45.104
+185[.]39.207.32
+185[.]143.223.230
+212[.]18.104.55
+185[.]39.207.33
+212[.]18.104.59
+193[.]228.128.76
+185[.]39.204.165
+185[.]39.204.191
+46[.]29.234.95
+45[.]95.232.102
+85[.]159.228.50
+89[.]185.84.128
+31[.]129.22.105
+
+AS14061 (@digitalocean.com)
+143[.]198.55.82
+164[.]92.93.229
+159[.]223.80.72
+174[.]138.44.162
+24[.]199.102.96
+164[.]92.75.229
+147[.]182.246.254
+137[.]184.64.190
+144[.]126.223.47
+159[.]223.61.130
+188[.]166.243.219
+165[.]232.165.208
+104[.]248.152.19
+157[.]230.191.232
+147[.]182.252.149
+165[.]232.151.219
+134[.]209.219.191
+178[.]128.16.150
+146[.]190.136.109
+24[.]199.106.158
+167[.]172.65.196
+68[.]183.179.176
+146[.]190.134.41
+165[.]232.159.110
+68[.]183.191.122
+167[.]71.218.48
+
+AS207651 (@vdsina.ru)
+77[.]246.111.45
+77[.]246.111.193
+91[.]201.114.233
+77[.]246.107.59
+77[.]246.107.190
+77[.]246.107.204
+109[.]234.36.95
+
+AS212189 (@it-grad.kz)
+188[.]94.156.162
+188[.]94.155.77
+188[.]94.155.47
+188[.]94.156.165
+188[.]94.155.19
+188[.]94.156.185
+188[.]94.155.46
+
+AS211211 (@it-develop.me)
+217[.]78.239.148
+217[.]78.239.71
+193[.]42.112.220
+193[.]42.112.28
+193[.]42.112.167
+
+AS39798 (@mivocloud.com)
+194[.]180.191.30
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p><span style="background-color: transparent; color: rgb(0, 0, 0);">Рис.1 Приклади хостових індикаторів компрометації</span></p><p><br></p><p></p><p><span style="background-color: transparent; color: rgb(0, 0, 0);">Рис.2 Розповсюдження шкідливих файлів за допомогою месенджера Signal</span></p><p><br></p><p></p><p><span style="background-color: transparent; color: rgb(0, 0, 0);">Рис.3 Приклад вмісту інфікованої “флешки” (зліва) та типового каталогу ЕОМ (справа)</span></p><p><br></p><p></p><p><span style="background-color: transparent; color: rgb(0, 0, 0);">Рис.4 Приклад легітимного модифікованого файлу-ярлика</span></p><p><br></p><p></p><p><span style="background-color: transparent; color: rgb(0, 0, 0);">Рис.5 Ресурси Telegram (Telegraph) з яких отримуються IP-адреси серверів управління</span></p><p></p><p><span style="background-color: transparent; color: rgb(0, 0, 0);">Рис.6 Результат модифікації реєстру операційної системи в результаті ураження ЕОМ</span></p><p><br></p><p></p><p><span style="background-color: transparent; color: rgb(0, 0, 0);">Рис.7 Скрипт для встановлення та запуску Anydesk</span></p><p><br></p><p></p><p><span style="background-color: transparent; color: rgb(0, 0, 0);">Рис.8 Скрипт для створення віддаленого підключення</span></p><p><br></p><p></p><p><span style="background-color: transparent; color: rgb(0, 0, 0);">Рис.9 Вміст інфікованого файлу-шаблону %APPDATA%\Microsoft\Templates\Normal.dotm (деобфускований)</span></p><p><br></p><p></p><p><span style="background-color: transparent; color: rgb(0, 0, 0);">Рис.10 Приклад скрипта для викрадення даних з Інтернет-браузерів</span></p><p><br></p><p></p><p><span style="background-color: transparent; color: rgb(0, 0, 0);">Рис.11 Приклад шкідливої програми LOADSHORT</span></p><p><br></p><p></p><p><span style="background-color: transparent; color: rgb(0, 0, 0);">Рис.12 Приклад шкідливої програми LAKEFLASH</span></p>
+
+=== RESPONSE (8.6s, in 6988 / out 1739 tok, STOP) ===
+UAC-0010 (Armageddon) is a Russian threat group targeting Ukrainian defense and security sectors. The group uses various malware families (GAMMASTEEL, LOADSHORT, LAKEFLASH), PowerShell scripting, remote desktop tools like Anydesk, and messaging platforms (Telegram, WhatsApp, Signal) for initial delivery or C2 resolution.
+
+```json
+{
+  "entities": [
+    {
+      "name": "UAC-0010",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group, also known as Armageddon, targeting Ukrainian security and defense sectors."
+    },
+    {
+      "name": "ФСБ росії",
+      "kind": "government organization",
+      "gloss": "The Federal Security Service of the Russian Federation."
+    },
+    {
+      "name": "ГУ СБУ в АР Крим",
+      "kind": "government organization",
+      "gloss": "The Main Directorate of the Security Service of Ukraine in the Autonomous Republic of Crimea."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "росія",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "Казахстан",
+      "kind": "country",
+      "gloss": "A transcontinental country located primarily in Central Asia."
+    },
+    {
+      "name": "Чорногорія",
+      "kind": "country",
+      "gloss": "A country located in Southeastern Europe on the Adriatic Sea."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cloud-based instant messaging service and application."
+    },
+    {
+      "name": "WhatsApp",
+      "kind": "software product",
+      "gloss": "An instant messaging and voice-over-IP service owned by Meta."
+    },
+    {
+      "name": "Signal",
+      "kind": "software product",
+      "gloss": "An encrypted instant messaging and voice calling application."
+    },
+    {
+      "name": "Microsoft Office Word",
+      "kind": "software product",
+      "gloss": "A widely used word processor software developed by Microsoft."
+    },
+    {
+      "name": "GAMMASTEEL",
+      "kind": "malware",
+      "gloss": "An information stealer malware family used to harvest and exfiltrate specific file types from compromised systems."
+    },
+    {
+      "name": "LOADSHORT",
+      "kind": "malware",
+      "gloss": "A malware tool used to load and execute malicious scripts or payloads."
+    },
+    {
+      "name": "LAKEFLASH",
+      "kind": "malware",
+      "gloss": "A malware family used in cyber espionage attacks."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework from Microsoft."
+    },
+    {
+      "name": "Anydesk",
+      "kind": "software product",
+      "gloss": "A remote desktop application providing remote access to personal computers."
+    },
+    {
+      "name": "ООО \"ГЛОБАЛ ИНТЕРНЕТ РЕШЕНИЯ\"",
+      "kind": "company",
+      "gloss": "An internet and hosting service provider based in Sevastopol."
+    },
+    {
+      "name": "ООО \"ХОСТИНГ-ТЕХНОЛОГИИ\"",
+      "kind": "company",
+      "gloss": "A Russian hosting service provider operating under the vdsina brand."
+    },
+    {
+      "name": "ТОО \"ИТ‑ГРАД\"",
+      "kind": "company",
+      "gloss": "A cloud service provider and hosting company based in Kazakhstan."
+    },
+    {
+      "name": "Збройні сили України",
+      "kind": "government organization",
+      "gloss": "The military forces of Ukraine responsible for state defense."
+    },
+    {
+      "name": "Центру кібербезпеки ІТС",
+      "kind": "government organization",
+      "gloss": "The cybersecurity center of the Ukrainian Armed Forces information and telecommunication systems."
+    },
+    {
+      "name": "csoc@post.mil.gov.ua",
+      "kind": "email address",
+      "gloss": "An official contact email address for the Ukrainian Armed Forces Cybersecurity Center."
+    },
+    {
+      "name": "Starlink",
+      "kind": "software product",
+      "gloss": "A satellite internet constellation providing broadband internet access."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "GAMMASTEEL",
+      "evidence": "із застосуванням шкідливих програм GAMMASTEEL"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "LOADSHORT",
+      "evidence": "Рис.11 Приклад шкідливої програми LOADSHORT"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "LAKEFLASH",
+      "evidence": "Рис.12 Приклад шкідливої програми LAKEFLASH"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "PowerShell",
+      "evidence": "виконання команд, реалізовано за допомогою PowerShell"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "Anydesk",
+      "evidence": "за допомогою PowerShell на ЕОМ може бути встановлено Anydesk"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "Telegram",
+      "evidence": "використовуються сторонні сервіси і/або ресурси Telegram"
+    },
+    {
+      "head": "ООО \"ХОСТИНГ-ТЕХНОЛОГИИ\"",
+      "type": "located-in",
+      "tail": "росія",
+      "evidence": "ООО \"ХОСТИНГ-ТЕХНОЛОГИИ\" (росія)"
+    },
+    {
+      "head": "ТОО \"ИТ‑ГРАД\"",
+      "type": "located-in",
+      "tail": "Казахстан",
+      "evidence": "ТОО \"ИТ‑ГРАД\" (Казахстан)"
+    },
+    {
+      "head": "Збройні сили України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Збройних сил України"
+    },
+    {
+      "head": "Центру кібербезпеки ІТС",
+      "type": "part-of",
+      "tail": "Збройні сили України",
+      "evidence": "військовослужбовець Збройних сил України... зверніться до Центру кібербезпеки ІТС"
+    }
+  ],
+  "newRelationTypes": []
+}
+```

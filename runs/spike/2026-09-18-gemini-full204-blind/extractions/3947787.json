@@ -1,0 +1,113 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A threat actor group, also tracked as DEV-0586 and unc2589, known for cyber espionage and disruptive attacks against Ukraine."
+    },
+    {
+      "name": "CredPump",
+      "kind": "malware",
+      "gloss": "An SSH backdoor implemented as a PAM module that provides covert remote SSH access and logs credentials."
+    },
+    {
+      "name": "HoaxPen",
+      "kind": "backdoor",
+      "gloss": "A backdoor malware designed to execute arbitrary commands on compromised Unix-like systems."
+    },
+    {
+      "name": "HoaxApe",
+      "kind": "backdoor",
+      "gloss": "A backdoor implemented as an Apache web server module to execute arbitrary commands."
+    },
+    {
+      "name": "GOST",
+      "kind": "software tool",
+      "gloss": "A cross-platform tunnel and proxy tool written in Go, used for network forwarding."
+    },
+    {
+      "name": "Ngrok",
+      "kind": "software product",
+      "gloss": "A cross-platform reverse proxy software used to expose local network ports to the public internet."
+    },
+    {
+      "name": "P0wnyShell",
+      "kind": "web shell",
+      "gloss": "A lightweight, single-file PHP web shell used to execute commands on compromised web servers."
+    },
+    {
+      "name": "Apache",
+      "kind": "software product",
+      "gloss": "An open-source cross-platform web server software developed by the Apache Software Foundation."
+    },
+    {
+      "name": "Ukraine",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose government web resources were targeted in the incident."
+    },
+    {
+      "name": "185.59.221.226",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious activity in the incident."
+    },
+    {
+      "name": "178.162.212.26",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious activity in the incident."
+    },
+    {
+      "name": "178.162.222.44",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious activity in the incident."
+    },
+    {
+      "name": "37.58.60.153",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious activity in the incident."
+    },
+    {
+      "name": "94.46.175.132",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious activity in the incident."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "CredPump",
+      "evidence": "порушення штатного режиму функціонування досліджених вебресурсів здійснено групою UAC-0056"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "HoaxPen",
+      "evidence": "порушення штатного режиму функціонування досліджених вебресурсів здійснено групою UAC-0056"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "HoaxApe",
+      "evidence": "порушення штатного режиму функціонування досліджених вебресурсів здійснено групою UAC-0056"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "GOST",
+      "evidence": "на ранніх етапах кібератаки застосовано GOST"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "Ngrok",
+      "evidence": "на ранніх етапах кібератаки застосовано GOST (Go Simple Tunnel) та програму Ngrok"
+    },
+    {
+      "head": "HoaxApe",
+      "type": "part-of",
+      "tail": "Apache",
+      "evidence": "HoaxApe (у вигляді модулю для вебсерверу Apache)"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,159 @@
+{
+  "docId": 4279195,
+  "date": "03.04.2023",
+  "title": "Використання неліцензійних програм Microsoft Office як вектор первинної компрометації ІКС (CERT-UA#6322)",
+  "entities": [
+    {
+      "id": "4279195:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4279195:1",
+      "name": "UAC-0145",
+      "kind": "threat actor",
+      "gloss": "A threat activity group tracked by CERT-UA involved in cyberattacks using trojanized software.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "4279195:2",
+      "name": "Microsoft Office 2019",
+      "kind": "software product",
+      "gloss": "An office productivity suite developed by Microsoft.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "4279195:3",
+      "name": "DarkCrystal RAT",
+      "kind": "malware family",
+      "gloss": "A commercial remote access trojan written in .NET and used for unauthorized access and control.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "4279195:4",
+      "name": "PinkyAgent",
+      "kind": "malware family",
+      "gloss": "A trojan malware component designed to execute Python-based remote administration scripts.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "4279195:5",
+      "name": "DWAgent",
+      "kind": "software product",
+      "gloss": "An open-source remote administration tool used by DWService.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "4279195:6",
+      "name": "Python",
+      "kind": "software product",
+      "gloss": "A high-level programming language and interpreter.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "4279195:7",
+      "name": "Microsoft Defender",
+      "kind": "software product",
+      "gloss": "An antivirus and security software component developed by Microsoft.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "4279195:8",
+      "name": "KMSAuto",
+      "kind": "software tool",
+      "gloss": "An unauthorized software tool used to activate Microsoft products without a legitimate license.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4279195:9",
+      "name": "Торрент-Толока",
+      "kind": "website",
+      "gloss": "A Ukrainian BitTorrent tracker website.",
+      "scheme": null,
+      "category": "Organization",
+      "role": "attacker"
+    },
+    {
+      "id": "4279195:10",
+      "name": "toloka.to",
+      "kind": "internet domain",
+      "gloss": "An internet domain used by the Ukrainian BitTorrent tracker Toloka.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4279195:11",
+      "name": "dwservice.net",
+      "kind": "internet domain",
+      "gloss": "The official domain of DWService remote administration platform.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4279195:12",
+      "name": "95.217.99.28",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0145",
+      "type": "uses-malware",
+      "tail": "DarkCrystal RAT",
+      "evidence": "Описана активність відстежується за ідентифікатором UAC-0145."
+    },
+    {
+      "head": "UAC-0145",
+      "type": "uses-malware",
+      "tail": "PinkyAgent",
+      "evidence": "Описана активність відстежується за ідентифікатором UAC-0145."
+    },
+    {
+      "head": "DarkCrystal RAT",
+      "type": "delivers",
+      "tail": "PinkyAgent",
+      "evidence": "за допомогою DarkCrystal RAT на ЕОМ було завантажено... Windows Update.exe... класифіковано як \"PinkyAgent\""
+    },
+    {
+      "head": "DarkCrystal RAT",
+      "type": "delivers",
+      "tail": "DWAgent",
+      "evidence": "за допомогою DarkCrystal RAT на ЕОМ було завантажено... вихідний код засобу віддаленого адміністрування DWAgent"
+    },
+    {
+      "head": "Торрент-Толока",
+      "type": "hosts",
+      "tail": "Microsoft Office 2019",
+      "evidence": "неліцензійної версії програмного продукту Microsoft Office 2019... було отримано з трекеру \"Торрент-Толока\""
+    }
+  ],
+  "unclassified": [
+    "4279195:9"
+  ]
+}

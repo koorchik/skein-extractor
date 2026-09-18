@@ -1,0 +1,151 @@
+{
+  "docId": 38606,
+  "date": "30.03.2022",
+  "title": "Масове розповсюдження шкідливої програми MarsStealer серед громадян України та вітчизняних організацій (CERT-UA#4315)",
+  "entities": [
+    {
+      "id": "38606:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "38606:1",
+      "name": "Міністерство освіти та науки України",
+      "kind": "government body",
+      "gloss": "The central executive body of Ukraine responsible for the national education and science system.",
+      "scheme": "S6",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "38606:2",
+      "name": "MarsStealer",
+      "kind": "malware family",
+      "gloss": "An information-stealing malware family written in C and Assembly, designed to extract credentials, crypto wallets, and browser data.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "38606:3",
+      "name": "Racoon",
+      "kind": "malware family",
+      "gloss": "An information-stealing malware family sold under a malware-as-a-service model.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "38606:4",
+      "name": "UAC-0041",
+      "kind": "threat actor",
+      "gloss": "A cyber threat group tracked by CERT-UA that focuses on stealing user authentication credentials.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "38606:5",
+      "name": "v_2.2.9.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive distributed in phishing campaigns.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "38606:6",
+      "name": "v_2.2.9.exe",
+      "kind": "file",
+      "gloss": "An executable file containing the MarsStealer payload.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "38606:7",
+      "name": "v_5.1.9.zip",
+      "kind": "file",
+      "gloss": "A malicious ZIP archive used for distributing MarsStealer.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "38606:8",
+      "name": "v_5.1.9.exe",
+      "kind": "file",
+      "gloss": "An executable payload file delivering MarsStealer.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "38606:9",
+      "name": "api.dev-com[.]sc",
+      "kind": "domain name",
+      "gloss": "A network domain used to host and distribute malicious files.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "38606:10",
+      "name": "dev-com[.]sc",
+      "kind": "domain name",
+      "gloss": "A domain name identified in threat activity infrastructure.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "38606:11",
+      "name": "176[.]57.189.191",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious DLLs and command-and-control scripts.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "38606:12",
+      "name": "95[.]111.231.126",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Міністерство освіти та науки України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Міністерства освіти та науки України"
+    },
+    {
+      "head": "UAC-0041",
+      "type": "uses-malware",
+      "tail": "MarsStealer",
+      "evidence": "Виявлена активність відстежується за ідентифікатором UAC-0041"
+    },
+    {
+      "head": "api.dev-com[.]sc",
+      "type": "hosts",
+      "tail": "v_5.1.9.exe",
+      "evidence": "hXXps://api.dev-com[.]sc/files_1/v_5.1.9.exe"
+    },
+    {
+      "head": "api.dev-com[.]sc",
+      "type": "hosts",
+      "tail": "v_5.1.9.zip",
+      "evidence": "hXXps://api.dev-com[.]sc/files_1/v_5.1.9.zip"
+    }
+  ],
+  "unclassified": []
+}

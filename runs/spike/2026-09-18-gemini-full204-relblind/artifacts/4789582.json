@@ -1,0 +1,720 @@
+{
+  "docId": 4789582,
+  "date": "02.06.2023",
+  "title": "Розсилання SMS-повідомлень з темою судових повісток з використанням шахрайського альфа-імені \"SUDpovistka\" (CERT-UA#6804)",
+  "entities": [
+    {
+      "id": "4789582:0",
+      "name": "SUDpovistka",
+      "kind": "sender identifier",
+      "gloss": "A spoofed SMS sender name (alpha-name) used by attackers to distribute phishing links.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "4789582:1",
+      "name": "bit.ly",
+      "kind": "web service",
+      "gloss": "A commercial URL shortening service abused by attackers to mask phishing URLs.",
+      "scheme": "S24",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "4789582:2",
+      "name": "Електронний суд",
+      "kind": "information system",
+      "gloss": "A subsystem of Ukraine's Single Judicial Information and Telecommunication System providing electronic court services.",
+      "scheme": null,
+      "category": "Infrastructure",
+      "role": "target"
+    },
+    {
+      "id": "4789582:3",
+      "name": "Єдина судова інформаційно-телекомунікаційна система",
+      "kind": "information system",
+      "gloss": "The national unified judicial information and telecommunications system of Ukraine.",
+      "scheme": null,
+      "category": "Infrastructure",
+      "role": "related"
+    },
+    {
+      "id": "4789582:4",
+      "name": "https://id.court.gov.ua/",
+      "kind": "url",
+      "gloss": "The legitimate login URL for the Ukrainian Electronic Court subsystem.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:5",
+      "name": "Telegram",
+      "kind": "software application",
+      "gloss": "A cloud-based instant messaging service and application targeted for credential theft and account takeover.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "4789582:6",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose citizens and court systems were targeted in the phishing campaign.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4789582:7",
+      "name": "CSIRT-NBU",
+      "kind": "incident response team",
+      "gloss": "The computer security incident response team of the National Bank of Ukraine.",
+      "scheme": null,
+      "category": "Government Body",
+      "role": null
+    },
+    {
+      "id": "4789582:8",
+      "name": "hxxps://bit[.]ly/3otvelp",
+      "kind": "url",
+      "gloss": "A malicious shortened URL used to redirect victims to a phishing website.",
+      "scheme": "S5",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "4789582:9",
+      "name": "hxxps://sec-t[.]info/7940d162-fe1a-11ed-8e70-f12c9b23118a",
+      "kind": "url",
+      "gloss": "A phishing URL impersonating the Ukrainian Electronic Court login page to steal Telegram credentials.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "4789582:10",
+      "name": "sec-t[.]info",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to host fraudulent authentication pages mimicking Ukrainian judicial services.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:11",
+      "name": "5[.]255.112.246",
+      "kind": "ip address",
+      "gloss": "An IP address associated with fraudulent phishing infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4789582:12",
+      "name": "80[.]78.24.83",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious Telegram credential harvesting infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4789582:13",
+      "name": "185[.]193.125.144",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious phishing domains.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4789582:14",
+      "name": "185[.]193.127.152",
+      "kind": "ip address",
+      "gloss": "An IP address associated with fraudulent infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4789582:15",
+      "name": "2a0a:3840:1337:125:0:b9c1:7d42:1337",
+      "kind": "ip address",
+      "gloss": "An IPv6 address identified as part of the malicious phishing infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4789582:16",
+      "name": "2a0a:3840:1337:125:0:b9c1:7d90:1337",
+      "kind": "ip address",
+      "gloss": "An IPv6 address identified as part of the fraudulent infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4789582:17",
+      "name": "2a0a:3840:8078:24:0:504e:1853:1337",
+      "kind": "ip address",
+      "gloss": "An IPv6 address linked to Telegram phishing infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4789582:18",
+      "name": "telegram.org-a0dk3dm91iu.tgeo[.]link",
+      "kind": "internet domain",
+      "gloss": "A phishing subdomain configured to harvest Telegram authentication credentials.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:19",
+      "name": "telegram.org-a0dm91dk31i.cloue[.]link",
+      "kind": "internet domain",
+      "gloss": "A phishing subdomain spoofing Telegram authentication services.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:20",
+      "name": "telegram.org.t.me-cloud[.]link",
+      "kind": "internet domain",
+      "gloss": "A spoofed subdomain used for Telegram phishing.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:21",
+      "name": "telegram.account[.]associates",
+      "kind": "internet domain",
+      "gloss": "A spoofed subdomain designed to capture Telegram login credentials.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:22",
+      "name": "tgeo[.]link",
+      "kind": "internet domain",
+      "gloss": "A domain used to host Telegram credential phishing resources.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:23",
+      "name": "me-cloud[.]link",
+      "kind": "internet domain",
+      "gloss": "A domain utilized in Telegram account harvesting operations.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:24",
+      "name": "account[.]associates",
+      "kind": "internet domain",
+      "gloss": "A domain leveraged by attackers for credential harvesting campaigns.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:25",
+      "name": "cloue[.]link",
+      "kind": "internet domain",
+      "gloss": "A domain associated with phishing pages imitating Telegram authentication.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:26",
+      "name": "4-t[.]me",
+      "kind": "internet domain",
+      "gloss": "A malicious domain mimicking Telegram login services.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:27",
+      "name": "i1t[.]me",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used in Telegram credential theft schemes.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:28",
+      "name": "t--t[.]me",
+      "kind": "internet domain",
+      "gloss": "A fraudulent domain masquerading as Telegram infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:29",
+      "name": "0-t[.]me",
+      "kind": "internet domain",
+      "gloss": "A domain used for Telegram authentication spoofing.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:30",
+      "name": "7tt[.]me",
+      "kind": "internet domain",
+      "gloss": "A phishing domain designed to steal Telegram credentials.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:31",
+      "name": "vljsport[.]eu[.]com",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:32",
+      "name": "pomoshnikrbx[.]site",
+      "kind": "internet domain",
+      "gloss": "A domain used in social engineering and credential harvesting operations.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:33",
+      "name": "telegrad[.]info",
+      "kind": "internet domain",
+      "gloss": "A typosquatted domain mimicking Telegram services.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:34",
+      "name": "chimeramarket24[.]online",
+      "kind": "internet domain",
+      "gloss": "A fraudulent domain identified as part of the attacker infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:35",
+      "name": "chimeramarketplace24[.]online",
+      "kind": "internet domain",
+      "gloss": "A malicious domain linked to the threat infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:36",
+      "name": "chimeramarketplace[.]online",
+      "kind": "internet domain",
+      "gloss": "A fraudulent domain identified in the incident investigation.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:37",
+      "name": "chimera-shop24[.]online",
+      "kind": "internet domain",
+      "gloss": "A malicious domain identified as part of attacker infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:38",
+      "name": "elyslink[.]online",
+      "kind": "internet domain",
+      "gloss": "A fraudulent domain used in cyber threat activities.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:39",
+      "name": "tg[.]cyou",
+      "kind": "internet domain",
+      "gloss": "A typosquatted domain impersonating Telegram.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:40",
+      "name": "telegraom[.]me",
+      "kind": "internet domain",
+      "gloss": "A typosquatted domain impersonating Telegram authentication pages.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:41",
+      "name": "tme-id[.]ru",
+      "kind": "internet domain",
+      "gloss": "A phishing domain spoofing Telegram login identifiers.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:42",
+      "name": "tme-id[.]com",
+      "kind": "internet domain",
+      "gloss": "A phishing domain masquerading as a Telegram authentication endpoint.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:43",
+      "name": "apitelegram[.]org",
+      "kind": "internet domain",
+      "gloss": "A domain impersonating Telegram API services for credential harvesting.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:44",
+      "name": "tronogram[.]com",
+      "kind": "internet domain",
+      "gloss": "A fraudulent domain used in Telegram-themed phishing campaigns.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:45",
+      "name": "jokoloret[.]ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain associated with threat actor infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:46",
+      "name": "teleqram[.]info",
+      "kind": "internet domain",
+      "gloss": "A typosquatted domain spoofing Telegram.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:47",
+      "name": "cloudlnk[.]org",
+      "kind": "internet domain",
+      "gloss": "A domain identified as part of the malicious infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:48",
+      "name": "lolifans[.]ru",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified in the cyber threat indicators list.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:49",
+      "name": "00-l[.]ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain linked to attacker infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:50",
+      "name": "swinj[.]online",
+      "kind": "internet domain",
+      "gloss": "A fraudulent domain identified in the incident infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:51",
+      "name": "claud[.]in",
+      "kind": "internet domain",
+      "gloss": "A domain utilized in credential theft infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:52",
+      "name": "tsecurity[.]sbs",
+      "kind": "internet domain",
+      "gloss": "A phishing domain masquerading as Telegram security services.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:53",
+      "name": "vote-me[.]top",
+      "kind": "internet domain",
+      "gloss": "A social engineering domain used to lure users into providing Telegram credentials.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:54",
+      "name": "konkurs-events[.]top",
+      "kind": "internet domain",
+      "gloss": "A phishing domain utilizing contest-themed lures.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:55",
+      "name": "freeusadatingxxx[.]online",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used in attacker phishing infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:56",
+      "name": "webk-telegram[.]icu",
+      "kind": "internet domain",
+      "gloss": "A phishing domain spoofing the Telegram Web K client interface.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:57",
+      "name": "webk-telegram[.]sbs",
+      "kind": "internet domain",
+      "gloss": "A domain mimicking the Telegram Web client to harvest credentials.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:58",
+      "name": "golos2023q[.]ru",
+      "kind": "internet domain",
+      "gloss": "A domain used for voting-themed phishing campaigns targeting Telegram.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:59",
+      "name": "telegram-click[.]ru",
+      "kind": "internet domain",
+      "gloss": "A typosquatted domain used to lure victims to Telegram phishing pages.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:60",
+      "name": "confirm-agent[.]online",
+      "kind": "internet domain",
+      "gloss": "A fraudulent domain used in authentication verification scams.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:61",
+      "name": "microjob[.]mn",
+      "kind": "internet domain",
+      "gloss": "A domain identified as malicious infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:62",
+      "name": "teierqam[.]org",
+      "kind": "internet domain",
+      "gloss": "A typosquatted domain mimicking Telegram.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:63",
+      "name": "telegram-mobile[.]ru",
+      "kind": "internet domain",
+      "gloss": "A fraudulent domain masquerading as Telegram mobile services.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:64",
+      "name": "telegram-wed[.]id",
+      "kind": "internet domain",
+      "gloss": "A typosquatted domain impersonating Telegram Web.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:65",
+      "name": "tg-me[.]pro",
+      "kind": "internet domain",
+      "gloss": "A spoofed domain mimicking Telegram short links.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:66",
+      "name": "telegram-wap[.]me",
+      "kind": "internet domain",
+      "gloss": "A phishing domain impersonating Telegram mobile portals.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:67",
+      "name": "telesecurity[.]org",
+      "kind": "internet domain",
+      "gloss": "A fraudulent domain impersonating Telegram security communications.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:68",
+      "name": "truffa[.]online",
+      "kind": "internet domain",
+      "gloss": "A malicious domain identified in the attacker infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:69",
+      "name": "t-me[.]io",
+      "kind": "internet domain",
+      "gloss": "A typosquatted domain spoofing Telegram t.me links.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:70",
+      "name": "golosdruga[.]ru",
+      "kind": "internet domain",
+      "gloss": "A voting-themed phishing domain used to steal Telegram accounts.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:71",
+      "name": "webz-telegram[.]sbs",
+      "kind": "internet domain",
+      "gloss": "A phishing domain mimicking Telegram Web Z client interface.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:72",
+      "name": "telegram[.]uk[.]net",
+      "kind": "internet domain",
+      "gloss": "An inactive phishing domain previously spoofing Telegram.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:73",
+      "name": "teiegram1[.]me",
+      "kind": "internet domain",
+      "gloss": "An inactive typosquatted domain masquerading as Telegram.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4789582:74",
+      "name": "teiergam[.]com",
+      "kind": "internet domain",
+      "gloss": "An inactive typosquatted domain spoofing Telegram.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "SUDpovistka",
+      "type": "spoofs",
+      "tail": "SUDPOVISTKA",
+      "evidence": "використанням підробного альфа-імені \"SUDpovistka\" (легітимне альфа-ім'я: \"SUDPOVISTKA\")"
+    },
+    {
+      "head": "Електронний суд",
+      "type": "is-subsystem-of",
+      "tail": "Єдина судова інформаційно-телекомунікаційна система",
+      "evidence": "підсистеми \"Електронний суд\" Єдиної судової інформаційно-телекомунікаційної системи"
+    },
+    {
+      "head": "hxxps://bit[.]ly/3otvelp",
+      "type": "shortened-via",
+      "tail": "bit.ly",
+      "evidence": "посилання, створене за допомогою одного з сервісів скорочення URL-адрес (bit.ly)"
+    },
+    {
+      "head": "hxxps://sec-t[.]info/7940d162-fe1a-11ed-8e70-f12c9b23118a",
+      "type": "impersonates",
+      "tail": "Електронний суд",
+      "evidence": "шахрайський вебсайт, що імітує вебсторінку підсистеми \"Електронний суд\""
+    },
+    {
+      "head": "hxxps://sec-t[.]info/7940d162-fe1a-11ed-8e70-f12c9b23118a",
+      "type": "targets-user-credentials-of",
+      "tail": "Telegram",
+      "evidence": "отримано доступ до облікового запису Telegram жертви"
+    }
+  ],
+  "unclassified": [
+    "4789582:0",
+    "4789582:2",
+    "4789582:3",
+    "4789582:7"
+  ]
+}

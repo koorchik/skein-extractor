@@ -41,6 +41,7 @@ Note that the driver's built-in defaults are the lenient first-run values (τ 0.
 | `SPIKE_REL_MERGE` | 0.85 | near-duplicate cutoff for relation types |
 | `SPIKE_ICL=1` | off | in-context arm (E5): scheme list rendered into `extract-open-icl-v1` |
 | `SPIKE_REL_BLIND=1` | off | relation-blind arm (E7): `extract-open-relblind-v1`, free verb phrases |
+| `SPIKE_CONCURRENCY` | 1 | extraction calls in flight before the stream starts; needs `SPIKE_REL_BLIND=1` |
 | `SPIKE_PURPOSE` | none | one paragraph that seeds the hand-written part of a new `<out>/README.md` |
 | `EMBEDDINGS_CACHE` | `runs/embeddings-cache` | shared embedding cache (git-ignored) |
 
@@ -49,9 +50,29 @@ Output directory: `extractions/` (per-document cache of the raw extraction), `ar
 `per-doc.json`, `docs.json`, `llm-calls/`, `run-card.json` (configuration, prompt hashes, counts,
 hand-category overlay, closest scheme pairs, token cost).
 
+**Parallel extraction.** `extract-open-relblind-v1` renders no stream state (no scheme list, no
+relation inventory), so the extraction of a document depends on that document alone. With
+`SPIKE_CONCURRENCY=N` the driver extracts every uncached document first, N calls in flight, and
+then runs the usual sequential fold over the cache; prefix-causality is untouched because no
+extraction reads another document. `extract-open-v1` renders the relation inventory and
+`extract-open-icl-v1` the scheme list as well: their calls are order-dependent and the driver
+refuses the option for them. A document that the provider refuses to read (Gemini
+`blockReason`) is recorded as `extract-failed` and skipped; any other error aborts the run, which
+resumes from `<out>/extractions/`. Transcript folders under `llm-calls/` are numbered in the order
+the calls finished, not in stream order.
+
+**Cache validity.** `<out>/extractions.meta.json` records the extraction prompt id, the hash of
+its text and the model that filled `<out>/extractions/`. The driver checks it at start
+(`src/SchemeDiscovery/extractionCacheGuard.ts`): a changed prompt text or another model stops the
+run with a message instead of reusing stale extractions, because a changed configuration is a
+new run directory. A cache without the meta file is refused as well; `SPIKE_ADOPT_CACHE=1`
+declares that it was made under the current prompt and model (the spike runs of 2026-09-16 and
+2026-09-17 predate the meta file; their prompt hashes are in their run cards).
+
 **Re-tuning without LLM extraction calls.** The driver skips extraction for every document whose
 file already exists in `<out>/extractions/`. To study thresholds or assignment rules, copy the
-`extractions/` directory of an existing run into the new `--out` directory first; only naming
+`extractions/` directory of an existing run together with its `extractions.meta.json` into the
+new `--out` directory first; only naming
 calls are then spent. `…-mid20-kindfirst` was produced this way from `…-mid20`.
 
 ### 1.2 Viewer

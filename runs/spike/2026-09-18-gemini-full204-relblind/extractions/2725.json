@@ -1,0 +1,50 @@
+{
+  "entities": [
+    {
+      "name": "Drupal",
+      "kind": "software product",
+      "gloss": "An open-source content management system written in PHP."
+    },
+    {
+      "name": "Drupalgeddon2",
+      "kind": "vulnerability nickname",
+      "gloss": "A popular name for a critical remote code execution vulnerability affecting Drupal."
+    },
+    {
+      "name": "CVE-2018-7600",
+      "kind": "vulnerability identifier",
+      "gloss": "A critical remote code execution vulnerability in multiple versions of Drupal core."
+    },
+    {
+      "name": "CVE-2018-7602",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in Drupal core related to improper input validation."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2018-7600",
+      "type": "affects-software",
+      "tail": "Drupal",
+      "evidence": "критичну вразливість CVE-2018-7600 ... в CMS Drupal"
+    },
+    {
+      "head": "CVE-2018-7602",
+      "type": "affects-software",
+      "tail": "Drupal",
+      "evidence": "усувають вразливості в ядрі CMS версій 7.x, 8.4.x, and 8.5.x. Нові вразливості будуть мати номер CVE-2018-7602"
+    },
+    {
+      "head": "Drupalgeddon2",
+      "type": "affects-software",
+      "tail": "Drupal",
+      "evidence": "нова вразливість в CMS Drupal під назвою «Drupalgeddon2»"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "affects-software",
+      "definition": "The subject vulnerability or exploit affects the target software product."
+    }
+  ]
+}

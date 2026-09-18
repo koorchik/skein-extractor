@@ -1,0 +1,76 @@
+{
+  "entities": [
+    {
+      "name": "EFAIL",
+      "kind": "vulnerability",
+      "gloss": "A vulnerability in email encryption standards allowing exfiltration of plaintext from encrypted emails via HTML styling."
+    },
+    {
+      "name": "PGP",
+      "kind": "encryption standard",
+      "gloss": "A data encryption and decryption standard used for securing email communications."
+    },
+    {
+      "name": "S/MIME",
+      "kind": "encryption standard",
+      "gloss": "A standard for public key encryption and signing of MIME data in email communications."
+    },
+    {
+      "name": "Apple Mail",
+      "kind": "software product",
+      "gloss": "An email client developed by Apple Inc. for macOS."
+    },
+    {
+      "name": "iOS Mail",
+      "kind": "software product",
+      "gloss": "An email client developed by Apple Inc. for iOS devices."
+    },
+    {
+      "name": "Mozilla Thunderbird",
+      "kind": "software product",
+      "gloss": "A free and open-source cross-platform email client developed by the Mozilla Foundation."
+    },
+    {
+      "name": "OpenPGP",
+      "kind": "encryption standard",
+      "gloss": "An open-source standard for encrypting and signing data, derived from PGP."
+    },
+    {
+      "name": "CVE-2017-17688",
+      "kind": "vulnerability identifier",
+      "gloss": "A vulnerability identifier for OpenPGP CFB gadget attacks associated with the EFAIL flaw."
+    },
+    {
+      "name": "CVE-2017-17689",
+      "kind": "vulnerability identifier",
+      "gloss": "A vulnerability identifier for S/MIME CBC gadget attacks associated with the EFAIL flaw."
+    }
+  ],
+  "relations": [
+    {
+      "head": "EFAIL",
+      "type": "affects",
+      "tail": "PGP",
+      "evidence": "Критична вразливість EFAIL в PGP"
+    },
+    {
+      "head": "EFAIL",
+      "type": "affects",
+      "tail": "S/MIME",
+      "evidence": "Критична вразливість EFAIL в PGP та S/MIME"
+    },
+    {
+      "head": "CVE-2017-17688",
+      "type": "affects",
+      "tail": "OpenPGP",
+      "evidence": "CVE-2017-17688: OpenPGP CFB gadget attacks"
+    },
+    {
+      "head": "CVE-2017-17689",
+      "type": "affects",
+      "tail": "S/MIME",
+      "evidence": "CVE-2017-17689: S/MIME CBC gadget attacks"
+    }
+  ],
+  "newRelationTypes": []
+}

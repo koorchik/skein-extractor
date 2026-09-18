@@ -1,0 +1,60 @@
+{
+  "entities": [
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "MS Office",
+      "kind": "software suite",
+      "gloss": "An office productivity software suite developed by Microsoft."
+    },
+    {
+      "name": "MS Word",
+      "kind": "software product",
+      "gloss": "A word processing software application developed by Microsoft, part of the MS Office suite."
+    },
+    {
+      "name": "MS Excel",
+      "kind": "software product",
+      "gloss": "A spreadsheet software application developed by Microsoft, part of the MS Office suite."
+    },
+    {
+      "name": "MS PowerPoint",
+      "kind": "software product",
+      "gloss": "A presentation software application developed by Microsoft, part of the MS Office suite."
+    },
+    {
+      "name": "https://cert.gov.ua/recommendation/21",
+      "kind": "url",
+      "gloss": "A web link providing CERT-UA security recommendations for configuring MS Office software."
+    }
+  ],
+  "relations": [
+    {
+      "head": "MS Word",
+      "type": "is-component-of",
+      "tail": "MS Office",
+      "evidence": "програм MS Office (наприклад MS Word"
+    },
+    {
+      "head": "MS Excel",
+      "type": "is-component-of",
+      "tail": "MS Office",
+      "evidence": "програм MS Office (наприклад MS Word, MS Excel"
+    },
+    {
+      "head": "MS PowerPoint",
+      "type": "is-component-of",
+      "tail": "MS Office",
+      "evidence": "програм MS Office (наприклад MS Word, MS Excel, MS PowerPoint)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "is-component-of",
+      "definition": "Indicates that the head entity is a sub-component, application, or module of the tail software suite or system."
+    }
+  ]
+}

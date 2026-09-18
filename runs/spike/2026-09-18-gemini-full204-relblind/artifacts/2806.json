@@ -1,0 +1,169 @@
+{
+  "docId": 2806,
+  "date": "18.09.2018",
+  "title": "Розсилка шкідливого програмного забезпечення AZORult",
+  "entities": [
+    {
+      "id": "2806:0",
+      "name": "AZORult",
+      "kind": "malware family",
+      "gloss": "A commodity information stealer and malware downloader targeting Windows systems.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "2806:1",
+      "name": "Outlook",
+      "kind": "software product",
+      "gloss": "A widely used email client and personal information manager developed by Microsoft.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2806:2",
+      "name": "Thunderbird",
+      "kind": "software product",
+      "gloss": "A free and open-source email and news client developed by the Mozilla community.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2806:3",
+      "name": "Filezilla",
+      "kind": "software product",
+      "gloss": "A free and open-source cross-platform FTP application.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2806:4",
+      "name": "WinSCP",
+      "kind": "software product",
+      "gloss": "A popular free and open-source SFTP and FTP client for Microsoft Windows.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2806:5",
+      "name": "QUOTATION N0AB.doc",
+      "kind": "file name",
+      "gloss": "A malicious Microsoft Word document distributed in email attacks to deliver malware.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2806:6",
+      "name": "PO.jpg",
+      "kind": "file name",
+      "gloss": "A malicious executable payload disguised with an image file extension.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2806:7",
+      "name": "office.exe",
+      "kind": "file name",
+      "gloss": "An executable file installed in the Windows startup folder to maintain persistence.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2806:8",
+      "name": "office.lnk",
+      "kind": "file name",
+      "gloss": "A Windows shortcut file used to achieve startup persistence for malware.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2806:9",
+      "name": "67.199.248.10",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure in malware campaigns.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "2806:10",
+      "name": "67.199.248.11",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure in malware campaigns.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "2806:11",
+      "name": "192.198.87.130",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure in malware campaigns.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "2806:12",
+      "name": "185.193.38.78",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure in malware campaigns.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "2806:13",
+      "name": "CVE-2017-11882",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in Microsoft Office Equation Editor.",
+      "scheme": "S4",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2806:14",
+      "name": "Syenergy Consulting & Representation Ltd",
+      "kind": "company",
+      "gloss": "A company name observed in the file description metadata of a malicious binary.",
+      "scheme": "S10",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "AZORult",
+      "type": "steals-credentials-from",
+      "tail": "Outlook",
+      "evidence": "збору збережених паролів в браузерах, поштових клієнтах (Outlook, Thunderbird)"
+    },
+    {
+      "head": "AZORult",
+      "type": "steals-credentials-from",
+      "tail": "Thunderbird",
+      "evidence": "збору збережених паролів в браузерах, поштових клієнтах (Outlook, Thunderbird)"
+    },
+    {
+      "head": "AZORult",
+      "type": "steals-credentials-from",
+      "tail": "Filezilla",
+      "evidence": "FTP клієнтах (Filezilla, WinSCP)"
+    },
+    {
+      "head": "AZORult",
+      "type": "steals-credentials-from",
+      "tail": "WinSCP",
+      "evidence": "FTP клієнтах (Filezilla, WinSCP)"
+    }
+  ],
+  "unclassified": []
+}

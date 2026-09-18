@@ -1,0 +1,153 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+- uses-malware: A threat actor utilizes or deploys a specific malware tool or family in their operations.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p class="ql-align-justify"><strong>Загальна інформація</strong></p><p class="ql-align-justify">Урядовою командою реагування на комп’ютерні надзвичайні події України CERT-UA зафіксовано факт масового розповсюдження електронних поштових повідомлень, що містять посилання на захищені паролем RAR і/або ZIP архіви (наприклад, «Судовий запит №9978364774635676778282.rar_pass_123.zip»), розміщені на публічних сервісах Google Drive і DropMeFiles.</p><p class="ql-align-justify">У разі завантаження, розпакування і запуску вмісту архіву на комп’ютер жертви буде встановлено легітимну програму Remote Utilities, що надасть прихований віддалений доступ до пристрою третім особам. Персистентність програми <span style="color: rgb(0, 0, 0);">(здатність поновлювати активність після перезавантаження комп’ютера)</span> забезпечується шляхом створення служби «RManService».</p><p class="ql-align-justify">Подібні кібератаки є систематичною активністю, що здійснюється у відношенні державних органів України (але не виключно) та відслідковується CERT-UA за ідентифікатором <strong>UAC-0096</strong>.</p><p class="ql-align-justify"><strong>Індикатори компрометації</strong></p><p class="ql-align-justify"><strong><em>Файли:</em></strong></p><pre class="ql-syntax ql-align-justify" spellcheck="false">adcd23078da37d0054cc75fb45e9d095&nbsp;&nbsp;&nbsp;&nbsp;Судовий запит №9978364774635676778282.rar_pass_123.zip
+b0e4a2cd59c4620b794ecda351c736a2&nbsp;&nbsp;&nbsp;&nbsp;Судовий запит №9978364774635676778282.rar
+a02df1ad79381a269843c831fb8a48b0&nbsp;&nbsp;&nbsp;&nbsp;Судовий запит №99783647746356767782828.pdf.rar
+f360827a30f1267a3170ad6f7c160730&nbsp;&nbsp;&nbsp;&nbsp;Судовий запит №99783647746356767782828.pdf.exe
+</pre><p class="ql-align-justify"><strong><em>Мережеві:</em></strong></p><pre class="ql-syntax ql-align-justify" spellcheck="false">101.99.93[.]49
+rmssrv2[.]ru
+rmssrv3[.]ru
+rmssrv4[.]ru
+</pre><p class="ql-align-justify"><strong><em>Хостові:</em></strong></p><pre class="ql-syntax ql-align-justify" spellcheck="false">HKLM\SYSTEM\ControlSet001\services\RManService
+HKLM\SOFTWARE\Usoris\Remote Utilities Host\
+%PROGRAMFILES(X86)%\Remote Utilities - Host\
+</pre><p class="ql-align-justify"><strong>Додаткова інформація</strong></p><p class="ql-align-justify">З метою видалення шкідливої програми: зупинити сервіс «RManService», видалити каталог «%PROGRAMFILES(X86)%\Remote Utilities - Host\», видалити ключ реєстру «HKLM\SOFTWARE\Usoris».</p><p class="ql-align-justify">Інформація щодо попередньої активності згаданої групи наведена за посиланням <a href="https://cert.gov.ua/article/10011" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/article/10011</a>.</p><p class="ql-align-justify"><strong>Графічні зображення</strong></p><p></p><p><em style="color: rgb(0, 0, 0);">Рис. 1 Приклад електронного листа</em></p>
+
+=== RESPONSE (8.7s, in 2226 / out 1109 tok, STOP) ===
+The incident involves threat actor UAC-0096 conducting phishing campaigns against Ukrainian state bodies using archive files hosted on Google Drive and DropMeFiles to deploy Remote Utilities.
+
+```json
+{
+  "entities": [
+    {
+      "name": "UAC-0096",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA targeting Ukrainian government organizations."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Google Drive",
+      "kind": "cloud storage service",
+      "gloss": "A cloud-based file storage and synchronization service developed by Google."
+    },
+    {
+      "name": "DropMeFiles",
+      "kind": "file sharing service",
+      "gloss": "A free public file sharing and transfer service."
+    },
+    {
+      "name": "Remote Utilities",
+      "kind": "software product",
+      "gloss": "A legitimate remote desktop access and administration software program."
+    },
+    {
+      "name": "Судовий запит №9978364774635676778282.rar_pass_123.zip",
+      "kind": "archive file",
+      "gloss": "A password-protected ZIP archive file used in phishing distribution."
+    },
+    {
+      "name": "Судовий запит №9978364774635676778282.rar",
+      "kind": "archive file",
+      "gloss": "A password-protected RAR archive file distributed in phishing emails."
+    },
+    {
+      "name": "Судовий запит №99783647746356767782828.pdf.rar",
+      "kind": "archive file",
+      "gloss": "A RAR archive file masquerading as a PDF document."
+    },
+    {
+      "name": "Судовий запит №99783647746356767782828.pdf.exe",
+      "kind": "executable file",
+      "gloss": "An executable file masquerading as a PDF document."
+    },
+    {
+      "name": "101.99.93[.]49",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious network infrastructure."
+    },
+    {
+      "name": "rmssrv2[.]ru",
+      "kind": "domain name",
+      "gloss": "An internet domain used as network infrastructure."
+    },
+    {
+      "name": "rmssrv3[.]ru",
+      "kind": "domain name",
+      "gloss": "An internet domain used as network infrastructure."
+    },
+    {
+      "name": "rmssrv4[.]ru",
+      "kind": "domain name",
+      "gloss": "An internet domain used as network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0096",
+      "type": "attacks",
+      "tail": "Україна",
+      "evidence": "активністю, що здійснюється у відношенні державних органів України (але не виключно) та відслідковується CERT-UA за ідентифікатором UAC-0096"
+    },
+    {
+      "head": "Google Drive",
+      "type": "hosts",
+      "tail": "Судовий запит №9978364774635676778282.rar_pass_123.zip",
+      "evidence": "архіви (наприклад, «Судовий запит №9978364774635676778282.rar_pass_123.zip»), розміщені на публічних сервісах Google Drive"
+    },
+    {
+      "head": "DropMeFiles",
+      "type": "hosts",
+      "tail": "Судовий запит №9978364774635676778282.rar_pass_123.zip",
+      "evidence": "архіви (наприклад, «Судовий запит №9978364774635676778282.rar_pass_123.zip»), розміщені на публічних сервісах Google Drive і DropMeFiles"
+    }
+  ],
+  "newRelationTypes": []
+}
+```

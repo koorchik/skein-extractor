@@ -1,0 +1,121 @@
+{
+  "entities": [
+    {
+      "name": "Pterodo",
+      "kind": "malware family",
+      "gloss": "A spyware and backdoor malware family attributed to the Russian threat group Gamaredon."
+    },
+    {
+      "name": "porohman@i.ua",
+      "kind": "email address",
+      "gloss": "An email address used to distribute phishing emails carrying malicious attachments."
+    },
+    {
+      "name": "porohwoman@i.ua",
+      "kind": "email address",
+      "gloss": "An email address used to distribute phishing emails carrying malicious attachments."
+    },
+    {
+      "name": "НПУ.rar",
+      "kind": "archive file",
+      "gloss": "A malicious RAR archive attached to phishing emails containing Pterodo components."
+    },
+    {
+      "name": "spisok_24.08.2018.com",
+      "kind": "executable file",
+      "gloss": "A malicious executable file masquerading as a document that unpacks Pterodo components."
+    },
+    {
+      "name": "НПУ.docx",
+      "kind": "document file",
+      "gloss": "A decoy Microsoft Word document included inside a malicious archive."
+    },
+    {
+      "name": "Icloud.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable component dropped by Pterodo masquerading as an Apple application."
+    },
+    {
+      "name": "Iclouding.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable component of Pterodo responsible for exfiltrating data to C2."
+    },
+    {
+      "name": "ipad.system",
+      "kind": "file",
+      "gloss": "A payload file dropped and utilized by Pterodo components."
+    },
+    {
+      "name": "icloud.cmd",
+      "kind": "script file",
+      "gloss": "A malicious command script component of Pterodo."
+    },
+    {
+      "name": "iclouds.cmd",
+      "kind": "script file",
+      "gloss": "A malicious command script component of Pterodo."
+    },
+    {
+      "name": "IcloudSecurity.lnk",
+      "kind": "shortcut file",
+      "gloss": "A malicious shortcut file associated with Pterodo execution."
+    },
+    {
+      "name": "single-office.ddns[.]net",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS domain used as a command and control server for Pterodo."
+    },
+    {
+      "name": "95.142.45[.]58",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the command and control server single-office.ddns[.]net."
+    },
+    {
+      "name": "Apple",
+      "kind": "software vendor",
+      "gloss": "An American multinational technology company whose software names are mimicked by malware."
+    },
+    {
+      "name": "Adobe",
+      "kind": "software vendor",
+      "gloss": "An American multinational computer software company whose software names are mimicked by malware."
+    },
+    {
+      "name": "Лица, которые переместились из АР Крым и районов проведения антитерротистической операции.com",
+      "kind": "executable file",
+      "gloss": "A malicious executable file used as a lure in phishing campaigns."
+    },
+    {
+      "name": "забезпечте моніторинг мережевого обладнання на факт звертання до підозрілих адрес.com",
+      "kind": "executable file",
+      "gloss": "A malicious executable file used as an alternative lure name in Pterodo campaigns."
+    }
+  ],
+  "relations": [
+    {
+      "head": "spisok_24.08.2018.com",
+      "type": "part-of",
+      "tail": "НПУ.rar",
+      "evidence": "при активації виконуваних файлів з архіву НПУ.rar виконувана компонента spisok_24.08.2018.com"
+    },
+    {
+      "head": "НПУ.docx",
+      "type": "part-of",
+      "tail": "НПУ.rar",
+      "evidence": "архів, який містить spisok_24.08.2018.com та НПУ.docx файли"
+    },
+    {
+      "head": "Iclouding.exe",
+      "type": "communicates-with",
+      "tail": "single-office.ddns[.]net",
+      "evidence": "передача даних програмою Iclouding.exe до командного серверу single-office.ddns[.]net"
+    },
+    {
+      "head": "single-office.ddns[.]net",
+      "type": "hosts",
+      "tail": "95.142.45[.]58",
+      "evidence": "на момент аналізу ІР-адреса домену була 95.142.45[.]58"
+    }
+  ],
+  "newRelationTypes": []
+}

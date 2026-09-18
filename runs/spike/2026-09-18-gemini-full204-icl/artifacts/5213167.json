@@ -1,0 +1,199 @@
+{
+  "docId": 5213167,
+  "date": "18.07.2023",
+  "title": "Цільові атаки Turla (UAC-0024, UAC-0003) з використанням шкідливих програм CAPIBAR та KAZUAR (CERT-UA#6981)",
+  "entities": [
+    {
+      "id": "5213167:0",
+      "name": "UAC-0024",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage threat activity cluster associated with the Turla group targeting defense forces.",
+      "scheme": "S14",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "5213167:1",
+      "name": "Turla",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group also known as UAC-0003, KRYPTON, and Secret Blizzard.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": null
+    },
+    {
+      "id": "5213167:2",
+      "name": "фсб росії",
+      "kind": "government organization",
+      "gloss": "The Federal Security Service of the Russian Federation.",
+      "scheme": "S5",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "5213167:3",
+      "name": "росії",
+      "kind": "country",
+      "gloss": "A transcontinental country spanning Eastern Europe and Northern Asia.",
+      "scheme": "S4",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "5213167:4",
+      "name": "CAPIBAR",
+      "kind": "malware",
+      "gloss": "A malware family also known as DeliveryCheck and GAMEDAY, with client and server components.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "5213167:5",
+      "name": "KAZUAR",
+      "kind": "malware",
+      "gloss": "A complex multi-functional backdoor malware capable of credential theft and system reconnaissance.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "5213167:6",
+      "name": "MS Exchange",
+      "kind": "software product",
+      "gloss": "A mail and calendaring server platform developed by Microsoft.",
+      "scheme": "S2",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "5213167:7",
+      "name": "rclone",
+      "kind": "software product",
+      "gloss": "An open-source command-line program to manage and synchronize files on cloud storage.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "5213167:8",
+      "name": "Microsoft",
+      "kind": "software vendor",
+      "gloss": "An American multinational corporation that develops computer software, consumer electronics, and related services.",
+      "scheme": "S3",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "5213167:9",
+      "name": "localhost.mof",
+      "kind": "computer file",
+      "gloss": "A Managed Object Format file used as a server-side component of CAPIBAR.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5213167:10",
+      "name": "Pending.mof",
+      "kind": "computer file",
+      "gloss": "A Managed Object Format file used to deploy the CAPIBAR server component.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5213167:11",
+      "name": "Server.dll",
+      "kind": "computer file",
+      "gloss": "A dynamic link library functioning as the server component of CAPIBAR.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5213167:12",
+      "name": "Control.dll",
+      "kind": "computer file",
+      "gloss": "A dynamic link library component of CAPIBAR malware.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5213167:13",
+      "name": "Senatorial.exe",
+      "kind": "computer file",
+      "gloss": "An executable file identified as the KAZUAR backdoor.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5213167:14",
+      "name": "two.exe",
+      "kind": "computer file",
+      "gloss": "An executable payload associated with CAPIBAR malware.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5213167:15",
+      "name": "1.ps1",
+      "kind": "computer file",
+      "gloss": "A malicious PowerShell script used during the attack lifecycle.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5213167:16",
+      "name": "UpdateService.exe",
+      "kind": "computer file",
+      "gloss": "A file path used to execute rclone for data exfiltration.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0024",
+      "type": "uses",
+      "tail": "CAPIBAR",
+      "evidence": "здійсненні цільових кібератак, спрямованих проти сил оборони з метою шпигунства із застосуванням шкідливої програми CAPIBAR"
+    },
+    {
+      "head": "UAC-0024",
+      "type": "uses",
+      "tail": "KAZUAR",
+      "evidence": "на уражені ЕОМ довантажується складний багатофункціональний бекдор KAZUAR"
+    },
+    {
+      "head": "UAC-0024",
+      "type": "uses",
+      "tail": "rclone",
+      "evidence": "ексфільтрації з інфікованих ЕОМ файлів за визначеним переліком розширень з використанням легітимної програми rclone"
+    },
+    {
+      "head": "CAPIBAR",
+      "type": "affects",
+      "tail": "MS Exchange",
+      "evidence": "встановлюється на скомпрометованих серверах MS Exchange"
+    },
+    {
+      "head": "MS Exchange",
+      "type": "part-of",
+      "tail": "Microsoft",
+      "evidence": "серверах MS Exchange"
+    },
+    {
+      "head": "фсб росії",
+      "type": "located-in",
+      "tail": "росії",
+      "evidence": "фсб росії"
+    }
+  ],
+  "unclassified": []
+}

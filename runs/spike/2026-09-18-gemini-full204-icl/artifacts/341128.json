@@ -1,0 +1,181 @@
+{
+  "docId": 341128,
+  "date": "20.06.2022",
+  "title": "Кібератака групи APT28 з використанням шкідливої програми CredoMap (CERT-UA#4843)",
+  "entities": [
+    {
+      "id": "341128:0",
+      "name": "Nuclear Terrorism A Very Real Threat.rtf",
+      "kind": "computer file",
+      "gloss": "A malicious Rich Text Format document used in phishing attacks to trigger remote code execution.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "341128:1",
+      "name": "CVE-2022-30190",
+      "kind": "security vulnerability",
+      "gloss": "A Microsoft Windows Support Diagnostic Tool (MSDT) remote code execution vulnerability commonly known as Follina.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "341128:2",
+      "name": "CredoMap",
+      "kind": "malware",
+      "gloss": "A malware family used by threat actors to compromise systems and steal credentials.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "341128:3",
+      "name": "APT28",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage threat group associated with the GRU.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "341128:4",
+      "name": "article.html",
+      "kind": "computer file",
+      "gloss": "A malicious HTML file containing JavaScript code designed to download and execute secondary payloads.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "341128:5",
+      "name": "SQLite.Interop.dll",
+      "kind": "computer file",
+      "gloss": "A legitimate SQLite dynamic-link library downloaded alongside malicious payloads.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "341128:6",
+      "name": "docx.exe",
+      "kind": "computer file",
+      "gloss": "An executable payload file containing the CredoMap malware.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "341128:7",
+      "name": "http://kitten-268.frge.io/article.html",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosting the HTML payload used in the attack.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "341128:8",
+      "name": "http://kompartpomiar.pl/grafika/SQLite.Interop.dll",
+      "kind": "uniform resource locator",
+      "gloss": "A URL on a compromised website hosting a SQLite dependency file.",
+      "scheme": "S7",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "341128:9",
+      "name": "http://kompartpomiar.pl/grafika/docx.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A URL on a compromised website used to distribute the CredoMap executable.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "341128:10",
+      "name": "162.241.216.236",
+      "kind": "ip address",
+      "gloss": "An IP address associated with network infrastructure observed in the incident.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "341128:11",
+      "name": "kitten-268.frge.io",
+      "kind": "domain name",
+      "gloss": "A domain name used to stage and serve malicious HTML files.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "341128:12",
+      "name": "frge.io",
+      "kind": "domain name",
+      "gloss": "An apex internet domain associated with infrastructure used during the campaign.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "341128:13",
+      "name": "kompartpomiar.pl",
+      "kind": "domain name",
+      "gloss": "A compromised website domain used to host malicious executable files.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "341128:14",
+      "name": "seo@specialityllc.com",
+      "kind": "email address",
+      "gloss": "An email address identified as an indicator of compromise in the incident.",
+      "scheme": "S10",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Nuclear Terrorism A Very Real Threat.rtf",
+      "type": "exploits",
+      "tail": "CVE-2022-30190",
+      "evidence": "Nuclear Terrorism A Very Real Threat.rtf\" відкриття якого призведе до завантаження HTML-файлу та виконання JavaScript-коду (CVE-2022-30190)"
+    },
+    {
+      "head": "Nuclear Terrorism A Very Real Threat.rtf",
+      "type": "delivers",
+      "tail": "CredoMap",
+      "evidence": "виконання JavaScript-коду (CVE-2022-30190), який забезпечить завантаження та запуск шкідливої програми CredoMap"
+    },
+    {
+      "head": "APT28",
+      "type": "uses",
+      "tail": "CredoMap",
+      "evidence": "вважаємо за можливе асоціювати виявлену активність з діяльністю групи APT28"
+    },
+    {
+      "head": "kitten-268.frge.io",
+      "type": "hosts",
+      "tail": "http://kitten-268.frge.io/article.html",
+      "evidence": "hXXp://kitten-268.frge[.]io/article.html"
+    },
+    {
+      "head": "kompartpomiar.pl",
+      "type": "hosts",
+      "tail": "http://kompartpomiar.pl/grafika/SQLite.Interop.dll",
+      "evidence": "hXXp://kompartpomiar[.]pl/grafika/SQLite.Interop.dll"
+    },
+    {
+      "head": "kompartpomiar.pl",
+      "type": "hosts",
+      "tail": "http://kompartpomiar.pl/grafika/docx.exe",
+      "evidence": "hXXp://kompartpomiar[.]pl/grafika/docx.exe"
+    }
+  ],
+  "unclassified": []
+}

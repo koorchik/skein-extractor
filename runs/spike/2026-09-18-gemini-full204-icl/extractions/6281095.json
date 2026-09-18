@@ -1,0 +1,135 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0218",
+      "kind": "threat actor",
+      "gloss": "A threat group tracked by CERT-UA involved in cyberattacks and data exfiltration."
+    },
+    {
+      "name": "HostZealot",
+      "kind": "company",
+      "gloss": "A hosting and domain name registration service provider."
+    },
+    {
+      "name": "Пароль.vbe",
+      "kind": "malware",
+      "gloss": "A malicious VBS script designed to search for and exfiltrate user documents via HTTP PUT requests."
+    },
+    {
+      "name": "Договір20102024.doc",
+      "kind": "computer file",
+      "gloss": "A password-protected decoy document file distributed in malicious RAR archives."
+    },
+    {
+      "name": "Рахунок20102024.xlsx",
+      "kind": "computer file",
+      "gloss": "A password-protected decoy spreadsheet distributed in malicious RAR archives."
+    },
+    {
+      "name": "_№_601.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive containing decoy documents and a data exfiltration script."
+    },
+    {
+      "name": "WEXTRACT.EXE",
+      "kind": "software product",
+      "gloss": "A Windows system tool for creating and extracting self-extracting archive packages."
+    },
+    {
+      "name": "install.txt",
+      "kind": "computer file",
+      "gloss": "A configuration or script file used as part of a self-extracting archive package."
+    },
+    {
+      "name": "POSTRUNPROGRAM",
+      "kind": "computer file",
+      "gloss": "A configuration directive file used within a self-extracting archive."
+    },
+    {
+      "name": "RUNPROGRAM",
+      "kind": "computer file",
+      "gloss": "A configuration directive file used within a self-extracting archive."
+    },
+    {
+      "name": "edisk.ukrnet.01mirror.com.ua",
+      "kind": "domain name",
+      "gloss": "A subdomain used in phishing campaigns to distribute malicious archives."
+    },
+    {
+      "name": "ukrnet.01mirror.com.ua",
+      "kind": "domain name",
+      "gloss": "A subdomain used to host phishing resources."
+    },
+    {
+      "name": "01mirror.com.ua",
+      "kind": "domain name",
+      "gloss": "A domain name leveraged for malicious distribution infrastructure."
+    },
+    {
+      "name": "edisk.in.ua",
+      "kind": "domain name",
+      "gloss": "A domain name spoofing eDisk services to distribute malicious archives."
+    },
+    {
+      "name": "winupmirror.support",
+      "kind": "domain name",
+      "gloss": "A domain name used as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "staticgl.one",
+      "kind": "domain name",
+      "gloss": "A domain name used as a command and control server for data exfiltration."
+    },
+    {
+      "name": "109.205.195.233",
+      "kind": "ip address",
+      "gloss": "An IP address identified as a command and control server in the campaign."
+    },
+    {
+      "name": "194.107.92.234",
+      "kind": "ip address",
+      "gloss": "An IP address identified as an originating address for malicious emails."
+    },
+    {
+      "name": "46.149.173.221",
+      "kind": "ip address",
+      "gloss": "An IP address identified as an originating address for malicious emails."
+    },
+    {
+      "name": "94.140.114.32",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious infrastructure."
+    },
+    {
+      "name": "94.140.114.76",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0218",
+      "type": "uses",
+      "tail": "HostZealot",
+      "evidence": "Характерними ознаками управляючої інфраструктури є використанням реєстратора доменних імен HostZealot"
+    },
+    {
+      "head": "UAC-0218",
+      "type": "uses",
+      "tail": "Пароль.vbe",
+      "evidence": "В згаданих архівах знаходилися два захищених паролем документи-приманки... а також VBS-скрипт \"Пароль.vbe\""
+    },
+    {
+      "head": "edisk.in.ua",
+      "type": "hosts",
+      "tail": "_№_601.rar",
+      "evidence": "посиланням, нібито, на eDisk, для завантаження одноіменних RAR-архівів"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,312 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+- Country: A distinct territorial body or sovereign state with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Government Organization: An official agency, ministry, or administrative body operating as part of a national or state government. (also: Government Agency, Government Body, State Authority)
+- Malware: Malicious software, code, or executables designed to infiltrate, damage, or compromise computer systems and data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address specifying the location and retrieval mechanism of a resource on a computer network. (also: URL, Web Address, Web Link)
+- Person: An individual human being, such as a government official, cybersecurity expert, researcher, or executive. (also: Individual, Natural Person)
+- IP Address: A numerical label assigned to a device connected to a computer network that uses the Internet Protocol for communication. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Electronic Mail Address)
+- Computer File: A digital resource or named item stored on a computer system, containing data, code, or instructions. (also: File, Digital File, Filename)
+- Company: A commercial business, corporation, or enterprise operating in any economic sector or industry. (also: Enterprise, Corporation, Commercial Organization)
+- Domain Name: A human-readable identification string defining a realm of administrative autonomy or resource location within the Internet Domain Name System. (also: Internet Domain, FQDN, Fully Qualified Domain Name)
+- Threat Actor: An individual, group, or organization responsible for malicious cyber activities, attacks, or cyber espionage operations. (also: Threat Group, Cyber Threat Actor, Hacker Group)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><em>(Оновлено 15.07.2023)</em></p><p><br></p><p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA 13.07.2023 зафіксовано масову розсилку електронних повідомлень з темою "Рахунок-фактура" та вкладенням у вигляді файлу "Акт_Звiрки_та_рах.факт_вiд_12_07_2023.zip ", що містить VBS-файл "рахунок_вiд_12_07_2023_до_оплати.vbs", відкриття якого забезпечить завантаження і запуск шкідливої програми SmokeLoader.</p><p>Цього разу конфігураційний файл шкідливої програми містить 45 доменних імен, з яких лише 5 на момент аналізу мають A-запис (IP-адреса: 193.106.174[.]173; провайдер @iqhost[.]ru, росія).</p><p>14.07.2023 зафіксовано нову хвилю масової розсилки з темою "Дякую рах. додаю" та вкладенням у вигляді архіву "Спісок_счетов_від_14_07_2023р.zip", що містить три HTML-файли з назвами "UKR_net_рахунки_№418_до_оплати_вiд_14_07_2023_Архив.html", в якій змінний номер рахунку. Відкриття одного з цих файлів призведе до завантаження виконуваного файлу "рахунки_до_оплати_вiд_14_07_2023_Архив_rar.exe", запуск якого призведе до ураження комп'ютера шкідливою програмою SmokeLoader.</p><p>Конфігураційний файл даного зразку шкідливої програми містить ті самі доменні імена, з яких 5 на момент аналізу мають A-запис (IP-адреса: 193.108.114[.]148; провайдер @ruvds[.]com, росія).</p><p>Слід звернути увагу на той факт, що, з метою забезпечення живучості, функціонал SmokeLoader'у передбачає можливість визначення актуальних A-записів для доменних імен шляхом зверення до DNS-серверів сервісу @dnspod[.]com.</p><p>Вкотре для розповсюдження листів використано скомпрометовані облікові записи електронної пошти.</p><p>Наголошуємо на доцільності обмеження можливості використання користувачами Windows Script Host (wscript.exe, cscript.exe), а також PowerShell.</p><p>З метою сприяння вжиттю заходів зі знезараження, перелік індикаторів кіберзагрози, в т.ч., приклад файлу запланованого завдання, що використовується для забезпечення персистентності, додано до статті.</p><p>Активність відстежується за ідентифікатором UAC-0006.</p><p><br></p><p class="ql-align-justify"><strong>Індикатори кіберзагроз</strong></p><p class="ql-align-justify"><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">f634458ac460762c0e9e3b8b7c29cb09&nbsp; &nbsp; be33946e29b3f0d2f3b1b68042bd6e81f64a18da0f0705d104a85f1bee207432&nbsp; &nbsp; Акт_Звiрки_та_рах.факт_вiд_12_07_2023.zip&nbsp;
+bcf668ef90851c26d0413a3be51d7082&nbsp; &nbsp; 7ce9d6aba2f689b9fe636f0bc29cd7202608d0f84730b49ab3a894e0eecb6334&nbsp; &nbsp; рахунок_вiд_12_07_2023_до_оплати.vbs
+e15ead922a05d2fc80be05fa7fb16310&nbsp; &nbsp; 9e6cd6f56efead7d0cfcd6b5b9c4f2efde49cb36d244aad3b28c9da9b68881cb&nbsp; &nbsp; htainfo.txt
+e716168756c85d9652baae798f94bdfa&nbsp; &nbsp; 9e19ad9e55c46bac4160d3d69232bbbac37493d3a4ac965304e10f2b660a4f22&nbsp; &nbsp; 1.exe
+d2d02a414a886ad60a5f25c081f8c11b    f664f4122f5cf236e9e6a7aabde5714dfe9c6c85bd4214b5362b11d04c76763d    новые реквизиты та рах. ф. до оплати.zip 
+9a79863be1426df5171f84de924470ec    da07c6e72b5dbab781d70013d066acbf5052f603534f6f084bb77578b0a51c39    рахунок_вiд_13_07_2023_до_оплати.vbs
+6fe41e1750398f9687486e144a002894    124cb13096784d005a013bbc9488047b167d76bebf30b5700c2f575c32d72993    Спiсок_счетов_вiд_14_07_2023р.zip 
+b3ee60f2626bc1ba158ea2b82cf5ec3d    d138da2039ef93b0b511bc380f3be1f53a9859e616973afae6059d0225cb40cf    UKR_net_рахунки_№418_до_оплати_вiд_14_07_2023_Архив.html
+d29e8f0c57eb0474ce4e36bff0f27a12    2e90d948d354426bc6df9baab02d922e7f20ef7056da780d58f57b6aa54ceb20    рахунки_до_оплати_вiд_14_07_2023_Архив_rar.exe
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">193[.]106.174.173 (RU; @iqhost[.]ru)
+193[.]108.114.148 (RU; @ruvds[.]com)
+Mozilla/5.0 (Windows NT 10.0; Win64; x64; Trident/7.0; rv:11.0) like Gecko
+
+alegoomaster[.]com
+azartnyjboy[.]com
+criticalosl[.]tech
+droopily[.]eu
+filterfullproperty[.]ru
+freesitucionap[.]com
+gondurasonline[.]ug
+hopentools[.]site
+humanitarydp[.]ug
+infomalilopera[.]ru
+jkghdj2993jdjjdjd[.]ru
+jskgdhjkdfhjdkjhd844[.]ru
+kismamabeforyougo[.]com
+kissmafiabeforyoudied[.]eu
+kjhgdj99fuller[.]ru
+lamazone[.]site
+maximprofile[.]net
+nabufixservice[.]name
+prostotaknet[.]net
+verycheap[.]store
+zaikaopentra-com-ug[.]online
+zaikaopentra.com[.]ug
+zakolibal[.]online
+zalamafiapopcultur[.]eu
+zaliphone[.]com
+hXXp://liverpulapp[.]ru/htainfo.txt
+hXXp://liverpulapp[.]ru/webmail/websm.exe
+hXXp://samoramertut[.]ru/webmail/websm.exe
+hXXp://alegoomaster[.]com/
+hXXp://azartnyjboy[.]com/
+hXXp://criticalosl[.]tech/
+hXXp://droopily[.]eu/
+hXXp://filterfullproperty[.]ru/
+hXXp://freesitucionap[.]com/
+hXXp://gondurasonline[.]ug/
+hXXp://hopentools[.]site/
+hXXp://humanitarydp[.]ug/
+hXXp://infomalilopera[.]ru/
+hXXp://jkghdj2993jdjjdjd[.]ru/
+hXXp://jskgdhjkdfhjdkjhd844[.]ru/
+hXXp://kismamabeforyougo[.]com/
+hXXp://kissmafiabeforyoudied[.]eu/
+hXXp://kjhgdj99fuller[.]ru/
+hXXp://lamazone[.]site/
+hXXp://maximprofile[.]net/
+hXXp://nabufixservice[.]name/
+hXXp://prostotaknet[.]net/
+hXXp://verycheap[.]store/
+hXXp://zaikaopentra-com-ug[.]online/
+hXXp://zaikaopentra.com[.]ug/
+hXXp://zakolibal[.]online/
+hXXp://zalamafiapopcultur[.]eu/
+hXXp://zaliphone[.]com/
+
+Нові домени SmokeLoader:
+cityofuganda[.]ug
+goodlenuxilam[.]site
+hillespostelnm[.]eu
+internetcygane[.]ru
+jimloamfilling[.]online
+jslopasitmon[.]com
+kilomunara[.]com
+krasavchikoleg[.]net
+liverpulapp[.]ru
+maxteroper[.]ru
+nafillimonilini[.]net
+napropertyhub[.]eu
+polinamailserverip[.]ru
+samoramertut[.]ru
+sismasterhome[.]ru
+supermarioprohozhdenie[.]ru
+vertusupportjk[.]org
+zaikadoctor[.]ru
+zallesman[.]ru
+zarabovannyok[.]eu
+hXXp://cityofuganda[.]ug/
+hXXp://goodlenuxilam[.]site/
+hXXp://hillespostelnm[.]eu/
+hXXp://internetcygane[.]ru/
+hXXp://jimloamfilling[.]online/
+hXXp://jslopasitmon[.]com/
+hXXp://kilomunara[.]com/
+hXXp://krasavchikoleg[.]net/
+hXXp://liverpulapp[.]ru/
+hXXp://maxteroper[.]ru/
+hXXp://nafillimonilini[.]net/
+hXXp://napropertyhub[.]eu/
+hXXp://polinamailserverip[.]ru/
+hXXp://samoramertut[.]ru/
+hXXp://sismasterhome[.]ru/
+hXXp://supermarioprohozhdenie[.]ru/
+hXXp://vertusupportjk[.]org/
+hXXp://zaikadoctor[.]ru/
+hXXp://zallesman[.]ru/
+hXXp://zarabovannyok[.]eu/
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%APPDATA%\ddwrrai
+%TEMP%\1.exe
+%TEMP%\2.exe
+Firefox Default Browser Agent 67491D09DDF7934E (заплановане завдання)
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (5.7s, in 4836 / out 1766 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "UAC-0006",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA known for financially motivated attacks distributing SmokeLoader malware."
+    },
+    {
+      "name": "SmokeLoader",
+      "kind": "malware",
+      "gloss": "A modular malicious software family primarily used as a dropper to download and execute additional malware payloads."
+    },
+    {
+      "name": "Акт_Звiрки_та_рах.факт_вiд_12_07_2023.zip",
+      "kind": "computer file",
+      "gloss": "A malicious ZIP archive distributed via email attachments containing a VBScript file."
+    },
+    {
+      "name": "рахунок_вiд_12_07_2023_до_оплати.vbs",
+      "kind": "computer file",
+      "gloss": "A malicious VBScript file that downloads and executes SmokeLoader malware."
+    },
+    {
+      "name": "Спісок_счетов_від_14_07_2023р.zip",
+      "kind": "computer file",
+      "gloss": "A malicious ZIP archive distributed in phishing emails containing malicious HTML files."
+    },
+    {
+      "name": "UKR_net_рахунки_№418_до_оплати_вiд_14_07_2023_Архив.html",
+      "kind": "computer file",
+      "gloss": "A malicious HTML file that initiates the download of an executable file."
+    },
+    {
+      "name": "рахунки_до_оплати_вiд_14_07_2023_Архив_rar.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file delivering SmokeLoader malware."
+    },
+    {
+      "name": "193.106.174.173",
+      "kind": "ip address",
+      "gloss": "An IP address associated with command and control infrastructure for SmokeLoader."
+    },
+    {
+      "name": "193.108.114.148",
+      "kind": "ip address",
+      "gloss": "An IP address associated with SmokeLoader command and control infrastructure."
+    },
+    {
+      "name": "iqhost.ru",
+      "kind": "company",
+      "gloss": "A Russian hosting and internet service provider."
+    },
+    {
+      "name": "ruvds.com",
+      "kind": "company",
+      "gloss": "A Russian cloud hosting and virtual private server provider."
+    },
+    {
+      "name": "росія",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "dnspod.com",
+      "kind": "domain name",
+      "gloss": "A domain name management and DNS hosting service provider."
+    },
+    {
+      "name": "Windows Script Host",
+      "kind": "software product",
+      "gloss": "A Microsoft Windows automation technology that provides scripting abilities."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0006",
+      "type": "uses",
+      "tail": "SmokeLoader",
+      "evidence": "ураження комп'ютера шкідливою програмою SmokeLoader... Активність відстежується за ідентифікатором UAC-0006"
+    },
+    {
+      "head": "Акт_Звiрки_та_рах.факт_вiд_12_07_2023.zip",
+      "type": "delivers",
+      "tail": "рахунок_вiд_12_07_2023_до_оплати.vbs",
+      "evidence": "Акт_Звiрки_та_рах.факт_вiд_12_07_2023.zip \", що містить VBS-файл \"рахунок_вiд_12_07_2023_до_оплати.vbs\""
+    },
+    {
+      "head": "рахунок_вiд_12_07_2023_до_оплати.vbs",
+      "type": "delivers",
+      "tail": "SmokeLoader",
+      "evidence": "відкриття якого забезпечить завантаження і запуск шкідливої програми SmokeLoader"
+    },
+    {
+      "head": "Спісок_счетов_від_14_07_2023р.zip",
+      "type": "delivers",
+      "tail": "UKR_net_рахунки_№418_до_оплати_вiд_14_07_2023_Архив.html",
+      "evidence": "Спісок_счетов_від_14_07_2023р.zip\", що містить три HTML-файли з назвами \"UKR_net_рахунки_№418_до_оплати_вiд_14_07_2023_Архив.html\""
+    },
+    {
+      "head": "UKR_net_рахунки_№418_до_оплати_вiд_14_07_2023_Архив.html",
+      "type": "delivers",
+      "tail": "рахунки_до_оплати_вiд_14_07_2023_Архив_rar.exe",
+      "evidence": "Відкриття одного з цих файлів призведе до завантаження виконуваного файлу \"рахунки_до_оплати_вiд_14_07_2023_Архив_rar.exe\""
+    },
+    {
+      "head": "рахунки_до_оплати_вiд_14_07_2023_Архив_rar.exe",
+      "type": "delivers",
+      "tail": "SmokeLoader",
+      "evidence": "запуск якого призведе до ураження комп'ютера шкідливою програмою SmokeLoader"
+    },
+    {
+      "head": "iqhost.ru",
+      "type": "located-in",
+      "tail": "росія",
+      "evidence": "провайдер @iqhost[.]ru, росія"
+    },
+    {
+      "head": "ruvds.com",
+      "type": "located-in",
+      "tail": "росія",
+      "evidence": "провайдер @ruvds[.]com, росія"
+    },
+    {
+      "head": "SmokeLoader",
+      "type": "uses",
+      "tail": "dnspod.com",
+      "evidence": "визначення актуальних A-записів для доменних імен шляхом зверення до DNS-серверів сервісу @dnspod[.]com"
+    }
+  ],
+  "newRelationTypes": []
+}

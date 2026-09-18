@@ -1,0 +1,159 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація:</strong></p><p>Урядовою командою реагування на комп’ютерні надзвичайні події України CERT-UA від суб'єкту координації отримано електронний лист з темою "Volodymyr Zelenskyy presented the Golden Star Orders to servicemen of the Armed Forces of Ukraine and members of the families of the fallen Heroes of Ukraine" та декількома графічними зображеннями.</p><p>За результатами дослідження з'ясовано, що заголовок листа "Content-Location" містить JavaScript-код, виконання якого призведе до завантаження і виконання іншого JavaScript-коду, призначенням якого є додавання до конфігурації облікового запису електронної пошти жертви сторонньої електронної адреси з метою подальшого пересилання на неї електронних листів користувача.</p><p>Технічна можливість реалізації описаної загрози класифікована за ідентифікатором CVE-2018-6882 як XSS (Cross-Site Scripting) вразливість в Zimbra Collaboration Suite (&lt; 8.7 Patch 1, 8.8.x &lt; 8.8.7).</p><p>Виявлена активність, зважаючи на тему, вміст, додатки до листа, а також отримувачів, носить цільовий характер та відстежуватиметься за ідентифікатором UAC-0097.</p><p><br></p><p><strong>Індикатори компрометації:</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">ddeab2d94128abbf9b4bf8ade4f9919e	ad75a9a8eb1210d04873c151ada56520d582cc1012a50895d6c06bb60160d6b8	junit.js
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">joey@kmtacn[.]com (X-FE-Envelope-From)
+211.234.110[.]194 (X-FE-Last-Public-Client-IP)
+hxxps://cdn.jsdelivr[.]net/gh/sukaut/beta@main/junit.js
+repo.ma@hotmail[.]com (адреса електронної пошти для ексфільтрації)
+nov.td@yandex[.]ru (пов'язана адреса електронної пошти)
+hxxps://github[.]com/sukaut (відповідний репозиторій в GitHub)
+</pre><p><br></p><p><strong>Рекомендації:</strong></p><p>1. Забезпечити своєчасне оновлення програмного забезпечення Zimbra.</p><p>2. Забезпечити безпечне налаштування програмного забезпечення Zimbra відповідно до кращих практик (hxxps://wiki.zimbra[.]com/wiki/SecureConfiguration).</p><p>3. Вжити заходів з перевірки наявності налаштувань, що стосуються фільтрів та/або пересилання електронних листів (використовується як засіб ексфільтрації даних).</p><p><br></p><p><strong>Графічні зображення:</strong></p><p></p>
+
+=== RESPONSE (5.3s, in 1650 / out 1151 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Armed Forces of Ukraine",
+      "kind": "military organization",
+      "gloss": "The military forces of Ukraine responsible for national defense."
+    },
+    {
+      "name": "Ukraine",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "CVE-2018-6882",
+      "kind": "vulnerability identifier",
+      "gloss": "A cross-site scripting vulnerability in Zimbra Collaboration Suite."
+    },
+    {
+      "name": "Zimbra Collaboration Suite",
+      "kind": "software product",
+      "gloss": "An enterprise email and collaboration software suite."
+    },
+    {
+      "name": "UAC-0097",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA for cyber operations targeting Ukrainian entities."
+    },
+    {
+      "name": "junit.js",
+      "kind": "malware script",
+      "gloss": "A malicious JavaScript script designed to configure email forwarding rules on compromised accounts."
+    },
+    {
+      "name": "joey@kmtacn[.]com",
+      "kind": "email address",
+      "gloss": "An email address observed as the envelope sender in phishing attacks."
+    },
+    {
+      "name": "211.234.110[.]194",
+      "kind": "ip address",
+      "gloss": "An IP address observed in malicious network traffic."
+    },
+    {
+      "name": "hxxps://cdn.jsdelivr[.]net/gh/sukaut/beta@main/junit.js",
+      "kind": "url",
+      "gloss": "A URL used to deliver malicious JavaScript code."
+    },
+    {
+      "name": "repo.ma@hotmail[.]com",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors for unauthorized data exfiltration."
+    },
+    {
+      "name": "nov.td@yandex[.]ru",
+      "kind": "email address",
+      "gloss": "An email address associated with threat actor operations."
+    },
+    {
+      "name": "hxxps://github[.]com/sukaut",
+      "kind": "url",
+      "gloss": "A GitHub repository profile associated with threat activity."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2018-6882",
+      "type": "affects-software",
+      "tail": "Zimbra Collaboration Suite",
+      "evidence": "вразливість в Zimbra Collaboration Suite"
+    },
+    {
+      "head": "UAC-0097",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2018-6882",
+      "evidence": "Технічна можливість реалізації описаної загрози класифікована за ідентифікатором CVE-2018-6882"
+    },
+    {
+      "head": "hxxps://cdn.jsdelivr[.]net/gh/sukaut/beta@main/junit.js",
+      "type": "delivers-payload",
+      "tail": "junit.js",
+      "evidence": "hxxps://cdn.jsdelivr[.]net/gh/sukaut/beta@main/junit.js"
+    },
+    {
+      "head": "junit.js",
+      "type": "exfiltrates-to-email",
+      "tail": "repo.ma@hotmail[.]com",
+      "evidence": "repo.ma@hotmail[.]com (адреса електронної пошти для ексфільтрації)"
+    },
+    {
+      "head": "Armed Forces of Ukraine",
+      "type": "located-in-country",
+      "tail": "Ukraine",
+      "evidence": "Armed Forces of Ukraine"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "affects-software",
+      "definition": "Indicates that a vulnerability exists in or impacts a specific software product."
+    },
+    {
+      "name": "exploits-vulnerability",
+      "definition": "Indicates that a threat actor leverages a specific vulnerability to conduct attacks."
+    },
+    {
+      "name": "delivers-payload",
+      "definition": "Indicates that a URL or host serves or delivers a specific file or payload."
+    },
+    {
+      "name": "exfiltrates-to-email",
+      "definition": "Indicates that malicious software or activity forwards stolen data to a specific email address."
+    },
+    {
+      "name": "located-in-country",
+      "definition": "Indicates that an organization or entity operates in or belongs to a specific country."
+    }
+  ]
+}

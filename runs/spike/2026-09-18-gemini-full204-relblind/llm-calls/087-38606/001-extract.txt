@@ -1,0 +1,161 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p class="ql-align-justify"><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп’ютерні надзвичайні події України CERT-UA отримано інформацію щодо масового розповсюдження електронних листів з темою "Нова програма для запису в журналi." серед громадян України та вітчизняних організацій. Текст електронного листа містить повідомлення, начебто, від Міністерства освіти та науки України щодо "електронних навчальних журналів", а також посилання на "програму" та пароль на архів. </p><p> У разі відкриття архіву та запуску EXE-файлу, комп'ютер буде уражено шкідливою програмою, яку, за сукупністю ознак (незважачи на деякі відмінності), класифіковано як MarsStealer.</p><p> MarsStelaer - шкідлива програма-стілер, розроблена з використанням мов програмування C/ASM. Основний функціонал - збір інформації про комп'ютер, викрадення аутентифікаційних даних з Інтернет-браузерів, плагінів крипто-гаманців, програм багатофакторної аутентифікації, викрадення файлів, а також завантаження і запуск виконуваних файлів і виготовлення знімку екрану. </p><p> Шкідлива програма продається на тематичних форумах. Вірогідно, після призупинки продажів стілера Racoon, використовуватиметься як альтернатива. Зауважимо, що заявлений функціонал, який передбачає уникнення випадків застосування стілера у відношенні "країн СНД", відключено шляхом патчингу викликів відповідних функцій.</p><p> Виявлена активність відстежується за ідентифікатором UAC-0041 як діяльність однієї з груп, що мають на меті викрадення автентифікацйних даних користувачів.</p><p><br></p><p class="ql-align-justify"><strong>Індикатори компрометації</strong></p><p class="ql-align-justify"><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">50dc32d384eddc6142d98dba4b383952&nbsp; &nbsp; e9022b65a0f367bebb6862dd17f084a662d7adb50076c1c364df0e074888656c&nbsp; &nbsp; v_2.2.9.rar
+eac2f01715ff167bf3e155fad36e5b0d&nbsp; &nbsp; f67ff70f862cdcb001763c69e88434d335b185a216e2944698f20807df28bdf2&nbsp; &nbsp; v_2.2.9.exe (MarsStealer)
+67dde33620bb01c74f9189f5e03d6528&nbsp; &nbsp; e65231f304e78ce51dc77728f883c41465b9c8a5457cc2b22fc362f48521017a&nbsp; &nbsp; v_5.1.9.zip
+b5129b33d2181343b31bd64ec340a599&nbsp; &nbsp; afa0662aa8eac0e607a9ffc85aa0bdfc570198dcb82dccdb40d0a459e12769dc&nbsp; &nbsp; v_5.1.9.exe (MarsStealer)
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">hXXps://drive.google[.]com/uc?export=download&amp;confirm=no_antivirus&amp;id=1XuVgWWXE8yeYKp6s1MnSA5M8wAx0AJih
+hXXps://api.dev-com[.]sc/files_1/v_5.1.9.exe
+hXXps://api.dev-com[.]sc/files_1/v_5.1.9.zip
+hXXp://176[.]57.189.191/gate[.]php
+hXXp://176[.]57.189.191/mozglue[.]dll
+hXXp://176[.]57.189.191/vcruntime140[.]dll
+hXXp://176[.]57.189.191/nss3[.]dll
+hXXp://176[.]57.189.191/msvcp140[.]dll
+hXXp://176[.]57.189.191/freebl3[.]dll
+hXXp://176[.]57.189.191/sqlite3[.]dll
+hXXp://176[.]57.189.191/softokn3[.]dll
+api.dev-com[.]sc
+dev-com[.]sc (2022-03-24)
+176[.]57.189.191
+95[.]111.231.126
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">C:\ProgramData\sqlite3.dll
+C:\ProgramData\freebl3.dll
+C:\ProgramData\mozglue.dll
+C:\ProgramData\msvcp140.dll
+C:\ProgramData\nss3.dll
+C:\ProgramData\softokn3.dll
+C:\ProgramData\vcruntime140.dll
+</pre><p><br></p><p class="ql-align-justify"><strong>Графічні зображення</strong></p><p></p><p><br></p>
+
+=== RESPONSE (6.5s, in 2402 / out 983 tok, STOP) ===
+UAC-0041 conducted a phishing campaign against Ukrainian citizens and organizations, masquerading as the Ministry of Education and Science of Ukraine. The emails delivered archives containing executable files that deployed MarsStealer malware, supported by C2 and file download infrastructure.
+
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Міністерство освіти та науки України",
+      "kind": "government body",
+      "gloss": "The central executive body of Ukraine responsible for education and scientific development."
+    },
+    {
+      "name": "UAC-0041",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA specializing in credential theft."
+    },
+    {
+      "name": "MarsStealer",
+      "kind": "malware family",
+      "gloss": "An information-stealing malware family written in C and Assembly designed to steal credentials, crypto wallets, and browser data."
+    },
+    {
+      "name": "Racoon",
+      "kind": "malware family",
+      "gloss": "An information-stealing malware family sold under a malware-as-a-service model."
+    },
+    {
+      "name": "v_2.2.9.rar",
+      "kind": "file",
+      "gloss": "A RAR archive file used in the distribution of malware."
+    },
+    {
+      "name": "v_2.2.9.exe",
+      "kind": "file",
+      "gloss": "An executable file containing MarsStealer malware."
+    },
+    {
+      "name": "v_5.1.9.zip",
+      "kind": "file",
+      "gloss": "A ZIP archive file used to distribute malicious payloads."
+    },
+    {
+      "name": "v_5.1.9.exe",
+      "kind": "file",
+      "gloss": "An executable file containing MarsStealer malware."
+    },
+    {
+      "name": "api.dev-com[.]sc",
+      "kind": "domain name",
+      "gloss": "A domain name used to host and distribute malicious files."
+    },
+    {
+      "name": "dev-com[.]sc",
+      "kind": "domain name",
+      "gloss": "A domain name associated with malicious infrastructure."
+    },
+    {
+      "name": "176[.]57.189.191",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious dependency files and gate scripts."
+    },
+    {
+      "name": "95[.]111.231.126",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the malicious network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0041",
+      "type": "uses-malware",
+      "tail": "MarsStealer",
+      "evidence": "Виявлена активність відстежується за ідентифікатором UAC-0041 як діяльність однієї з груп"
+    },
+    {
+      "head": "v_2.2.9.exe",
+      "type": "is-sample-of",
+      "tail": "MarsStealer",
+      "evidence": "v_2.2.9.exe (MarsStealer)"
+    },
+    {
+      "head": "v_5.1.9.exe",
+      "type": "is-sample-of",
+      "tail": "MarsStealer",
+      "evidence": "v_5.1.9.exe (MarsStealer)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-malware",
+      "definition": "The threat actor or group utilizes a specified malware family in their operations."
+    },
+    {
+      "name": "is-sample-of",
+      "definition": "The file is an instance or payload of a particular malware family."
+    }
+  ]
+}

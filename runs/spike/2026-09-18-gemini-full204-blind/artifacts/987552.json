@@ -1,0 +1,112 @@
+{
+  "docId": 987552,
+  "date": "27.07.2022",
+  "title": "Онлайн-шахрайство з використанням тематики \"допомоги від Червоного Хреста\" (CERT-UA#5063) ",
+  "entities": [
+    {
+      "id": "987552:0",
+      "name": "UAC-0100",
+      "kind": "threat actor",
+      "gloss": "A threat actor group engaging in financial fraud and phishing campaigns targeting Ukrainian banking users.",
+      "scheme": "S15",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "987552:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S5",
+      "category": "Country",
+      "role": "related"
+    },
+    {
+      "id": "987552:2",
+      "name": "hXXps://mono.gg-pay[.]me/",
+      "kind": "url",
+      "gloss": "A fraudulent phishing URL masquerading as a Ukrainian online banking service.",
+      "scheme": "S9",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "987552:3",
+      "name": "hXXps://next24.gg-pay[.]me/",
+      "kind": "url",
+      "gloss": "A fraudulent phishing URL imitating Ukrainian banking services to steal credentials.",
+      "scheme": "S9",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "987552:4",
+      "name": "hXXps://privat24.ua-wallet[.]pw/",
+      "kind": "url",
+      "gloss": "A fraudulent phishing URL designed to imitate Ukrainian online banking platforms.",
+      "scheme": "S9",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "987552:5",
+      "name": "Платформа єДопомога",
+      "kind": "software platform",
+      "gloss": "An official Ukrainian state platform for social assistance and international aid.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "987552:6",
+      "name": "Мінсоцполітики",
+      "kind": "government body",
+      "gloss": "The Ministry of Social Policy of Ukraine, responsible for social security and humanitarian aid.",
+      "scheme": "S6",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "987552:7",
+      "name": "Національний банк України",
+      "kind": "central bank",
+      "gloss": "The central bank of Ukraine responsible for monetary policy and financial system oversight.",
+      "scheme": "S6",
+      "category": "Government Body",
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0100",
+      "type": "uses-malware",
+      "tail": "hXXps://mono.gg-pay[.]me/",
+      "evidence": "шахрайська активність має систематичний характер та відстежується за ідентифікатором UAC-0100"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses-malware",
+      "tail": "hXXps://next24.gg-pay[.]me/",
+      "evidence": "шахрайська активність має систематичний характер та відстежується за ідентифікатором UAC-0100"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses-malware",
+      "tail": "hXXps://privat24.ua-wallet[.]pw/",
+      "evidence": "шахрайська активність має систематичний характер та відстежується за ідентифікатором UAC-0100"
+    },
+    {
+      "head": "Мінсоцполітики",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Відповіді Мінсоцполітики на найпоширеніші запитання"
+    },
+    {
+      "head": "Національний банк України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Національного банку України"
+    }
+  ],
+  "unclassified": []
+}

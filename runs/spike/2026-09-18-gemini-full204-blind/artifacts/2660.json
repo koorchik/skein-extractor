@@ -1,0 +1,209 @@
+{
+  "docId": 2660,
+  "date": "20.06.2019",
+  "title": "Нові спроби використання вразливості 2017 року Microsoft Office",
+  "entities": [
+    {
+      "id": "2660:0",
+      "name": "Petya",
+      "kind": "ransomware",
+      "gloss": "A family of encrypting ransomware targeting Microsoft Windows-based systems.",
+      "scheme": null,
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "2660:1",
+      "name": "Misha",
+      "kind": "ransomware",
+      "gloss": "A ransomware strain distributed alongside certain variants of Petya.",
+      "scheme": null,
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "2660:2",
+      "name": "CVE-2017-0199",
+      "kind": "vulnerability",
+      "gloss": "A remote code execution vulnerability in Microsoft Office and WordPad handling of OLE objects.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2660:3",
+      "name": "Microsoft Word",
+      "kind": "software product",
+      "gloss": "A widely used word processing application developed by Microsoft.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2660:4",
+      "name": "Microsoft Windows",
+      "kind": "operating system",
+      "gloss": "A family of proprietary graphical operating systems developed by Microsoft.",
+      "scheme": "S4",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2660:5",
+      "name": "microsoft.com",
+      "kind": "domain",
+      "gloss": "The official domain of Microsoft Corporation.",
+      "scheme": null,
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "2660:6",
+      "name": "Office 2007",
+      "kind": "software product",
+      "gloss": "A version of the Microsoft Office productivity suite.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2660:7",
+      "name": "Office 2010",
+      "kind": "software product",
+      "gloss": "A version of the Microsoft Office productivity suite.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2660:8",
+      "name": "Office 2013",
+      "kind": "software product",
+      "gloss": "A version of the Microsoft Office productivity suite.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2660:9",
+      "name": "Office 2016",
+      "kind": "software product",
+      "gloss": "A version of the Microsoft Office productivity suite.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2660:10",
+      "name": "Windows 7",
+      "kind": "operating system",
+      "gloss": "A major release of the Microsoft Windows operating system.",
+      "scheme": "S4",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2660:11",
+      "name": "Windows Vista",
+      "kind": "operating system",
+      "gloss": "A major release of the Microsoft Windows operating system.",
+      "scheme": "S4",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2660:12",
+      "name": "Windows Server 2008",
+      "kind": "operating system",
+      "gloss": "A server operating system produced by Microsoft.",
+      "scheme": "S4",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2660:13",
+      "name": "Windows Server 2012",
+      "kind": "operating system",
+      "gloss": "A server operating system produced by Microsoft.",
+      "scheme": "S4",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2660:14",
+      "name": "Microsoft Office",
+      "kind": "software suite",
+      "gloss": "A suite of productivity software developed by Microsoft.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Petya",
+      "type": "exploits",
+      "tail": "CVE-2017-0199",
+      "evidence": "атаки шифрувальників Petya та Misha у 2017 для поширення яких використовувалася вразливість для віддаленого виконання коду, а саме CVE-2017-0199"
+    },
+    {
+      "head": "Misha",
+      "type": "exploits",
+      "tail": "CVE-2017-0199",
+      "evidence": "атаки шифрувальників Petya та Misha у 2017 для поширення яких використовувалася вразливість для віддаленого виконання коду, а саме CVE-2017-0199"
+    },
+    {
+      "head": "CVE-2017-0199",
+      "type": "affects",
+      "tail": "Office 2007",
+      "evidence": "оновлення, які стосуються вразливості CVE-2017-0199 (Office 2007"
+    },
+    {
+      "head": "CVE-2017-0199",
+      "type": "affects",
+      "tail": "Office 2010",
+      "evidence": "оновлення, які стосуються вразливості CVE-2017-0199 Office 2010"
+    },
+    {
+      "head": "CVE-2017-0199",
+      "type": "affects",
+      "tail": "Office 2013",
+      "evidence": "оновлення, які стосуються вразливості CVE-2017-0199 Office 2013"
+    },
+    {
+      "head": "CVE-2017-0199",
+      "type": "affects",
+      "tail": "Office 2016",
+      "evidence": "оновлення, які стосуються вразливості CVE-2017-0199 Office 2016"
+    },
+    {
+      "head": "CVE-2017-0199",
+      "type": "affects",
+      "tail": "Windows 7",
+      "evidence": "оновлення, які стосуються вразливості CVE-2017-0199 Windows 7"
+    },
+    {
+      "head": "CVE-2017-0199",
+      "type": "affects",
+      "tail": "Windows Vista",
+      "evidence": "оновлення, які стосуються вразливості CVE-2017-0199 Windows Vista"
+    },
+    {
+      "head": "CVE-2017-0199",
+      "type": "affects",
+      "tail": "Windows Server 2008",
+      "evidence": "оновлення, які стосуються вразливості CVE-2017-0199 Windows Vista, Windows Server 2008"
+    },
+    {
+      "head": "CVE-2017-0199",
+      "type": "affects",
+      "tail": "Windows Server 2012",
+      "evidence": "оновлення, які стосуються вразливості CVE-2017-0199 Windows Server 2012"
+    }
+  ],
+  "unclassified": [
+    "2660:0",
+    "2660:1",
+    "2660:5"
+  ]
+}

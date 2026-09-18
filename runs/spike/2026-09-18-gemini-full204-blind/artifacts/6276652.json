@@ -1,0 +1,97 @@
+{
+  "docId": 6276652,
+  "date": "07.12.2023",
+  "title": "Масова кібератака UAC-0050 з використанням RemcosRAT/MeduzaStealer у відношенні України та Польщі (CERT-UA#8218)",
+  "entities": [
+    {
+      "id": "6276652:0",
+      "name": "UAC-0050",
+      "kind": "threat actor",
+      "gloss": "A threat actor known for conducting cyberespionage and financial attacks using commodity remote access trojans.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6276652:1",
+      "name": "RemcosRAT",
+      "kind": "remote access trojan",
+      "gloss": "A commercial remote access software suite frequently abused by threat actors for malicious surveillance and control.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6276652:2",
+      "name": "MeduzaStealer",
+      "kind": "information stealer",
+      "gloss": "A malware family designed to extract sensitive user data, credentials, and browser data from infected endpoints.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6276652:3",
+      "name": "Shinjiru",
+      "kind": "hosting provider",
+      "gloss": "An offshore web and server hosting service provider based in Malaysia.",
+      "scheme": "S3",
+      "category": "Organization",
+      "role": "attacker"
+    },
+    {
+      "id": "6276652:4",
+      "name": "Польща",
+      "kind": "country",
+      "gloss": "A country located in Central Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6276652:5",
+      "name": "органи державної влади Польщі",
+      "kind": "government body",
+      "gloss": "State authority and public administration bodies belonging to the government of Poland.",
+      "scheme": "S6",
+      "category": "Sector",
+      "role": "target"
+    },
+    {
+      "id": "6276652:6",
+      "name": "gov.ua",
+      "kind": "internet domain",
+      "gloss": "A Ukrainian second-level internet domain reserved for government and state organizations.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "RemcosRAT",
+      "evidence": "Типово для UAC-0050 сервери управління RemcosRAT розміщено"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "attacks",
+      "tail": "органи державної влади Польщі",
+      "evidence": "свідчать про спрямування кібератаки проти органів державної влади Польщі"
+    },
+    {
+      "head": "органи державної влади Польщі",
+      "type": "located-in",
+      "tail": "Польща",
+      "evidence": "органи державної влади Польщі"
+    },
+    {
+      "head": "Shinjiru",
+      "type": "hosts",
+      "tail": "RemcosRAT",
+      "evidence": "сервери управління RemcosRAT розміщено на технічному майданчику малайзійського хостинг-провайдера Shinjiru"
+    }
+  ],
+  "unclassified": []
+}

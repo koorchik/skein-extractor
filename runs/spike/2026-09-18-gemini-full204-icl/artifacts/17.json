@@ -1,0 +1,99 @@
+{
+  "docId": 17,
+  "date": "20.01.2020",
+  "title": "Критичні помилки плагіну WordPress дозволяють зловмисникам заволодіти вашим сайтом.",
+  "entities": [
+    {
+      "id": "17:0",
+      "name": "WP Data Reset",
+      "kind": "software plugin",
+      "gloss": "An open-source WordPress plugin designed to reset database tables to default settings.",
+      "scheme": null,
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "17:1",
+      "name": "WordPress",
+      "kind": "software product",
+      "gloss": "A widely used open-source content management system.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "17:2",
+      "name": "WebFactory Ltd",
+      "kind": "software vendor",
+      "gloss": "A software development company that maintains WordPress plugins and tools.",
+      "scheme": null,
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "17:3",
+      "name": "CVE-2020-7048",
+      "kind": "vulnerability",
+      "gloss": "A critical vulnerability allowing unauthorized users to reset database tables in WordPress.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "17:4",
+      "name": "CVE-2020-7047",
+      "kind": "vulnerability",
+      "gloss": "A high-severity vulnerability allowing authenticated users to gain administrative privileges by altering user tables.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "17:5",
+      "name": "WP Dataset Reset 3.15",
+      "kind": "software product",
+      "gloss": "A patched release version of the WP Database Reset plugin.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "17:6",
+      "name": "WordFence",
+      "kind": "cybersecurity company",
+      "gloss": "A cybersecurity company providing security solutions and threat intelligence for WordPress.",
+      "scheme": null,
+      "category": "Organization",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2020-7048",
+      "type": "affects",
+      "tail": "WP Data Reset",
+      "evidence": "Критичні помилки, знайдені у використовуваному понад 80 000 сайтів плагін"
+    },
+    {
+      "head": "CVE-2020-7047",
+      "type": "affects",
+      "tail": "WP Data Reset",
+      "evidence": "Дві вразливості, відстежувані як CVE-2020-7048 та CVE-2020-7047"
+    },
+    {
+      "head": "WP Dataset Reset 3.15",
+      "type": "fixes-vulnerability-in",
+      "tail": "WP Data Reset",
+      "evidence": "були виправлені з випуском програми WP Dataset Reset 3.15"
+    }
+  ],
+  "unclassified": [
+    "17:0",
+    "17:1",
+    "17:2",
+    "17:3",
+    "17:4",
+    "17:5",
+    "17:6"
+  ]
+}

@@ -1,0 +1,143 @@
+{
+  "entities": [
+    {
+      "name": "Assistance.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive containing shortcut files used in cyberattacks."
+    },
+    {
+      "name": "Necessary_military_assistance.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive distributed via phishing emails."
+    },
+    {
+      "name": "List of necessary things for the provision of military humanitarian assistance to Ukraine.lnk",
+      "kind": "computer file",
+      "gloss": "A malicious Windows shortcut file contained within RAR archives."
+    },
+    {
+      "name": "Providing military humanitarian assistance to Ukraine.lnk",
+      "kind": "computer file",
+      "gloss": "A malicious Windows shortcut file contained within RAR archives."
+    },
+    {
+      "name": "Providing military humanitarian assistance to Ukraine.eml",
+      "kind": "computer file",
+      "gloss": "A phishing email file used to deliver links to malicious RAR archives."
+    },
+    {
+      "name": "Латвія",
+      "kind": "country",
+      "gloss": "A country in the Baltic region of Northern Europe."
+    },
+    {
+      "name": "Європейський Союз",
+      "kind": "country",
+      "gloss": "A political and economic union of European states."
+    },
+    {
+      "name": "UAC-0010 (Armageddon)",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage threat group targeting Ukrainian and European entities."
+    },
+    {
+      "name": "Info@military-ukraine[.]site",
+      "kind": "email address",
+      "gloss": "A malicious email address used as the sender in phishing campaigns."
+    },
+    {
+      "name": "194[.]58.104.86",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the sender infrastructure in phishing operations."
+    },
+    {
+      "name": "hxxps://military-ukraine[.]site/Necessary_military_assistance.rar",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosting a RAR archive payload."
+    },
+    {
+      "name": "hxxp://military-ukraine[.]site/Assistance.rar",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosting a RAR archive payload."
+    },
+    {
+      "name": "hxxp://military-ukraine[.]online/predicate/images/favicon.ico",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL used for command and control or payload retrieval."
+    },
+    {
+      "name": "hxxp://military-ukraine[.]online/headstone/images/favicon.ico",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL used for command and control or payload retrieval."
+    },
+    {
+      "name": "hxxp://co87972.tmweb[.]ru/select/guarded/favicon.ico",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosted on Russian infrastructure for cyber operations."
+    },
+    {
+      "name": "hxxp://co87972.tmweb[.]ru/intent/quick/favicon.ico",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosted on Russian infrastructure for cyber operations."
+    },
+    {
+      "name": "hxxp://co87972.tmweb[.]ru/seeing/network/favicon.ico",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosted on Russian infrastructure for cyber operations."
+    },
+    {
+      "name": "military-ukraine[.]site",
+      "kind": "domain name",
+      "gloss": "A malicious domain name used in phishing campaigns and payload hosting."
+    },
+    {
+      "name": "military-ukraine[.]online",
+      "kind": "domain name",
+      "gloss": "A malicious domain name used in threat actor infrastructure."
+    },
+    {
+      "name": "co87972.tmweb[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used by the threat actor to host malicious assets."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Assistance.rar",
+      "type": "delivers",
+      "tail": "Providing military humanitarian assistance to Ukraine.lnk",
+      "evidence": "Кожен з таких архівів містив шкідливі файли-ярлики"
+    },
+    {
+      "head": "Necessary_military_assistance.rar",
+      "type": "delivers",
+      "tail": "List of necessary things for the provision of military humanitarian assistance to Ukraine.lnk",
+      "evidence": "Кожен з таких архівів містив шкідливі файли-ярлики"
+    },
+    {
+      "head": "UAC-0010 (Armageddon)",
+      "type": "uses",
+      "tail": "Assistance.rar",
+      "evidence": "свідчить про здійснення атак групою UAC-0010 (Armageddon)"
+    },
+    {
+      "head": "UAC-0010 (Armageddon)",
+      "type": "uses",
+      "tail": "Necessary_military_assistance.rar",
+      "evidence": "свідчить про здійснення атак групою UAC-0010 (Armageddon)"
+    },
+    {
+      "head": "hxxps://military-ukraine[.]site/Necessary_military_assistance.rar",
+      "type": "hosts",
+      "tail": "Necessary_military_assistance.rar",
+      "evidence": "hxxps://military-ukraine[.]site/Necessary_military_assistance.rar"
+    },
+    {
+      "head": "hxxp://military-ukraine[.]site/Assistance.rar",
+      "type": "hosts",
+      "tail": "Assistance.rar",
+      "evidence": "hxxp://military-ukraine[.]site/Assistance.rar"
+    }
+  ],
+  "newRelationTypes": []
+}

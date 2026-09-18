@@ -1,0 +1,182 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+- Country: A distinct territorial body or sovereign state with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Government Organization: An official agency, ministry, or administrative body operating as part of a national or state government. (also: Government Agency, Government Body, State Authority)
+- Malware: Malicious software, code, or executables designed to infiltrate, damage, or compromise computer systems and data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address specifying the location and retrieval mechanism of a resource on a computer network. (also: URL, Web Address, Web Link)
+- Person: An individual human being, such as a government official, cybersecurity expert, researcher, or executive. (also: Individual, Natural Person)
+- IP Address: A numerical label assigned to a device connected to a computer network that uses the Internet Protocol for communication. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Electronic Mail Address)
+- Computer File: A digital resource or named item stored on a computer system, containing data, code, or instructions. (also: File, Digital File, Filename)
+- Company: A commercial business, corporation, or enterprise operating in any economic sector or industry. (also: Enterprise, Corporation, Commercial Organization)
+- Domain Name: A human-readable identification string defining a realm of administrative autonomy or resource location within the Internet Domain Name System. (also: Internet Domain, FQDN, Fully Qualified Domain Name)
+- Threat Actor: An individual, group, or organization responsible for malicious cyber activities, attacks, or cyber espionage operations. (also: Threat Group, Cyber Threat Actor, Hacker Group)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p class="ql-align-justify"><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп’ютерні надзвичайні події України CERT-UA отримано інформацію щодо масового розповсюдження електронних листів з темою "Нова програма для запису в журналi." серед громадян України та вітчизняних організацій. Текст електронного листа містить повідомлення, начебто, від Міністерства освіти та науки України щодо "електронних навчальних журналів", а також посилання на "програму" та пароль на архів. </p><p> У разі відкриття архіву та запуску EXE-файлу, комп'ютер буде уражено шкідливою програмою, яку, за сукупністю ознак (незважачи на деякі відмінності), класифіковано як MarsStealer.</p><p> MarsStelaer - шкідлива програма-стілер, розроблена з використанням мов програмування C/ASM. Основний функціонал - збір інформації про комп'ютер, викрадення аутентифікаційних даних з Інтернет-браузерів, плагінів крипто-гаманців, програм багатофакторної аутентифікації, викрадення файлів, а також завантаження і запуск виконуваних файлів і виготовлення знімку екрану. </p><p> Шкідлива програма продається на тематичних форумах. Вірогідно, після призупинки продажів стілера Racoon, використовуватиметься як альтернатива. Зауважимо, що заявлений функціонал, який передбачає уникнення випадків застосування стілера у відношенні "країн СНД", відключено шляхом патчингу викликів відповідних функцій.</p><p> Виявлена активність відстежується за ідентифікатором UAC-0041 як діяльність однієї з груп, що мають на меті викрадення автентифікацйних даних користувачів.</p><p><br></p><p class="ql-align-justify"><strong>Індикатори компрометації</strong></p><p class="ql-align-justify"><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">50dc32d384eddc6142d98dba4b383952&nbsp; &nbsp; e9022b65a0f367bebb6862dd17f084a662d7adb50076c1c364df0e074888656c&nbsp; &nbsp; v_2.2.9.rar
+eac2f01715ff167bf3e155fad36e5b0d&nbsp; &nbsp; f67ff70f862cdcb001763c69e88434d335b185a216e2944698f20807df28bdf2&nbsp; &nbsp; v_2.2.9.exe (MarsStealer)
+67dde33620bb01c74f9189f5e03d6528&nbsp; &nbsp; e65231f304e78ce51dc77728f883c41465b9c8a5457cc2b22fc362f48521017a&nbsp; &nbsp; v_5.1.9.zip
+b5129b33d2181343b31bd64ec340a599&nbsp; &nbsp; afa0662aa8eac0e607a9ffc85aa0bdfc570198dcb82dccdb40d0a459e12769dc&nbsp; &nbsp; v_5.1.9.exe (MarsStealer)
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">hXXps://drive.google[.]com/uc?export=download&amp;confirm=no_antivirus&amp;id=1XuVgWWXE8yeYKp6s1MnSA5M8wAx0AJih
+hXXps://api.dev-com[.]sc/files_1/v_5.1.9.exe
+hXXps://api.dev-com[.]sc/files_1/v_5.1.9.zip
+hXXp://176[.]57.189.191/gate[.]php
+hXXp://176[.]57.189.191/mozglue[.]dll
+hXXp://176[.]57.189.191/vcruntime140[.]dll
+hXXp://176[.]57.189.191/nss3[.]dll
+hXXp://176[.]57.189.191/msvcp140[.]dll
+hXXp://176[.]57.189.191/freebl3[.]dll
+hXXp://176[.]57.189.191/sqlite3[.]dll
+hXXp://176[.]57.189.191/softokn3[.]dll
+api.dev-com[.]sc
+dev-com[.]sc (2022-03-24)
+176[.]57.189.191
+95[.]111.231.126
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">C:\ProgramData\sqlite3.dll
+C:\ProgramData\freebl3.dll
+C:\ProgramData\mozglue.dll
+C:\ProgramData\msvcp140.dll
+C:\ProgramData\nss3.dll
+C:\ProgramData\softokn3.dll
+C:\ProgramData\vcruntime140.dll
+</pre><p><br></p><p class="ql-align-justify"><strong>Графічні зображення</strong></p><p></p><p><br></p>
+
+=== RESPONSE (7.2s, in 3193 / out 865 tok, STOP) ===
+```json
+{
+  "entities": [
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Міністерства освіти та науки України",
+      "kind": "government organization",
+      "gloss": "The central executive body of Ukraine responsible for education and science policy."
+    },
+    {
+      "name": "MarsStealer",
+      "kind": "malware",
+      "gloss": "An information-stealing malware designed to exfiltrate credentials, browser data, cryptocurrency wallet information, and files."
+    },
+    {
+      "name": "Racoon",
+      "kind": "malware",
+      "gloss": "An information-stealing malware family sold under a malware-as-a-service model."
+    },
+    {
+      "name": "UAC-0041",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA focusing on stealing user authentication data."
+    },
+    {
+      "name": "v_2.2.9.rar",
+      "kind": "computer file",
+      "gloss": "A RAR archive file distributed to deliver the MarsStealer malware."
+    },
+    {
+      "name": "v_2.2.9.exe",
+      "kind": "computer file",
+      "gloss": "An executable file containing the MarsStealer malicious payload."
+    },
+    {
+      "name": "v_5.1.9.zip",
+      "kind": "computer file",
+      "gloss": "A ZIP archive file distributed to deliver the MarsStealer malware."
+    },
+    {
+      "name": "v_5.1.9.exe",
+      "kind": "computer file",
+      "gloss": "An executable file containing the MarsStealer malicious payload."
+    },
+    {
+      "name": "api.dev-com[.]sc",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure to host malware files."
+    },
+    {
+      "name": "dev-com[.]sc",
+      "kind": "domain name",
+      "gloss": "A parent domain associated with malicious delivery infrastructure."
+    },
+    {
+      "name": "176[.]57.189.191",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious files and a gate script for MarsStealer."
+    },
+    {
+      "name": "95[.]111.231.126",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the malicious network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Міністерства освіти та науки України",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "Міністерства освіти та науки України"
+    },
+    {
+      "head": "UAC-0041",
+      "type": "uses",
+      "tail": "MarsStealer",
+      "evidence": "активність відстежується за ідентифікатором UAC-0041 як діяльність однієї з груп"
+    },
+    {
+      "head": "api.dev-com[.]sc",
+      "type": "part-of",
+      "tail": "dev-com[.]sc",
+      "evidence": "api.dev-com[.]sc dev-com[.]sc"
+    }
+  ],
+  "newRelationTypes": []
+}
+```

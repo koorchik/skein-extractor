@@ -1,0 +1,124 @@
+{
+  "entities": [
+    {
+      "name": "Національної поліції України",
+      "kind": "government body",
+      "gloss": "The national police service of Ukraine responsible for law enforcement."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country located in Eastern Europe."
+    },
+    {
+      "name": "Повідомлення про вчинення злочину (Білоус Олексій Сергійович).docx",
+      "kind": "malicious document",
+      "gloss": "A password-protected DOCX lure document carrying an embedded malicious JavaScript payload."
+    },
+    {
+      "name": "Повідомлення про вчинення злочину.docx",
+      "kind": "malicious document",
+      "gloss": "A password-protected DOCX lure document containing an embedded malicious file."
+    },
+    {
+      "name": "GSU207@POLICE.GOV.UA - Повідомлення (2).js",
+      "kind": "malware loader",
+      "gloss": "A malicious JavaScript dropper that downloads and executes executable payloads."
+    },
+    {
+      "name": "GSU207@POLICE.GOV.UA - Повідомлення (17).js",
+      "kind": "malware loader",
+      "gloss": "A malicious JavaScript dropper script used to fetch secondary payloads."
+    },
+    {
+      "name": "powershell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "Discord",
+      "kind": "online platform",
+      "gloss": "A digital communications and messaging platform abused for hosting malware payloads."
+    },
+    {
+      "name": "OutSteel",
+      "kind": "malware family",
+      "gloss": "A document-stealing malware family associated with threat operations targeting Ukraine."
+    },
+    {
+      "name": "SaintBot",
+      "kind": "malware family",
+      "gloss": "A downloader trojan used to retrieve and execute additional malicious payloads."
+    },
+    {
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage and threat activity group targeting Ukrainian organizations."
+    },
+    {
+      "name": "cdn.discordapp.com",
+      "kind": "domain name",
+      "gloss": "A content delivery domain for Discord used by attackers to distribute malware."
+    },
+    {
+      "name": "185.244.41.109",
+      "kind": "ip address",
+      "gloss": "An IP address used for malicious command, control, or upload activities."
+    },
+    {
+      "name": "eumr.site",
+      "kind": "domain name",
+      "gloss": "A malicious domain used for payload hosting and distribution."
+    },
+    {
+      "name": "mariaparsons10811@gmail.com",
+      "kind": "email address",
+      "gloss": "An email address identified as an indicator of compromise in the campaign."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Національної поліції України",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "Національної поліції України"
+    },
+    {
+      "head": "Повідомлення про вчинення злочину (Білоус Олексій Сергійович).docx",
+      "type": "delivers",
+      "tail": "GSU207@POLICE.GOV.UA - Повідомлення (2).js",
+      "evidence": "документи містять вбудовані об’єкти, активація яких призведе до створення і запуску на комп’ютері Javascript-файлу"
+    },
+    {
+      "head": "GSU207@POLICE.GOV.UA - Повідомлення (2).js",
+      "type": "delivers",
+      "tail": "OutSteel",
+      "evidence": "здійснить підключення до сервісу Discord та завантажить і виконає EXE-файл, що призведе до ураження комп’ютера жертви шкідливою програмою OutSteel"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "OutSteel",
+      "evidence": "ураження комп’ютера жертви шкідливою програмою OutSteel... Активність асоційовано з діяльністю групи UAC-0056"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "SaintBot",
+      "evidence": "1406.exe (SaintBot)"
+    },
+    {
+      "head": "cdn.discordapp.com",
+      "type": "hosts",
+      "tail": "OutSteel",
+      "evidence": "hxxps://cdn.discordapp[.]com/attachments/932413459872747544/938291977735266344/putty.exe"
+    },
+    {
+      "head": "eumr.site",
+      "type": "hosts",
+      "tail": "SaintBot",
+      "evidence": "hxxp://eumr[.]site/load74h74830.exe"
+    }
+  ],
+  "newRelationTypes": []
+}

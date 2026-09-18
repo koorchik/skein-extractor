@@ -1,0 +1,148 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+- Country: A distinct territorial body or sovereign state with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Government Organization: An official agency, ministry, or administrative body operating as part of a national or state government. (also: Government Agency, Government Body, State Authority)
+- Malware: Malicious software, code, or executables designed to infiltrate, damage, or compromise computer systems and data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address specifying the location and retrieval mechanism of a resource on a computer network. (also: URL, Web Address, Web Link)
+- Person: An individual human being, such as a government official, cybersecurity expert, researcher, or executive. (also: Individual, Natural Person)
+- IP Address: A numerical label assigned to a device connected to a computer network that uses the Internet Protocol for communication. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Electronic Mail Address)
+- Computer File: A digital resource or named item stored on a computer system, containing data, code, or instructions. (also: File, Digital File, Filename)
+- Company: A commercial business, corporation, or enterprise operating in any economic sector or industry. (also: Enterprise, Corporation, Commercial Organization)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p class="ql-align-justify">У ніч з 13 на 14 січня було здійснено хакерську атаку на низку сайтів державних органів, зокрема МЗС, МОН та інші. На головній сторінці цих сайтів було розміщено повідомлення провокаційного характеру. Контент сайтів при цьому змінено не було та витоку персональних даних, за попередньою інформацією, не відбулося.</p><p class="ql-align-justify">З метою недопущення поширення атаки на інші ресурси та локалізації технічної проблеми тимчасово призупинено роботу низки інших сайтів державних органів.</p><p class="ql-align-justify">Зараз Держспецзв'язку спільно зі Службою безпеки України та Кіберполіцією збирає цифрові докази та займається дослідженням кіберінциденту.</p><p class="ql-align-justify">Наразі триває робота з надання допомоги адміністраторам вражених ресурсів у їх відновленні.</p><p class="ql-align-justify">За результатами опрацювання можливих векторів атаки не виключається використання зловмисниками вразливості October CMS:</p><p class="ql-align-justify"><a href="https://www.cvedetails.com/cve/CVE-2021-32648/" rel="noopener noreferrer" target="_blank">https://www.cvedetails.com/cve/CVE-2021-32648/</a>,</p><p class="ql-align-justify"><a href="https://github.com/octobercms/october/security/advisories/GHSA-mxr5-mc97-63rc" rel="noopener noreferrer" target="_blank">https://github.com/octobercms/october/security/advisories/GHSA-mxr5-mc97-63rc</a>.</p><p class="ql-align-justify">Якщо ваш сайт, який побудовано за допомогою даної CMS, зламано (проведено дефейс), рекомендуємо вжити наступні заходи:&nbsp;</p><p class="ql-align-justify">1.&nbsp;&nbsp;&nbsp;Відключити доступ веб серверу від мережі Інтернет.</p><p class="ql-align-justify">2.&nbsp;&nbsp;&nbsp;Зібрати та передати до CERT-UA для аналізу такі дані:</p><p class="ql-align-justify">лог-файли доступу до веб серверу,</p><p class="ql-align-justify">образ та/або копію файлової системи веб серверу.</p><p class="ql-align-justify">3.&nbsp;&nbsp;&nbsp;Відновити веб сервер з резервної копії. Якщо така можливість відсутня необхідно відновити стартову сторінку сайту:</p><p class="ql-align-justify">перейти за посиланням {ваш_домен}/backend/rainlab/blog/posts, знайти шкідливий пост та видалити його.</p><p class="ql-align-justify">4.&nbsp;&nbsp;&nbsp;Перевірити наявність веб шелів (нелегітимних фалів та скриптів) на веб сервері (<a href="https://cert.gov.ua/files/pdf/CUA-14-06R.pdf" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/files/pdf/CUA-14-06R.pdf</a>).</p><p class="ql-align-justify">5.&nbsp;&nbsp;&nbsp;Перевірити наявність сторонніх облікових записів користувачів CMS та ОС веб серверу та видалити нелегітимні, змінити паролі на всіх інших облікових записах.</p><p class="ql-align-justify">6.&nbsp;&nbsp;&nbsp;Заблокувати доступ до адмін-панелі CMS з мережі Інтернет:</p><p class="ql-align-justify">6.1 При використанні веб-серверу NGINX:</p><p class="ql-align-justify">Відредагувати файл конфігурації:</p><p class="ql-align-justify">/etc/nginx/sites-enabled/{ім'я файлу з конфігурацією}.conf</p><p class="ql-align-justify">Зазвичай ім'я файлу з конфігурацією співпадає з доменним іменем сайту</p><p class="ql-align-justify">Додати в конфігурацію (в директиві server) наступні рядки:&nbsp;</p><p class="ql-align-justify">location /backend/backend/auth/restore {</p><p class="ql-align-justify">allow {ваша внутрішня адміністративна мережа або внутрішня ІР адреса адміністратора};</p><p class="ql-align-justify">deny all;</p><p class="ql-align-justify">}</p><p class="ql-align-justify">location /backend/backend/auth/signin {</p><p class="ql-align-justify">allow {ваша внутрішня адміністративна мережа або внутрішня ІР адреса адміністратора};</p><p class="ql-align-justify">deny all;</p><p class="ql-align-justify">}</p><p class="ql-align-justify">перезапустити NGINX.</p><p class="ql-align-justify">6.2 При використанні веб-серверу APACHE:</p><p class="ql-align-justify">Відредагувати файл конфігурації:</p><p class="ql-align-justify">/etc/apache2/sites-enabled/{ім'я файлу з конфігурацією}.conf</p><p class="ql-align-justify">Зазвичай ім'я файлу з конфігурацією співпадає з доменним іменем сайту</p><p class="ql-align-justify">Додати в конфігурацію наступні рядки:</p><p class="ql-align-justify">&lt;Location /backend/backend/auth/restore &gt;</p><p class="ql-align-justify">Order deny,allow</p><p class="ql-align-justify">Deny from all</p><p class="ql-align-justify">Allow from {ваша внутрішня адміністративна мережа або внутрішня ІР адреса адміністратора}&nbsp;&nbsp;</p><p class="ql-align-justify">&lt;/Location&gt;</p><p class="ql-align-justify">&lt;Location /backend/backend/auth/signin &gt;</p><p class="ql-align-justify">Order deny,allow&nbsp;</p><p class="ql-align-justify">Deny from all</p><p class="ql-align-justify">Allow from {ваша внутрішня адміністративна мережа або внутрішня ІР адреса адміністратора}&nbsp;&nbsp;</p><p class="ql-align-justify">&lt;/Location&gt;</p><p class="ql-align-justify">перезапустити APACHE.</p><p class="ql-align-justify">7.&nbsp;&nbsp;&nbsp;Оновити OctoberCMS до останньої версії (у версії 1.0.472, 1.1.5 вразливість вже усунено). Включити сервер в продакшн.</p><p class="ql-align-justify">Якщо сайт не зламано виконати дії зазначені в пунктах 4 – 7.</p><p><br></p><p>&nbsp;</p><p class="ql-align-justify">&nbsp;</p><p class="ql-align-justify">&nbsp;</p>
+
+=== RESPONSE (4.5s, in 3327 / out 964 tok, STOP) ===
+The report details a cyberattack involving web defacements against Ukrainian government websites, including the Ministry of Foreign Affairs (МЗС) and the Ministry of Education and Science (МОН). Investigation by SSU, Cyberpolice, and Derzhspetszvyazok indicated potential exploitation of vulnerability CVE-2021-32648 in October CMS. Web server software NGINX and APACHE and remediation steps are detailed.
+
+{
+  "entities": [
+    {
+      "name": "МЗС",
+      "kind": "Government Organization",
+      "gloss": "The Ministry of Foreign Affairs of Ukraine, responsible for foreign relations and diplomatic activities."
+    },
+    {
+      "name": "МОН",
+      "kind": "Government Organization",
+      "gloss": "The Ministry of Education and Science of Ukraine, responsible for the national educational and scientific system."
+    },
+    {
+      "name": "Держспецзв'язку",
+      "kind": "Government Organization",
+      "gloss": "The State Service of Special Communications and Information Protection of Ukraine."
+    },
+    {
+      "name": "Службою безпеки України",
+      "kind": "Government Organization",
+      "gloss": "The national security agency and primary counterintelligence service of Ukraine."
+    },
+    {
+      "name": "України",
+      "kind": "Country",
+      "gloss": "A sovereign country located in Eastern Europe."
+    },
+    {
+      "name": "Кіберполіцією",
+      "kind": "Government Organization",
+      "gloss": "The Cyberpolice department of the National Police of Ukraine, responsible for combating cybercrime."
+    },
+    {
+      "name": "October CMS",
+      "kind": "Software Product",
+      "gloss": "A self-hosted open-source content management system based on the PHP Laravel framework."
+    },
+    {
+      "name": "CVE-2021-32648",
+      "kind": "Security Vulnerability",
+      "gloss": "An authentication bypass vulnerability in October CMS."
+    },
+    {
+      "name": "https://www.cvedetails.com/cve/CVE-2021-32648/",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A web link providing security details regarding vulnerability CVE-2021-32648."
+    },
+    {
+      "name": "https://github.com/octobercms/october/security/advisories/GHSA-mxr5-mc97-63rc",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A web link to the GitHub security advisory GHSA-mxr5-mc97-63rc for October CMS."
+    },
+    {
+      "name": "https://cert.gov.ua/files/pdf/CUA-14-06R.pdf",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A web link to a CERT-UA guidance document regarding webshell detection."
+    },
+    {
+      "name": "NGINX",
+      "kind": "Software Product",
+      "gloss": "An open-source web server, reverse proxy, and load balancing software."
+    },
+    {
+      "name": "APACHE",
+      "kind": "Software Product",
+      "gloss": "An open-source cross-platform web server software developed by the Apache Software Foundation."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2021-32648",
+      "type": "affects",
+      "tail": "October CMS",
+      "evidence": "використання зловмисниками вразливості October CMS: https://www.cvedetails.com/cve/CVE-2021-32648/"
+    },
+    {
+      "head": "Службою безпеки України",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "Службою безпеки України"
+    }
+  ],
+  "newRelationTypes": []
+}

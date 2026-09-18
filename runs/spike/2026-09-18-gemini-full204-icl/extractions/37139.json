@@ -1,0 +1,133 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "Національний банк України",
+      "kind": "government organization",
+      "gloss": "The central bank of Ukraine responsible for monetary policy and financial system regulation."
+    },
+    {
+      "name": "CSIRT-NBU",
+      "kind": "government organization",
+      "gloss": "The computer security incident response team of the National Bank of Ukraine."
+    },
+    {
+      "name": "Національна поліція України",
+      "kind": "government organization",
+      "gloss": "The central law enforcement service of Ukraine maintaining public safety and order."
+    },
+    {
+      "name": "Департамент кіберполіції Національної поліції України",
+      "kind": "government organization",
+      "gloss": "The specialized cyber police unit of the National Police of Ukraine investigating cybercrime."
+    },
+    {
+      "name": "Mirai",
+      "kind": "malware",
+      "gloss": "A malware strain that infects networked IoT devices to form large botnets used in DDoS attacks."
+    },
+    {
+      "name": "Meris",
+      "kind": "malware",
+      "gloss": "A botnet malware that compromises networking devices to conduct massive distributed denial-of-service attacks."
+    },
+    {
+      "name": "Mikrotik",
+      "kind": "software vendor",
+      "gloss": "A manufacturer of networking hardware and RouterOS software for routers and wireless systems."
+    },
+    {
+      "name": "Shodan",
+      "kind": "software product",
+      "gloss": "A search engine that allows users to identify devices connected to the internet."
+    },
+    {
+      "name": "MISP",
+      "kind": "software product",
+      "gloss": "An open-source threat intelligence platform for sharing, storing, and correlating indicators of compromise."
+    },
+    {
+      "name": "gov.ua",
+      "kind": "domain name",
+      "gloss": "The government second-level domain zone of Ukraine for official state websites."
+    },
+    {
+      "name": "Cisco Crosswork",
+      "kind": "software product",
+      "gloss": "A suite of network automation and analytics software applications by Cisco."
+    },
+    {
+      "name": "217.117.7.0/24",
+      "kind": "ip address",
+      "gloss": "An IPv4 network prefix assigned to Inq-Digital-Nigeria-AS."
+    },
+    {
+      "name": "Inq-Digital-Nigeria-AS",
+      "kind": "company",
+      "gloss": "A telecommunications provider and autonomous system operator located in Nigeria."
+    },
+    {
+      "name": "Приватбанк",
+      "kind": "company",
+      "gloss": "The largest commercial bank in Ukraine."
+    },
+    {
+      "name": "https://twitter.com/360Netlab/status/1493797519725367302",
+      "kind": "uniform resource locator",
+      "gloss": "A URL pointing to a tweet by 360 Netlab concerning Mirai botnet activity."
+    },
+    {
+      "name": "https://hostmaster.ua/news/?pr20220216",
+      "kind": "uniform resource locator",
+      "gloss": "A URL pointing to a news announcement regarding DDoS attacks on DNS servers."
+    },
+    {
+      "name": "http://bgpstream.com/event/287011",
+      "kind": "uniform resource locator",
+      "gloss": "A URL pointing to a BGPStream event documenting a BGP route hijack incident."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CSIRT-NBU",
+      "type": "part-of",
+      "tail": "Національний банк України",
+      "evidence": "фахівцями Національного банку України (CSIRT-NBU)"
+    },
+    {
+      "head": "Департамент кіберполіції Національної поліції України",
+      "type": "part-of",
+      "tail": "Національна поліція України",
+      "evidence": "Департаменту кіберполіції Національної поліції України"
+    },
+    {
+      "head": "Національний банк України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Національного банку України"
+    },
+    {
+      "head": "Національна поліція України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Національної поліції України"
+    },
+    {
+      "head": "Приватбанк",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "автономної системи Приватбанку"
+    },
+    {
+      "head": "Meris",
+      "type": "affects",
+      "tail": "Mikrotik",
+      "evidence": "Meris (шкідливий інформаційний потік спрямовується через тисячі зламаних маршрутизаторів Mikrotik"
+    }
+  ],
+  "newRelationTypes": []
+}

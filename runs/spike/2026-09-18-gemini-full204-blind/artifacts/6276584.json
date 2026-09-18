@@ -1,0 +1,253 @@
+{
+  "docId": 6276584,
+  "date": "01.12.2023",
+  "title": "Зведена інформація щодо діяльності угрупування UAC-0006 станом на 01.12.2023",
+  "entities": [
+    {
+      "id": "6276584:0",
+      "name": "UAC-0006",
+      "kind": "threat actor",
+      "gloss": "A financially motivated cybercriminal group active since 2013 targeting Ukrainian organizations.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6276584:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "6276584:2",
+      "name": "SMOKELOADER",
+      "kind": "malware family",
+      "gloss": "A modular malware downloader used to drop and execute secondary payloads.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6276584:3",
+      "name": "LOADERX3",
+      "kind": "malware family",
+      "gloss": "A malware loader used to deploy subsequent malicious components on infected systems.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6276584:4",
+      "name": "RMS",
+      "kind": "software product",
+      "gloss": "A legitimate remote administration utility often abused by threat actors for unauthorized access.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6276584:5",
+      "name": "RDPWRAPPER",
+      "kind": "software product",
+      "gloss": "A software library used to enable Remote Desktop Host support on Windows workstations.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6276584:6",
+      "name": "DANABOT",
+      "kind": "malware family",
+      "gloss": "A modular banking Trojan and information stealer.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6276584:7",
+      "name": "LUMMASTEALER",
+      "kind": "malware family",
+      "gloss": "An information stealer malware targeting credentials, cryptocurrency wallets, and browser data.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6276584:8",
+      "name": "REDLINESTEALER",
+      "kind": "malware family",
+      "gloss": "A commercial information stealer malware that harvests credentials, cookies, and system information.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6276584:9",
+      "name": "SYSTEMBC",
+      "kind": "malware family",
+      "gloss": "A proxy and backdoor malware used to route malicious traffic and maintain access.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6276584:10",
+      "name": "TALESHOT",
+      "kind": "malware family",
+      "gloss": "A spyware tool used to capture screenshots and analyze active window titles and processes.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6276584:11",
+      "name": "PIEJET",
+      "kind": "malware family",
+      "gloss": "A Python-based malicious loader or script used by cybercriminals.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6276584:12",
+      "name": "LOADNEST",
+      "kind": "malware family",
+      "gloss": "A malware loader designed to deploy additional malicious payloads.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6276584:13",
+      "name": "HANGTHREAD",
+      "kind": "malware family",
+      "gloss": "A specialized tool designed to cause denial of service by exhausting computing resources.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6276584:14",
+      "name": "BACKSTAB",
+      "kind": "malware tool",
+      "gloss": "A tool used by threat actors to disable security software processes using legitimate signed drivers.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6276584:15",
+      "name": "AUKILL",
+      "kind": "malware tool",
+      "gloss": "A defense evasion tool used to disable endpoint detection and response (EDR) software.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6276584:16",
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A series of proprietary graphical operating systems developed and marketed by Microsoft.",
+      "scheme": "S4",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0006",
+      "type": "attacks",
+      "tail": "Україна",
+      "evidence": "угрупування UAC-0006 посідає перше місце в категорії фінансових злочинів, здійснюючи (спроби) викрадення грошових коштів з рахунків українських підприємств"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "SMOKELOADER",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: SMOKELOADER"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "LOADERX3",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: LOADERX3"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "RMS",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: RMS"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "RDPWRAPPER",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: RDPWRAPPER"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "DANABOT",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: DANABOT"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "LUMMASTEALER",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: LUMMASTEALER"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "REDLINESTEALER",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: REDLINESTEALER"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "SYSTEMBC",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: SYSTEMBC"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "TALESHOT",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: TALESHOT"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "PIEJET",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: PIEJET"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "LOADNEST",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: LOADNEST"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "HANGTHREAD",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: HANGTHREAD"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "BACKSTAB",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: BACKSTAB"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "AUKILL",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: AUKILL"
+    }
+  ],
+  "unclassified": []
+}

@@ -1,0 +1,216 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p>Ураховуючи численні запити щодо можливості здійснення кібератак 23-24 лютого 2024 року, з огляду на події 23.02.2022 та 23.02.2023, інформуємо про таке.</p><p>У період січень-лютий 2024 року Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA, серед іншого, вжито заходів з недопущення реалізації зловмисного задуму, який полягав у проведенні деструктивного впливу, у відношенні трьох українських організацій урядового та енергетичного сектору.</p><p>Протягом згаданого періоду, за фактами деструктивних кібератак, проведено комп'ютерно-технічні дослідження в інформаційно-комунікаційних системах (ІКС) трьох організацій, зокрема, фінансової галузі, сфери охорони здоров'я та інформаційних технологій.</p><p>Слід звернути увагу на той факт, що в більшості випадків первинний несанкціонований доступ до ІКС об'єкту атаки був отриманий заздалегідь (рік та більше). Крім того, для проникнення до мережі зловмисники використовували скомпрометовані облікові записи VPN, а також недоліки налаштувань і/або вразливості програмного забезпечення публічно доступних інформаційних систем.</p><p>Поряд із зазначеним проведено аналіз низки інцидентів, пов'язаних з кібершпигунством у відношенні Сил безпеки і оборони України, які були здійсненні угрупуванням UAC-0028 (APT28) та UAC-0003 (Turla), зокрема, із застосуванням модифікованого флагманського шкідливого програмного забезпечення KAZUAR.</p><p>У першому кварталі 2024 року найбільш активною загрозою було угрупування найманців UAC-0050, пов'язаних з правоохоронними структурами Росії, які, оголосивши про припинення "професійної" діяльності під "брендом" DaVinci Group за декілька діб до російського вторгнення у 2022 році, останнім часом активно намагаються привернути до себе увагу. Станом на 22.02.2024 зафіксовано та досліджено не менше 15 кампаній, під час яких зловмисниками застосовано, щонайменше, п'ять різновидів шкідливих програм: REMCOS RAT, QUASAR RAT, VENOM RAT, REMOTE UTILITIES та LUMMASTEALER. Незважаючи на той факт, що незначна частина "здобутків" оприлюднюється в Telegram-каналі, тактика угрупування схожа на діяльність брокерів первинного доступу. Ураховуючи масовість атак і застосування програм, функціонал яких передбачає викрадення автентифікаційних даних, скомпрометовані логіни, паролі та сертифікати можуть сприяти створенню технічних передумов для отримання несанкціонованого доступу до ІКС організацій з метою подальшого розвитку атаки на їх "внутрішні" ресурси.</p><p>У відношенні угрупування UAC-0010 CERT-UA вживаються ефективні точкові заходи протидії, разом з тим, беручи до уваги масштаби уражень, боротьба з викоріненням шкідливих програм та наслідків від їхньої діяльності може потребувати об'єднання зусиль не тільки на рівні основних суб'єктів забезпечення кібербезпеки України, а й із залученням світових технологічних стейкхолдерів.</p><p>Так чи інакше, успішній реалізації левової частки кібератак сприяє халатність керівників та виконавців на місцях, які навіть не беруть до уваги інформацію про актуальні кіберзагрози, що публікується як на офіційному вебсайті та MISP CERT-UA, так і в інших публічно доступних фахових джерелах. При цьому, власники системи допускають одні й ті самі помилки: відсутність двохфакторної автентифікації, відсутність сегментації мережі, в першу чергу, в частині обмеження адміністративного (привілейованого) доступу, відсутність управління поверхнею атаки (вразливе програмне забезпечення, "відкриті порти" та ін.).</p><p>Вкотре рекомендуємо ознайомитися з відповідними інформаційними матеріалами та поставитися відповідально до захисту цифрових кордонів ваших інформаційно-комунікаційних систем.</p><p>1. Як бути відповідальним та втримати кіберфронт (<a href="https://cert.gov.ua/article/5436463)" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/article/5436463</a>)</p><p>2. Щодо невідкладних заходів кіберзахисту (<a href="https://cert.gov.ua/article/1751036)" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/article/1751036</a>)</p><p>3. Щодо обміну інформацією про кіберзагрози з основними суб’єктами забезпечення кібербезпеки України (<a href="https://cert.gov.ua/article/39962)" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/article/39962</a>)</p><p>4. Особливості деструктивних кібератак Sandworm у відношенні українських провайдерів (<a href="https://cert.gov.ua/article/6123309)" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/article/6123309</a>)</p><p>5. Зведена інформація щодо діяльності угрупування UAC-0010 станом на липень 2023 року (<a href="https://cert.gov.ua/article/5160737)" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/article/5160737</a>)</p>
+
+=== RESPONSE (7.8s, in 2396 / out 2070 tok, STOP) ===
+The text outlines cyber threats and threat actors targeting Ukrainian entities across various sectors (government, energy, finance, healthcare, IT, defense). It highlights espionage activities by UAC-0028 (APT28) and UAC-0003 (Turla) using KAZUAR malware against the Ukrainian Security and Defense Forces, attacks by UAC-0050 (formerly DaVinci Group) using Remcos RAT, Quasar RAT, Venom RAT, Remote Utilities, and LummaStealer, and notes ongoing activities associated with UAC-0010 and Sandworm.
+
+```json
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Сили безпеки і оборони України",
+      "kind": "government body",
+      "gloss": "The collective state military and law enforcement apparatus of Ukraine."
+    },
+    {
+      "name": "UAC-0028",
+      "kind": "hacking group",
+      "gloss": "A Russian state-sponsored cyber espionage threat group also known as APT28 or Fancy Bear."
+    },
+    {
+      "name": "UAC-0003",
+      "kind": "hacking group",
+      "gloss": "A Russian state-sponsored advanced persistent threat group also known as Turla."
+    },
+    {
+      "name": "KAZUAR",
+      "kind": "malware family",
+      "gloss": "A sophisticated backdoor trojan associated with the Turla threat group."
+    },
+    {
+      "name": "UAC-0050",
+      "kind": "hacking group",
+      "gloss": "A financially and politically motivated cyber threat group linked to Russian law enforcement."
+    },
+    {
+      "name": "Росія",
+      "kind": "country",
+      "gloss": "A country spanning Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "DaVinci Group",
+      "kind": "hacking group",
+      "gloss": "A previous operational brand name used by the threat actor UAC-0050."
+    },
+    {
+      "name": "REMCOS RAT",
+      "kind": "malware family",
+      "gloss": "A commercial remote access trojan frequently used by malicious actors for surveillance."
+    },
+    {
+      "name": "QUASAR RAT",
+      "kind": "malware family",
+      "gloss": "An open-source remote access tool frequently abused by threat actors for remote administration and espionage."
+    },
+    {
+      "name": "VENOM RAT",
+      "kind": "malware family",
+      "gloss": "A remote access trojan derived from Quasar RAT used for remote control and data theft."
+    },
+    {
+      "name": "REMOTE UTILITIES",
+      "kind": "software product",
+      "gloss": "A legitimate remote desktop software program often abused by threat actors for unauthorized access."
+    },
+    {
+      "name": "LUMMASTEALER",
+      "kind": "malware family",
+      "gloss": "An information-stealing malware designed to exfiltrate credentials and sensitive data."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cloud-based instant messaging and social media platform."
+    },
+    {
+      "name": "UAC-0010",
+      "kind": "hacking group",
+      "gloss": "A Russian state-sponsored cyber threat group linked to the FSB, also known as Gamaredon or Armageddon."
+    },
+    {
+      "name": "Sandworm",
+      "kind": "hacking group",
+      "gloss": "A Russian military cyber warfare unit within the GRU known for destructive attacks."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0028",
+      "type": "targets",
+      "tail": "Сили безпеки і оборони України",
+      "evidence": "кібершпигунством у відношенні Сил безпеки і оборони України, які були здійсненні угрупуванням UAC-0028"
+    },
+    {
+      "head": "UAC-0003",
+      "type": "targets",
+      "tail": "Сили безпеки і оборони України",
+      "evidence": "кібершпигунством у відношенні Сил безпеки і оборони України, які були здійсненні угрупуванням UAC-0028 (APT28) та UAC-0003"
+    },
+    {
+      "head": "UAC-0003",
+      "type": "uses-malware",
+      "tail": "KAZUAR",
+      "evidence": "UAC-0003 (Turla), зокрема, із застосуванням модифікованого флагманського шкідливого програмного забезпечення KAZUAR"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "associated-with-country",
+      "tail": "Росія",
+      "evidence": "угрупування найманців UAC-0050, пов'язаних з правоохоронними структурами Росії"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "formerly-known-as",
+      "tail": "DaVinci Group",
+      "evidence": "UAC-0050... оголосивши про припинення \"професійної\" діяльності під \"брендом\" DaVinci Group"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "REMCOS RAT",
+      "evidence": "зловмисниками застосовано, щонайменше, п'ять різновидів шкідливих програм: REMCOS RAT"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "QUASAR RAT",
+      "evidence": "застосовано, щонайменше, п'ять різновидів шкідливих програм: REMCOS RAT, QUASAR RAT"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "VENOM RAT",
+      "evidence": "застосовано, щонайменше, п'ять різновидів шкідливих програм: REMCOS RAT, QUASAR RAT, VENOM RAT"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "REMOTE UTILITIES",
+      "evidence": "застосовано, щонайменше, п'ять різновидів шкідливих програм: REMCOS RAT, QUASAR RAT, VENOM RAT, REMOTE UTILITIES"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "LUMMASTEALER",
+      "evidence": "п'ять різновидів шкідливих програм: REMCOS RAT, QUASAR RAT, VENOM RAT, REMOTE UTILITIES та LUMMASTEALER"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "publishes-to-platform",
+      "tail": "Telegram",
+      "evidence": "незначна частина \"здобутків\" оприлюднюється в Telegram-каналі"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets",
+      "definition": "Specifies an organization, entity, or sector subjected to attack or espionage by a threat actor."
+    },
+    {
+      "name": "uses-malware",
+      "definition": "Indicates that a threat actor deploys or operates a specific malware family."
+    },
+    {
+      "name": "associated-with-country",
+      "definition": "Identifies the geopolitical origin or state affiliation of a threat actor."
+    },
+    {
+      "name": "formerly-known-as",
+      "definition": "Indicates a previous brand name or identity previously operated by a threat group."
+    },
+    {
+      "name": "uses-tool",
+      "definition": "Denotes that a threat actor employs a specific malware, software application, or utility during attacks."
+    },
+    {
+      "name": "publishes-to-platform",
+      "definition": "Indicates that an actor shares or publishes data or communication on a particular online service or platform."
+    }
+  ]
+}
+```

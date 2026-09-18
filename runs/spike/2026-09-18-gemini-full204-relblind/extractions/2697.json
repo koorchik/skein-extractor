@@ -1,0 +1,63 @@
+{
+  "entities": [
+    {
+      "name": "органів державної влади",
+      "kind": "government sector",
+      "gloss": "State government authorities targeted by cyber attacks and phishing campaigns."
+    },
+    {
+      "name": "Архів листування російської терористки М.Колєди.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file used as a lure in a phishing campaign."
+    },
+    {
+      "name": "hxxp://antination.kherson[.]ua/nono/In%20the%20archive%20of%20more%20than%207%20dialogues-is-a-terrorist.exe",
+      "kind": "url",
+      "gloss": "A malicious URL used to distribute an executable payload."
+    },
+    {
+      "name": "antination.kherson.ua",
+      "kind": "domain name",
+      "gloss": "A domain name used for phishing URLs and sender email addresses."
+    },
+    {
+      "name": "185.234.176.14",
+      "kind": "ip address",
+      "gloss": "An IP address identified as the sending client in phishing email headers."
+    },
+    {
+      "name": "stenislavboika@antination.kherson.ua",
+      "kind": "email address",
+      "gloss": "A sender email address used to distribute phishing emails."
+    },
+    {
+      "name": "mx-out-14.default-host.net",
+      "kind": "hostname",
+      "gloss": "A mail server hostname observed in the HELO string of phishing email headers."
+    }
+  ],
+  "relations": [
+    {
+      "head": "hxxp://antination.kherson[.]ua/nono/In%20the%20archive%20of%20more%20than%207%20dialogues-is-a-terrorist.exe",
+      "type": "hosted-on-domain",
+      "tail": "antination.kherson.ua",
+      "evidence": "hxxp://antination.kherson[.]ua/nono/In%20the%20archive%20of%20more%20than%207%20dialogues-is-a-terrorist.exe"
+    },
+    {
+      "head": "stenislavboika@antination.kherson.ua",
+      "type": "originates-from-ip",
+      "tail": "185.234.176.14",
+      "evidence": "client-ip=185.234.176.14; envelope-from=stenislavboika@antination.kherson.ua"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "hosted-on-domain",
+      "definition": "Indicates that a URL or resource is hosted on a specific domain name."
+    },
+    {
+      "name": "originates-from-ip",
+      "definition": "Indicates the source IP address from which an email or network transmission was sent."
+    }
+  ]
+}

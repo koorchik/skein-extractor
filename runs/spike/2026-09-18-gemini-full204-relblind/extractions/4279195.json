@@ -1,0 +1,199 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0145",
+      "kind": "threat actor",
+      "gloss": "A threat group tracked by CERT-UA associated with cyberattacks utilizing trojanized software distributions and DarkCrystal RAT."
+    },
+    {
+      "name": "DarkCrystal RAT",
+      "kind": "malware family",
+      "gloss": "A commercial remote access trojan (RAT) offering extensive information stealing, remote surveillance, and execution capabilities."
+    },
+    {
+      "name": "PinkyAgent",
+      "kind": "malware family",
+      "gloss": "A malware component designed to launch Python-based payloads such as the DWAgent remote access utility."
+    },
+    {
+      "name": "DWAgent",
+      "kind": "software product",
+      "gloss": "An open-source remote administration tool used for remote access and desktop management."
+    },
+    {
+      "name": "Microsoft Office 2019",
+      "kind": "software product",
+      "gloss": "A suite of productivity software developed by Microsoft."
+    },
+    {
+      "name": "Python",
+      "kind": "software product",
+      "gloss": "A high-level programming language and interpreter."
+    },
+    {
+      "name": "KMSAuto",
+      "kind": "software tool",
+      "gloss": "A software utility used to activate Microsoft products without a valid license."
+    },
+    {
+      "name": "Торрент-Толока",
+      "kind": "website",
+      "gloss": "A Ukrainian BitTorrent tracker platform."
+    },
+    {
+      "name": "toloka.to",
+      "kind": "internet domain",
+      "gloss": "An internet domain hosting the Ukrainian BitTorrent tracker Toloka."
+    },
+    {
+      "name": "hurtom.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain associated with the Ukrainian BitTorrent community portal."
+    },
+    {
+      "name": "dwservice.net",
+      "kind": "internet domain",
+      "gloss": "The official domain and online service infrastructure for the DWAgent remote administration platform."
+    },
+    {
+      "name": "github.com",
+      "kind": "internet domain",
+      "gloss": "A web-based platform for software version control and code hosting."
+    },
+    {
+      "name": "95.217.99.28",
+      "kind": "ip address",
+      "gloss": "An IP address associated with network communication during the cyber incident."
+    },
+    {
+      "name": "Microsoft.Office-x64.v2019.x.iso.torrent",
+      "kind": "file name",
+      "gloss": "A BitTorrent file used to download a trojanized Microsoft Office ISO image."
+    },
+    {
+      "name": "Microsoft.Office-x64.v2019.x.iso",
+      "kind": "file name",
+      "gloss": "An ISO disk image containing trojanized installation files for Microsoft Office 2019."
+    },
+    {
+      "name": "AUTORUN.exe",
+      "kind": "file name",
+      "gloss": "An executable file embedded within the ISO image acting as a dropper for DarkCrystal RAT."
+    },
+    {
+      "name": "Windows Update.exe",
+      "kind": "file name",
+      "gloss": "An executable classified as PinkyAgent used to launch the DWAgent agent script."
+    },
+    {
+      "name": "agent.py",
+      "kind": "file name",
+      "gloss": "A modified Python script of the DWAgent remote access client."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0145",
+      "type": "tracks-activity-of",
+      "tail": "DarkCrystal RAT",
+      "evidence": "Описана активність відстежується за ідентифікатором UAC-0145."
+    },
+    {
+      "head": "Microsoft.Office-x64.v2019.x.iso.torrent",
+      "type": "hosted-on",
+      "tail": "Торрент-Толока",
+      "evidence": "було отримано з трекеру \"Торрент-Толока\""
+    },
+    {
+      "head": "Торрент-Толока",
+      "type": "uses-domain",
+      "tail": "toloka.to",
+      "evidence": "трекеру \"Торрент-Толока\" (hxxps://toloka[.]to/t661196)"
+    },
+    {
+      "head": "Microsoft.Office-x64.v2019.x.iso",
+      "type": "contains-file",
+      "tail": "AUTORUN.exe",
+      "evidence": "в ISO-образі \"Microsoft.Office-x64.v2019.x.iso\" ... містився файл \"AUTORUN.exe\""
+    },
+    {
+      "head": "AUTORUN.exe",
+      "type": "drops-payload",
+      "tail": "DarkCrystal RAT",
+      "evidence": "Створюваний виконуваний файл є шкідливою програмою DarkCrystal RAT"
+    },
+    {
+      "head": "DarkCrystal RAT",
+      "type": "downloads",
+      "tail": "Windows Update.exe",
+      "evidence": "за допомогою DarkCrystal RAT на ЕОМ було завантажено ... файл \"C:\\ProgramData\\service\\core\\Windows Update.exe\""
+    },
+    {
+      "head": "DarkCrystal RAT",
+      "type": "downloads",
+      "tail": "DWAgent",
+      "evidence": "за допомогою DarkCrystal RAT на ЕОМ було завантажено ... вихідний код засобу віддаленого адміністрування DWAgent"
+    },
+    {
+      "head": "Windows Update.exe",
+      "type": "classified-as",
+      "tail": "PinkyAgent",
+      "evidence": "файл \"Windows Update.exe\" класифіковано як \"PinkyAgent\""
+    },
+    {
+      "head": "Windows Update.exe",
+      "type": "executes-script",
+      "tail": "agent.py",
+      "evidence": "призначенням якого є запуск за допомогою Python-інтерпретатору скрипта \"C:\\ProgramData\\service\\core\\agent.py\""
+    },
+    {
+      "head": "agent.py",
+      "type": "executes-component",
+      "tail": "DWAgent",
+      "evidence": "що, у свою чергу, здійснить запуск DWAgent"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "tracks-activity-of",
+      "definition": "Identifies an actor tracking designation associated with the observed malicious activity or tool deployment."
+    },
+    {
+      "name": "hosted-on",
+      "definition": "Specifies the web service, server, or tracker where a file or resource is published."
+    },
+    {
+      "name": "uses-domain",
+      "definition": "Connects a service, platform, or organization to an internet domain name it operates."
+    },
+    {
+      "name": "contains-file",
+      "definition": "Indicates that an archive, image, or container holds a specific internal file."
+    },
+    {
+      "name": "drops-payload",
+      "definition": "Indicates that an installer or dropper extracts and executes a malware payload."
+    },
+    {
+      "name": "downloads",
+      "definition": "Indicates that a program or threat actor retrieves a remote file or tool to the system."
+    },
+    {
+      "name": "classified-as",
+      "definition": "Specifies the malware family or detection signature category assigned to a file."
+    },
+    {
+      "name": "executes-script",
+      "definition": "Denotes an executable program initiating the execution of a script file."
+    },
+    {
+      "name": "executes-component",
+      "definition": "Indicates that a script or process launches an application or tool."
+    }
+  ]
+}

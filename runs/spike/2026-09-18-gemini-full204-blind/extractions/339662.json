@@ -1,0 +1,148 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0098",
+      "kind": "threat actor",
+      "gloss": "A cyber threat group tracked by CERT-UA known for conducting phishing campaigns targeting Ukrainian entities."
+    },
+    {
+      "name": "Накладення штрафних санкцій.docx",
+      "kind": "malicious file",
+      "gloss": "A malicious DOCX document used to exploit CVE-2022-30190 and download second-stage malware."
+    },
+    {
+      "name": "НакладенняШтрафнихСанкцiй.zip",
+      "kind": "malicious archive",
+      "gloss": "A password-protected ZIP archive distributed via email containing a malicious DOCX document."
+    },
+    {
+      "name": "CVE-2022-30190",
+      "kind": "vulnerability identifier",
+      "gloss": "A Microsoft Windows Support Diagnostic Tool (MSDT) remote code execution vulnerability commonly known as Follina."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware family",
+      "gloss": "A commercial penetration testing tool and post-exploitation agent frequently abused by threat actors for lateral movement and command-and-control."
+    },
+    {
+      "name": "Державної податкової служби України",
+      "kind": "government body",
+      "gloss": "The central government agency of Ukraine responsible for administering taxes and state revenue."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "index.html",
+      "kind": "malicious file",
+      "gloss": "An HTML file containing JavaScript code designed to exploit CVE-2022-30190 and download malware."
+    },
+    {
+      "name": "ked.dll",
+      "kind": "malicious file",
+      "gloss": "A DLL file containing a compiled Cobalt Strike Beacon payload."
+    },
+    {
+      "name": "rostyslav.nal0g@gmail.com",
+      "kind": "email address",
+      "gloss": "A phishing email address used by threat actors to distribute malicious ZIP archives."
+    },
+    {
+      "name": "64.190.113.51",
+      "kind": "ip address",
+      "gloss": "An IP address used to host the malicious index.html file."
+    },
+    {
+      "name": "5.199.173.152",
+      "kind": "ip address",
+      "gloss": "An IP address used to host the malicious ked.dll payload."
+    },
+    {
+      "name": "baidenfree.com",
+      "kind": "internet domain",
+      "gloss": "A domain name identified as network infrastructure in the threat campaign."
+    },
+    {
+      "name": "golgba.com",
+      "kind": "internet domain",
+      "gloss": "A domain name identified as network infrastructure in the threat campaign."
+    },
+    {
+      "name": "domtern.com",
+      "kind": "internet domain",
+      "gloss": "A domain name identified as network infrastructure in the threat campaign."
+    },
+    {
+      "name": "jorgava.com",
+      "kind": "internet domain",
+      "gloss": "A domain name identified as network infrastructure in the threat campaign."
+    },
+    {
+      "name": "185.143.223.29",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the email distribution infrastructure."
+    },
+    {
+      "name": "5.199.174.219",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure in the threat campaign."
+    },
+    {
+      "name": "185.170.144.159",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure in the threat campaign."
+    },
+    {
+      "name": "87.251.64.5",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure in the threat campaign."
+    },
+    {
+      "name": "185.170.144.158",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure in the threat campaign."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0098",
+      "type": "uses-malware",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "запуск шкідливої програми Cobalt Strike Beacon... Активність має персистентний характер та відстежується за ідентифікатором UAC-0098"
+    },
+    {
+      "head": "Накладення штрафних санкцій.docx",
+      "type": "exploits",
+      "tail": "CVE-2022-30190",
+      "evidence": "відкриття якого призведе до завантаження HTML-файлу та виконання JavaScript-коду (CVE-2022-30190)"
+    },
+    {
+      "head": "Накладення штрафних санкцій.docx",
+      "type": "delivers",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "забезпечить завантаження та запуск шкідливої програми Cobalt Strike Beacon"
+    },
+    {
+      "head": "64.190.113.51",
+      "type": "hosts",
+      "tail": "index.html",
+      "evidence": "hXXp://64[.]190.113.51:8000/index[.]html"
+    },
+    {
+      "head": "5.199.173.152",
+      "type": "hosts",
+      "tail": "ked.dll",
+      "evidence": "hXXp://5[.]199.173.152/ked[.]dll"
+    },
+    {
+      "head": "Державної податкової служби України",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "Державної податкової служби України"
+    }
+  ],
+  "newRelationTypes": []
+}

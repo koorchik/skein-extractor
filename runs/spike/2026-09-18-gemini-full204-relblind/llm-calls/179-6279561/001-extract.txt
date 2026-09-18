@@ -1,0 +1,179 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA отримано інформацію щодо здійснення цільових кібератак у відношенні державних службовців, військових, представників оборонних підприємств України з використанням шкідливої програми DarkCrystal RAT, яка розповсюджується засобами месенджеру Signal. При цьому, характерною ознакою є той факт, що відправником може бути людина зі списку контактів і/або спільних груп, що, за задумом, повинно підвищити рівень довіри до таких повідомлень.</p><p>Зловмисниками надсилається архів, пароль, а також повідомлення щодо необхідності відкриття файлу <strong>саме на комп'ютері</strong>.</p><p>Як правило згаданий архів містить виконуваний файл (розширення: ".pif", ".exe"), який є RARSFX-архівом, в якому, у свою чергу, знаходиться VBE-файл, BAT-файл, та EXE-файл, запуск якого призведе до ураження комп'ютера шкідливою програмою DarkCrystal RAT, що створить технічну можливість прихованого несанкціонованого доступу до ЕОМ.</p><p>Вкотре відмічаємо тенденцію до підвищення інтенсивності кібератак з використанням месенджерів та легітимних скомпрометованих облікових записів. При цьому, так чи інакше, жертву спонукають до відкриття файлу<strong> </strong>на компʼютері - слід врахувати як окрему пересторогу.</p><p>Принагідно наголошуємо на важливості налаштування багато факторної автентифікації <a href="https://cert.gov.ua/article/6278274" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/article/6278274</a>.</p><p>У випадку виявлення підозрілих повідомлень, файлів, посилань просимо невідкладно інформувати CERT-UA.</p><p>Згадана активність відстежується за ідентифікатором UAC-0200.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">6903635dc38959f87bbc9aeee3f3555a&nbsp; &nbsp; d0d6c1f07382ca03866fc3ca198efa8e4a777ecd7ccdc517a4b6ddb7d2d1245e&nbsp; &nbsp; Plan10062024.exe
+2e7ef5d68ad7e8df8d621f624127aa14&nbsp; &nbsp; f26ec43245406c30cc5efb7ad6d8e9018117919c4a03cec2972520e526db3b0c&nbsp; &nbsp; Plan01062024.exe
+a64b994390f907703c40d81ec892a5a0&nbsp; &nbsp; f59e4490a26c421b7d01d05193de927c773b9cbd6cbd91903b422a903ec301a1&nbsp; &nbsp; DarkCrystalRAT.exe (DarkCrystal RAT)
+6e5a822f6c57d00caaa175b13c05f33d&nbsp; &nbsp; 224e71eea37f1353ea8ee0fef0a513d7f0577dcec3241d6710ad249715a269c7&nbsp; &nbsp; 6e5a822f6c57d00caaa175b13c05f33d
+8b64442e76a6bc0db99e74a95964d3e0&nbsp; &nbsp; a7f896b2a2433fd178afffba59ace1c27ec4b4fa20ecc59ee7da7c96314c6b09&nbsp; &nbsp; du5a30GGdpnw9V1NAPFxiabLpStvK7yQccZnAiiXNdT4B.bat
+5a7b9f20b7990c54a716ebcd43960123&nbsp; &nbsp; 1418111224c143fba191efa1fe1a1c4a653b951e4bb07f6fd0b7782631571b93&nbsp; &nbsp; NjNYM6fdF5Fixp.vbe
+47aa8d5d45c05c05be3941e43009a5ec&nbsp; &nbsp; ef6cd2c75b3370d1bcc95beb573ad09861e0ed22b2becc1c16cfff88dae5a157&nbsp; &nbsp; agentWinintoHostDhcp.exe (DarkCrystal RAT)
+27e9287a7ac9ca4d8f2ebd7751756594&nbsp; &nbsp; 3ad5473cee7a16bddce171e42b2dbb42caf1bdfbf8f2ef280d956a9940500520&nbsp; &nbsp; Plan_na_10.06.2024.rar
+94124f22d7aa29ab91d40d4f207e1887&nbsp; &nbsp; 8cc204cdd79c811b2d48d878f4cbfcc2e4db88bfaa17bf2c13351e338f8547b3&nbsp; &nbsp; Plan_na_10.06.2024.pif
+c917930fd0f91e5c038c8b06719efca4&nbsp; &nbsp; 6bdd44d7b55d47ebd1a00fec6cfda0506efbacbe05022dada9c9dccb5d60909f&nbsp; &nbsp; 2VGPnHOLToAOwqq.vbe
+52c52b15629514b8527892644e7ea818&nbsp; &nbsp; b60ac68e278045aadb9ec3196327a90efebf8b48bbe7819c6bf0f5a4678efd62&nbsp; &nbsp; 0WgIlnTNpgbtjiE2xGB5FgwFA.bat
+3bd344b53bd70e1e77f42bf40c22dfb1&nbsp; &nbsp; 02d657729837838d18bbe6b4bae44cab0e6d3a357836d7cd6a9bb7288543facb&nbsp; &nbsp; bridgeSurrogatewin.exe (DarkCrystal RAT)
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">188[.]245.50.32
+hXXp://188[.]245.50.32/VideocentralLocal/PublicdownloadsWp/python4RequestRequest/Javascript8Geovoiddb/pipepacketServer/cdn/18/_auth/ToBigloadPublic/dump/VideoPipephpHttpServerlinuxPublic[.]php
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">C:\SavesperfCrtMonitor\agentWinintoHostDhcp.exe
+C:\SavesperfCrtMonitor\du5a30GGdpnw9V1NAPFxiabLpStvK7yQccZnAiiXNdT4B.bat
+C:\WinSavesbrokerdhcpcommon\0WgIlnTNpgbtjiE2xGB5FgwFA.bat
+C:\WinSavesbrokerdhcpcommon\bridgeSurrogatewin.exe
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Приклад ланцюга ураження</p>
+
+=== RESPONSE (5.7s, in 3083 / out 1309 tok, STOP) ===
+UAC-0200 is conducting targeted cyberattacks against Ukrainian civil servants, military personnel, and defense enterprise representatives using the DarkCrystal RAT malware distributed via the Signal messaging app.
+
+```json
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "DarkCrystal RAT",
+      "kind": "malware family",
+      "gloss": "A commercial remote access trojan used for unauthorized remote access and data theft."
+    },
+    {
+      "name": "Signal",
+      "kind": "software product",
+      "gloss": "A cross-platform encrypted messaging service."
+    },
+    {
+      "name": "UAC-0200",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA targeting Ukrainian organizations."
+    },
+    {
+      "name": "Plan10062024.exe",
+      "kind": "file",
+      "gloss": "A malicious executable file used to deliver malware."
+    },
+    {
+      "name": "Plan01062024.exe",
+      "kind": "file",
+      "gloss": "A malicious executable file used to deliver malware."
+    },
+    {
+      "name": "DarkCrystalRAT.exe",
+      "kind": "file",
+      "gloss": "An executable payload of the DarkCrystal RAT malware."
+    },
+    {
+      "name": "du5a30GGdpnw9V1NAPFxiabLpStvK7yQccZnAiiXNdT4B.bat",
+      "kind": "file",
+      "gloss": "A malicious batch script used in the attack chain."
+    },
+    {
+      "name": "NjNYM6fdF5Fixp.vbe",
+      "kind": "file",
+      "gloss": "A malicious VBScript Encoded file used in the attack chain."
+    },
+    {
+      "name": "agentWinintoHostDhcp.exe",
+      "kind": "file",
+      "gloss": "A malicious executable associated with DarkCrystal RAT."
+    },
+    {
+      "name": "Plan_na_10.06.2024.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive containing multi-stage malware payloads."
+    },
+    {
+      "name": "Plan_na_10.06.2024.pif",
+      "kind": "file",
+      "gloss": "A malicious Program Information File (PIF) used as a RAR SFX archive."
+    },
+    {
+      "name": "2VGPnHOLToAOwqq.vbe",
+      "kind": "file",
+      "gloss": "A malicious VBScript Encoded script used in the infection sequence."
+    },
+    {
+      "name": "0WgIlnTNpgbtjiE2xGB5FgwFA.bat",
+      "kind": "file",
+      "gloss": "A malicious batch script used in the infection sequence."
+    },
+    {
+      "name": "bridgeSurrogatewin.exe",
+      "kind": "file",
+      "gloss": "A malicious executable payload associated with DarkCrystal RAT."
+    },
+    {
+      "name": "188.245.50.32",
+      "kind": "ip address",
+      "gloss": "An IP address used for malicious command and control infrastructure."
+    },
+    {
+      "name": "http://188.245.50.32/VideocentralLocal/PublicdownloadsWp/python4RequestRequest/Javascript8Geovoiddb/pipepacketServer/cdn/18/_auth/ToBigloadPublic/dump/VideoPipephpHttpServerlinuxPublic.php",
+      "kind": "url",
+      "gloss": "A malicious URL hosted on the attacker infrastructure for command and control or payload retrieval."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0200",
+      "type": "uses-malware",
+      "tail": "DarkCrystal RAT",
+      "evidence": "здійснення цільових кібератак... з використанням шкідливої програми DarkCrystal RAT... Згадана активність відстежується за ідентифікатором UAC-0200"
+    },
+    {
+      "head": "UAC-0200",
+      "type": "targets-country",
+      "tail": "Україна",
+      "evidence": "здійснення цільових кібератак у відношенні державних службовців, військових, представників оборонних підприємств України"
+    },
+    {
+      "head": "DarkCrystal RAT",
+      "type": "distributed-via",
+      "tail": "Signal",
+      "evidence": "DarkCrystal RAT, яка розповсюджується засобами месенджеру Signal"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-malware",
+      "definition": "The threat actor employs a specific malware family during their operations."
+    },
+    {
+      "name": "targets-country",
+      "definition": "The threat actor directs malicious cyber activities against targets located within a specific country."
+    },
+    {
+      "name": "distributed-via",
+      "definition": "The malware is propagated or delivered using a specific service or platform."
+    }
+  ]
+}
+```

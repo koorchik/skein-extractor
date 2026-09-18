@@ -1,0 +1,97 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe whose government bodies and infrastructure are targeted in cyberattacks."
+    },
+    {
+      "name": "APT28",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage threat group also tracked as UAC-0028."
+    },
+    {
+      "name": "CredoMap_v2",
+      "kind": "malware",
+      "gloss": "An info-stealer malware family that exfiltrates stolen credentials using HTTP POST requests."
+    },
+    {
+      "name": "Pipedream",
+      "kind": "software product",
+      "gloss": "An integration and workflow automation platform used by threat actors for data exfiltration."
+    },
+    {
+      "name": "UkrScanner.rar",
+      "kind": "computer file",
+      "gloss": "A password-protected malicious RAR archive delivered via phishing emails."
+    },
+    {
+      "name": "UkrScanner.exe",
+      "kind": "computer file",
+      "gloss": "A self-extracting archive file that drops the CredoMap_v2 stealer."
+    },
+    {
+      "name": "scan.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file containing the CredoMap_v2 information stealer."
+    },
+    {
+      "name": "SQLite.Interop.dll",
+      "kind": "computer file",
+      "gloss": "A legitimate SQLite dynamic-link library dropped alongside malware components."
+    },
+    {
+      "name": "mariachandran@ginaengg[.]com",
+      "kind": "email address",
+      "gloss": "A compromised or malicious email address used to distribute malware."
+    },
+    {
+      "name": "69[.]16.243.33",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the infrastructure observed in the cyber attack."
+    },
+    {
+      "name": "hxxps://eo2mxtqmeqzafqi.m.pipedream[.]net",
+      "kind": "uniform resource locator",
+      "gloss": "A web address hosted on Pipedream used as an exfiltration endpoint for stolen data."
+    },
+    {
+      "name": "eo2mxtqmeqzafqi.m.pipedream[.]net",
+      "kind": "domain name",
+      "gloss": "A domain name on Pipedream infrastructure used for receiving exfiltrated authentication credentials."
+    }
+  ],
+  "relations": [
+    {
+      "head": "APT28",
+      "type": "uses",
+      "tail": "CredoMap_v2",
+      "evidence": "Активність асоційовано з діяльністю групи APT28 (UAC-0028)."
+    },
+    {
+      "head": "APT28",
+      "type": "uses",
+      "tail": "UkrScanner.rar",
+      "evidence": "Активність асоційовано з діяльністю групи APT28 (UAC-0028)."
+    },
+    {
+      "head": "UkrScanner.rar",
+      "type": "delivers",
+      "tail": "UkrScanner.exe",
+      "evidence": "згаданий архів містить одноіменний SFX-файл"
+    },
+    {
+      "head": "UkrScanner.exe",
+      "type": "delivers",
+      "tail": "CredoMap_v2",
+      "evidence": "який, у свою чергу, містить шкідливу програму CredoMap_v2."
+    },
+    {
+      "head": "CredoMap_v2",
+      "type": "uses",
+      "tail": "hxxps://eo2mxtqmeqzafqi.m.pipedream[.]net",
+      "evidence": "викрадені автентифікаційні дані надсилаються на веб-ресурс, розгорнутий на платформі Pipedream."
+    }
+  ],
+  "newRelationTypes": []
+}

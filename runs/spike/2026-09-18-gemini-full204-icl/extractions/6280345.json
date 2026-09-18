@@ -1,0 +1,175 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country located in Eastern Europe."
+    },
+    {
+      "name": "Служба безпеки України",
+      "kind": "government agency",
+      "gloss": "The main security and counterintelligence agency of Ukraine."
+    },
+    {
+      "name": "Документи.zip",
+      "kind": "computer file",
+      "gloss": "A malicious archive file distributed via phishing emails disguised as official correspondence."
+    },
+    {
+      "name": "Scan_docs#40562153.msi",
+      "kind": "computer file",
+      "gloss": "A malicious Windows Installer file that deploys unauthorized remote access software."
+    },
+    {
+      "name": "ANONVNC",
+      "kind": "malware",
+      "gloss": "A remote access malware tool derived from the open-source MeshAgent software."
+    },
+    {
+      "name": "MESHAGENT",
+      "kind": "software product",
+      "gloss": "An open-source remote management agent associated with MeshCentral."
+    },
+    {
+      "name": "UAC-0198",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA targeting Ukrainian organizations with remote access tools."
+    },
+    {
+      "name": "pCloud",
+      "kind": "company",
+      "gloss": "A cloud storage and file synchronization service provider."
+    },
+    {
+      "name": "Scan_docs#14107386.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file associated with threat activity tracked as UAC-0198."
+    },
+    {
+      "name": "32x.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable payload dropped during the infection process."
+    },
+    {
+      "name": "chafik.zaalouk@ac-strasbourg.fr",
+      "kind": "email address",
+      "gloss": "An email address observed sending malicious phishing messages."
+    },
+    {
+      "name": "contact@ndkgk.co.jp",
+      "kind": "email address",
+      "gloss": "An email address observed sending malicious phishing messages."
+    },
+    {
+      "name": "info@co3ra.de",
+      "kind": "email address",
+      "gloss": "An email address observed sending malicious phishing messages."
+    },
+    {
+      "name": "filedn.eu",
+      "kind": "domain name",
+      "gloss": "A legitimate domain operated by the pCloud storage service abused for malware delivery."
+    },
+    {
+      "name": "gbshost.net",
+      "kind": "domain name",
+      "gloss": "A network domain name associated with malicious infrastructure in cyber attacks."
+    },
+    {
+      "name": "gbshost.org",
+      "kind": "domain name",
+      "gloss": "A network domain name associated with malicious infrastructure."
+    },
+    {
+      "name": "syn.hiddenvnc.com",
+      "kind": "domain name",
+      "gloss": "A domain name configured for command and control or synchronization of malicious agents."
+    },
+    {
+      "name": "sync.hiddenvnc.com",
+      "kind": "domain name",
+      "gloss": "A domain name configured for command and control communication."
+    },
+    {
+      "name": "sync.anonvnc.com",
+      "kind": "domain name",
+      "gloss": "A command and control synchronization domain used by the ANONVNC malware."
+    },
+    {
+      "name": "sync.invoice-traffic.com",
+      "kind": "domain name",
+      "gloss": "A domain used for synchronization and command and control communication."
+    },
+    {
+      "name": "sync.smart-vnc.com",
+      "kind": "domain name",
+      "gloss": "A domain name used for command and control of remote access malware."
+    },
+    {
+      "name": "sync.smartcloudflare.com",
+      "kind": "domain name",
+      "gloss": "A malicious domain configured for command and control communications."
+    },
+    {
+      "name": "hiddenvnc.com",
+      "kind": "domain name",
+      "gloss": "A network domain registered for malicious infrastructure."
+    },
+    {
+      "name": "anonvnc.com",
+      "kind": "domain name",
+      "gloss": "A network domain associated with ANONVNC malware operations."
+    },
+    {
+      "name": "invoice-traffic.com",
+      "kind": "domain name",
+      "gloss": "A domain used as part of threat actor network infrastructure."
+    },
+    {
+      "name": "smart-vnc.com",
+      "kind": "domain name",
+      "gloss": "A network domain used to support remote access malware operations."
+    },
+    {
+      "name": "smartcloudflare.com",
+      "kind": "domain name",
+      "gloss": "A domain registered to support malicious threat infrastructure."
+    },
+    {
+      "name": "186.2.171.76",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the malicious network infrastructure."
+    },
+    {
+      "name": "66.94.109.162",
+      "kind": "ip address",
+      "gloss": "An IP address located in the United States used in threat operations."
+    },
+    {
+      "name": "66.94.104.42",
+      "kind": "ip address",
+      "gloss": "An IP address located in the United States used in malicious operations."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Служба безпеки України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Служби безпеки України"
+    },
+    {
+      "head": "Scan_docs#40562153.msi",
+      "type": "delivers",
+      "tail": "ANONVNC",
+      "evidence": "Scan_docs#40562153.msi\", відкриття якого призведе до запуску шкідливої програми ANONVNC"
+    },
+    {
+      "head": "UAC-0198",
+      "type": "uses",
+      "tail": "ANONVNC",
+      "evidence": "Описана активність відстежується за ідентифікатором UAC-0198"
+    }
+  ],
+  "newRelationTypes": []
+}

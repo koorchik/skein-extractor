@@ -1,0 +1,304 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><em>(Оновлено 14.05.2024)</em></p><p><br></p><p><strong>Загальна інформація</strong></p><p>Урядова команда реагування на комп'ютерні надзвичайні події України CERT-UA інформує щодо зловмисної активності, спрямованої на отримання доступу до WhatsApp.</p><p>Так, невстановленими особами за допомогою месенджеру WhatsApp здійснюється розповсюдження повідомлень із закликом до голосування за електронну петицію щодо присвоєння звання "Герой України". Згадані повідомлення містять посилання на вебресурс, що імітує офіційну вебсторінку "Електронних петицій".</p><p>У разі переходу за посиланням жертві пропонується ввести номер мобільного телефону, отримати згенерований код та використати його для додавання стороннього пристрою до облікового запису WhatsApp в налаштуваннях додатку. При цьому, зловмисниками також розповсюджується відео-інструкція щодо порядку виконання необхідних дій.</p><p>Станом на 20.04.2024 виявлено 18 доменних імен та направлено відповідні запити щодо їх блокування.</p><p><br></p><p>Штатний механізм щодо додавання довіреного пристрою з використанням буквено-цифрового чи QR коду імплементовано в усіх сучасних месенджерах. Разом з тим, зловмисники використовують цей функціонал для отримання несанкціонованого доступу.</p><p><br></p><p>Для зменшення ймовірності реалізації кіберзагрози закликаємо:</p><ul><li>критично ставитися до будь-яких закликів перейти за посиланням чи відсканувати QR-код;</li><li>розуміти, що введення номеру телефону, одноразових кодів та виконання інших маніпуляцій, до яких вас спонукають, є діями, які авторизують доступ до вашого облікового запису;</li><li>вміти розрізняти підробні доменні імена; зокрема, офіційна сторінка "Електронних петицій" знаходиться за посиланням https://petition.president.gov.ua/;</li><li>налаштувати двохфакторну автентифікацію (<a href="https://cert.gov.ua/article/6278274" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/article/6278274</a>).</li></ul><p><br></p><p>Описана активність відстежується з квітня 2024 року за ідентифікатором UAC-0195.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Мережеві</em></p><pre class="ql-syntax" spellcheck="false">petition-presidentu.com	2024-03-27	@cloudflare.com
+president-petition.best	2024-04-05	@sav.com
+president-petition6504.best	2024-04-05	@sav.com
+president-petition6884.best	2024-04-05	@sav.com
+president-petition9034.best	2024-04-05	@sav.com
+president-petitions.click	2024-04-05	@sav.com
+president-petitions.shop	2024-04-05	@sav.com
+petition-president.com		2024-04-07	@cloudflare.com
+petitian-president.com		2024-04-10	@cloudflare.com
+petition-presidenty.com	2024-04-10	@cloudflare.com
+petition-president.org.ua	2024-04-11	@hostpro.ua
+petition-presidenta.com	2024-04-14	@cloudflare.com
+petition-president.com.ua	2024-04-15	@hostpro.ua
+petition-presidente.com	2024-04-15	@cloudflare.com
+petition-ukraine.com		2024-04-17	@cloudflare.com
+petitionukraine.com		2024-04-18	@cloudflare.com
+petition-ukraina.com		2024-04-19	@cloudflare.com
+petition--ukraine.com		2024-04-20	@cloudflare.com
+petition-ukraina.com.ua	2024-04-23	@hostpro.ua
+petition-ukrainiane.com	2024-04-22	@cloudflare.com
+petitian-ukraine.com		2024-04-22	@cloudflare.com
+petitian--ukraine.com		2024-04-22	@cloudflare.com
+petition-presidenty.org.ua	2024-04-25	@hostpro.ua
+petition-presidenta.org.ua	2024-04-25	@hostpro.ua
+geroiua.com			2024-03-15	@cloudflare.com
+geroiukr.site			2024-03-18	@reg.ru
+geroisavenko.com		2024-04-16	@cloudflare.com
+geroiukrainu.com		2024-04-16	@cloudflare.com
+geroi-ukraine.com		2024-04-19	@cloudflare.com
+geroiukr.com.ua		2024-04-25	@hostpro.ua
+geroiua.com.ua			2024-04-26	@hostpro.ua
+ua-geroi.com.ua		2024-04-26	@hostpro.ua
+ukraine-geroi.org.ua		2024-04-26	@hostpro.ua
+petition-president.kyiv.ua	2024-05-11	@hostpro.ua
+geroi.kyiv.ua			2024-05-14	@hostpro.ua
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Демонстрація процесу реалізації загрози додавання стороннього пристрою до WhatsApp</p>
+
+=== RESPONSE (10.4s, in 2452 / out 2201 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "UAC-0195",
+      "kind": "threat actor",
+      "gloss": "A threat group tracked by CERT-UA targeting messaging service users using phishing and account takeover techniques."
+    },
+    {
+      "name": "WhatsApp",
+      "kind": "software product",
+      "gloss": "A widely used instant messaging and voice-over-IP service."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "https://petition.president.gov.ua/",
+      "kind": "url",
+      "gloss": "The official web portal for electronic petitions to the President of Ukraine."
+    },
+    {
+      "name": "petition-presidentu.com",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to impersonate Ukrainian electronic petition services."
+    },
+    {
+      "name": "president-petition.best",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to impersonate Ukrainian electronic petition services."
+    },
+    {
+      "name": "president-petition6504.best",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to impersonate Ukrainian electronic petition services."
+    },
+    {
+      "name": "president-petition6884.best",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to impersonate Ukrainian electronic petition services."
+    },
+    {
+      "name": "president-petition9034.best",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to impersonate Ukrainian electronic petition services."
+    },
+    {
+      "name": "president-petitions.click",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to impersonate Ukrainian electronic petition services."
+    },
+    {
+      "name": "president-petitions.shop",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to impersonate Ukrainian electronic petition services."
+    },
+    {
+      "name": "petition-president.com",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to impersonate Ukrainian electronic petition services."
+    },
+    {
+      "name": "petitian-president.com",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to impersonate Ukrainian electronic petition services."
+    },
+    {
+      "name": "petition-presidenty.com",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to impersonate Ukrainian electronic petition services."
+    },
+    {
+      "name": "petition-president.org.ua",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to impersonate Ukrainian electronic petition services."
+    },
+    {
+      "name": "petition-presidenta.com",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to impersonate Ukrainian electronic petition services."
+    },
+    {
+      "name": "petition-president.com.ua",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to impersonate Ukrainian electronic petition services."
+    },
+    {
+      "name": "petition-presidente.com",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to impersonate Ukrainian electronic petition services."
+    },
+    {
+      "name": "petition-ukraine.com",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to impersonate Ukrainian electronic petition services."
+    },
+    {
+      "name": "petitionukraine.com",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to impersonate Ukrainian electronic petition services."
+    },
+    {
+      "name": "petition-ukraina.com",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to impersonate Ukrainian electronic petition services."
+    },
+    {
+      "name": "petition--ukraine.com",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to impersonate Ukrainian electronic petition services."
+    },
+    {
+      "name": "petition-ukraina.com.ua",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to impersonate Ukrainian electronic petition services."
+    },
+    {
+      "name": "petition-ukrainiane.com",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to impersonate Ukrainian electronic petition services."
+    },
+    {
+      "name": "petitian-ukraine.com",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to impersonate Ukrainian electronic petition services."
+    },
+    {
+      "name": "petitian--ukraine.com",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to impersonate Ukrainian electronic petition services."
+    },
+    {
+      "name": "petition-presidenty.org.ua",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to impersonate Ukrainian electronic petition services."
+    },
+    {
+      "name": "petition-presidenta.org.ua",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to impersonate Ukrainian electronic petition services."
+    },
+    {
+      "name": "geroiua.com",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used in credential and account theft campaigns."
+    },
+    {
+      "name": "geroiukr.site",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used in credential and account theft campaigns."
+    },
+    {
+      "name": "geroisavenko.com",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used in credential and account theft campaigns."
+    },
+    {
+      "name": "geroiukrainu.com",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used in credential and account theft campaigns."
+    },
+    {
+      "name": "geroi-ukraine.com",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used in credential and account theft campaigns."
+    },
+    {
+      "name": "geroiukr.com.ua",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used in credential and account theft campaigns."
+    },
+    {
+      "name": "geroiua.com.ua",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used in credential and account theft campaigns."
+    },
+    {
+      "name": "ua-geroi.com.ua",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used in credential and account theft campaigns."
+    },
+    {
+      "name": "ukraine-geroi.org.ua",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used in credential and account theft campaigns."
+    },
+    {
+      "name": "petition-president.kyiv.ua",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to impersonate Ukrainian electronic petition services."
+    },
+    {
+      "name": "geroi.kyiv.ua",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used in credential and account theft campaigns."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0195",
+      "type": "targets-user-base-of",
+      "tail": "WhatsApp",
+      "evidence": "Описана активність відстежується з квітня 2024 року за ідентифікатором UAC-0195."
+    },
+    {
+      "head": "UAC-0195",
+      "type": "uses-infrastructure",
+      "tail": "petition-presidentu.com",
+      "evidence": "Індикатори кіберзагроз Мережеві petition-presidentu.com"
+    },
+    {
+      "head": "UAC-0195",
+      "type": "uses-infrastructure",
+      "tail": "president-petition.best",
+      "evidence": "Індикатори кіберзагроз Мережеві president-petition.best"
+    },
+    {
+      "head": "UAC-0195",
+      "type": "uses-infrastructure",
+      "tail": "geroiua.com",
+      "evidence": "Індикатори кіберзагроз Мережеві geroiua.com"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets-user-base-of",
+      "definition": "The threat actor targets users or accounts of a specific software application or platform."
+    },
+    {
+      "name": "uses-infrastructure",
+      "definition": "The threat actor operates, controls, or utilizes the specified domain, host, or network resource."
+    }
+  ]
+}

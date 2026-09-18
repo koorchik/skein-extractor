@@ -1,0 +1,106 @@
+{
+  "entities": [
+    {
+      "name": "ДЦКЗ Держспецзв'язку",
+      "kind": "government organization",
+      "gloss": "A Ukrainian state cyber protection center operating under the State Service of Special Communications and Information Protection."
+    },
+    {
+      "name": "Roundcube",
+      "kind": "software product",
+      "gloss": "An open-source webmail software application with a web-based user interface."
+    },
+    {
+      "name": "InfinityFree",
+      "kind": "company",
+      "gloss": "A free web hosting service provider offering website hosting infrastructure."
+    },
+    {
+      "name": "Microsoft",
+      "kind": "software vendor",
+      "gloss": "A multinational technology corporation that develops computer software, consumer electronics, and cloud services."
+    },
+    {
+      "name": "UAC-0170",
+      "kind": "threat actor",
+      "gloss": "A cyber threat group tracked by CERT-UA involved in phishing and credential harvesting attacks."
+    },
+    {
+      "name": "mlcrosoft.rf[.]gd",
+      "kind": "domain name",
+      "gloss": "A spoofed domain name used to host phishing pages impersonating webmail services."
+    },
+    {
+      "name": "185[.]27.134.129",
+      "kind": "ip address",
+      "gloss": "An IP address associated with hosting infrastructure used in the cyberattack."
+    },
+    {
+      "name": "185[.]88.153.138",
+      "kind": "ip address",
+      "gloss": "An IP address observed in network activity related to the phishing campaign."
+    },
+    {
+      "name": "hXXps://mlcrosoft.rf[.]gd/mail/?el=3c6d0a4516de3b6a89b373f0d8d6de4cc081154fc3680efbe7b9f9d1",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious phishing URL used to harvest user credentials."
+    },
+    {
+      "name": "hXXps://mlcrosoft.rf[.]gd/mail/?el=4ef85906f8a881986a3f05fbb699ab0d6096919c73553dbb93c906d6",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious phishing URL used to harvest user credentials."
+    },
+    {
+      "name": "hXXps://mlcrosoft.rf[.]gd/mail/?el=7247301f1ba605aa98c5b2194819f558986e5d89467041b0da78a04c",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious phishing URL used to harvest user credentials."
+    },
+    {
+      "name": "hXXps://mlcrosoft.rf[.]gd/mail/inf.php",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious web script URL used in the phishing attack."
+    },
+    {
+      "name": "hXXps://mlcrosoft.rf[.]gd/mail/script.js",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious JavaScript URL used in the phishing attack infrastructure."
+    },
+    {
+      "name": "hr.damroodi@beroozresaan.com",
+      "kind": "email address",
+      "gloss": "An email address identified as an indicator of compromise in the attack."
+    },
+    {
+      "name": "soraya@tataguyz.co.za",
+      "kind": "email address",
+      "gloss": "An email address identified as an indicator of compromise in the attack."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0170",
+      "type": "uses",
+      "tail": "InfinityFree",
+      "evidence": "вебресурс створено за допомогою безкоштовного сервісу InfinityFree"
+    },
+    {
+      "head": "UAC-0170",
+      "type": "uses",
+      "tail": "mlcrosoft.rf[.]gd",
+      "evidence": "використано субдомен mlcrosoft.rf[.]gd"
+    },
+    {
+      "head": "mlcrosoft.rf[.]gd",
+      "type": "hosts",
+      "tail": "hXXps://mlcrosoft.rf[.]gd/mail/inf.php",
+      "evidence": "hXXps://mlcrosoft.rf[.]gd/mail/inf.php"
+    },
+    {
+      "head": "mlcrosoft.rf[.]gd",
+      "type": "hosts",
+      "tail": "hXXps://mlcrosoft.rf[.]gd/mail/script.js",
+      "evidence": "hXXps://mlcrosoft.rf[.]gd/mail/script.js"
+    }
+  ],
+  "newRelationTypes": []
+}

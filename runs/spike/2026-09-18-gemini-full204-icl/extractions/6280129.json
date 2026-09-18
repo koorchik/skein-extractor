@@ -1,0 +1,262 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0063",
+      "kind": "threat actor",
+      "gloss": "A cyber threat group tracked by CERT-UA associated with attacks against Ukrainian institutions."
+    },
+    {
+      "name": "HATVIBE",
+      "kind": "malware",
+      "gloss": "A malicious backdoor program used to execute commands and maintain persistence on compromised systems."
+    },
+    {
+      "name": "CHERRYSPY",
+      "kind": "malware",
+      "gloss": "A Python-based backdoor malware compiled into a dynamic link library."
+    },
+    {
+      "name": "APT28",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group affiliated with Russian military intelligence."
+    },
+    {
+      "name": "ГУ ГШ ЗС РФ",
+      "kind": "government agency",
+      "gloss": "The Main Directorate of the General Staff of the Armed Forces of the Russian Federation."
+    },
+    {
+      "name": "РФ",
+      "kind": "country",
+      "gloss": "A sovereign country spanning Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "Вірменія",
+      "kind": "country",
+      "gloss": "A landlocked country in the South Caucasus region."
+    },
+    {
+      "name": "Міністерство оборони Республіки Вірменія",
+      "kind": "government agency",
+      "gloss": "The central executive body overseeing the military and defense forces of Armenia."
+    },
+    {
+      "name": "Киргизька Республіка",
+      "kind": "country",
+      "gloss": "A landlocked country located in Central Asia."
+    },
+    {
+      "name": "Міністерство оборони Киргизької Республіки",
+      "kind": "government agency",
+      "gloss": "The central executive body overseeing the military and defense forces of Kyrgyzstan."
+    },
+    {
+      "name": "CVE-2024-23692",
+      "kind": "vulnerability",
+      "gloss": "A remote code execution vulnerability in Rejetto HTTP File Server."
+    },
+    {
+      "name": "HFS HTTP File Server",
+      "kind": "software product",
+      "gloss": "A free web server designed for publishing and sharing files over HTTP."
+    },
+    {
+      "name": "pyArmor",
+      "kind": "software product",
+      "gloss": "A command-line tool used to obfuscate and protect Python scripts."
+    },
+    {
+      "name": "punkt-1-07-10-24-na-zasid.doc",
+      "kind": "computer file",
+      "gloss": "A malicious document file containing macros used in a phishing campaign."
+    },
+    {
+      "name": "RecordsService",
+      "kind": "computer file",
+      "gloss": "An encoded HTA payload associated with the HATVIBE malware."
+    },
+    {
+      "name": "379[1].zip",
+      "kind": "computer file",
+      "gloss": "A zip archive containing malicious components downloaded during an attack."
+    },
+    {
+      "name": "pip_update.cp37-win32.pyd",
+      "kind": "computer file",
+      "gloss": "A compiled Python extension file containing the CHERRYSPY malware."
+    },
+    {
+      "name": "33c3e4599ad678133905e6c1589c12d2.doc",
+      "kind": "computer file",
+      "gloss": "A lure document containing malicious macros targeting the Armenian Ministry of Defense."
+    },
+    {
+      "name": "RemoteAssistanceSvc.hta",
+      "kind": "computer file",
+      "gloss": "A malicious HTML Application file used to execute payloads."
+    },
+    {
+      "name": "AccessProtection.hta",
+      "kind": "computer file",
+      "gloss": "A malicious HTML Application file used in attack operations."
+    },
+    {
+      "name": "trust-certificate.net",
+      "kind": "domain name",
+      "gloss": "A malicious domain name used for command and control or payload hosting."
+    },
+    {
+      "name": "enrollmentdm.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious network infrastructure."
+    },
+    {
+      "name": "185.158.248.198",
+      "kind": "ip address",
+      "gloss": "An IP address used by threat actors as network infrastructure."
+    },
+    {
+      "name": "193.124.65.97",
+      "kind": "ip address",
+      "gloss": "An IP address used by threat actors as network infrastructure."
+    },
+    {
+      "name": "45.136.198.184",
+      "kind": "ip address",
+      "gloss": "An IP address used as command and control infrastructure."
+    },
+    {
+      "name": "5.45.70.178",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious HTA files."
+    },
+    {
+      "name": "http://trust-certificate.net/setup.php",
+      "kind": "uniform resource locator",
+      "gloss": "A URL used for payload distribution or command and control communication."
+    },
+    {
+      "name": "http://trust-certificate.net/tmp/379.zip",
+      "kind": "uniform resource locator",
+      "gloss": "A URL hosting a malicious zip archive payload."
+    },
+    {
+      "name": "https://enrollmentdm.com:443",
+      "kind": "uniform resource locator",
+      "gloss": "A network endpoint used for malicious communications."
+    },
+    {
+      "name": "http://45.136.198.184/connect.php",
+      "kind": "uniform resource locator",
+      "gloss": "A command and control connection endpoint."
+    },
+    {
+      "name": "http://45.136.198.184/input.php",
+      "kind": "uniform resource locator",
+      "gloss": "A command and control input reception endpoint."
+    },
+    {
+      "name": "http://45.136.198.184/output.php",
+      "kind": "uniform resource locator",
+      "gloss": "A command and control data transmission endpoint."
+    },
+    {
+      "name": "http://5.45.70.178/RemoteAssistanceSvc.hta",
+      "kind": "uniform resource locator",
+      "gloss": "A URL hosting the RemoteAssistanceSvc.hta malicious payload."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0063",
+      "type": "uses",
+      "tail": "HATVIBE",
+      "evidence": "кібератаку угрупування UAC-0063... з використанням шкідливих програм HATVIBE"
+    },
+    {
+      "head": "UAC-0063",
+      "type": "uses",
+      "tail": "CHERRYSPY",
+      "evidence": "кібератаку угрупування UAC-0063... з використанням шкідливих програм HATVIBE та CHERRYSPY"
+    },
+    {
+      "head": "UAC-0063",
+      "type": "exploits",
+      "tail": "CVE-2024-23692",
+      "evidence": "шляхом експлуатації вразливості (вірогідно, CVE-2024-23692)"
+    },
+    {
+      "head": "CVE-2024-23692",
+      "type": "affects",
+      "tail": "HFS HTTP File Server",
+      "evidence": "вразливості (вірогідно, CVE-2024-23692) в програмному продукті HFS HTTP File Server"
+    },
+    {
+      "head": "APT28",
+      "type": "part-of",
+      "tail": "ГУ ГШ ЗС РФ",
+      "evidence": "угрупування APT28 (UAC-0001), яке має безпосереднє відношення до ГУ ГШ ЗС РФ"
+    },
+    {
+      "head": "ГУ ГШ ЗС РФ",
+      "type": "located-in",
+      "tail": "РФ",
+      "evidence": "ГУ ГШ ЗС РФ"
+    },
+    {
+      "head": "Міністерство оборони Республіки Вірменія",
+      "type": "located-in",
+      "tail": "Вірменія",
+      "evidence": "Міністерства оборони Республіки Вірменія"
+    },
+    {
+      "head": "Міністерство оборони Киргизької Республіки",
+      "type": "located-in",
+      "tail": "Киргизька Республіка",
+      "evidence": "Міністерства оборони Киргизької Республіки"
+    },
+    {
+      "head": "trust-certificate.net",
+      "type": "hosts",
+      "tail": "http://trust-certificate.net/setup.php",
+      "evidence": "http://trust-certificate.net/setup.php"
+    },
+    {
+      "head": "trust-certificate.net",
+      "type": "hosts",
+      "tail": "http://trust-certificate.net/tmp/379.zip",
+      "evidence": "http://trust-certificate.net/tmp/379.zip"
+    },
+    {
+      "head": "enrollmentdm.com",
+      "type": "hosts",
+      "tail": "https://enrollmentdm.com:443",
+      "evidence": "https://enrollmentdm.com:443"
+    },
+    {
+      "head": "45.136.198.184",
+      "type": "hosts",
+      "tail": "http://45.136.198.184/connect.php",
+      "evidence": "http://45.136.198.184/connect.php"
+    },
+    {
+      "head": "45.136.198.184",
+      "type": "hosts",
+      "tail": "http://45.136.198.184/input.php",
+      "evidence": "http://45.136.198.184/input.php"
+    },
+    {
+      "head": "45.136.198.184",
+      "type": "hosts",
+      "tail": "http://45.136.198.184/output.php",
+      "evidence": "http://45.136.198.184/output.php"
+    },
+    {
+      "head": "5.45.70.178",
+      "type": "hosts",
+      "tail": "http://5.45.70.178/RemoteAssistanceSvc.hta",
+      "evidence": "http://5.45.70.178/RemoteAssistanceSvc.hta"
+    }
+  ],
+  "newRelationTypes": []
+}

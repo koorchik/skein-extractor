@@ -1,0 +1,213 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+- uses-malware: A threat actor utilizes or deploys a specific malware tool or family in their operations.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p><br></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA за фактом порушення цілісності да доступності вебресурсів ряду державних організацій 23.02.2023 вживаються заходи з дослідження обставин інциденту.</p><p>Станом на 11:00 23.02.2023 на одному з вебсайтів виявлено раніше відомий шифрований вебшел, а також, підтверджено факт його використання у період з 22:00 22.02.2023 по 05:30 23.02.2023, в результаті чого, серед іншого, в кореневому вебкаталозі створено файл "index.php", який забезпечував модифікацію вмісту головної сторінки вебресурсу. Взаємодія з вебшелом здійснювалася з IP-адрес, які, в т.ч., належать граничним пристроям інших постраждалих організацій. Зазначене стало можливим в результаті компрометації облікових записів та подальшого підключення до VPN-концентраторів відповідних організацій.</p><p>Крім того, ідентифіковано раніше відомий SSH-бекдор CredPump (PAM-модуль), який забезпечує прихований віддалений SSH-доступ (із статичним значенням паролю) та логування логінів та паролів під час підключення за допомогою SSH.</p><p>Також, виявлено бекдори HoaxPen та HoaxApe (у вигляді модулю для вебсерверу Apache), що забезпечують можливість виконання команд та були встановлені у лютому <strong>2022</strong> року.</p><p>Зауважимо, що згідно часових атрибутів, вебшел створено не пізніше <strong>23.12.2021</strong>; при цьому, для завантаження PHP-бекдору використано штатний функціонал вебсайту (перевірку типу завантажуваних файлів не імплементовано).</p><p>Слід додати, що на ранніх етапах кібератаки застосовано GOST (Go Simple Tunnel) та програму Ngrok (зокрема, для публікації в Інтернет сокету HoaxPen).</p><p>За сукупністю ознак можемо зробити попередній висновок про те, що порушення штатного режиму функціонування досліджених вебресурсів здійснено групою UAC-0056 (DEV-0586, unc2589).</p><p>Очевидно, що передумови для несанкціонованого віддаленого доступу створено <strong>заздалегідь</strong>.</p><p><br></p><p><strong>Індикатори компрометації</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">0dfb7f25df748957a15448214bac3128&nbsp;&nbsp;&nbsp; 7fedaf0dec060e40cbdf4ec6d0fbfc427593ad5503ad0abaf6b943405863c897&nbsp;&nbsp;&nbsp; 23_12_2021_02_52_46.80530733761c3c85e7a764.php
+2cc1100de4a9fdee79a9eaa633eeba2e&nbsp;&nbsp;&nbsp; a4f3900e714060096a006fb518625e762f09704d9096d774559511d032a7c20e&nbsp;&nbsp;&nbsp; pam_syst.so (CredPump)
+167fe17438fdf87d2931c1128e07fac7&nbsp;&nbsp;&nbsp; 27181445200888cafee90404ff88fb33aab7293c36d093520c93f81b2aa6d411&nbsp;&nbsp;&nbsp; pam_syst.so (CredPump)
+d8ea9402b705c60e288da43d92000286&nbsp;&nbsp;&nbsp; f9fa43f3d6650e641be541eed0900ee6ecd031823acb188e55f5a6fcb822db77&nbsp;&nbsp;&nbsp; mod_https_.so (HoaxApe)
+62063ffe877788f9863d9166b3915934&nbsp;&nbsp;&nbsp; 966ee6871f1cf6fd13630098eb9cdbc3b29cb4ed165ecaa6d9178c43a8240cd8&nbsp;&nbsp;&nbsp; .fastcgi (HoaxPen)
+5967e1c4c213c8a512702917c41d9ece&nbsp;&nbsp;&nbsp; 0d23760aec123361203bc005e7af96fdd088600dffd60a78cab7926c35865043&nbsp;&nbsp;&nbsp; dns-resolv (GOST)
+ea9e36ce72b0faddb784eb9e41c5f3af&nbsp;&nbsp;&nbsp; 2f6d941d421987daa37fbf3c726d875c9e3ef1c2e26bbf452223d64c0d2b2adb&nbsp;&nbsp;&nbsp; dns_resolv.1 (Ngrok)
+f102730f7ba20c30c9e077f8e1cc0c8b&nbsp;&nbsp;&nbsp; 5434f730594d29b933087dcaf1ae680bee7077abd021c004f28287deccfe49b5&nbsp;&nbsp;&nbsp; virt (GOST)
+00a1e595acb40b42bb7df3135d083d77&nbsp;&nbsp;&nbsp; 218d267cd1195334718bafac14bfdf1c19dc95dcf8a24aaa6a1383c21dc86e76&nbsp;&nbsp;&nbsp; avup (Ngrok)
+38073229b776c472978061d794bed23c&nbsp;&nbsp;&nbsp; 04a74594c9227aab6b6a39b7dc4ec1425c1799ccc808018c818212f23ec1d1c2&nbsp;&nbsp;&nbsp; qaz
+a84a4443395eb9c20e59ac6491aedfe4&nbsp;&nbsp;&nbsp; 9f6822a8b795bb92e6dff52ce7ae7166d93946c1a1b78f95b2aed226fafb5a13&nbsp;&nbsp;&nbsp; pages.php
+6c4d220fc8368e6e6ccee21b45220dd2&nbsp;&nbsp;&nbsp; b781caf4eea34b68daede0540294e665f094c36ac3477d4123ad5ee321365ead&nbsp;&nbsp;&nbsp; webforms.php (P0wnyShell)
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">/var/www/%domain1%/index.php
+/var/www/%domain2%/storage/app/attached_docs/23_12_2021_02_52_46.80530733761c3c85e7a764.php
+/usr/lib/pam_syst.so
+/etc/pam.d/sshd (рядок: "auth requisite /usr/lib/pam_syst.so # PAM configuration for the Secure Shell service")
+/etc/rc0.d/.rc0.d
+/etc/nginx/.fastcgi
+/usr/lib/apache2/modules/mod_https_.so
+/etc/apache2/mods-available/https_.load
+/var/lib/apache2/module/enabled_by_admin/https_
+/etc/cron.d/hdbservercon
+/etc/cron.d/hdbserverup
+/etc/hdbserv/hdbservercon
+/etc/hdbserv/hdbserverup
+/etc/systemd/system/dns_resolve.service
+/etc/systemd/system/dns_restrict.service
+/etc/systemd/system/nginx_helper.service
+/usr/bin/avup
+/usr/bin/dbus-guard
+/usr/bin/dns-resolv
+/usr/bin/dns_resolv.1
+/usr/bin/leff
+/usr/bin/lest
+/usr/bin/qaz
+/usr/bin/virt
+python3 -c 'import pty; pty.spawn("/bin/bash -i")'
+python3 -c 'import pty; pty.spawn("/bin/bash")'
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">Mozilla/5.0 (X11; Linux x86_64; rv:107.0) Gecko/20100101 Firefox/107.0
+Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36
+
+185[.]59.221.226&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GB&nbsp; @datacamp.co.uk
+178[.]162.212.26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DE&nbsp; @de.leaseweb.com
+178[.]162.222.44&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DE&nbsp; @de.leaseweb.com
+37[.]58.60.153&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DE&nbsp; @de.leaseweb.com
+94[.]46.175.132&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PT&nbsp; @ptisp.pt
+212.*.*.181 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   UA (скомпрометований пристрій захисту)
+80.*.*.242&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     UA (скомпрометований пристрій захисту)
+
+POST /info_index_test_tst.html HTTP/1.1 (URI для HoaxApe)
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p><br></p><p></p>
+
+=== RESPONSE (5.5s, in 4150 / out 1162 tok, STOP) ===
+```json
+{
+  "entities": [
+    {
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A threat actor group, also tracked as DEV-0586 and unc2589, known for cyber espionage and disruptive attacks against Ukraine."
+    },
+    {
+      "name": "CredPump",
+      "kind": "malware",
+      "gloss": "An SSH backdoor implemented as a PAM module that provides covert remote SSH access and logs credentials."
+    },
+    {
+      "name": "HoaxPen",
+      "kind": "backdoor",
+      "gloss": "A backdoor malware designed to execute arbitrary commands on compromised Unix-like systems."
+    },
+    {
+      "name": "HoaxApe",
+      "kind": "backdoor",
+      "gloss": "A backdoor implemented as an Apache web server module to execute arbitrary commands."
+    },
+    {
+      "name": "GOST",
+      "kind": "software tool",
+      "gloss": "A cross-platform tunnel and proxy tool written in Go, used for network forwarding."
+    },
+    {
+      "name": "Ngrok",
+      "kind": "software product",
+      "gloss": "A cross-platform reverse proxy software used to expose local network ports to the public internet."
+    },
+    {
+      "name": "P0wnyShell",
+      "kind": "web shell",
+      "gloss": "A lightweight, single-file PHP web shell used to execute commands on compromised web servers."
+    },
+    {
+      "name": "Apache",
+      "kind": "software product",
+      "gloss": "An open-source cross-platform web server software developed by the Apache Software Foundation."
+    },
+    {
+      "name": "Ukraine",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose government web resources were targeted in the incident."
+    },
+    {
+      "name": "185.59.221.226",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious activity in the incident."
+    },
+    {
+      "name": "178.162.212.26",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious activity in the incident."
+    },
+    {
+      "name": "178.162.222.44",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious activity in the incident."
+    },
+    {
+      "name": "37.58.60.153",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious activity in the incident."
+    },
+    {
+      "name": "94.46.175.132",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious activity in the incident."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "CredPump",
+      "evidence": "порушення штатного режиму функціонування досліджених вебресурсів здійснено групою UAC-0056"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "HoaxPen",
+      "evidence": "порушення штатного режиму функціонування досліджених вебресурсів здійснено групою UAC-0056"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "HoaxApe",
+      "evidence": "порушення штатного режиму функціонування досліджених вебресурсів здійснено групою UAC-0056"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "GOST",
+      "evidence": "на ранніх етапах кібератаки застосовано GOST"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "Ngrok",
+      "evidence": "на ранніх етапах кібератаки застосовано GOST (Go Simple Tunnel) та програму Ngrok"
+    },
+    {
+      "head": "HoaxApe",
+      "type": "part-of",
+      "tail": "Apache",
+      "evidence": "HoaxApe (у вигляді модулю для вебсерверу Apache)"
+    }
+  ],
+  "newRelationTypes": []
+}
+```

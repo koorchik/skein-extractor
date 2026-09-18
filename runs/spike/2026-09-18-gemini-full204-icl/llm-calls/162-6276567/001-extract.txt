@@ -1,0 +1,250 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+- Country: A distinct territorial body or sovereign state with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Government Organization: An official agency, ministry, or administrative body operating as part of a national or state government. (also: Government Agency, Government Body, State Authority)
+- Malware: Malicious software, code, or executables designed to infiltrate, damage, or compromise computer systems and data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address specifying the location and retrieval mechanism of a resource on a computer network. (also: URL, Web Address, Web Link)
+- Person: An individual human being, such as a government official, cybersecurity expert, researcher, or executive. (also: Individual, Natural Person)
+- IP Address: A numerical label assigned to a device connected to a computer network that uses the Internet Protocol for communication. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Electronic Mail Address)
+- Computer File: A digital resource or named item stored on a computer system, containing data, code, or instructions. (also: File, Digital File, Filename)
+- Company: A commercial business, corporation, or enterprise operating in any economic sector or industry. (also: Enterprise, Corporation, Commercial Organization)
+- Domain Name: A human-readable identification string defining a realm of administrative autonomy or resource location within the Internet Domain Name System. (also: Internet Domain, FQDN, Fully Qualified Domain Name)
+- Threat Actor: An individual, group, or organization responsible for malicious cyber activities, attacks, or cyber espionage operations. (also: Threat Group, Cyber Threat Actor, Hacker Group)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA 30.11.2023 зафіксовано масове розповсюдження електронних листів з тематикою "Повістки до суду" та вкладенням у вигляді файлу "Господарський суд Одеської області Повістка до суду.rar".</p><p>Зазначений RAR-архів містить захищений паролем файл "Повістка до суду.rar", в якому знаходиться документ з макросом "Повістка до суду.doc".&nbsp;</p><p>У разі активації код макросу за допомогою оглядача файлів (explorer.exe) з використанням протоколу SMB здійснить завантаження на ЕОМ та запуск файлу "scandoc.exe". В свою чергу зазначений виконуваний файл є обфускованою за допомогою SmartAssembly .NET-програмою, призначенням якої є дешифрування та запуск програми для віддаленого управління RemcosRAT (ідентифікатор ліцензції: A254379BF33E9109EA234A12DD74E7AB).&nbsp;</p><p>CERT-UA заздалегідь розкрито зловмисний задум та вжито невідкладних заходів з мінімізації вірогідності реалізації кіберзагрози.&nbsp;</p><p>При цьому, слід зауважити, що розсилку електронних листів здійснено більше ніж 15000 адресатів з використанням легітимних скомпрометованих облікових записів одного з органів судової влади України.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">cfcf6395c7cf7c879c8a697a6e2cd4fa&nbsp; &nbsp; 26b4ccad487e76f40a5806c638589d3b2fb29bd799accc1cfaa6739e7ec437df&nbsp; &nbsp; Господарський суд Одеської області Повістка до суду.rar&nbsp;
+a823e3eb525f857c7c3faeb9d45364c6&nbsp; &nbsp; c720fbc9f6386492d6c086297d9d547b1de51ae2c4c03f935ed98c6945e1ced9&nbsp; &nbsp; Персональний код доступу-8161.txt
+b05ec5055cad9a187f6df892e956296d&nbsp; &nbsp; aa6de205e6d84c8333fd503c06fc27f55d67d04221a87481793b41070d76268f&nbsp; &nbsp; Повістка до суду.rar
+4cd0efe60c932a3ff25a976386cf9bc9&nbsp; &nbsp; a7aca87179f51e229aa9a2f13bb8ab76750c8092579cc7b4d0cbc40235cdde27&nbsp; &nbsp; Повістка до суду.doc
+3f38596cc3a4d9d6020d3cebff1a8f6c&nbsp; &nbsp; ff0a84220d028052a841312cd81baa525d19f7e4b0ce94dbbaf6634a776d3814&nbsp; &nbsp; scandoc.exe (2023-11-29 12:48:25)
+83510e8c9ebe7d888e16d618d6c41091&nbsp; &nbsp; 3b627d22c9f436c0fe5a614a24bd9a5ad64632f3a9a02bd01bbfceb459e6a2a6&nbsp; &nbsp; remcos.exe (2023-11-26 09:39:33) (RemcosRAT)
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">\\89[.]23.98.22\LN\scandoc[.]exe
+(tcp)://101[.]99.92.101:465
+(tcp)://101[.]99.92.102:465
+(tcp)://101[.]99.92.102:80
+(tcp)://101[.]99.92.102:8080
+(tcp)://101[.]99.92.103:465
+(tcp)://101[.]99.92.19:465
+(tcp)://101[.]99.92.19:80
+(tcp)://101[.]99.92.19:8080
+(tcp)://101[.]99.92.212:8080
+(tcp)://101[.]99.92.218:80
+(tcp)://101[.]99.92.218:8080
+(tcp)://185[.]65.105.15:465
+(tcp)://185[.]65.105.190:80
+(tcp)://185[.]65.105.191:80
+(tcp)://185[.]65.105.192:80
+(tcp)://185[.]65.105.193:80
+(tcp)://185[.]65.105.193:8080
+(tcp)://185[.]65.105.194:8080
+(tcp)://185[.]65.105.195:8080
+(tcp)://185[.]65.105.196:80
+(tcp)://185[.]65.105.196:8080
+(tcp)://185[.]65.105.197:465
+(tcp)://185[.]65.105.197:80
+(tcp)://185[.]65.105.198:465
+(tcp)://185[.]65.105.199:465
+(tcp)://95[.]214.26.18:80
+(tcp)://95[.]214.26.190:80
+(tcp)://95[.]214.26.199:21
+(tcp)://95[.]214.26.199:465
+(tcp)://95[.]214.26.199:80
+(tcp)://95[.]214.26.199:8080
+(tcp)://95[.]214.26.25:80
+(tcp)://95[.]214.26.60:80
+(tcp)://95[.]214.26.79:80
+(tcp)://95[.]214.26.90:80
+(tcp)://95[.]214.26.99:80
+89[.]23.98.22 (AS56694; @smartape.ru; SmartApe LLC)
+101[.]99.92.101 (AS45839; @shinjiru.com)
+101[.]99.92.102
+101[.]99.92.103
+101[.]99.92.19
+101[.]99.92.212
+101[.]99.92.218
+185[.]65.105.15 (AS44477; @stark-industries.solutions)
+185[.]65.105.190
+185[.]65.105.191
+185[.]65.105.192
+185[.]65.105.193
+185[.]65.105.194
+185[.]65.105.195
+185[.]65.105.196
+185[.]65.105.197
+185[.]65.105.198
+185[.]65.105.199
+95[.]214.26.18 (AS216419; @211760.net; Matrix Telecom Ltd)
+95[.]214.26.190
+95[.]214.26.199
+95[.]214.26.25
+95[.]214.26.60
+95[.]214.26.79
+95[.]214.26.90
+95[.]214.26.99
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%PROGRAMDATA%\Davinci\8161.exe
+%TMP%\Rar$%RAND%\Повістка до суду.rar
+HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\'Dv8161-E2WPIJ'
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Приклад ланцюга ураження</p>
+
+=== RESPONSE (5.5s, in 4258 / out 1094 tok, STOP) ===
+```json
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Господарський суд Одеської області Повістка до суду.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive distributed via phishing emails disguised as a court summons."
+    },
+    {
+      "name": "Повістка до суду.rar",
+      "kind": "computer file",
+      "gloss": "A password-protected RAR archive contained within another malicious archive."
+    },
+    {
+      "name": "Повістка до суду.doc",
+      "kind": "computer file",
+      "gloss": "A malicious Microsoft Word document containing macros used to initiate malware execution."
+    },
+    {
+      "name": "scandoc.exe",
+      "kind": "computer file",
+      "gloss": "An obfuscated .NET executable designed to decrypt and execute RemcosRAT."
+    },
+    {
+      "name": "SmartAssembly",
+      "kind": "software product",
+      "gloss": "An obfuscation and security tool designed to protect .NET software applications."
+    },
+    {
+      "name": "RemcosRAT",
+      "kind": "malware",
+      "gloss": "A commercial remote access trojan frequently used by threat actors for espionage and system control."
+    },
+    {
+      "name": "remcos.exe",
+      "kind": "computer file",
+      "gloss": "An executable file containing the payload for the RemcosRAT malware."
+    },
+    {
+      "name": "Персональний код доступу-8161.txt",
+      "kind": "computer file",
+      "gloss": "A text file associated with the malicious archive attachment."
+    },
+    {
+      "name": "89.23.98.22",
+      "kind": "ip address",
+      "gloss": "An IP address used to host the malicious executable scandoc.exe over SMB."
+    },
+    {
+      "name": "SmartApe LLC",
+      "kind": "company",
+      "gloss": "A hosting and internet services provider company."
+    },
+    {
+      "name": "Matrix Telecom Ltd",
+      "kind": "company",
+      "gloss": "A telecommunications and network service provider company."
+    },
+    {
+      "name": "shinjiru.com",
+      "kind": "domain name",
+      "gloss": "A web hosting and domain services provider website."
+    },
+    {
+      "name": "stark-industries.solutions",
+      "kind": "domain name",
+      "gloss": "An internet domain associated with hosting infrastructure."
+    },
+    {
+      "name": "211760.net",
+      "kind": "domain name",
+      "gloss": "An internet domain associated with telecommunications infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Господарський суд Одеської області Повістка до суду.rar",
+      "type": "delivers",
+      "tail": "Повістка до суду.rar",
+      "evidence": "Зазначений RAR-архів містить захищений паролем файл \"Повістка до суду.rar\""
+    },
+    {
+      "head": "Повістка до суду.rar",
+      "type": "delivers",
+      "tail": "Повістка до суду.doc",
+      "evidence": "в якому знаходиться документ з макросом \"Повістка до суду.doc\""
+    },
+    {
+      "head": "Повістка до суду.doc",
+      "type": "delivers",
+      "tail": "scandoc.exe",
+      "evidence": "код макросу... здійснить завантаження на ЕОМ та запуск файлу \"scandoc.exe\""
+    },
+    {
+      "head": "scandoc.exe",
+      "type": "delivers",
+      "tail": "RemcosRAT",
+      "evidence": "призначенням якої є дешифрування та запуск програми для віддаленого управління RemcosRAT"
+    },
+    {
+      "head": "89.23.98.22",
+      "type": "hosts",
+      "tail": "scandoc.exe",
+      "evidence": "\\\\89[.]23.98.22\\LN\\scandoc[.]exe"
+    }
+  ],
+  "newRelationTypes": []
+}
+```

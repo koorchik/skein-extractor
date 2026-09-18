@@ -1,0 +1,220 @@
+{
+  "docId": 6277822,
+  "date": "22.02.2024",
+  "title": "Щодо обстановки в сфері кібер на 23-24 лютого 2024 року",
+  "entities": [
+    {
+      "id": "6277822:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277822:1",
+      "name": "Сили безпеки і оборони України",
+      "kind": "government body",
+      "gloss": "The collective state military and law enforcement apparatus of Ukraine.",
+      "scheme": "S7",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "6277822:2",
+      "name": "UAC-0028",
+      "kind": "hacking group",
+      "gloss": "A Russian state-sponsored cyber espionage threat group also known as APT28 or Fancy Bear.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6277822:3",
+      "name": "UAC-0003",
+      "kind": "hacking group",
+      "gloss": "A Russian state-sponsored advanced persistent threat group also known as Turla.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6277822:4",
+      "name": "KAZUAR",
+      "kind": "malware family",
+      "gloss": "A sophisticated backdoor trojan associated with the Turla threat group.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6277822:5",
+      "name": "UAC-0050",
+      "kind": "hacking group",
+      "gloss": "A financially and politically motivated cyber threat group linked to Russian law enforcement.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6277822:6",
+      "name": "Росія",
+      "kind": "country",
+      "gloss": "A country spanning Eastern Europe and Northern Asia.",
+      "scheme": "S6",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6277822:7",
+      "name": "DaVinci Group",
+      "kind": "hacking group",
+      "gloss": "A previous operational brand name used by the threat actor UAC-0050.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "related"
+    },
+    {
+      "id": "6277822:8",
+      "name": "REMCOS RAT",
+      "kind": "malware family",
+      "gloss": "A commercial remote access trojan frequently used by malicious actors for surveillance.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6277822:9",
+      "name": "QUASAR RAT",
+      "kind": "malware family",
+      "gloss": "An open-source remote access tool frequently abused by threat actors for remote administration and espionage.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6277822:10",
+      "name": "VENOM RAT",
+      "kind": "malware family",
+      "gloss": "A remote access trojan derived from Quasar RAT used for remote control and data theft.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6277822:11",
+      "name": "REMOTE UTILITIES",
+      "kind": "software product",
+      "gloss": "A legitimate remote desktop software program often abused by threat actors for unauthorized access.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6277822:12",
+      "name": "LUMMASTEALER",
+      "kind": "malware family",
+      "gloss": "An information-stealing malware designed to exfiltrate credentials and sensitive data.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6277822:13",
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cloud-based instant messaging and social media platform.",
+      "scheme": "S1",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6277822:14",
+      "name": "UAC-0010",
+      "kind": "hacking group",
+      "gloss": "A Russian state-sponsored cyber threat group linked to the FSB, also known as Gamaredon or Armageddon.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": null
+    },
+    {
+      "id": "6277822:15",
+      "name": "Sandworm",
+      "kind": "hacking group",
+      "gloss": "A Russian military cyber warfare unit within the GRU known for destructive attacks.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0028",
+      "type": "targets-sector",
+      "tail": "Сили безпеки і оборони України",
+      "evidence": "кібершпигунством у відношенні Сил безпеки і оборони України, які були здійсненні угрупуванням UAC-0028"
+    },
+    {
+      "head": "UAC-0003",
+      "type": "targets-sector",
+      "tail": "Сили безпеки і оборони України",
+      "evidence": "кібершпигунством у відношенні Сил безпеки і оборони України, які були здійсненні угрупуванням UAC-0028 (APT28) та UAC-0003"
+    },
+    {
+      "head": "UAC-0003",
+      "type": "uses-malware",
+      "tail": "KAZUAR",
+      "evidence": "UAC-0003 (Turla), зокрема, із застосуванням модифікованого флагманського шкідливого програмного забезпечення KAZUAR"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "attributed-to-country",
+      "tail": "Росія",
+      "evidence": "угрупування найманців UAC-0050, пов'язаних з правоохоронними структурами Росії"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "formerly-known-as",
+      "tail": "DaVinci Group",
+      "evidence": "UAC-0050... оголосивши про припинення \"професійної\" діяльності під \"брендом\" DaVinci Group"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "REMCOS RAT",
+      "evidence": "зловмисниками застосовано, щонайменше, п'ять різновидів шкідливих програм: REMCOS RAT"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "QUASAR RAT",
+      "evidence": "застосовано, щонайменше, п'ять різновидів шкідливих програм: REMCOS RAT, QUASAR RAT"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "VENOM RAT",
+      "evidence": "застосовано, щонайменше, п'ять різновидів шкідливих програм: REMCOS RAT, QUASAR RAT, VENOM RAT"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "REMOTE UTILITIES",
+      "evidence": "застосовано, щонайменше, п'ять різновидів шкідливих програм: REMCOS RAT, QUASAR RAT, VENOM RAT, REMOTE UTILITIES"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "LUMMASTEALER",
+      "evidence": "п'ять різновидів шкідливих програм: REMCOS RAT, QUASAR RAT, VENOM RAT, REMOTE UTILITIES та LUMMASTEALER"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "publishes-to",
+      "tail": "Telegram",
+      "evidence": "незначна частина \"здобутків\" оприлюднюється в Telegram-каналі"
+    }
+  ],
+  "unclassified": []
+}

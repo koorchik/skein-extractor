@@ -1,0 +1,98 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0057",
+      "kind": "threat actor",
+      "gloss": "A cyberespionage threat group that targets Ukrainian government bodies and organizations."
+    },
+    {
+      "name": "PICASSOLOADER",
+      "kind": "malware",
+      "gloss": "A malware loader used to download and execute secondary malicious payloads on compromised systems."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware",
+      "gloss": "The payload component of the Cobalt Strike framework used for post-exploitation and command and control."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "backstagemerch.shop",
+      "kind": "domain name",
+      "gloss": "An internet domain used in cyberattack infrastructure."
+    },
+    {
+      "name": "empoweringparents.shop",
+      "kind": "domain name",
+      "gloss": "An internet domain used in cyberattack infrastructure."
+    },
+    {
+      "name": "lauramcinerney.shop",
+      "kind": "domain name",
+      "gloss": "An internet domain used in cyberattack infrastructure."
+    },
+    {
+      "name": "https://backstagemerch.shop/the-simpsons/mens-freeze.html",
+      "kind": "uniform resource locator",
+      "gloss": "A web address hosting malicious network resources."
+    },
+    {
+      "name": "https://empoweringparents.shop/voorraad/hyundai/ioniq-6",
+      "kind": "uniform resource locator",
+      "gloss": "A web address hosting malicious network resources."
+    },
+    {
+      "name": "https://empoweringparents.shop/voorraad/peugeot/408",
+      "kind": "uniform resource locator",
+      "gloss": "A web address hosting malicious network resources."
+    },
+    {
+      "name": "https://lauramcinerney.shop/a-cumulatively-effective-way-of-dealing-with-worries.html",
+      "kind": "uniform resource locator",
+      "gloss": "A web address hosting malicious network resources."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0057",
+      "type": "uses",
+      "tail": "PICASSOLOADER",
+      "evidence": "угрупування UAC-0057, що полягала в розповсюдженні документів з макросами, призначеними для запуску на ЕОМ шкідливої програми PICASSOLOADER"
+    },
+    {
+      "head": "PICASSOLOADER",
+      "type": "delivers",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "запуску на ЕОМ шкідливої програми PICASSOLOADER з метою доставки на комп'ютер жертви Cobalt Strike Beacon"
+    },
+    {
+      "head": "backstagemerch.shop",
+      "type": "hosts",
+      "tail": "https://backstagemerch.shop/the-simpsons/mens-freeze.html",
+      "evidence": "https://backstagemerch.shop/the-simpsons/mens-freeze.html"
+    },
+    {
+      "head": "empoweringparents.shop",
+      "type": "hosts",
+      "tail": "https://empoweringparents.shop/voorraad/hyundai/ioniq-6",
+      "evidence": "https://empoweringparents.shop/voorraad/hyundai/ioniq-6"
+    },
+    {
+      "head": "empoweringparents.shop",
+      "type": "hosts",
+      "tail": "https://empoweringparents.shop/voorraad/peugeot/408",
+      "evidence": "https://empoweringparents.shop/voorraad/peugeot/408"
+    },
+    {
+      "head": "lauramcinerney.shop",
+      "type": "hosts",
+      "tail": "https://lauramcinerney.shop/a-cumulatively-effective-way-of-dealing-with-worries.html",
+      "evidence": "https://lauramcinerney.shop/a-cumulatively-effective-way-of-dealing-with-worries.html"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,201 @@
+{
+  "entities": [
+    {
+      "name": "АТ \"Укртелеком\"",
+      "kind": "telecommunications company",
+      "gloss": "A major Ukrainian telecommunications company."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "судовий лист, інформація щодо заборгування.rar",
+      "kind": "archive file",
+      "gloss": "A malicious RAR archive distributed as an email attachment."
+    },
+    {
+      "name": "Ваш персональний код доступу -254507.txt",
+      "kind": "text file",
+      "gloss": "A text file containing an access password for a protected archive."
+    },
+    {
+      "name": "судовий лист, інформація щодо заборгування. pdf.rar",
+      "kind": "archive file",
+      "gloss": "A password-protected nested RAR archive containing an executable."
+    },
+    {
+      "name": "судовий лист, інформація щодо заборгування.pdf.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable file disguised as a PDF document that installs Remcos."
+    },
+    {
+      "name": "Remcos",
+      "kind": "remote access trojan",
+      "gloss": "A commercial remote control and surveillance software frequently abused as malware."
+    },
+    {
+      "name": "BreakingSecurity",
+      "kind": "software company",
+      "gloss": "A software vendor that develops and sells the Remcos remote administration tool."
+    },
+    {
+      "name": "UAC-0050",
+      "kind": "threat actor",
+      "gloss": "A cyberespionage threat actor group active against Ukrainian targets since at least 2020."
+    },
+    {
+      "name": "RemoteUtilities",
+      "kind": "software product",
+      "gloss": "A legitimate remote administration software product previously abused by threat actors."
+    },
+    {
+      "name": "2.exe",
+      "kind": "executable file",
+      "gloss": "A temporary executable payload dropped during malware installation."
+    },
+    {
+      "name": "sql.exe",
+      "kind": "executable file",
+      "gloss": "An executable payload corresponding to the Remcos installation."
+    },
+    {
+      "name": "info@telecomds.online",
+      "kind": "email address",
+      "gloss": "An email address used in malicious email campaigns."
+    },
+    {
+      "name": "gluschko.i.k@ukrtelecom.ua",
+      "kind": "email address",
+      "gloss": "A spoofed email address impersonating Ukrtelecom personnel."
+    },
+    {
+      "name": "telecomds.online",
+      "kind": "domain name",
+      "gloss": "A malicious domain name associated with phishing infrastructure."
+    },
+    {
+      "name": "80.78.254.28",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat infrastructure."
+    },
+    {
+      "name": "101.99.91.158",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications by the malware."
+    },
+    {
+      "name": "94.131.99.153",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications by the malware."
+    },
+    {
+      "name": "124.88.67.67",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications by the malware."
+    },
+    {
+      "name": "124.88.67.98",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications by the malware."
+    },
+    {
+      "name": "94.131.99.156",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications by the malware."
+    },
+    {
+      "name": "94.131.99.89",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications by the malware."
+    },
+    {
+      "name": "94.131.99.56",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications by the malware."
+    },
+    {
+      "name": "178.23.190.252",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications by the malware."
+    },
+    {
+      "name": "178.23.190.253",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications by the malware."
+    },
+    {
+      "name": "178.23.190.254",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications by the malware."
+    },
+    {
+      "name": "178.23.190.54",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications by the malware."
+    }
+  ],
+  "relations": [
+    {
+      "head": "судовий лист, інформація щодо заборгування.rar",
+      "type": "contains-file",
+      "tail": "Ваш персональний код доступу -254507.txt",
+      "evidence": "Архів містить текстовий документ \"Ваш персональний код доступу -254507.txt\""
+    },
+    {
+      "head": "судовий лист, інформація щодо заборгування.rar",
+      "type": "contains-file",
+      "tail": "судовий лист, інформація щодо заборгування. pdf.rar",
+      "evidence": "Архів містить... ще один RAR-архів \"судовий лист, інформація щодо заборгування. pdf.rar\""
+    },
+    {
+      "head": "судовий лист, інформація щодо заборгування. pdf.rar",
+      "type": "contains-file",
+      "tail": "судовий лист, інформація щодо заборгування.pdf.exe",
+      "evidence": "В другому архіві знаходиться виконуваний файл \"судовий лист, інформація щодо заборгування.pdf.exe\""
+    },
+    {
+      "head": "судовий лист, інформація щодо заборгування.pdf.exe",
+      "type": "installs",
+      "tail": "Remcos",
+      "evidence": "Запуск EXE-файлу призведе до встановлення на комп'ютері жертви програми... Remcos"
+    },
+    {
+      "head": "BreakingSecurity",
+      "type": "develops-software",
+      "tail": "Remcos",
+      "evidence": "Remcos, що є розробкою компанії \"BreakingSecurity\""
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "Remcos",
+      "evidence": "Виявлена активність відстежується за ідентифікатором UAC-0050"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "RemoteUtilities",
+      "evidence": "Попередні кібератаки згаданої групи здійснювалися із застосуванням програми для віддаленого адміністрування RemoteUtilities"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "contains-file",
+      "definition": "An archive, container, or package includes the specified file within its contents."
+    },
+    {
+      "name": "installs",
+      "definition": "An installer or loader executable deploys and executes software or malware on the target system."
+    },
+    {
+      "name": "develops-software",
+      "definition": "An organization or software vendor creates and produces the specified software product."
+    },
+    {
+      "name": "uses-tool",
+      "definition": "A threat actor utilizes a specific software utility, tool, or malware family in their operations."
+    }
+  ]
+}

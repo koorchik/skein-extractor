@@ -1,0 +1,181 @@
+{
+  "docId": 6279561,
+  "date": "04.06.2024",
+  "title": "UAC-0200: Цільові кібератаки з використанням DarkCrystal RAT та Signal як засобу довіреного розповсюдження (CERT-UA#9918)",
+  "entities": [
+    {
+      "id": "6279561:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe.",
+      "scheme": "S4",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279561:1",
+      "name": "DarkCrystal RAT",
+      "kind": "malware",
+      "gloss": "A commercial remote access trojan that provides unauthorized remote access and control over infected systems.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6279561:2",
+      "name": "Signal",
+      "kind": "software product",
+      "gloss": "A cross-platform encrypted messaging service application.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6279561:3",
+      "name": "UAC-0200",
+      "kind": "threat actor",
+      "gloss": "A threat group tracked by CERT-UA targeting Ukrainian military, defense, and government personnel.",
+      "scheme": "S14",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "6279561:4",
+      "name": "Plan10062024.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file used as part of the infection chain.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279561:5",
+      "name": "Plan01062024.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file used in cyber attack campaigns.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279561:6",
+      "name": "DarkCrystalRAT.exe",
+      "kind": "computer file",
+      "gloss": "An executable payload file containing the DarkCrystal RAT malware.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279561:7",
+      "name": "du5a30GGdpnw9V1NAPFxiabLpStvK7yQccZnAiiXNdT4B.bat",
+      "kind": "computer file",
+      "gloss": "A malicious batch script used in the execution chain.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279561:8",
+      "name": "NjNYM6fdF5Fixp.vbe",
+      "kind": "computer file",
+      "gloss": "An encoded VBScript file used to execute malicious actions.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279561:9",
+      "name": "agentWinintoHostDhcp.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable associated with DarkCrystal RAT.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279561:10",
+      "name": "Plan_na_10.06.2024.rar",
+      "kind": "computer file",
+      "gloss": "A malicious archive file distributed to targets via messaging applications.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279561:11",
+      "name": "Plan_na_10.06.2024.pif",
+      "kind": "computer file",
+      "gloss": "A malicious shortcut executable file delivered in an archive.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279561:12",
+      "name": "2VGPnHOLToAOwqq.vbe",
+      "kind": "computer file",
+      "gloss": "An encoded VBScript file deployed during the infection chain.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279561:13",
+      "name": "0WgIlnTNpgbtjiE2xGB5FgwFA.bat",
+      "kind": "computer file",
+      "gloss": "A malicious batch file executed to facilitate infection.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279561:14",
+      "name": "bridgeSurrogatewin.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable associated with DarkCrystal RAT.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279561:15",
+      "name": "188.245.50.32",
+      "kind": "ip address",
+      "gloss": "An IP address used by threat actors as malicious network infrastructure.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "6279561:16",
+      "name": "http://188.245.50.32/VideocentralLocal/PublicdownloadsWp/python4RequestRequest/Javascript8Geovoiddb/pipepacketServer/cdn/18/_auth/ToBigloadPublic/dump/VideoPipephpHttpServerlinuxPublic.php",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosted on threat actor infrastructure.",
+      "scheme": "S7",
+      "category": null,
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0200",
+      "type": "uses",
+      "tail": "DarkCrystal RAT",
+      "evidence": "здійснення цільових кібератак... з використанням шкідливої програми DarkCrystal RAT"
+    },
+    {
+      "head": "UAC-0200",
+      "type": "uses",
+      "tail": "Signal",
+      "evidence": "яка розповсюджується засобами месенджеру Signal"
+    },
+    {
+      "head": "188.245.50.32",
+      "type": "hosts",
+      "tail": "http://188.245.50.32/VideocentralLocal/PublicdownloadsWp/python4RequestRequest/Javascript8Geovoiddb/pipepacketServer/cdn/18/_auth/ToBigloadPublic/dump/VideoPipephpHttpServerlinuxPublic.php",
+      "evidence": "hXXp://188[.]245.50.32/VideocentralLocal/PublicdownloadsWp/..."
+    }
+  ],
+  "unclassified": []
+}

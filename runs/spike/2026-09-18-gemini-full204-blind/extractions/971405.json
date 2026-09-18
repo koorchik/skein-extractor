@@ -1,0 +1,186 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "UAC-0010",
+      "kind": "hacking group",
+      "gloss": "A Russian cyber espionage threat group also known as Armageddon or Gamaredon."
+    },
+    {
+      "name": "Національна академія СБ України",
+      "kind": "government body",
+      "gloss": "A higher military educational institution of the Security Service of Ukraine."
+    },
+    {
+      "name": "Служба безпеки України",
+      "kind": "government body",
+      "gloss": "The national security and intelligence agency of Ukraine."
+    },
+    {
+      "name": "Департамент контррозвідки Служби безпеки України",
+      "kind": "government body",
+      "gloss": "The counterintelligence department within the Security Service of Ukraine."
+    },
+    {
+      "name": "43 оабр",
+      "kind": "military unit",
+      "gloss": "The 43rd Separate Artillery Brigade of the Ukrainian Ground Forces."
+    },
+    {
+      "name": "GammaLoad.PS1_v2",
+      "kind": "malware family",
+      "gloss": "A PowerShell-based reconnaissance and downloader malware family used by the Armageddon threat group."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "cloudflare-dns.com",
+      "kind": "internet domain",
+      "gloss": "A public DNS-over-HTTPS resolution service operated by Cloudflare."
+    },
+    {
+      "name": "whoer.net",
+      "kind": "internet domain",
+      "gloss": "An online service providing IP lookup, WHOIS checks, and connection testing tools."
+    },
+    {
+      "name": "a0695487.xsph.ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used for command and control and payload delivery."
+    },
+    {
+      "name": "a0698262.xsph.ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used for command and control and payload delivery."
+    },
+    {
+      "name": "a0698649.xsph.ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used for command and control and payload delivery."
+    },
+    {
+      "name": "fishitor.ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain associated with threat actor infrastructure."
+    },
+    {
+      "name": "leonardis.ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain associated with threat actor infrastructure."
+    },
+    {
+      "name": "mail-box.site",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious email communication in cyber attacks."
+    },
+    {
+      "name": "fast-mail.site",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious email communication in cyber attacks."
+    },
+    {
+      "name": "your-mail.press",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious email communication in cyber attacks."
+    },
+    {
+      "name": "164.92.166.107",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command and control infrastructure."
+    },
+    {
+      "name": "45.63.114.110",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command and control infrastructure."
+    },
+    {
+      "name": "159.223.218.10",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command and control infrastructure."
+    },
+    {
+      "name": "194.67.87.33",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command and control infrastructure."
+    },
+    {
+      "name": "visnik-ssu@mail-box.site",
+      "kind": "email address",
+      "gloss": "A spoofed email address used for phishing distribution."
+    },
+    {
+      "name": "dnipro@fast-mail.site",
+      "kind": "email address",
+      "gloss": "An email address used for phishing distribution."
+    },
+    {
+      "name": "visnik-ssu@your-mail.press",
+      "kind": "email address",
+      "gloss": "A spoofed email address used for phishing distribution."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0010",
+      "type": "uses-malware",
+      "tail": "GammaLoad.PS1_v2",
+      "evidence": "Описана активність здійснюється групою UAC-0010 (Armageddon)."
+    },
+    {
+      "head": "Національна академія СБ України",
+      "type": "part-of",
+      "tail": "Служба безпеки України",
+      "evidence": "Національної академії СБ України"
+    },
+    {
+      "head": "Департамент контррозвідки Служби безпеки України",
+      "type": "part-of",
+      "tail": "Служба безпеки України",
+      "evidence": "Департаменту контрозвідки Служби безпеки України"
+    },
+    {
+      "head": "Служба безпеки України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Служби безпеки України"
+    },
+    {
+      "head": "Національна академія СБ України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Національної академії СБ України"
+    },
+    {
+      "head": "43 оабр",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "командира 43 оабр"
+    },
+    {
+      "head": "visnik-ssu@mail-box.site",
+      "type": "part-of",
+      "tail": "mail-box.site",
+      "evidence": "visnik-ssu@mail-box[.]site"
+    },
+    {
+      "head": "dnipro@fast-mail.site",
+      "type": "part-of",
+      "tail": "fast-mail.site",
+      "evidence": "dnipro@fast-mail[.]site"
+    },
+    {
+      "head": "visnik-ssu@your-mail.press",
+      "type": "part-of",
+      "tail": "your-mail.press",
+      "evidence": "visnik-ssu@your-mail[.]press"
+    }
+  ],
+  "newRelationTypes": []
+}

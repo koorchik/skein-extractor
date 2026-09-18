@@ -1,0 +1,133 @@
+{
+  "docId": 37287,
+  "date": "22.02.2022",
+  "title": "Вразливості в Zabbix (CVE-2022-23131, CVE-2022-23134)",
+  "entities": [
+    {
+      "id": "37287:0",
+      "name": "Zabbix",
+      "kind": "software product",
+      "gloss": "An open-source network monitoring and management software tool.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "37287:1",
+      "name": "CVE-2022-23131",
+      "kind": "security vulnerability",
+      "gloss": "A critical authentication bypass vulnerability in Zabbix when SAML SSO authentication is enabled.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37287:2",
+      "name": "CVE-2022-23134",
+      "kind": "security vulnerability",
+      "gloss": "A medium-severity security vulnerability in Zabbix enabling unauthorized users to access setup configuration methods.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37287:3",
+      "name": "Zabbix Frontend",
+      "kind": "software product",
+      "gloss": "The web-based graphical user interface component of the Zabbix monitoring system.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37287:4",
+      "name": "setup.php",
+      "kind": "computer file",
+      "gloss": "A PHP script used during setup and configuration in the Zabbix web interface.",
+      "scheme": "S11",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "37287:5",
+      "name": "https://portswigger.net/daily-swig/critical-vulnerabilities-in-zabbix-web-frontend-allow-authentication-bypass-code-execution-on-servers",
+      "kind": "uniform resource locator",
+      "gloss": "A web link to a PortSwigger Daily Swig article describing vulnerabilities in Zabbix.",
+      "scheme": "S7",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "37287:6",
+      "name": "https://blog.sonarsource.com/zabbix-case-study-of-unsafe-session-storage",
+      "kind": "uniform resource locator",
+      "gloss": "A web link to a SonarSource blog post detailing unsafe session storage in Zabbix.",
+      "scheme": "S7",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "37287:7",
+      "name": "https://nvd.nist.gov/vuln/detail/CVE-2022-23131",
+      "kind": "uniform resource locator",
+      "gloss": "A web link to the National Vulnerability Database entry for CVE-2022-23131.",
+      "scheme": "S7",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "37287:8",
+      "name": "https://nvd.nist.gov/vuln/detail/CVE-2022-23134",
+      "kind": "uniform resource locator",
+      "gloss": "A web link to the National Vulnerability Database entry for CVE-2022-23134.",
+      "scheme": "S7",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "37287:9",
+      "name": "https://support.zabbix.com/browse/ZBX-20350",
+      "kind": "uniform resource locator",
+      "gloss": "A web link to a Zabbix issue tracker ticket regarding CVE-2022-23131.",
+      "scheme": "S7",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "37287:10",
+      "name": "https://support.zabbix.com/browse/ZBX-20384",
+      "kind": "uniform resource locator",
+      "gloss": "A web link to a Zabbix issue tracker ticket regarding CVE-2022-23134.",
+      "scheme": "S7",
+      "category": "Software",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2022-23131",
+      "type": "affects",
+      "tail": "Zabbix",
+      "evidence": "критичні вразливості в Zabbix (CVE-2022-23131, CVE-2022-23134)"
+    },
+    {
+      "head": "CVE-2022-23134",
+      "type": "affects",
+      "tail": "Zabbix",
+      "evidence": "критичні вразливості в Zabbix (CVE-2022-23131, CVE-2022-23134)"
+    },
+    {
+      "head": "Zabbix Frontend",
+      "type": "part-of",
+      "tail": "Zabbix",
+      "evidence": "отримання доступу адміністратора до Zabbix Frontend."
+    },
+    {
+      "head": "setup.php",
+      "type": "part-of",
+      "tail": "Zabbix",
+      "evidence": "до деяких методів файлу setup.php"
+    }
+  ],
+  "unclassified": []
+}

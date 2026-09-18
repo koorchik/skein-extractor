@@ -1,0 +1,145 @@
+{
+  "docId": 38606,
+  "date": "30.03.2022",
+  "title": "Масове розповсюдження шкідливої програми MarsStealer серед громадян України та вітчизняних організацій (CERT-UA#4315)",
+  "entities": [
+    {
+      "id": "38606:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "38606:1",
+      "name": "Міністерство освіти та науки України",
+      "kind": "government body",
+      "gloss": "The central executive body of Ukraine responsible for education and scientific development.",
+      "scheme": "S7",
+      "category": "Government Body",
+      "role": null
+    },
+    {
+      "id": "38606:2",
+      "name": "UAC-0041",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA specializing in credential theft.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "38606:3",
+      "name": "MarsStealer",
+      "kind": "malware family",
+      "gloss": "An information-stealing malware family written in C and Assembly designed to steal credentials, crypto wallets, and browser data.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "38606:4",
+      "name": "Racoon",
+      "kind": "malware family",
+      "gloss": "An information-stealing malware family sold under a malware-as-a-service model.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "38606:5",
+      "name": "v_2.2.9.rar",
+      "kind": "file",
+      "gloss": "A RAR archive file used in the distribution of malware.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "38606:6",
+      "name": "v_2.2.9.exe",
+      "kind": "file",
+      "gloss": "An executable file containing MarsStealer malware.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "38606:7",
+      "name": "v_5.1.9.zip",
+      "kind": "file",
+      "gloss": "A ZIP archive file used to distribute malicious payloads.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "38606:8",
+      "name": "v_5.1.9.exe",
+      "kind": "file",
+      "gloss": "An executable file containing MarsStealer malware.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "38606:9",
+      "name": "api.dev-com[.]sc",
+      "kind": "domain name",
+      "gloss": "A domain name used to host and distribute malicious files.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "38606:10",
+      "name": "dev-com[.]sc",
+      "kind": "domain name",
+      "gloss": "A domain name associated with malicious infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "38606:11",
+      "name": "176[.]57.189.191",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious dependency files and gate scripts.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "38606:12",
+      "name": "95[.]111.231.126",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the malicious network infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0041",
+      "type": "uses-malware",
+      "tail": "MarsStealer",
+      "evidence": "Виявлена активність відстежується за ідентифікатором UAC-0041 як діяльність однієї з груп"
+    },
+    {
+      "head": "v_2.2.9.exe",
+      "type": "is-instance-of",
+      "tail": "MarsStealer",
+      "evidence": "v_2.2.9.exe (MarsStealer)"
+    },
+    {
+      "head": "v_5.1.9.exe",
+      "type": "is-instance-of",
+      "tail": "MarsStealer",
+      "evidence": "v_5.1.9.exe (MarsStealer)"
+    }
+  ],
+  "unclassified": []
+}

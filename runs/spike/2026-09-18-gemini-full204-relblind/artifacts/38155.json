@@ -1,0 +1,181 @@
+{
+  "docId": 38155,
+  "date": "23.03.2022",
+  "title": "Кібератака на державні організації України з використанням шкідливої програми Cobalt Strike Beacon (CERT-UA#4227)",
+  "entities": [
+    {
+      "id": "38155:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "38155:1",
+      "name": "Диверсанти.rar",
+      "kind": "malicious archive file",
+      "gloss": "A malicious RAR archive file used in an attack campaign.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "38155:2",
+      "name": "Диверсанти 21.03.rar",
+      "kind": "malicious archive file",
+      "gloss": "A nested malicious RAR archive file containing an SFX archive.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "38155:3",
+      "name": "Диверсанти filercs.rar",
+      "kind": "malicious executable file",
+      "gloss": "A self-extracting archive using a right-to-left override character in its name to mask its file extension.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "38155:4",
+      "name": "Thumbs.db",
+      "kind": "malicious script file",
+      "gloss": "A malicious VBScript file masquerading as a Windows thumbnail database file.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "38155:5",
+      "name": "dhdhk0k34.com",
+      "kind": "malicious executable file",
+      "gloss": "A malicious .NET executable launched by a VBScript to infect the system with Cobalt Strike Beacon.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "38155:6",
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware family",
+      "gloss": "A post-exploitation adversary emulation agent frequently used by threat actors for remote control.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "38155:7",
+      "name": "inject.exe",
+      "kind": "malicious executable file",
+      "gloss": "An injector executable used to deploy malicious payloads.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "38155:8",
+      "name": "UAC-0057",
+      "kind": "threat group",
+      "gloss": "A threat group also known as UNC1151 or Ghostwriter.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "related"
+    },
+    {
+      "id": "38155:9",
+      "name": "Skype.exe",
+      "kind": "malicious executable file",
+      "gloss": "A malicious executable dropped to the public user directory during compromise.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "38155:10",
+      "name": "csbeacon.bin",
+      "kind": "malware file",
+      "gloss": "A payload binary file containing Cobalt Strike Beacon shellcode.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "38155:11",
+      "name": "ao3.hmgo.pw",
+      "kind": "hostname",
+      "gloss": "A fully qualified domain name used as malicious network infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "38155:12",
+      "name": "hmgo.pw",
+      "kind": "domain name",
+      "gloss": "An internet domain used in cyberattack infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "38155:13",
+      "name": "hXXps://ao3.hmgo[.]pw/tags/Akihabara@TODEEP/works",
+      "kind": "url",
+      "gloss": "A malicious URL associated with the attack infrastructure.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "38155:14",
+      "name": "hXXps://ao3.hmgo[.]pw/tags/Akihabara@TODEEP/works/update",
+      "kind": "url",
+      "gloss": "A malicious URL associated with command and control communication or payload delivery.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Диверсанти.rar",
+      "type": "contains-file",
+      "tail": "Диверсанти 21.03.rar",
+      "evidence": "містить RAR-архів \"Диверсанти 21.03.rar\""
+    },
+    {
+      "head": "Диверсанти 21.03.rar",
+      "type": "contains-file",
+      "tail": "Диверсанти filercs.rar",
+      "evidence": "містить SFX-архів \"Диверсанти filercs.rar\""
+    },
+    {
+      "head": "Диверсанти filercs.rar",
+      "type": "contains-file",
+      "tail": "Thumbs.db",
+      "evidence": "архів містить документи та зображення приманки, а також VBScript-код (Thumbs.db)"
+    },
+    {
+      "head": "Thumbs.db",
+      "type": "drops-and-executes",
+      "tail": "dhdhk0k34.com",
+      "evidence": "забезпечить створення та запуск .NET-програми \"dhdhk0k34.com\""
+    },
+    {
+      "head": "dhdhk0k34.com",
+      "type": "drops-and-executes",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "В результаті комп'ютер буде уражено шкідливою програмою Cobalt Strike Beacon"
+    },
+    {
+      "head": "UAC-0057",
+      "type": "suspected-author-of",
+      "tail": "Thumbs.db",
+      "evidence": "специфічності VBScript-коду, з середнім рівнем впевненості асоційовано з діяльністю групи UAC-0057"
+    }
+  ],
+  "unclassified": []
+}

@@ -1,0 +1,171 @@
+{
+  "entities": [
+    {
+      "name": "Microsoft",
+      "kind": "software vendor",
+      "gloss": "An American multinational technology corporation producing software, consumer electronics, and related services."
+    },
+    {
+      "name": "Internet Explorer",
+      "kind": "software product",
+      "gloss": "A series of graphical web browsers developed by Microsoft."
+    },
+    {
+      "name": "Microsoft Edge",
+      "kind": "software product",
+      "gloss": "A cross-platform web browser developed by Microsoft."
+    },
+    {
+      "name": "Microsoft Windows",
+      "kind": "operating system",
+      "gloss": "A group of several proprietary graphical operating system families developed by Microsoft."
+    },
+    {
+      "name": "Microsoft Office and Microsoft Office Services and Web Apps",
+      "kind": "software suite",
+      "gloss": "A suite of client software, server software, and services developed by Microsoft."
+    },
+    {
+      "name": "ChakraCore",
+      "kind": "software component",
+      "gloss": "The core part of the Chakra JavaScript engine developed by Microsoft."
+    },
+    {
+      "name": "Adobe Flash Player",
+      "kind": "software product",
+      "gloss": "A deprecated computer software platform used for creating graphics, animation, and rich web applications."
+    },
+    {
+      "name": ".NET Framework",
+      "kind": "software framework",
+      "gloss": "A proprietary software framework developed by Microsoft that runs primarily on Microsoft Windows."
+    },
+    {
+      "name": "Microsoft Exchange Server",
+      "kind": "software product",
+      "gloss": "A mail server and calendaring server developed by Microsoft."
+    },
+    {
+      "name": "Windows Host Compute Service Shim",
+      "kind": "software component",
+      "gloss": "A Windows component providing access to the Host Compute Service for container management."
+    },
+    {
+      "name": "CVE-2018-8174",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in the VBScript engine also known as Double Kill."
+    },
+    {
+      "name": "VBScript",
+      "kind": "programming language",
+      "gloss": "An Active Scripting language developed by Microsoft modeled on Visual Basic."
+    },
+    {
+      "name": "CVE-2018-8120",
+      "kind": "vulnerability identifier",
+      "gloss": "An elevation of privilege vulnerability in the Windows Win32k component."
+    },
+    {
+      "name": "Win32k",
+      "kind": "software component",
+      "gloss": "A core graphics device interface subsystem driver component in Microsoft Windows."
+    },
+    {
+      "name": "Windows 7",
+      "kind": "operating system",
+      "gloss": "A major release of Microsoft's Windows NT operating system."
+    },
+    {
+      "name": "Windows Server 2008",
+      "kind": "operating system",
+      "gloss": "A server operating system developed and released by Microsoft."
+    },
+    {
+      "name": "CVE-2018-0854",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in Microsoft Word."
+    },
+    {
+      "name": "CVE-2018-0958",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in Microsoft browsers."
+    },
+    {
+      "name": "CVE-2018-8124",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in Microsoft Windows."
+    },
+    {
+      "name": "CVE-2018-8127",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in Microsoft Windows."
+    },
+    {
+      "name": "CVE-2018-8129",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in Microsoft Windows."
+    },
+    {
+      "name": "CVE-2018-8132",
+      "kind": "vulnerability identifier",
+      "gloss": "A vulnerability in Microsoft Windows."
+    },
+    {
+      "name": "CVE-2018-8134",
+      "kind": "vulnerability identifier",
+      "gloss": "A vulnerability in Microsoft Windows."
+    },
+    {
+      "name": "CVE-2018-8136",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in Microsoft browsers."
+    },
+    {
+      "name": "CVE-2018-8141",
+      "kind": "vulnerability identifier",
+      "gloss": "An elevation of privilege vulnerability in Microsoft Windows."
+    },
+    {
+      "name": "CVE-2018-8170",
+      "kind": "vulnerability identifier",
+      "gloss": "An elevation of privilege vulnerability in Microsoft Windows."
+    },
+    {
+      "name": "CVE-2018-8897",
+      "kind": "vulnerability identifier",
+      "gloss": "An elevation of privilege vulnerability in the POP/MOV SS handler across operating systems."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2018-8174",
+      "type": "affects-technology",
+      "tail": "VBScript",
+      "evidence": "Вразливість полягає в тому, що VBScript ... обробляє об’єкти в пам’яті"
+    },
+    {
+      "head": "CVE-2018-8120",
+      "type": "affects-technology",
+      "tail": "Win32k",
+      "evidence": "Вразливість полягає у некоректній обробці компонентом Win32k об’єктів в пам’яті"
+    },
+    {
+      "head": "CVE-2018-8120",
+      "type": "affects-technology",
+      "tail": "Windows 7",
+      "evidence": "Зазначена вразливість присутня в Windows 7 та Windows Server 2008."
+    },
+    {
+      "head": "CVE-2018-8120",
+      "type": "affects-technology",
+      "tail": "Windows Server 2008",
+      "evidence": "Зазначена вразливість присутня в Windows 7 та Windows Server 2008."
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "affects-technology",
+      "definition": "The vulnerability affects, exists within, or compromises the specified software, component, or system."
+    }
+  ]
+}

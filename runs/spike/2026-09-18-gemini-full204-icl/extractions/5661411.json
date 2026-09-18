@@ -1,0 +1,186 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0057",
+      "kind": "threat actor",
+      "gloss": "A threat actor group known for cyber espionage operations targeting Ukrainian entities."
+    },
+    {
+      "name": "CVE-2023-38831",
+      "kind": "security vulnerability",
+      "gloss": "A vulnerability in RARLAB WinRAR allowing code execution when attempting to view benign files within a ZIP archive."
+    },
+    {
+      "name": "WinRAR",
+      "kind": "software product",
+      "gloss": "A popular file archiver and data compression utility for Windows."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware",
+      "gloss": "The payload component of the Cobalt Strike adversary simulation software frequently abused for post-exploitation."
+    },
+    {
+      "name": "PicassoLoader",
+      "kind": "malware",
+      "gloss": "A malware loader used to download, decrypt, and execute subsequent payloads."
+    },
+    {
+      "name": "Збірник_тез_НУОУ_23.rar",
+      "kind": "computer file",
+      "gloss": "A malicious archive file weaponized to exploit CVE-2023-38831."
+    },
+    {
+      "name": "16872_16_2023_03049.pdf .cmd",
+      "kind": "computer file",
+      "gloss": "A malicious command script extracted and executed from an archive."
+    },
+    {
+      "name": "16872_16_2023_03049.lnk",
+      "kind": "computer file",
+      "gloss": "A malicious Windows shortcut file used to trigger an HTA payload."
+    },
+    {
+      "name": "16872_16_2023_03049.pdf",
+      "kind": "computer file",
+      "gloss": "A decoy PDF document displayed to the victim during the attack."
+    },
+    {
+      "name": "113-1131910-clipart.svg",
+      "kind": "computer file",
+      "gloss": "A steganographic image file harboring an encrypted payload."
+    },
+    {
+      "name": "mokpp9342jktihh.dll",
+      "kind": "computer file",
+      "gloss": "A malicious .NET DLL payload executed during the infection chain."
+    },
+    {
+      "name": "regsvr.dll",
+      "kind": "computer file",
+      "gloss": "An encrypted DLL file containing Cobalt Strike Beacon."
+    },
+    {
+      "name": "regsvr.decrypted.dll",
+      "kind": "computer file",
+      "gloss": "A decrypted Cobalt Strike Beacon payload."
+    },
+    {
+      "name": "16872_16_2023_03049.hta",
+      "kind": "computer file",
+      "gloss": "An HTML application file containing malicious JavaScript."
+    },
+    {
+      "name": "sdfhui2kjd.js",
+      "kind": "computer file",
+      "gloss": "A malicious JavaScript file implementing loader functionality."
+    },
+    {
+      "name": "topibuzz[.]space",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious network infrastructure."
+    },
+    {
+      "name": "windacarmelita[.]pw",
+      "kind": "domain name",
+      "gloss": "A domain name used to host a malicious payload."
+    },
+    {
+      "name": "hXXps://topibuzz[.]space/home/mngr/create",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL associated with threat actor infrastructure."
+    },
+    {
+      "name": "hXXps://topibuzz[.]space/home/mngr/example",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL associated with threat actor infrastructure."
+    },
+    {
+      "name": "hXXps://windacarmelita[.]pw/picdir/big/113-1131910-clipart.svg",
+      "kind": "uniform resource locator",
+      "gloss": "A URL hosting the malicious SVG file."
+    },
+    {
+      "name": "62[.]3.12.123",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command and control infrastructure."
+    },
+    {
+      "name": "31[.]192.234.194",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor infrastructure."
+    },
+    {
+      "name": "oksanagolub93@proton.me",
+      "kind": "email address",
+      "gloss": "An email address used to register malicious domain infrastructure."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "рф",
+      "kind": "country",
+      "gloss": "A transcontinental country spanning Eastern Europe and Northern Asia."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0057",
+      "type": "uses",
+      "tail": "CVE-2023-38831",
+      "evidence": "кібератаку угрупування UAC-0057. Так, виявлено файл \"Збірник_тез_НУОУ_23.rar\", що містить експлойт для вразливості CVE-2023-38831"
+    },
+    {
+      "head": "Збірник_тез_НУОУ_23.rar",
+      "type": "exploits",
+      "tail": "CVE-2023-38831",
+      "evidence": "файл \"Збірник_тез_НУОУ_23.rar\", що містить експлойт для вразливості CVE-2023-38831"
+    },
+    {
+      "head": "CVE-2023-38831",
+      "type": "affects",
+      "tail": "WinRAR",
+      "evidence": "експлуатацію вразливості CVE-2023-38831 у програмному забезпеченні WinRAR"
+    },
+    {
+      "head": "Збірник_тез_НУОУ_23.rar",
+      "type": "delivers",
+      "tail": "16872_16_2023_03049.pdf .cmd",
+      "evidence": "експлуатація якої призведе до виконання BAT-файлу \"16872_16_2023_03049.pdf .cmd\""
+    },
+    {
+      "head": "16872_16_2023_03049.pdf .cmd",
+      "type": "delivers",
+      "tail": "16872_16_2023_03049.lnk",
+      "evidence": "забезпечить запуск LNK-файлу \"16872_16_2023_03049.lnk\""
+    },
+    {
+      "head": "UAC-0057",
+      "type": "uses",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "забезпечить ураження ЕОМ програмою Cobalt Strike Beacon"
+    },
+    {
+      "head": "windacarmelita[.]pw",
+      "type": "hosts",
+      "tail": "hXXps://windacarmelita[.]pw/picdir/big/113-1131910-clipart.svg",
+      "evidence": "hXXps://windacarmelita[.]pw/picdir/big/113-1131910-clipart.svg"
+    },
+    {
+      "head": "topibuzz[.]space",
+      "type": "hosts",
+      "tail": "hXXps://topibuzz[.]space/home/mngr/create",
+      "evidence": "hXXps://topibuzz[.]space/home/mngr/create"
+    },
+    {
+      "head": "topibuzz[.]space",
+      "type": "hosts",
+      "tail": "hXXps://topibuzz[.]space/home/mngr/example",
+      "evidence": "hXXps://topibuzz[.]space/home/mngr/example"
+    }
+  ],
+  "newRelationTypes": []
+}

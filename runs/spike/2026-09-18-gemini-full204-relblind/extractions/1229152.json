@@ -1,0 +1,136 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0010",
+      "kind": "threat actor",
+      "gloss": "A cyberespionage group linked to Russian intelligence, also known as Armageddon or Gamaredon, targeting Ukrainian entities."
+    },
+    {
+      "name": "GammaLoad.PS1",
+      "kind": "malware family",
+      "gloss": "A PowerShell-based downloader malware used by UAC-0010 to fetch subsequent malicious payloads."
+    },
+    {
+      "name": "GammaSteel.PS1",
+      "kind": "malware family",
+      "gloss": "A PowerShell-based information stealer malware used by UAC-0010 to exfiltrate specific files."
+    },
+    {
+      "name": "GammaSteel.NET",
+      "kind": "malware family",
+      "gloss": ".NET-based credential-theft malware used by UAC-0010 to steal authentication data from web browsers."
+    },
+    {
+      "name": "HarvesterX",
+      "kind": "malware family",
+      "gloss": "A legacy information stealing tool used by UAC-0010 prior to the deployment of PowerShell-based variants."
+    },
+    {
+      "name": "Normal.dotm",
+      "kind": "file",
+      "gloss": "The default template file for Microsoft Word that can be modified to execute malicious macros."
+    },
+    {
+      "name": "Remote template injection",
+      "kind": "attack technique",
+      "gloss": "A technique where a Microsoft Office document dynamically loads a malicious remote template containing executable macro code."
+    },
+    {
+      "name": "powershell.exe",
+      "kind": "software product",
+      "gloss": "The command-line shell and scripting language binary built into Windows, frequently abused by attackers."
+    },
+    {
+      "name": "wscript.exe",
+      "kind": "software product",
+      "gloss": "The Windows Script Host executable used to execute VBScript and JScript scripts on Windows systems."
+    },
+    {
+      "name": "mshta.exe",
+      "kind": "software product",
+      "gloss": "A legitimate Windows utility used to execute Microsoft HTML Application (HTA) files."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0010",
+      "type": "distributes-malware",
+      "tail": "GammaLoad.PS1",
+      "evidence": "ініціюють ланцюг доставки GammaLoad.PS1 на комп'ютер жертви"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-tool",
+      "tail": "GammaSteel.PS1",
+      "evidence": "для чого застосовується GammaSteel.PS1 та GammaSteel.NET, відповідно"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-tool",
+      "tail": "GammaSteel.NET",
+      "evidence": "для чого застосовується GammaSteel.PS1 та GammaSteel.NET, відповідно"
+    },
+    {
+      "head": "GammaSteel.PS1",
+      "type": "is-variant-of",
+      "tail": "HarvesterX",
+      "evidence": "GammaSteel.PS1 є PowerShell-реалізацією раніше використовуваного HarvesterX"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "employs-technique",
+      "tail": "Remote template injection",
+      "evidence": "у вигляді посилання (так званий \"Remote template injection\")"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "targets-file",
+      "tail": "Normal.dotm",
+      "evidence": "ураження файлу шаблону C:\\Users\\%USERNAME%\\AppData\\Roaming\\Microsoft\\Templates\\Normal.dotm"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "abuses-tool",
+      "tail": "powershell.exe",
+      "evidence": "Активно використовується PowerShell (powershell.exe)"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "abuses-tool",
+      "tail": "wscript.exe",
+      "evidence": "а також wscript.exe, mshta.exe"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "abuses-tool",
+      "tail": "mshta.exe",
+      "evidence": "а також wscript.exe, mshta.exe"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "distributes-malware",
+      "definition": "The subject spreads, drops, or initiates the delivery of the target malware family."
+    },
+    {
+      "name": "uses-tool",
+      "definition": "The subject employs or operates the specified malware or utility to carry out malicious actions."
+    },
+    {
+      "name": "is-variant-of",
+      "definition": "The subject is a technical re-implementation, version, or derivation of the target software/malware."
+    },
+    {
+      "name": "employs-technique",
+      "definition": "The threat actor applies a specific tactic, technique, or operational method during attacks."
+    },
+    {
+      "name": "targets-file",
+      "definition": "The threat actor modifies, infects, or targets a specific file or template."
+    },
+    {
+      "name": "abuses-tool",
+      "definition": "The subject uses or leverages a legitimate system utility or tool for malicious execution."
+    }
+  ]
+}

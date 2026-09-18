@@ -1,0 +1,203 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+- Country: A distinct territorial body or sovereign state with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Government Organization: An official agency, ministry, or administrative body operating as part of a national or state government. (also: Government Agency, Government Body, State Authority)
+- Malware: Malicious software, code, or executables designed to infiltrate, damage, or compromise computer systems and data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address specifying the location and retrieval mechanism of a resource on a computer network. (also: URL, Web Address, Web Link)
+- Person: An individual human being, such as a government official, cybersecurity expert, researcher, or executive. (also: Individual, Natural Person)
+- IP Address: A numerical label assigned to a device connected to a computer network that uses the Internet Protocol for communication. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Electronic Mail Address)
+- Computer File: A digital resource or named item stored on a computer system, containing data, code, or instructions. (also: File, Digital File, Filename)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p>&nbsp;</p><p>&nbsp;</p><p></p><p>&nbsp;02.03.2021 компанія Microsoft опублікувала інформацію про оновлення безпеки, які закривають чотири критичні 0-day вразливості, що вже використовувались хакерськими угрупуваннями для проведення кібератак.</p><p class="ql-align-justify"><strong>Список вразливостей:</strong></p><p class="ql-align-justify"><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-26855" rel="noopener noreferrer" target="_blank">CVE-2021-26855</a> – Server-Side Request Forgery (SSRF) – вразливість підробки запитів до сервера, яка дозволяє зловмисникам надсилати довільні HTTP-запити та автентифікуватися на локальному сервері Exchange. За допомогою цієї вразливості зловмисники можуть отримати доступ до поштових скриньок користувачів Microsoft Exchange.</p><p class="ql-align-justify"><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-26857" rel="noopener noreferrer" target="_blank">CVE-2021-26857</a> – вразливість в службі Unified Messaging. Зловмисники, які проексплуатували вразливість CVE-2021-26855 або за допомогою викрадених облікових записів можуть виконати віддалений код (RCE) з правами адміністратора на сервері Microsoft Exchange.</p><p class="ql-align-justify"><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-26858" rel="noopener noreferrer" target="_blank">CVE-2021-26858</a> – це вразливість запису файлів після автентифікації в Microsoft Exchange. Використання цієї вразливості може дозволити зловмиснику записати файл у будь-яку директорію сервера Microsoft Exchange після успішного використання CVE-2021-26855 або за допомогою викрадених облікових записів.</p><p class="ql-align-justify"><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-27065" rel="noopener noreferrer" target="_blank">CVE-2021-27065</a> – це вразливість запису файлів після автентифікації в Exchange. Подібно до CVE-2021-26858, використання цієї вразливості може дозволити зловмиснику записати файл у будь-яку директорію сервера Microsoft&nbsp;Exchange.</p><p class="ql-align-justify">Вразливими є наступні версії Microsoft Exchange Server:</p><ul><li class="ql-align-justify">Microsoft Exchange Server 2010</li><li class="ql-align-justify">Microsoft Exchange Server 2013 (&lt; 15.00.1497.012)</li><li class="ql-align-justify">Microsoft Exchange Server 2016 (CU18 &lt; 15.01.2106.013, CU19 &lt; 15.01.2176.009)</li><li class="ql-align-justify">Microsoft Exchange Server 2019 (CU8 &lt; 15.02.0792.010)</li></ul><p class="ql-align-justify">&nbsp;</p><p class="ql-align-justify">Компанія Microsoft повідомила, що на час випуску оновлень, вразливості вже активно використовувались деякими хакерськими угрупуваннями.</p><p class="ql-align-justify">У даний час в мережі Інтернет вже опубліковані експлойти та інструкції по їх використанню, за допомогою яких навіть не підготовлені зловмисники можуть зламати ваш Microsoft Exchange. Для цього їм потрібно лише знати домен або ІР-адресу вашого Microsoft Exchange серверу та електронну адресу, яка на ньому використовується. Наприклад, публічну пошту, яка опублікована на вашому веб-сайті.</p><p class="ql-align-justify"></p><p class="ql-align-center">Мал.1 Веб-інтерфейс Microsoft Exchange Server</p><p class="ql-align-justify">Вразливості активно експлуатуються для зараження серверів вірусами-шифрувальниками з подальшим вимаганням викупу для розшифровки, встановленням бекдорів та отриманням повного віддаленого доступу, компрометацією електронних поштових скриньок та викраденням чутливих даних.&nbsp;</p><p class="ql-align-justify">Державним центром кіберзахисту Держспецзв’язку вживаються заходи з протидії кібератакам, які використовують зазначені вразливості. Власникам інформаційно-телекомунікаційних систем, керівникам підрозділів, які відповідають за інформаційну безпеку державних органів України, де використовується у роботі Microsoft Exchange, потрібно НЕГАЙНО здійснити оновлення до актуальних версій та слідкувати за випуском оновлень. Також здійснити заходи з перевірки серверів на факт можливої компрометації.&nbsp;</p><p class="ql-align-justify">&nbsp;</p><p class="ql-align-justify"><strong>Інформація щодо оновлень:</strong></p><p class="ql-align-justify"><a href="https://techcommunity.microsoft.com/t5/exchange-team-blog/released-march-2021-exchange-server-security-updates/ba-p/2175901" rel="noopener noreferrer" target="_blank">https://techcommunity.microsoft.com/t5/exchange-team-blog/released-march-2021-exchange-server-security-updates/ba-p/2175901</a> <span style="color: windowtext;">(останнє оновлення 17.03.2021)</span></p><p class="ql-align-justify"><span style="color: windowtext;">Інструкції оновлень по версіям</span></p><p class="ql-align-justify">Microsoft Exchange Server 2010:</p><p class="ql-align-justify"><a href="https://support.microsoft.com/en-us/topic/description-of-the-security-update-for-microsoft-exchange-server-2010-service-pack-3-march-2-2021-kb5000978-894f27bf-281e-44f8-b9ba-dad705534459" rel="noopener noreferrer" target="_blank">https://support.microsoft.com/en-us/topic/description-of-the-security-update-for-microsoft-exchange-server-2010-service-pack-3-march-2-2021-kb5000978-894f27bf-281e-44f8-b9ba-dad705534459</a></p><p class="ql-align-justify">Microsoft Exchange Server 2013</p><p class="ql-align-justify"><a href="https://support.microsoft.com/en-us/topic/description-of-the-security-update-for-microsoft-exchange-server-2019-2016-and-2013-march-2-2021-kb5000871-9800a6bb-0a21-4ee7-b9da-fa85b3e1d23b" rel="noopener noreferrer" target="_blank">https://support.microsoft.com/en-us/topic/description-of-the-security-update-for-microsoft-exchange-server-2019-2016-and-2013-march-2-2021-kb5000871-9800a6bb-0a21-4ee7-b9da-fa85b3e1d23b</a></p><p class="ql-align-justify">Microsoft Exchange Server 2016</p><p class="ql-align-justify"><a href="https://support.microsoft.com/en-us/topic/description-of-the-security-update-for-microsoft-exchange-server-2019-2016-and-2013-march-2-2021-kb5000871-9800a6bb-0a21-4ee7-b9da-fa85b3e1d23b" rel="noopener noreferrer" target="_blank">https://support.microsoft.com/en-us/topic/description-of-the-security-update-for-microsoft-exchange-server-2019-2016-and-2013-march-2-2021-kb5000871-9800a6bb-0a21-4ee7-b9da-fa85b3e1d23b</a></p><p class="ql-align-justify">Microsoft Exchange Server 2019</p><p class="ql-align-justify"><a href="https://support.microsoft.com/en-us/topic/description-of-the-security-update-for-microsoft-exchange-server-2019-2016-and-2013-march-2-2021-kb5000871-9800a6bb-0a21-4ee7-b9da-fa85b3e1d23b" rel="noopener noreferrer" target="_blank">https://support.microsoft.com/en-us/topic/description-of-the-security-update-for-microsoft-exchange-server-2019-2016-and-2013-march-2-2021-kb5000871-9800a6bb-0a21-4ee7-b9da-fa85b3e1d23b</a></p><p class="ql-align-justify"><br></p><p class="ql-align-justify"><strong>Також Microsoft опубліковано інструменти для попереднього захисту від використання вразливостей (якщо немає змоги швидко оновитися) та виявлення фактів компрометації серверів Microsoft Exchange з їх використанням. </strong></p><p class="ql-align-justify">Рекомендуємо скористатися цими інструментами, для перевірки свого серверу.</p><p class="ql-align-justify"><a href="https://github.com/microsoft/CSS-Exchange/tree/main/Security#http-vuln-cve2021-26855nse" rel="noopener noreferrer" target="_blank">https://github.com/microsoft/CSS-Exchange/tree/main/Security#http-vuln-cve2021-26855nse</a> <span style="color: windowtext;">(останнє оновлення 17.03.2021)</span></p><p class="ql-align-justify"><strong>Інструмент Exchange On-premises Mitigation Tool (EOMT)</strong> <a href="https://github.com/microsoft/CSS-Exchange/blob/main/Security/src/EOMT.ps1" rel="noopener noreferrer" target="_blank">https://github.com/microsoft/CSS-Exchange/blob/main/Security/src/EOMT.ps1</a>.</p><p class="ql-align-justify">EOMT виконує наступні функції:</p><p class="ql-align-justify">1. Захищає від поточних відомих атак за допомогою вразливості CVE-2021-26855.</p><p class="ql-align-justify">2. Сканує Microsoft Exchange Server за допомогою Microsoft Safety Scanner.</p><p class="ql-align-justify">3. Усуває загрози виявленні Microsoft Safety Scanner.</p><p class="ql-align-justify"><strong>Застосування EOMT</strong></p><p class="ql-align-justify">Для запуску EOMT на вашому сервері Microsoft Exchange вам потрібний доступ до Інтернету та адміністративний доступ до PowerShell.</p><p class="ql-align-justify">Системні вимоги:</p><ul><li class="ql-align-justify">PowerShell 3 або пізніші версії;</li><li class="ql-align-justify">IIS 7.5 або пізніші версії;</li><li class="ql-align-justify">Exchange 2013, 2016, or 2019;</li><li class="ql-align-justify">Операційні системи Windows Server 2008 R2, Server 2012, Server 2012 R2, Server 2016, Server 2019;</li></ul><p class="ql-align-justify">1. Завантажити скрипт за посиланням <a href="https://github.com/microsoft/CSS-Exchange/releases/latest/download/EOMT.ps1" rel="noopener noreferrer" target="_blank">https://github.com/microsoft/CSS-Exchange/releases/latest/download/EOMT.ps1</a></p><p class="ql-align-justify">2. Запустити PowerShell.</p><p class="ql-align-justify">Права кнопка мишки на «Пуск» обрати Windows PowerShell(Admin).</p><p class="ql-align-justify">3. Зробити сканування.</p><ul><li class="ql-align-justify">В PowerShell запустити команду .\шлях до скрипту\ EOMT.ps1. Це визначить чи ваш сервер вразливий, здійснить необхідні налаштування безпеки для попередження кібератак, і запустить швидке сканування MSERT.</li></ul><p class="ql-align-justify">4. Якщо вразливості присутні потрібно запустити повний сканування MSERT.</p><ul><li class="ql-align-justify">В PowerShell запустити команду .\шлях до скрипту\ EOMT.ps1 -RunFullScan -DoNotRunMitigation</li></ul><p class="ql-align-justify">5. Для відкату налаштувань безпеки інструменту EOMT</p><ul><li class="ql-align-justify">В PowerShell запустити команду .\шлях до скрипту\EOMT.ps1 <span style="color: rgb(36, 41, 46);">-Rollbackmitigation</span></li></ul><p class="ql-align-justify"><span style="color: rgb(36, 41, 46);">&nbsp;</span></p><p class="ql-align-justify"><strong style="color: rgb(36, 41, 46);">Інструмент Test-ProxyLogon.ps1 </strong><span style="color: rgb(36, 41, 46);">використовується для перевірки факту використання зловмисниками вказаних вразливостей </span>Microsoft Exchange<span style="color: rgb(36, 41, 46);"> та пошуку слідів їх діяльності з генерацією відповідних звітів.</span></p><p class="ql-align-justify"><strong style="color: rgb(36, 41, 46);">Застосування Test-ProxyLogon.ps1</strong></p><p class="ql-align-justify">1. Завантажити скрипт за посиланням <a href="https://github.com/microsoft/CSS-Exchange/releases/latest/download/Test-ProxyLogon.ps1" rel="noopener noreferrer" target="_blank">https://github.com/microsoft/CSS-Exchange/releases/latest/download/Test-ProxyLogon.ps1</a></p><p class="ql-align-justify">2. Запустити PowerShell.</p><p class="ql-align-justify">Права кнопка мишки на «Пуск» обрати Windows PowerShell(Admin).</p><p class="ql-align-justify">3. Для перевірки локального серверу</p><ul><li class="ql-align-justify">В PowerShell запустити команду .\шлях до скрипту\Test-ProxyLogon.ps1 -OutPath $home\desktop\logs -CollectFiles (шлях запису виводу файлу)</li></ul><p class="ql-align-justify">Скрипт виділятиме будь-які файли zip/7x/rar, які він знайде в директорії ProgramData. Такі файли використовувались для встановлення веб-шелів під час кібератак, які досліджували в Microsoft. Вся підозріла активність буде записана в окремий журнальний файл.</p><p class="ql-align-justify">Адміністраторам потрібно детально проаналізувати зазначені журнальні файли.</p><p class="ql-align-justify">При аналізі журнального файлу варто звернути увагу на наступні поля:</p><p class="ql-align-justify">1.&nbsp;&nbsp;&nbsp;&nbsp;<strong>DateTime</strong> – дата та час підозрілої активності. Наврядчи працівники вашої організації активно працюють вночі з Microsoft Exchange.</p><p class="ql-align-justify">2.&nbsp;&nbsp;&nbsp;&nbsp;<strong>ClientIPAddress</strong> – ІР-адреса, з якої відбувались несанкціоновані дії. Звіряйте ІР-адреси з робочим пулом ІР вашої організації або працівників, які працюють віддалено. Також за допомогою таких сервісів, як «whois» можливо визначити належність ІР-адреси до конкретної країни.</p><p class="ql-align-justify">3.&nbsp;&nbsp;&nbsp;&nbsp;<strong>UrlStem</strong> – шлях до завантаженого потенційно шкідливого файлу. Потрібно здійснити детальну перевірку всіх зазначених в колонці файлів та видалити їх, якщо ви впевнились, що вони шкідливі та непотрібні для роботи Microsoft Exchange. Або перенести їх в іншу директорію для подальшого дослідження, таким чином ви заблокуєте можливість зловмисникам звертатися до вже відомого файлу по відомому шляху.</p><p class="ql-align-justify">4.&nbsp;&nbsp;&nbsp;&nbsp;<strong>UserAgent</strong> – ідентифікатор клієнтського програмного забезпечення, з якого велась робота з Microsoft Exchange. Нормальними вважаються ідентифікатори браузерів, але деякі програми, наприклад «Burp Suite» можуть використовувати браузери для своєї роботи, тому такі поля необхідно також перевіряти. Звернення за допомогою скриптів типу «python-requests», «curl» або інших потрібно вважати потенційно небезпечними та перевіряти.</p><p class="ql-align-justify">5.&nbsp;&nbsp;&nbsp;&nbsp;<strong>HttpStatus</strong> – відповідь веб-сервера на запит. 200 – запит вдалий і зловмисники змогли отримати доступ або відправити команди до файлу вказаному в <strong>UrlStem</strong>.</p><p class="ql-align-justify">&nbsp;</p><p class="ql-align-justify"></p><p class="ql-align-center">Мал.2 Приклад журнального файлу Test-ProxyLogon.ps1</p><p class="ql-align-justify"><strong>Інструмент http-vuln-cve2021-26855.nse, </strong>nse скрипт<strong> </strong>який дозволяє віддалено перевірити наявність вразливості на сервері Microsoft Exchange за допомогою утиліти nmap (<a href="https://nmap.org/" rel="noopener noreferrer" target="_blank">https://nmap.org/</a>)</p><p class="ql-align-justify"><strong>Застосування http-vuln-cve2021-26855.nse</strong></p><p class="ql-align-justify">1.&nbsp;&nbsp;&nbsp;&nbsp;Завантажте скрипт за посиланням <a href="https://github.com/microsoft/CSS-Exchange/releases/latest/download/http-vuln-cve2021-26855.nse" rel="noopener noreferrer" target="_blank">https://github.com/microsoft/CSS-Exchange/releases/latest/download/http-vuln-cve2021-26855.nse</a></p><p class="ql-align-justify">2.&nbsp;&nbsp;&nbsp;&nbsp;Завантажте та встановіть утиліту nmap <a href="https://nmap.org/download.html" rel="noopener noreferrer" target="_blank">https://nmap.org/download.html</a></p><p class="ql-align-justify">3.&nbsp;&nbsp;&nbsp;&nbsp;Виконайте команду nmap -p &lt;порт(443/80)&gt; --script http-vuln-cve2021-26855.nse &lt;url вашого серверу Microsoft Exchange&gt;</p><p class="ql-align-justify">Якщо сервер вразливий, скрипт видасть наступне:</p><p class="ql-align-justify"></p><p class="ql-align-center">Мал.3 Сканування вразливого серверу утилітою Zenmap</p><p class="ql-align-justify"><span style="color: red;">Якщо Ви виявили факт компрометації вашого серверу потрібно негайно повідомити CERT-UA за вказаними контактними даними: </span></p><p class="ql-align-justify"><span style="color: red;">електронна пошта: cert@cert.gov.ua</span></p><p class="ql-align-justify"><span style="color: red;">За номером телефону: &lt;+38 (044) 281-88-05 </span><span style="color: rgb(255, 0, 0);">+38 (044) 281-88-25</span><span style="color: red;">&gt;</span></p><p class="ql-align-justify"><span style="color: red;">Або заповнивши форму на сайті </span><a href="https://cert.gov.ua/contact-us" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/contact-us</a> <span style="color: red;"> </span></p><p class="ql-align-justify"><span style="color: red;">Ми допоможемо вам у перевірці виявлених підозрілих файлів та аналізі журналів скриптів перевірки</span>.</p><p class="ql-align-justify">Зважаючи на відносну простоту експлуатації вразливостей (в мережі Інтернет вже опубліковано велику кількість інструментів експлуатації та інструкцій з їх застосування) та деструктивних наслідків до яких така експлуатація може призвести, CERT-UA ще раз наголошує про необхідність НЕГАЙНОГО оновлення та перевірки факту зламу свого серверу Microsoft Exchange згідно зазначених інструкцій.</p><p class="ql-align-justify"><span style="background-color: yellow;">Крім того, CERT-UA вже досліджуються кіберінциденти пов’язані із завантаженням бекдорів та шифруванням даних на серверах Microsoft Exchange в організаціях України.</span></p><p class="ql-align-justify">&nbsp;</p><p class="ql-align-justify"><strong>Індикатори компрометації</strong> (доповнюється)</p><p class="ql-align-justify">Вже відомі кібератаки з використанням зазначених вразливостей:</p><p class="ql-align-justify"><strong>Microsoft:</strong></p><p class="ql-align-justify">JSON format</p><p class="ql-align-justify"><a href="https://raw.githubusercontent.com/Azure/Azure-Sentinel/master/Sample%20Data/Feeds/MSTICIoCs-ExchangeServerVulnerabilitiesDisclosedMarch2021.json" rel="noopener noreferrer" target="_blank">https://raw.githubusercontent.com/Azure/Azure-Sentinel/master/Sample%20Data/Feeds/MSTICIoCs-ExchangeServerVulnerabilitiesDisclosedMarch2021.json</a></p><p class="ql-align-justify">CSV format</p><p class="ql-align-justify"><a href="https://raw.githubusercontent.com/Azure/Azure-Sentinel/master/Sample%20Data/Feeds/MSTICIoCs-ExchangeServerVulnerabilitiesDisclosedMarch2021.csv" rel="noopener noreferrer" target="_blank">https://raw.githubusercontent.com/Azure/Azure-Sentinel/master/Sample%20Data/Feeds/MSTICIoCs-ExchangeServerVulnerabilitiesDisclosedMarch2021.csv</a></p><p class="ql-align-justify"><strong>CISA</strong></p><p class="ql-align-justify">STIX format</p><p class="ql-align-justify"><a href="https://us-cert.cisa.gov/sites/default/files/publications/AA21-062A.stix.xml" rel="noopener noreferrer" target="_blank">https://us-cert.cisa.gov/sites/default/files/publications/AA21-062A.stix.xml</a></p><p class="ql-align-justify"><strong>Корисні посилання:</strong></p><p class="ql-align-justify"><a href="https://techcommunity.microsoft.com/t5/exchange-team-blog/released-march-2021-exchange-server-security-updates/ba-p/2175901" rel="noopener noreferrer" target="_blank" style="background-color: rgb(255, 255, 255);">https://techcommunity.microsoft.com/t5/exchange-team-blog/released-march-2021-exchange-server-security-updates/ba-p/2175901</a></p><p class="ql-align-justify"><a href="https://github.com/microsoft/CSS-Exchange/tree/main/Security#http-vuln-cve2021-26855nse" rel="noopener noreferrer" target="_blank" style="background-color: rgb(255, 255, 255); color: rgb(0, 86, 179);">https://github.com/microsoft/CSS-Exchange/tree/main/Security#http-vuln-cve2021-26855nse</a></p><p class="ql-align-justify"><a href="https://www.microsoft.com/security/blog/2021/03/02/hafnium-targeting-exchange-servers/" rel="noopener noreferrer" target="_blank">https://www.microsoft.com/security/blog/2021/03/02/hafnium-targeting-exchange-servers/</a></p><p class="ql-align-justify"><a href="https://proxylogon.com/" rel="noopener noreferrer" target="_blank" style="background-color: rgb(255, 255, 255);">https://proxylogon.com</a></p><p class="ql-align-justify"><br></p>
+
+=== RESPONSE (6.6s, in 8130 / out 1581 tok, STOP) ===
+Microsoft announced security updates addressing four critical 0-day vulnerabilities (CVE-2021-26855, CVE-2021-26857, CVE-2021-26858, CVE-2021-27065) affecting Microsoft Exchange Server versions 2010, 2013, 2016, and 2019. Threat actors actively exploited these flaws to conduct cyberattacks, deploy ransomware, and install backdoors in Ukrainian organizations and worldwide. Mitigation and scanning tools such as EOMT.ps1, Test-ProxyLogon.ps1, MSERT, and http-vuln-cve2021-26855.nse were recommended.
+
+```json
+{
+  "entities": [
+    {
+      "name": "Microsoft",
+      "kind": "Software Vendor",
+      "gloss": "A multinational technology corporation providing operating systems, enterprise software, and cloud computing services."
+    },
+    {
+      "name": "CVE-2021-26855",
+      "kind": "Security Vulnerability",
+      "gloss": "A server-side request forgery vulnerability in Microsoft Exchange Server allowing unauthenticated attackers to send arbitrary HTTP requests."
+    },
+    {
+      "name": "CVE-2021-26857",
+      "kind": "Security Vulnerability",
+      "gloss": "An insecure deserialization vulnerability in Microsoft Exchange Server Unified Messaging service enabling remote code execution."
+    },
+    {
+      "name": "CVE-2021-26858",
+      "kind": "Security Vulnerability",
+      "gloss": "A post-authentication arbitrary file write vulnerability in Microsoft Exchange Server."
+    },
+    {
+      "name": "CVE-2021-27065",
+      "kind": "Security Vulnerability",
+      "gloss": "A post-authentication file write vulnerability in Microsoft Exchange Server allowing attackers to write arbitrary files to directories."
+    },
+    {
+      "name": "Microsoft Exchange Server",
+      "kind": "Software Product",
+      "gloss": "A mail and calendaring server platform developed by Microsoft."
+    },
+    {
+      "name": "Microsoft Exchange Server 2010",
+      "kind": "Software Product",
+      "gloss": "A mail and collaboration server release from Microsoft Exchange Server family."
+    },
+    {
+      "name": "Microsoft Exchange Server 2013",
+      "kind": "Software Product",
+      "gloss": "A mail and collaboration server release from Microsoft Exchange Server family."
+    },
+    {
+      "name": "Microsoft Exchange Server 2016",
+      "kind": "Software Product",
+      "gloss": "A mail and collaboration server release from Microsoft Exchange Server family."
+    },
+    {
+      "name": "Microsoft Exchange Server 2019",
+      "kind": "Software Product",
+      "gloss": "A mail and collaboration server release from Microsoft Exchange Server family."
+    },
+    {
+      "name": "Державним центром кіберзахисту Держспецзв’язку",
+      "kind": "Government Organization",
+      "gloss": "A Ukrainian state cybersecurity center operating under the State Service of Special Communications and Information Protection."
+    },
+    {
+      "name": "Держспецзв’язку",
+      "kind": "Government Organization",
+      "gloss": "The State Service of Special Communications and Information Protection of Ukraine."
+    },
+    {
+      "name": "України",
+      "kind": "Country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "Exchange On-premises Mitigation Tool (EOMT)",
+      "kind": "Software Product",
+      "gloss": "A PowerShell-based mitigation and scanning tool developed by Microsoft to address Exchange Server vulnerabilities."
+    },
+    {
+      "name": "Microsoft Safety Scanner",
+      "kind": "Software Product",
+      "gloss": "A free stand-alone malware detection and removal scanner utility developed by Microsoft."
+    },
+    {
+      "name": "Test-ProxyLogon.ps1",
+      "kind": "Software Product",
+      "gloss": "A PowerShell script created by Microsoft to detect evidence of Exchange Server exploitation."
+    },
+    {
+      "name": "http-vuln-cve2021-26855.nse",
+      "kind": "Software Product",
+      "gloss": "An Nmap Scripting Engine script designed to detect the CVE-2021-26855 vulnerability on Exchange servers."
+    },
+    {
+      "name": "nmap",
+      "kind": "Software Product",
+      "gloss": "A free and open-source network scanner and vulnerability auditing tool."
+    },
+    {
+      "name": "CISA",
+      "kind": "Government Organization",
+      "gloss": "The Cybersecurity and Infrastructure Security Agency of the United States."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2021-26855",
+      "type": "affects",
+      "tail": "Microsoft Exchange Server",
+      "evidence": "автентифікуватися на локальному сервері Exchange"
+    },
+    {
+      "head": "CVE-2021-26857",
+      "type": "affects",
+      "tail": "Microsoft Exchange Server",
+      "evidence": "виконати віддалений код (RCE) з правами адміністратора на сервері Microsoft Exchange"
+    },
+    {
+      "head": "CVE-2021-26858",
+      "type": "affects",
+      "tail": "Microsoft Exchange Server",
+      "evidence": "записати файл у будь-яку директорію сервера Microsoft Exchange"
+    },
+    {
+      "head": "CVE-2021-27065",
+      "type": "affects",
+      "tail": "Microsoft Exchange Server",
+      "evidence": "записати файл у будь-яку директорію сервера Microsoft Exchange"
+    },
+    {
+      "head": "Державним центром кіберзахисту Держспецзв’язку",
+      "type": "part-of",
+      "tail": "Держспецзв’язку",
+      "evidence": "Державним центром кіберзахисту Держспецзв’язку"
+    },
+    {
+      "head": "Держспецзв’язку",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "державних органів України"
+    }
+  ],
+  "newRelationTypes": []
+}
+```

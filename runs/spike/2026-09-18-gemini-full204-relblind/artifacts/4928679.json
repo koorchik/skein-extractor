@@ -1,0 +1,204 @@
+{
+  "docId": 4928679,
+  "date": "19.06.2023",
+  "title": "Цільові кібератаки UAC-0102 у відношенні користувачів сервісу UKR.NET (CERT-UA#6858)",
+  "entities": [
+    {
+      "id": "4928679:0",
+      "name": "UAC-0102",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA associated with phishing attacks targeting UKR.NET users.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "4928679:1",
+      "name": "UAC-0036",
+      "kind": "threat actor",
+      "gloss": "A cyber threat group tracked by CERT-UA to which activity was initially attributed.",
+      "scheme": "S19",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4928679:2",
+      "name": "UKR.NET",
+      "kind": "email service provider",
+      "gloss": "A popular Ukrainian web portal and email service provider.",
+      "scheme": null,
+      "category": "Organization",
+      "role": "target"
+    },
+    {
+      "id": "4928679:3",
+      "name": "Попередження про безпеку.pdf",
+      "kind": "malicious document",
+      "gloss": "A phishing PDF document disguised as a security warning from UKR.NET technical support.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "4928679:4",
+      "name": "account.support.0@ukr.net",
+      "kind": "email address",
+      "gloss": "A sender email address spoofing UKR.NET technical support used to deliver phishing messages.",
+      "scheme": "S14",
+      "category": "Organization",
+      "role": "attacker"
+    },
+    {
+      "id": "4928679:5",
+      "name": "Internet Domain Service BS Corp.",
+      "kind": "domain registrar",
+      "gloss": "A domain registrar based in the Bahamas used to register phishing domain names.",
+      "scheme": "S15",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "4928679:6",
+      "name": "Багамські острови",
+      "kind": "country",
+      "gloss": "An island country in the Caribbean where the domain registrar Internet Domain Service BS Corp. is located.",
+      "scheme": "S6",
+      "category": "Country",
+      "role": "related"
+    },
+    {
+      "id": "4928679:7",
+      "name": "Domaintools",
+      "kind": "threat intelligence provider",
+      "gloss": "A commercial provider of DNS domain data and cybersecurity intelligence.",
+      "scheme": "S11",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "4928679:8",
+      "name": "Нідерланди",
+      "kind": "country",
+      "gloss": "A country in northwestern Europe where the threat actor's hosting infrastructure was located.",
+      "scheme": "S6",
+      "category": "Country",
+      "role": "related"
+    },
+    {
+      "id": "4928679:9",
+      "name": "Nice-IT",
+      "kind": "hosting provider",
+      "gloss": "A hosting provider in the Netherlands associated with autonomous system AS49447.",
+      "scheme": "S21",
+      "category": "Organization",
+      "role": "attacker"
+    },
+    {
+      "id": "4928679:10",
+      "name": "CSIRT-NBU",
+      "kind": "csirt",
+      "gloss": "The Computer Security Incident Response Team of the National Bank of Ukraine.",
+      "scheme": "S25",
+      "category": "Government Body",
+      "role": null
+    },
+    {
+      "id": "4928679:11",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose citizens and email users were targeted in the phishing campaign.",
+      "scheme": "S6",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "4928679:12",
+      "name": "hXXp://accounts.cm1-ukr[.]net/desktop/security/login/",
+      "kind": "url",
+      "gloss": "A phishing URL mimicking the UKR.NET login interface to harvest credentials.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "4928679:13",
+      "name": "hXXp://accounts.regs-ukr[.]net/desktop/security/login/",
+      "kind": "url",
+      "gloss": "A phishing URL mimicking the UKR.NET login interface to steal user authentication credentials.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4928679:14",
+      "name": "45.9.148.178",
+      "kind": "ip address",
+      "gloss": "An IP address hosted on AS49447 in the Netherlands used for malicious infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "4928679:15",
+      "name": "45.9.148.83",
+      "kind": "ip address",
+      "gloss": "An IP address hosted on AS49447 in the Netherlands used for malicious infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0102",
+      "type": "impersonates",
+      "tail": "UKR.NET",
+      "evidence": "надісланий, начебто, від імені технічної підтримки UKR.NET"
+    },
+    {
+      "head": "account.support.0@ukr.net",
+      "type": "distributes-malware",
+      "tail": "Попередження про безпеку.pdf",
+      "evidence": "додатком у вигляді PDF-файлу \"Попередження про безпеку.pdf\" надісланий, начебто, від імені"
+    },
+    {
+      "head": "Попередження про безпеку.pdf",
+      "type": "links-to",
+      "tail": "hXXp://accounts.cm1-ukr[.]net/desktop/security/login/",
+      "evidence": "Згаданий PDF-документ містить посилання на шахрайський вебресурс"
+    },
+    {
+      "head": "Internet Domain Service BS Corp.",
+      "type": "located-in-country",
+      "tail": "Багамські острови",
+      "evidence": "Internet Domain Service BS Corp.\" (@internet.bs, Багамські острови)"
+    },
+    {
+      "head": "Nice-IT",
+      "type": "located-in-country",
+      "tail": "Нідерланди",
+      "evidence": "розміщено в Нідерландах на технічному майданчику \"Nice-IT\""
+    },
+    {
+      "head": "Nice-IT",
+      "type": "hosts-ip",
+      "tail": "45.9.148.178",
+      "evidence": "45[.]9.148.178  NL  @as49447.net"
+    },
+    {
+      "head": "Nice-IT",
+      "type": "hosts-ip",
+      "tail": "45.9.148.83",
+      "evidence": "45[.]9.148.83   NL  @as49447.net"
+    },
+    {
+      "head": "UAC-0102",
+      "type": "attributed-to-country",
+      "tail": "Україна",
+      "evidence": "мінімізації вірогідності реалізації кіберзагроз у відношенні громадян України"
+    }
+  ],
+  "unclassified": [
+    "4928679:2"
+  ]
+}

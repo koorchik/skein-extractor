@@ -1,0 +1,205 @@
+{
+  "docId": 6281202,
+  "date": "30.10.2024",
+  "title": "Кібератака UAC-0050 з використанням податкової тематики та LITEMANAGER (CERT-UA#11776)",
+  "entities": [
+    {
+      "id": "6281202:0",
+      "name": "Державна податкова служба України",
+      "kind": "government body",
+      "gloss": "The central executive body responsible for state tax policy in Ukraine.",
+      "scheme": "S6",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "6281202:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country located in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6281202:2",
+      "name": "UAC-0050",
+      "kind": "threat actor",
+      "gloss": "A financially motivated cyber threat group known for attacking Ukrainian organizations.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6281202:3",
+      "name": "LITEMANAGER",
+      "kind": "software product",
+      "gloss": "A legitimate remote desktop access and computer management software often abused by threat actors.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6281202:4",
+      "name": "qaz.im",
+      "kind": "internet domain",
+      "gloss": "A file-sharing service domain used to host malicious files in phishing campaigns.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281202:5",
+      "name": "qaz.is",
+      "kind": "internet domain",
+      "gloss": "A file-sharing service domain used to distribute malicious files.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281202:6",
+      "name": "qaz.su",
+      "kind": "internet domain",
+      "gloss": "A file-sharing service domain referenced in cyberattack delivery chains.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281202:7",
+      "name": "tax-gov-ua[.]com",
+      "kind": "internet domain",
+      "gloss": "A typo-squatted domain mimicking the Ukrainian tax authority, used for malicious activities.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281202:8",
+      "name": "dpsu-gov-ua[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain masquerading as a Ukrainian government agency, used in malicious campaigns.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281202:9",
+      "name": "dps_tax_gov_ua_0739220983.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive disguised as an official tax document.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281202:10",
+      "name": "Електронний запит документів податкової служби.pdf.rar",
+      "kind": "file",
+      "gloss": "A password-protected nested archive containing a malicious SFX executable.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281202:11",
+      "name": "Електронний запит документів податкової служби.pdf.exe",
+      "kind": "file",
+      "gloss": "A malicious self-extracting executable designed to deploy remote management software.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "6281202:12",
+      "name": "pdf.msi",
+      "kind": "file",
+      "gloss": "A Windows Installer package used to install the LiteManager software.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6281202:13",
+      "name": "christine@rozsenich.com",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator in cyberattack activity.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281202:14",
+      "name": "111.90.140.76",
+      "kind": "ip address",
+      "gloss": "An IP address functioning as a command-and-control server.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281202:15",
+      "name": "65.21.245.7",
+      "kind": "ip address",
+      "gloss": "An IP address serving as command-and-control infrastructure.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281202:16",
+      "name": "91.240.86.200",
+      "kind": "ip address",
+      "gloss": "An IP address associated with LiteManager network traffic.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281202:17",
+      "name": "109.71.247.168",
+      "kind": "ip address",
+      "gloss": "An originating IP address detected in email headers.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281202:18",
+      "name": "31.214.157.49",
+      "kind": "ip address",
+      "gloss": "An IP address identified as a network indicator of compromise.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Державна податкова служба України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Державної податкової служби України"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "LITEMANAGER",
+      "evidence": "активність є фінансово мотивованою та здійснюється угрупуванням UAC-0050... програми для віддаленого управління LITEMANAGER"
+    },
+    {
+      "head": "Електронний запит документів податкової служби.pdf.exe",
+      "type": "delivers",
+      "tail": "pdf.msi",
+      "evidence": "Відкриття останнього призведе до... запуску на комп'ютері MSI-пакету"
+    },
+    {
+      "head": "Електронний запит документів податкової служби.pdf.exe",
+      "type": "delivers",
+      "tail": "LITEMANAGER",
+      "evidence": "запуску на комп'ютері MSI-пакету програми для віддаленого управління LITEMANAGER"
+    }
+  ],
+  "unclassified": []
+}

@@ -1,0 +1,44 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You maintain a small, growing set of CONCEPT SCHEMES (entity categories) for a knowledge registry built from cybersecurity incident reports. A group of entities extracted from several reports has just been found to be close to each other and far from every existing scheme. Decide whether the group is a genuinely new scheme or an alias of an existing one, and name it.
+
+### EXISTING SCHEMES ###
+- Vulnerability: A flaw or weakness in a system, hardware, or software that can be exploited to perform unauthorized actions.
+- Software Product: A software program, application, operating system, or platform developed and distributed for use.
+- Software Vendor: A company, organization, or individual that develops, maintains, or distributes software or technology products.
+- Country: A sovereign state or distinct territorial entity with its own government.
+- Government Agency: An executive body, ministry, department, or specialized state institution responsible for specific public administration and governance functions.
+- Malware: Software or code intentionally designed to cause harm, compromise systems, or perform unauthorized actions on computer devices and networks.
+- URL: A web address that specifies the location of a resource on a computer network and a mechanism for retrieving it.
+- Person: An individual human being, such as a government official, public figure, security researcher, or executive.
+
+### THE GROUP ###
+Each line is one entity with the description written at extraction time:
+- 216.170.123.111 [ip address] — An IP address hosting a malicious executable payload.
+- 62.173.138.170 [ip address] — An IP address hosting malicious payloads.
+- 185.234.176.14 [ip address] — An IP address identified as the source client IP for sending phishing emails.
+- 91.234.2.202 [ip address] — An IP address involved in sending phishing emails.
+- 91.198.36.68 [ip address] — An IP address involved in phishing email transmission.
+
+### RULES ###
+- A scheme is a KIND of entity (e.g. "Hacker group", "Malware family", "Software product", "Government body", "Internet domain", "Country"), never a role in an incident and never a single entity.
+- Return `"verdict": "alias-of"` with `"target"` set to an existing scheme's label when the group is the same kind as that scheme (different wording, same meaning). Judge by MEANING of the descriptions, not by surface words.
+- Return `"verdict": "new"` when no existing scheme covers the group. Then give:
+  - `prefLabel`: a short English noun phrase, 1–3 words, singular, Title Case (e.g. "Malware Family").
+  - `definition`: one sentence, at most 25 words, stating what belongs to the scheme, general enough to hold across reports.
+  - `altLabels`: 0–3 alternative English labels.
+- If the group mixes clearly different kinds, name the kind of the MAJORITY and list the minority entity names in `outliers`.
+- If uncertain between alias and new, prefer `new`: an extra scheme can be merged later; a wrong merge cannot be undone cheaply.
+
+### OUTPUT ###
+A single raw JSON object, no markdown fences, no commentary:
+{ "verdict": "new" | "alias-of", "target": "<existing label or null>", "prefLabel": "...", "definition": "...", "altLabels": [...], "outliers": [...] }
+
+--- text ---
+Decide and name the group now.
+
+=== RESPONSE (3.9s, in 786 / out 61 tok, STOP) ===
+{"verdict": "new", "target": null, "prefLabel": "IP Address", "definition": "A unique numerical identifier assigned to a device connected to a computer network that uses the Internet Protocol.", "altLabels": ["Internet Protocol Address", "IP"], "outliers": []}

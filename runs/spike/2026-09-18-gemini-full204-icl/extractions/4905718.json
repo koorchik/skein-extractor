@@ -1,0 +1,176 @@
+{
+  "entities": [
+    {
+      "name": "daewdfq342r.ppt",
+      "kind": "computer file",
+      "gloss": "A malicious PowerPoint document containing macros used to initiate an attack chain."
+    },
+    {
+      "name": "Національний університет оборони України імені Івана Черняхівського",
+      "kind": "government organization",
+      "gloss": "A higher military educational institution in Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "glkgh90kjykjkl650kj0.dll",
+      "kind": "computer file",
+      "gloss": "A malicious DLL file containing the PicassoLoader payload."
+    },
+    {
+      "name": "PicassoLoader",
+      "kind": "malware",
+      "gloss": "A malware loader designed to download, decrypt, and execute secondary payloads."
+    },
+    {
+      "name": "UAC-0057",
+      "kind": "threat actor",
+      "gloss": "A cyber threat actor also known as Ghostwriter."
+    },
+    {
+      "name": "GhostWriter",
+      "kind": "threat actor",
+      "gloss": "A cyber threat actor also known as UAC-0057."
+    },
+    {
+      "name": "PhotoMetadataHandler.dll",
+      "kind": "computer file",
+      "gloss": "A malicious DLL file used to decrypt and execute Cobalt Strike Beacon."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware",
+      "gloss": "A malicious payload and agent component of the Cobalt Strike penetration testing framework."
+    },
+    {
+      "name": "російська федерація",
+      "kind": "country",
+      "gloss": "A country spanning Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "Cloudflare",
+      "kind": "company",
+      "gloss": "An American web infrastructure and website security company."
+    },
+    {
+      "name": "Temphkl560yhk5h40ikhp4kh09k.lnk",
+      "kind": "computer file",
+      "gloss": "A malicious shortcut file used to execute payload components."
+    },
+    {
+      "name": "JBLJDESK.dll",
+      "kind": "computer file",
+      "gloss": "A malicious DLL file classified as PicassoLoader."
+    },
+    {
+      "name": "lee-leopard.jpg",
+      "kind": "computer file",
+      "gloss": "An image file used in the delivery or staging of malicious payloads."
+    },
+    {
+      "name": "lee-leopard.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file involved in the infection chain."
+    },
+    {
+      "name": "Mcirosoft Edge Update.lnk",
+      "kind": "computer file",
+      "gloss": "A malicious shortcut file created in the startup folder for persistence."
+    },
+    {
+      "name": "PhotoMetadataHandler.exe",
+      "kind": "computer file",
+      "gloss": "An in-memory malicious executable associated with payload execution."
+    },
+    {
+      "name": "CobaltStrikeBeacon.shellcode",
+      "kind": "computer file",
+      "gloss": "A shellcode file containing the Cobalt Strike Beacon payload."
+    },
+    {
+      "name": "yotsubasociety[.]website",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious command and control infrastructure."
+    },
+    {
+      "name": "bourns[.]space",
+      "kind": "domain name",
+      "gloss": "A domain name used to host malicious files."
+    },
+    {
+      "name": "hXXps://bourns[.]space/p/covers/assets/images/lee-leopard.jpg",
+      "kind": "uniform resource locator",
+      "gloss": "A URL used to download a payload-bearing image file."
+    },
+    {
+      "name": "hXXps://yotsubasociety[.]website/app/yotsuba/edit",
+      "kind": "uniform resource locator",
+      "gloss": "A URL associated with command and control communications."
+    },
+    {
+      "name": "hXXps://yotsubasociety[.]website/app/yotsuba/publish",
+      "kind": "uniform resource locator",
+      "gloss": "A URL associated with command and control communications."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Національний університет оборони України імені Івана Черняхівського",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Національного університету оборони України імені Івана Черняхівського"
+    },
+    {
+      "head": "daewdfq342r.ppt",
+      "type": "delivers",
+      "tail": "glkgh90kjykjkl650kj0.dll",
+      "evidence": "У випадку відкриття документу та активації макросу на ЕОМ жертви буде створено виконуваний файл"
+    },
+    {
+      "head": "UAC-0057",
+      "type": "uses",
+      "tail": "PicassoLoader",
+      "evidence": "PicassoLoader, що типово використовується групою UAC-0057 (GhostWriter)"
+    },
+    {
+      "head": "GhostWriter",
+      "type": "uses",
+      "tail": "PicassoLoader",
+      "evidence": "PicassoLoader, що типово використовується групою UAC-0057 (GhostWriter)"
+    },
+    {
+      "head": "PicassoLoader",
+      "type": "delivers",
+      "tail": "PhotoMetadataHandler.dll",
+      "evidence": "PicassoLoader забезпечить завантаження і запуск .NET-дроперу, що здійснить дешифрування (AES) та запуск виконуваного файлу"
+    },
+    {
+      "head": "PhotoMetadataHandler.dll",
+      "type": "delivers",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "PhotoMetadataHandler.dll\", який, у свою чергу, виконає дешифрування та запуск Cobalt Strike Beacon"
+    },
+    {
+      "head": "bourns[.]space",
+      "type": "hosts",
+      "tail": "hXXps://bourns[.]space/p/covers/assets/images/lee-leopard.jpg",
+      "evidence": "hXXps://bourns[.]space/p/covers/assets/images/lee-leopard.jpg"
+    },
+    {
+      "head": "yotsubasociety[.]website",
+      "type": "hosts",
+      "tail": "hXXps://yotsubasociety[.]website/app/yotsuba/edit",
+      "evidence": "hXXps://yotsubasociety[.]website/app/yotsuba/edit"
+    },
+    {
+      "head": "yotsubasociety[.]website",
+      "type": "hosts",
+      "tail": "hXXps://yotsubasociety[.]website/app/yotsuba/publish",
+      "evidence": "hXXps://yotsubasociety[.]website/app/yotsuba/publish"
+    }
+  ],
+  "newRelationTypes": []
+}

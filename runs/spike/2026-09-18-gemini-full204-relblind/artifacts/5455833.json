@@ -1,0 +1,139 @@
+{
+  "docId": 5455833,
+  "date": "11.08.2023",
+  "title": "\"Змініть пароль до Roundcube\": чергова фішингова атака з використанням атрибутів CERT-UA та символіки ДЦКЗ Держспецзв'язку (CERT-UA#7223)",
+  "entities": [
+    {
+      "id": "5455833:0",
+      "name": "ДЦКЗ Держспецзв'язку",
+      "kind": "government body",
+      "gloss": "The State Cyber Protection Centre of the State Special Communications Service of Ukraine.",
+      "scheme": "S7",
+      "category": "Government Body",
+      "role": null
+    },
+    {
+      "id": "5455833:1",
+      "name": "Roundcube",
+      "kind": "software product",
+      "gloss": "A free and open-source webmail software suite.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "5455833:2",
+      "name": "InfinityFree",
+      "kind": "hosting service",
+      "gloss": "A free web hosting service provider.",
+      "scheme": "S21",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "5455833:3",
+      "name": "Microsoft",
+      "kind": "technology company",
+      "gloss": "An American multinational technology corporation.",
+      "scheme": "S10",
+      "category": "Organization",
+      "role": "target"
+    },
+    {
+      "id": "5455833:4",
+      "name": "UAC-0170",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA for conducting phishing campaigns against Ukrainian organizations.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "5455833:5",
+      "name": "185.27.134.129",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious hosting infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "5455833:6",
+      "name": "185.88.153.138",
+      "kind": "ip address",
+      "gloss": "An IP address identified in email transport headers of phishing messages.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5455833:7",
+      "name": "mlcrosoft.rf.gd",
+      "kind": "domain name",
+      "gloss": "A typo-squatted domain name used to host phishing pages mimicking webmail services.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "5455833:8",
+      "name": "hr.damroodi@beroozresaan.com",
+      "kind": "email address",
+      "gloss": "An email address used to distribute phishing emails.",
+      "scheme": "S14",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "5455833:9",
+      "name": "soraya@tataguyz.co.za",
+      "kind": "email address",
+      "gloss": "An email address used to distribute phishing emails.",
+      "scheme": "S14",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "5455833:10",
+      "name": "UK",
+      "kind": "country",
+      "gloss": "A sovereign country located off the north-western coast of European mainland.",
+      "scheme": "S6",
+      "category": "Country",
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0170",
+      "type": "operates-scheme",
+      "tail": "mlcrosoft.rf.gd",
+      "evidence": "використано субдомен mlcrosoft.rf[.]gd... Активність відстежується за ідентифікатором UAC-0170"
+    },
+    {
+      "head": "mlcrosoft.rf.gd",
+      "type": "hosted-on",
+      "tail": "InfinityFree",
+      "evidence": "підробний вебресурс створено за допомогою безкоштовного сервісу InfinityFree; крім того, використано субдомен mlcrosoft.rf[.]gd"
+    },
+    {
+      "head": "mlcrosoft.rf.gd",
+      "type": "impersonates",
+      "tail": "Roundcube",
+      "evidence": "посилання на вебресурс, що імітує вебінтерфейс програмного забезпечення Roundcube"
+    },
+    {
+      "head": "mlcrosoft.rf.gd",
+      "type": "impersonates",
+      "tail": "Microsoft",
+      "evidence": "субдомен mlcrosoft.rf[.]gd, що, вірогідно, мав би імітувати сервіси Microsoft"
+    },
+    {
+      "head": "185.27.134.129",
+      "type": "located-in-country",
+      "tail": "UK",
+      "evidence": "185[.]27.134.129 (@ifastnet.com; UK)"
+    }
+  ],
+  "unclassified": []
+}

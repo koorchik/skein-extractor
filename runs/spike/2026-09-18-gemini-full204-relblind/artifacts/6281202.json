@@ -1,0 +1,256 @@
+{
+  "docId": 6281202,
+  "date": "30.10.2024",
+  "title": "Кібератака UAC-0050 з використанням податкової тематики та LITEMANAGER (CERT-UA#11776)",
+  "entities": [
+    {
+      "id": "6281202:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281202:1",
+      "name": "Державна податкова служба України",
+      "kind": "government body",
+      "gloss": "The central executive body of Ukraine responsible for administering taxes, fees, and state revenue.",
+      "scheme": "S7",
+      "category": "Government Body",
+      "role": "target"
+    },
+    {
+      "id": "6281202:2",
+      "name": "UAC-0050",
+      "kind": "threat actor",
+      "gloss": "A financially motivated cybercriminal threat group known for targeting Ukrainian entities, often using legitimate remote management utilities.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6281202:3",
+      "name": "LITEMANAGER",
+      "kind": "software product",
+      "gloss": "A legitimate remote administration software tool frequently abused by threat actors for unauthorized remote access.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6281202:4",
+      "name": "dps_tax_gov_ua_0739220983.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive disguised as tax service documentation, containing further nested archives.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6281202:5",
+      "name": "Електронний запит документів податкової служби.pdf.rar",
+      "kind": "file",
+      "gloss": "A password-protected RAR archive containing a malicious SFX executable disguised as a PDF document.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6281202:6",
+      "name": "Електронний запит документів податкової служби.pdf.exe",
+      "kind": "file",
+      "gloss": "A self-extracting (SFX) executable file that displays a decoy document and launches LiteManager.",
+      "scheme": "S12",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "6281202:7",
+      "name": "pdf.msi",
+      "kind": "file",
+      "gloss": "An MSI installer package used to deploy the LiteManager remote administration tool.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6281202:8",
+      "name": "Doc.pdf",
+      "kind": "file",
+      "gloss": "A decoy PDF document displayed to the victim to conceal malicious software installation.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281202:9",
+      "name": "ROMFUSClient.exe",
+      "kind": "file",
+      "gloss": "An executable component of the LiteManager remote management utility.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6281202:10",
+      "name": "ROMServer.exe",
+      "kind": "file",
+      "gloss": "A server component executable of the LiteManager remote management utility.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6281202:11",
+      "name": "qaz.im",
+      "kind": "domain",
+      "gloss": "A file-sharing service domain used to host malicious archives.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281202:12",
+      "name": "qaz.is",
+      "kind": "domain",
+      "gloss": "A file-sharing service domain used to host malicious archives.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281202:13",
+      "name": "qaz.su",
+      "kind": "domain",
+      "gloss": "A file-sharing service domain used to host malicious archives.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281202:14",
+      "name": "tax-gov-ua.com",
+      "kind": "domain",
+      "gloss": "A typosquatted domain impersonating the Ukrainian State Tax Service used for hosting malicious payloads.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "6281202:15",
+      "name": "dpsu-gov-ua.com",
+      "kind": "domain",
+      "gloss": "A typosquatted domain impersonating Ukrainian government services.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281202:16",
+      "name": "christine@rozsenich.com",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator in phishing activity.",
+      "scheme": "S14",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281202:17",
+      "name": "111.90.140.76",
+      "kind": "ip address",
+      "gloss": "An IP address identified as a command and control server for UAC-0050.",
+      "scheme": "S13",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6281202:18",
+      "name": "65.21.245.7",
+      "kind": "ip address",
+      "gloss": "An IP address identified as a command and control server for UAC-0050.",
+      "scheme": "S13",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6281202:19",
+      "name": "91.240.86.200",
+      "kind": "ip address",
+      "gloss": "An IP address commonly associated with LiteManager traffic.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281202:20",
+      "name": "109.71.247.168",
+      "kind": "ip address",
+      "gloss": "An IP address observed as the originating IP in phishing communications.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281202:21",
+      "name": "31.214.157.49",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure associated with the threat campaign.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0050",
+      "type": "impersonates",
+      "tail": "Державна податкова служба України",
+      "evidence": "вкладеннями у вигляді PDF-документів, що імітували запити Державної податкової служби України"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "LITEMANAGER",
+      "evidence": "описана активність є фінансово мотивованою та здійснюється угрупуванням UAC-0050... програми для віддаленого управління LITEMANAGER"
+    },
+    {
+      "head": "dps_tax_gov_ua_0739220983.rar",
+      "type": "contains-file",
+      "tail": "Електронний запит документів податкової служби.pdf.rar",
+      "evidence": "завантажено архів \"dps_tax_gov_ua_0739220983.rar\", в якому, з кількома рівнями вкладеності, знаходитиметься... \"Електронний запит документів податкової служби.pdf.rar\""
+    },
+    {
+      "head": "Електронний запит документів податкової служби.pdf.rar",
+      "type": "contains-file",
+      "tail": "Електронний запит документів податкової служби.pdf.exe",
+      "evidence": "архів \"Електронний запит документів податкової служби.pdf.rar\", який, у свою чергу, буде містити SFX-файл \"Електронний запит документів податкової служби.pdf.exe\""
+    },
+    {
+      "head": "Електронний запит документів податкової служби.pdf.exe",
+      "type": "installs-software",
+      "tail": "pdf.msi",
+      "evidence": "Відкриття останнього призведе до... запуску на комп'ютері MSI-пакету програми для віддаленого управління LITEMANAGER"
+    },
+    {
+      "head": "tax-gov-ua.com",
+      "type": "hosts-file",
+      "tail": "dps_tax_gov_ua_0739220983.rar",
+      "evidence": "hXXp://tax-gov-ua[.]com/dps_tax_gov_ua_0739220983.rar"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "communicates-with-c2",
+      "tail": "111.90.140.76",
+      "evidence": "111[.]90.140.76 (C2)"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "communicates-with-c2",
+      "tail": "65.21.245.7",
+      "evidence": "65[.]21.245.7 (C2)"
+    }
+  ],
+  "unclassified": []
+}

@@ -1,0 +1,136 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "Росія",
+      "kind": "country",
+      "gloss": "A transcontinental country in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "Сили безпеки і оборони України",
+      "kind": "state security sector",
+      "gloss": "The combined military, law enforcement, and intelligence agencies responsible for Ukraine's national defense and security."
+    },
+    {
+      "name": "UAC-0028",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group also known as APT28 or Fancy Bear."
+    },
+    {
+      "name": "UAC-0003",
+      "kind": "threat actor",
+      "gloss": "A Russian cyber espionage group also known as Turla."
+    },
+    {
+      "name": "KAZUAR",
+      "kind": "malware",
+      "gloss": "A multi-platform backdoor malware family associated with the Turla cyber espionage group."
+    },
+    {
+      "name": "UAC-0050",
+      "kind": "threat actor",
+      "gloss": "A threat group linked to Russian law enforcement structures, known for credential harvesting and access brokerage."
+    },
+    {
+      "name": "DaVinci Group",
+      "kind": "threat actor",
+      "gloss": "A cyber threat group identity formerly used by the threat actor UAC-0050."
+    },
+    {
+      "name": "REMCOS RAT",
+      "kind": "malware",
+      "gloss": "A commercial remote access Trojan often abused by threat actors for surveillance and system control."
+    },
+    {
+      "name": "QUASAR RAT",
+      "kind": "malware",
+      "gloss": "An open-source remote access Trojan for Windows operating systems commonly used in malicious campaigns."
+    },
+    {
+      "name": "VENOM RAT",
+      "kind": "malware",
+      "gloss": "A remote access Trojan derived from Quasar RAT that provides remote control capabilities."
+    },
+    {
+      "name": "REMOTE UTILITIES",
+      "kind": "software product",
+      "gloss": "A legitimate remote desktop access software tool frequently abused by threat actors for unauthorized access."
+    },
+    {
+      "name": "LUMMASTEALER",
+      "kind": "malware",
+      "gloss": "An information-stealing Trojan that targets credentials, cryptocurrency wallets, and browser data."
+    },
+    {
+      "name": "UAC-0010",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group also known as Gamaredon or Armageddon."
+    },
+    {
+      "name": "Sandworm",
+      "kind": "threat actor",
+      "gloss": "A Russian advanced persistent threat group associated with the GRU and known for destructive attacks."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Сили безпеки і оборони України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Сил безпеки і оборони України"
+    },
+    {
+      "head": "UAC-0028",
+      "type": "attacks",
+      "tail": "Сили безпеки і оборони України",
+      "evidence": "кібершпигунством у відношенні Сил безпеки і оборони України, які були здійсненні угрупуванням UAC-0028"
+    },
+    {
+      "head": "UAC-0003",
+      "type": "attacks",
+      "tail": "Сили безпеки і оборони України",
+      "evidence": "кібершпигунством у відношенні Сил безпеки і оборони України, які були здійсненні... UAC-0003 (Turla)"
+    },
+    {
+      "head": "UAC-0003",
+      "type": "uses-malware",
+      "tail": "KAZUAR",
+      "evidence": "UAC-0003 (Turla), зокрема, із застосуванням модифікованого флагманського шкідливого програмного забезпечення KAZUAR"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "REMCOS RAT",
+      "evidence": "зловмисниками застосовано, щонайменше, п'ять різновидів шкідливих програм: REMCOS RAT"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "QUASAR RAT",
+      "evidence": "зловмисниками застосовано, щонайменше, п'ять різновидів шкідливих програм: REMCOS RAT, QUASAR RAT"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "VENOM RAT",
+      "evidence": "п'ять різновидів шкідливих програм: REMCOS RAT, QUASAR RAT, VENOM RAT"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "REMOTE UTILITIES",
+      "evidence": "шкідливих програм: REMCOS RAT, QUASAR RAT, VENOM RAT, REMOTE UTILITIES"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "LUMMASTEALER",
+      "evidence": "шкідливих програм: REMCOS RAT, QUASAR RAT, VENOM RAT, REMOTE UTILITIES та LUMMASTEALER"
+    }
+  ],
+  "newRelationTypes": []
+}

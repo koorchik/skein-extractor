@@ -1,0 +1,222 @@
+{
+  "entities": [
+    {
+      "name": "Somnia",
+      "kind": "malware",
+      "gloss": "A ransomware malware family designed to encrypt files on compromised Windows systems."
+    },
+    {
+      "name": "FRwL",
+      "kind": "threat actor",
+      "gloss": "A cyber threat group also known as Z-Team and tracked as UAC-0118."
+    },
+    {
+      "name": "UAC-0118",
+      "kind": "threat actor",
+      "gloss": "A threat group identifier assigned by CERT-UA to the threat group FRwL (Z-Team)."
+    },
+    {
+      "name": "Advanced IP Scanner",
+      "kind": "software product",
+      "gloss": "A legitimate network scanning tool commonly impersonated by malware distributors."
+    },
+    {
+      "name": "Vidar",
+      "kind": "malware",
+      "gloss": "An information-stealing malware family that harvests credentials, browser data, and session tokens."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cloud-based instant messaging and voice over IP service."
+    },
+    {
+      "name": "Netscan",
+      "kind": "software product",
+      "gloss": "A network scanning application used for network discovery and reconnaissance."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware",
+      "gloss": "An agent component of the Cobalt Strike post-exploitation framework used for remote command execution."
+    },
+    {
+      "name": "Rclone",
+      "kind": "software product",
+      "gloss": "An open-source command-line program to manage and synchronize files on cloud storage."
+    },
+    {
+      "name": "Anydesk",
+      "kind": "software product",
+      "gloss": "A remote desktop application providing platform-independent remote access to host computers."
+    },
+    {
+      "name": "Ngrok",
+      "kind": "software product",
+      "gloss": "A cross-platform application that exposes local network services to the internet through secure tunnels."
+    },
+    {
+      "name": "Ukraine",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "franygreat@outlook.com",
+      "kind": "email address",
+      "gloss": "An email address associated with cloud storage accounts in the malicious campaign."
+    },
+    {
+      "name": "Somnia_07_08_22_with_FunnySomnia.rar",
+      "kind": "computer file",
+      "gloss": "An archive file containing Somnia ransomware components."
+    },
+    {
+      "name": "Somnia_07_08_22_with_FunnySomnia.exe",
+      "kind": "computer file",
+      "gloss": "An executable file delivering the Somnia ransomware."
+    },
+    {
+      "name": "1.exe",
+      "kind": "computer file",
+      "gloss": "An executable file containing a Cobalt Strike Beacon payload."
+    },
+    {
+      "name": "funnysomnia.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable related to the Somnia ransomware family."
+    },
+    {
+      "name": "text.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file delivering a variant of Somnia ransomware."
+    },
+    {
+      "name": "Ip_scanner.zip",
+      "kind": "computer file",
+      "gloss": "A malicious archive file masquerading as legitimate IP scanner software."
+    },
+    {
+      "name": "Ip_scanner.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable disguised as an IP scanner containing Vidar stealer."
+    },
+    {
+      "name": "Ip_scanner_unpacked.exe",
+      "kind": "computer file",
+      "gloss": "An unpacked executable payload containing Vidar stealer."
+    },
+    {
+      "name": "193.43.146.42",
+      "kind": "ip address",
+      "gloss": "An IP address associated with Vidar malware command and control infrastructure."
+    },
+    {
+      "name": "209.222.101.65",
+      "kind": "ip address",
+      "gloss": "An IP address used for unauthorized VPN connections."
+    },
+    {
+      "name": "139.60.161.52",
+      "kind": "ip address",
+      "gloss": "A network IP address observed as an indicator of compromise."
+    },
+    {
+      "name": "185.96.163.102",
+      "kind": "ip address",
+      "gloss": "A network IP address observed as an indicator of compromise."
+    },
+    {
+      "name": "vuxuancuong.com",
+      "kind": "domain name",
+      "gloss": "A domain name abused to host malicious IP scanner impersonation pages."
+    },
+    {
+      "name": "advanced-ip-scaner.com.vuxuancuong.com",
+      "kind": "domain name",
+      "gloss": "A spoofed domain name disguised as Advanced IP Scanner to distribute malware."
+    },
+    {
+      "name": "advanced-ip-scanner.website",
+      "kind": "domain name",
+      "gloss": "A spoofed domain name imitating Advanced IP Scanner website."
+    },
+    {
+      "name": "advanced-ip-scanner.click",
+      "kind": "domain name",
+      "gloss": "A malicious domain name masquerading as Advanced IP Scanner."
+    },
+    {
+      "name": "advanced-ip-scanner.site",
+      "kind": "domain name",
+      "gloss": "A malicious domain name disguised as an Advanced IP Scanner resource."
+    },
+    {
+      "name": "zambeziz.com",
+      "kind": "domain name",
+      "gloss": "A domain name used in connection with malicious distribution infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "FRwL",
+      "type": "uses",
+      "tail": "Somnia",
+      "evidence": "порушення цілісності та доступності інформації внаслідок застосування шкідливого програмного забезпечення Somnia"
+    },
+    {
+      "head": "Ip_scanner.exe",
+      "type": "delivers",
+      "tail": "Vidar",
+      "evidence": "але, насправді, містив шкідливе програмне забезпечення Vidar."
+    },
+    {
+      "head": "UAC-0118",
+      "type": "uses",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "передачі криптованих білдів програми Cobalt Strike Beacon"
+    },
+    {
+      "head": "FRwL",
+      "type": "uses",
+      "tail": "Netscan",
+      "evidence": "зокрема, застосували Netscan"
+    },
+    {
+      "head": "FRwL",
+      "type": "uses",
+      "tail": "Rclone",
+      "evidence": "про що свідчить використання програми Rсlone"
+    },
+    {
+      "head": "FRwL",
+      "type": "uses",
+      "tail": "Anydesk",
+      "evidence": "наявні ознаки запуску Anydesk"
+    },
+    {
+      "head": "FRwL",
+      "type": "uses",
+      "tail": "Ngrok",
+      "evidence": "наявні ознаки запуску Anydesk та Ngrok"
+    },
+    {
+      "head": "1.exe",
+      "type": "delivers",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "1.exe (Cobalt Strike Beacon)"
+    },
+    {
+      "head": "text.exe",
+      "type": "delivers",
+      "tail": "Somnia",
+      "evidence": "text.exe (Somnia*)"
+    },
+    {
+      "head": "advanced-ip-scaner.com.vuxuancuong.com",
+      "type": "part-of",
+      "tail": "vuxuancuong.com",
+      "evidence": "advanced-ip-scaner.com.vuxuancuong.com"
+    }
+  ],
+  "newRelationTypes": []
+}

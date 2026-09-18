@@ -1,0 +1,115 @@
+{
+  "docId": 2718,
+  "date": "15.11.2018",
+  "title": "Розсилка шкідливого програмного забезпечення бекдор-завантажувача Sonoko/Propagate ",
+  "entities": [
+    {
+      "id": "2718:0",
+      "name": "Sonoko",
+      "kind": "malware",
+      "gloss": "A Trojan and malicious script family distributed via email attachments.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "2718:1",
+      "name": "Propagate",
+      "kind": "malware",
+      "gloss": "A malware strain providing unauthorized remote access to compromised systems.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2718:2",
+      "name": "fortshritt@zp.ukrtel.net",
+      "kind": "email address",
+      "gloss": "An email address used to distribute malicious email messages.",
+      "scheme": "S10",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "2718:3",
+      "name": "a-prom@sm.ukrtel.net",
+      "kind": "email address",
+      "gloss": "An email address used to distribute malicious email messages.",
+      "scheme": "S10",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "2718:4",
+      "name": "districoperav.icu",
+      "kind": "uniform resource locator",
+      "gloss": "A command and control domain used to host and distribute malware payloads.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "2718:5",
+      "name": "varanasiclick.ru",
+      "kind": "uniform resource locator",
+      "gloss": "A command and control domain used to host and distribute malware payloads.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "2718:6",
+      "name": "188.225.10.43",
+      "kind": "ip address",
+      "gloss": "An IP address associated with command and control infrastructure.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2718:7",
+      "name": "185.224.249.70",
+      "kind": "ip address",
+      "gloss": "An IP address associated with command and control infrastructure.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2718:8",
+      "name": "5.8.0.2",
+      "kind": "ip address",
+      "gloss": "An IP address hardcoded in malware and associated with a VPN service.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2718:9",
+      "name": "15.3.0.10",
+      "kind": "ip address",
+      "gloss": "An IP address hardcoded in malware and belonging to HP-INTERNET network.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2718:10",
+      "name": "nx0.ru",
+      "kind": "uniform resource locator",
+      "gloss": "A domain providing FreeVPN service referenced in malware configuration.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Sonoko",
+      "type": "delivers",
+      "tail": "Propagate",
+      "evidence": "зг. дог рах. фак 708.js завантажується виконувана програма sysm.exe"
+    }
+  ],
+  "unclassified": []
+}

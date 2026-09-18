@@ -1,0 +1,146 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0050",
+      "kind": "threat actor",
+      "gloss": "A threat actor known for conducting cyber attacks against Ukrainian and foreign organizations using various malware strains."
+    },
+    {
+      "name": "RemcosRAT",
+      "kind": "malware",
+      "gloss": "A commercial remote access trojan frequently used by cyber threat actors for unauthorized surveillance and control."
+    },
+    {
+      "name": "MeduzaStealer",
+      "kind": "malware",
+      "gloss": "An information-stealing malware designed to extract sensitive data and credentials from infected Windows systems."
+    },
+    {
+      "name": "AutoIt",
+      "kind": "software product",
+      "gloss": "A freeware programming language and automation tool commonly abused by malware authors to execute malicious payloads."
+    },
+    {
+      "name": "Shinjiru",
+      "kind": "company",
+      "gloss": "A web hosting and infrastructure provider based in Malaysia."
+    },
+    {
+      "name": "Польща",
+      "kind": "country",
+      "gloss": "A sovereign state in Central Europe."
+    },
+    {
+      "name": "gov.ua",
+      "kind": "domain name",
+      "gloss": "The official second-level domain name reserved for governmental organizations in Ukraine."
+    },
+    {
+      "name": "запит.rar",
+      "kind": "computer file",
+      "gloss": "A password-protected RAR archive distributed in phishing emails to deliver malicious payloads."
+    },
+    {
+      "name": "електронний запит.rar",
+      "kind": "computer file",
+      "gloss": "A password-protected RAR archive distributed via phishing emails."
+    },
+    {
+      "name": "електронний запит.pdf.exe",
+      "kind": "computer file",
+      "gloss": "An executable file delivering the MeduzaStealer malware."
+    },
+    {
+      "name": "Судова претензія.rar",
+      "kind": "computer file",
+      "gloss": "A password-protected RAR archive used in malicious email campaigns."
+    },
+    {
+      "name": "Судова претензія.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable payload dropped from email attachments."
+    },
+    {
+      "name": "VideoMagic.pif",
+      "kind": "computer file",
+      "gloss": "An AutoIt-based executable file used as an injector during infection."
+    },
+    {
+      "name": "roszczenie prawne.rar",
+      "kind": "computer file",
+      "gloss": "A password-protected RAR archive used in email attacks targeting Polish entities."
+    },
+    {
+      "name": "roszczenie prawne.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file used in cyber attacks targeting Polish entities."
+    },
+    {
+      "name": "remcos.exe",
+      "kind": "computer file",
+      "gloss": "An executable payload corresponding to the RemcosRAT malware."
+    },
+    {
+      "name": "journal@ndibk.gov.ua",
+      "kind": "email address",
+      "gloss": "A compromised Ukrainian government email address used to distribute malicious emails."
+    },
+    {
+      "name": "kl@aten.ua",
+      "kind": "email address",
+      "gloss": "A compromised email address used to send phishing emails."
+    },
+    {
+      "name": "ms-service@ndibk.gov.ua",
+      "kind": "email address",
+      "gloss": "A compromised Ukrainian email account used for phishing distribution."
+    },
+    {
+      "name": "o.slavgorodska@bdf.gov.ua",
+      "kind": "email address",
+      "gloss": "A compromised Ukrainian state email account used in malicious mailouts."
+    },
+    {
+      "name": "petrochenko@ndibk.gov.ua",
+      "kind": "email address",
+      "gloss": "A compromised Ukrainian organizational email address used to send malicious emails."
+    },
+    {
+      "name": "zakupivli@trnvk.gov.ua",
+      "kind": "email address",
+      "gloss": "A compromised Ukrainian public procurement email address used to distribute malware."
+    },
+    {
+      "name": "79.137.205.201",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious network activity."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0050",
+      "type": "uses",
+      "tail": "RemcosRAT",
+      "evidence": "Типово для UAC-0050 сервери управління RemcosRAT розміщено на технічному майданчику"
+    },
+    {
+      "head": "Shinjiru",
+      "type": "hosts",
+      "tail": "RemcosRAT",
+      "evidence": "сервери управління RemcosRAT розміщено на технічному майданчику малайзійського хостинг-провайдера Shinjiru"
+    },
+    {
+      "head": "електронний запит.pdf.exe",
+      "type": "delivers",
+      "tail": "MeduzaStealer",
+      "evidence": "електронний запит.pdf.exe (MeduzaStealer)"
+    },
+    {
+      "head": "remcos.exe",
+      "type": "delivers",
+      "tail": "RemcosRAT",
+      "evidence": "remcos.exe (RemcosRAT)"
+    }
+  ],
+  "newRelationTypes": []
+}

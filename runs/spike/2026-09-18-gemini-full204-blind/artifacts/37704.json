@@ -1,0 +1,303 @@
+{
+  "docId": 37704,
+  "date": "11.03.2022",
+  "title": "Кібератака на державні організації України з використанням шкідливих програми Cobalt Strike Beacon, GrimPlant та GraphSteel (CERT-UA#4145)",
+  "entities": [
+    {
+      "id": "37704:0",
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyberespionage threat actor targeting Ukrainian organizations and government entities.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "37704:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "37704:2",
+      "name": "державні органи України",
+      "kind": "government body",
+      "gloss": "State authorities and governmental organizations of Ukraine.",
+      "scheme": "S6",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "37704:3",
+      "name": "forkscenter[.]fr",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used to distribute malware payloads masquerading as software updates.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "37704:4",
+      "name": "nirsoft[.]me",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used for command-and-control communication by threat actors.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "37704:5",
+      "name": "45[.]84.0.116",
+      "kind": "ip address",
+      "gloss": "An IP address used as command-and-control infrastructure for malware.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37704:6",
+      "name": "156[.]146.50.5",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the malicious network infrastructure.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37704:7",
+      "name": "Discord",
+      "kind": "online service",
+      "gloss": "A digital communication platform misused by threat actors to host and distribute malicious files.",
+      "scheme": null,
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "37704:8",
+      "name": "Themida",
+      "kind": "software product",
+      "gloss": "A commercial software protection and packing tool used to evade detection and reverse engineering.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "37704:9",
+      "name": "GraphSteel",
+      "kind": "malware family",
+      "gloss": "A Go-based backdoor malware capable of harvesting credentials, executing commands, and exfiltrating data.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37704:10",
+      "name": "GrimPlant",
+      "kind": "malware family",
+      "gloss": "A Go-based backdoor malware that collects system information and executes remote commands via gRPC.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37704:11",
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware family",
+      "gloss": "An agent component of the Cobalt Strike commercial penetration testing tool, often used as a backdoor.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37704:12",
+      "name": "BitdefenderWindowsUpdatePackage.exe",
+      "kind": "file name",
+      "gloss": "A malicious executable disguised as an antivirus update package used to drop loaders.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "37704:13",
+      "name": "alt.exe",
+      "kind": "file name",
+      "gloss": "A downloader executable protected by Themida that retrieves subsequent payloads from Discord.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "37704:14",
+      "name": "one.exe",
+      "kind": "file name",
+      "gloss": "A malicious executable that deploys Cobalt Strike Beacon and executes additional downloaders.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "37704:15",
+      "name": "dropper.exe",
+      "kind": "file name",
+      "gloss": "A Go-based downloader executable that drops and executes java-sdk.exe.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "37704:16",
+      "name": "wisw.exe",
+      "kind": "file name",
+      "gloss": "A downloader executable designed to retrieve payloads from Discord.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37704:17",
+      "name": "cesdf.exe",
+      "kind": "file name",
+      "gloss": "A malicious executable payload hosted on Discord.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37704:18",
+      "name": "java-sdk.exe",
+      "kind": "file name",
+      "gloss": "A Go-based downloader establishing persistence and deploying GraphSteel and GrimPlant backdoors.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "37704:19",
+      "name": "microsoft-cortana.exe",
+      "kind": "file name",
+      "gloss": "An executable file containing the GraphSteel backdoor payload.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37704:20",
+      "name": "oracle-java.exe",
+      "kind": "file name",
+      "gloss": "An executable file containing the GrimPlant backdoor payload.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37704:21",
+      "name": "Інструкція з антивірусного захисту.doc",
+      "kind": "file name",
+      "gloss": "A decoy document used in phishing lures regarding antivirus protection.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37704:22",
+      "name": "Інструкція користувачів.doc",
+      "kind": "file name",
+      "gloss": "A decoy document used in phishing lures containing fake user instructions.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "державні органи України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "державних органів України"
+    },
+    {
+      "head": "forkscenter[.]fr",
+      "type": "hosts",
+      "tail": "BitdefenderWindowsUpdatePackage.exe",
+      "evidence": "hxxps://forkscenter[.]fr/BitdefenderWindowsUpdatePackage.exe"
+    },
+    {
+      "head": "forkscenter[.]fr",
+      "type": "hosts",
+      "tail": "wisw.exe",
+      "evidence": "hxxps://forkscenter[.]fr/Sdghrt_umrj6/wisw.exe"
+    },
+    {
+      "head": "BitdefenderWindowsUpdatePackage.exe",
+      "type": "delivers",
+      "tail": "alt.exe",
+      "evidence": "згаданий файл забезпечить виконання завантажувача \"alt.exe\""
+    },
+    {
+      "head": "alt.exe",
+      "type": "delivers",
+      "tail": "one.exe",
+      "evidence": "здійснить завантаження файлів \"one.exe\" та \"dropper.exe\" з сервісу Discord"
+    },
+    {
+      "head": "alt.exe",
+      "type": "delivers",
+      "tail": "dropper.exe",
+      "evidence": "здійснить завантаження файлів \"one.exe\" та \"dropper.exe\" з сервісу Discord"
+    },
+    {
+      "head": "one.exe",
+      "type": "delivers",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "запуск \"one.exe\" призведе до ураження комп'ютера шкідливою програмою Cobalt Strike Beacon"
+    },
+    {
+      "head": "one.exe",
+      "type": "delivers",
+      "tail": "wisw.exe",
+      "evidence": "а також завантаження і виконання файлу \"wisw.exe\""
+    },
+    {
+      "head": "dropper.exe",
+      "type": "delivers",
+      "tail": "java-sdk.exe",
+      "evidence": "збереження на диск та виконання файлу \"java-sdk.exe\""
+    },
+    {
+      "head": "java-sdk.exe",
+      "type": "delivers",
+      "tail": "microsoft-cortana.exe",
+      "evidence": "виконання двох інших файлів: \"microsoft-cortana.exe\""
+    },
+    {
+      "head": "java-sdk.exe",
+      "type": "delivers",
+      "tail": "oracle-java.exe",
+      "evidence": "та \"oracle-java.exe\", який класифіковано як бекдор GrimPlant"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "GraphSteel",
+      "evidence": "асоціюємо виявлену активність з діяльністю групи UAC-0056."
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "GrimPlant",
+      "evidence": "асоціюємо виявлену активність з діяльністю групи UAC-0056."
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "асоціюємо виявлену активність з діяльністю групи UAC-0056."
+    }
+  ],
+  "unclassified": [
+    "37704:7"
+  ]
+}

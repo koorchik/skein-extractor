@@ -1,0 +1,75 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0041",
+      "kind": "threat actor",
+      "gloss": "A threat actor cluster tracked by CERT-UA associated with cyberattacks delivering info-stealing malware."
+    },
+    {
+      "name": "Formbook/XLoader v2.5",
+      "kind": "malware family",
+      "gloss": "An information-stealing malware family that harvests credentials and sensitive data from infected systems."
+    },
+    {
+      "name": "лист підтримки.xlsx",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel document used as a lure to execute macros and download malware."
+    },
+    {
+      "name": "vbc.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable payload downloaded and executed during the infection chain."
+    },
+    {
+      "name": "formbook.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file containing the Formbook info-stealer malware."
+    },
+    {
+      "name": "mariya@posish[.]club",
+      "kind": "email address",
+      "gloss": "An email address used to distribute malicious phishing emails."
+    },
+    {
+      "name": "103[.]167.92.57",
+      "kind": "ip address",
+      "gloss": "An IP address used to host and distribute malicious executable files."
+    },
+    {
+      "name": "104[.]168.247.233",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure in the malicious campaign."
+    },
+    {
+      "name": "gobits3[.]com",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as part of the threat actor's network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0041",
+      "type": "uses-malware",
+      "tail": "Formbook/XLoader v2.5",
+      "evidence": "асоціюються з кластером активностей, що відстежується за ідентифікатором UAC-0041"
+    },
+    {
+      "head": "лист підтримки.xlsx",
+      "type": "delivers",
+      "tail": "Formbook/XLoader v2.5",
+      "evidence": "забезпечить завантаження і запуск шкідливої програми Formbook/XLoader v2.5"
+    },
+    {
+      "head": "103[.]167.92.57",
+      "type": "hosts",
+      "tail": "vbc.exe",
+      "evidence": "hxxp://103[.]167.92.57/xx_cloudprotect/vbc.exe"
+    }
+  ],
+  "newRelationTypes": []
+}

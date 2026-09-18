@@ -1,0 +1,65 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A threat actor group tracked by CERT-UA associated with cyberattacks against Ukraine."
+    },
+    {
+      "name": "Інформація щодо наявності вакансій та їх укомплектування.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious XLS spreadsheet containing a macro used to deploy dropper malware."
+    },
+    {
+      "name": "write.exe",
+      "kind": "malware",
+      "gloss": "A dropper executable that writes and executes secondary payloads and establishes system persistence."
+    },
+    {
+      "name": "TRYxaEbX",
+      "kind": "malicious file",
+      "gloss": "An encrypted payload dropped to disk and decrypted to execute a PowerShell script."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware",
+      "gloss": "A commercial adversary simulation and post-exploitation tool often used by threat actors for command and control."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A family of proprietary graphical operating systems developed by Microsoft."
+    },
+    {
+      "name": "skreatortemp[.]site",
+      "kind": "domain name",
+      "gloss": "A malicious domain name utilized for command and control infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "виявлену активність асоціюємо з діяльністю групи UAC-0056"
+    },
+    {
+      "head": "Інформація щодо наявності вакансій та їх укомплектування.xls",
+      "type": "delivers",
+      "tail": "write.exe",
+      "evidence": "призведе до створення на комп'ютері та запуску файлу \"write.exe\""
+    },
+    {
+      "head": "write.exe",
+      "type": "delivers",
+      "tail": "TRYxaEbX",
+      "evidence": "забезпечуючи створення на диску файлу \"%PROGRAMDATA%\\TRYxaEbX\""
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,170 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0010 (Armageddon)",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage threat group targeting Ukrainian organizations."
+    },
+    {
+      "name": "NO-IP",
+      "kind": "company",
+      "gloss": "A dynamic DNS service provider used for network hosting and domain routing."
+    },
+    {
+      "name": "1275_07.04.2022.htm",
+      "kind": "computer file",
+      "gloss": "A malicious HTML attachment used to drop an archive file on the target system."
+    },
+    {
+      "name": "1275_07.04.2022.rar",
+      "kind": "computer file",
+      "gloss": "A malicious archive file containing a weaponized shortcut file."
+    },
+    {
+      "name": "1275_07.04.2022 (1).rar",
+      "kind": "computer file",
+      "gloss": "A variant of the malicious archive file containing a shortcut file."
+    },
+    {
+      "name": "Щодо фактів переслідування та вбивства працівників Прокуратури з боку російських військових на тимчасово окупованих територіях.lnk",
+      "kind": "computer file",
+      "gloss": "A malicious Windows shortcut file designed to download and execute a payload."
+    },
+    {
+      "name": "military-prosecutor@post.cz",
+      "kind": "email address",
+      "gloss": "An email address used in phishing attacks."
+    },
+    {
+      "name": "hXXp://m-vz.webhop[.]me/prk/faicon.ico",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL used to download secondary payloads or communicate with C2 servers."
+    },
+    {
+      "name": "hXXp://a0656203.xsph[.]ru/prescription/seized.xml",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosting an XML payload."
+    },
+    {
+      "name": "hXXp://a0656203.xsph[.]ru/prepared/semi.xml",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosting an XML payload."
+    },
+    {
+      "name": "m-vz.webhop[.]me",
+      "kind": "domain name",
+      "gloss": "A dynamic DNS hostname used for command and control or payload hosting."
+    },
+    {
+      "name": "a0656203.xsph[.]ru",
+      "kind": "domain name",
+      "gloss": "A hostname used to host malicious XML payloads."
+    },
+    {
+      "name": "a0322810.xsph[.]ru",
+      "kind": "domain name",
+      "gloss": "A hostname used in malicious cyber infrastructure."
+    },
+    {
+      "name": "webhop[.]me",
+      "kind": "domain name",
+      "gloss": "A dynamic DNS domain provided by NO-IP."
+    },
+    {
+      "name": "xsph[.]ru",
+      "kind": "domain name",
+      "gloss": "A web hosting domain used for malicious infrastructure."
+    },
+    {
+      "name": "lnk-upload.dodortar[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used as command and control infrastructure."
+    },
+    {
+      "name": "dod-upload.dodortar[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used as command and control infrastructure."
+    },
+    {
+      "name": "ln-upl.ddns[.]net",
+      "kind": "domain name",
+      "gloss": "A dynamic DNS domain used in malicious infrastructure."
+    },
+    {
+      "name": "d-upl.ddns[.]net",
+      "kind": "domain name",
+      "gloss": "A dynamic DNS domain used in malicious infrastructure."
+    },
+    {
+      "name": "up-dot.myftp[.]org",
+      "kind": "domain name",
+      "gloss": "A dynamic DNS domain used in malicious infrastructure."
+    },
+    {
+      "name": "up-lnk.myftp[.]org",
+      "kind": "domain name",
+      "gloss": "A dynamic DNS domain used in malicious infrastructure."
+    },
+    {
+      "name": "nitikora[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious infrastructure."
+    },
+    {
+      "name": "dodortar[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious infrastructure."
+    },
+    {
+      "name": "kopratiso[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious infrastructure."
+    },
+    {
+      "name": "billyhot[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious infrastructure."
+    },
+    {
+      "name": "bilitora[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious infrastructure."
+    },
+    {
+      "name": "194.58.121.198",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat actor infrastructure."
+    },
+    {
+      "name": "194.180.174.105",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat actor infrastructure."
+    },
+    {
+      "name": "149.248.13.58",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat actor infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0010 (Armageddon)",
+      "type": "uses",
+      "tail": "NO-IP",
+      "evidence": "члени групи, серед іншого, використовують Dynamic DNS сервіс NO-IP"
+    },
+    {
+      "head": "1275_07.04.2022.htm",
+      "type": "delivers",
+      "tail": "1275_07.04.2022.rar",
+      "evidence": "відриття якого призведе до створення на комп'ютері архіву \"1275_07.04.2022.rar\""
+    },
+    {
+      "head": "1275_07.04.2022.rar",
+      "type": "delivers",
+      "tail": "Щодо фактів переслідування та вбивства працівників Прокуратури з боку російських військових на тимчасово окупованих територіях.lnk",
+      "evidence": "Останній містить LNK-файл \"Щодо фактів переслідування та вбивства працівників Прокуратури"
+    }
+  ],
+  "newRelationTypes": []
+}

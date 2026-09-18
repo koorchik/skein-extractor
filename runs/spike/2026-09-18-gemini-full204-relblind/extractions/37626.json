@@ -1,0 +1,198 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0057",
+      "kind": "threat actor",
+      "gloss": "A threat actor group, also tracked as UNC1151, associated with cyber operations in Eastern Europe."
+    },
+    {
+      "name": "unc1151",
+      "kind": "threat actor",
+      "gloss": "A threat group tracked by Mandiant, linked to cyber espionage activities."
+    },
+    {
+      "name": "Mandiant",
+      "kind": "cybersecurity company",
+      "gloss": "An American cybersecurity firm providing threat intelligence and incident response services."
+    },
+    {
+      "name": "довідка.zip",
+      "kind": "archive file",
+      "gloss": "A ZIP archive containing a malicious compiled HTML help file used in a cyber attack."
+    },
+    {
+      "name": "dovidka.chm",
+      "kind": "compiled help file",
+      "gloss": "A malicious Microsoft Compiled HTML Help file containing decoy content and malicious scripts."
+    },
+    {
+      "name": "image.jpg",
+      "kind": "decoy image file",
+      "gloss": "A decoy image file displaying instructions on safety procedures during artillery shelling."
+    },
+    {
+      "name": "file.htm",
+      "kind": "html application file",
+      "gloss": "An HTA/HTML file containing malicious VBScript code embedded in a CHM container."
+    },
+    {
+      "name": "ignit.vbs",
+      "kind": "dropper script",
+      "gloss": "A VBScript dropper responsible for decoding and dropping a .NET loader and persistence components."
+    },
+    {
+      "name": "core.dll",
+      "kind": "malware loader",
+      "gloss": "A .NET loader responsible for decoding and executing the MicroBackdoor payload."
+    },
+    {
+      "name": "desktop.ini",
+      "kind": "malicious script file",
+      "gloss": "A malicious file used to execute the .NET loader via regasm.exe."
+    },
+    {
+      "name": "Windows Prefetch.lNk",
+      "kind": "shortcut file",
+      "gloss": "A malicious Windows shortcut file placed in the Startup folder for persistence."
+    },
+    {
+      "name": "MicroBackdoor",
+      "kind": "backdoor malware",
+      "gloss": "An open-source C++ backdoor malware designed to execute arbitrary commands and exfiltrate data."
+    },
+    {
+      "name": "microbackdoor.dll",
+      "kind": "malware payload",
+      "gloss": "A dynamic link library containing the MicroBackdoor payload."
+    },
+    {
+      "name": "xbeta[.]online",
+      "kind": "domain name",
+      "gloss": "A domain name used for command and control communication by MicroBackdoor."
+    },
+    {
+      "name": "185[.]175.158.27",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the command and control infrastructure."
+    },
+    {
+      "name": "regasm.exe",
+      "kind": "system utility",
+      "gloss": "A legitimate Microsoft .NET Assembly Registration Tool abused to execute malicious code."
+    },
+    {
+      "name": "wscript.exe",
+      "kind": "system utility",
+      "gloss": "A legitimate Windows Open Script Host utility used to execute scripts."
+    },
+    {
+      "name": "cr4sh",
+      "kind": "person",
+      "gloss": "A software developer also known as Dmytro Oleksiuk who authored the open-source MicroBackdoor tool."
+    }
+  ],
+  "relations": [
+    {
+      "head": "довідка.zip",
+      "type": "contains-file",
+      "tail": "dovidka.chm",
+      "evidence": "файл \"довідка.zip\", який містить файл контекстної довідки ... \"dovidka.chm\""
+    },
+    {
+      "head": "dovidka.chm",
+      "type": "contains-file",
+      "tail": "image.jpg",
+      "evidence": "CHM-файл, у свою чергу, містить зображення-приманку \"image.jpg\""
+    },
+    {
+      "head": "dovidka.chm",
+      "type": "contains-file",
+      "tail": "file.htm",
+      "evidence": "CHM-файл, у свою чергу, містить ... та HTA-файл \"file.htm\""
+    },
+    {
+      "head": "file.htm",
+      "type": "creates-file",
+      "tail": "ignit.vbs",
+      "evidence": "призведе до створення на комп'ютері і запуску дропера \"ignit.vbs\""
+    },
+    {
+      "head": "ignit.vbs",
+      "type": "drops-file",
+      "tail": "core.dll",
+      "evidence": "дропера \"ignit.vbs\", який забезпечить декодування .NET-лоадеру \"core.dll\""
+    },
+    {
+      "head": "ignit.vbs",
+      "type": "drops-file",
+      "tail": "desktop.ini",
+      "evidence": "забезпечить декодування .NET-лоадеру \"core.dll\", а також файлів \"desktop.ini\""
+    },
+    {
+      "head": "ignit.vbs",
+      "type": "drops-file",
+      "tail": "Windows Prefetch.lNk",
+      "evidence": "а також файлів \"desktop.ini\" ... і \"Windows Prefetch.lNk\""
+    },
+    {
+      "head": "Windows Prefetch.lNk",
+      "type": "executes-with",
+      "tail": "wscript.exe",
+      "evidence": "\"Windows Prefetch.lNk\", який забезпечує запуск раніше згаданого \"desktop.ini\" за допомогою wscript.exe"
+    },
+    {
+      "head": "desktop.ini",
+      "type": "executes-with",
+      "tail": "regasm.exe",
+      "evidence": "\"desktop.ini\" (виконує запуск \"core.dll\" за допомогою regasm.exe)"
+    },
+    {
+      "head": "core.dll",
+      "type": "executes-payload",
+      "tail": "MicroBackdoor",
+      "evidence": ".NET-лоадер здійснить декодування і виконання шкідливої програми MicroBackdoor"
+    },
+    {
+      "head": "UAC-0057",
+      "type": "uses-malware",
+      "tail": "MicroBackdoor",
+      "evidence": "реалізовано окремо членами групи UAC-0057/unc1151"
+    },
+    {
+      "head": "cr4sh",
+      "type": "authored-tool",
+      "tail": "MicroBackdoor",
+      "evidence": "MicroBackdoor - публічно доступна програма-бекдор ... Автор: cr4sh"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "contains-file",
+      "definition": "Indicates that an archive, container, or composite file encloses another file."
+    },
+    {
+      "name": "creates-file",
+      "definition": "Indicates that execution of an entity results in the creation of a new file on the target system."
+    },
+    {
+      "name": "drops-file",
+      "definition": "Indicates that a component writes or unpacks another payload file to disk."
+    },
+    {
+      "name": "executes-with",
+      "definition": "Indicates that an entity executes another component or invokes execution via a specific executable."
+    },
+    {
+      "name": "executes-payload",
+      "definition": "Indicates that a loader or injector decodes, loads, and executes a final payload."
+    },
+    {
+      "name": "uses-malware",
+      "definition": "Indicates that a threat actor employs a specific malware family or utility."
+    },
+    {
+      "name": "authored-tool",
+      "definition": "Indicates that a person or developer created a specific software tool or malware."
+    }
+  ]
+}

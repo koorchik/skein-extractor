@@ -1,0 +1,147 @@
+{
+  "entities": [
+    {
+      "name": "Armageddon/Gamaredon",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage and threat group targeting Ukrainian organizations."
+    },
+    {
+      "name": "Pterodo",
+      "kind": "malware",
+      "gloss": "A malware family used by the Armageddon/Gamaredon threat actor to compromise systems."
+    },
+    {
+      "name": "РФ",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state located in Eastern Europe."
+    },
+    {
+      "name": "Microsoft Word",
+      "kind": "software product",
+      "gloss": "A word processing software developed by Microsoft."
+    },
+    {
+      "name": "АСКОД",
+      "kind": "software product",
+      "gloss": "An electronic document management system used by Ukrainian organizations."
+    },
+    {
+      "name": "Microsoft Office",
+      "kind": "software product",
+      "gloss": "A suite of productivity software applications developed by Microsoft."
+    },
+    {
+      "name": "CVE-2017-0199",
+      "kind": "security vulnerability",
+      "gloss": "A remote code execution vulnerability in Microsoft Office and WordPad."
+    },
+    {
+      "name": "Microsoft",
+      "kind": "software vendor",
+      "gloss": "A multinational technology company that develops computer software and services."
+    },
+    {
+      "name": "http://melitaeas.online",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious command and control URL used during cyberattacks."
+    },
+    {
+      "name": "http://tridiuma.ru/scaffold.php",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL used to download secondary malware payloads."
+    },
+    {
+      "name": "http://barbatus.online/get.php",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL used to retrieve malicious payload code."
+    },
+    {
+      "name": "http://188.225.37.128/index.php",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious server URL used for C2 communication and host reconnaissance."
+    },
+    {
+      "name": "http://optica-rd.myftp.biz/satisfy.php",
+      "kind": "uniform resource locator",
+      "gloss": "A command and control URL used to receive victim data via POST requests."
+    },
+    {
+      "name": "http://graphiuma.online/hat.php",
+      "kind": "uniform resource locator",
+      "gloss": "A command and control URL providing payload data to infected hosts."
+    },
+    {
+      "name": "http://dipteran.online/napoleon.php",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious C2 URL queried to retrieve executable payloads."
+    },
+    {
+      "name": "http://dipteran.online/saucer.php",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious C2 URL accessed by VBScript to fetch payload data."
+    },
+    {
+      "name": "hххp://apoxipodes.ru/straightforward.php",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious command and control URL receiving POST requests from malware scripts."
+    },
+    {
+      "name": "188.225.37.128",
+      "kind": "ip address",
+      "gloss": "An IP address associated with command and control infrastructure in Russia."
+    },
+    {
+      "name": "188.225.58.175",
+      "kind": "ip address",
+      "gloss": "An IP address located in Russia used for command and control communication."
+    },
+    {
+      "name": "185.119.59.227",
+      "kind": "ip address",
+      "gloss": "An IP address used as command and control infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Armageddon/Gamaredon",
+      "type": "uses",
+      "tail": "Pterodo",
+      "evidence": "кібератак з використанням шкідливого програмного забезпечення (далі - ШПЗ) Pterodo хакерського угрупування Armageddon/Gamaredon"
+    },
+    {
+      "head": "Armageddon/Gamaredon",
+      "type": "exploits",
+      "tail": "CVE-2017-0199",
+      "evidence": "містили шкідливий код для експлуатації відомої вразливості «Microsoft Office» CVE-2017-0199"
+    },
+    {
+      "head": "CVE-2017-0199",
+      "type": "affects",
+      "tail": "Microsoft Office",
+      "evidence": "відомої вразливості «Microsoft Office» CVE-2017-0199"
+    },
+    {
+      "head": "188.225.37.128",
+      "type": "located-in",
+      "tail": "РФ",
+      "evidence": "Дані файли взаємодіють з http://188.225.37.128/index.php (РФ)"
+    },
+    {
+      "head": "188.225.58.175",
+      "type": "located-in",
+      "tail": "РФ",
+      "evidence": "188.225.58.175/savagely.php за запитом POST (домен та ІР адреса знаходяться в РФ)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses",
+      "definition": "The subject threat actor or malware utilizes the object tool, infrastructure, or malware."
+    }
+  ]
+}

@@ -1,0 +1,149 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Національна поліція України",
+      "kind": "government body",
+      "gloss": "The national police service of Ukraine."
+    },
+    {
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyberespionage threat group known for targeting Ukrainian organizations."
+    },
+    {
+      "name": "OutSteel",
+      "kind": "malware family",
+      "gloss": "A document-stealing malware family used to exfiltrate files."
+    },
+    {
+      "name": "SaintBot",
+      "kind": "malware family",
+      "gloss": "A downloader malware family used to fetch additional payloads."
+    },
+    {
+      "name": "Discord",
+      "kind": "software product",
+      "gloss": "An instant messaging and digital distribution platform."
+    },
+    {
+      "name": "cdn.discordapp.com",
+      "kind": "internet domain",
+      "gloss": "A content delivery domain for the Discord messaging platform."
+    },
+    {
+      "name": "185.244.41.109",
+      "kind": "ip address",
+      "gloss": "An IP address used for malicious command and control or staging."
+    },
+    {
+      "name": "eumr.site",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious payload delivery."
+    },
+    {
+      "name": "mariaparsons10811@gmail.com",
+      "kind": "email address",
+      "gloss": "An email address identified as an indicator of compromise."
+    },
+    {
+      "name": "Повідомлення про вчинення злочину (Білоус Олексій Сергійович).docx",
+      "kind": "file",
+      "gloss": "A malicious password-protected document used as a phishing lure."
+    },
+    {
+      "name": "Повідомлення про вчинення злочину.docx",
+      "kind": "file",
+      "gloss": "A malicious password-protected document used as a phishing lure."
+    },
+    {
+      "name": "GSU207@POLICE.GOV.UA - Повідомлення (2).js",
+      "kind": "file",
+      "gloss": "A malicious JavaScript file dropped to execute PowerShell download commands."
+    },
+    {
+      "name": "GSU207@POLICE.GOV.UA - Повідомлення (17).js",
+      "kind": "file",
+      "gloss": "A malicious JavaScript file dropped to execute PowerShell download commands."
+    },
+    {
+      "name": "putty.exe",
+      "kind": "file",
+      "gloss": "A malicious executable payload disguised as PuTTY software."
+    },
+    {
+      "name": "puttyjejfrwu.exe",
+      "kind": "file",
+      "gloss": "A malicious executable payload downloaded during the infection."
+    },
+    {
+      "name": "GoogleChromeUpdate.exe",
+      "kind": "file",
+      "gloss": "A malicious payload dropped and executed under the public directory."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "impersonates",
+      "tail": "Національна поліція України",
+      "evidence": "розповсюдження, начебто, від імені Національної поліції України, електронних листів"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "distributes",
+      "tail": "Повідомлення про вчинення злочину (Білоус Олексій Сергійович).docx",
+      "evidence": "розповсюдження, начебто, від імені Національної поліції України, електронних листів, із вкладеннями"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "distributes",
+      "tail": "OutSteel",
+      "evidence": "Активність асоційовано з діяльністю групи UAC-0056"
+    },
+    {
+      "head": "Повідомлення про вчинення злочину (Білоус Олексій Сергійович).docx",
+      "type": "drops-and-executes",
+      "tail": "GSU207@POLICE.GOV.UA - Повідомлення (2).js",
+      "evidence": "призведе до створення і запуску на комп’ютері Javascript-файлу"
+    },
+    {
+      "head": "GSU207@POLICE.GOV.UA - Повідомлення (2).js",
+      "type": "connects-to",
+      "tail": "Discord",
+      "evidence": "за допомогою powershell здійснить підключення до сервісу Discord"
+    },
+    {
+      "head": "GSU207@POLICE.GOV.UA - Повідомлення (2).js",
+      "type": "downloads-and-executes",
+      "tail": "putty.exe",
+      "evidence": "завантажить і виконає EXE-файл"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "impersonates",
+      "definition": "An actor or campaign mimics the identity or branding of a legitimate organization."
+    },
+    {
+      "name": "distributes",
+      "definition": "An actor distributes or delivers a specific file or malware."
+    },
+    {
+      "name": "drops-and-executes",
+      "definition": "A file creates another file on the system and triggers its execution."
+    },
+    {
+      "name": "connects-to",
+      "definition": "A script or program initiates a network connection to an external service or host."
+    },
+    {
+      "name": "downloads-and-executes",
+      "definition": "A script or file downloads an executable file from a remote source and runs it."
+    }
+  ]
+}

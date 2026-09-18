@@ -1,0 +1,91 @@
+{
+  "entities": [
+    {
+      "name": "OUTSTEEL",
+      "kind": "malware family",
+      "gloss": "A malware family designed for document discovery and data exfiltration."
+    },
+    {
+      "name": "LOADJUMP",
+      "kind": "malware family",
+      "gloss": "A malware family designed to download and execute secondary payloads."
+    },
+    {
+      "name": "Президент України",
+      "kind": "government body",
+      "gloss": "The head of state and supreme executive authority of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "756285df0c8b81cf14ad3463a57d33ed.xll",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel Add-in file containing the LOADJUMP malware."
+    },
+    {
+      "name": "0707a[.]exe",
+      "kind": "malicious file",
+      "gloss": "A malicious .NET executable that decodes and executes the OUTSTEEL malware."
+    },
+    {
+      "name": "differencecell.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable downloaded and executed by a malicious document macro."
+    },
+    {
+      "name": "1833[.]site",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host malicious executable payloads."
+    },
+    {
+      "name": "gov-ua[.]info",
+      "kind": "internet domain",
+      "gloss": "A spoofed internet domain imitating Ukrainian government web resources."
+    },
+    {
+      "name": "giraffe-tour[.]ru",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host malicious payloads."
+    },
+    {
+      "name": "45.146.165[.]91",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server for data exfiltration."
+    },
+    {
+      "name": "31.31.198[.]151",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious campaign infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Президент України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "офіційне інтернет-представництво Президента України"
+    },
+    {
+      "head": "1833[.]site",
+      "type": "hosts",
+      "tail": "0707a[.]exe",
+      "evidence": "з'єднання з URL-адресою http[:]//1833[.]site/0707a[.]exe, завантажить і виконає файл “0707a[.]exe”"
+    },
+    {
+      "head": "0707a[.]exe",
+      "type": "delivers",
+      "tail": "OUTSTEEL",
+      "evidence": "Файл 0707a.exe є .NET програмою, яка забезпечить декодування і запуск шкідливої програми OUTSTEEL"
+    },
+    {
+      "head": "OUTSTEEL",
+      "type": "communicates-with",
+      "tail": "45.146.165[.]91",
+      "evidence": "передачу цих даних на сервер управління... http://45.146.165[.]91:8080/upld/"
+    }
+  ],
+  "newRelationTypes": []
+}

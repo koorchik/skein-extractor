@@ -1,0 +1,87 @@
+{
+  "docId": 37287,
+  "date": "22.02.2022",
+  "title": "Вразливості в Zabbix (CVE-2022-23131, CVE-2022-23134)",
+  "entities": [
+    {
+      "id": "37287:0",
+      "name": "Zabbix",
+      "kind": "monitoring software",
+      "gloss": "An open-source monitoring software tool for networks, servers, and applications.",
+      "scheme": null,
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "37287:1",
+      "name": "Zabbix Frontend",
+      "kind": "software component",
+      "gloss": "The web-based graphical user interface component of the Zabbix monitoring system.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "37287:2",
+      "name": "CVE-2022-23131",
+      "kind": "vulnerability identifier",
+      "gloss": "A critical authentication bypass vulnerability in Zabbix Frontend when SAML SSO is enabled.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37287:3",
+      "name": "CVE-2022-23134",
+      "kind": "vulnerability identifier",
+      "gloss": "A security vulnerability in Zabbix Frontend allowing unauthenticated access to setup.php configuration methods.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37287:4",
+      "name": "setup.php",
+      "kind": "software component",
+      "gloss": "A setup and configuration PHP script within the Zabbix web interface.",
+      "scheme": "S3",
+      "category": null,
+      "role": "target"
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2022-23131",
+      "type": "affects",
+      "tail": "Zabbix",
+      "evidence": "критичні вразливості в Zabbix (CVE-2022-23131"
+    },
+    {
+      "head": "CVE-2022-23131",
+      "type": "affects",
+      "tail": "Zabbix Frontend",
+      "evidence": "отримання доступу адміністратора до Zabbix Frontend"
+    },
+    {
+      "head": "CVE-2022-23134",
+      "type": "affects",
+      "tail": "Zabbix",
+      "evidence": "критичні вразливості в Zabbix (CVE-2022-23131, CVE-2022-23134)"
+    },
+    {
+      "head": "CVE-2022-23134",
+      "type": "affects",
+      "tail": "setup.php",
+      "evidence": "дозволяє отримати доступ до деяких методів файлу setup.php"
+    },
+    {
+      "head": "Zabbix Frontend",
+      "type": "part-of",
+      "tail": "Zabbix",
+      "evidence": "отримання доступу адміністратора до Zabbix Frontend"
+    }
+  ],
+  "unclassified": [
+    "37287:0"
+  ]
+}

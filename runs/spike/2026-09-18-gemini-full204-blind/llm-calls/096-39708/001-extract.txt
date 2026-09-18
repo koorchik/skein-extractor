@@ -1,0 +1,201 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+- uses-malware: A threat actor utilizes or deploys a specific malware tool or family in their operations.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація:</strong></p><p>Урядовою командою реагування на комп’ютерні надзвичайні події України CERT-UA виявлено факт розповсюдження електронних листів з темою "Срочно! Деблокация Азовстали Терміново! Розблокування «Азовсталі»" та додатком у вигляді XLS-документу "Військові на Азовсталі.xls", що містить макрос. У випадку відкриття документу та активації макросу, останній здійснить завантаження, створення на диску та запуск файлу "pe.dll". Зазначене призведе до ураження комп'ютера шкідливою програмою Cobalt Strike Beacon.</p><p>З високим рівнем впевненості можемо зауважити, що файл "pe.dll", так само, як і файл "spisok.exe" з повідомлення CERT-UA#4464, захищено за допомогою криптору, що має відношення до групи TrickBot.</p><p>Згадана активність має цільовий характер та відстежуватиметься за ідентифікатором UAC-0098.</p><p><br></p><p><br></p><p><strong>Індикатори компрометації:</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">877f834e8788d05b625ba639b9318512&nbsp; &nbsp; ea9dae45f81fe3527c62ad7b84b03d19629014b1a0e346b6aa933e52b0929d8a&nbsp; &nbsp; Військові на Азовсталі.xls
+e28ac0f94df75519a60ecc860475e6b3&nbsp; &nbsp; 9990fe0d8aac0b4a6040d5979afd822c2212d9aec2b90e5d10c0b15dee8d61b1&nbsp; &nbsp; pe.dll (2022-04-15)
+a3534cc24a76fa81ce38676027de9533&nbsp; &nbsp; 39a868e84524669491d6a251264144f0bfaca4f664d3fd10151854c341077262&nbsp; &nbsp; shellcode.bin.packed.dll
+eb18207d505a1de30af6c7baafd28e8e&nbsp; &nbsp; ff30fdd64297ac41937f9a018753871fee0e888844fbcf7bf92bf5f8d6f57090&nbsp; &nbsp; notevil.dll (CS Beacon)
+</pre><p><br></p><p><em>Мережеві</em>:</p><pre class="ql-syntax" spellcheck="false">hxxp://138[.]68.229.0/pe.dll
+hxxps://dezword[.]com/apiv8/getStatus
+hxxps://dezword[.]com/apiv8/updateConfig
+84[.]32.188.29 (провайдер: @cherryservers[.]com)
+138[.]68.229.0 (провайдер: @hostkey[.]com)
+139[.]60.161.225
+139[.]60.161.74
+139[.]60.161.62
+139[.]60.161.99
+139[.]60.161.57
+139[.]60.161.75
+139[.]60.161.24
+139[.]60.161.89
+139[.]60.161.209
+139[.]60.161.85
+139[.]60.160.51
+139[.]60.161.226
+139[.]60.161.216
+139[.]60.161.163
+139[.]60.160.8
+139[.]60.161.32
+139[.]60.161.45
+139[.]60.161.60
+139[.]60.160.17
+dezword[.]com (2022-03-22)
+agreminj[.]com
+akaluij[.]com
+anidoz[.]com
+apeduze[.]com
+apokil[.]com
+arentuk[.]com
+axikok[.]com
+azimurs[.]com
+baidencult[.]com
+billiopa[.]com
+blinkij[.]com
+blopik[.]com
+borizhog[.]com
+britxec[.]com
+drimzis[.]com
+fluoxi[.]com
+shikjil[.]com
+shormanz[.]com
+verofes[.]com
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">rundll32 C:\Windows\Tasks\pe.dll,DllRegisterServer
+C:\Windows\Tasks\pe.dll
+</pre><p><br></p><p><strong>Рекомендації:</strong></p><p>1. Заборонити офісним програмам (EXCEL.EXE, WINWORD.EXE тощо) створювати небезпечні процеси (наприклад, rundll32.exe, wscript.exe та інші).</p><p>2. Здійснювати додатковий моніторинг фактів встановлення мережевих з'єднань процесом rundll32.exe.</p><p><br></p><p><strong>Графічні зображення:</strong></p><p></p>
+
+=== RESPONSE (10.1s, in 2681 / out 1141 tok, STOP) ===
+The report describes a targeted cyberattack tracked under identifier UAC-0098. Threat actors distributed phishing emails carrying a malicious XLS attachment titled "Військові на Азовсталі.xls". When opened, the macro downloads and runs "pe.dll", a library packed with a crypter associated with the TrickBot cybercrime group. This leads to the execution of Cobalt Strike Beacon (notevil.dll). The report also references a previous advisory CERT-UA#4464 regarding "spisok.exe" and lists network IOCs including 138.68.229.0 and dezword.com.
+
+{
+  "entities": [
+    {
+      "name": "UAC-0098",
+      "kind": "threat group",
+      "gloss": "A threat actor group tracked for conducting targeted cyberattacks against Ukrainian organizations."
+    },
+    {
+      "name": "TrickBot",
+      "kind": "cybercrime group",
+      "gloss": "A sophisticated cybercrime group known for developing and operating trojans, ransomware, and malicious loaders."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware",
+      "gloss": "A post-exploitation agent and penetration testing payload frequently abused by threat actors for remote access."
+    },
+    {
+      "name": "Військові на Азовсталі.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet containing macros used to drop and execute secondary malware payloads."
+    },
+    {
+      "name": "pe.dll",
+      "kind": "malicious dynamic-link library",
+      "gloss": "A malicious DLL protected with a crypter associated with TrickBot and used to deliver Cobalt Strike Beacon."
+    },
+    {
+      "name": "notevil.dll",
+      "kind": "malicious dynamic-link library",
+      "gloss": "A dynamic-link library containing a Cobalt Strike Beacon payload."
+    },
+    {
+      "name": "shellcode.bin.packed.dll",
+      "kind": "malicious file",
+      "gloss": "A packed DLL file containing shellcode associated with the cyberattack."
+    },
+    {
+      "name": "spisok.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file protected by a crypter linked to the TrickBot group."
+    },
+    {
+      "name": "CERT-UA#4464",
+      "kind": "security advisory",
+      "gloss": "A security alert issued by CERT-UA regarding malicious cyber activity."
+    },
+    {
+      "name": "138.68.229.0",
+      "kind": "ip address",
+      "gloss": "An IP address used by threat actors to host and distribute malicious files."
+    },
+    {
+      "name": "84.32.188.29",
+      "kind": "ip address",
+      "gloss": "An IP address identified as infrastructure used in malicious network operations."
+    },
+    {
+      "name": "dezword.com",
+      "kind": "internet domain",
+      "gloss": "A domain name utilized for malicious command and control communications."
+    },
+    {
+      "name": "cherryservers.com",
+      "kind": "hosting provider",
+      "gloss": "A dedicated server and cloud hosting services provider."
+    },
+    {
+      "name": "hostkey.com",
+      "kind": "hosting provider",
+      "gloss": "A web hosting and server infrastructure service provider."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Військові на Азовсталі.xls",
+      "type": "delivers",
+      "tail": "pe.dll",
+      "evidence": "останній здійснить завантаження, створення на диску та запуск файлу \"pe.dll\""
+    },
+    {
+      "head": "pe.dll",
+      "type": "delivers",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "призведе до ураження комп'ютера шкідливою програмою Cobalt Strike Beacon"
+    },
+    {
+      "head": "138.68.229.0",
+      "type": "hosts",
+      "tail": "pe.dll",
+      "evidence": "hxxp://138[.]68.229.0/pe.dll"
+    },
+    {
+      "head": "UAC-0098",
+      "type": "uses-malware",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "ураження комп'ютера шкідливою програмою Cobalt Strike Beacon ... відстежуватиметься за ідентифікатором UAC-0098"
+    }
+  ],
+  "newRelationTypes": []
+}

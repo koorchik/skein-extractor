@@ -1,0 +1,145 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0006",
+      "kind": "threat actor",
+      "gloss": "A financially motivated cybercrime threat actor known for targeting Ukrainian accounting systems to conduct fraudulent financial transactions."
+    },
+    {
+      "name": "SmokeLoader",
+      "kind": "malware",
+      "gloss": "A modular malicious loader used to download and execute additional malware payloads on compromised systems."
+    },
+    {
+      "name": "ООО \"Трейдер софт\"",
+      "kind": "hosting provider",
+      "gloss": "A Russian hosting service provider operating infrastructure associated with simplecloud.ru."
+    },
+    {
+      "name": "85.143.216[.]129",
+      "kind": "ip address",
+      "gloss": "An IP address used to host command and control infrastructure for SmokeLoader malware."
+    },
+    {
+      "name": "85.143.172[.]45",
+      "kind": "ip address",
+      "gloss": "An IP address utilized as command and control infrastructure for SmokeLoader malware."
+    },
+    {
+      "name": "diplombar[.]by",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "dublebomber[.]ru",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "iloveua[.]ir",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "ipoluchayteudovolstvie[.]ru",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "kozachok777[.]ru",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "moyabelorussiya[.]by",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "nomnetozhedenyuzhkanuzhna[.]ru",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "popuasyfromua[.]ru",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "propertyiran[.]ir",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "propertyminsk[.]by",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "prostosmeritesya[.]ru",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "restmantra[.]by",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "sakentoshi[.]ru",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "specnaznachenie[.]ru",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "super777bomba[.]ru",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "tvoyaradostetoya[.]ru",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "yavasponimayu[.]ru",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "zakrylki809[.]ru",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "zasadacafe[.]by",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "SmokeLoader",
+      "evidence": "здійснених угрупування UAC-0006 із застосуванням шкідливої програми SmokeLoader"
+    },
+    {
+      "head": "85.143.216[.]129",
+      "type": "hosts",
+      "tail": "SmokeLoader",
+      "evidence": "сервер управління шкідливою програмою розміщено на технічному майданчику ООО \"Трейдер софт\" ... 85.143.216[.]129"
+    },
+    {
+      "head": "85.143.172[.]45",
+      "type": "hosts",
+      "tail": "SmokeLoader",
+      "evidence": "сервер управління шкідливою програмою розміщено на технічному майданчику ООО \"Трейдер софт\" ... 85.143.172[.]45"
+    }
+  ],
+  "newRelationTypes": []
+}

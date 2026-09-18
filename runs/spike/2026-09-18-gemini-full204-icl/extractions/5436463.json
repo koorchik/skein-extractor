@@ -1,0 +1,169 @@
+{
+  "entities": [
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "@xaknet_team",
+      "kind": "threat actor",
+      "gloss": "A pro-Russian hacktivist threat group operating via Telegram."
+    },
+    {
+      "name": "@CyberArmyofRussia_Reborn",
+      "kind": "threat actor",
+      "gloss": "A pro-Russian hacktivist threat group operating via Telegram."
+    },
+    {
+      "name": "@solntsepekZ",
+      "kind": "threat actor",
+      "gloss": "A pro-Russian threat group operating a Telegram channel publishing cyberattack claims."
+    },
+    {
+      "name": "@informZarya",
+      "kind": "threat actor",
+      "gloss": "A pro-Russian threat group operating via Telegram."
+    },
+    {
+      "name": "@frwl_team",
+      "kind": "threat actor",
+      "gloss": "A pro-Russian threat group operating via Telegram."
+    },
+    {
+      "name": "MS Exchange",
+      "kind": "software product",
+      "gloss": "A mail and calendaring server developed by Microsoft."
+    },
+    {
+      "name": "FortiGate",
+      "kind": "software product",
+      "gloss": "A family of network security appliances and firewalls developed by Fortinet."
+    },
+    {
+      "name": "Zimbra",
+      "kind": "software product",
+      "gloss": "An enterprise collaborative software suite including email server and web client."
+    },
+    {
+      "name": "censys.io",
+      "kind": "domain name",
+      "gloss": "An internet domain hosting a search engine for discovering and monitoring internet-connected assets."
+    },
+    {
+      "name": "shodan.io",
+      "kind": "domain name",
+      "gloss": "An internet domain hosting a search engine for internet-connected devices and services."
+    },
+    {
+      "name": "Nmap",
+      "kind": "software product",
+      "gloss": "A network scanner and security auditing tool."
+    },
+    {
+      "name": "Windows Defender",
+      "kind": "software product",
+      "gloss": "An antimalware security component of the Microsoft Windows operating system."
+    },
+    {
+      "name": "Windows",
+      "kind": "software product",
+      "gloss": "A family of operating systems developed by Microsoft."
+    },
+    {
+      "name": "ESET",
+      "kind": "software vendor",
+      "gloss": "A cybersecurity software company providing antivirus and security products."
+    },
+    {
+      "name": "Sysmon",
+      "kind": "software product",
+      "gloss": "A Windows system service and device driver that monitors and logs system activity."
+    },
+    {
+      "name": "pfSense",
+      "kind": "software product",
+      "gloss": "An open-source firewall and routing software distribution based on FreeBSD."
+    },
+    {
+      "name": "Mikrotik",
+      "kind": "software vendor",
+      "gloss": "A manufacturer of networking hardware and developer of RouterOS software."
+    },
+    {
+      "name": "ЗСУ",
+      "kind": "government organization",
+      "gloss": "The Armed Forces of Ukraine, the military forces of Ukraine."
+    },
+    {
+      "name": "csoc@post.mil.gov.ua",
+      "kind": "email address",
+      "gloss": "A contact email address for the Armed Forces of Ukraine cyber operations center."
+    },
+    {
+      "name": "СБУ",
+      "kind": "government organization",
+      "gloss": "The Security Service of Ukraine, the primary law enforcement and security agency of Ukraine."
+    },
+    {
+      "name": "support@dis.gov.ua",
+      "kind": "email address",
+      "gloss": "A contact email address for cybersecurity assistance affiliated with Ukrainian state security."
+    },
+    {
+      "name": "НБУ",
+      "kind": "government organization",
+      "gloss": "The National Bank of Ukraine, the central bank of Ukraine."
+    },
+    {
+      "name": "csirt-nbu@nbu.gov.ua",
+      "kind": "email address",
+      "gloss": "A contact email address for the Cyber Security Incident Response Team of the National Bank of Ukraine."
+    }
+  ],
+  "relations": [
+    {
+      "head": "ЗСУ",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "ЗСУ"
+    },
+    {
+      "head": "СБУ",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "СБУ"
+    },
+    {
+      "head": "НБУ",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "НБУ"
+    },
+    {
+      "head": "csoc@post.mil.gov.ua",
+      "type": "part-of",
+      "tail": "ЗСУ",
+      "evidence": "ЗСУ: csoc@post.mil.gov.ua"
+    },
+    {
+      "head": "support@dis.gov.ua",
+      "type": "part-of",
+      "tail": "СБУ",
+      "evidence": "СБУ: support@dis.gov.ua"
+    },
+    {
+      "head": "csirt-nbu@nbu.gov.ua",
+      "type": "part-of",
+      "tail": "НБУ",
+      "evidence": "НБУ: csirt-nbu@nbu.gov.ua"
+    },
+    {
+      "head": "Windows Defender",
+      "type": "part-of",
+      "tail": "Windows",
+      "evidence": "журналі Windows Defender"
+    }
+  ],
+  "newRelationTypes": []
+}

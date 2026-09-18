@@ -1,0 +1,136 @@
+{
+  "docId": 39253,
+  "date": "05.04.2022",
+  "title": "Інформація щодо кібератак, спрямованих на отримання доступу до облікових записів Telegram (CERT-UA#4360)",
+  "entities": [
+    {
+      "id": "39253:0",
+      "name": "Департамент кіберполіції Національної поліції України",
+      "kind": "government organization",
+      "gloss": "A structural subdivision of the National Police of Ukraine responsible for combating cybercrime.",
+      "scheme": "S5",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "39253:1",
+      "name": "Національної поліції України",
+      "kind": "government organization",
+      "gloss": "The central government body that provides policing services in Ukraine.",
+      "scheme": "S5",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "39253:2",
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S4",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "39253:3",
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cross-platform cloud-based instant messaging service and application.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "39253:4",
+      "name": "UAC-0094",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA involved in cyber attacks targeting Telegram accounts.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "related"
+    },
+    {
+      "id": "39253:5",
+      "name": "hxxps://telegram.org.security[.]ohsxy.com/?access=true&check=",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious phishing URL impersonating Telegram security verification to harvest account credentials.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "39253:6",
+      "name": "security-check.telegram.org.ohsxy[.]com",
+      "kind": "domain name",
+      "gloss": "A phishing domain used in attacks to impersonate Telegram security services.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "39253:7",
+      "name": "telegram.org.security.ohsxy[.]com",
+      "kind": "domain name",
+      "gloss": "A phishing domain used to steal Telegram account sessions and verification codes.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "39253:8",
+      "name": "ohsxy[.]com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure in phishing attacks.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "39253:9",
+      "name": "telsec[.]org",
+      "kind": "domain name",
+      "gloss": "A malicious domain used in cyber attacks targeting Telegram users.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "39253:10",
+      "name": "45[.]150.67.87",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure used in malicious cyber operations.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "39253:11",
+      "name": "193[.]106.191.202",
+      "kind": "ip address",
+      "gloss": "An IP address associated with phishing and threat infrastructure.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Департамент кіберполіції Національної поліції України",
+      "type": "part-of",
+      "tail": "Національної поліції України",
+      "evidence": "Департаменту кіберполіції Національної поліції України"
+    },
+    {
+      "head": "Національної поліції України",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "Національної поліції України"
+    },
+    {
+      "head": "UAC-0094",
+      "type": "affects",
+      "tail": "Telegram",
+      "evidence": "отримання несанкціонованого доступу до облікових записів згаданого сервісу"
+    }
+  ],
+  "unclassified": []
+}

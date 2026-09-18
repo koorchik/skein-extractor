@@ -1,0 +1,167 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0096",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA targeting Ukrainian organizations with malicious email campaigns."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Апарату Ради національної безпеки і оборони України",
+      "kind": "government body",
+      "gloss": "The staff of the National Security and Defense Council of Ukraine, a state body coordinating national security policy."
+    },
+    {
+      "name": "Remote Utilities",
+      "kind": "software product",
+      "gloss": "A legitimate remote desktop access and control software often abused by malicious actors for remote management."
+    },
+    {
+      "name": "KB5017371 оновлення системи безпеки.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive distributed in phishing emails disguised as a security update."
+    },
+    {
+      "name": "інструкція Важливо прочитати.jpg",
+      "kind": "file",
+      "gloss": "A decoy image file contained within a malicious archive."
+    },
+    {
+      "name": "KB5017371.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable payload that installs remote management software on the victim machine."
+    },
+    {
+      "name": "host-7.1.7.0_unsigned.msi",
+      "kind": "installer file",
+      "gloss": "An installer package associated with the deployment of Remote Utilities software."
+    },
+    {
+      "name": "KB5017371(unpacked).exe",
+      "kind": "executable file",
+      "gloss": "An unpacked executable payload related to the malicious Remote Utilities installation chain."
+    },
+    {
+      "name": "rfusclient.exe",
+      "kind": "executable file",
+      "gloss": "A component executable of the Remote Utilities software suite."
+    },
+    {
+      "name": "rutserv.exe",
+      "kind": "executable file",
+      "gloss": "The host server service executable of the Remote Utilities software suite."
+    },
+    {
+      "name": "gromada@rnbo.gov.ua",
+      "kind": "email address",
+      "gloss": "A spoofed email address impersonating the National Security and Defense Council of Ukraine."
+    },
+    {
+      "name": "77.91.100.6",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "91.228.10.77",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "111.90.148.190",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "111.90.148.194",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "111.90.148.199",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "111.90.148.197",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "101.99.91.158",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "101.99.91.170",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "101.99.91.179",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "101.99.91.167",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "101.99.91.19",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "101.99.91.76",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "101.99.93.104",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "101.99.93.109",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Апарату Ради національної безпеки і оборони України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Апарату Ради національної безпеки і оборони України"
+    },
+    {
+      "head": "UAC-0096",
+      "type": "uses-malware",
+      "tail": "Remote Utilities",
+      "evidence": "встановлення на комп'ютері жертви програми для віддаленого управління Remote Utilities. Виявлена активність відстежується за ідентифікатором UAC-0096."
+    },
+    {
+      "head": "KB5017371.exe",
+      "type": "delivers",
+      "tail": "Remote Utilities",
+      "evidence": "Запуск останнього призведе до встановлення на комп'ютері жертви програми для віддаленого управління Remote Utilities."
+    },
+    {
+      "head": "rfusclient.exe",
+      "type": "part-of",
+      "tail": "Remote Utilities",
+      "evidence": "rfusclient.exe (Remote Utilities)"
+    },
+    {
+      "head": "rutserv.exe",
+      "type": "part-of",
+      "tail": "Remote Utilities",
+      "evidence": "rutserv.exe (Remote Utilities)"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,188 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p>Повторні фішинг-розсилки з&nbsp;<a href="https://twitter.com/hashtag/Smokeloader?src=hash" rel="noopener noreferrer" target="_blank" style="color: rgb(0, 123, 255);">#Smokeloader</a>, запакованим в lzh архів.</p><p>Листи приходять на адреси державних органів влади. Текст листа українською мовою, що свідчить про цілеспрямоване розповсюдження в Україні. Для прикриття в архів вкладений xlsx-файл з деякою інформацією.</p><p>Як повідомлялося раніше, даний вірус являється завантажувачем і використовується різними зловмисниками для завантаження&nbsp;іншого шкідливого програмного забезпечення без Вашої згоди і відома.&nbsp;</p><p>Будьте обережні! Не відкривайте вкладення листів та не переходьте за невідомими посиланнями з електронного листа, який ви не очікували отримати.</p><p>Інформація про попередні хвилі розсилок:</p><p><a href="https://cert.gov.ua/article/2707" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/article/2707</a></p><h3><strong>Рекомендації:</strong></h3><ul><li>Не відкривайте прикріплені файли&nbsp;в листах, яких Ви не очікували отримати.</li><li>Перевіряйте відправника повідомлення.</li><li>Блокуйте WSH або трафік cscript/wscript.</li><li>Фільтруйте нестандартні архіви та скриптові файли.</li><li>Блокуйте на Proxy нетипові User Agent.</li><li>Виконуйте основні&nbsp;<a href="https://cert.gov.ua/recommendation/31" rel="noopener noreferrer" target="_blank" style="color: rgb(0, 123, 255);">правила кібергігієни&nbsp;</a>.</li></ul><p>Rate VirusTotal:3/57</p><p><strong>Індикатори компрометації (IOC):</strong></p><p>https://pastebin.com/xkVZtczH (Оновлюється)</p><p>-----------------29.01.2019-----------------</p><p>File: К оплате за январь Агро.lzh</p><p>File size: 114 KB (116 666 bytes)</p><p>MD5 checksum: 62CD291C9F341A74C84168DDE992083D</p><p>SHA256 checksum: 1EF967444D626187BD3762E3B12D11F26A1B61C163691D6F809F3888972575CD</p><p>File: Рахунок №6-19 от 29.01.2019р.xls.js</p><p>File size: 98,6 KB (100 984 bytes)</p><p>MD5 checksum: 15B9269D61F3E21A6990969F54A158D5</p><p>SHA256 checksum: 1D59FF685A1EB844C2487AC489E719FB2D23A3D2D82207578A10E1E308F92DD4</p><p>Received: from [91.234.2.202] (helo=91.234.2.202.hata.net.ua)</p><p>by s4.uman.net.ua with esmtpa (Exim 4.82)</p><p>(envelope-from &lt;sekretar2@svit-mebliv.ua&gt;)</p><p>-----------------30.01.2019-----------------</p><p>File: договір та р.фактура від 30.01.19.lzh</p><p>File size: 102 KB (104&nbsp;344 bytes)</p><p>MD5 checksum: B2B67EE7938D096A10B3D45DBA1DAC23</p><p>SHA256 checksum: 4509F9FA30D96DF3729112FECCDC4467FE176D97E3BDE43DA80976F68BC64667</p><p><br></p><p>File: Pax. 19-208 - 30.01.2019p..js</p><p>File size: 76,6 KB (78&nbsp;478 bytes)</p><p>MD5 checksum: DF297E3A2635842DDBCB49B541956AA6</p><p>SHA256 checksum: 593E1D16C62029551058E377BDD82AC351D31C12EE5FB20C3BD83ABCA8A62181</p><p>File: unit.exe</p><p>File size: 471 KB (482&nbsp;304 bytes)</p><p>MD5 checksum: A31EE1B959D804A560738AED872B6068</p><p>SHA256 checksum: 719BA15ABF04F7B449620C2D0F7917B32B69745FAD348327BE0DF519CB76ED79</p><p><br></p><p>Received: from out14.mi6.kiev.ua ([91.198.36.68])</p><p>&nbsp;&nbsp;&nbsp;by prestol.it-mark.net with esmtps (Exim 4.90_1)</p><p>&nbsp;&nbsp;&nbsp;(envelope-from &lt;abed@i.ua&gt;)</p><p>&nbsp;</p><p>hххp://ceronamtinclube.icu/opuba/unit.exe [&nbsp;62.173.138.170]</p><p>C&amp;C:</p><p>hххp://www.msftncsi.com/ncsi.txt</p><p>hххp://aviatorssm.bit/</p><p>&nbsp;</p>
+
+=== RESPONSE (6.1s, in 2517 / out 1537 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Smokeloader",
+      "kind": "malware family",
+      "gloss": "A modular bot and loader malware family used to download additional malicious payloads."
+    },
+    {
+      "name": "Україні",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "державних органів влади",
+      "kind": "government body",
+      "gloss": "Ukrainian state government authorities targeted by cyber operations."
+    },
+    {
+      "name": "К оплате за январь Агро.lzh",
+      "kind": "malicious file",
+      "gloss": "A malicious LZH archive file used in phishing distribution."
+    },
+    {
+      "name": "Рахунок №6-19 от 29.01.2019р.xls.js",
+      "kind": "malicious file",
+      "gloss": "A malicious JavaScript file used to execute malware payloads."
+    },
+    {
+      "name": "91.234.2.202",
+      "kind": "ip address",
+      "gloss": "An IP address observed sending phishing email messages."
+    },
+    {
+      "name": "91.234.2.202.hata.net.ua",
+      "kind": "hostname",
+      "gloss": "A hostname associated with an email sending host."
+    },
+    {
+      "name": "s4.uman.net.ua",
+      "kind": "mail server",
+      "gloss": "A mail server observed in the delivery path of phishing emails."
+    },
+    {
+      "name": "sekretar2@svit-mebliv.ua",
+      "kind": "email address",
+      "gloss": "An email address used as the envelope sender in phishing attacks."
+    },
+    {
+      "name": "договір та р.фактура від 30.01.19.lzh",
+      "kind": "malicious file",
+      "gloss": "A malicious LZH archive file attached to phishing emails."
+    },
+    {
+      "name": "Pax. 19-208 - 30.01.2019p..js",
+      "kind": "malicious file",
+      "gloss": "A malicious JavaScript script file distributed in archive attachments."
+    },
+    {
+      "name": "unit.exe",
+      "kind": "malicious file",
+      "gloss": "An executable payload associated with Smokeloader malware."
+    },
+    {
+      "name": "out14.mi6.kiev.ua",
+      "kind": "hostname",
+      "gloss": "A hostname of an email relay server used in phishing campaigns."
+    },
+    {
+      "name": "91.198.36.68",
+      "kind": "ip address",
+      "gloss": "An IP address associated with an email relay server."
+    },
+    {
+      "name": "prestol.it-mark.net",
+      "kind": "mail server",
+      "gloss": "A mail server observed receiving phishing messages."
+    },
+    {
+      "name": "abed@i.ua",
+      "kind": "email address",
+      "gloss": "An email address used as an envelope sender for phishing emails."
+    },
+    {
+      "name": "ceronamtinclube.icu",
+      "kind": "internet domain",
+      "gloss": "A domain used to host the malicious executable unit.exe."
+    },
+    {
+      "name": "62.173.138.170",
+      "kind": "ip address",
+      "gloss": "An IP address hosting a malicious payload distribution URL."
+    },
+    {
+      "name": "www.msftncsi.com",
+      "kind": "internet domain",
+      "gloss": "A legitimate domain abused or contacted for connectivity verification or command and control."
+    },
+    {
+      "name": "aviatorssm.bit",
+      "kind": "internet domain",
+      "gloss": "A Namecoin top-level domain used as a command and control server."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Smokeloader",
+      "type": "targets-sector",
+      "tail": "державних органів влади",
+      "evidence": "Листи приходять на адреси державних органів влади."
+    },
+    {
+      "head": "Smokeloader",
+      "type": "targets-country",
+      "tail": "Україні",
+      "evidence": "свідчить про цілеспрямоване розповсюдження в Україні."
+    },
+    {
+      "head": "ceronamtinclube.icu",
+      "type": "resolves-to-ip",
+      "tail": "62.173.138.170",
+      "evidence": "ceronamtinclube.icu/opuba/unit.exe [ 62.173.138.170]"
+    },
+    {
+      "head": "ceronamtinclube.icu",
+      "type": "hosts-file",
+      "tail": "unit.exe",
+      "evidence": "ceronamtinclube.icu/opuba/unit.exe"
+    },
+    {
+      "head": "out14.mi6.kiev.ua",
+      "type": "resolves-to-ip",
+      "tail": "91.198.36.68",
+      "evidence": "from out14.mi6.kiev.ua ([91.198.36.68])"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets-sector",
+      "definition": "The malware or threat actor directs malicious activities against a specific sector or group of organizations."
+    },
+    {
+      "name": "targets-country",
+      "definition": "The threat actor or malware targets entities located within a specific country."
+    },
+    {
+      "name": "resolves-to-ip",
+      "definition": "A domain name or hostname resolves to a specific IP address."
+    },
+    {
+      "name": "hosts-file",
+      "definition": "A network infrastructure element or domain serves or hosts a specific malicious file."
+    }
+  ]
+}

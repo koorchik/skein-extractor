@@ -1,0 +1,158 @@
+{
+  "docId": 2687,
+  "date": "22.10.2019",
+  "title": "Новини зі світу кібербезпеки",
+  "entities": [
+    {
+      "id": "2687:0",
+      "name": "Linux",
+      "kind": "software product",
+      "gloss": "An open-source Unix-like operating system kernel and family of operating systems.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2687:1",
+      "name": "rtlwifi (Realtek WiFi)",
+      "kind": "software product",
+      "gloss": "A Linux kernel driver module supporting Realtek wireless network interface cards.",
+      "scheme": "S2",
+      "category": "Organization",
+      "role": "target"
+    },
+    {
+      "id": "2687:2",
+      "name": "CVE-2019-17666",
+      "kind": "security vulnerability",
+      "gloss": "A buffer overflow vulnerability in the Linux kernel rtlwifi driver.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2687:3",
+      "name": "Microsoft SQL Server (MSSQL)",
+      "kind": "software product",
+      "gloss": "A relational database management system developed by Microsoft.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2687:4",
+      "name": "TeamViewer",
+      "kind": "software product",
+      "gloss": "A remote access and remote control computer software application.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2687:5",
+      "name": "FireEye",
+      "kind": "software vendor",
+      "gloss": "An American cybersecurity company specializing in threat intelligence and incident response.",
+      "scheme": "S3",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "2687:6",
+      "name": "APT41",
+      "kind": "threat actor",
+      "gloss": "A prolific Chinese state-sponsored cyber espionage and financially motivated threat group.",
+      "scheme": null,
+      "category": "HackerGroup",
+      "role": "related"
+    },
+    {
+      "id": "2687:7",
+      "name": "Китай",
+      "kind": "country",
+      "gloss": "A sovereign country located in East Asia.",
+      "scheme": "S4",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "2687:8",
+      "name": "https://arstechnica.com/information-technology/2015/08/how-security-flaws-work-the-buffer-overflow/",
+      "kind": "uniform resource locator",
+      "gloss": "A web link explaining buffer overflow security vulnerabilities on Ars Technica.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2687:9",
+      "name": "https://lkml.org/lkml/2019/10/16/1226",
+      "kind": "uniform resource locator",
+      "gloss": "A web link to a Linux Kernel Mailing List patch submission.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2687:10",
+      "name": "https://nvd.nist.gov/vuln/detail/CVE-2019-17666",
+      "kind": "uniform resource locator",
+      "gloss": "A web link to the National Vulnerability Database entry for CVE-2019-17666.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2687:11",
+      "name": "https://www.welivesecurity.com/2019/10/21/winnti-group-skip2-0-microsoft-sql-server-backdoor/",
+      "kind": "uniform resource locator",
+      "gloss": "A security research article detailing the skip-2.0 MSSQL backdoor by Winnti Group.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2687:12",
+      "name": "https://twitter.com/cglyer/status/1182413194360508419",
+      "kind": "uniform resource locator",
+      "gloss": "A social media link referencing FireEye disclosure about the TeamViewer compromise.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "rtlwifi (Realtek WiFi)",
+      "type": "part-of",
+      "tail": "Linux",
+      "evidence": "недоліком в драйвері rtlwifi (Realtek WiFi)"
+    },
+    {
+      "head": "CVE-2019-17666",
+      "type": "affects",
+      "tail": "rtlwifi (Realtek WiFi)",
+      "evidence": "недоліком в драйвері rtlwifi (Realtek WiFi). Драйвер вразливий"
+    },
+    {
+      "head": "APT41",
+      "type": "located-in",
+      "tail": "Китай",
+      "evidence": "хакерську групу APT41, яка працює з Азії, зокрема з Китаю"
+    },
+    {
+      "head": "APT41",
+      "type": "affects",
+      "tail": "TeamViewer",
+      "evidence": "TeamViewer був зламаний у 2016 році... Вину за інцидент покладають на хакерську групу APT41"
+    }
+  ],
+  "unclassified": [
+    "2687:6",
+    "2687:8",
+    "2687:9",
+    "2687:10",
+    "2687:11",
+    "2687:12"
+  ]
+}

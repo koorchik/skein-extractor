@@ -1,0 +1,84 @@
+{
+  "entities": [
+    {
+      "name": "CVE-2017-11882",
+      "kind": "vulnerability identifier",
+      "gloss": "A memory corruption vulnerability in Microsoft Equation Editor allowing arbitrary remote code execution."
+    },
+    {
+      "name": "MS Equation",
+      "kind": "software component",
+      "gloss": "A formula editing component integrated into Microsoft Office suites."
+    },
+    {
+      "name": "Microsoft Office",
+      "kind": "software suite",
+      "gloss": "A suite of productivity applications developed by Microsoft."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework by Microsoft comprising a command-line shell."
+    },
+    {
+      "name": "PGMB New Order 18-2077[.]xlsx",
+      "kind": "file name",
+      "gloss": "A malicious spreadsheet document used as an indicator of compromise."
+    },
+    {
+      "name": "major[.]exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable downloaded and executed on target systems following vulnerability exploitation."
+    },
+    {
+      "name": "hххp[:]//216.170.123.111/major[.]exe",
+      "kind": "url",
+      "gloss": "A malicious URL used to distribute the major.exe executable."
+    },
+    {
+      "name": "216.170.123.111",
+      "kind": "ip address",
+      "gloss": "An IP address hosting a malicious payload."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2017-11882",
+      "type": "affects-software",
+      "tail": "MS Equation",
+      "evidence": "програмне забезпечення MS Equation не обробляє належним чином об'єкти в пам'яті"
+    },
+    {
+      "head": "CVE-2017-11882",
+      "type": "affects-software",
+      "tail": "Microsoft Office",
+      "evidence": "Дана вразливість може використовуватись в Microsoft Office 2016 та попередніх версіях"
+    },
+    {
+      "head": "hххp[:]//216.170.123.111/major[.]exe",
+      "type": "hosts-file",
+      "tail": "major[.]exe",
+      "evidence": "завантажується файл major[.]exe з адреси hххp[:]//216.170.123.111/major[.]exe"
+    },
+    {
+      "head": "hххp[:]//216.170.123.111/major[.]exe",
+      "type": "hosted-on-ip",
+      "tail": "216.170.123.111",
+      "evidence": "hххp[:]//216.170.123.111/major[.]exe"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "affects-software",
+      "definition": "Identifies software products or components susceptible to a specific vulnerability."
+    },
+    {
+      "name": "hosts-file",
+      "definition": "Indicates that a network resource or URL serves a specific file payload."
+    },
+    {
+      "name": "hosted-on-ip",
+      "definition": "Specifies the IP address associated with a particular network address or URL."
+    }
+  ]
+}

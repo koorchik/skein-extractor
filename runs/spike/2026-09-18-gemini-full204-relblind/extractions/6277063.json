@@ -1,0 +1,185 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "UAC-0050",
+      "kind": "threat actor",
+      "gloss": "A threat actor group known for conducting cyber espionage and financial crime campaigns against Ukrainian entities."
+    },
+    {
+      "name": "RemcosRAT",
+      "kind": "malware family",
+      "gloss": "A commercial remote access tool frequently abused by threat actors for surveillance and unauthorized control."
+    },
+    {
+      "name": "QuasarRAT",
+      "kind": "malware family",
+      "gloss": "An open-source remote access trojan written in C# used for system reconnaissance and remote control."
+    },
+    {
+      "name": "Remote Utilities",
+      "kind": "software product",
+      "gloss": "A legitimate remote desktop software program often abused by malicious actors for unauthorized remote management."
+    },
+    {
+      "name": "AutoIt",
+      "kind": "software product",
+      "gloss": "A freeware automation language and scripting tool used to automate Windows tasks and frequently abused by malware."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "Bitbucket",
+      "kind": "cloud service",
+      "gloss": "A Git-based source code repository hosting service operated by Atlassian."
+    },
+    {
+      "name": "Google Диск",
+      "kind": "cloud service",
+      "gloss": "A cloud-based file storage and synchronization service developed by Google."
+    },
+    {
+      "name": "Медок",
+      "kind": "company",
+      "gloss": "A Ukrainian software company and brand known for electronic document management and accounting software."
+    },
+    {
+      "name": "AS215939",
+      "kind": "autonomous system",
+      "gloss": "An autonomous system network infrastructure utilized to host command and control servers."
+    },
+    {
+      "name": "rmssrv.ru",
+      "kind": "domain name",
+      "gloss": "An internet domain name used for network communications."
+    },
+    {
+      "name": "77.105.132.124",
+      "kind": "ip address",
+      "gloss": "An IPv4 address used as command and control infrastructure."
+    },
+    {
+      "name": "77.105.132.70",
+      "kind": "ip address",
+      "gloss": "An IPv4 address used as command and control infrastructure."
+    },
+    {
+      "name": "188.127.224.64",
+      "kind": "ip address",
+      "gloss": "An IPv4 address identified as network infrastructure in the campaign."
+    },
+    {
+      "name": "Запит.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive distributed via email attachments."
+    },
+    {
+      "name": "Запит документів.pdf.exe",
+      "kind": "file",
+      "gloss": "A malicious executable disguised as a PDF document used to execute AutoIt scripts."
+    },
+    {
+      "name": "Електронний запит.EXE",
+      "kind": "file",
+      "gloss": "A malicious executable that downloads and executes QuasarRAT."
+    },
+    {
+      "name": "Електронний запит Medoc.exe",
+      "kind": "file",
+      "gloss": "A malicious executable that installs the Remote Utilities software."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Запит документів.pdf.exe",
+      "type": "installs-malware",
+      "tail": "RemcosRAT",
+      "evidence": "забезпечує встановлення програми для віддаленого управління RemcosRAT"
+    },
+    {
+      "head": "Електронний запит.EXE",
+      "type": "downloads-payload-from",
+      "tail": "Bitbucket",
+      "evidence": "ініціює завантаження з легітимного сервісу Bitbucket"
+    },
+    {
+      "head": "Електронний запит.EXE",
+      "type": "executes-malware",
+      "tail": "QuasarRAT",
+      "evidence": "ініціює завантаження з легітимного сервісу Bitbucket та запуск шкідливої програми QuasarRAT."
+    },
+    {
+      "head": "Електронний запит Medoc.exe",
+      "type": "installs-software",
+      "tail": "Remote Utilities",
+      "evidence": "призведе до встановлення в системі програми для віддаленого управління Remote Utilities."
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-infrastructure",
+      "tail": "AS215939",
+      "evidence": "сервери управління, розміщені в межах автономної системи AS215939. Активність відстежується за ідентифікатором UAC-0050."
+    },
+    {
+      "head": "UAC-0050",
+      "type": "impersonates-organization",
+      "tail": "Медок",
+      "evidence": "масове розпосюдження листів з темою \"Запит від компанії Медок\""
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "RemcosRAT",
+      "evidence": "забезпечує встановлення програми для віддаленого управління RemcosRAT... Активність відстежується за ідентифікатором UAC-0050."
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "QuasarRAT",
+      "evidence": "запуск шкідливої програми QuasarRAT... Активність відстежується за ідентифікатором UAC-0050."
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "Remote Utilities",
+      "evidence": "встановлення в системі програми для віддаленого управління Remote Utilities... Активність відстежується за ідентифікатором UAC-0050."
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "installs-malware",
+      "definition": "Head executable or script installs the tail malware onto the infected system."
+    },
+    {
+      "name": "downloads-payload-from",
+      "definition": "Head file or script retrieves external files or payloads from the tail hosting service or URL."
+    },
+    {
+      "name": "executes-malware",
+      "definition": "Head executable or command launches the tail malicious program."
+    },
+    {
+      "name": "installs-software",
+      "definition": "Head file installs the tail software package or tool on the system."
+    },
+    {
+      "name": "uses-infrastructure",
+      "definition": "Head threat actor utilizes the tail network resource, autonomous system, or server for malicious operations."
+    },
+    {
+      "name": "impersonates-organization",
+      "definition": "Head threat actor mimics or uses the name of the tail organization as a lure in social engineering attacks."
+    },
+    {
+      "name": "uses-tool",
+      "definition": "Head threat actor employs the tail tool or malware during their operations."
+    }
+  ]
+}

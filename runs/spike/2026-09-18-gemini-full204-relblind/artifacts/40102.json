@@ -1,0 +1,136 @@
+{
+  "docId": 40102,
+  "date": "06.05.2022",
+  "title": "Кібератака групи APT28 із застосуванням шкідливої програми CredoMap_v2 (CERT-UA#4622)",
+  "entities": [
+    {
+      "id": "40102:0",
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40102:1",
+      "name": "APT28 (UAC-0028)",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group affiliated with the GRU.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "related"
+    },
+    {
+      "id": "40102:2",
+      "name": "CredoMap_v2",
+      "kind": "malware family",
+      "gloss": "An information stealer malware that extracts authentication credentials and exfiltrates them over HTTP.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "40102:3",
+      "name": "Pipedream",
+      "kind": "cloud platform",
+      "gloss": "An integration platform used by developers to connect APIs and process webhooks.",
+      "scheme": null,
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "40102:4",
+      "name": "UkrScanner.rar",
+      "kind": "archive file",
+      "gloss": "A password-protected RAR archive used to deliver malicious files in phishing attacks.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "40102:5",
+      "name": "UkrScanner.exe",
+      "kind": "executable file",
+      "gloss": "A self-extracting executable archive containing the CredoMap_v2 malware payload.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "40102:6",
+      "name": "scan.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable file identified as the CredoMap_v2 stealer payload.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "40102:7",
+      "name": "SQLite.Interop.dll",
+      "kind": "software library",
+      "gloss": "A legitimate SQLite interoperability dynamic-link library.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "40102:8",
+      "name": "mariachandran@ginaengg.com",
+      "kind": "email address",
+      "gloss": "An email address used in connection with the phishing campaign.",
+      "scheme": "S14",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "40102:9",
+      "name": "69.16.243.33",
+      "kind": "ip address",
+      "gloss": "An IP address observed as an email relay or connection source in the incident.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "40102:10",
+      "name": "eo2mxtqmeqzafqi.m.pipedream.net",
+      "kind": "domain",
+      "gloss": "A domain name hosted on Pipedream used as an exfiltration endpoint.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "target"
+    }
+  ],
+  "relations": [
+    {
+      "head": "APT28 (UAC-0028)",
+      "type": "associated-with-activity",
+      "tail": "CredoMap_v2",
+      "evidence": "Активність асоційовано з діяльністю групи APT28 (UAC-0028)"
+    },
+    {
+      "head": "UkrScanner.rar",
+      "type": "contains-file",
+      "tail": "UkrScanner.exe",
+      "evidence": "згаданий архів містить одноіменний SFX-файл"
+    },
+    {
+      "head": "UkrScanner.exe",
+      "type": "contains-file",
+      "tail": "CredoMap_v2",
+      "evidence": "SFX-файл, який, у свою чергу, містить шкідливу програму CredoMap_v2"
+    },
+    {
+      "head": "CredoMap_v2",
+      "type": "exfiltrates-data-to-email",
+      "tail": "eo2mxtqmeqzafqi.m.pipedream.net",
+      "evidence": "викрадені автентифікаційні дані надсилаються на веб-ресурс, розгорнутий на платформі Pipedream"
+    }
+  ],
+  "unclassified": [
+    "40102:3",
+    "40102:7"
+  ]
+}

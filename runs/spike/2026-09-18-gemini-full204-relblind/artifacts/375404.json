@@ -1,0 +1,178 @@
+{
+  "docId": 375404,
+  "date": "22.06.2022",
+  "title": "Кібератаки груп, асоційованих з Китаєм, у відношенні російських науково-технічних підприємств та державних органів (CERT-UA#4860)",
+  "entities": [
+    {
+      "id": "375404:0",
+      "name": "Вниманию.doc",
+      "kind": "file name",
+      "gloss": "A malicious RTF document lure used to deliver malware by exploiting MS Office Word vulnerabilities.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "375404:1",
+      "name": "17.06.2022_Протокол_МРГ_Подгруппа_ИБ.doc",
+      "kind": "file name",
+      "gloss": "A malicious RTF document lure masquerading as an information security working group protocol.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "375404:2",
+      "name": "замечания таблица 20.06.2022.doc",
+      "kind": "file name",
+      "gloss": "A malicious RTF document lure used in targeted cyberattacks.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "375404:3",
+      "name": "О_формировании_проекта_ПНС_2022_файл_отображен.doc",
+      "kind": "file name",
+      "gloss": "A malicious RTF document lure related to project planning used in cyber espionage.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "375404:4",
+      "name": "dcnx18pwh.wmf",
+      "kind": "file name",
+      "gloss": "An encrypted WMF file dropped and executed as part of the malware infection chain.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "375404:5",
+      "name": "dcnx18pwh.exe",
+      "kind": "file name",
+      "gloss": "A malicious executable payload dropped during the exploitation process.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "375404:6",
+      "name": "MS Office Word",
+      "kind": "software product",
+      "gloss": "A word processor developed by Microsoft targeted by malicious exploit documents.",
+      "scheme": "S1",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "375404:7",
+      "name": "RoyalRoad",
+      "kind": "malware tool",
+      "gloss": "A weaponizer builder used by various threat actors to generate weaponized RTF documents exploiting Microsoft Word vulnerabilities.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "375404:8",
+      "name": "Bisonal",
+      "kind": "malware family",
+      "gloss": "A remote access trojan associated with Chinese cyber espionage threat actors.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "375404:9",
+      "name": "QuickMute",
+      "kind": "malware family",
+      "gloss": "A C/C++ based malware loader that decrypts via RC4 and executes payloads in memory.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "375404:10",
+      "name": "TontoTeam (UAC-0018)",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage threat group associated with China, also tracked as UAC-0018.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "375404:11",
+      "name": "Китай",
+      "kind": "country",
+      "gloss": "An East Asian sovereign state associated with various state-sponsored cyber espionage groups.",
+      "scheme": "S6",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "375404:12",
+      "name": "російська федерація",
+      "kind": "country",
+      "gloss": "A transcontinental country whose state bodies and aviation/tech enterprises were targeted in this campaign.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "375404:13",
+      "name": "upportteam.lingrevelat.com",
+      "kind": "internet domain",
+      "gloss": "A command-and-control domain used by QuickMute malware.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "375404:14",
+      "name": "lingrevelat.com",
+      "kind": "internet domain",
+      "gloss": "A domain name associated with malicious command-and-control infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "375404:15",
+      "name": "137.220.176.165",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious command-and-control infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "TontoTeam (UAC-0018)",
+      "type": "uses-malware",
+      "tail": "Bisonal",
+      "evidence": "Bisonal, як приклад, є інструментом групи TontoTeam (UAC-0018)"
+    },
+    {
+      "head": "TontoTeam (UAC-0018)",
+      "type": "attributed-to-country",
+      "tail": "Китай",
+      "evidence": "ознак для угруповань, що пов'язують з Китаєм"
+    },
+    {
+      "head": "QuickMute",
+      "type": "communicates-with-c2",
+      "tail": "upportteam.lingrevelat.com",
+      "evidence": "hXXps://upportteam.lingrevelat[.]com/update/v32/default"
+    },
+    {
+      "head": "RoyalRoad",
+      "type": "addresses-vulnerability-in",
+      "tail": "MS Office Word",
+      "evidence": "експлуатацію однієї або декількох відомих вразливостей в MS Office Word (вірогідно, документи створено за допомогою білдера RoyalRoad)"
+    }
+  ],
+  "unclassified": []
+}

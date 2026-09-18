@@ -1,0 +1,184 @@
+{
+  "entities": [
+    {
+      "name": "Intel",
+      "kind": "software vendor",
+      "gloss": "An American multinational corporation and technology company that develops microprocessors and software."
+    },
+    {
+      "name": "Adobe",
+      "kind": "software vendor",
+      "gloss": "An American multinational computer software company known for creative and digital media products."
+    },
+    {
+      "name": "Oracle",
+      "kind": "software vendor",
+      "gloss": "An American multinational computer technology corporation specializing in database software, cloud systems, and enterprise products."
+    },
+    {
+      "name": "VMware",
+      "kind": "software vendor",
+      "gloss": "An American cloud computing and virtualization technology company."
+    },
+    {
+      "name": "Illustrator CC",
+      "kind": "software product",
+      "gloss": "A vector graphics editor and design program developed and marketed by Adobe."
+    },
+    {
+      "name": "Experience Manager",
+      "kind": "software product",
+      "gloss": "A comprehensive enterprise content management solution developed by Adobe."
+    },
+    {
+      "name": "APSB20-03",
+      "kind": "security advisory",
+      "gloss": "A security advisory issued by Adobe addressing vulnerabilities in Illustrator CC."
+    },
+    {
+      "name": "APSB20-01",
+      "kind": "security advisory",
+      "gloss": "A security advisory issued by Adobe addressing vulnerabilities in Experience Manager."
+    },
+    {
+      "name": "VMware Tools",
+      "kind": "software product",
+      "gloss": "A suite of utilities that enhances the performance and management of VMware virtual machines."
+    },
+    {
+      "name": "VMSA-2020-0002",
+      "kind": "security advisory",
+      "gloss": "A security advisory published by VMware addressing vulnerabilities in VMware Tools."
+    },
+    {
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A family of proprietary graphical operating systems developed and marketed by Microsoft."
+    },
+    {
+      "name": "INTEL-SA-00300",
+      "kind": "security advisory",
+      "gloss": "A security advisory published by Intel regarding vulnerabilities in SNMP Subagent Stand-Alone for Windows."
+    },
+    {
+      "name": "INTEL-SA-00306",
+      "kind": "security advisory",
+      "gloss": "A security advisory published by Intel regarding vulnerabilities in Chipset Device Software."
+    },
+    {
+      "name": "INTEL-SA-00308",
+      "kind": "security advisory",
+      "gloss": "A security advisory published by Intel regarding vulnerabilities in RWC 3 for Windows."
+    },
+    {
+      "name": "INTEL-SA-00314",
+      "kind": "security advisory",
+      "gloss": "A security advisory published by Intel regarding vulnerabilities in Processor Graphics."
+    },
+    {
+      "name": "INTEL-SA-00325",
+      "kind": "security advisory",
+      "gloss": "A security advisory published by Intel regarding vulnerabilities in VTune Amplifier for Windows."
+    },
+    {
+      "name": "INTEL-SA-00332",
+      "kind": "security advisory",
+      "gloss": "A security advisory published by Intel regarding vulnerabilities in Intel DAAL."
+    },
+    {
+      "name": "Oracle January 2020 Critical Patch Update",
+      "kind": "security advisory",
+      "gloss": "A quarterly collection of security patches released by Oracle in January 2020."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Adobe",
+      "type": "publishes-advisory",
+      "tail": "APSB20-03",
+      "evidence": "Adobe Illustrator CC APSB20-03"
+    },
+    {
+      "head": "Adobe",
+      "type": "publishes-advisory",
+      "tail": "APSB20-01",
+      "evidence": "Adobe Experience Manager APSB20-01"
+    },
+    {
+      "head": "APSB20-03",
+      "type": "addresses-vulnerability-in",
+      "tail": "Illustrator CC",
+      "evidence": "Adobe випустила оновлення безпеки для усунення вразливостей в Illustrator CC"
+    },
+    {
+      "head": "APSB20-01",
+      "type": "addresses-vulnerability-in",
+      "tail": "Experience Manager",
+      "evidence": "оновлення безпеки для усунення вразливостей в Illustrator CC та Experience Manager"
+    },
+    {
+      "head": "VMware",
+      "type": "publishes-advisory",
+      "tail": "VMSA-2020-0002",
+      "evidence": "Ознайомтесь з VMware Security Advisory VMSA-2020-0002"
+    },
+    {
+      "head": "VMSA-2020-0002",
+      "type": "addresses-vulnerability-in",
+      "tail": "VMware Tools",
+      "evidence": "опубліковано оновлення безпеки для усунення вразливості в VMware Tools"
+    },
+    {
+      "head": "Intel",
+      "type": "publishes-advisory",
+      "tail": "INTEL-SA-00300",
+      "evidence": "Список продуктів Intel із вразливостями та посилань на офіційні рекомендації виробника"
+    },
+    {
+      "head": "Intel",
+      "type": "publishes-advisory",
+      "tail": "INTEL-SA-00306",
+      "evidence": "Chipset Device Software Advisory INTEL-SA-00306"
+    },
+    {
+      "head": "Intel",
+      "type": "publishes-advisory",
+      "tail": "INTEL-SA-00308",
+      "evidence": "RWC 3 for Windows Advisory INTEL-SA-00308"
+    },
+    {
+      "head": "Intel",
+      "type": "publishes-advisory",
+      "tail": "INTEL-SA-00314",
+      "evidence": "Processor Graphics Advisory INTEL-SA-00314"
+    },
+    {
+      "head": "Intel",
+      "type": "publishes-advisory",
+      "tail": "INTEL-SA-00325",
+      "evidence": "VTune Amplifier for Windows Advisory INTEL-SA-00325"
+    },
+    {
+      "head": "Intel",
+      "type": "publishes-advisory",
+      "tail": "INTEL-SA-00332",
+      "evidence": "DAAL Advisory INTEL-SA-00332"
+    },
+    {
+      "head": "Oracle",
+      "type": "publishes-advisory",
+      "tail": "Oracle January 2020 Critical Patch Update",
+      "evidence": "Oracle випустила оновлення Critical Patch 2020 року"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "publishes-advisory",
+      "definition": "The software vendor or organization publishes a security advisory or patch update."
+    },
+    {
+      "name": "addresses-vulnerability-in",
+      "definition": "The security advisory or update provides patches or mitigations for a specific software product."
+    }
+  ]
+}

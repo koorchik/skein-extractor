@@ -1,0 +1,196 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0010",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group also known as Armageddon or Gamaredon."
+    },
+    {
+      "name": "GammaLoad.PS1_v2",
+      "kind": "malware family",
+      "gloss": "A PowerShell-based malware family used by the Armageddon group to collect and exfiltrate screen captures."
+    },
+    {
+      "name": "План Херсон.htm",
+      "kind": "file",
+      "gloss": "A malicious HTM file attachment used to drop an archive onto the victim's machine."
+    },
+    {
+      "name": "Herson.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive containing a shortcut file."
+    },
+    {
+      "name": "План підходу та закладання вибухівки на об'єктах критичної інфростурктури Херсона.lnk",
+      "kind": "file",
+      "gloss": "A malicious LNK shortcut file designed to download and execute an HTA payload."
+    },
+    {
+      "name": "precarious.xml",
+      "kind": "file",
+      "gloss": "A malicious HTA/XML file executed to deploy auxiliary script files."
+    },
+    {
+      "name": "rejection.xml",
+      "kind": "file",
+      "gloss": "A malicious XML/HTA payload hosted on command infrastructure."
+    },
+    {
+      "name": "desktop.txt",
+      "kind": "file",
+      "gloss": "A malicious script file dropped during the compromise chain."
+    },
+    {
+      "name": "user.txt",
+      "kind": "file",
+      "gloss": "A dropped script file associated with the infection chain."
+    },
+    {
+      "name": "get.php",
+      "kind": "file",
+      "gloss": "A malicious script file used for delivering GammaLoad.PS1_v2."
+    },
+    {
+      "name": "Витяг з наказу.htm",
+      "kind": "file",
+      "gloss": "A malicious HTM file used as a phishing attachment."
+    },
+    {
+      "name": "768_08.05.2022.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive file used in phishing operations."
+    },
+    {
+      "name": "Витяг з наказу Генерального штабу Збройних Сил України від 08.05.2022 №768.lnk",
+      "kind": "file",
+      "gloss": "A malicious LNK shortcut file referencing an order from the Ukrainian General Staff."
+    },
+    {
+      "name": "sendmail.website",
+      "kind": "internet domain",
+      "gloss": "An internet domain used in the phishing campaign."
+    },
+    {
+      "name": "a0671524.xsph.ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used to host second-stage payloads."
+    },
+    {
+      "name": "a0667987.xsph.ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used to host payloads such as rejection.xml."
+    },
+    {
+      "name": "qiwardos.ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used to serve malware payloads including get.php."
+    },
+    {
+      "name": "nitikora.ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain associated with threat actor infrastructure."
+    },
+    {
+      "name": "milotraf.ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain associated with threat actor infrastructure."
+    },
+    {
+      "name": "nikotod.ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain associated with threat actor infrastructure."
+    },
+    {
+      "name": "military-ukraine@sendmail.website",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors to distribute phishing emails."
+    },
+    {
+      "name": "coyote@sendmail.website",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors to distribute phishing emails."
+    },
+    {
+      "name": "194.58.121.198",
+      "kind": "ip address",
+      "gloss": "An IP address identified in email headers associated with the campaign."
+    },
+    {
+      "name": "92.53.116.145",
+      "kind": "ip address",
+      "gloss": "An IP address identified in email headers associated with the campaign."
+    },
+    {
+      "name": "216.128.131.233",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious infrastructure."
+    },
+    {
+      "name": "66.42.95.123",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious infrastructure."
+    },
+    {
+      "name": "icanhazip.com",
+      "kind": "internet domain",
+      "gloss": "A legitimate IP lookup service leveraged by malware to determine external IP addresses."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0010",
+      "type": "uses-malware",
+      "tail": "GammaLoad.PS1_v2",
+      "evidence": "В результаті, на комп'ютер буде завантажено шкідливу програму GammaLoad.PS1_v2... Активність здійснюється групою UAC-0010"
+    },
+    {
+      "head": "План Херсон.htm",
+      "type": "delivers",
+      "tail": "Herson.rar",
+      "evidence": "HTM-файл забезпечить декодування і створення на комп'ютері жертви файлу \"Herson.rar\""
+    },
+    {
+      "head": "Herson.rar",
+      "type": "delivers",
+      "tail": "План підходу та закладання вибухівки на об'єктах критичної інфростурктури Херсона.lnk",
+      "evidence": "файлу \"Herson.rar\", який містить файл-ярлик \"План підходу та закладання вибухівки..."
+    },
+    {
+      "head": "План підходу та закладання вибухівки на об'єктах критичної інфростурктури Херсона.lnk",
+      "type": "delivers",
+      "tail": "precarious.xml",
+      "evidence": "LNK-файл у разі його вікдриття забезпечить завантаження і запуск HTA-файлу \"precarious.xml\""
+    },
+    {
+      "head": "precarious.xml",
+      "type": "delivers",
+      "tail": "desktop.txt",
+      "evidence": "HTA-файлу \"precarious.xml\", що призведе до створення та виконання файлів \"desktop.txt\""
+    },
+    {
+      "head": "precarious.xml",
+      "type": "delivers",
+      "tail": "user.txt",
+      "evidence": "HTA-файлу \"precarious.xml\", що призведе до створення та виконання файлів \"desktop.txt\" і \"user.txt\""
+    },
+    {
+      "head": "a0671524.xsph.ru",
+      "type": "hosts",
+      "tail": "precarious.xml",
+      "evidence": "http://a0671524.xsph.ru/bandage/precarious.xml"
+    },
+    {
+      "head": "a0667987.xsph.ru",
+      "type": "hosts",
+      "tail": "rejection.xml",
+      "evidence": "http://a0667987.xsph.ru/preparations/rejection.xml"
+    },
+    {
+      "head": "qiwardos.ru",
+      "type": "hosts",
+      "tail": "get.php",
+      "evidence": "hXXp://qiwardos[.]ru/get.php"
+    }
+  ],
+  "newRelationTypes": []
+}

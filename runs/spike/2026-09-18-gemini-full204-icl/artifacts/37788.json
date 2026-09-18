@@ -1,0 +1,148 @@
+{
+  "docId": 37788,
+  "date": "16.03.2022",
+  "title": "Фішингова кампанія з використанням тематики сервісу UKR.NET та QR-кодів (CERT-UA#4193)",
+  "entities": [
+    {
+      "id": "37788:0",
+      "name": "UKR.NET",
+      "kind": "company",
+      "gloss": "A major Ukrainian internet portal and webmail service provider.",
+      "scheme": "S12",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "37788:1",
+      "name": "Pipedream",
+      "kind": "software product",
+      "gloss": "An integration and workflow automation platform used by developers to connect APIs and handle webhooks.",
+      "scheme": "S2",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "37788:2",
+      "name": "UAC-0028",
+      "kind": "threat actor",
+      "gloss": "A Russian cyber espionage threat group also known as APT28 or Fancy Bear.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "37788:3",
+      "name": "hxxps://tinyurl[.]com/2p8kpb9v",
+      "kind": "uniform resource locator",
+      "gloss": "A shortened URL used in phishing emails to redirect targets to a credential harvesting landing page.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "37788:4",
+      "name": "hxxps://panelunregistertle-348.frge[.]io/",
+      "kind": "uniform resource locator",
+      "gloss": "A phishing web page URL designed to mimic the UKR.NET password reset page.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "37788:5",
+      "name": "hxxps://eoy7zvsvn6xfcmy.m.pipedream[.]net",
+      "kind": "uniform resource locator",
+      "gloss": "A Pipedream webhook endpoint used by attackers to capture exfiltrated user credentials.",
+      "scheme": "S7",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "37788:6",
+      "name": "hxxps://eo9p1d2bfmioiot.m.pipedream[.]net/?usr=",
+      "kind": "uniform resource locator",
+      "gloss": "A Pipedream webhook URL utilized to collect credentials stolen via HTTP POST requests.",
+      "scheme": "S7",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "37788:7",
+      "name": "hxxps://eoiw8lhjwuc3sh2.m.pipedream[.]net",
+      "kind": "uniform resource locator",
+      "gloss": "A Pipedream webhook URL used for receiving exfiltrated credentials in a phishing campaign.",
+      "scheme": "S7",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "37788:8",
+      "name": "panelunregistertle-348.frge[.]io",
+      "kind": "domain name",
+      "gloss": "A domain name hosting a fake UKR.NET password reset phishing page.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "37788:9",
+      "name": "eo9p1d2bfmioiot.m.pipedream[.]net",
+      "kind": "domain name",
+      "gloss": "A Pipedream subdomain used as a backend endpoint to receive stolen user credentials.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "37788:10",
+      "name": "eoiw8lhjwuc3sh2.m.pipedream[.]net",
+      "kind": "domain name",
+      "gloss": "A Pipedream subdomain used by attackers to collect exfiltrated authentication data.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "37788:11",
+      "name": "frge[.]io",
+      "kind": "domain name",
+      "gloss": "A web hosting domain utilized by attackers to host credential phishing landing pages.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0028",
+      "type": "uses",
+      "tail": "Pipedream",
+      "evidence": "веб-ресурс, розгорнутий зловмисниками на платформі Pipedream"
+    },
+    {
+      "head": "hxxps://panelunregistertle-348.frge[.]io/",
+      "type": "part-of",
+      "tail": "panelunregistertle-348.frge[.]io",
+      "evidence": "hxxps://panelunregistertle-348.frge[.]io/"
+    },
+    {
+      "head": "panelunregistertle-348.frge[.]io",
+      "type": "part-of",
+      "tail": "frge[.]io",
+      "evidence": "panelunregistertle-348.frge[.]io"
+    },
+    {
+      "head": "hxxps://eo9p1d2bfmioiot.m.pipedream[.]net/?usr=",
+      "type": "part-of",
+      "tail": "eo9p1d2bfmioiot.m.pipedream[.]net",
+      "evidence": "hxxps://eo9p1d2bfmioiot.m.pipedream[.]net/?usr="
+    },
+    {
+      "head": "hxxps://eoiw8lhjwuc3sh2.m.pipedream[.]net",
+      "type": "part-of",
+      "tail": "eoiw8lhjwuc3sh2.m.pipedream[.]net",
+      "evidence": "hxxps://eoiw8lhjwuc3sh2.m.pipedream[.]net"
+    }
+  ],
+  "unclassified": []
+}

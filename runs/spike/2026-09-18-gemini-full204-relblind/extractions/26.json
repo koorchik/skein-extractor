@@ -1,0 +1,38 @@
+{
+  "entities": [
+    {
+      "name": "moz_ukraine@i.ua",
+      "kind": "email address",
+      "gloss": "An email address used to send phishing messages impersonating official communications."
+    },
+    {
+      "name": "Міністерство охорони здоров’я",
+      "kind": "government body",
+      "gloss": "The central executive body of Ukraine responsible for public healthcare."
+    },
+    {
+      "name": "VirusTotal",
+      "kind": "online service",
+      "gloss": "A free online service that analyzes files and URLs to detect malware and suspicious content."
+    },
+    {
+      "name": "MS Office",
+      "kind": "software suite",
+      "gloss": "A suite of productivity software applications developed by Microsoft."
+    }
+  ],
+  "relations": [
+    {
+      "head": "moz_ukraine@i.ua",
+      "type": "impersonates",
+      "tail": "Міністерство охорони здоров’я",
+      "evidence": "листи з нібито офіційних поштових скриньок (наприклад, moz_ukraine@i.ua)... атрибути офіційних документів Міністерства охорони здоров’я"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "impersonates",
+      "definition": "Indicates that an entity falsely presents itself as or mimics the identity of another entity."
+    }
+  ]
+}

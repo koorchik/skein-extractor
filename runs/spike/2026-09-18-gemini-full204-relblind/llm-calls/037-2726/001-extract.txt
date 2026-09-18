@@ -1,0 +1,160 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p>21.03.2018 здійснювалась розсилка повідомлень із шкідливим Javascript.</p><p>Приклад повідомлень:</p><p></p><p>У вкладеному архіві anketa_21_3_2018 (4).zip міститься шкідливий Javascript: anketa_21_3_2018 (4).js. Також, було виявлено поширення повідомлень з таким Javascript, але, вкладених в архів documents (5).zip з назвою шкідливого Javascipt documents (5).js відповідно.</p><p>&nbsp;</p><p>Сам Javascript складно обфускований, в декілька етапів.</p><p></p><p></p><p>В результаті аналізу встановлено, що Javascript за допомогою ADODB.Stream записує потік даних з сайту&nbsp;<strong>hxxp://chernilis.win/filename94.bin?ff1</strong>&nbsp;у виконуваний файл за адресою&nbsp;<strong>C:\Users\&lt;username&gt;\AppData\Local\Temp\62ea.exe</strong>. Таким чином, вірус не скачується явно, а одразу створює шкідливий виконуваний файл в директорії \Temp.</p><p>Даний вірус є Ursnif(або Gozi), що використовується для викрадання даних. Троян запакований і в процесі ініціалізації інфікує процес explorer.exe. В інфікованому коді пропущені деякі частини PE заголовка(MZ, PE) для ускладнення аналізу.</p><p></p><p>Далі вірус з’єднується з адресами 35.189.126.95, 119.28.108.16, 86.59.21.38.</p><p>MD5 hash:</p><p>62ea.exe: a42463a23c46eedbf333a865aef352ef</p><p>anketa_21_3_2018 (4).js: 02117b91d46b41ee9440d4bb2cb1da8d</p><p>documents (5).js: ede1f7d8678926004d3416a6c65caeca</p><p>Рекомендації CERT-UA:</p><ol><li>Обмежте можливості користувачів щодо встановлення та запуску небажаних програмних застосувань для всіх систем та служб. Обмеження цих привілегій може запобігти запуску шкідливих програм;</li><li><br></li><li>Оновіть антивірусне програмне забезпечення та запустіть сканування;</li><li><br></li><li>Уникайте повідомлень вказаного змісту та застережіть персонал від запуску даних Javascript файлів;</li><li><br></li><li>Забезпечте моніторинг мережевого обладнання на факт звертання до підозрілих адрес.</li></ol>
+
+=== RESPONSE (6.2s, in 1596 / out 1424 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "anketa_21_3_2018 (4).zip",
+      "kind": "malicious archive file",
+      "gloss": "A malicious ZIP archive distributed as an email attachment containing a malicious JavaScript script."
+    },
+    {
+      "name": "anketa_21_3_2018 (4).js",
+      "kind": "malicious script file",
+      "gloss": "An obfuscated malicious JavaScript file designed to download and drop executable malware."
+    },
+    {
+      "name": "documents (5).zip",
+      "kind": "malicious archive file",
+      "gloss": "A malicious ZIP archive distributed in phishing emails containing a malicious JavaScript dropper."
+    },
+    {
+      "name": "documents (5).js",
+      "kind": "malicious script file",
+      "gloss": "An obfuscated malicious JavaScript file used to download and execute secondary malware payloads."
+    },
+    {
+      "name": "ADODB.Stream",
+      "kind": "software component",
+      "gloss": "A COM object in Microsoft Windows used for reading and writing binary data streams."
+    },
+    {
+      "name": "hxxp://chernilis.win/filename94.bin?ff1",
+      "kind": "url",
+      "gloss": "A malicious URL hosting a binary payload downloaded by the dropper script."
+    },
+    {
+      "name": "62ea.exe",
+      "kind": "malicious executable file",
+      "gloss": "A malicious Windows executable file dropped into the user Temp directory containing the Ursnif banking Trojan."
+    },
+    {
+      "name": "Ursnif",
+      "kind": "malware family",
+      "gloss": "A banking Trojan and data-theft malware family also known as Gozi."
+    },
+    {
+      "name": "explorer.exe",
+      "kind": "system executable file",
+      "gloss": "The core Windows shell executable file frequently targeted for process injection by malware."
+    },
+    {
+      "name": "35.189.126.95",
+      "kind": "ip address",
+      "gloss": "An IP address acting as command and control infrastructure for the Ursnif Trojan."
+    },
+    {
+      "name": "119.28.108.16",
+      "kind": "ip address",
+      "gloss": "An IP address contacted by the Ursnif malware for command and control communication."
+    },
+    {
+      "name": "86.59.21.38",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications by the Ursnif malware."
+    }
+  ],
+  "relations": [
+    {
+      "head": "anketa_21_3_2018 (4).zip",
+      "type": "contains-file",
+      "tail": "anketa_21_3_2018 (4).js",
+      "evidence": "У вкладеному архіві anketa_21_3_2018 (4).zip міститься шкідливий Javascript: anketa_21_3_2018 (4).js"
+    },
+    {
+      "head": "documents (5).zip",
+      "type": "contains-file",
+      "tail": "documents (5).js",
+      "evidence": "вкладених в архів documents (5).zip з назвою шкідливого Javascipt documents (5).js"
+    },
+    {
+      "head": "62ea.exe",
+      "type": "is-instance-of",
+      "tail": "Ursnif",
+      "evidence": "Даний вірус є Ursnif(або Gozi)"
+    },
+    {
+      "head": "Ursnif",
+      "type": "injects-into-process",
+      "tail": "explorer.exe",
+      "evidence": "інфікує процес explorer.exe"
+    },
+    {
+      "head": "Ursnif",
+      "type": "communicates-with-c2",
+      "tail": "35.189.126.95",
+      "evidence": "вірус з’єднується з адресами 35.189.126.95"
+    },
+    {
+      "head": "Ursnif",
+      "type": "communicates-with-c2",
+      "tail": "119.28.108.16",
+      "evidence": "вірус з’єднується з адресами 35.189.126.95, 119.28.108.16"
+    },
+    {
+      "head": "Ursnif",
+      "type": "communicates-with-c2",
+      "tail": "86.59.21.38",
+      "evidence": "вірус з’єднується з адресами 35.189.126.95, 119.28.108.16, 86.59.21.38"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "contains-file",
+      "definition": "The source archive or container file contains the target extracted file."
+    },
+    {
+      "name": "is-instance-of",
+      "definition": "The source file or artifact is an identified sample of the target malware family."
+    },
+    {
+      "name": "injects-into-process",
+      "definition": "The source malware family or executable injects its code into or compromises the target system process."
+    },
+    {
+      "name": "communicates-with-c2",
+      "definition": "The source malware connects to the target IP address or server for command, control, or data exfiltration."
+    }
+  ]
+}

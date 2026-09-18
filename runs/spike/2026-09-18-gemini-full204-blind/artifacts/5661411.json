@@ -1,0 +1,229 @@
+{
+  "docId": 5661411,
+  "date": "31.08.2023",
+  "title": "Кібератака UAC-0057: експлойт для CVE-2023-38831, JavaScript-варіація PicassoLoader, алгоритм Rabbit та Cobalt Strike Beacon (CERT-UA#7435)",
+  "entities": [
+    {
+      "id": "5661411:0",
+      "name": "UAC-0057",
+      "kind": "threat actor",
+      "gloss": "A threat actor group known for conducting cyberespionage operations against Ukrainian targets.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "5661411:1",
+      "name": "CVE-2023-38831",
+      "kind": "vulnerability identifier",
+      "gloss": "A vulnerability in WinRAR allowing code execution when attempting to view benign files within a specially crafted archive.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "5661411:2",
+      "name": "WinRAR",
+      "kind": "software product",
+      "gloss": "A widely used file archiver and compression tool for Windows.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "5661411:3",
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware family",
+      "gloss": "A post-exploitation payload associated with the commercial penetration testing tool Cobalt Strike.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "5661411:4",
+      "name": "PicassoLoader",
+      "kind": "malware family",
+      "gloss": "A malware loader used to decode and execute embedded or remotely fetched payloads.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "5661411:5",
+      "name": "mshta.exe",
+      "kind": "software product",
+      "gloss": "A Windows utility used to execute Microsoft HTML Application (HTA) files.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "5661411:6",
+      "name": "Збірник_тез_НУОУ_23.rar",
+      "kind": "file name",
+      "gloss": "A malicious RAR archive exploiting CVE-2023-38831 to initiate an infection chain.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5661411:7",
+      "name": "16872_16_2023_03049.pdf .cmd",
+      "kind": "file name",
+      "gloss": "A malicious batch script extracted and executed via the WinRAR vulnerability exploit.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5661411:8",
+      "name": "16872_16_2023_03049.lnk",
+      "kind": "file name",
+      "gloss": "A malicious Windows shortcut file used to launch an embedded HTA payload.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5661411:9",
+      "name": "16872_16_2023_03049.hta",
+      "kind": "file name",
+      "gloss": "A malicious HTML application script executed during the infection chain.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5661411:10",
+      "name": "16872_16_2023_03049.pdf",
+      "kind": "file name",
+      "gloss": "A decoy PDF document dropped to mislead the victim during the attack.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5661411:11",
+      "name": "sdfhui2kjd.js",
+      "kind": "file name",
+      "gloss": "A JavaScript loader file implementing PicassoLoader functionality.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5661411:12",
+      "name": "113-1131910-clipart.svg",
+      "kind": "file name",
+      "gloss": "An SVG image file hosting encrypted malware payload data.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "5661411:13",
+      "name": "mokpp9342jktihh.dll",
+      "kind": "file name",
+      "gloss": "A malicious .NET DLL decrypted from the SVG image file.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5661411:14",
+      "name": "regsvr.dll",
+      "kind": "file name",
+      "gloss": "An encrypted dynamic link library containing the Cobalt Strike Beacon payload.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5661411:15",
+      "name": "regsvr.decrypted.dll",
+      "kind": "file name",
+      "gloss": "A decrypted dynamic link library containing the Cobalt Strike Beacon payload.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5661411:16",
+      "name": "topibuzz.space",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious infrastructure in the campaign.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "5661411:17",
+      "name": "windacarmelita.pw",
+      "kind": "internet domain",
+      "gloss": "A domain used to host the malicious SVG file carrying the payload.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "5661411:18",
+      "name": "oksanagolub93@proton.me",
+      "kind": "e-mail address",
+      "gloss": "An email address used to register malicious domain infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5661411:19",
+      "name": "62.3.12.123",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the threat actor's infrastructure.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5661411:20",
+      "name": "31.192.234.194",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the threat actor's infrastructure.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0057",
+      "type": "exploits",
+      "tail": "CVE-2023-38831",
+      "evidence": "кібератаку угрупування UAC-0057. Так, виявлено файл \"Збірник_тез_НУОУ_23.rar\", що містить експлойт для вразливості CVE-2023-38831"
+    },
+    {
+      "head": "UAC-0057",
+      "type": "uses-malware",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "забезпечить ураження ЕОМ програмою Cobalt Strike Beacon"
+    },
+    {
+      "head": "UAC-0057",
+      "type": "uses-malware",
+      "tail": "PicassoLoader",
+      "evidence": "варіантом реалізації функціоналу раніше використовуваного лоадеру PicassoLoader"
+    },
+    {
+      "head": "CVE-2023-38831",
+      "type": "affects",
+      "tail": "WinRAR",
+      "evidence": "експлуатацію вразливості CVE-2023-38831 у програмному забезпеченні WinRAR"
+    },
+    {
+      "head": "windacarmelita.pw",
+      "type": "hosts",
+      "tail": "113-1131910-clipart.svg",
+      "evidence": "windacarmelita[.]pw/picdir/big/113-1131910-clipart.svg"
+    }
+  ],
+  "unclassified": []
+}

@@ -1,0 +1,106 @@
+{
+  "entities": [
+    {
+      "name": "Adobe",
+      "kind": "software vendor",
+      "gloss": "An American multinational computer software company."
+    },
+    {
+      "name": "Flash Player",
+      "kind": "software product",
+      "gloss": "A deprecated multimedia software platform developed by Adobe."
+    },
+    {
+      "name": "Framemaker",
+      "kind": "software product",
+      "gloss": "A document processing software application developed by Adobe."
+    },
+    {
+      "name": "Acrobat Reader",
+      "kind": "software product",
+      "gloss": "A software application for viewing and printing PDF documents developed by Adobe."
+    },
+    {
+      "name": "Reader DC",
+      "kind": "software product",
+      "gloss": "A cloud-integrated version of Adobe's PDF reading and management software."
+    },
+    {
+      "name": "Adobe Digital Edition",
+      "kind": "software product",
+      "gloss": "An e-book reader software program produced by Adobe Systems."
+    },
+    {
+      "name": "Experience Manager",
+      "kind": "software product",
+      "gloss": "A comprehensive content management and digital asset management solution by Adobe."
+    },
+    {
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A family of proprietary graphical operating systems developed by Microsoft."
+    },
+    {
+      "name": "Mac",
+      "kind": "operating system",
+      "gloss": "A proprietary graphical operating system developed by Apple for Mac computers."
+    },
+    {
+      "name": "Linux",
+      "kind": "operating system",
+      "gloss": "An open-source Unix-like operating system based on the Linux kernel."
+    },
+    {
+      "name": "CVE-2020-3757",
+      "kind": "vulnerability identifier",
+      "gloss": "A vulnerability identifier for a critical arbitrary code execution flaw in Adobe Flash Player."
+    },
+    {
+      "name": "CVE-2020-3760",
+      "kind": "vulnerability identifier",
+      "gloss": "A vulnerability identifier for a critical command injection flaw in Adobe Digital Editions."
+    },
+    {
+      "name": "CVE-2020-3759",
+      "kind": "vulnerability identifier",
+      "gloss": "A vulnerability identifier for an information disclosure flaw in Adobe Digital Editions."
+    },
+    {
+      "name": "CVE-2020-3741",
+      "kind": "vulnerability identifier",
+      "gloss": "A vulnerability identifier for a denial-of-service flaw in Adobe Experience Manager."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2020-3757",
+      "type": "affects-software",
+      "tail": "Flash Player",
+      "evidence": "CVE-2020-3757 критична вразливість Flash Player"
+    },
+    {
+      "head": "CVE-2020-3760",
+      "type": "affects-software",
+      "tail": "Adobe Digital Edition",
+      "evidence": "CVE-2020-3760 критична вразливість у Adobe Digital Edition"
+    },
+    {
+      "head": "CVE-2020-3759",
+      "type": "affects-software",
+      "tail": "Adobe Digital Edition",
+      "evidence": "CVE-2020-3759 вразливість високого рівня у Adobe Digital Edition"
+    },
+    {
+      "head": "CVE-2020-3741",
+      "type": "affects-software",
+      "tail": "Experience Manager",
+      "evidence": "CVE-2020-3741 вразливість високого рівня у Experience Manager"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "affects-software",
+      "definition": "Identifies the software product or system impacted by a specific security vulnerability."
+    }
+  ]
+}

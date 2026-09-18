@@ -1,0 +1,45 @@
+{
+  "docId": 6282069,
+  "date": "17.01.2025",
+  "title": "Спроби здійснення кібератак з використанням AnyDesk, нібито, від імені CERT-UA",
+  "entities": [
+    {
+      "id": "6282069:0",
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6282069:1",
+      "name": "AnyDesk",
+      "kind": "remote desktop software",
+      "gloss": "A proprietary remote desktop application enabling remote access and management of computer systems.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6282069:2",
+      "name": "1518341498",
+      "kind": "account identifier",
+      "gloss": "An AnyDesk client identifier used by threat actors to initiate unauthorized remote connection requests.",
+      "scheme": null,
+      "category": null,
+      "role": "attacker"
+    }
+  ],
+  "relations": [
+    {
+      "head": "1518341498",
+      "type": "operates-via-software",
+      "tail": "AnyDesk",
+      "evidence": "ідентифікатор AnyDesk \"1518341498\""
+    }
+  ],
+  "unclassified": [
+    "6282069:2"
+  ]
+}

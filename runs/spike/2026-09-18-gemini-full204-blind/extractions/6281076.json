@@ -1,0 +1,110 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0215",
+      "kind": "threat actor",
+      "gloss": "A threat activity group tracked by CERT-UA targeting Ukrainian organizations using malicious RDP configuration files."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose public and private sectors were targeted in cyber operations."
+    },
+    {
+      "name": "Amazon",
+      "kind": "software vendor",
+      "gloss": "An American multinational technology company focusing on cloud computing, e-commerce, and digital streaming."
+    },
+    {
+      "name": "Microsoft",
+      "kind": "software vendor",
+      "gloss": "An American multinational corporation that develops computer software, consumer electronics, and related services."
+    },
+    {
+      "name": "RDP",
+      "kind": "network protocol",
+      "gloss": "A proprietary protocol developed by Microsoft providing a user with a graphical interface to connect to another computer."
+    },
+    {
+      "name": "mstsc.exe",
+      "kind": "software product",
+      "gloss": "The built-in Microsoft Remote Desktop client executable for establishing remote desktop connections."
+    },
+    {
+      "name": "Zero Trust Architecture Configuration.rdp",
+      "kind": "malicious file",
+      "gloss": "A malicious RDP configuration file used to initiate unauthorized remote desktop connections to attacker infrastructure."
+    },
+    {
+      "name": "ZTS Device Compatibility Test.rdp",
+      "kind": "malicious file",
+      "gloss": "A malicious RDP configuration file used to connect client systems to threat actor servers."
+    },
+    {
+      "name": "Device Configuration Verification.rdp",
+      "kind": "malicious file",
+      "gloss": "A malicious RDP configuration file distributed via phishing emails."
+    },
+    {
+      "name": "Device Security Requirements Check.rdp",
+      "kind": "malicious file",
+      "gloss": "A malicious RDP file used to initiate outbound RDP connections."
+    },
+    {
+      "name": "Zero Trust Security Environment Compliance Check.rdp",
+      "kind": "malicious file",
+      "gloss": "A malicious RDP configuration file leveraging Zero Trust themes for lure purposes."
+    },
+    {
+      "name": "AWS IAM Quick Start.rdp",
+      "kind": "malicious file",
+      "gloss": "A malicious RDP configuration file themed around Amazon Web Services Identity and Access Management."
+    },
+    {
+      "name": "AWS IAM Configuration.rdp",
+      "kind": "malicious file",
+      "gloss": "A malicious RDP configuration file disguised as an AWS IAM setup file."
+    },
+    {
+      "name": "AWS IAM Compliance Check.rdp",
+      "kind": "malicious file",
+      "gloss": "A malicious RDP configuration file used by attackers to gain remote access to victim hosts."
+    },
+    {
+      "name": "yulia.antonenko@townoflakelure.com",
+      "kind": "email address",
+      "gloss": "A sender email address used in the phishing campaign."
+    },
+    {
+      "name": "alexandra.gerst@townoflakelure.com",
+      "kind": "email address",
+      "gloss": "A sender email address used in the distribution of malicious emails."
+    },
+    {
+      "name": "oleksii.myronov@townoflakelure.com",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator of cyber threats."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0215",
+      "type": "delivers",
+      "tail": "Zero Trust Architecture Configuration.rdp",
+      "evidence": "Описана активність відстежується за ідентифікатором UAC-0215."
+    },
+    {
+      "head": "UAC-0215",
+      "type": "delivers",
+      "tail": "AWS IAM Quick Start.rdp",
+      "evidence": "Описана активність відстежується за ідентифікатором UAC-0215."
+    },
+    {
+      "head": "yulia.antonenko@townoflakelure.com",
+      "type": "delivers",
+      "tail": "Zero Trust Architecture Configuration.rdp",
+      "evidence": "розповсюдження серед органів державної влади... електронних листів"
+    }
+  ],
+  "newRelationTypes": []
+}

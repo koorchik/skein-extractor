@@ -1,0 +1,133 @@
+{
+  "docId": 619229,
+  "date": "06.07.2022",
+  "title": "Кібератака UAC-0056 на державні організації України з використанням Cobalt Strike Beacon (CERT-UA#4914)",
+  "entities": [
+    {
+      "id": "619229:0",
+      "name": "UAC-0056",
+      "kind": "hacking group",
+      "gloss": "A cyber espionage threat group known for targeting Ukrainian entities.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": null
+    },
+    {
+      "id": "619229:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "619229:2",
+      "name": "Інформація щодо наявності вакансій та їх укомплектування.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet used as an email attachment to trigger malware execution.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "619229:3",
+      "name": "write.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable dropper that extracts and executes subsequent payload files.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "619229:4",
+      "name": "%PROGRAMDATA%\\TRYxaEbX",
+      "kind": "malicious file",
+      "gloss": "An encrypted payload dropped on disk and decrypted using RC4.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "619229:5",
+      "name": "TRYxaEbX.ps1",
+      "kind": "malicious file",
+      "gloss": "A malicious PowerShell script that bypasses AMSI and decodes the next stage script.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "619229:6",
+      "name": "TRYxaEbX_2.ps1",
+      "kind": "malicious file",
+      "gloss": "A malicious PowerShell script responsible for executing Cobalt Strike Beacon.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "619229:7",
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware family",
+      "gloss": "A post-exploitation agent and payload of the Cobalt Strike framework.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "619229:8",
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft.",
+      "scheme": "S1",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "619229:9",
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A family of proprietary graphical operating systems developed by Microsoft.",
+      "scheme": "S2",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "619229:10",
+      "name": "skreatortemp[.]site",
+      "kind": "internet domain",
+      "gloss": "A malicious domain name used for command and control infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Інформація щодо наявності вакансій та їх укомплектування.xls",
+      "type": "drops-and-executes",
+      "tail": "write.exe",
+      "evidence": "призведе до створення на комп'ютері та запуску файлу \"write.exe\""
+    },
+    {
+      "head": "write.exe",
+      "type": "creates-file",
+      "tail": "%PROGRAMDATA%\\TRYxaEbX",
+      "evidence": "забезпечуючи створення на диску файлу \"%PROGRAMDATA%\\TRYxaEbX\""
+    },
+    {
+      "head": "write.exe",
+      "type": "executes",
+      "tail": "PowerShell",
+      "evidence": "подальший запуск PowerShell-скрипта"
+    },
+    {
+      "head": "TRYxaEbX_2.ps1",
+      "type": "executes",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "забезпечить виконання шкідливої програми Cobalt Strike Beacon"
+    }
+  ],
+  "unclassified": []
+}

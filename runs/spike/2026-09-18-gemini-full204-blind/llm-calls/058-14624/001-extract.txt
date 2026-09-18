@@ -1,0 +1,191 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+- uses-malware: A threat actor utilizes or deploys a specific malware tool or family in their operations.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p class="ql-align-justify">Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA спільно з НКЦК РНБО вживаються заходи з блокування шахрайських ресурсів, які використовуються для викрадення даних платіжних карток громадян України.</p><p class="ql-align-justify"><strong>Опис шахрайської схеми:</strong></p><p class="ql-align-justify">1. Зловмисниками створено сторінку «UA Blog» в FaceBook (https://www.facebook.com/UA-Blog-109023171478152/) для проведення реклами шахрайства (Рис.1).</p><p class="ql-align-justify"></p><p class="ql-align-justify">Рис.1 FaceBook сторінка шахраїв</p><p class="ql-align-justify"></p><p class="ql-align-justify">Рис.2 Реклама шахраїв</p><p class="ql-align-justify">&nbsp;</p><p class="ql-align-justify">Рис.3 Реклама шахраїв</p><p class="ql-align-justify">2. В рекламних оголошеннях повідомляється про те, що за проходження опитування буде здійснена виплата не менше 16500 грн, чим шахраї заманюють людей перейти за посиланням <span style="color: windowtext;">hXXps://airmauritiusticket.com (Рис.2, Рис.3)</span>.</p><p class="ql-align-justify">Тут потрібно відзначити, що при переході за посиланням <span style="color: windowtext;">hXXps://airmauritiusticket.com з ІР-адреси, яка не належить українському сегменту мережі Інтернет, користувачу відкривається саме цей сайт, який є погано зробленим фейком сайту ТСН (Рис.4).</span></p><p class="ql-align-justify"></p><p class="ql-align-justify">Рис.4 Фейковий сайт <span style="background-color: rgb(255, 255, 255); color: windowtext;">airmauritiusticket.com</span></p><p class="ql-align-justify">Фішинговий сайт <span style="color: windowtext;">airmauritiusticket.com розміщено в РФ за ІР-адресою 92.63.103.235 (Рис.5).</span></p><p class="ql-align-justify"><span style="color: windowtext;">&nbsp;</span></p><p class="ql-align-justify">Рис.5 Розміщення сайту <span style="color: rgb(0, 0, 0);">airmauritiusticket.com</span></p><p class="ql-align-justify">3. Але якщо переходити на сайт <span style="color: windowtext;">airmauritiusticket.com з ІР-адреси України, буде здійснено перенаправлення на інший сайт </span>hХХps://gangbang6.monster/m4hp2k, на якому користувачам пропонується пройти опитування для того щоб отримати гроші (Рис.6).</p><p class="ql-align-justify">Сайт розміщено за CloudFlare.</p><p class="ql-align-justify"></p><p class="ql-align-justify">Рис.6 Сайт gangbang6.monster/m4hp2k</p><p class="ql-align-justify">4. При натисканні на кнопку «ОТРИМАТИ ГРОЩІ» відбувається перенаправлення на сайт hХХps://great-surveys.top/internal-account.php, ІР-адреса 165.227.174.93, Німеччина (Рис.7).</p><p class="ql-align-justify"></p><p class="ql-align-justify">Рис.7 Розміщення сайту gangbang6.monster/m4hp2k та accept-pay.top</p><p class="ql-align-justify">5. На цьому вже російськомовному сайті розміщено сам «опитувальник», після проходження якого, жертві повідомляють, що вона отримала велику суму коштів, яка готова для відправки але за отримання коштів потрібно заплатити невелику суму у розмірі 138 грн (Рис.8).</p><p class="ql-align-justify"></p><p class="ql-align-justify">Рис.8 Повідомлення про виграш коштів</p><p class="ql-align-justify">На шахрайському сайті навіть створені фейкові коментарі з подяками, питанням та відповідями служби підтримки, для того щоб жертва подумала, що люди реально відправляють та отримують кошти за допомогою цього сайту (Рис.9).</p><p class="ql-align-justify"></p><p class="ql-align-justify">Рис.9 Фейкові коментарі</p><p class="ql-align-justify">6. При натисканні на кнопку для виконання платежу, виконується перенаправлення на сайт hххps://accept-pay.top/?am=138&amp;who=11&amp;sub=, який знаходиться на тій же ІР-адресі (Рис.7). Цей сайт представляє з себе фішингову форму для викрадення даних платіжних карток (Рис.10).</p><p class="ql-align-justify"></p><p class="ql-align-justify">Рис.10 Фішинговий сайт hххps://accept-pay.top/?am=138&amp;who=11&amp;sub=</p><p class="ql-align-justify">Жертва з метою отримання великих грошей вводить реквізити своєї платіжної картки на невідомому сайті, після чого відкривається вікно помилки транзакції а дані направляються до зловмисників. Далі відбувається викрадення коштів з платіжних карток жертв.</p><p class="ql-align-justify"></p><p class="ql-align-justify">Рис.11 Начебто помилка транзакції</p><p class="ql-align-justify"><strong>Рекомендації</strong></p><p class="ql-align-justify">1. Якщо Ви ввели дані своєї платіжної картки на зазначеному фішинговому сайті потрібно НЕГАЙНО заблокувати платіжну картку звернувшись за телефоном гарячої лінії Вашого банку (вказаний на звороті картки) або через інтернет-банкінг та звернутися до Кіберполіції <a href="https://ticket.cyberpolice.gov.ua" rel="noopener noreferrer" target="_blank">https://ticket.cyberpolice.gov.ua</a>.</p><p class="ql-align-justify">2. Ніколи не вводьте реквізити платіжних карток на незнайомих та підозрілих сайтах та налаштуйте контроль руху коштів (підключіть SMS-інформування та встановіть ліміти стосовно операцій з вашою платіжною карткою)</p><p class="ql-align-justify">3. Скористайтесь основними порадами платіжної безпеки Національного банку України <a href="https://bank.gov.ua/promo/stopfraud/" rel="noopener noreferrer" target="_blank">https://bank.gov.ua/promo/stopfraud/</a></p><p class="ql-align-justify">та правилами кібергігієни <a href="https://cert.gov.ua/recommendation/3" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/recommendation/3</a>1</p><p class="ql-align-justify"><strong>Індикатори компрометації:</strong></p><p><strong>Domains:</strong></p><p>airmauritiusticket.com</p><p>gangbang6.monster</p><p>great-surveys.top</p><p>accept-pay.top</p>
+
+=== RESPONSE (7.0s, in 3055 / out 1500 tok, STOP) ===
+The report describes a fraudulent scheme targeting Ukrainian citizens to steal payment card data. Threat actors set up a Facebook page named "UA Blog" to promote fake surveys promising cash rewards. The ads redirect victims through several domains (airmauritiusticket.com, gangbang6.monster, great-surveys.top) and finally to a phishing form on accept-pay.top, which captures payment card credentials. Infrastructure used in the scheme includes IP addresses located in Russia and Germany, and services behind CloudFlare.
+
+{
+  "entities": [
+    {
+      "name": "НКЦК РНБО",
+      "kind": "government body",
+      "gloss": "The National Cybersecurity Coordination Center of the National Security and Defense Council of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "FaceBook",
+      "kind": "social media platform",
+      "gloss": "An online social media and networking service."
+    },
+    {
+      "name": "UA Blog",
+      "kind": "social media page",
+      "gloss": "A Facebook page created by attackers to advertise fraudulent survey schemes."
+    },
+    {
+      "name": "airmauritiusticket.com",
+      "kind": "internet domain",
+      "gloss": "A fraudulent domain masquerading as a news website and redirecting users to scam pages."
+    },
+    {
+      "name": "ТСН",
+      "kind": "news service",
+      "gloss": "A Ukrainian television news service whose website was spoofed in fraudulent campaigns."
+    },
+    {
+      "name": "РФ",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "92.63.103.235",
+      "kind": "ip address",
+      "gloss": "An IP address located in Russia used to host a fraudulent domain."
+    },
+    {
+      "name": "gangbang6.monster",
+      "kind": "internet domain",
+      "gloss": "A domain used to present fraudulent surveys to Ukrainian users."
+    },
+    {
+      "name": "CloudFlare",
+      "kind": "cloud service provider",
+      "gloss": "A cloud network and security company providing CDN and reverse proxy services."
+    },
+    {
+      "name": "great-surveys.top",
+      "kind": "internet domain",
+      "gloss": "A fraudulent domain hosting fake survey questionnaires to deceive victims."
+    },
+    {
+      "name": "165.227.174.93",
+      "kind": "ip address",
+      "gloss": "An IP address located in Germany hosting fraudulent survey and payment phishing domains."
+    },
+    {
+      "name": "Німеччина",
+      "kind": "country",
+      "gloss": "A country in Central Europe."
+    },
+    {
+      "name": "accept-pay.top",
+      "kind": "internet domain",
+      "gloss": "A phishing domain hosting a fake payment form designed to harvest payment card data."
+    },
+    {
+      "name": "Кіберполіція",
+      "kind": "law enforcement body",
+      "gloss": "The cybercrime department of the National Police of Ukraine."
+    },
+    {
+      "name": "Національний банк України",
+      "kind": "central bank",
+      "gloss": "The central bank of Ukraine responsible for monetary policy and financial system stability."
+    }
+  ],
+  "relations": [
+    {
+      "head": "НКЦК РНБО",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "НКЦК РНБО"
+    },
+    {
+      "head": "UA Blog",
+      "type": "part-of",
+      "tail": "FaceBook",
+      "evidence": "створено сторінку «UA Blog» в FaceBook"
+    },
+    {
+      "head": "92.63.103.235",
+      "type": "located-in",
+      "tail": "РФ",
+      "evidence": "розміщено в РФ за ІР-адресою 92.63.103.235"
+    },
+    {
+      "head": "92.63.103.235",
+      "type": "hosts",
+      "tail": "airmauritiusticket.com",
+      "evidence": "Фішинговий сайт airmauritiusticket.com розміщено в РФ за ІР-адресою 92.63.103.235"
+    },
+    {
+      "head": "165.227.174.93",
+      "type": "located-in",
+      "tail": "Німеччина",
+      "evidence": "ІР-адреса 165.227.174.93, Німеччина"
+    },
+    {
+      "head": "165.227.174.93",
+      "type": "hosts",
+      "tail": "great-surveys.top",
+      "evidence": "great-surveys.top/internal-account.php, ІР-адреса 165.227.174.93"
+    },
+    {
+      "head": "165.227.174.93",
+      "type": "hosts",
+      "tail": "accept-pay.top",
+      "evidence": "сайт hххps://accept-pay.top/?am=138&who=11&sub=, який знаходиться на тій же ІР-адресі"
+    },
+    {
+      "head": "Кіберполіція",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "звернутися до Кіберполіції"
+    },
+    {
+      "head": "Національний банк України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Національного банку України"
+    }
+  ],
+  "newRelationTypes": []
+}

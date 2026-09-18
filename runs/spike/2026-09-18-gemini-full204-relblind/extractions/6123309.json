@@ -1,0 +1,132 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0165",
+      "kind": "threat actor",
+      "gloss": "A threat actor group that has targeted Ukrainian telecommunications and critical infrastructure."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "masscan",
+      "kind": "software tool",
+      "gloss": "An open-source high-speed TCP port scanner."
+    },
+    {
+      "name": "ffuf",
+      "kind": "software tool",
+      "gloss": "A fast web fuzzer written in Go used for discovering web application paths and vulnerabilities."
+    },
+    {
+      "name": "dirbuster",
+      "kind": "software tool",
+      "gloss": "A multi-threaded application designed to brute-force directories and files names on web application servers."
+    },
+    {
+      "name": "gowitness",
+      "kind": "software tool",
+      "gloss": "A web screenshot utility using Chrome Headless to generate screenshots of web applications."
+    },
+    {
+      "name": "nmap",
+      "kind": "software tool",
+      "gloss": "An open-source network scanner used for network discovery and vulnerability scanning."
+    },
+    {
+      "name": "dante",
+      "kind": "software product",
+      "gloss": "A circuit-level SOCKS server and client implementation."
+    },
+    {
+      "name": "POEMGATE",
+      "kind": "malware family",
+      "gloss": "A malicious PAM module backdoor used to harvest credentials and provide persistent authentication."
+    },
+    {
+      "name": "WHITECAT",
+      "kind": "software tool",
+      "gloss": "A utility used by threat actors to erase signs of unauthorized access on Unix-like systems."
+    },
+    {
+      "name": "POSEIDON",
+      "kind": "malware family",
+      "gloss": "A backdoor malware capable of full remote management and control of compromised hosts."
+    },
+    {
+      "name": "Weevely",
+      "kind": "malware family",
+      "gloss": "A PHP stealth web shell designed for post-exploitation and remote server administration."
+    },
+    {
+      "name": "TOR",
+      "kind": "anonymity network",
+      "gloss": "An open-source software and overlay network enabling anonymous communication."
+    },
+    {
+      "name": "КіберБеркут",
+      "kind": "threat actor",
+      "gloss": "A pro-Russian hacktivist and cyber espionage group."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cloud-based instant messaging and voice over IP service."
+    },
+    {
+      "name": "Facebook",
+      "kind": "software product",
+      "gloss": "An online social media and social networking service."
+    },
+    {
+      "name": "Mikrotik",
+      "kind": "company",
+      "gloss": "A Latvian network equipment manufacturer producing routers and wireless ISP systems."
+    },
+    {
+      "name": "eurotelle[.]com",
+      "kind": "internet domain",
+      "gloss": "A network domain identified as part of the malicious infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0165",
+      "type": "uses-tool",
+      "tail": "masscan",
+      "evidence": "групою зловмисників, що відстежується за ідентифікатором UAC-0165... із застосуванням, зокрема, masscan"
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses-tool",
+      "tail": "POEMGATE",
+      "evidence": "зловмисники встановлюють шкідливий PAM-модуль (відстежується як POEMGATE)"
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses-tool",
+      "tail": "WHITECAT",
+      "evidence": "Видалення ознак несанкціонованого доступу досягається, серед іншого, запуском утиліти WHITECAT."
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses-tool",
+      "tail": "POSEIDON",
+      "evidence": "Додатково на сервер може встановлюватися варіант програми POSEIDON"
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses-tool",
+      "tail": "Weevely",
+      "evidence": "на вебсервер може завантажуватися бекдор Weevely"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-tool",
+      "definition": "The threat actor utilizes a specific software utility, tool, or malware family during cyber operations."
+    }
+  ]
+}

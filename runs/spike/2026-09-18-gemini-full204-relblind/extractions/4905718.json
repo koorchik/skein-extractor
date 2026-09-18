@@ -1,0 +1,138 @@
+{
+  "entities": [
+    {
+      "name": "Національного університету оборони України імені Івана Черняхівського",
+      "kind": "military university",
+      "gloss": "A leading higher military educational institution located in Kyiv, Ukraine."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "daewdfq342r.ppt",
+      "kind": "malicious document",
+      "gloss": "A malicious PowerPoint presentation file containing a macro used to drop loader malware."
+    },
+    {
+      "name": "glkgh90kjykjkl650kj0.dll",
+      "kind": "malware file",
+      "gloss": "A malicious dynamic-link library identified as an instance of PicassoLoader."
+    },
+    {
+      "name": "PicassoLoader",
+      "kind": "malware family",
+      "gloss": "A malware loader family designed to download, decrypt, and execute payloads often hidden in image files."
+    },
+    {
+      "name": "UAC-0057",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage threat group also tracked under the name Ghostwriter."
+    },
+    {
+      "name": "GhostWriter",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage threat actor also tracked by CERT-UA as UAC-0057."
+    },
+    {
+      "name": "PhotoMetadataHandler.dll",
+      "kind": "malware file",
+      "gloss": "A malicious dynamic-link library that decrypts and executes Cobalt Strike Beacon."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware family",
+      "gloss": "The payload and agent component of the commercial Cobalt Strike penetration testing and command framework."
+    },
+    {
+      "name": "російській федерації",
+      "kind": "country",
+      "gloss": "A country spanning Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "Cloudflare",
+      "kind": "software vendor",
+      "gloss": "An American cloud services and web infrastructure company providing reverse proxy and DDoS mitigation."
+    },
+    {
+      "name": "Temphkl560yhk5h40ikhp4kh09k.lnk",
+      "kind": "malicious shortcut",
+      "gloss": "A malicious Windows shortcut file used to execute a DLL payload."
+    },
+    {
+      "name": "JBLJDESK.dll",
+      "kind": "malware file",
+      "gloss": "A dynamic-link library file identified as a PicassoLoader sample."
+    },
+    {
+      "name": "lee-leopard.jpg",
+      "kind": "payload file",
+      "gloss": "An image file hosted on a remote server used to deliver encrypted payload data."
+    },
+    {
+      "name": "lee-leopard.exe",
+      "kind": "malware file",
+      "gloss": "An executable file associated with the malware infection chain."
+    },
+    {
+      "name": "Mcirosoft Edge Update.lnk",
+      "kind": "malicious shortcut",
+      "gloss": "A malicious LNK file placed in the startup folder to ensure persistence."
+    },
+    {
+      "name": "PhotoMetadataHandler.exe",
+      "kind": "malware file",
+      "gloss": "An in-memory executable file executed as part of the multi-stage attack."
+    },
+    {
+      "name": "CobaltStrikeBeacon.shellcode",
+      "kind": "malware file",
+      "gloss": "A shellcode file containing the Cobalt Strike Beacon payload."
+    },
+    {
+      "name": "yotsubasociety[.]website",
+      "kind": "internet domain",
+      "gloss": "A malicious domain name used as command and control infrastructure."
+    },
+    {
+      "name": "bourns[.]space",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host malicious payload resources such as image files."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0057",
+      "type": "uses-malware",
+      "tail": "PicassoLoader",
+      "evidence": "PicassoLoader, що типово використовується групою UAC-0057"
+    },
+    {
+      "head": "daewdfq342r.ppt",
+      "type": "creates-file",
+      "tail": "glkgh90kjykjkl650kj0.dll",
+      "evidence": "активації макросу на ЕОМ жертви буде створено виконуваний файл \"%APPDATA%\\Signal_update_6.0.3.4\\glkgh90kjykjkl650kj0.dll\""
+    },
+    {
+      "head": "PhotoMetadataHandler.dll",
+      "type": "executes",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "PhotoMetadataHandler.dll\", який, у свою чергу, виконає дешифрування та запуск Cobalt Strike Beacon"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-malware",
+      "definition": "The threat actor commonly deploys or operates the specified malware."
+    },
+    {
+      "name": "creates-file",
+      "definition": "The source file generates, extracts, or drops the target file onto the host."
+    },
+    {
+      "name": "executes",
+      "definition": "The source program or component executes the target program or payload."
+    }
+  ]
+}

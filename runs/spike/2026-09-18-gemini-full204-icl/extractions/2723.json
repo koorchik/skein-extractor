@@ -1,0 +1,129 @@
+{
+  "entities": [
+    {
+      "name": "EFAIL",
+      "kind": "security vulnerability",
+      "gloss": "A security vulnerability affecting email encryption standards and email clients allowing plaintext exfiltration."
+    },
+    {
+      "name": "PGP",
+      "kind": "software product",
+      "gloss": "An encryption program and standard providing cryptographic privacy and authentication for data communication."
+    },
+    {
+      "name": "S/MIME",
+      "kind": "software product",
+      "gloss": "A standard for public key encryption and signing of MIME data in electronic mail."
+    },
+    {
+      "name": "Apple Mail",
+      "kind": "software product",
+      "gloss": "An email client developed by Apple Inc. included with macOS and iOS."
+    },
+    {
+      "name": "iOS Mail",
+      "kind": "software product",
+      "gloss": "The default email application built into Apple's iOS mobile operating system."
+    },
+    {
+      "name": "Mozilla Thunderbird",
+      "kind": "software product",
+      "gloss": "A free, open-source, cross-platform email client developed by Mozilla."
+    },
+    {
+      "name": "OpenPGP",
+      "kind": "software product",
+      "gloss": "An open standard for encrypting and signing emails and files based on PGP."
+    },
+    {
+      "name": "CVE-2017-17688",
+      "kind": "security vulnerability",
+      "gloss": "A vulnerability in OpenPGP implementation related to CFB gadget attacks enabling plaintext extraction."
+    },
+    {
+      "name": "CVE-2017-17689",
+      "kind": "security vulnerability",
+      "gloss": "A vulnerability in S/MIME specification related to CBC gadget attacks enabling plaintext extraction."
+    },
+    {
+      "name": "https://efail.de/",
+      "kind": "uniform resource locator",
+      "gloss": "The official website providing details and research materials on the EFAIL vulnerabilities."
+    },
+    {
+      "name": "https://efail.de/efail-attack-paper.pdf",
+      "kind": "uniform resource locator",
+      "gloss": "A research paper detailing the technical aspects of the EFAIL attack."
+    },
+    {
+      "name": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-17688",
+      "kind": "uniform resource locator",
+      "gloss": "A MITRE CVE database entry for vulnerability CVE-2017-17688."
+    },
+    {
+      "name": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-17689",
+      "kind": "uniform resource locator",
+      "gloss": "A MITRE CVE database entry for vulnerability CVE-2017-17689."
+    },
+    {
+      "name": "https://www.eff.org/deeplinks/2018/05/attention-pgp-users-new-vulnerabilities-require-you-take-action-now",
+      "kind": "uniform resource locator",
+      "gloss": "An Electronic Frontier Foundation article advising users regarding the EFAIL PGP vulnerability."
+    },
+    {
+      "name": "https://www.eff.org/deeplinks/2018/05/not-so-pretty-what-you-need-know-about-e-fail-and-pgp-flaw-0",
+      "kind": "uniform resource locator",
+      "gloss": "An Electronic Frontier Foundation advisory discussing the EFAIL vulnerability."
+    },
+    {
+      "name": "https://arstechnica.com/information-technology/2018/05/critical-pgp-and-smime-bugs-can-reveal-encrypted-e-mails-uninstall-now/",
+      "kind": "uniform resource locator",
+      "gloss": "A news article by Ars Technica describing the EFAIL vulnerabilities affecting PGP and S/MIME."
+    }
+  ],
+  "relations": [
+    {
+      "head": "EFAIL",
+      "type": "affects",
+      "tail": "PGP",
+      "evidence": "Критична вразливість EFAIL в PGP та S/MIME"
+    },
+    {
+      "head": "EFAIL",
+      "type": "affects",
+      "tail": "S/MIME",
+      "evidence": "Критична вразливість EFAIL в PGP та S/MIME"
+    },
+    {
+      "head": "EFAIL",
+      "type": "affects",
+      "tail": "Apple Mail",
+      "evidence": "експлуатації вразливостей в поштових клієнтах, таких як Apple Mail"
+    },
+    {
+      "head": "EFAIL",
+      "type": "affects",
+      "tail": "iOS Mail",
+      "evidence": "поштових клієнтах, таких як Apple Mail, iOS Mail"
+    },
+    {
+      "head": "EFAIL",
+      "type": "affects",
+      "tail": "Mozilla Thunderbird",
+      "evidence": "поштових клієнтах, таких як Apple Mail, iOS Mail та Mozilla Thunderbird"
+    },
+    {
+      "head": "CVE-2017-17688",
+      "type": "affects",
+      "tail": "OpenPGP",
+      "evidence": "CVE-2017-17688: OpenPGP CFB gadget attacks"
+    },
+    {
+      "head": "CVE-2017-17689",
+      "type": "affects",
+      "tail": "S/MIME",
+      "evidence": "CVE-2017-17689: S/MIME CBC gadget attacks"
+    }
+  ],
+  "newRelationTypes": []
+}

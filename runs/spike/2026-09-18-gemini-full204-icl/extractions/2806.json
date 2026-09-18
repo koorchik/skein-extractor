@@ -1,0 +1,107 @@
+{
+  "entities": [
+    {
+      "name": "AZORult",
+      "kind": "malware",
+      "gloss": "An information stealer malware family capable of stealing credentials, browser data, cryptocurrency wallet information, and executing commands."
+    },
+    {
+      "name": "Outlook",
+      "kind": "software product",
+      "gloss": "A personal information manager and email client developed by Microsoft."
+    },
+    {
+      "name": "Thunderbird",
+      "kind": "software product",
+      "gloss": "A free and open-source email client developed by the Mozilla Foundation."
+    },
+    {
+      "name": "Filezilla",
+      "kind": "software product",
+      "gloss": "A free and open-source cross-platform FTP application."
+    },
+    {
+      "name": "WinSCP",
+      "kind": "software product",
+      "gloss": "A free and open-source SFTP, FTP, WebDAV, Amazon S3, and SCP client for Microsoft Windows."
+    },
+    {
+      "name": "QUOTATION N0AB.doc",
+      "kind": "file",
+      "gloss": "A malicious document file used to exploit Microsoft Office vulnerabilities and deliver malware."
+    },
+    {
+      "name": "PO.jpg",
+      "kind": "file",
+      "gloss": "A malicious executable disguised as an image file."
+    },
+    {
+      "name": "67.199.248.10",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure in the incident."
+    },
+    {
+      "name": "67.199.248.11",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure in the incident."
+    },
+    {
+      "name": "192.198.87.130",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure in the incident."
+    },
+    {
+      "name": "185.193.38.78",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure in the incident."
+    },
+    {
+      "name": "office.exe",
+      "kind": "file",
+      "gloss": "A malicious executable file configured for startup persistence."
+    },
+    {
+      "name": "office.lnk",
+      "kind": "file",
+      "gloss": "A shortcut file used for persistence in the startup directory."
+    },
+    {
+      "name": "CVE-2017-11882",
+      "kind": "security vulnerability",
+      "gloss": "A remote code execution vulnerability in Microsoft Office Equation Editor."
+    }
+  ],
+  "relations": [
+    {
+      "head": "QUOTATION N0AB.doc",
+      "type": "exploits",
+      "tail": "CVE-2017-11882",
+      "evidence": "Вразливості: https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-11882"
+    },
+    {
+      "head": "AZORult",
+      "type": "affects",
+      "tail": "Outlook",
+      "evidence": "збору збережених паролів в браузерах, поштових клієнтах (Outlook"
+    },
+    {
+      "head": "AZORult",
+      "type": "affects",
+      "tail": "Thunderbird",
+      "evidence": "поштових клієнтах (Outlook, Thunderbird)"
+    },
+    {
+      "head": "AZORult",
+      "type": "affects",
+      "tail": "Filezilla",
+      "evidence": "FTP клієнтах (Filezilla, WinSCP)"
+    },
+    {
+      "head": "AZORult",
+      "type": "affects",
+      "tail": "WinSCP",
+      "evidence": "FTP клієнтах (Filezilla, WinSCP)"
+    }
+  ],
+  "newRelationTypes": []
+}

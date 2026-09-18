@@ -1,0 +1,151 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0120",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA targeting organizations with malicious emails."
+    },
+    {
+      "name": "AgentTesla",
+      "kind": "malware family",
+      "gloss": "An advanced spyware and remote access trojan that steals credentials and sensitive information from infected systems."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework from Microsoft comprising a command-line shell and scripting language."
+    },
+    {
+      "name": "node.txt",
+      "kind": "malicious file",
+      "gloss": "A file containing PowerShell script used to decode and execute additional malware payloads."
+    },
+    {
+      "name": "y74gh00rffd.dll",
+      "kind": "malicious file",
+      "gloss": "A malicious dynamic-link library used as an injector payload."
+    },
+    {
+      "name": "RegAsm.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable payload delivering the AgentTesla trojan."
+    },
+    {
+      "name": "Технічне креслення.img",
+      "kind": "malicious file",
+      "gloss": "A malicious disk image file used as an attachment in phishing campaigns."
+    },
+    {
+      "name": "Technisches Zeichnen.img",
+      "kind": "malicious file",
+      "gloss": "A malicious disk image file used as an attachment in German-language phishing emails."
+    },
+    {
+      "name": "Dessin technique.img",
+      "kind": "malicious file",
+      "gloss": "A malicious disk image file used as an attachment in phishing campaigns."
+    },
+    {
+      "name": "Technisches Zeichnen.chm",
+      "kind": "malicious file",
+      "gloss": "A compiled HTML help file used to execute malicious script on target systems."
+    },
+    {
+      "name": "gtrhgfh.htm",
+      "kind": "malicious file",
+      "gloss": "An HTML file component associated with malicious activity."
+    },
+    {
+      "name": "j1fgh00.htm",
+      "kind": "malicious file",
+      "gloss": "An HTML file component associated with malicious activity."
+    },
+    {
+      "name": "sackmeister[.]de",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host malicious staging files."
+    },
+    {
+      "name": "academiadutygroup.com[.]br",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host malicious staging files."
+    },
+    {
+      "name": "ssttekstil[.]com",
+      "kind": "internet domain",
+      "gloss": "An internet domain associated with the cyberattack infrastructure."
+    },
+    {
+      "name": "ftp.ssttekstil[.]com",
+      "kind": "internet domain",
+      "gloss": "An FTP host domain associated with the attack campaign."
+    },
+    {
+      "name": "eric.fehling@t-online[.]de",
+      "kind": "email address",
+      "gloss": "An email address observed in the malicious distribution campaign."
+    },
+    {
+      "name": "bondar_mob@ukr[.]net",
+      "kind": "email address",
+      "gloss": "An email address observed in the malicious distribution campaign."
+    },
+    {
+      "name": "bonitet_ltd@ukr[.]net",
+      "kind": "email address",
+      "gloss": "An email address observed in the malicious distribution campaign."
+    },
+    {
+      "name": "adv.rsnord@westafrance[.]com",
+      "kind": "email address",
+      "gloss": "An email address observed in the malicious distribution campaign."
+    },
+    {
+      "name": "a.bindhammer@aon[.]at",
+      "kind": "email address",
+      "gloss": "An email address observed in the malicious distribution campaign."
+    },
+    {
+      "name": "a.ehrnhofer@aon[.]at",
+      "kind": "email address",
+      "gloss": "An email address observed in the malicious distribution campaign."
+    },
+    {
+      "name": "a.bernsteiner@aon[.]at",
+      "kind": "email address",
+      "gloss": "An email address observed in the malicious distribution campaign."
+    },
+    {
+      "name": "pro@ssttekstil.com",
+      "kind": "email address",
+      "gloss": "An email address associated with the malicious campaign infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0120",
+      "type": "uses-malware",
+      "tail": "AgentTesla",
+      "evidence": "Активність тимчасово відстежується за ідентифікатором UAC-0120."
+    },
+    {
+      "head": "node.txt",
+      "type": "delivers",
+      "tail": "AgentTesla",
+      "evidence": "Файл EXE є шкідливою програмою AgentTesla."
+    },
+    {
+      "head": "node.txt",
+      "type": "delivers",
+      "tail": "y74gh00rffd.dll",
+      "evidence": "PowerShell-код, який здійснить декодування, декомпресію (Gzip) і виконання DLL та EXE"
+    },
+    {
+      "head": "sackmeister[.]de",
+      "type": "hosts",
+      "tail": "node.txt",
+      "evidence": "hXXps://sackmeister[.]de/node.txt"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,86 @@
+{
+  "entities": [
+    {
+      "name": "Linux",
+      "kind": "operating system",
+      "gloss": "An open-source Unix-like operating system kernel and family of distributions."
+    },
+    {
+      "name": "rtlwifi",
+      "kind": "device driver",
+      "gloss": "A Linux kernel driver module supporting various Realtek wireless network adapters."
+    },
+    {
+      "name": "CVE-2019-17666",
+      "kind": "vulnerability identifier",
+      "gloss": "A buffer overflow vulnerability in the Realtek WiFi driver of the Linux kernel."
+    },
+    {
+      "name": "Microsoft SQL Server",
+      "kind": "database management system",
+      "gloss": "A relational database management system developed by Microsoft."
+    },
+    {
+      "name": "Cyber Defense Summit 2019",
+      "kind": "cybersecurity conference",
+      "gloss": "An annual cybersecurity conference organized by FireEye."
+    },
+    {
+      "name": "FireEye",
+      "kind": "cybersecurity company",
+      "gloss": "An American cybersecurity company specializing in threat intelligence and incident response."
+    },
+    {
+      "name": "TeamViewer",
+      "kind": "software product",
+      "gloss": "A remote access and remote control computer software application."
+    },
+    {
+      "name": "APT41",
+      "kind": "hacking group",
+      "gloss": "A prolific Chinese state-sponsored cyber espionage and financially motivated threat group."
+    },
+    {
+      "name": "Азії",
+      "kind": "geographic region",
+      "gloss": "A continent located primarily in the eastern and northern hemispheres."
+    },
+    {
+      "name": "Китаю",
+      "kind": "country",
+      "gloss": "A country in East Asia."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2019-17666",
+      "type": "affects",
+      "tail": "rtlwifi",
+      "evidence": "Критична помилка Linux... пов’язана з недоліком в драйвері rtlwifi"
+    },
+    {
+      "head": "rtlwifi",
+      "type": "part-of",
+      "tail": "Linux",
+      "evidence": "Критична помилка Linux... пов’язана з недоліком в драйвері rtlwifi"
+    },
+    {
+      "head": "APT41",
+      "type": "located-in",
+      "tail": "Китаю",
+      "evidence": "групу APT41, яка працює з Азії, зокрема з Китаю"
+    },
+    {
+      "head": "APT41",
+      "type": "attacks",
+      "tail": "TeamViewer",
+      "evidence": "TeamViewer був зламаний у 2016 році... Вину за інцидент покладають на хакерську групу APT41"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "attacks",
+      "definition": "A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization."
+    }
+  ]
+}

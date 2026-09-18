@@ -1,0 +1,144 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country located in Eastern Europe."
+    },
+    {
+      "name": "Господарський суд Одеської області Повістка до суду.rar",
+      "kind": "archive file",
+      "gloss": "A malicious RAR archive distributed as an email attachment in phishing campaigns."
+    },
+    {
+      "name": "Персональний код доступу-8161.txt",
+      "kind": "text file",
+      "gloss": "A text file containing an access password or code distributed in malicious archives."
+    },
+    {
+      "name": "Повістка до суду.rar",
+      "kind": "archive file",
+      "gloss": "A password-protected RAR archive contained within another archive file."
+    },
+    {
+      "name": "Повістка до суду.doc",
+      "kind": "document file",
+      "gloss": "A malicious Word document containing macros used to initiate malware downloads."
+    },
+    {
+      "name": "explorer.exe",
+      "kind": "software product",
+      "gloss": "The default file manager and shell execution binary in Microsoft Windows."
+    },
+    {
+      "name": "scandoc.exe",
+      "kind": "executable file",
+      "gloss": "An obfuscated .NET executable downloader designed to decrypt and execute RemcosRAT."
+    },
+    {
+      "name": "SmartAssembly",
+      "kind": "software product",
+      "gloss": "A commercial obfuscator and protection tool for .NET applications."
+    },
+    {
+      "name": "RemcosRAT",
+      "kind": "malware family",
+      "gloss": "A commercial remote access trojan frequently used by threat actors for unauthorized access."
+    },
+    {
+      "name": "remcos.exe",
+      "kind": "executable file",
+      "gloss": "An executable payload corresponding to the RemcosRAT remote administration software."
+    },
+    {
+      "name": "89.23.98.22",
+      "kind": "ip address",
+      "gloss": "An IP address hosting a malicious SMB share used to distribute executables."
+    },
+    {
+      "name": "SmartApe LLC",
+      "kind": "company",
+      "gloss": "A hosting and internet service provider company."
+    },
+    {
+      "name": "Matrix Telecom Ltd",
+      "kind": "company",
+      "gloss": "A telecommunications and network service provider company."
+    },
+    {
+      "name": "8161.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable dropped into ProgramData as part of malware persistence."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Господарський суд Одеської області Повістка до суду.rar",
+      "type": "contains-file",
+      "tail": "Повістка до суду.rar",
+      "evidence": "Зазначений RAR-архів містить захищений паролем файл \"Повістка до суду.rar\""
+    },
+    {
+      "head": "Повістка до суду.rar",
+      "type": "contains-file",
+      "tail": "Повістка до суду.doc",
+      "evidence": "в якому знаходиться документ з макросом \"Повістка до суду.doc\""
+    },
+    {
+      "head": "Повістка до суду.doc",
+      "type": "downloads-and-executes",
+      "tail": "scandoc.exe",
+      "evidence": "код макросу за допомогою оглядача файлів (explorer.exe) з використанням протоколу SMB здійснить завантаження на ЕОМ та запуск файлу \"scandoc.exe\""
+    },
+    {
+      "head": "scandoc.exe",
+      "type": "obfuscated-with",
+      "tail": "SmartAssembly",
+      "evidence": "зазначений виконуваний файл є обфускованою за допомогою SmartAssembly .NET-програмою"
+    },
+    {
+      "head": "scandoc.exe",
+      "type": "decrypts-and-executes",
+      "tail": "RemcosRAT",
+      "evidence": "призначенням якої є дешифрування та запуск програми для віддаленого управління RemcosRAT"
+    },
+    {
+      "head": "89.23.98.22",
+      "type": "hosts-file",
+      "tail": "scandoc.exe",
+      "evidence": "\\\\89[.]23.98.22\\LN\\scandoc[.]exe"
+    },
+    {
+      "head": "89.23.98.22",
+      "type": "operated-by",
+      "tail": "SmartApe LLC",
+      "evidence": "89[.]23.98.22 (AS56694; @smartape.ru; SmartApe LLC)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "contains-file",
+      "definition": "The source archive or container file encloses the target file."
+    },
+    {
+      "name": "downloads-and-executes",
+      "definition": "The source script or executable retrieves the target file from a remote location and executes it."
+    },
+    {
+      "name": "obfuscated-with",
+      "definition": "The source program or binary has been protected or obfuscated using the target software product."
+    },
+    {
+      "name": "decrypts-and-executes",
+      "definition": "The source loader decrypts and runs the target payload or malware."
+    },
+    {
+      "name": "hosts-file",
+      "definition": "The source network host or server stores and serves the target file."
+    },
+    {
+      "name": "operated-by",
+      "definition": "The source network resource or autonomous system is owned or managed by the target entity."
+    }
+  ]
+}

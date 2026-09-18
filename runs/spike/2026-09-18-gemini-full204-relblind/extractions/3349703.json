@@ -1,0 +1,246 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Центр інновацій та розвитку оборонних технологій Міністерства оборони України",
+      "kind": "government body",
+      "gloss": "A defense technology innovation and development center within the Ministry of Defense of Ukraine."
+    },
+    {
+      "name": "Міністерство оборони України",
+      "kind": "government body",
+      "gloss": "The central executive authority responsible for national defense policy in Ukraine."
+    },
+    {
+      "name": "DELTA",
+      "kind": "software product",
+      "gloss": "A Ukrainian situational awareness and battle management software system used by defense forces."
+    },
+    {
+      "name": "ISTAR ОУВ \"Запоріжжя\"",
+      "kind": "military unit",
+      "gloss": "An intelligence, surveillance, target acquisition, and reconnaissance unit of the Zaporizhzhia operational grouping."
+    },
+    {
+      "name": "VMProtect",
+      "kind": "software product",
+      "gloss": "A commercial software protection and code virtualization tool."
+    },
+    {
+      "name": "RomCom",
+      "kind": "malware family",
+      "gloss": "A backdoor malware family that registers as a COM server and executes payloads."
+    },
+    {
+      "name": "FateGrab",
+      "kind": "malware family",
+      "gloss": "A malicious tool designed to steal documents and files of specific formats and exfiltrate them via FTP."
+    },
+    {
+      "name": "StealDeal",
+      "kind": "malware family",
+      "gloss": "An infostealer malware designed to harvest and save data from web browsers."
+    },
+    {
+      "name": "UAC-0142",
+      "kind": "threat actor",
+      "gloss": "A threat actor cluster tracked by CERT-UA targeting Ukrainian defense systems."
+    },
+    {
+      "name": "UAC-0132",
+      "kind": "threat actor",
+      "gloss": "A threat actor cluster tracked by CERT-UA associated with malicious campaigns against Ukrainian entities."
+    },
+    {
+      "name": "certificates_rootca.zip",
+      "kind": "file",
+      "gloss": "A malicious ZIP archive containing the installer executable."
+    },
+    {
+      "name": "certificates_rootCA.exe",
+      "kind": "file",
+      "gloss": "A VMProtect-packed malicious executable used to deploy RomCom and other payloads."
+    },
+    {
+      "name": "ais.exe",
+      "kind": "file",
+      "gloss": "An executable file mimicking a certificate installation process."
+    },
+    {
+      "name": "temp.cmd",
+      "kind": "file",
+      "gloss": "A batch script used in malicious execution on the host."
+    },
+    {
+      "name": "procsys.dll",
+      "kind": "file",
+      "gloss": "A dynamic link library associated with the StealDeal malware."
+    },
+    {
+      "name": "FileInfo.dll",
+      "kind": "file",
+      "gloss": "A dynamic link library associated with the FateGrab malware."
+    },
+    {
+      "name": "customizer.dll",
+      "kind": "file",
+      "gloss": "A dynamic link library associated with RomCom malware."
+    },
+    {
+      "name": "Great C Technologies Inc",
+      "kind": "company",
+      "gloss": "An entity name found on a digital certificate used to sign malicious executables."
+    },
+    {
+      "name": "delta.mil.gov.ua.delta-storages[.]com",
+      "kind": "internet domain",
+      "gloss": "A spoofed domain name imitating the Ukrainian military DELTA system update infrastructure."
+    },
+    {
+      "name": "delta-storages[.]com",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used for delivering phishing payloads."
+    },
+    {
+      "name": "hexactor[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain name used as command and control infrastructure."
+    },
+    {
+      "name": "46.249.49[.]109",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications and FTP exfiltration."
+    },
+    {
+      "name": "gor4j3d@proton[.]me",
+      "kind": "e-mail address",
+      "gloss": "An email address used to register malicious domain infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Центр інновацій та розвитку оборонних технологій Міністерства оборони України",
+      "type": "subordinate-to",
+      "tail": "Міністерство оборони України",
+      "evidence": "Центру інновацій та розвитку оборонних технологій Міністерства оборони України"
+    },
+    {
+      "head": "Міністерство оборони України",
+      "type": "government-body-of",
+      "tail": "Україна",
+      "evidence": "Міністерства оборони України"
+    },
+    {
+      "head": "certificates_rootca.zip",
+      "type": "contains-file",
+      "tail": "certificates_rootCA.exe",
+      "evidence": "архів \"certificates_rootca.zip\", що містить виконуваний файл \"certificates_rootCA.exe\""
+    },
+    {
+      "head": "certificates_rootCA.exe",
+      "type": "protected-by",
+      "tail": "VMProtect",
+      "evidence": "файл \"certificates_rootCA.exe\", захищений за допомогою VMProtect"
+    },
+    {
+      "head": "certificates_rootCA.exe",
+      "type": "drops-file",
+      "tail": "ais.exe",
+      "evidence": "буде створено декілька DLL-файлів, також захищених VMProtect, і файл \"ais.exe\""
+    },
+    {
+      "head": "RomCom",
+      "type": "executes-malware",
+      "tail": "FateGrab",
+      "evidence": "RomCom ... забезпечить виконання двох шкідливих програм: FateGrab"
+    },
+    {
+      "head": "RomCom",
+      "type": "executes-malware",
+      "tail": "StealDeal",
+      "evidence": "RomCom ... забезпечить виконання двох шкідливих програм: FateGrab ... та StealDeal"
+    },
+    {
+      "head": "FateGrab",
+      "type": "composed-of-file",
+      "tail": "FileInfo.dll",
+      "evidence": "FateGrab (\"FileInfo.dll\"; \"ftp_file_graber.dll\")"
+    },
+    {
+      "head": "StealDeal",
+      "type": "composed-of-file",
+      "tail": "procsys.dll",
+      "evidence": "StealDeal (\"procsys.dll\"; \"StealDll.dll\")"
+    },
+    {
+      "head": "RomCom",
+      "type": "composed-of-file",
+      "tail": "customizer.dll",
+      "evidence": "customizer.dll (RomCom)"
+    },
+    {
+      "head": "UAC-0142",
+      "type": "resembles-threat-actor",
+      "tail": "UAC-0132",
+      "evidence": "відстежується за ідентифікатором UAC-0142, проте має схожості з кластером загроз UAC-0132"
+    },
+    {
+      "head": "delta.mil.gov.ua.delta-storages[.]com",
+      "type": "subdomain-of",
+      "tail": "delta-storages[.]com",
+      "evidence": "delta.mil.gov.ua.delta-storages[.]com"
+    },
+    {
+      "head": "gor4j3d@proton[.]me",
+      "type": "registered-domain",
+      "tail": "hexactor[.]com",
+      "evidence": "hexactor[.]com (2022-11-12; @namesilo[.]com; gor4j3d@proton[.]me)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "subordinate-to",
+      "definition": "The head entity is an organizational subdivision or subordinate department of the tail entity."
+    },
+    {
+      "name": "government-body-of",
+      "definition": "The head entity is a governmental agency or body of the tail country."
+    },
+    {
+      "name": "contains-file",
+      "definition": "The head container or archive file contains the tail file."
+    },
+    {
+      "name": "protected-by",
+      "definition": "The head binary is obfuscated, packed, or protected by the tail software tool."
+    },
+    {
+      "name": "drops-file",
+      "definition": "The head executable drops, writes, or unpacks the tail file onto the host system."
+    },
+    {
+      "name": "executes-malware",
+      "definition": "The head malware launches or triggers the execution of the tail malware."
+    },
+    {
+      "name": "composed-of-file",
+      "definition": "The head malware family or component consists of or is delivered as the tail file."
+    },
+    {
+      "name": "resembles-threat-actor",
+      "definition": "The head threat actor or activity cluster shares technical characteristics or overlaps with the tail threat actor."
+    },
+    {
+      "name": "subdomain-of",
+      "definition": "The head domain is a subdomain under the tail parent domain."
+    },
+    {
+      "name": "registered-domain",
+      "definition": "The head email address was used to register the tail domain name."
+    }
+  ]
+}

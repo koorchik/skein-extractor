@@ -1,0 +1,208 @@
+{
+  "docId": 6277849,
+  "date": "24.02.2024",
+  "title": "UAC-0149: Цільові вибіркові атаки у відношенні Сил оборони України із застосуванням COOKBOX (CERT-UA#9204)",
+  "entities": [
+    {
+      "id": "6277849:0",
+      "name": "ЦКБ ІТС в/ч А0334",
+      "kind": "military organization",
+      "gloss": "A cybersecurity center within a military unit of the Armed Forces of Ukraine.",
+      "scheme": "S23",
+      "category": "Government Body",
+      "role": null
+    },
+    {
+      "id": "6277849:1",
+      "name": "Сили оборони України",
+      "kind": "military organization",
+      "gloss": "The combined military and security forces defending the state of Ukraine.",
+      "scheme": "S23",
+      "category": "Government Body",
+      "role": "target"
+    },
+    {
+      "id": "6277849:2",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S6",
+      "category": "Country",
+      "role": null
+    },
+    {
+      "id": "6277849:3",
+      "name": "UAC-0149",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracking identifier for cyber activity targeting Ukrainian defense entities since autumn 2023.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6277849:4",
+      "name": "Signal",
+      "kind": "software product",
+      "gloss": "A cross-platform encrypted messaging service.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6277849:5",
+      "name": "1_ф_5.39-2024.xlsm",
+      "kind": "malicious file",
+      "gloss": "A malicious macro-enabled Excel document used to initiate infection and download payloads.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6277849:6",
+      "name": "mob2002.data",
+      "kind": "malicious file",
+      "gloss": "A malicious PowerShell script downloaded from GitHub to modify the Windows registry and launch payloads.",
+      "scheme": "S12",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "6277849:7",
+      "name": "COOKBOX",
+      "kind": "malware family",
+      "gloss": "A PowerShell-based backdoor capable of downloading and executing PowerShell cmdlets.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6277849:8",
+      "name": "COOKBOX deployer",
+      "kind": "malware tool",
+      "gloss": "A PowerShell script used to deploy and establish persistence for the COOKBOX backdoor.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "6277849:9",
+      "name": "Github",
+      "kind": "web service",
+      "gloss": "A cloud-based hosting service for software development and version control using Git.",
+      "scheme": "S24",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "6277849:10",
+      "name": "Cloudflare Workers",
+      "kind": "cloud service",
+      "gloss": "A serverless application platform provided by Cloudflare.",
+      "scheme": "S21",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277849:11",
+      "name": "shorturl.at",
+      "kind": "internet domain",
+      "gloss": "A public URL shortening service domain used to redirect to malicious payloads.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6277849:12",
+      "name": "gotdns.ch",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS service domain utilized for command-and-control infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6277849:13",
+      "name": "myftp.biz",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS service domain utilized for command-and-control infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6277849:14",
+      "name": "array.myftp.biz",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS domain used as command-and-control infrastructure by COOKBOX.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6277849:15",
+      "name": "bom02.gotdns.ch",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS domain used as command-and-control infrastructure by COOKBOX.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6277849:16",
+      "name": "worker-test-6f41.idv64828.workers.dev",
+      "kind": "internet domain",
+      "gloss": "A Cloudflare Workers domain used as command-and-control infrastructure by COOKBOX.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6277849:17",
+      "name": "34.199.8.144",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious dynamic DNS infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0149",
+      "type": "targets-sector",
+      "tail": "Сили оборони України",
+      "evidence": "спробі ураження шкідливим програмним забезпеченням ЕОМ представників Сил оборони України"
+    },
+    {
+      "head": "1_ф_5.39-2024.xlsm",
+      "type": "downloads-payload",
+      "tail": "mob2002.data",
+      "evidence": "призначеної для завантаження, декодування та виконання PowerShell-сценарію \"mob2002.data\""
+    },
+    {
+      "head": "mob2002.data",
+      "type": "hosted-on",
+      "tail": "Github",
+      "evidence": "Завантажений з Github PowerShell-скрипт здійснює модифікацію реєстру"
+    },
+    {
+      "head": "mob2002.data",
+      "type": "deploys-software",
+      "tail": "COOKBOX",
+      "evidence": "PowerShell-скрипт, який здійснить GZIP-декомпресію та запуск шкідливої програми COOKBOX"
+    },
+    {
+      "head": "COOKBOX deployer",
+      "type": "deploys-software",
+      "tail": "COOKBOX",
+      "evidence": "на етапі первинного ураження стороннім PowerShell-скриптом (в т.ч., COOKBOX deployer'ом)"
+    },
+    {
+      "head": "UAC-0149",
+      "type": "delivers",
+      "tail": "Signal",
+      "evidence": "22.02.2024 невстановленою особою за допомогою месенджеру Signal серед декількох військовослужбовців розповсюджено XLS-документ"
+    }
+  ],
+  "unclassified": []
+}

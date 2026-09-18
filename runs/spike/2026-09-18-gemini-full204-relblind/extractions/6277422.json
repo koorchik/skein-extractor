@@ -1,0 +1,132 @@
+{
+  "entities": [
+    {
+      "name": "DIRTYMOE",
+      "kind": "malware family",
+      "gloss": "A modular backdoor malware equipped with rootkit capabilities, also known as PurpleFox, used for DDoS and mining."
+    },
+    {
+      "name": "UAC-0027",
+      "kind": "threat group",
+      "gloss": "A threat activity cluster tracked by CERT-UA associated with DIRTYMOE malware infections."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Китай",
+      "kind": "country",
+      "gloss": "A country in East Asia where a large portion of the intermediate C2 infrastructure was located."
+    },
+    {
+      "name": "Avast",
+      "kind": "software vendor",
+      "gloss": "A cybersecurity software company that develops antivirus and security tools."
+    },
+    {
+      "name": "Trendmicro",
+      "kind": "software vendor",
+      "gloss": "A multinational cybersecurity software and solutions provider."
+    },
+    {
+      "name": "Avast Free Antivirus",
+      "kind": "software product",
+      "gloss": "A free security and antivirus software suite developed by Avast."
+    },
+    {
+      "name": "WindowsXP",
+      "kind": "operating system",
+      "gloss": "A legacy operating system developed by Microsoft."
+    },
+    {
+      "name": "Windows7",
+      "kind": "operating system",
+      "gloss": "A major release of the Microsoft Windows operating system."
+    },
+    {
+      "name": "rpc.1qw.us",
+      "kind": "domain name",
+      "gloss": "A domain name associated with DIRTYMOE command-and-control communication."
+    },
+    {
+      "name": "ret.6bc.us",
+      "kind": "domain name",
+      "gloss": "A domain name used for command-and-control communication by DIRTYMOE malware."
+    },
+    {
+      "name": "kew.1qw.us",
+      "kind": "domain name",
+      "gloss": "A network domain utilized by the DIRTYMOE malware infrastructure."
+    },
+    {
+      "name": "kew.8df.us",
+      "kind": "domain name",
+      "gloss": "A domain name leveraged by DIRTYMOE malware for infrastructure communications."
+    },
+    {
+      "name": "nk.1qw.us",
+      "kind": "domain name",
+      "gloss": "A domain name associated with DIRTYMOE C2 infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0027",
+      "type": "associated-with-malware",
+      "tail": "DIRTYMOE",
+      "evidence": "Описана активність відстежується за ідентифікатором UAC-0027."
+    },
+    {
+      "head": "Avast",
+      "type": "produces",
+      "tail": "Avast Free Antivirus",
+      "evidence": "виробника (https://www.avast.ua/) програмний продукт \"Avast Free Antivirus\""
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "communicates-with-domain",
+      "tail": "rpc.1qw.us",
+      "evidence": "rpc.1qw[.]us"
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "communicates-with-domain",
+      "tail": "ret.6bc.us",
+      "evidence": "ret.6bc[.]us"
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "communicates-with-domain",
+      "tail": "kew.1qw.us",
+      "evidence": "kew.1qw[.]us"
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "communicates-with-domain",
+      "tail": "kew.8df.us",
+      "evidence": "kew.8df[.]us"
+    },
+    {
+      "head": "DIRTYMOE",
+      "type": "communicates-with-domain",
+      "tail": "nk.1qw.us",
+      "evidence": "nk.1qw[.]us"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "associated-with-malware",
+      "definition": "The threat actor or activity cluster utilizes or is tracked in connection with the specified malware."
+    },
+    {
+      "name": "produces",
+      "definition": "The vendor develops or publishes the specified software product."
+    },
+    {
+      "name": "communicates-with-domain",
+      "definition": "The malware connects to or resolves the specified internet domain name as part of its command-and-control operations."
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0050",
+      "kind": "threat actor",
+      "gloss": "A threat actor known for conducting cyberespionage and financial attacks using commodity remote access trojans."
+    },
+    {
+      "name": "RemcosRAT",
+      "kind": "remote access trojan",
+      "gloss": "A commercial remote access software suite frequently abused by threat actors for malicious surveillance and control."
+    },
+    {
+      "name": "MeduzaStealer",
+      "kind": "information stealer",
+      "gloss": "A malware family designed to extract sensitive user data, credentials, and browser data from infected endpoints."
+    },
+    {
+      "name": "Shinjiru",
+      "kind": "hosting provider",
+      "gloss": "An offshore web and server hosting service provider based in Malaysia."
+    },
+    {
+      "name": "Польща",
+      "kind": "country",
+      "gloss": "A country located in Central Europe."
+    },
+    {
+      "name": "органи державної влади Польщі",
+      "kind": "government body",
+      "gloss": "State authority and public administration bodies belonging to the government of Poland."
+    },
+    {
+      "name": "gov.ua",
+      "kind": "internet domain",
+      "gloss": "A Ukrainian second-level internet domain reserved for government and state organizations."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "RemcosRAT",
+      "evidence": "Типово для UAC-0050 сервери управління RemcosRAT розміщено"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "attacks",
+      "tail": "органи державної влади Польщі",
+      "evidence": "свідчать про спрямування кібератаки проти органів державної влади Польщі"
+    },
+    {
+      "head": "органи державної влади Польщі",
+      "type": "located-in",
+      "tail": "Польща",
+      "evidence": "органи державної влади Польщі"
+    },
+    {
+      "head": "Shinjiru",
+      "type": "hosts",
+      "tail": "RemcosRAT",
+      "evidence": "сервери управління RemcosRAT розміщено на технічному майданчику малайзійського хостинг-провайдера Shinjiru"
+    }
+  ],
+  "newRelationTypes": []
+}

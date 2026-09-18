@@ -1,0 +1,322 @@
+{
+  "docId": 6280099,
+  "date": "17.07.2024",
+  "title": "Цільові кібератаки UAC-0180 у відношенні оборонних підприємств з використанням GLUEEGG / DROPCLUE / ATERA (CERT-UA#10375)",
+  "entities": [
+    {
+      "id": "6280099:0",
+      "name": "UAC-0180",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA targeting Ukrainian defense and military entities.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6280099:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6280099:2",
+      "name": "Сили оборони України",
+      "kind": "armed forces",
+      "gloss": "The unified military and security forces defending the state of Ukraine.",
+      "scheme": "S17",
+      "category": "Government Body",
+      "role": "target"
+    },
+    {
+      "id": "6280099:3",
+      "name": "GLUEEGG",
+      "kind": "malware family",
+      "gloss": "A Go-based malicious program used to decrypt and launch the DROPCLUE loader.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "6280099:4",
+      "name": "DROPCLUE",
+      "kind": "malware loader",
+      "gloss": "A Lua-based loader malware designed to download and execute secondary payloads and decoy documents.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "6280099:5",
+      "name": "ACROBAIT",
+      "kind": "malware family",
+      "gloss": "A C-based malware family utilized in phishing and infection chains by threat actors.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6280099:6",
+      "name": "ROSEBLOOM",
+      "kind": "malware family",
+      "gloss": "A Rust-based malware family used in targeted cyberattacks.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6280099:7",
+      "name": "ROSETHORN",
+      "kind": "malware family",
+      "gloss": "A Rust-based malware family deployed alongside other tools in cyber operations.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6280099:8",
+      "name": "ATERA",
+      "kind": "software product",
+      "gloss": "A legitimate remote monitoring and management software platform.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6280099:9",
+      "name": "curl.exe",
+      "kind": "executable file",
+      "gloss": "A command-line tool used for transferring data with URLs.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6280099:10",
+      "name": "UA-2024-07-04-010019.zip",
+      "kind": "archive file",
+      "gloss": "A malicious ZIP archive distributed as an email attachment in cyber attacks.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6280099:11",
+      "name": "UA-2024-07-04-010019.pdf",
+      "kind": "document file",
+      "gloss": "A malicious PDF document containing a lure link to download additional payloads.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6280099:12",
+      "name": "adobe_acrobat_fonts_pack.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable delivering the GLUEEGG malware payload.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6280099:13",
+      "name": "UA-2024-07-04-010019-a-open.pdf",
+      "kind": "document file",
+      "gloss": "A decoy PDF document opened during the infection process.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6280099:14",
+      "name": "font-pack-pdf-windows-64-bit",
+      "kind": "executable file",
+      "gloss": "A malicious executable payload downloaded by the DROPCLUE loader.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6280099:15",
+      "name": "setup.msi",
+      "kind": "installer file",
+      "gloss": "An MSI installer package for the Atera remote management agent.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6280099:16",
+      "name": "AdobeFontPackage06192024_x64.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable file delivering the ROSEBLOOM malware.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6280099:17",
+      "name": "utility.dll",
+      "kind": "dynamic link library",
+      "gloss": "A malicious dynamic link library associated with the ROSETHORN malware.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6280099:18",
+      "name": "mariquillaharmond262@proton.me",
+      "kind": "email address",
+      "gloss": "An email address used in malicious campaigns.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6280099:19",
+      "name": "prozorro-ua.net",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used to host payloads mimicking Ukrainian procurement infrastructure.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "6280099:20",
+      "name": "servicedesk.atera.com",
+      "kind": "internet domain",
+      "gloss": "A legitimate domain associated with the Atera remote management service.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6280099:21",
+      "name": "linedrv.com",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious payload distribution or command and control.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6280099:22",
+      "name": "drv2ms.com",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious command and control or payload staging.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6280099:23",
+      "name": "devtools.bond",
+      "kind": "internet domain",
+      "gloss": "A domain used to host or distribute malicious payloads.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6280099:24",
+      "name": "olminx.com",
+      "kind": "internet domain",
+      "gloss": "A domain associated with ACROBAIT malware distribution and infrastructure.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6280099:25",
+      "name": "xeontime.com",
+      "kind": "internet domain",
+      "gloss": "A domain associated with malicious payload distribution and communication.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0180",
+      "type": "attacks",
+      "tail": "Сили оборони України",
+      "evidence": "угрупування UAC-0180, незважаючи на широку географію атак, не полишає спроб отримання несанкціонованого доступу до ЕОМ співробітників оборонних підприємств та Сил оборони України"
+    },
+    {
+      "head": "UAC-0180",
+      "type": "uses-malware",
+      "tail": "ACROBAIT",
+      "evidence": "використовуючи, при цьому, оновлюваний арсенал шкідливих програм, розроблених з використанням різних мов програмування, включаючи: C (ACROBAIT)"
+    },
+    {
+      "head": "UAC-0180",
+      "type": "uses-malware",
+      "tail": "ROSEBLOOM",
+      "evidence": "арсенал шкідливих програм, розроблених з використанням різних мов програмування, включаючи: C (ACROBAIT), Rust (ROSEBLOOM, ROSETHORN)"
+    },
+    {
+      "head": "UAC-0180",
+      "type": "uses-malware",
+      "tail": "ROSETHORN",
+      "evidence": "арсенал шкідливих програм, розроблених з використанням різних мов програмування, включаючи: C (ACROBAIT), Rust (ROSEBLOOM, ROSETHORN)"
+    },
+    {
+      "head": "UAC-0180",
+      "type": "uses-malware",
+      "tail": "GLUEEGG",
+      "evidence": "арсенал шкідливих програм, розроблених з використанням різних мов програмування, включаючи: C (ACROBAIT), Rust (ROSEBLOOM, ROSETHORN), Go (GLUEEGG)"
+    },
+    {
+      "head": "UAC-0180",
+      "type": "uses-malware",
+      "tail": "DROPCLUE",
+      "evidence": "арсенал шкідливих програм, розроблених з використанням різних мов програмування, включаючи: C (ACROBAIT), Rust (ROSEBLOOM, ROSETHORN), Go (GLUEEGG), Lua (DROPCLUE)"
+    },
+    {
+      "head": "GLUEEGG",
+      "type": "delivers",
+      "tail": "DROPCLUE",
+      "evidence": "Основним призначенням GLUEEGG є дешифрування (XOR зі 128-байтним ключем) та запуск завантажувача DROPCLUE"
+    },
+    {
+      "head": "DROPCLUE",
+      "type": "delivers",
+      "tail": "UA-2024-07-04-010019-a-open.pdf",
+      "evidence": "Останній забезпечить завантаження та відкриття на ЕОМ документу-приманки \"UA-2024-07-04-010019-a-open.pdf\""
+    },
+    {
+      "head": "DROPCLUE",
+      "type": "delivers",
+      "tail": "font-pack-pdf-windows-64-bit",
+      "evidence": "забезпечить завантаження та відкриття на ЕОМ документу-приманки \"UA-2024-07-04-010019-a-open.pdf\", а також EXE-файлу \"font-pack-pdf-windows-64-bit\""
+    },
+    {
+      "head": "prozorro-ua.net",
+      "type": "hosts",
+      "tail": "adobe_acrobat_fonts_pack.exe",
+      "evidence": "https://prozorro-ua.net/tender/ua-2024-06-25-006884-a/print/limited-reporting/adobe_acrobat_fonts_pack.exe"
+    },
+    {
+      "head": "prozorro-ua.net",
+      "type": "hosts",
+      "tail": "font-pack-pdf-windows-64-bit",
+      "evidence": "https://prozorro-ua.net/tender/ua-2024-06-25-006884-a/print/limited-reporting/ua-2024-07-04-010017/font-pack-pdf-windows-64-bit"
+    },
+    {
+      "head": "prozorro-ua.net",
+      "type": "hosts",
+      "tail": "UA-2024-07-04-010019-a-open.pdf",
+      "evidence": "https://prozorro-ua.net/tender/ua-2024-06-25-006894-a/print/limited-reporting/ua-2024-07-04-010019-a-open.pdf"
+    },
+    {
+      "head": "Сили оборони України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Сил оборони України"
+    }
+  ],
+  "unclassified": []
+}

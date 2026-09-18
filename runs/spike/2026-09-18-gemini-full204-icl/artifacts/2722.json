@@ -1,0 +1,220 @@
+{
+  "docId": 2722,
+  "date": "15.05.2018",
+  "title": "Популярні вразливості в українському сегменті мережі Інтернет",
+  "entities": [
+    {
+      "id": "2722:0",
+      "name": "Україні",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S4",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2722:1",
+      "name": "CVE-2014-3566",
+      "kind": "security vulnerability",
+      "gloss": "A cryptographic vulnerability in SSL 3.0 protocol padding, commonly known as POODLE.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2722:2",
+      "name": "Apache",
+      "kind": "software product",
+      "gloss": "An open-source cross-platform web server software.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2722:3",
+      "name": "nginx",
+      "kind": "software product",
+      "gloss": "A high-performance HTTP web server and reverse proxy software.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2722:4",
+      "name": "CVE-2015-4000",
+      "kind": "security vulnerability",
+      "gloss": "A security vulnerability in TLS allowing downgrade to export-grade Diffie-Hellman keys, known as Logjam.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2722:5",
+      "name": "OpenSSL",
+      "kind": "software product",
+      "gloss": "An open-source software library implementing SSL and TLS cryptographic protocols.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2722:6",
+      "name": "Internet Explorer",
+      "kind": "software product",
+      "gloss": "A discontinued web browser developed by Microsoft.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2722:7",
+      "name": "Chrome",
+      "kind": "software product",
+      "gloss": "A web browser developed by Google.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2722:8",
+      "name": "Safari",
+      "kind": "software product",
+      "gloss": "A web browser developed by Apple.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2722:9",
+      "name": "Mozilla",
+      "kind": "software product",
+      "gloss": "A web browser suite developed by the Mozilla Foundation.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2722:10",
+      "name": "DigiCert",
+      "kind": "software vendor",
+      "gloss": "A digital certificate authority and enterprise security company.",
+      "scheme": "S3",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "2722:11",
+      "name": "CVE-2016-0800",
+      "kind": "security vulnerability",
+      "gloss": "A cross-protocol vulnerability affecting SSLv2, known as DROWN.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2722:12",
+      "name": "CVE-2015-0204",
+      "kind": "security vulnerability",
+      "gloss": "A security vulnerability in TLS/SSL allowing RSA export key downgrade, known as FREAK.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2722:13",
+      "name": "CVE-2017-14491",
+      "kind": "security vulnerability",
+      "gloss": "A buffer overflow vulnerability in dnsmasq network software.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2722:14",
+      "name": "dnsmasq",
+      "kind": "software product",
+      "gloss": "A lightweight DNS forwarder and DHCP server software.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2722:15",
+      "name": "CVE-2017-0144",
+      "kind": "security vulnerability",
+      "gloss": "A remote code execution vulnerability in Microsoft Windows SMBv1 protocol.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2722:16",
+      "name": "Microsoft Windows",
+      "kind": "software product",
+      "gloss": "A proprietary graphical operating system family developed by Microsoft.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2722:17",
+      "name": "CVE-2014-0160",
+      "kind": "security vulnerability",
+      "gloss": "A memory disclosure buffer over-read vulnerability in OpenSSL, known as Heartbleed.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2015-4000",
+      "type": "affects",
+      "tail": "OpenSSL",
+      "evidence": "Вразливість поширюється як на серверне ПЗ, що використовує OpenSSL"
+    },
+    {
+      "head": "CVE-2015-4000",
+      "type": "affects",
+      "tail": "Internet Explorer",
+      "evidence": "Вразливі веб-браузери: Internet Explorer"
+    },
+    {
+      "head": "CVE-2015-4000",
+      "type": "affects",
+      "tail": "Chrome",
+      "evidence": "Вразливі веб-браузери: Chrome"
+    },
+    {
+      "head": "CVE-2015-4000",
+      "type": "affects",
+      "tail": "Safari",
+      "evidence": "Вразливі веб-браузери: Safari"
+    },
+    {
+      "head": "CVE-2015-4000",
+      "type": "affects",
+      "tail": "Mozilla",
+      "evidence": "Вразливі веб-браузери: Mozilla"
+    },
+    {
+      "head": "CVE-2017-14491",
+      "type": "affects",
+      "tail": "dnsmasq",
+      "evidence": "знайдено у коді dnsmasq включно до версії 2.78"
+    },
+    {
+      "head": "CVE-2017-0144",
+      "type": "affects",
+      "tail": "Microsoft Windows",
+      "evidence": "SMBv1 сервер у Microsoft Windows Vista SP2"
+    },
+    {
+      "head": "CVE-2014-0160",
+      "type": "affects",
+      "tail": "OpenSSL",
+      "evidence": "Heartbleed — помилка в криптографічному програмному забезпеченні OpenSSL"
+    }
+  ],
+  "unclassified": []
+}

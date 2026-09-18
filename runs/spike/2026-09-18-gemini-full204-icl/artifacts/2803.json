@@ -1,0 +1,115 @@
+{
+  "docId": 2803,
+  "date": "15.11.2018",
+  "title": "Нові хвилі масових розсилок вірусу-шифрувальника Troldesh",
+  "entities": [
+    {
+      "id": "2803:0",
+      "name": "Troldesh",
+      "kind": "malware",
+      "gloss": "A ransomware malware family that encrypts user files and demands a ransom payment.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2803:1",
+      "name": "Gazprombank.zakaz.docx.zip",
+      "kind": "malware",
+      "gloss": "A malicious ZIP archive used as an email attachment to distribute malware.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "2803:2",
+      "name": "Газпромбанк заказ.js",
+      "kind": "malware",
+      "gloss": "A malicious JavaScript file extracted from a ZIP archive that downloads and executes ransomware.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "2803:3",
+      "name": "sserv.jpg",
+      "kind": "malware",
+      "gloss": "An executable ransomware payload disguised with a JPG file extension.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2803:4",
+      "name": "WordPress",
+      "kind": "software product",
+      "gloss": "An open-source content management system commonly targeted to host malicious files.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2803:5",
+      "name": "Joomla",
+      "kind": "software product",
+      "gloss": "An open-source content management system used for publishing web content.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2803:6",
+      "name": "hxxp://dishsouq[.]com/wp-admin/css/colors/blue/sserv.jpg",
+      "kind": "uniform resource locator",
+      "gloss": "A URL on a compromised website used to host the Troldesh ransomware payload.",
+      "scheme": "S7",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "2803:7",
+      "name": "hxxp://ansaigon[.]com/templates/tm_parallaite/css/presets/sserv.jpg",
+      "kind": "uniform resource locator",
+      "gloss": "A URL on a compromised website used to host the Troldesh ransomware payload.",
+      "scheme": "S7",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "2803:8",
+      "name": "wanda.guo@163.com",
+      "kind": "email address",
+      "gloss": "An email address used by attackers to distribute malicious emails containing ransomware.",
+      "scheme": "S10",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Gazprombank.zakaz.docx.zip",
+      "type": "delivers",
+      "tail": "Газпромбанк заказ.js",
+      "evidence": "У вкладені zip-архів Gazprombank.zakaz.docx.zip з файлом “Газпромбанк заказ.js”"
+    },
+    {
+      "head": "Газпромбанк заказ.js",
+      "type": "delivers",
+      "tail": "sserv.jpg",
+      "evidence": "“Газпромбанк заказ.js”, що завантажує та запускає файл sserv.jpg"
+    },
+    {
+      "head": "hxxp://dishsouq[.]com/wp-admin/css/colors/blue/sserv.jpg",
+      "type": "hosts",
+      "tail": "Troldesh",
+      "evidence": "Посилання з яких завантажується основний файл вірусу Troldesh: hxxp://dishsouq[.]com/wp-admin/css/colors/blue/sserv.jpg"
+    },
+    {
+      "head": "hxxp://ansaigon[.]com/templates/tm_parallaite/css/presets/sserv.jpg",
+      "type": "hosts",
+      "tail": "Troldesh",
+      "evidence": "Посилання з яких завантажується основний файл вірусу Troldesh: hxxp://ansaigon[.]com/templates/tm_parallaite/css/presets/sserv.jpg"
+    }
+  ],
+  "unclassified": []
+}

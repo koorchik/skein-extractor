@@ -1,0 +1,205 @@
+{
+  "docId": 11113,
+  "date": "17.03.2021",
+  "title": "Державним центром кіберзахисту Держспецзв’язку вживаються заходи з протидії кібератакам з використанням вразливостей Microsoft Exchange Server (ProxyLogon)",
+  "entities": [
+    {
+      "id": "11113:0",
+      "name": "Microsoft",
+      "kind": "software vendor",
+      "gloss": "An American multinational technology corporation providing software, cloud services, and security solutions.",
+      "scheme": "S3",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "11113:1",
+      "name": "CVE-2021-26855",
+      "kind": "vulnerability identifier",
+      "gloss": "A server-side request forgery (SSRF) vulnerability in Microsoft Exchange Server enabling unauthenticated HTTP request forging.",
+      "scheme": "S4",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "11113:2",
+      "name": "CVE-2021-26857",
+      "kind": "vulnerability identifier",
+      "gloss": "An insecure deserialization vulnerability in Microsoft Exchange Unified Messaging service allowing remote code execution with SYSTEM privileges.",
+      "scheme": "S4",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "11113:3",
+      "name": "CVE-2021-26858",
+      "kind": "vulnerability identifier",
+      "gloss": "A post-authentication arbitrary file write vulnerability in Microsoft Exchange Server.",
+      "scheme": "S4",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "11113:4",
+      "name": "CVE-2021-27065",
+      "kind": "vulnerability identifier",
+      "gloss": "A post-authentication arbitrary file write vulnerability in Microsoft Exchange Server.",
+      "scheme": "S4",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "11113:5",
+      "name": "Microsoft Exchange Server",
+      "kind": "software product",
+      "gloss": "A mail and calendaring server developed by Microsoft.",
+      "scheme": "S1",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "11113:6",
+      "name": "Державний центр кіберзахисту Держспецзв’язку",
+      "kind": "government body",
+      "gloss": "A Ukrainian state cyber protection center operating under the State Special Communications Service of Ukraine.",
+      "scheme": "S7",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "11113:7",
+      "name": "Держспецзв’язку",
+      "kind": "government body",
+      "gloss": "The State Service of Special Communications and Information Protection of Ukraine.",
+      "scheme": "S7",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "11113:8",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "11113:9",
+      "name": "Exchange On-premises Mitigation Tool",
+      "kind": "security tool",
+      "gloss": "A PowerShell-based mitigation script developed by Microsoft to remediate known Exchange vulnerabilities.",
+      "scheme": null,
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "11113:10",
+      "name": "Microsoft Safety Scanner",
+      "kind": "security tool",
+      "gloss": "A portable scan tool designed to find and remove malware from Windows computers.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "11113:11",
+      "name": "Test-ProxyLogon.ps1",
+      "kind": "security script",
+      "gloss": "A PowerShell script created by Microsoft to detect indicators of compromise relating to Exchange Server vulnerabilities.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "11113:12",
+      "name": "http-vuln-cve2021-26855.nse",
+      "kind": "security script",
+      "gloss": "An Nmap Scripting Engine script designed to detect CVE-2021-26855 on target Exchange servers.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "11113:13",
+      "name": "nmap",
+      "kind": "security tool",
+      "gloss": "A free and open-source network scanner used for vulnerability detection and network discovery.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "11113:14",
+      "name": "CISA",
+      "kind": "government body",
+      "gloss": "The Cybersecurity and Infrastructure Security Agency of the United States.",
+      "scheme": "S7",
+      "category": "Government Body",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Microsoft",
+      "type": "develops-software",
+      "tail": "Microsoft Exchange Server",
+      "evidence": "веб-сервера на запит... на сервері Microsoft Exchange"
+    },
+    {
+      "head": "CVE-2021-26855",
+      "type": "addresses-vulnerability-in",
+      "tail": "Microsoft Exchange Server",
+      "evidence": "Вразливими є наступні версії Microsoft Exchange Server"
+    },
+    {
+      "head": "CVE-2021-26857",
+      "type": "addresses-vulnerability-in",
+      "tail": "Microsoft Exchange Server",
+      "evidence": "виконати віддалений код (RCE) з правами адміністратора на сервері Microsoft Exchange."
+    },
+    {
+      "head": "CVE-2021-26858",
+      "type": "addresses-vulnerability-in",
+      "tail": "Microsoft Exchange Server",
+      "evidence": "це вразливість запису файлів після автентифікації в Microsoft Exchange."
+    },
+    {
+      "head": "CVE-2021-27065",
+      "type": "addresses-vulnerability-in",
+      "tail": "Microsoft Exchange Server",
+      "evidence": "дозволити зловмиснику записати файл у будь-яку директорію сервера Microsoft Exchange."
+    },
+    {
+      "head": "Державний центр кіберзахисту Держспецзв’язку",
+      "type": "subordinate-to",
+      "tail": "Держспецзв’язку",
+      "evidence": "Державним центром кіберзахисту Держспецзв’язку вживаються заходи"
+    },
+    {
+      "head": "Держспецзв’язку",
+      "type": "located-in-country",
+      "tail": "Україна",
+      "evidence": "інформаційну безпеку державних органів України, де використовується у роботі Microsoft Exchange"
+    },
+    {
+      "head": "Exchange On-premises Mitigation Tool",
+      "type": "uses-tool",
+      "tail": "Microsoft Safety Scanner",
+      "evidence": "Сканує Microsoft Exchange Server за допомогою Microsoft Safety Scanner."
+    },
+    {
+      "head": "http-vuln-cve2021-26855.nse",
+      "type": "runs-on",
+      "tail": "nmap",
+      "evidence": "nse скрипт який дозволяє віддалено перевірити наявність вразливості на сервері Microsoft Exchange за допомогою утиліти nmap"
+    }
+  ],
+  "unclassified": [
+    "11113:9",
+    "11113:10",
+    "11113:11",
+    "11113:12",
+    "11113:13"
+  ]
+}

@@ -1,0 +1,543 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA від учасників інформаційного обміну отримано інформацію щодо фактів розповсюдження SMS-повідомлень з використанням підробного альфа-імені "SUDpovistka" (легітимне альфа-ім'я: "SUDPOVISTKA").</p><p>Згадані повідомлення містять посилання, створене за допомогою одного з сервісів скорочення URL-адрес (bit.ly), відвідування якого здійснить перенаправлення на шахрайський вебсайт, що імітує вебсторінку підсистеми "Електронний суд" Єдиної судової інформаційно-телекомунікаційної системи (ЄСІТС, https://id.court.gov.ua/).</p><p>Задум зловмисників полягає в спонуканні користувача, під виглядом авторизації в системі, ввести номер мобільного телефону, після чого в додаток Telegram надійде код для автентифікації. У випадку введення на шахрайському вебресурсі отриманого коду, за умови відсутності додатково налаштованої двофакторної автентифікації, третіми особами буде отримано доступ до облікового запису Telegram жертви.</p><p>Наголошуємо на необхідності використання двохфакторної автентифікації на всіх без виключення пристроях та сервісах. Принагідно звертаємо увагу на доцільність перевірки активних сесій в Telegram ("Налаштування" &gt; "Пристрої").</p><p>CERT-UA, ураховуючи технічні особливості підробних вебресурсів, додатково вжито заходів з ідентифікації інших вебсайтів (не пов'язаних з описаним фактом розсилання SMS-повідомлень), що імітують сторінки для автентифікації за допомогою Telegram.</p><p>З метою мінімізації вірогідності реалізації кіберзагроз у відношенні громадян України із залученням функціонуючої інфраструктури шахраїв, перелік ідентифікованих підробних вебресурсів передано фахівцям CSIRT-NBU.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">hxxps://bit[.]ly/3otvelp
+hxxps://sec-t[.]info/7940d162-fe1a-11ed-8e70-f12c9b23118a
+sec-t[.]info (@namecheap.com; 2023-02-24)
+5[.]255.112.246 (@liteserver.nl; NL)
+
+80[.]78.24.83 (@cyberdyne.is; SE)
+185[.]193.125.144 (@njalla.net; SE)
+185[.]193.127.152 (@njalla.net; SE)
+2a0a:3840:1337:125:0:b9c1:7d42:1337
+2a0a:3840:1337:125:0:b9c1:7d90:1337
+2a0a:3840:8078:24:0:504e:1853:1337
+telegram.org-a0dk3dm91iu.tgeo[.]link
+telegram.org-a0dm91dk31i.cloue[.]link
+telegram.org.t.me-cloud[.]link
+telegram.account[.]associates
+tgeo[.]link (@tucows.com; 2023-04-18)
+me-cloud[.]link (@tucows.com; 2023-05-23)
+account[.]associates (@tucows.com; 2023-05-03)
+cloue[.]link (@tucows.com; 2023-04-18)
+
+4-t[.]me (2023-01-01)
+i1t[.]me (2023-01-01)
+t--t[.]me (2023-01-01)
+0-t[.]me (2023-01-02)
+7tt[.]me (2023-01-02)
+vljsport[.]eu[.]com (2023-01-05)
+pomoshnikrbx[.]site (2023-01-08)
+telegrad[.]info (2023-01-09)
+chimeramarket24[.]online (2023-01-11)
+chimeramarketplace24[.]online (2023-01-11)
+chimeramarketplace[.]online (2023-01-11)
+chimera-shop24[.]online (2023-01-11)
+elyslink[.]online (2023-01-13)
+tg[.]cyou (2023-01-16)
+telegraom[.]me (2023-01-17)
+tme-id[.]ru (2023-01-22)
+tme-id[.]com (2023-02-02)
+apitelegram[.]org (2023-02-04)
+tronogram[.]com (2023-02-06)
+jokoloret[.]ru (2023-02-20)
+sec-t[.]info (2023-02-24)
+teleqram[.]info (2023-03-06)
+cloudlnk[.]org (2023-03-10)
+lolifans[.]ru (2023-03-14)
+00-l[.]ru (2023-03-16)
+swinj[.]online (2023-03-18)
+claud[.]in (2023-03-20)
+tsecurity[.]sbs (2023-03-25)
+vote-me[.]top (2023-03-25)
+konkurs-events[.]top (2023-04-06)
+freeusadatingxxx[.]online (2023-04-15)
+webk-telegram[.]icu (2023-04-15)
+webk-telegram[.]sbs (2023-04-15)
+golos2023q[.]ru (2023-04-17)
+tgeo[.]link (2023-04-18)
+telegram-click[.]ru (2023-04-20)
+confirm-agent[.]online (2023-04-22)
+microjob[.]mn (2023-04-27)
+teierqam[.]org (2023-05-03)
+telegram-mobile[.]ru (2023-05-03)
+telegram-wed[.]id (2023-05-03)
+tg-me[.]pro (2023-05-10)
+telegram-wap[.]me (2023-05-13)
+telesecurity[.]org (2023-05-17)
+truffa[.]online (2023-05-19)
+t-me[.]io (2023-05-20)
+golosdruga[.]ru (2023-05-21)
+webz-telegram[.]sbs (2023-05-21)
+telegram[.]uk[.]net (2023-05-13; inactive)
+teiegram1[.]me (2023-01-11; inactive)
+teiergam[.]com (2023-01-30; inactive)
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис. 1 Приклад офіційного вебресурсу підсистеми "Електронний суд", а також шахрайського SMS-повідомлення та підробної вебсторінки</p>
+
+=== RESPONSE (15.7s, in 2966 / out 4299 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "SUDpovistka",
+      "kind": "sender identifier",
+      "gloss": "A spoofed SMS sender name (alpha-name) used by attackers to distribute phishing links."
+    },
+    {
+      "name": "SUDPOVISTKA",
+      "kind": "sender identifier",
+      "gloss": "A legitimate SMS sender name used by Ukrainian judicial services to deliver court summons notifications."
+    },
+    {
+      "name": "bit.ly",
+      "kind": "web service",
+      "gloss": "A commercial URL shortening service abused by attackers to mask phishing URLs."
+    },
+    {
+      "name": "Електронний суд",
+      "kind": "information system",
+      "gloss": "A subsystem of Ukraine's Single Judicial Information and Telecommunication System providing electronic court services."
+    },
+    {
+      "name": "Єдина судова інформаційно-телекомунікаційна система",
+      "kind": "information system",
+      "gloss": "The national unified judicial information and telecommunications system of Ukraine."
+    },
+    {
+      "name": "https://id.court.gov.ua/",
+      "kind": "url",
+      "gloss": "The legitimate login URL for the Ukrainian Electronic Court subsystem."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software application",
+      "gloss": "A cloud-based instant messaging service and application targeted for credential theft and account takeover."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose citizens and court systems were targeted in the phishing campaign."
+    },
+    {
+      "name": "CSIRT-NBU",
+      "kind": "incident response team",
+      "gloss": "The computer security incident response team of the National Bank of Ukraine."
+    },
+    {
+      "name": "hxxps://bit[.]ly/3otvelp",
+      "kind": "url",
+      "gloss": "A malicious shortened URL used to redirect victims to a phishing website."
+    },
+    {
+      "name": "hxxps://sec-t[.]info/7940d162-fe1a-11ed-8e70-f12c9b23118a",
+      "kind": "url",
+      "gloss": "A phishing URL impersonating the Ukrainian Electronic Court login page to steal Telegram credentials."
+    },
+    {
+      "name": "sec-t[.]info",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used to host fraudulent authentication pages mimicking Ukrainian judicial services."
+    },
+    {
+      "name": "5[.]255.112.246",
+      "kind": "ip address",
+      "gloss": "An IP address associated with fraudulent phishing infrastructure."
+    },
+    {
+      "name": "80[.]78.24.83",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious Telegram credential harvesting infrastructure."
+    },
+    {
+      "name": "185[.]193.125.144",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious phishing domains."
+    },
+    {
+      "name": "185[.]193.127.152",
+      "kind": "ip address",
+      "gloss": "An IP address associated with fraudulent infrastructure."
+    },
+    {
+      "name": "2a0a:3840:1337:125:0:b9c1:7d42:1337",
+      "kind": "ip address",
+      "gloss": "An IPv6 address identified as part of the malicious phishing infrastructure."
+    },
+    {
+      "name": "2a0a:3840:1337:125:0:b9c1:7d90:1337",
+      "kind": "ip address",
+      "gloss": "An IPv6 address identified as part of the fraudulent infrastructure."
+    },
+    {
+      "name": "2a0a:3840:8078:24:0:504e:1853:1337",
+      "kind": "ip address",
+      "gloss": "An IPv6 address linked to Telegram phishing infrastructure."
+    },
+    {
+      "name": "telegram.org-a0dk3dm91iu.tgeo[.]link",
+      "kind": "internet domain",
+      "gloss": "A phishing subdomain configured to harvest Telegram authentication credentials."
+    },
+    {
+      "name": "telegram.org-a0dm91dk31i.cloue[.]link",
+      "kind": "internet domain",
+      "gloss": "A phishing subdomain spoofing Telegram authentication services."
+    },
+    {
+      "name": "telegram.org.t.me-cloud[.]link",
+      "kind": "internet domain",
+      "gloss": "A spoofed subdomain used for Telegram phishing."
+    },
+    {
+      "name": "telegram.account[.]associates",
+      "kind": "internet domain",
+      "gloss": "A spoofed subdomain designed to capture Telegram login credentials."
+    },
+    {
+      "name": "tgeo[.]link",
+      "kind": "internet domain",
+      "gloss": "A domain used to host Telegram credential phishing resources."
+    },
+    {
+      "name": "me-cloud[.]link",
+      "kind": "internet domain",
+      "gloss": "A domain utilized in Telegram account harvesting operations."
+    },
+    {
+      "name": "account[.]associates",
+      "kind": "internet domain",
+      "gloss": "A domain leveraged by attackers for credential harvesting campaigns."
+    },
+    {
+      "name": "cloue[.]link",
+      "kind": "internet domain",
+      "gloss": "A domain associated with phishing pages imitating Telegram authentication."
+    },
+    {
+      "name": "4-t[.]me",
+      "kind": "internet domain",
+      "gloss": "A malicious domain mimicking Telegram login services."
+    },
+    {
+      "name": "i1t[.]me",
+      "kind": "internet domain",
+      "gloss": "A phishing domain used in Telegram credential theft schemes."
+    },
+    {
+      "name": "t--t[.]me",
+      "kind": "internet domain",
+      "gloss": "A fraudulent domain masquerading as Telegram infrastructure."
+    },
+    {
+      "name": "0-t[.]me",
+      "kind": "internet domain",
+      "gloss": "A domain used for Telegram authentication spoofing."
+    },
+    {
+      "name": "7tt[.]me",
+      "kind": "internet domain",
+      "gloss": "A phishing domain designed to steal Telegram credentials."
+    },
+    {
+      "name": "vljsport[.]eu[.]com",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious infrastructure."
+    },
+    {
+      "name": "pomoshnikrbx[.]site",
+      "kind": "internet domain",
+      "gloss": "A domain used in social engineering and credential harvesting operations."
+    },
+    {
+      "name": "telegrad[.]info",
+      "kind": "internet domain",
+      "gloss": "A typosquatted domain mimicking Telegram services."
+    },
+    {
+      "name": "chimeramarket24[.]online",
+      "kind": "internet domain",
+      "gloss": "A fraudulent domain identified as part of the attacker infrastructure."
+    },
+    {
+      "name": "chimeramarketplace24[.]online",
+      "kind": "internet domain",
+      "gloss": "A malicious domain linked to the threat infrastructure."
+    },
+    {
+      "name": "chimeramarketplace[.]online",
+      "kind": "internet domain",
+      "gloss": "A fraudulent domain identified in the incident investigation."
+    },
+    {
+      "name": "chimera-shop24[.]online",
+      "kind": "internet domain",
+      "gloss": "A malicious domain identified as part of attacker infrastructure."
+    },
+    {
+      "name": "elyslink[.]online",
+      "kind": "internet domain",
+      "gloss": "A fraudulent domain used in cyber threat activities."
+    },
+    {
+      "name": "tg[.]cyou",
+      "kind": "internet domain",
+      "gloss": "A typosquatted domain impersonating Telegram."
+    },
+    {
+      "name": "telegraom[.]me",
+      "kind": "internet domain",
+      "gloss": "A typosquatted domain impersonating Telegram authentication pages."
+    },
+    {
+      "name": "tme-id[.]ru",
+      "kind": "internet domain",
+      "gloss": "A phishing domain spoofing Telegram login identifiers."
+    },
+    {
+      "name": "tme-id[.]com",
+      "kind": "internet domain",
+      "gloss": "A phishing domain masquerading as a Telegram authentication endpoint."
+    },
+    {
+      "name": "apitelegram[.]org",
+      "kind": "internet domain",
+      "gloss": "A domain impersonating Telegram API services for credential harvesting."
+    },
+    {
+      "name": "tronogram[.]com",
+      "kind": "internet domain",
+      "gloss": "A fraudulent domain used in Telegram-themed phishing campaigns."
+    },
+    {
+      "name": "jokoloret[.]ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain associated with threat actor infrastructure."
+    },
+    {
+      "name": "teleqram[.]info",
+      "kind": "internet domain",
+      "gloss": "A typosquatted domain spoofing Telegram."
+    },
+    {
+      "name": "cloudlnk[.]org",
+      "kind": "internet domain",
+      "gloss": "A domain identified as part of the malicious infrastructure."
+    },
+    {
+      "name": "lolifans[.]ru",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified in the cyber threat indicators list."
+    },
+    {
+      "name": "00-l[.]ru",
+      "kind": "internet domain",
+      "gloss": "A malicious domain linked to attacker infrastructure."
+    },
+    {
+      "name": "swinj[.]online",
+      "kind": "internet domain",
+      "gloss": "A fraudulent domain identified in the incident infrastructure."
+    },
+    {
+      "name": "claud[.]in",
+      "kind": "internet domain",
+      "gloss": "A domain utilized in credential theft infrastructure."
+    },
+    {
+      "name": "tsecurity[.]sbs",
+      "kind": "internet domain",
+      "gloss": "A phishing domain masquerading as Telegram security services."
+    },
+    {
+      "name": "vote-me[.]top",
+      "kind": "internet domain",
+      "gloss": "A social engineering domain used to lure users into providing Telegram credentials."
+    },
+    {
+      "name": "konkurs-events[.]top",
+      "kind": "internet domain",
+      "gloss": "A phishing domain utilizing contest-themed lures."
+    },
+    {
+      "name": "freeusadatingxxx[.]online",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used in attacker phishing infrastructure."
+    },
+    {
+      "name": "webk-telegram[.]icu",
+      "kind": "internet domain",
+      "gloss": "A phishing domain spoofing the Telegram Web K client interface."
+    },
+    {
+      "name": "webk-telegram[.]sbs",
+      "kind": "internet domain",
+      "gloss": "A domain mimicking the Telegram Web client to harvest credentials."
+    },
+    {
+      "name": "golos2023q[.]ru",
+      "kind": "internet domain",
+      "gloss": "A domain used for voting-themed phishing campaigns targeting Telegram."
+    },
+    {
+      "name": "telegram-click[.]ru",
+      "kind": "internet domain",
+      "gloss": "A typosquatted domain used to lure victims to Telegram phishing pages."
+    },
+    {
+      "name": "confirm-agent[.]online",
+      "kind": "internet domain",
+      "gloss": "A fraudulent domain used in authentication verification scams."
+    },
+    {
+      "name": "microjob[.]mn",
+      "kind": "internet domain",
+      "gloss": "A domain identified as malicious infrastructure."
+    },
+    {
+      "name": "teierqam[.]org",
+      "kind": "internet domain",
+      "gloss": "A typosquatted domain mimicking Telegram."
+    },
+    {
+      "name": "telegram-mobile[.]ru",
+      "kind": "internet domain",
+      "gloss": "A fraudulent domain masquerading as Telegram mobile services."
+    },
+    {
+      "name": "telegram-wed[.]id",
+      "kind": "internet domain",
+      "gloss": "A typosquatted domain impersonating Telegram Web."
+    },
+    {
+      "name": "tg-me[.]pro",
+      "kind": "internet domain",
+      "gloss": "A spoofed domain mimicking Telegram short links."
+    },
+    {
+      "name": "telegram-wap[.]me",
+      "kind": "internet domain",
+      "gloss": "A phishing domain impersonating Telegram mobile portals."
+    },
+    {
+      "name": "telesecurity[.]org",
+      "kind": "internet domain",
+      "gloss": "A fraudulent domain impersonating Telegram security communications."
+    },
+    {
+      "name": "truffa[.]online",
+      "kind": "internet domain",
+      "gloss": "A malicious domain identified in the attacker infrastructure."
+    },
+    {
+      "name": "t-me[.]io",
+      "kind": "internet domain",
+      "gloss": "A typosquatted domain spoofing Telegram t.me links."
+    },
+    {
+      "name": "golosdruga[.]ru",
+      "kind": "internet domain",
+      "gloss": "A voting-themed phishing domain used to steal Telegram accounts."
+    },
+    {
+      "name": "webz-telegram[.]sbs",
+      "kind": "internet domain",
+      "gloss": "A phishing domain mimicking Telegram Web Z client interface."
+    },
+    {
+      "name": "telegram[.]uk[.]net",
+      "kind": "internet domain",
+      "gloss": "An inactive phishing domain previously spoofing Telegram."
+    },
+    {
+      "name": "teiegram1[.]me",
+      "kind": "internet domain",
+      "gloss": "An inactive typosquatted domain masquerading as Telegram."
+    },
+    {
+      "name": "teiergam[.]com",
+      "kind": "internet domain",
+      "gloss": "An inactive typosquatted domain spoofing Telegram."
+    }
+  ],
+  "relations": [
+    {
+      "head": "SUDpovistka",
+      "type": "spoofs-sender-identifier",
+      "tail": "SUDPOVISTKA",
+      "evidence": "використанням підробного альфа-імені \"SUDpovistka\" (легітимне альфа-ім'я: \"SUDPOVISTKA\")"
+    },
+    {
+      "head": "Електронний суд",
+      "type": "is-subsystem-of",
+      "tail": "Єдина судова інформаційно-телекомунікаційна система",
+      "evidence": "підсистеми \"Електронний суд\" Єдиної судової інформаційно-телекомунікаційної системи"
+    },
+    {
+      "head": "hxxps://bit[.]ly/3otvelp",
+      "type": "shortened-via",
+      "tail": "bit.ly",
+      "evidence": "посилання, створене за допомогою одного з сервісів скорочення URL-адрес (bit.ly)"
+    },
+    {
+      "head": "hxxps://sec-t[.]info/7940d162-fe1a-11ed-8e70-f12c9b23118a",
+      "type": "impersonates-subsystem",
+      "tail": "Електронний суд",
+      "evidence": "шахрайський вебсайт, що імітує вебсторінку підсистеми \"Електронний суд\""
+    },
+    {
+      "head": "hxxps://sec-t[.]info/7940d162-fe1a-11ed-8e70-f12c9b23118a",
+      "type": "targets-user-credentials-of",
+      "tail": "Telegram",
+      "evidence": "отримано доступ до облікового запису Telegram жертви"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "spoofs-sender-identifier",
+      "definition": "An entity mimics a legitimate sender name or identifier to mislead recipients."
+    },
+    {
+      "name": "is-subsystem-of",
+      "definition": "An entity is a functional component or sub-service of a larger technical system."
+    },
+    {
+      "name": "shortened-via",
+      "definition": "A shortened URL entity was generated through a specific URL shortening service."
+    },
+    {
+      "name": "impersonates-subsystem",
+      "definition": "A malicious entity falsely imitates a legitimate software or information subsystem."
+    },
+    {
+      "name": "targets-user-credentials-of",
+      "definition": "A malicious resource or attack activity is designed to steal user credentials or sessions for a specified platform."
+    }
+  ]
+}

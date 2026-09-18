@@ -1,0 +1,133 @@
+{
+  "entities": [
+    {
+      "name": "Національний банк України (CSIRT-NBU)",
+      "kind": "central bank",
+      "gloss": "The central bank of Ukraine and its computer security incident response team."
+    },
+    {
+      "name": "Департамент кіберполіції Національної поліції України",
+      "kind": "law enforcement agency",
+      "gloss": "The cybercrime department of the National Police of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country located in Eastern Europe."
+    },
+    {
+      "name": "Донецька область",
+      "kind": "administrative region",
+      "gloss": "An administrative region in eastern Ukraine."
+    },
+    {
+      "name": "Mirai",
+      "kind": "botnet",
+      "gloss": "A malware family and botnet that enslaves connected devices to conduct distributed denial-of-service attacks."
+    },
+    {
+      "name": "Meris",
+      "kind": "botnet",
+      "gloss": "A botnet composed primarily of compromised network routers used to perform distributed denial-of-service attacks."
+    },
+    {
+      "name": "Mikrotik",
+      "kind": "hardware vendor",
+      "gloss": "A Latvian manufacturer of networking hardware and router software."
+    },
+    {
+      "name": "Shodan",
+      "kind": "search engine",
+      "gloss": "A search engine designed to discover and monitor internet-connected devices."
+    },
+    {
+      "name": "MISP",
+      "kind": "threat intelligence platform",
+      "gloss": "An open-source software solution for collecting, storing, and sharing cyber threat intelligence."
+    },
+    {
+      "name": "gov.ua",
+      "kind": "domain zone",
+      "gloss": "The Ukrainian government second-level domain zone under the top-level country code domain."
+    },
+    {
+      "name": "Cisco Crosswork",
+      "kind": "network management software",
+      "gloss": "A network automation and routing intelligence platform developed by Cisco."
+    },
+    {
+      "name": "217.117.7.0/24",
+      "kind": "ip prefix",
+      "gloss": "An IPv4 network prefix allocated on the public internet."
+    },
+    {
+      "name": "Inq-Digital-Nigeria-AS (AS16284)",
+      "kind": "autonomous system",
+      "gloss": "An autonomous system operated by a Nigerian telecommunications and digital services provider."
+    },
+    {
+      "name": "Приватбанк",
+      "kind": "commercial bank",
+      "gloss": "A large commercial bank operating in Ukraine."
+    },
+    {
+      "name": "AS15742",
+      "kind": "autonomous system",
+      "gloss": "The autonomous system number assigned to the Ukrainian financial institution PrivatBank."
+    },
+    {
+      "name": "AS37148",
+      "kind": "autonomous system",
+      "gloss": "An autonomous system operated by a telecommunications provider in Nigeria."
+    },
+    {
+      "name": "Нігерія",
+      "kind": "country",
+      "gloss": "A sovereign country located in West Africa."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Meris",
+      "type": "compromises-devices-from",
+      "tail": "Mikrotik",
+      "evidence": "через тисячі зламаних маршрутизаторів Mikrotik"
+    },
+    {
+      "head": "Приватбанк",
+      "type": "operates-autonomous-system",
+      "tail": "AS15742",
+      "evidence": "автономної системи Приватбанку (AS15742)"
+    },
+    {
+      "head": "Inq-Digital-Nigeria-AS (AS16284)",
+      "type": "owns-ip-prefix",
+      "tail": "217.117.7.0/24",
+      "evidence": "префікс 217.117.7.0/24, який фактично належить Inq-Digital-Nigeria-AS (AS16284)"
+    },
+    {
+      "head": "AS37148",
+      "type": "located-in",
+      "tail": "Нігерія",
+      "evidence": "нігерійського оператора телекомунікацій AS37148"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "compromises-devices-from",
+      "definition": "The malware or botnet compromises and leverages hardware products produced by the specified vendor."
+    },
+    {
+      "name": "operates-autonomous-system",
+      "definition": "The organization or company operates the specified autonomous system on the internet."
+    },
+    {
+      "name": "owns-ip-prefix",
+      "definition": "The autonomous system or organization legally holds or is allocated the specified IP network prefix."
+    },
+    {
+      "name": "located-in",
+      "definition": "The organization, network entity, or asset is geographically or jurisdictionally located in the specified country or region."
+    }
+  ]
+}

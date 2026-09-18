@@ -1,0 +1,160 @@
+{
+  "docId": 2699,
+  "date": "29.01.2019",
+  "title": "Чергова фішинг-атака на органи державної влади",
+  "entities": [
+    {
+      "id": "2699:0",
+      "name": "Smokeloader",
+      "kind": "malware family",
+      "gloss": "A modular malware loader used to download and execute additional malicious payloads on compromised systems.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2699:1",
+      "name": "Україні",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2699:2",
+      "name": "К оплате за январь Агро.lzh",
+      "kind": "archive file",
+      "gloss": "A malicious LZH archive attachment used in a phishing campaign to deliver malware.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2699:3",
+      "name": "Рахунок №6-19 от 29.01.2019р.xls.js",
+      "kind": "script file",
+      "gloss": "A malicious JavaScript file disguised as an Excel spreadsheet.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2699:4",
+      "name": "91.234.2.202",
+      "kind": "ip address",
+      "gloss": "An IP address identified in phishing email headers.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2699:5",
+      "name": "sekretar2@svit-mebliv.ua",
+      "kind": "email address",
+      "gloss": "An email address used as the sender envelope in a phishing wave.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2699:6",
+      "name": "договір та р.фактура від 30.01.19.lzh",
+      "kind": "archive file",
+      "gloss": "A malicious LZH archive file delivered via phishing emails.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2699:7",
+      "name": "Pax. 19-208 - 30.01.2019p..js",
+      "kind": "script file",
+      "gloss": "A malicious JavaScript file extracted from an archive attachment.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2699:8",
+      "name": "unit.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable payload associated with the Smokeloader campaign.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "2699:9",
+      "name": "91.198.36.68",
+      "kind": "ip address",
+      "gloss": "An IP address observed in phishing email transmission headers.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2699:10",
+      "name": "abed@i.ua",
+      "kind": "email address",
+      "gloss": "An email address observed as the envelope sender in malicious email distribution.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2699:11",
+      "name": "ceronamtinclube.icu",
+      "kind": "internet domain",
+      "gloss": "A domain name used to host malicious executable files.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "2699:12",
+      "name": "62.173.138.170",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious payload files.",
+      "scheme": "S11",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "2699:13",
+      "name": "aviatorssm.bit",
+      "kind": "internet domain",
+      "gloss": "A domain name utilized as command and control infrastructure for malware.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "2699:14",
+      "name": "www.msftncsi.com",
+      "kind": "internet domain",
+      "gloss": "A legitimate Microsoft Network Connectivity Status Indicator domain contacted for connectivity checks.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "ceronamtinclube.icu",
+      "type": "hosts",
+      "tail": "unit.exe",
+      "evidence": "ceronamtinclube.icu/opuba/unit.exe"
+    },
+    {
+      "head": "62.173.138.170",
+      "type": "hosts",
+      "tail": "unit.exe",
+      "evidence": "ceronamtinclube.icu/opuba/unit.exe [ 62.173.138.170]"
+    }
+  ],
+  "unclassified": [
+    "2699:3",
+    "2699:7"
+  ]
+}

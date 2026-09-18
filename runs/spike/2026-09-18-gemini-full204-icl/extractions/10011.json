@@ -1,0 +1,119 @@
+{
+  "entities": [
+    {
+      "name": "Адміністрація Держспецзв’язку",
+      "kind": "government organization",
+      "gloss": "A Ukrainian state authority responsible for communications, cyber security, and government information protection."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "zapros@dsszzi.gov.ua",
+      "kind": "email address",
+      "gloss": "A spoofed email address used as the sender in a phishing campaign."
+    },
+    {
+      "name": "212.44.151.60",
+      "kind": "ip address",
+      "gloss": "An IP address belonging to Vimpelcom used to send phishing emails."
+    },
+    {
+      "name": "Vimpelcom",
+      "kind": "software vendor",
+      "gloss": "A Russian telecommunications provider and internet service provider."
+    },
+    {
+      "name": "Російської Федерації",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "Електронний запит.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive distributed as a phishing email attachment."
+    },
+    {
+      "name": "Електронний запит.exe",
+      "kind": "malware",
+      "gloss": "A remote access trojan executable delivered inside a malicious archive."
+    },
+    {
+      "name": "installer.exe",
+      "kind": "computer file",
+      "gloss": "A dropper executable containing a legitimate remote administration utility component."
+    },
+    {
+      "name": "host_news_mod_mod.msi",
+      "kind": "computer file",
+      "gloss": "A malicious MSI installer file bundled with the remote access payload."
+    },
+    {
+      "name": "Remote Utilities",
+      "kind": "software product",
+      "gloss": "A legitimate remote desktop and administration software suite abused by attackers."
+    },
+    {
+      "name": "RMS",
+      "kind": "software product",
+      "gloss": "Remote Manipulator System, a remote desktop management software suite abused for unauthorized access."
+    },
+    {
+      "name": "killself.bat",
+      "kind": "computer file",
+      "gloss": "A batch script executed to remove indicators of compromise after payload initialization."
+    },
+    {
+      "name": "185.161.208.186",
+      "kind": "ip address",
+      "gloss": "A command and control server IP address used by the malware."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Адміністрація Держспецзв’язку",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "державні установи України. Листи відправлялися, начебто, від імені Адміністрації Держспецзв’язку"
+    },
+    {
+      "head": "Vimpelcom",
+      "type": "located-in",
+      "tail": "Російської Федерації",
+      "evidence": "провайдера \"Vimpelcom\" Російської Федерації."
+    },
+    {
+      "head": "212.44.151.60",
+      "type": "part-of",
+      "tail": "Vimpelcom",
+      "evidence": "ІР-адреси 212.44.151.60, яка належить до пулу адрес провайдера \"Vimpelcom\""
+    },
+    {
+      "head": "Електронний запит.rar",
+      "type": "delivers",
+      "tail": "Електронний запит.exe",
+      "evidence": "Запаролений архів містить файл «Електронний запит.exe»"
+    },
+    {
+      "head": "Електронний запит.exe",
+      "type": "delivers",
+      "tail": "installer.exe",
+      "evidence": "«Електронний запит.ехе» містить в собі файли «installer.exe»"
+    },
+    {
+      "head": "Електронний запит.exe",
+      "type": "delivers",
+      "tail": "host_news_mod_mod.msi",
+      "evidence": "«Електронний запит.ехе» містить в собі файли «installer.exe» та «host_news_mod_mod.msi»."
+    },
+    {
+      "head": "Електронний запит.exe",
+      "type": "delivers",
+      "tail": "killself.bat",
+      "evidence": "видаляють індикатори компрометації з робочих директорій ШПЗ за допомогою файлу «killself.bat»"
+    }
+  ],
+  "newRelationTypes": []
+}

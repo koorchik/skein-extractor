@@ -1,0 +1,234 @@
+{
+  "docId": 18273,
+  "date": "31.01.2022",
+  "title": "Кібератака на державні організації України з використанням шкідливих програм SaintBot та OutSteel   (CERT-UA#3785) ",
+  "entities": [
+    {
+      "id": "18273:0",
+      "name": "Національна служба здоров’я України",
+      "kind": "government body",
+      "gloss": "The central executive body implementing state policy in the field of public healthcare guarantees in Ukraine.",
+      "scheme": "S6",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "18273:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S5",
+      "category": "Country",
+      "role": "related"
+    },
+    {
+      "id": "18273:2",
+      "name": "Discord",
+      "kind": "online platform",
+      "gloss": "A popular instant messaging and digital distribution platform.",
+      "scheme": null,
+      "category": "Organization",
+      "role": "attacker"
+    },
+    {
+      "id": "18273:3",
+      "name": "OutSteel",
+      "kind": "malware family",
+      "gloss": "A document-stealing malware family written in AutoIt.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "18273:4",
+      "name": "SaintBot",
+      "kind": "malware family",
+      "gloss": "A modular downloader and backdoor malware family.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "18273:5",
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyberespionage threat actor targeting Ukrainian state organizations.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "18273:6",
+      "name": "d5aadb4ace8ffccb.zip",
+      "kind": "file",
+      "gloss": "A malicious ZIP archive hosted on Discord used in the attack.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "18273:7",
+      "name": "Додаток_2.docx",
+      "kind": "file",
+      "gloss": "A decoy document file contained in the malicious archive.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "18273:8",
+      "name": "Додаток_1.docx.lnk",
+      "kind": "file",
+      "gloss": "A malicious shortcut file used to execute PowerShell commands.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "18273:9",
+      "name": "up74987340.exe",
+      "kind": "file",
+      "gloss": "An executable file downloading or delivering OutSteel malware.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "18273:10",
+      "name": "up74987340.dec.exe",
+      "kind": "file",
+      "gloss": "A decrypted executable file associated with OutSteel malware.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "18273:11",
+      "name": "load74h74830.exe",
+      "kind": "file",
+      "gloss": "An executable file used to drop or run secondary malware payloads.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "18273:12",
+      "name": "1406.exe",
+      "kind": "file",
+      "gloss": "An executable file associated with SaintBot malware.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "18273:13",
+      "name": "eumr[.]site",
+      "kind": "domain",
+      "gloss": "A malicious domain used for hosting malware payloads.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "18273:14",
+      "name": "8003659902[.]space",
+      "kind": "domain",
+      "gloss": "A malicious domain used for command and control communication.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "18273:15",
+      "name": "smm2021[.]net",
+      "kind": "domain",
+      "gloss": "A malicious domain used for command and control communication.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "18273:16",
+      "name": "8003659902[.]site",
+      "kind": "domain",
+      "gloss": "A malicious domain used for command and control communication.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "18273:17",
+      "name": "1000020[.]xyz",
+      "kind": "domain",
+      "gloss": "A malicious domain identified as an indicator of compromise.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "18273:18",
+      "name": "185.244.41[.]109",
+      "kind": "ip address",
+      "gloss": "An IP address used for receiving stolen documents via HTTP POST.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "18273:19",
+      "name": "testsid@lthhc-zm[.]com",
+      "kind": "email address",
+      "gloss": "An email address identified as an indicator of compromise.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Національна служба здоров’я України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Національної служби здоров’я України"
+    },
+    {
+      "head": "Discord",
+      "type": "hosts",
+      "tail": "d5aadb4ace8ffccb.zip",
+      "evidence": "ZIP-архів, розміщений на публічному сервісі Discord"
+    },
+    {
+      "head": "OutSteel",
+      "type": "delivers",
+      "tail": "SaintBot",
+      "evidence": "завантажить і виконає шкідливу програму SaintBot"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "OutSteel",
+      "evidence": "завантаження і запуску шкідливої програми OutSteel ... Відслідковується CERT-UA ... за ідентифікатором UAC-0056"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "SaintBot",
+      "evidence": "виконає шкідливу програму SaintBot ... Відслідковується CERT-UA ... за ідентифікатором UAC-0056"
+    },
+    {
+      "head": "eumr[.]site",
+      "type": "hosts",
+      "tail": "up74987340.exe",
+      "evidence": "hxxp://eumr[.]site/up74987340.exe"
+    },
+    {
+      "head": "eumr[.]site",
+      "type": "hosts",
+      "tail": "load74h74830.exe",
+      "evidence": "hxxp://eumr[.]site/load74h74830.exe"
+    }
+  ],
+  "unclassified": [
+    "18273:2"
+  ]
+}

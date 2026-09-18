@@ -1,0 +1,146 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0057",
+      "kind": "threat actor",
+      "gloss": "A cyberespionage threat group known for targeting Ukrainian government and local self-government organizations."
+    },
+    {
+      "name": "PICASSOLOADER",
+      "kind": "malware family",
+      "gloss": "A malware loader designed to execute intermediate payloads and deliver subsequent stages onto compromised systems."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware family",
+      "gloss": "A post-exploitation agent and remote access payload component of the Cobalt Strike adversary simulation software."
+    },
+    {
+      "name": "HOVERLA",
+      "kind": "project",
+      "gloss": "A USAID/DAI project supporting local self-government reform in Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "органи місцевого самоврядування України",
+      "kind": "government body",
+      "gloss": "Local self-government authorities and municipal bodies operating across Ukraine."
+    },
+    {
+      "name": "oborona.rar",
+      "kind": "file",
+      "gloss": "A malicious archive file used in the phishing campaign."
+    },
+    {
+      "name": "66_oborona_PURGED.xls",
+      "kind": "file",
+      "gloss": "A malicious spreadsheet with macros used to deliver the PICASSOLOADER payload."
+    },
+    {
+      "name": "trix.xls",
+      "kind": "file",
+      "gloss": "A malicious spreadsheet with macros used in the attack campaign."
+    },
+    {
+      "name": "equipment_survey_regions_.xls",
+      "kind": "file",
+      "gloss": "A malicious spreadsheet document used as a lure in the campaign."
+    },
+    {
+      "name": "accounts.xls",
+      "kind": "file",
+      "gloss": "A malicious spreadsheet document used to drop malware."
+    },
+    {
+      "name": "spreadsheet.xls",
+      "kind": "file",
+      "gloss": "A malicious spreadsheet document containing macros used in the attack."
+    },
+    {
+      "name": "attachment.xls",
+      "kind": "file",
+      "gloss": "A malicious spreadsheet document distributed as an attachment."
+    },
+    {
+      "name": "Податок_2024.xls",
+      "kind": "file",
+      "gloss": "A malicious spreadsheet lure themed around taxation topics."
+    },
+    {
+      "name": "runbll32.dll",
+      "kind": "file",
+      "gloss": "A malicious dynamic-link library dropped during the infection chain."
+    },
+    {
+      "name": "ruhbll32.dll",
+      "kind": "file",
+      "gloss": "A malicious dynamic-link library associated with the malware execution chain."
+    },
+    {
+      "name": "Loader.dll",
+      "kind": "file",
+      "gloss": "A malicious dynamic-link library used as a loader component."
+    },
+    {
+      "name": "ResetEngine.dll",
+      "kind": "file",
+      "gloss": "A malicious dynamic-link library dropped onto the victim host."
+    },
+    {
+      "name": "CobaltStrikeBeacon.shellcode",
+      "kind": "file",
+      "gloss": "A shellcode file containing the Cobalt Strike Beacon payload."
+    },
+    {
+      "name": "virus_12.07.2024.rar",
+      "kind": "file",
+      "gloss": "A malicious archive file observed in the cyber threat campaign."
+    },
+    {
+      "name": "backstagemerch.shop",
+      "kind": "internet domain",
+      "gloss": "A domain name used as network infrastructure to deliver malicious content."
+    },
+    {
+      "name": "empoweringparents.shop",
+      "kind": "internet domain",
+      "gloss": "A domain name used in the attacker's delivery infrastructure."
+    },
+    {
+      "name": "lauramcinerney.shop",
+      "kind": "internet domain",
+      "gloss": "A domain name used to distribute malicious payloads."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0057",
+      "type": "uses-malware",
+      "tail": "PICASSOLOADER",
+      "evidence": "угрупування UAC-0057, що полягала в розповсюдженні документів з макросами, призначеними для запуску на ЕОМ шкідливої програми PICASSOLOADER"
+    },
+    {
+      "head": "PICASSOLOADER",
+      "type": "delivers",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "запуску на ЕОМ шкідливої програми PICASSOLOADER з метою доставки на комп'ютер жертви Cobalt Strike Beacon"
+    },
+    {
+      "head": "UAC-0057",
+      "type": "attacks",
+      "tail": "органи місцевого самоврядування України",
+      "evidence": "об'єктами зацікавленості UAC-0057 могли бути як фахівці проєктних офісів, так й їхні \"контрагенти\" з числа співробітників відповідних органів місцевого самоврядування України"
+    },
+    {
+      "head": "органи місцевого самоврядування України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "органів місцевого самоврядування України"
+    }
+  ],
+  "newRelationTypes": []
+}

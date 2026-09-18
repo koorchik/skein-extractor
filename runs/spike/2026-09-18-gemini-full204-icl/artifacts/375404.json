@@ -1,0 +1,208 @@
+{
+  "docId": 375404,
+  "date": "22.06.2022",
+  "title": "Кібератаки груп, асоційованих з Китаєм, у відношенні російських науково-технічних підприємств та державних органів (CERT-UA#4860)",
+  "entities": [
+    {
+      "id": "375404:0",
+      "name": "Вниманию.doc",
+      "kind": "computer file",
+      "gloss": "A malicious Microsoft Word document used to exploit vulnerabilities and deliver malware.",
+      "scheme": "S11",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "375404:1",
+      "name": "17.06.2022_Протокол_МРГ_Подгруппа_ИБ.doc",
+      "kind": "computer file",
+      "gloss": "A malicious Microsoft Word document used as a decoy and payload carrier in cyberattacks.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "375404:2",
+      "name": "замечания таблица 20.06.2022.doc",
+      "kind": "computer file",
+      "gloss": "A malicious Microsoft Word document used to deliver malware payloads.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "375404:3",
+      "name": "О_формировании_проекта_ПНС_2022_файл_отображен.doc",
+      "kind": "computer file",
+      "gloss": "A malicious Microsoft Word document weaponized to exploit vulnerabilities.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "375404:4",
+      "name": "MS Office Word",
+      "kind": "software product",
+      "gloss": "A word processing software developed by Microsoft.",
+      "scheme": "S2",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "375404:5",
+      "name": "RoyalRoad",
+      "kind": "malware",
+      "gloss": "A malicious document builder tool used by various advanced persistent threat groups.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "375404:6",
+      "name": "Bisonal",
+      "kind": "malware",
+      "gloss": "A remote access trojan malware family associated with cyber espionage campaigns.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "375404:7",
+      "name": "QuickMute",
+      "kind": "malware",
+      "gloss": "A C/C++ malware loader designed to decrypt and execute payloads in memory.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "375404:8",
+      "name": "Китай",
+      "kind": "country",
+      "gloss": "A country in East Asia.",
+      "scheme": "S4",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "375404:9",
+      "name": "TontoTeam (UAC-0018)",
+      "kind": "threat actor",
+      "gloss": "A Chinese state-sponsored advanced persistent threat group also tracked as UAC-0018.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "375404:10",
+      "name": "російської федерації",
+      "kind": "country",
+      "gloss": "A transcontinental country spanning Eastern Europe and Northern Asia.",
+      "scheme": "S4",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "375404:11",
+      "name": "dcnx18pwh.wmf",
+      "kind": "computer file",
+      "gloss": "An obfuscated vector graphics file used to stage and drop malware payloads.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "375404:12",
+      "name": "dcnx18pwh.exe",
+      "kind": "computer file",
+      "gloss": "An executable file containing malware dropped during the attack.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "375404:13",
+      "name": "hXXps://upportteam.lingrevelat[.]com/update/v32/default",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL used for command and control communication.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "375404:14",
+      "name": "hXXps://upportteam.lingrevelat[.]com",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious base URL used for malware network communications.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "375404:15",
+      "name": "upportteam.lingrevelat[.]com",
+      "kind": "domain name",
+      "gloss": "A malicious domain name configured for malware command and control infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "375404:16",
+      "name": "lingrevelat[.]com",
+      "kind": "domain name",
+      "gloss": "A malicious parent domain used in cyber threat infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "375404:17",
+      "name": "137.220.176.165",
+      "kind": "ip address",
+      "gloss": "An IP address associated with command and control infrastructure in cyberattacks.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "TontoTeam (UAC-0018)",
+      "type": "uses",
+      "tail": "Bisonal",
+      "evidence": "Bisonal, як приклад, є інструментом групи TontoTeam (UAC-0018)"
+    },
+    {
+      "head": "TontoTeam (UAC-0018)",
+      "type": "located-in",
+      "tail": "Китай",
+      "evidence": "угруповань, що пов'язують з Китаєм. Більше того, шкідлива програма Bisonal, як приклад, є інструментом групи TontoTeam"
+    },
+    {
+      "head": "Вниманию.doc",
+      "type": "delivers",
+      "tail": "QuickMute",
+      "evidence": "комп'ютер жертви буде уражено шкідливою програмою Bisonal (в одному з випадків використовується завантажувач QuickMute)"
+    },
+    {
+      "head": "Вниманию.doc",
+      "type": "delivers",
+      "tail": "Bisonal",
+      "evidence": "комп'ютер жертви буде уражено шкідливою програмою Bisonal"
+    },
+    {
+      "head": "QuickMute",
+      "type": "delivers",
+      "tail": "Bisonal",
+      "evidence": "завантажувач QuickMute"
+    },
+    {
+      "head": "pportteam.lingrevelat[.]com",
+      "type": "part-of",
+      "tail": "lingrevelat[.]com",
+      "evidence": "upportteam.lingrevelat[.]com lingrevelat[.]com"
+    }
+  ],
+  "unclassified": []
+}

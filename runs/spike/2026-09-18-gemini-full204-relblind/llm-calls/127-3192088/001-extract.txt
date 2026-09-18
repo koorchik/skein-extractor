@@ -1,0 +1,183 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп’ютерні надзвичайні події України CERT-UA 08.12.2022 від фахівців підрозділу кібербезпеки АТ "Укрзалізниця" отримано інформацію щодо розсилання електронних листів з темою "Як розпізнати дрон-камікадзе." з адреси "morgunov.a@dsns.com[.]ua", начебто, від імені Державної служби України з надзвичайних ситуацій. Для цього, серед іншого, 08.11.2022 зареєстровано відповідне доменне імя.</p><p>У вкладенні до листа знаходиться RAR-архів "shahed-136.rar", що містить PPSX-документ "shahed.ppsx", який, у свою чергу, містить VBScript-код, призначений для створення запланованого завдання, а також дешифрування, створення на ЕОМ та запуску PowerShell-скрипта. При цьому, криптографічне перетворення даних здійснюється за допомогою алгоритму RC4, а в якості ключа виступає рядок, що є результатом конкатенації значення властивості "Manager" та назви документу ("Трігубенко Сергій Георгійович|shahed.ppsx").</p><p>Згаданий PowerShell-скрипт за допомогою командлету BitsTransfer (Background Intelligent Transfer Management) здійснить завантаження виконуваних файлів "WibuCm32.dll", "CodeMeter.exe" (легітимна програма), а також створення запланованого завдання для запуску останнього. При цьому, буде використана техніка DLL Side-Loading.</p><p>Файл "WibuCm32.dll" класифіковано як шкідливу програму DolphinCape, що розроблена з використанням мови програмування Delphi та основним функціоналом якої є збір інформації про ЕОМ (ім'я хоста, ім'я користувача, розрядність, версія ОС, значення змінних середовища), запуск EXE/DLL файлів, відображення списку файлів та їх вивантаження, а також створення та ексфільтрація знімків екрану.</p><p>Активність відстежується за ідентифікатором UAC-0140.</p><p><br></p><p><strong>Індикатори компрометації</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">247997c2b4431585f9355d3324410298&nbsp; &nbsp; 460244cbf353b15b52c69952dd3b2549de79c590c56807bc25d4896dd0016655&nbsp; &nbsp; shahed-136.rar&nbsp;
+241e4285a84be65cf16778462f06b9a8&nbsp; &nbsp; 5137a888271b08f388d863433e5f0f1b129e15d4c812b95c831e93e27ec45bd6&nbsp; &nbsp; shahed.ppsx
+3444e86aefa7bc2dbce34903f805400d&nbsp; &nbsp; 6ee62645cd97fb0b41fdf219b9a2a8211324ded110b5c7f09b3d9881abb2a594&nbsp; &nbsp; SearchEmbdIndex.ps1
+142893c48b76b7e9d0f7ce74e16aaf1f&nbsp; &nbsp; 2c1a2fe3fb418601f3adc9256e1ff2c509178483fdbb0e964f52fb6b30be1129&nbsp; &nbsp; CodeMeter.exe
+98c3d5347842743bfb4ade50b39226c1&nbsp; &nbsp; 772654b186ad9fbd0a80f03ceae7d327b45c8944452cc39048160b1f6d8f2672&nbsp; &nbsp; WibuCm32.dll&nbsp; &nbsp; (2022-09-24 06:09:32) (DolphinCape)
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">morgunov.a@dsns.com.ua
+195[.]123.237.147
+202[.]157.187.190
+Mozilla/3.0 (compatible; Indy Library)
+dsns.com[.]ua
+hXXp://195[.]123.237.147/manifests/win/WIBU/Manifest?r=rev1&amp;role=
+hXXp://202[.]157.187.190/cgi-bin/rarcheckcert[.]cgi/http/20221208011644645.stc
+".cda|.cda|.stk|.stc|.stt|.stf" (суфікси URI)
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%LOCALAPPDATA%\Microsoft\msWIBU\
+%LOCALAPPDATA%\Microsoft\msWIBU\CodeMeter.dat
+%LOCALAPPDATA%\Microsoft\msWIBU\CodeMeter.exe
+%LOCALAPPDATA%\Microsoft\msWIBU\WibuCm32.dll
+%TMP%\mso\SearchEmbdIndex.ps1
+{CVS_87963304_MN.0.3.4_227e} (М'ютекс)
+SidebarWIBU- (частина назви запланованого завдання)
+msoSearchEngineUA- (частина назви запланованого завдання)
+</pre><p>&nbsp;&nbsp;&nbsp;</p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (8.7s, in 2462 / out 1313 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "АТ \"Укрзалізниця\"",
+      "kind": "company",
+      "gloss": "The state-owned railway operator of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "Державна служба України з надзвичайних ситуацій",
+      "kind": "government body",
+      "gloss": "The central executive body of Ukraine responsible for civil defense and emergency rescue services."
+    },
+    {
+      "name": "morgunov.a@dsns.com[.]ua",
+      "kind": "email address",
+      "gloss": "A spoofed or malicious email address used to distribute phishing messages impersonating Ukrainian emergency services."
+    },
+    {
+      "name": "dsns.com[.]ua",
+      "kind": "internet domain",
+      "gloss": "A malicious domain registered to impersonate the State Emergency Service of Ukraine."
+    },
+    {
+      "name": "shahed-136.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive distributed via email as part of a cyber attack."
+    },
+    {
+      "name": "shahed.ppsx",
+      "kind": "file",
+      "gloss": "A malicious PPSX presentation file containing embedded script code."
+    },
+    {
+      "name": "SearchEmbdIndex.ps1",
+      "kind": "file",
+      "gloss": "A malicious PowerShell script used to download payloads and establish persistence."
+    },
+    {
+      "name": "CodeMeter.exe",
+      "kind": "software product",
+      "gloss": "A legitimate software executable abused for DLL side-loading."
+    },
+    {
+      "name": "WibuCm32.dll",
+      "kind": "file",
+      "gloss": "A malicious dynamic-link library containing the DolphinCape malware payload."
+    },
+    {
+      "name": "DolphinCape",
+      "kind": "malware family",
+      "gloss": "A Delphi-based malware family capable of system information gathering, file management, payload execution, and screenshot capture."
+    },
+    {
+      "name": "UAC-0140",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA responsible for phishing and malware campaigns targeting Ukraine."
+    },
+    {
+      "name": "195[.]123.237.147",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications in the UAC-0140 campaign."
+    },
+    {
+      "name": "202[.]157.187.190",
+      "kind": "ip address",
+      "gloss": "An IP address used for network infrastructure in the UAC-0140 campaign."
+    }
+  ],
+  "relations": [
+    {
+      "head": "shahed-136.rar",
+      "type": "contains-file",
+      "tail": "shahed.ppsx",
+      "evidence": "RAR-архів \"shahed-136.rar\", що містить PPSX-документ \"shahed.ppsx\""
+    },
+    {
+      "head": "WibuCm32.dll",
+      "type": "is-instance-of",
+      "tail": "DolphinCape",
+      "evidence": "Файл \"WibuCm32.dll\" класифіковано як шкідливу програму DolphinCape"
+    },
+    {
+      "head": "morgunov.a@dsns.com[.]ua",
+      "type": "impersonates",
+      "tail": "Державна служба України з надзвичайних ситуацій",
+      "evidence": "з адреси \"morgunov.a@dsns.com[.]ua\", начебто, від імені Державної служби України з надзвичайних ситуацій"
+    },
+    {
+      "head": "morgunov.a@dsns.com[.]ua",
+      "type": "uses-domain",
+      "tail": "dsns.com[.]ua",
+      "evidence": "morgunov.a@dsns.com[.]ua ... зареєстровано відповідне доменне імя"
+    },
+    {
+      "head": "Державна служба України з надзвичайних ситуацій",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Державної служби України з надзвичайних ситуацій"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "contains-file",
+      "definition": "Indicates that an archive or container file holds another specified file."
+    },
+    {
+      "name": "is-instance-of",
+      "definition": "Indicates that a specific file is an implementation or instance of a particular malware family or software."
+    },
+    {
+      "name": "impersonates",
+      "definition": "Indicates that an entity falsely presents itself as another legitimate entity."
+    },
+    {
+      "name": "uses-domain",
+      "definition": "Indicates that an email address or service operates under a specified domain name."
+    },
+    {
+      "name": "located-in",
+      "definition": "Indicates the geographic country or territory in which an organization or entity is based."
+    }
+  ]
+}

@@ -1,0 +1,182 @@
+{
+  "entities": [
+    {
+      "name": "MIL.CERT-UA",
+      "kind": "government agency",
+      "gloss": "The computer emergency response team of the Ministry of Defence of Ukraine."
+    },
+    {
+      "name": "Армія+",
+      "kind": "software product",
+      "gloss": "An official Ukrainian mobile application designed for military personnel."
+    },
+    {
+      "name": "Cloudflare Workers",
+      "kind": "software product",
+      "gloss": "A serverless execution environment that allows developers to run code at the edge."
+    },
+    {
+      "name": "ArmyPlusInstaller-v.0.10.23722.exe",
+      "kind": "computer file",
+      "gloss": "A malicious NSIS installer masquerading as an Army+ application setup file."
+    },
+    {
+      "name": "ArmyPlusInstaller-v.0.10.23672.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable installer masquerading as an Army+ application setup file."
+    },
+    {
+      "name": "NSIS",
+      "kind": "software product",
+      "gloss": "An open-source script-driven system to create Windows installers."
+    },
+    {
+      "name": "ArmyPlus.exe",
+      "kind": "computer file",
+      "gloss": "A decoy .NET executable used in a malicious installer payload."
+    },
+    {
+      "name": "Python",
+      "kind": "software product",
+      "gloss": "A high-level programming language and interpreter."
+    },
+    {
+      "name": "Tor",
+      "kind": "software product",
+      "gloss": "Open-source software enabling anonymous communication and hidden network services."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "init.ps1",
+      "kind": "computer file",
+      "gloss": "A PowerShell script used to configure OpenSSH, Tor, and establish persistent remote access."
+    },
+    {
+      "name": "OpenSSH",
+      "kind": "software product",
+      "gloss": "A suite of secure networking utilities based on the SSH protocol."
+    },
+    {
+      "name": "curl",
+      "kind": "software product",
+      "gloss": "A command-line tool and library for transferring data with URLs."
+    },
+    {
+      "name": "UAC-0125",
+      "kind": "threat actor",
+      "gloss": "A cyber threat activity cluster associated with Russian state-sponsored actors."
+    },
+    {
+      "name": "UAC-0002",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber threat cluster also known as Sandworm or APT44."
+    },
+    {
+      "name": "APT44",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored advanced persistent threat group linked to the GRU."
+    },
+    {
+      "name": "Sandworm",
+      "kind": "threat actor",
+      "gloss": "A Russian military intelligence cyber espionage and sabotage group."
+    },
+    {
+      "name": "Microsoft Office",
+      "kind": "software product",
+      "gloss": "A suite of productivity applications developed by Microsoft."
+    },
+    {
+      "name": "Office16.iso",
+      "kind": "computer file",
+      "gloss": "A malicious disk image file used as an initial compromise vector."
+    },
+    {
+      "name": "omas-x-none.msp",
+      "kind": "computer file",
+      "gloss": "A trojanized patch component delivered within a malicious Office disk image."
+    },
+    {
+      "name": "CommunicatorContentBinApp.cmd",
+      "kind": "computer file",
+      "gloss": "A command script containing a PowerShell command contained in a trojanized MSP file."
+    },
+    {
+      "name": "guid.txt",
+      "kind": "computer file",
+      "gloss": "A text file identified as an indicator of compromise."
+    },
+    {
+      "name": "desktopapluscom.workers.dev",
+      "kind": "domain name",
+      "gloss": "A malicious domain hosted on Cloudflare Workers used for phishing."
+    },
+    {
+      "name": "desktopaplus.workers.dev",
+      "kind": "domain name",
+      "gloss": "A malicious domain hosted on Cloudflare Workers used for phishing."
+    },
+    {
+      "name": "armyplus-desktop.workers.dev",
+      "kind": "domain name",
+      "gloss": "A malicious domain hosted on Cloudflare Workers used for phishing."
+    },
+    {
+      "name": "aplusdesktop.workers.dev",
+      "kind": "domain name",
+      "gloss": "A malicious domain hosted on Cloudflare Workers used for phishing."
+    },
+    {
+      "name": "armylpus.workers.dev",
+      "kind": "domain name",
+      "gloss": "A malicious domain hosted on Cloudflare Workers used for phishing."
+    },
+    {
+      "name": "aplusmodgovua.workers.dev",
+      "kind": "domain name",
+      "gloss": "A malicious domain hosted on Cloudflare Workers used for phishing."
+    },
+    {
+      "name": "wvtmsouaa2gt6jmcuxj5hkfrqdss5lhecoqijt5dl7gfruueu3i5mkad.onion",
+      "kind": "domain name",
+      "gloss": "A Tor hidden service address used by threat actors for C2 communication."
+    }
+  ],
+  "relations": [
+    {
+      "head": "ArmyPlusInstaller-v.0.10.23722.exe",
+      "type": "delivers",
+      "tail": "ArmyPlus.exe",
+      "evidence": "окрім .NET файлу-приманки \"ArmyPlus.exe\", містить файли інтерпретатору Python"
+    },
+    {
+      "head": "ArmyPlusInstaller-v.0.10.23722.exe",
+      "type": "delivers",
+      "tail": "init.ps1",
+      "evidence": "а також PowerShell-скрипт \"init.ps1\""
+    },
+    {
+      "head": "Office16.iso",
+      "type": "delivers",
+      "tail": "omas-x-none.msp",
+      "evidence": "пакет програм Microsoft Office (наприклад, \"Office16.iso\"... що містив троянізований компонент \"omas-x-none.msp\""
+    },
+    {
+      "head": "omas-x-none.msp",
+      "type": "delivers",
+      "tail": "CommunicatorContentBinApp.cmd",
+      "evidence": "в якому знаходився файл \"CommunicatorContentBinApp.cmd\""
+    },
+    {
+      "head": "UAC-0125",
+      "type": "uses",
+      "tail": "ArmyPlusInstaller-v.0.10.23722.exe",
+      "evidence": "Згадана активність відстежується CERT-UA за ідентифікатором UAC-0125"
+    }
+  ],
+  "newRelationTypes": []
+}

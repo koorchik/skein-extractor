@@ -1,0 +1,175 @@
+{
+  "docId": 6276567,
+  "date": "30.11.2023",
+  "title": "\"Повістка до суду\": чергова цільова атака UAC-0050 з використанням RemcosRAT (CERT-UA#8150)",
+  "entities": [
+    {
+      "id": "6276567:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S4",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6276567:1",
+      "name": "Господарський суд Одеської області Повістка до суду.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive distributed via phishing emails disguised as a court summons.",
+      "scheme": "S11",
+      "category": "Government Body",
+      "role": "attacker"
+    },
+    {
+      "id": "6276567:2",
+      "name": "Повістка до суду.rar",
+      "kind": "computer file",
+      "gloss": "A password-protected RAR archive contained within another malicious archive.",
+      "scheme": "S11",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "6276567:3",
+      "name": "Повістка до суду.doc",
+      "kind": "computer file",
+      "gloss": "A malicious Microsoft Word document containing macros used to initiate malware execution.",
+      "scheme": "S11",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "6276567:4",
+      "name": "scandoc.exe",
+      "kind": "computer file",
+      "gloss": "An obfuscated .NET executable designed to decrypt and execute RemcosRAT.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "6276567:5",
+      "name": "SmartAssembly",
+      "kind": "software product",
+      "gloss": "An obfuscation and security tool designed to protect .NET software applications.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6276567:6",
+      "name": "RemcosRAT",
+      "kind": "malware",
+      "gloss": "A commercial remote access trojan frequently used by threat actors for espionage and system control.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6276567:7",
+      "name": "remcos.exe",
+      "kind": "computer file",
+      "gloss": "An executable file containing the payload for the RemcosRAT malware.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6276567:8",
+      "name": "Персональний код доступу-8161.txt",
+      "kind": "computer file",
+      "gloss": "A text file associated with the malicious archive attachment.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6276567:9",
+      "name": "89.23.98.22",
+      "kind": "ip address",
+      "gloss": "An IP address used to host the malicious executable scandoc.exe over SMB.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "6276567:10",
+      "name": "SmartApe LLC",
+      "kind": "company",
+      "gloss": "A hosting and internet services provider company.",
+      "scheme": "S12",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "6276567:11",
+      "name": "Matrix Telecom Ltd",
+      "kind": "company",
+      "gloss": "A telecommunications and network service provider company.",
+      "scheme": "S12",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "6276567:12",
+      "name": "shinjiru.com",
+      "kind": "domain name",
+      "gloss": "A web hosting and domain services provider website.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6276567:13",
+      "name": "stark-industries.solutions",
+      "kind": "domain name",
+      "gloss": "An internet domain associated with hosting infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6276567:14",
+      "name": "211760.net",
+      "kind": "domain name",
+      "gloss": "An internet domain associated with telecommunications infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Господарський суд Одеської області Повістка до суду.rar",
+      "type": "delivers",
+      "tail": "Повістка до суду.rar",
+      "evidence": "Зазначений RAR-архів містить захищений паролем файл \"Повістка до суду.rar\""
+    },
+    {
+      "head": "Повістка до суду.rar",
+      "type": "delivers",
+      "tail": "Повістка до суду.doc",
+      "evidence": "в якому знаходиться документ з макросом \"Повістка до суду.doc\""
+    },
+    {
+      "head": "Повістка до суду.doc",
+      "type": "delivers",
+      "tail": "scandoc.exe",
+      "evidence": "код макросу... здійснить завантаження на ЕОМ та запуск файлу \"scandoc.exe\""
+    },
+    {
+      "head": "scandoc.exe",
+      "type": "delivers",
+      "tail": "RemcosRAT",
+      "evidence": "призначенням якої є дешифрування та запуск програми для віддаленого управління RemcosRAT"
+    },
+    {
+      "head": "89.23.98.22",
+      "type": "hosts",
+      "tail": "scandoc.exe",
+      "evidence": "\\\\89[.]23.98.22\\LN\\scandoc[.]exe"
+    }
+  ],
+  "unclassified": []
+}

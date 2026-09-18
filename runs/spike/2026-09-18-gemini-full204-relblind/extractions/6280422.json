@@ -1,0 +1,205 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "spysok_kursk.zip",
+      "kind": "file",
+      "gloss": "A malicious ZIP archive distributed via phishing emails."
+    },
+    {
+      "name": "список вп, що вибувають. курск.chm",
+      "kind": "file",
+      "gloss": "A malicious Compiled HTML Help file contained within a lure archive."
+    },
+    {
+      "name": "part.html",
+      "kind": "file",
+      "gloss": "A malicious HTML file containing JavaScript to execute a PowerShell script."
+    },
+    {
+      "name": "SPECTR",
+      "kind": "malware family",
+      "gloss": "An information-stealing malware family designed to exfiltrate documents, screenshots, and browser data."
+    },
+    {
+      "name": "FIRMACHAGENT",
+      "kind": "malware family",
+      "gloss": "A malware program designed to exfiltrate stolen data to a command-and-control server."
+    },
+    {
+      "name": "chrome_updater.dll",
+      "kind": "file",
+      "gloss": "A malicious dynamic-link library implementing the FIRMACHAGENT malware."
+    },
+    {
+      "name": "IDCLIPNET_x86.dll",
+      "kind": "file",
+      "gloss": "A malicious dynamic-link library serving as an orchestrator for SPECTR malware plugins."
+    },
+    {
+      "name": "Browser.dll",
+      "kind": "file",
+      "gloss": "A dynamic-link library plugin for the SPECTR malware."
+    },
+    {
+      "name": "Files.dll",
+      "kind": "file",
+      "gloss": "A dynamic-link library plugin for the SPECTR malware."
+    },
+    {
+      "name": "Screen.dll",
+      "kind": "file",
+      "gloss": "A dynamic-link library plugin for the SPECTR malware."
+    },
+    {
+      "name": "Social.dll",
+      "kind": "file",
+      "gloss": "A dynamic-link library plugin for the SPECTR malware."
+    },
+    {
+      "name": "USB.dll",
+      "kind": "file",
+      "gloss": "A dynamic-link library plugin for the SPECTR malware."
+    },
+    {
+      "name": "agent.cer",
+      "kind": "file",
+      "gloss": "A security certificate file associated with malicious activity."
+    },
+    {
+      "name": "Browser.txt",
+      "kind": "file",
+      "gloss": "A text payload file hosted on a remote server."
+    },
+    {
+      "name": "Files.txt",
+      "kind": "file",
+      "gloss": "A text payload file hosted on a remote server."
+    },
+    {
+      "name": "Social.txt",
+      "kind": "file",
+      "gloss": "A text payload file hosted on a remote server."
+    },
+    {
+      "name": "Screen.txt",
+      "kind": "file",
+      "gloss": "A text payload file hosted on a remote server."
+    },
+    {
+      "name": "USB.txt",
+      "kind": "file",
+      "gloss": "A text payload file hosted on a remote server."
+    },
+    {
+      "name": "IDCLIPNET_x86.txt",
+      "kind": "file",
+      "gloss": "A text payload file hosted on a remote server."
+    },
+    {
+      "name": "chrome_updater.txt",
+      "kind": "file",
+      "gloss": "A text payload file hosted on a remote server."
+    },
+    {
+      "name": "stalenna2006@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address used in malicious activity."
+    },
+    {
+      "name": "prozorro.online",
+      "kind": "internet domain",
+      "gloss": "A domain name used for hosting malicious payloads."
+    },
+    {
+      "name": "ukraero.space",
+      "kind": "internet domain",
+      "gloss": "A domain name used for malicious command and control communications."
+    },
+    {
+      "name": "beget.com",
+      "kind": "internet domain",
+      "gloss": "The web domain of a hosting service provider."
+    },
+    {
+      "name": "171.22.120.50",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious payload components."
+    },
+    {
+      "name": "91.225.219.185",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the attack infrastructure."
+    },
+    {
+      "name": "GoogleChromeUpdateDailyTask",
+      "kind": "scheduled task",
+      "gloss": "A scheduled task created to maintain persistence for malicious payloads."
+    },
+    {
+      "name": "MicrosoftEdgeUpdateTaskMachineReg",
+      "kind": "scheduled task",
+      "gloss": "A scheduled task created to maintain persistence for the IDCLIPNET orchestrator."
+    }
+  ],
+  "relations": [
+    {
+      "head": "spysok_kursk.zip",
+      "type": "contains-file",
+      "tail": "список вп, що вибувають. курск.chm",
+      "evidence": "архів містить CHM-файл \"список вп, що вибувають. курск.chm\""
+    },
+    {
+      "head": "список вп, що вибувають. курск.chm",
+      "type": "contains-file",
+      "tail": "part.html",
+      "evidence": "знаходиться HTML-файл \"part.html\""
+    },
+    {
+      "head": "IDCLIPNET_x86.dll",
+      "type": "orchestrates-plugins-of",
+      "tail": "SPECTR",
+      "evidence": "оркестратору \"IDCLIPNET_x86.dll\" (управляє плагінами SPECTR)"
+    },
+    {
+      "head": "FIRMACHAGENT",
+      "type": "distributed-as",
+      "tail": "chrome_updater.dll",
+      "evidence": "програми FIRMACHAGENT (\"chrome_updater.dll\""
+    },
+    {
+      "head": "MicrosoftEdgeUpdateTaskMachineReg",
+      "type": "executes-file",
+      "tail": "IDCLIPNET_x86.dll",
+      "evidence": "_01101010000111101 MicrosoftEdgeUpdateTaskMachineReg IDCLIPNET_x86.dll"
+    },
+    {
+      "head": "GoogleChromeUpdateDailyTask",
+      "type": "executes-file",
+      "tail": "chrome_updater.dll",
+      "evidence": "_01101010000111101 GoogleChromeUpdateDailyTask chrome_updater.dll"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "contains-file",
+      "definition": "The head container or archive encapsulates the tail file."
+    },
+    {
+      "name": "orchestrates-plugins-of",
+      "definition": "The head component manages or controls the execution of plugins for the tail malware family."
+    },
+    {
+      "name": "distributed-as",
+      "definition": "The head malware is instantiated or distributed under the filename of the tail entity."
+    },
+    {
+      "name": "executes-file",
+      "definition": "The head scheduled task or process launches the execution of the tail file."
+    }
+  ]
+}

@@ -1,0 +1,217 @@
+{
+  "docId": 5628441,
+  "date": "28.08.2023",
+  "title": "UAC-0173: органи юстиції та нотаріат \"під прицілом\" (CERT-UA#7372)",
+  "entities": [
+    {
+      "id": "5628441:0",
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S4",
+      "category": "Sector",
+      "role": null
+    },
+    {
+      "id": "5628441:1",
+      "name": "UAC-0173",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracking identifier for cyber activity targeting Ukrainian justice and notary organizations.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "5628441:2",
+      "name": "UAC-0007",
+      "kind": "threat actor",
+      "gloss": "A threat group also known as BlackNotary associated with malicious cyber operations.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": null
+    },
+    {
+      "id": "5628441:3",
+      "name": "ScrubCrypt",
+      "kind": "malware",
+      "gloss": "A commercially sold cryptor and loader used to protect and execute malicious payloads.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "5628441:4",
+      "name": "AsyncRAT",
+      "kind": "malware",
+      "gloss": "An open-source remote access trojan designed to remotely control compromised Windows systems.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "5628441:5",
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "5628441:6",
+      "name": "minijusfil[.]com",
+      "kind": "domain name",
+      "gloss": "A malicious domain used in cyberattack infrastructure to host payloads.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "5628441:7",
+      "name": "filetransrediremin[.]com",
+      "kind": "domain name",
+      "gloss": "A malicious domain used to host payloads in cyberattacks.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "5628441:8",
+      "name": "barnsertr[.]com",
+      "kind": "domain name",
+      "gloss": "A malicious domain registered for cyberattack operations.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "5628441:9",
+      "name": "179[.]43.154.184",
+      "kind": "ip address",
+      "gloss": "An IP address utilized as command and control infrastructure for AsyncRAT.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5628441:10",
+      "name": "195[.]123.225.51",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat infrastructure.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5628441:11",
+      "name": "195[.]123.226.166",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious campaign infrastructure.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5628441:12",
+      "name": "195[.]123.226.180",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious campaign infrastructure.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5628441:13",
+      "name": "riuscos88@gmail.com",
+      "kind": "email address",
+      "gloss": "An email address used in malicious domain registration.",
+      "scheme": "S10",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5628441:14",
+      "name": "amandarecz75@gmail.com",
+      "kind": "email address",
+      "gloss": "An email address used in malicious domain registration.",
+      "scheme": "S10",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5628441:15",
+      "name": "barno2715@gmail.com",
+      "kind": "email address",
+      "gloss": "An email address used in malicious domain registration.",
+      "scheme": "S10",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5628441:16",
+      "name": "hXXps://minijusfil[.]com/c.cmd",
+      "kind": "uniform resource locator",
+      "gloss": "A URL used to download a malicious command script payload.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "5628441:17",
+      "name": "hXXps://filetransrediremin[.]com/calc.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A URL used to distribute malicious executable files.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "5628441:18",
+      "name": "hXXps://filetransrediremin[.]com/cry/11rota",
+      "kind": "uniform resource locator",
+      "gloss": "A URL hosting an encrypted malicious payload.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0173",
+      "type": "uses",
+      "tail": "ScrubCrypt",
+      "evidence": "створені за допомогою криптора ScrubCrypt"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "uses",
+      "tail": "AsyncRAT",
+      "evidence": "ураження ЕОМ шкідливою програмою AsyncRAT"
+    },
+    {
+      "head": "ScrubCrypt",
+      "type": "delivers",
+      "tail": "AsyncRAT",
+      "evidence": "ScrubCrypt\"), який забезпечить запуск шкідливої програми AsyncRAT"
+    },
+    {
+      "head": "minijusfil[.]com",
+      "type": "hosts",
+      "tail": "hXXps://minijusfil[.]com/c.cmd",
+      "evidence": "hXXps://minijusfil[.]com/c.cmd"
+    },
+    {
+      "head": "filetransrediremin[.]com",
+      "type": "hosts",
+      "tail": "hXXps://filetransrediremin[.]com/calc.exe",
+      "evidence": "hXXps://filetransrediremin[.]com/calc.exe"
+    },
+    {
+      "head": "filetransrediremin[.]com",
+      "type": "hosts",
+      "tail": "hXXps://filetransrediremin[.]com/cry/11rota",
+      "evidence": "hXXps://filetransrediremin[.]com/cry/11rota"
+    }
+  ],
+  "unclassified": []
+}

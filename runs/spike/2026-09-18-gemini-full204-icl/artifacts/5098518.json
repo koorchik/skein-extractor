@@ -1,0 +1,193 @@
+{
+  "docId": 5098518,
+  "date": "07.07.2023",
+  "title": "Цільова кібератака UAC-0057 у відношенні державних органів із застосуванням PicassoLoader/njRAT (CERT-UA#6948)",
+  "entities": [
+    {
+      "id": "5098518:0",
+      "name": "PerekazF173_04072023.xls",
+      "kind": "computer file",
+      "gloss": "A malicious XLS spreadsheet containing macros designed to deploy PicassoLoader malware.",
+      "scheme": "S11",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "5098518:1",
+      "name": "Rahunok_05072023.xls",
+      "kind": "computer file",
+      "gloss": "A malicious XLS document containing macros designed to decode and execute PicassoLoader.",
+      "scheme": "S11",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "5098518:2",
+      "name": "PicassoLoader",
+      "kind": "malware",
+      "gloss": "A malware loader that downloads, decrypts, and executes secondary payloads like njRAT.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "5098518:3",
+      "name": "Avast",
+      "kind": "company",
+      "gloss": "A cybersecurity software company known for antivirus and security solutions.",
+      "scheme": "S12",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "5098518:4",
+      "name": "FireEye",
+      "kind": "company",
+      "gloss": "A cybersecurity company providing threat intelligence and defense software.",
+      "scheme": "S12",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "5098518:5",
+      "name": "Fortinet",
+      "kind": "company",
+      "gloss": "An American cybersecurity company providing network and endpoint security products.",
+      "scheme": "S12",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "5098518:6",
+      "name": "njRAT",
+      "kind": "malware",
+      "gloss": "A remote access trojan allowing unauthorized control over infected Windows systems.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "5098518:7",
+      "name": "UAC-0057",
+      "kind": "threat actor",
+      "gloss": "A cyber threat actor also tracked as UNC1151 and associated with the GhostWriter campaign.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "5098518:8",
+      "name": "GhostWriter",
+      "kind": "threat actor",
+      "gloss": "An information operation and cyber threat cluster associated with threat actor UNC1151.",
+      "scheme": "S14",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5098518:9",
+      "name": "UNC1151",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage threat group associated with the Belarusian government, also tracked as UAC-0057.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": null
+    },
+    {
+      "id": "5098518:10",
+      "name": "Mandiant",
+      "kind": "company",
+      "gloss": "An American cybersecurity and incident response intelligence company.",
+      "scheme": "S12",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "5098518:11",
+      "name": "gk40jklkgt3w094gh.dll",
+      "kind": "computer file",
+      "gloss": "A malicious DLL file associated with PicassoLoader.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5098518:12",
+      "name": "sgsdgkjsgkljsegseuigh38g.dll",
+      "kind": "computer file",
+      "gloss": "A malicious DLL file implementing PicassoLoader.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5098518:13",
+      "name": "Carpet_Shop_3b09adf.exe",
+      "kind": "computer file",
+      "gloss": "An executable file containing njRAT malware.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5098518:14",
+      "name": "carpetmarker[.]pw",
+      "kind": "domain name",
+      "gloss": "A malicious domain used for hosting image files and malware payloads.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "5098518:15",
+      "name": "everything-everywhere.at.ply[.]gg",
+      "kind": "domain name",
+      "gloss": "A network domain used for command and control or network communications.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "5098518:16",
+      "name": "hXXps://carpetmarker[.]pw/images/carpet_shop_3b09adf.jpg",
+      "kind": "uniform resource locator",
+      "gloss": "A URL used to host a payload or staging file disguised as an image.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "PerekazF173_04072023.xls",
+      "type": "delivers",
+      "tail": "PicassoLoader",
+      "evidence": "макрос, який здійснить декодування, забезпечення персистентності та запуск шкідливої програми PicassoLoader"
+    },
+    {
+      "head": "Rahunok_05072023.xls",
+      "type": "delivers",
+      "tail": "PicassoLoader",
+      "evidence": "макрос, який здійснить декодування, забезпечення персистентності та запуск шкідливої програми PicassoLoader"
+    },
+    {
+      "head": "PicassoLoader",
+      "type": "delivers",
+      "tail": "njRAT",
+      "evidence": "PicassoLoader забезпечував завантаження, дешифрування (AES) та запуск шкідливої програми njRAT"
+    },
+    {
+      "head": "UAC-0057",
+      "type": "uses",
+      "tail": "PicassoLoader",
+      "evidence": "Активність здійснюється угрупуванням UAC-0057."
+    },
+    {
+      "head": "carpetmarker[.]pw",
+      "type": "hosts",
+      "tail": "hXXps://carpetmarker[.]pw/images/carpet_shop_3b09adf.jpg",
+      "evidence": "hXXps://carpetmarker[.]pw/images/carpet_shop_3b09adf.jpg"
+    }
+  ],
+  "unclassified": []
+}

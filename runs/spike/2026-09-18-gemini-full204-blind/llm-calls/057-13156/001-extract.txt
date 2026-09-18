@@ -1,0 +1,139 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+- uses-malware: A threat actor utilizes or deploys a specific malware tool or family in their operations.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p class="ql-align-justify">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;У процесі дослідження інциденту встановлено, що з фейкового веб-сайту здійснюється розповсюдження шкідливого програмного забезпечення OUTSTEEL, призначеного для пошуку та ексфільтрації документів.</p><p class="ql-align-justify">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Використання подібних тактик, технік та процедур, об'єктів атаки, а також використані зразки шкідливих програм, відслідковується, щонайменше, з квітня 2021 року.</p><p class="ql-align-justify">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Станом на 15:15 13.07.2021 доступ до веб-сайту заблоковано.</p><p><strong>Технічна інформація</strong></p><p class="ql-align-justify">Електронний лист, наданий суб'єктом координації, містить Google-посилання, відвідування якого призведе до перенаправлення (так званий URL forwarding) на веб-сайт, що імітує офіційне інтернет-представництво Президента України (рис. 1).</p><p class="ql-align-center"></p><p class="ql-align-center">Рис. 1. Веб-сайт, що імітує офіційне інтернет-представництво Президента України</p><p class="ql-align-justify">У випадку відкриття гіперпосилання «Повний список високооплачуваних вакансій», на комп'ютер жертви буде завантажено файл “756285df0c8b81cf14ad3463a57d33ed.xll”(рис. 2), що є шкідливою програмою LOADJUMP, дата компіляції: 11.07.2021 (рис. 3).,</p><p class="ql-align-justify"><br></p><p class="ql-align-center"></p><p class="ql-align-center">Рис. 2 Завантаження файлу “756285df0c8b81cf14ad3463a57d33ed.xll”</p><p class="ql-align-center"></p><p class="ql-align-center">Рис. 3 Декодовані рядки шкідливої програми LOADJUMP</p><p class="ql-align-justify">Шкідлива програма LOADJUMP призначена для завантаження і запуску файлів. В даному випадку, вона забезпечить з'єднання з URL-адресою&nbsp;http[:]//1833[.]site/0707a[.]exe, завантажить і виконає файл “0707a[.]exe”, дата компіляції: 09.07.2021.</p><p class="ql-align-justify">Файл 0707a.exe є .NET програмою, яка забезпечить декодування і запуск шкідливої програми OUTSTEEL, що, в свою чергу, здійснить пошук файлів за визначеним переліком розширень (.txt, .7z, .tar, .zip, .rar, .ppa, .pps, .pot, .accdb, .mdb, .dot, .rtf, .csv, .xl, .ppt, .pdf, .doc)та забезпечить передачу цих даних на сервер управління з використанням протоколу HTTP. На рис. 4-6 наведено приклад контрольованого запуску файлу “0707a.exe” в ізольованому середовищі.</p><p class="ql-align-center"></p><p class="ql-align-center">Рис. 4 Приклад запуску файлу ”0707a.exe” (похідні процеси)</p><p class="ql-align-center"></p><p class="ql-align-center">Рис. 5 Приклад запуску файлу ”0707a.exe” (пошук файлів)</p><p class="ql-align-justify">Приклад інформаційного обміну з сервером управління наведено на рис. 6.</p><p class="ql-align-center"></p><p class="ql-align-center">Рис.6&nbsp;Приклад HTTP-запиту</p><p class="ql-align-justify">В рамках додаткового дослідження з'ясовано, що&nbsp;в розділі «Вакансії» веб-сайту, при спробі ознайомитись із прикладами документів для подачі їх на конкурс, завантажується документ з довільною назвою формату .doc, що містить макрос.</p><p class="ql-align-center"></p><p class="ql-align-center">Рис. 7 Посилання на завантаження .doc файлів</p><p class="ql-align-justify">Код відповідного макросу (рис. 8) ініціює з'єднання з URL-адресою http[:]//giraffe-tour[.]ru/123/index[.]exe&nbsp;та забезпечить завантаження і запуск файлу %USERPROFILE%\Documents\differencecell.exe.&nbsp;На момент аналізу сервер недоступний.</p><p class="ql-align-center"></p><p class="ql-align-center">Рис. 8 Макрос</p><p><strong>Індикатори компрометації:</strong></p><p><strong>Файли:</strong></p><p>Назва файлу: 756285df0c8b81cf14ad3463a57d33ed.dll</p><p>SHA1: 3BCF40B51363E2E69AACEA81F700BD246FA99882</p><p>Назва файлу: 0707a.exe&nbsp;</p><p>SHA1: 32E80FFC4948828009B192076FA85922528A5740</p><p>Назва файлу:</p><p>44fcb1b922317cc82b3c3fc5a82efb19_1583907427.doc</p><p>756285df0c8b81cf14ad3463a57d33ed_1583907427.doc</p><p>d42580f0a3391eff1571ee7e7c19d05a_1583907427.doc</p><p>f70b4c4e23405b0e0cc5d8e539471cce_1583907427.doc</p><p>SHA1: D0A6B4366662E3C6590715E8181F5CB733490819</p><p><strong>IP-адреси:</strong></p><p>45.146.165[.]91</p><p>31.31.198[.]151</p><p><strong>Доменні імена:</strong></p><p>1833[.]site</p><p>gov-ua[.]info</p><p><strong>URL-адреси:</strong></p><p>http[:]//president[.]gov[.]ua[.]administration[.]vakansiyi[.]administration[.]president[.]gov-ua[.]info/</p><p>http[:]//president[.]gov[.]ua[.]administration[.]vakansiyi[.]administration[.]president[.]gov-ua[.]info/administration/vakansiyi/download/1/756285df0c8b81cf14ad3463a57d33ed.xll</p><p>http://1833[.]site/0707a[.]exe</p><p>http://45.146.165[.]91:8080/upld/</p><p>http[:]//president[.]gov[.]ua[.]administration[.]vakansiyi[.]administration[.]president[.]gov-ua[.]info/storage/j-files-storage/00/90/05/44fcb1b922317cc82b3c3fc5a82efb19_1583907427[.]doc</p><p>http[:]//president[.]gov[.]ua[.]administration[.]vakansiyi[.]administration[.]president[.]gov-ua[.]info/storage/j-files-storage/00/90/01/d42580f0a3391eff1571ee7e7c19d05a_1583907427[.]doc</p><p>http[:]//president[.]gov[.]ua[.]administration[.]vakansiyi[.]administration[.]president[.]gov-ua[.]info/storage/j-files-storage/00/89/97/f70b4c4e23405b0e0cc5d8e539471cce_1583907427[.]doc</p><p>http[:]//president[.]gov[.]ua[.]administration[.]vakansiyi[.]administration[.]president[.]gov-ua[.]info/storage/j-files-storage/00/89/93/756285df0c8b81cf14ad3463a57d33ed_1583907427[.]doc</p><p>http[:]//giraffe-tour[.]ru/123/index[.]exe</p><p>&nbsp;</p><p><strong>Рекомендації:</strong></p><p><a href="https://cert.gov.ua/recommendation/2502" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/recommendation/2502</a></p><p><a href="https://cert.gov.ua/files/pdf/Recomendations-MSOffice.pdf" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/files/pdf/Recomendations-MSOffice.pdf</a></p><p><a href="https://cert.gov.ua/recommendation/31" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/recommendation/31</a></p>
+
+=== RESPONSE (7.7s, in 3727 / out 927 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "OUTSTEEL",
+      "kind": "malware family",
+      "gloss": "A malware family designed for document discovery and data exfiltration."
+    },
+    {
+      "name": "LOADJUMP",
+      "kind": "malware family",
+      "gloss": "A malware family designed to download and execute secondary payloads."
+    },
+    {
+      "name": "Президент України",
+      "kind": "government body",
+      "gloss": "The head of state and supreme executive authority of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "756285df0c8b81cf14ad3463a57d33ed.xll",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel Add-in file containing the LOADJUMP malware."
+    },
+    {
+      "name": "0707a[.]exe",
+      "kind": "malicious file",
+      "gloss": "A malicious .NET executable that decodes and executes the OUTSTEEL malware."
+    },
+    {
+      "name": "differencecell.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable downloaded and executed by a malicious document macro."
+    },
+    {
+      "name": "1833[.]site",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host malicious executable payloads."
+    },
+    {
+      "name": "gov-ua[.]info",
+      "kind": "internet domain",
+      "gloss": "A spoofed internet domain imitating Ukrainian government web resources."
+    },
+    {
+      "name": "giraffe-tour[.]ru",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host malicious payloads."
+    },
+    {
+      "name": "45.146.165[.]91",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server for data exfiltration."
+    },
+    {
+      "name": "31.31.198[.]151",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious campaign infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Президент України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "офіційне інтернет-представництво Президента України"
+    },
+    {
+      "head": "1833[.]site",
+      "type": "hosts",
+      "tail": "0707a[.]exe",
+      "evidence": "з'єднання з URL-адресою http[:]//1833[.]site/0707a[.]exe, завантажить і виконає файл “0707a[.]exe”"
+    },
+    {
+      "head": "0707a[.]exe",
+      "type": "delivers",
+      "tail": "OUTSTEEL",
+      "evidence": "Файл 0707a.exe є .NET програмою, яка забезпечить декодування і запуск шкідливої програми OUTSTEEL"
+    },
+    {
+      "head": "OUTSTEEL",
+      "type": "communicates-with",
+      "tail": "45.146.165[.]91",
+      "evidence": "передачу цих даних на сервер управління... http://45.146.165[.]91:8080/upld/"
+    }
+  ],
+  "newRelationTypes": []
+}

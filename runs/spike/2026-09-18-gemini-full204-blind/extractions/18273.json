@@ -1,0 +1,149 @@
+{
+  "entities": [
+    {
+      "name": "Національна служба здоров’я України",
+      "kind": "government body",
+      "gloss": "The central executive body implementing state policy in the field of public healthcare guarantees in Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "Discord",
+      "kind": "online platform",
+      "gloss": "A popular instant messaging and digital distribution platform."
+    },
+    {
+      "name": "OutSteel",
+      "kind": "malware family",
+      "gloss": "A document-stealing malware family written in AutoIt."
+    },
+    {
+      "name": "SaintBot",
+      "kind": "malware family",
+      "gloss": "A modular downloader and backdoor malware family."
+    },
+    {
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyberespionage threat actor targeting Ukrainian state organizations."
+    },
+    {
+      "name": "d5aadb4ace8ffccb.zip",
+      "kind": "file",
+      "gloss": "A malicious ZIP archive hosted on Discord used in the attack."
+    },
+    {
+      "name": "Додаток_2.docx",
+      "kind": "file",
+      "gloss": "A decoy document file contained in the malicious archive."
+    },
+    {
+      "name": "Додаток_1.docx.lnk",
+      "kind": "file",
+      "gloss": "A malicious shortcut file used to execute PowerShell commands."
+    },
+    {
+      "name": "up74987340.exe",
+      "kind": "file",
+      "gloss": "An executable file downloading or delivering OutSteel malware."
+    },
+    {
+      "name": "up74987340.dec.exe",
+      "kind": "file",
+      "gloss": "A decrypted executable file associated with OutSteel malware."
+    },
+    {
+      "name": "load74h74830.exe",
+      "kind": "file",
+      "gloss": "An executable file used to drop or run secondary malware payloads."
+    },
+    {
+      "name": "1406.exe",
+      "kind": "file",
+      "gloss": "An executable file associated with SaintBot malware."
+    },
+    {
+      "name": "eumr[.]site",
+      "kind": "domain",
+      "gloss": "A malicious domain used for hosting malware payloads."
+    },
+    {
+      "name": "8003659902[.]space",
+      "kind": "domain",
+      "gloss": "A malicious domain used for command and control communication."
+    },
+    {
+      "name": "smm2021[.]net",
+      "kind": "domain",
+      "gloss": "A malicious domain used for command and control communication."
+    },
+    {
+      "name": "8003659902[.]site",
+      "kind": "domain",
+      "gloss": "A malicious domain used for command and control communication."
+    },
+    {
+      "name": "1000020[.]xyz",
+      "kind": "domain",
+      "gloss": "A malicious domain identified as an indicator of compromise."
+    },
+    {
+      "name": "185.244.41[.]109",
+      "kind": "ip address",
+      "gloss": "An IP address used for receiving stolen documents via HTTP POST."
+    },
+    {
+      "name": "testsid@lthhc-zm[.]com",
+      "kind": "email address",
+      "gloss": "An email address identified as an indicator of compromise."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Національна служба здоров’я України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Національної служби здоров’я України"
+    },
+    {
+      "head": "Discord",
+      "type": "hosts",
+      "tail": "d5aadb4ace8ffccb.zip",
+      "evidence": "ZIP-архів, розміщений на публічному сервісі Discord"
+    },
+    {
+      "head": "OutSteel",
+      "type": "delivers",
+      "tail": "SaintBot",
+      "evidence": "завантажить і виконає шкідливу програму SaintBot"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "OutSteel",
+      "evidence": "завантаження і запуску шкідливої програми OutSteel ... Відслідковується CERT-UA ... за ідентифікатором UAC-0056"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "SaintBot",
+      "evidence": "виконає шкідливу програму SaintBot ... Відслідковується CERT-UA ... за ідентифікатором UAC-0056"
+    },
+    {
+      "head": "eumr[.]site",
+      "type": "hosts",
+      "tail": "up74987340.exe",
+      "evidence": "hxxp://eumr[.]site/up74987340.exe"
+    },
+    {
+      "head": "eumr[.]site",
+      "type": "hosts",
+      "tail": "load74h74830.exe",
+      "evidence": "hxxp://eumr[.]site/load74h74830.exe"
+    }
+  ],
+  "newRelationTypes": []
+}

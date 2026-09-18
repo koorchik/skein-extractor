@@ -1,0 +1,82 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0100",
+      "kind": "threat actor",
+      "gloss": "A threat actor group engaging in financial fraud and phishing campaigns targeting Ukrainian banking users."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "hXXps://mono.gg-pay[.]me/",
+      "kind": "url",
+      "gloss": "A fraudulent phishing URL masquerading as a Ukrainian online banking service."
+    },
+    {
+      "name": "hXXps://next24.gg-pay[.]me/",
+      "kind": "url",
+      "gloss": "A fraudulent phishing URL imitating Ukrainian banking services to steal credentials."
+    },
+    {
+      "name": "hXXps://privat24.ua-wallet[.]pw/",
+      "kind": "url",
+      "gloss": "A fraudulent phishing URL designed to imitate Ukrainian online banking platforms."
+    },
+    {
+      "name": "Платформа єДопомога",
+      "kind": "software platform",
+      "gloss": "An official Ukrainian state platform for social assistance and international aid."
+    },
+    {
+      "name": "Мінсоцполітики",
+      "kind": "government body",
+      "gloss": "The Ministry of Social Policy of Ukraine, responsible for social security and humanitarian aid."
+    },
+    {
+      "name": "Національний банк України",
+      "kind": "central bank",
+      "gloss": "The central bank of Ukraine responsible for monetary policy and financial system oversight."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0100",
+      "type": "uses-infrastructure",
+      "tail": "hXXps://mono.gg-pay[.]me/",
+      "evidence": "шахрайська активність має систематичний характер та відстежується за ідентифікатором UAC-0100"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses-infrastructure",
+      "tail": "hXXps://next24.gg-pay[.]me/",
+      "evidence": "шахрайська активність має систематичний характер та відстежується за ідентифікатором UAC-0100"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses-infrastructure",
+      "tail": "hXXps://privat24.ua-wallet[.]pw/",
+      "evidence": "шахрайська активність має систематичний характер та відстежується за ідентифікатором UAC-0100"
+    },
+    {
+      "head": "Мінсоцполітики",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Відповіді Мінсоцполітики на найпоширеніші запитання"
+    },
+    {
+      "head": "Національний банк України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Національного банку України"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-infrastructure",
+      "definition": "A threat actor utilizes specific network, domain, or hosting infrastructure to conduct malicious operations."
+    }
+  ]
+}

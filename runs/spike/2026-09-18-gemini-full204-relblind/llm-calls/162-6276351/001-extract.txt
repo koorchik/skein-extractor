@@ -1,0 +1,337 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA виявлено факт масового розповсюдження електронних листів, начебто, від імені СБ України із вкладенням у вигляді RAR-файлу "Електронна вимога СБУ України.rar".</p><p>Згаданий архів містить ще один одноіменний архів в якому знаходиться черговий, захищений паролем RAR-файл "Вимога СБУ 543 від 13.11.2023.pdf.rar".</p><p>Останній містить виконуваний файл "Вимога СБУ 543 від 13.11.2023.pdf.exe" (дата компіляції: 2023-11-12 16:15:36), запуск якого призведе до встановлення на ЕОМ програми для віддаленого управління Remcos RAT (дата компіляції: 2023-09-07 10:23:27).</p><p>Персистентність Remcos RAT забезпечується шляхом створення запису в гілці Run реєстру операційної системи.</p><p>Конфігураційний файл містить 8 IP-адрес серверів управління, що функціонують на технічних потужностях компанії Shinjiru (Малайзія). Доменні імена зареєстровано 11.11.2023 через толерантну до кіберзлочинності російську компанію REG.RU.</p><p>CERT-UA вжито невідкладних заходів з протидії кіберзагрозі.</p><p>Активність відстежується за ідентифікатором UAC-0050.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">24a6ddba4e8a55e330a1224f5c46080d&nbsp; &nbsp; 4bd8ec1e82fdea9d8d24f1e7a133d409aa941e13fcc7b6ce1889bed3b7a0afbc&nbsp; &nbsp; Електронна вимога СБУ України.rar&nbsp;
+769f464fa505add7a477ad95407afec3&nbsp; &nbsp; 2ce640749819e27d457827eede4d14abbf65981cd716ef25d9489b7eeba314d2&nbsp; &nbsp; Електронна вимога СБУ України.rar
+e8a348fd628fc485fa30cca106958f78&nbsp; &nbsp; 6a6f71cf5cfeb8698987aa3e826b19ef05be3f0112c46d79b366feb914340335&nbsp; &nbsp; Вимога СБУ 543 від 13.11.2023.pdf.rar
+7e16efc0ae8da69273621889fadeefd8&nbsp; &nbsp; a470c7e184f7277f00a4c6e523f57e0786c1c0c73688f7a0ab8e9e10fdb00742&nbsp; &nbsp; Код 8161.txt
+78850bbef776551ca830317fb244b086&nbsp; &nbsp; a4d5382438138f679073396bca73dc4f6bc39420966944f4fea8a9ab4087d004&nbsp; &nbsp; Вимога СБУ 543 від 13.11.2023.pdf.exe
+ecf55f471a5fda7ffc89b4018f2f5edc&nbsp; &nbsp; 06cc87d4ccfa98fb2815c39fdf6faf03d781469b281e5567fd790b680861c8b2&nbsp; &nbsp; Remcos.exe (Remcos RAT)
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">info@davincigroup[.]online
+(tcp)://111[.]90.147.133:465
+(tcp)://111[.]90.147.133:4899
+(tcp)://111[.]90.147.133:80
+(tcp)://111[.]90.147.133:8080
+(tcp)://111[.]90.147.133:81
+(tcp)://111[.]90.147.157:80
+(tcp)://111[.]90.147.188:80
+(tcp)://111[.]90.147.190:8080
+(tcp)://111[.]90.147.216:8080
+(tcp)://111[.]90.147.21:80
+(tcp)://111[.]90.147.78:80
+(tcp)://111[.]90.147.98:80
+111[.]90.147.133
+111[.]90.147.157
+111[.]90.147.188
+111[.]90.147.190
+111[.]90.147.21
+111[.]90.147.216
+111[.]90.147.78
+111[.]90.147.98
+davincigroup[.]online (2023-11-11; @reg.ru)
+groupdavinci[.]online (2023-11-11; @reg.ru)
+195[.]133.199.230
+45[.]10.245.245
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%PROGRAMDATA%\davinci\sql.exe
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run\hts-UVISQY
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Приклад ланцюга ураження</p>
+
+=== RESPONSE (8.8s, in 2632 / out 3056 tok, STOP) ===
+```json
+{
+  "entities": [
+    {
+      "name": "СБ України",
+      "kind": "government body",
+      "gloss": "The primary security and counter-intelligence agency of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "Електронна вимога СБУ України.rar",
+      "kind": "archive file",
+      "gloss": "A malicious RAR archive distributed in phishing emails disguised as a notice from the Security Service of Ukraine."
+    },
+    {
+      "name": "Вимога СБУ 543 від 13.11.2023.pdf.rar",
+      "kind": "archive file",
+      "gloss": "A password-protected RAR archive nested inside phishing attachments."
+    },
+    {
+      "name": "Код 8161.txt",
+      "kind": "file",
+      "gloss": "A text file likely containing a password or code used during the attack."
+    },
+    {
+      "name": "Вимога СБУ 543 від 13.11.2023.pdf.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable disguised as a PDF document that drops and installs Remcos RAT."
+    },
+    {
+      "name": "Remcos RAT",
+      "kind": "malware family",
+      "gloss": "A commercial remote access tool frequently abused by threat actors for espionage and control."
+    },
+    {
+      "name": "Shinjiru",
+      "kind": "company",
+      "gloss": "An offshore web hosting and IT services provider based in Malaysia."
+    },
+    {
+      "name": "Малайзія",
+      "kind": "country",
+      "gloss": "A country in Southeast Asia."
+    },
+    {
+      "name": "REG.RU",
+      "kind": "company",
+      "gloss": "A Russian domain name registrar and web hosting service provider."
+    },
+    {
+      "name": "UAC-0050",
+      "kind": "hacking group",
+      "gloss": "A cyber threat actor tracked by CERT-UA known for widespread phishing campaigns delivering remote access trojans."
+    },
+    {
+      "name": "info@davincigroup[.]online",
+      "kind": "email address",
+      "gloss": "An email address associated with the malicious infrastructure of the attack."
+    },
+    {
+      "name": "davincigroup[.]online",
+      "kind": "internet domain",
+      "gloss": "A malicious domain name registered through REG.RU and used in the cyberattack."
+    },
+    {
+      "name": "groupdavinci[.]online",
+      "kind": "internet domain",
+      "gloss": "A malicious domain name registered through REG.RU and used in the cyberattack."
+    },
+    {
+      "name": "111[.]90.147.133",
+      "kind": "ip address",
+      "gloss": "An IP address hosted on Shinjiru infrastructure used as a command and control server."
+    },
+    {
+      "name": "111[.]90.147.157",
+      "kind": "ip address",
+      "gloss": "An IP address hosted on Shinjiru infrastructure used as a command and control server."
+    },
+    {
+      "name": "111[.]90.147.188",
+      "kind": "ip address",
+      "gloss": "An IP address hosted on Shinjiru infrastructure used as a command and control server."
+    },
+    {
+      "name": "111[.]90.147.190",
+      "kind": "ip address",
+      "gloss": "An IP address hosted on Shinjiru infrastructure used as a command and control server."
+    },
+    {
+      "name": "111[.]90.147.216",
+      "kind": "ip address",
+      "gloss": "An IP address hosted on Shinjiru infrastructure used as a command and control server."
+    },
+    {
+      "name": "111[.]90.147.21",
+      "kind": "ip address",
+      "gloss": "An IP address hosted on Shinjiru infrastructure used as a command and control server."
+    },
+    {
+      "name": "111[.]90.147.78",
+      "kind": "ip address",
+      "gloss": "An IP address hosted on Shinjiru infrastructure used as a command and control server."
+    },
+    {
+      "name": "111[.]90.147.98",
+      "kind": "ip address",
+      "gloss": "An IP address hosted on Shinjiru infrastructure used as a command and control server."
+    },
+    {
+      "name": "195[.]133.199.230",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat network infrastructure."
+    },
+    {
+      "name": "45[.]10.245.245",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat network infrastructure."
+    },
+    {
+      "name": "%PROGRAMDATA%\\davinci\\sql.exe",
+      "kind": "file",
+      "gloss": "A file path on the host system used during the execution of the malware."
+    },
+    {
+      "name": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\hts-UVISQY",
+      "kind": "registry key",
+      "gloss": "A Windows registry key modified to achieve persistence on the infected system."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0050",
+      "type": "operates",
+      "tail": "Remcos RAT",
+      "evidence": "Активність відстежується за ідентифікатором UAC-0050."
+    },
+    {
+      "head": "Електронна вимога СБУ України.rar",
+      "type": "contains",
+      "tail": "Вимога СБУ 543 від 13.11.2023.pdf.rar",
+      "evidence": "архів містить ще один одноіменний архів в якому знаходиться черговий, захищений паролем RAR-файл"
+    },
+    {
+      "head": "Вимога СБУ 543 від 13.11.2023.pdf.rar",
+      "type": "contains",
+      "tail": "Вимога СБУ 543 від 13.11.2023.pdf.exe",
+      "evidence": "Останній містить виконуваний файл \"Вимога СБУ 543 від 13.11.2023.pdf.exe\""
+    },
+    {
+      "head": "Вимога СБУ 543 від 13.11.2023.pdf.exe",
+      "type": "installs",
+      "tail": "Remcos RAT",
+      "evidence": "запуск якого призведе до встановлення на ЕОМ програми для віддаленого управління Remcos RAT"
+    },
+    {
+      "head": "Shinjiru",
+      "type": "located-in",
+      "tail": "Малайзія",
+      "evidence": "потужностях компанії Shinjiru (Малайзія)"
+    },
+    {
+      "head": "davincigroup[.]online",
+      "type": "registered-via",
+      "tail": "REG.RU",
+      "evidence": "Доменні імена зареєстровано 11.11.2023 через толерантну до кіберзлочинності російську компанію REG.RU."
+    },
+    {
+      "head": "groupdavinci[.]online",
+      "type": "registered-via",
+      "tail": "REG.RU",
+      "evidence": "Доменні імена зареєстровано 11.11.2023 через толерантну до кіберзлочинності російську компанію REG.RU."
+    },
+    {
+      "head": "111[.]90.147.133",
+      "type": "hosted-on",
+      "tail": "Shinjiru",
+      "evidence": "8 IP-адрес серверів управління, що функціонують на технічних потужностях компанії Shinjiru"
+    },
+    {
+      "head": "111[.]90.147.157",
+      "type": "hosted-on",
+      "tail": "Shinjiru",
+      "evidence": "8 IP-адрес серверів управління, що функціонують на технічних потужностях компанії Shinjiru"
+    },
+    {
+      "head": "111[.]90.147.188",
+      "type": "hosted-on",
+      "tail": "Shinjiru",
+      "evidence": "8 IP-адрес серверів управління, що функціонують на технічних потужностях компанії Shinjiru"
+    },
+    {
+      "head": "111[.]90.147.190",
+      "type": "hosted-on",
+      "tail": "Shinjiru",
+      "evidence": "8 IP-адрес серверів управління, що функціонують на технічних потужностях компанії Shinjiru"
+    },
+    {
+      "head": "111[.]90.147.216",
+      "type": "hosted-on",
+      "tail": "Shinjiru",
+      "evidence": "8 IP-адрес серверів управління, що функціонують на технічних потужностях компанії Shinjiru"
+    },
+    {
+      "head": "111[.]90.147.21",
+      "type": "hosted-on",
+      "tail": "Shinjiru",
+      "evidence": "8 IP-адрес серверів управління, що функціонують на технічних потужностях компанії Shinjiru"
+    },
+    {
+      "head": "111[.]90.147.78",
+      "type": "hosted-on",
+      "tail": "Shinjiru",
+      "evidence": "8 IP-адрес серверів управління, що функціонують на технічних потужностях компанії Shinjiru"
+    },
+    {
+      "head": "111[.]90.147.98",
+      "type": "hosted-on",
+      "tail": "Shinjiru",
+      "evidence": "8 IP-адрес серверів управління, що функціонують на технічних потужностях компанії Shinjiru"
+    },
+    {
+      "head": "Remcos RAT",
+      "type": "modifies-registry-key",
+      "tail": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\hts-UVISQY",
+      "evidence": "Персистентність Remcos RAT забезпечується шляхом створення запису в гілці Run реєстру"
+    },
+    {
+      "head": "СБ України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "від імені СБ України"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "operates",
+      "definition": "A threat actor utilizes or controls a tool or malware family."
+    },
+    {
+      "name": "contains",
+      "definition": "An archive or package file encapsulates another file."
+    },
+    {
+      "name": "installs",
+      "definition": "An executable or dropper places and executes a payload on the system."
+    },
+    {
+      "name": "located-in",
+      "definition": "An entity is geographically or administratively based in a specific country or jurisdiction."
+    },
+    {
+      "name": "registered-via",
+      "definition": "A domain name is registered through a particular domain registrar."
+    },
+    {
+      "name": "hosted-on",
+      "definition": "An IP address or server operates on the technical infrastructure of a hosting provider."
+    },
+    {
+      "name": "modifies-registry-key",
+      "definition": "Malware creates or alters a specific Windows registry key to achieve persistence or modify system behavior."
+    }
+  ]
+}
+```

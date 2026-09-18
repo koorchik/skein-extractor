@@ -1,0 +1,255 @@
+{
+  "entities": [
+    {
+      "name": "Україні",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "POODLE",
+      "kind": "vulnerability",
+      "gloss": "A security vulnerability affecting the SSL 3.0 protocol."
+    },
+    {
+      "name": "CVE-2014-3566",
+      "kind": "vulnerability identifier",
+      "gloss": "The Common Vulnerabilities and Exposures identifier for the POODLE attack on SSL 3.0."
+    },
+    {
+      "name": "Apache",
+      "kind": "software product",
+      "gloss": "An open-source cross-platform web server software."
+    },
+    {
+      "name": "nginx",
+      "kind": "software product",
+      "gloss": "An open-source web server, reverse proxy, and load balancer software."
+    },
+    {
+      "name": "Qualys SSL Client Test",
+      "kind": "software tool",
+      "gloss": "An online service used to test SSL/TLS configurations in web browsers."
+    },
+    {
+      "name": "Logjam",
+      "kind": "vulnerability",
+      "gloss": "A security vulnerability in the TLS protocol allowing downgrade of Diffie-Hellman key exchange."
+    },
+    {
+      "name": "OpenSSL",
+      "kind": "software library",
+      "gloss": "An open-source cryptographic library providing TLS and SSL protocol implementations."
+    },
+    {
+      "name": "Internet Explorer",
+      "kind": "software product",
+      "gloss": "A series of graphical web browsers developed by Microsoft."
+    },
+    {
+      "name": "Chrome",
+      "kind": "software product",
+      "gloss": "A cross-platform web browser developed by Google."
+    },
+    {
+      "name": "Safari",
+      "kind": "software product",
+      "gloss": "A graphical web browser developed by Apple."
+    },
+    {
+      "name": "Mozilla",
+      "kind": "software product",
+      "gloss": "A family of open-source web browsers commonly referring to Firefox."
+    },
+    {
+      "name": "інспектор сертифікатів DigiCert",
+      "kind": "software tool",
+      "gloss": "A certificate inspection tool developed by DigiCert to analyze server SSL configurations."
+    },
+    {
+      "name": "CVE-2015-4000",
+      "kind": "vulnerability identifier",
+      "gloss": "The Common Vulnerabilities and Exposures identifier for the Logjam TLS downgrade vulnerability."
+    },
+    {
+      "name": "DROWN",
+      "kind": "vulnerability",
+      "gloss": "A cross-protocol security vulnerability affecting HTTPS and other services supporting SSLv2."
+    },
+    {
+      "name": "needrestart",
+      "kind": "software tool",
+      "gloss": "A utility for Linux that detects and restarts services using outdated shared libraries."
+    },
+    {
+      "name": "CVE-2016-0800",
+      "kind": "vulnerability identifier",
+      "gloss": "The Common Vulnerabilities and Exposures identifier for the DROWN vulnerability affecting SSLv2."
+    },
+    {
+      "name": "FREAK",
+      "kind": "vulnerability",
+      "gloss": "A security vulnerability allowing downgrade of RSA export keys in SSL/TLS implementations."
+    },
+    {
+      "name": "SSL FREAK Check",
+      "kind": "software tool",
+      "gloss": "An online tool used to test servers for vulnerability to the FREAK attack."
+    },
+    {
+      "name": "CVE-2015-0204",
+      "kind": "vulnerability identifier",
+      "gloss": "The Common Vulnerabilities and Exposures identifier for the FREAK TLS downgrade vulnerability in OpenSSL."
+    },
+    {
+      "name": "CVE-2017-14491",
+      "kind": "vulnerability identifier",
+      "gloss": "The Common Vulnerabilities and Exposures identifier for a buffer overflow vulnerability in dnsmasq."
+    },
+    {
+      "name": "dnsmasq",
+      "kind": "software product",
+      "gloss": "A lightweight DNS forwarder and DHCP server software."
+    },
+    {
+      "name": "CVE-2017-0144",
+      "kind": "vulnerability identifier",
+      "gloss": "The Common Vulnerabilities and Exposures identifier for a remote code execution vulnerability in Microsoft SMBv1."
+    },
+    {
+      "name": "Microsoft Windows",
+      "kind": "operating system",
+      "gloss": "A group of graphical operating system families developed and marketed by Microsoft."
+    },
+    {
+      "name": "CVE-2017-0143",
+      "kind": "vulnerability identifier",
+      "gloss": "The Common Vulnerabilities and Exposures identifier for a Windows SMB remote code execution vulnerability."
+    },
+    {
+      "name": "CVE-2017-0145",
+      "kind": "vulnerability identifier",
+      "gloss": "The Common Vulnerabilities and Exposures identifier for a Windows SMB remote code execution vulnerability."
+    },
+    {
+      "name": "CVE-2017-0146",
+      "kind": "vulnerability identifier",
+      "gloss": "The Common Vulnerabilities and Exposures identifier for a Windows SMB remote code execution vulnerability."
+    },
+    {
+      "name": "CVE-2017-0148",
+      "kind": "vulnerability identifier",
+      "gloss": "The Common Vulnerabilities and Exposures identifier for a Windows SMB remote code execution vulnerability."
+    },
+    {
+      "name": "Unify OpenStage Xpert 6010p",
+      "kind": "software product",
+      "gloss": "A communications software platform developed by Unify."
+    },
+    {
+      "name": "Heartbleed",
+      "kind": "vulnerability",
+      "gloss": "A security vulnerability in the OpenSSL cryptography library affecting TLS heartbeat extension implementations."
+    },
+    {
+      "name": "CVE-2014-0160",
+      "kind": "vulnerability identifier",
+      "gloss": "The Common Vulnerabilities and Exposures identifier for the Heartbleed vulnerability in OpenSSL."
+    }
+  ],
+  "relations": [
+    {
+      "head": "POODLE",
+      "type": "tracked-as",
+      "tail": "CVE-2014-3566",
+      "evidence": "Вразливість під кодовою назвою POODLE (Padding Oracle On Downgraded Legacy Encryption, CVE-2014-3566)"
+    },
+    {
+      "head": "Logjam",
+      "type": "affects-software",
+      "tail": "OpenSSL",
+      "evidence": "Вразливість поширюється як на серверне ПЗ, що використовує OpenSSL"
+    },
+    {
+      "head": "Logjam",
+      "type": "affects-software",
+      "tail": "Internet Explorer",
+      "evidence": "Вразливі веб-браузери: Internet Explorer"
+    },
+    {
+      "head": "Logjam",
+      "type": "affects-software",
+      "tail": "Chrome",
+      "evidence": "Вразливі веб-браузери: Internet Explorer Chrome"
+    },
+    {
+      "head": "Logjam",
+      "type": "affects-software",
+      "tail": "Safari",
+      "evidence": "Вразливі веб-браузери: Internet Explorer Chrome Safari"
+    },
+    {
+      "head": "Logjam",
+      "type": "affects-software",
+      "tail": "Mozilla",
+      "evidence": "Вразливі веб-браузери: Internet Explorer Chrome Safari Mozilla"
+    },
+    {
+      "head": "Logjam",
+      "type": "tracked-as",
+      "tail": "CVE-2015-4000",
+      "evidence": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-4000"
+    },
+    {
+      "head": "DROWN",
+      "type": "tracked-as",
+      "tail": "CVE-2016-0800",
+      "evidence": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-0800"
+    },
+    {
+      "head": "FREAK",
+      "type": "tracked-as",
+      "tail": "CVE-2015-0204",
+      "evidence": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=cve-2015-0204"
+    },
+    {
+      "head": "CVE-2017-14491",
+      "type": "affects-software",
+      "tail": "dnsmasq",
+      "evidence": "Переповнення буфера було знайдено у коді dnsmasq включно до версії 2.78"
+    },
+    {
+      "head": "CVE-2017-0144",
+      "type": "affects-software",
+      "tail": "Microsoft Windows",
+      "evidence": "SMBv1 сервер у Microsoft Windows Vista SP2; Windows Server 2008 SP2"
+    },
+    {
+      "head": "CVE-2017-0144",
+      "type": "affects-software",
+      "tail": "Unify OpenStage Xpert 6010p",
+      "evidence": "Оновити програмне забезпечення для наступного переліку: Unify OpenStage Xpert 6010p 5R1"
+    },
+    {
+      "head": "Heartbleed",
+      "type": "affects-software",
+      "tail": "OpenSSL",
+      "evidence": "Heartbleed — помилка в криптографічному програмному забезпеченні OpenSSL"
+    },
+    {
+      "head": "Heartbleed",
+      "type": "tracked-as",
+      "tail": "CVE-2014-0160",
+      "evidence": "http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-0160"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "tracked-as",
+      "definition": "Identifies the standard vulnerability identifier (such as CVE) assigned to a named vulnerability or attack technique."
+    },
+    {
+      "name": "affects-software",
+      "definition": "Indicates that a vulnerability or flaw exists in or impacts the specified software product or library."
+    }
+  ]
+}

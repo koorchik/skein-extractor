@@ -1,0 +1,113 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0133",
+      "kind": "threat actor",
+      "gloss": "A threat group tracked by CERT-UA associated with cyberattacks against Ukrainian targets."
+    },
+    {
+      "name": "online.ua",
+      "kind": "web service",
+      "gloss": "A Ukrainian web portal providing free email and other internet services."
+    },
+    {
+      "name": "sbu@online[.]ua",
+      "kind": "email address",
+      "gloss": "A compromised or spoofed email address used to distribute malicious emails."
+    },
+    {
+      "name": "ESET_scanner.rar",
+      "kind": "archive file",
+      "gloss": "A malicious RAR archive attached to phishing emails pretending to be from CERT-UA."
+    },
+    {
+      "name": "ESET Online Scanner.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable that mimics an antivirus scanner to download and execute secondary payloads."
+    },
+    {
+      "name": "LICENSE",
+      "kind": "file",
+      "gloss": "A file included as part of the malicious archive bundle."
+    },
+    {
+      "name": "/home/gwesvnw/eset.yar",
+      "kind": "file",
+      "gloss": "A remote payload file retrieved via SFTP during execution of the malware."
+    },
+    {
+      "name": "Renci.SshNet",
+      "kind": "software library",
+      "gloss": "An open-source .NET SSH library utilized for SFTP file transfers."
+    },
+    {
+      "name": "hxxps://github[.]com/ArsenShnurkov/Renci.SshNet",
+      "kind": "url",
+      "gloss": "A GitHub repository URL for the Renci.SshNet library fork."
+    },
+    {
+      "name": "185[.]225.114.108",
+      "kind": "ip address",
+      "gloss": "An IP address used to host an SFTP server for delivering secondary payloads."
+    },
+    {
+      "name": "ipfib[.]com",
+      "kind": "internet domain",
+      "gloss": "An internet domain associated with the network infrastructure used in the attack."
+    }
+  ],
+  "relations": [
+    {
+      "head": "ESET_scanner.rar",
+      "type": "contains-file",
+      "tail": "ESET Online Scanner.exe",
+      "evidence": "архів \"ESET_scanner.rar\", що містить файл \"ESET Online Scanner.exe\""
+    },
+    {
+      "head": "ESET Online Scanner.exe",
+      "type": "uses-library",
+      "tail": "Renci.SshNet",
+      "evidence": "здійснюється по протоколу SFTP з використанням бібліотеки \"Renci.SshNet\""
+    },
+    {
+      "head": "ESET Online Scanner.exe",
+      "type": "downloads-payload",
+      "tail": "/home/gwesvnw/eset.yar",
+      "evidence": "завантаження пейлоаду (\"/home/gwesvnw/eset.yar\") здійснюється по протоколу SFTP"
+    },
+    {
+      "head": "ESET Online Scanner.exe",
+      "type": "connects-to-ip",
+      "tail": "185[.]225.114.108",
+      "evidence": "sftp://185[.]225.114.108:48765"
+    },
+    {
+      "head": "UAC-0133",
+      "type": "attributed-to",
+      "tail": "ESET Online Scanner.exe",
+      "evidence": "Активність відстежується за ідентифікатором UAC-0133."
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "contains-file",
+      "definition": "The source archive or container file contains the target file."
+    },
+    {
+      "name": "uses-library",
+      "definition": "The source software or malware component relies on the target library or software module for functionality."
+    },
+    {
+      "name": "downloads-payload",
+      "definition": "The source program downloads the target payload file from a remote server."
+    },
+    {
+      "name": "connects-to-ip",
+      "definition": "The source malware or application establishes a network connection to the target IP address."
+    },
+    {
+      "name": "attributed-to",
+      "definition": "The activity, malicious file, or infrastructure is attributed to a specific threat group or identifier."
+    }
+  ]
+}

@@ -1,0 +1,192 @@
+{
+  "docId": 6279419,
+  "date": "23.05.2024",
+  "title": "UAC-0188: Цільові кібератаки з використанням SuperOps RMM (CERT-UA#9797)",
+  "entities": [
+    {
+      "id": "6279419:0",
+      "name": "CSIRT-NBU",
+      "kind": "incident response team",
+      "gloss": "The computer security incident response team of the National Bank of Ukraine.",
+      "scheme": "S24",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "6279419:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "6279419:2",
+      "name": "SuperOps RMM",
+      "kind": "software product",
+      "gloss": "A legitimate remote monitoring and management software tool leveraged for unauthorized access.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6279419:3",
+      "name": "Dropbox",
+      "kind": "cloud storage service",
+      "gloss": "A cloud-based file hosting and storage platform used to distribute malicious files.",
+      "scheme": "S3",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "6279419:4",
+      "name": "PyInstaller",
+      "kind": "software tool",
+      "gloss": "A program that freezes Python applications into stand-alone executables.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6279419:5",
+      "name": "Minesweeper",
+      "kind": "software product",
+      "gloss": "A classic computer puzzle game whose Python source code was embedded into payloads.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6279419:6",
+      "name": "anotepad.com",
+      "kind": "web service",
+      "gloss": "An online notepad service abused to host encoded Python scripts.",
+      "scheme": "S18",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6279419:7",
+      "name": "Європа",
+      "kind": "geographic region",
+      "gloss": "A continent comprising multiple European nations targeted by threat actors.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279419:8",
+      "name": "США",
+      "kind": "country",
+      "gloss": "A country primarily located in North America.",
+      "scheme": "S5",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "6279419:9",
+      "name": "superops.com",
+      "kind": "internet domain",
+      "gloss": "A legitimate internet domain associated with the SuperOps RMM platform.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6279419:10",
+      "name": "superops.ai",
+      "kind": "internet domain",
+      "gloss": "A legitimate internet domain associated with the SuperOps RMM service.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6279419:11",
+      "name": "UAC-0188",
+      "kind": "threat actor",
+      "gloss": "A cyber threat group tracked by CERT-UA targeting organizations with remote access tools.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6279419:12",
+      "name": "patient-docs-mail.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain used in cyberattack infrastructure.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6279419:13",
+      "name": "support2@patient-docs-mail.com",
+      "kind": "e-mail address",
+      "gloss": "An email address associated with the malicious campaign infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6279419:14",
+      "name": "acmaiiykmm@protonmail.com",
+      "kind": "e-mail address",
+      "gloss": "An encrypted email address associated with the malicious campaign.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6279419:15",
+      "name": "yemmyusa.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified in the incident indicators.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6279419:16",
+      "name": "Медичні_Аналізи_від_20.05.2024.scr",
+      "kind": "malware payload",
+      "gloss": "A malicious SCR executable used to initiate the infection chain.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6279419:17",
+      "name": "Lexical Analysis Software Ltd",
+      "kind": "company",
+      "gloss": "A software company referenced in host-based artifacts.",
+      "scheme": "S1",
+      "category": "Organization",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "CSIRT-NBU",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Спільними зусиллями CSIRT-NBU та CERT-UA"
+    },
+    {
+      "head": "UAC-0188",
+      "type": "attacks",
+      "tail": "Україна",
+      "evidence": "кібератаку, спрямовану на отримання несанкціонованого віддаленого доступу до ЕОМ українських організацій"
+    },
+    {
+      "head": "UAC-0188",
+      "type": "attacks",
+      "tail": "США",
+      "evidence": "імена яких містили назви фінансових та страхових установ Європи і США"
+    }
+  ],
+  "unclassified": [
+    "6279419:7"
+  ]
+}

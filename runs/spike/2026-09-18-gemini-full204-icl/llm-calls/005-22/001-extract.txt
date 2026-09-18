@@ -1,0 +1,162 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+(none yet — use your own wording)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p>Компанія Cisco випустила оновлення безпеки для багатьох своїх продуктів, що закривають недавно знайдені п'ять вразливостей, які використовують Cisco Discovery Protocol (CDP). П'ять вразливостей отримали загальну назву CDPwn і мають «високий» статус критичності. CDPwn можуть дозволити зловмисникам віддалено захопити мільйони пристроїв, які використовують CDP.</p><h3><strong>Що таке CDP?</strong></h3><p>CDP - фірмовий мережевий протокол Cisco, який використовується для пошуку інформації про місцеве обладнання Cisco. CDP реалізований практично у всіх продуктах Cisco, включаючи комутатори, маршрутизатори, IP-телефони та камери.</p><h3><strong>Cisco виправила такі вразливості в реалізації протоколу CDP:</strong></h3><p>CVE-2020-3120</p><ul><li>Cisco FXOS, IOS XR і NX-OS – вразливість, яка дозволяє атакуючому з тієї ж мережі, де знаходяться пристрої з цим ПО, організовувати витік пам'яті, викликаючи перезавантаження пристроїв;</li></ul><p>CVE-2020-3119</p><ul><li>Cisco NX-OS – вразливість, яка дозволяє атакуючому викликати переповнення стека (stack overflow), що, у свою чергу, веде до можливості запуску коду з адміністративними привілеями;</li></ul><p>CVE-2020-3118</p><ul><li>Cisco IOS XR – вразливість, яка дозволяє атакуючому викликати переповнення стека (stack overflow), що, у свою чергу, веде до можливості запуску коду з адміністративними привілеями;</li></ul><p>CVE-2020-3111</p><ul><li>IP-телефон Cisco IP – вразливість, яка дозволяє віддалено запускати код з привілеями root або виконувати перезавантаження пристрою;</li></ul><p>CVE-2020-3110</p><ul><li>IP-камери Cisco для відеоспостереження серії 8000 – вразливість дозволяє віддалено запускати шкідливий код або викликати перезавантаження пристрою, створюючи статус Denial of Service (DoS).</li></ul><h3><strong>Що робити?</strong></h3><p>Якщо Ви використовуєте одну з вищезазначених систем, рекомендуємо&nbsp;<strong>негайно</strong>&nbsp;встановити відповідні оновлення (патчі) для усунення вразливостей, що вже випущені компанією Cisco.</p><h3><strong>Корисні посилання</strong></h3><p>Окремі оновлення можна знайти тут:</p><p>Cisco Security Advisory – CVE-2020-3120 – <a href="https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20200205-fxnxos-iosxr-cdp-dos" rel="noopener noreferrer" target="_blank">https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20200205-fxnxos-iosxr-cdp-dos</a></p><p>Cisco Security Advisory – CVE-2020-3119 – <a href="https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20200205-nxos-cdp-rce" rel="noopener noreferrer" target="_blank">https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20200205-nxos-cdp-rce</a></p><p>Cisco Security Advisory – CVE-2020-3118 – <a href="https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20200205-iosxr-cdp-rce" rel="noopener noreferrer" target="_blank">https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20200205-iosxr-cdp-rce</a></p><p>Cisco Security Advisory – CVE-2020-3111 – <a href="https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20200205-voip-phones-rce-dos" rel="noopener noreferrer" target="_blank">https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20200205-voip-phones-rce-dos</a></p><p>Cisco Security Advisory – CVE-2020-3110 – <a href="https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20200205-ipcameras-rce-dos" rel="noopener noreferrer" target="_blank">https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20200205-ipcameras-rce-dos</a></p>
+
+=== RESPONSE (8.3s, in 2332 / out 1242 tok, STOP) ===
+```json
+{
+  "entities": [
+    {
+      "name": "Cisco",
+      "kind": "software vendor",
+      "gloss": "An American multinational digital communications technology and networking hardware conglomerate."
+    },
+    {
+      "name": "Cisco Discovery Protocol",
+      "kind": "network protocol",
+      "gloss": "A proprietary Data Link Layer network protocol developed by Cisco to discover network devices."
+    },
+    {
+      "name": "CDPwn",
+      "kind": "vulnerability",
+      "gloss": "A collective name for five high-severity security vulnerabilities affecting the Cisco Discovery Protocol implementation."
+    },
+    {
+      "name": "CVE-2020-3120",
+      "kind": "vulnerability",
+      "gloss": "A denial of service vulnerability in Cisco FXOS, IOS XR, and NX-OS CDP implementation."
+    },
+    {
+      "name": "Cisco FXOS",
+      "kind": "operating system",
+      "gloss": "A network operating system developed by Cisco for Firepower security appliances."
+    },
+    {
+      "name": "Cisco IOS XR",
+      "kind": "operating system",
+      "gloss": "A train of Cisco Systems' fully modular network operating systems used on high-end routers."
+    },
+    {
+      "name": "Cisco NX-OS",
+      "kind": "operating system",
+      "gloss": "A network operating system for the Nexus-series Ethernet switches and MDS-series Fibre Channel switches."
+    },
+    {
+      "name": "CVE-2020-3119",
+      "kind": "vulnerability",
+      "gloss": "A stack overflow and remote code execution vulnerability in Cisco NX-OS CDP implementation."
+    },
+    {
+      "name": "CVE-2020-3118",
+      "kind": "vulnerability",
+      "gloss": "A stack overflow and remote code execution vulnerability in Cisco IOS XR CDP implementation."
+    },
+    {
+      "name": "CVE-2020-3111",
+      "kind": "vulnerability",
+      "gloss": "A remote code execution and denial of service vulnerability in Cisco IP Phone CDP implementation."
+    },
+    {
+      "name": "IP-телефон Cisco IP",
+      "kind": "telecommunications equipment",
+      "gloss": "Voice over IP (VoIP) telephony hardware manufactured by Cisco."
+    },
+    {
+      "name": "CVE-2020-3110",
+      "kind": "vulnerability",
+      "gloss": "A remote code execution and denial of service vulnerability in Cisco Video Surveillance 8000 Series IP Cameras."
+    },
+    {
+      "name": "IP-камери Cisco для відеоспостереження серії 8000",
+      "kind": "hardware",
+      "gloss": "A line of high-definition video surveillance IP cameras manufactured by Cisco."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2020-3120",
+      "type": "affects",
+      "tail": "Cisco FXOS",
+      "evidence": "Cisco FXOS, IOS XR і NX-OS – вразливість, яка дозволяє"
+    },
+    {
+      "head": "CVE-2020-3120",
+      "type": "affects",
+      "tail": "Cisco IOS XR",
+      "evidence": "Cisco FXOS, IOS XR і NX-OS – вразливість, яка дозволяє"
+    },
+    {
+      "head": "CVE-2020-3120",
+      "type": "affects",
+      "tail": "Cisco NX-OS",
+      "evidence": "Cisco FXOS, IOS XR і NX-OS – вразливість, яка дозволяє"
+    },
+    {
+      "head": "CVE-2020-3119",
+      "type": "affects",
+      "tail": "Cisco NX-OS",
+      "evidence": "CVE-2020-3119 Cisco NX-OS – вразливість, яка дозволяє"
+    },
+    {
+      "head": "CVE-2020-3118",
+      "type": "affects",
+      "tail": "Cisco IOS XR",
+      "evidence": "CVE-2020-3118 Cisco IOS XR – вразливість, яка дозволяє"
+    },
+    {
+      "head": "CVE-2020-3111",
+      "type": "affects",
+      "tail": "IP-телефон Cisco IP",
+      "evidence": "CVE-2020-3111 IP-телефон Cisco IP – вразливість, яка дозволяє"
+    },
+    {
+      "head": "CVE-2020-3110",
+      "type": "affects",
+      "tail": "IP-камери Cisco для відеоспостереження серії 8000",
+      "evidence": "CVE-2020-3110 IP-камери Cisco для відеоспостереження серії 8000"
+    }
+  ],
+  "newRelationTypes": []
+}
+```

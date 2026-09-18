@@ -1,0 +1,148 @@
+{
+  "docId": 38374,
+  "date": "28.03.2022",
+  "title": "Кібератака групи UAC-0056 на державні органи України з використанням шкідливих програм GraphSteel та GrimPlant (CERT-UA#4293)",
+  "entities": [
+    {
+      "id": "38374:0",
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyberespionage threat group known for targeting Ukrainian government organizations and critical infrastructure.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "38374:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "38374:2",
+      "name": "державні органи України",
+      "kind": "government body",
+      "gloss": "State authorities and administrative governmental institutions of Ukraine.",
+      "scheme": "S6",
+      "category": "Sector",
+      "role": "target"
+    },
+    {
+      "id": "38374:3",
+      "name": "Заборгованість по зарплаті.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Microsoft Excel spreadsheet containing embedded macros used to drop and execute malware.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "38374:4",
+      "name": "Base-Update.exe",
+      "kind": "malicious file",
+      "gloss": "A Go-based malicious downloader executable deployed during cyberattacks.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "38374:5",
+      "name": "GoDownloader",
+      "kind": "malware family",
+      "gloss": "A downloader malware family written in Go used to fetch and execute additional malicious payloads.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "38374:6",
+      "name": "java-sdk.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious GoDownloader executable masquerading as a legitimate Java development component.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "38374:7",
+      "name": "GraphSteel",
+      "kind": "malware family",
+      "gloss": "A Go-based information-stealing backdoor malware that harvests credentials and system data.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "38374:8",
+      "name": "GrimPlant",
+      "kind": "malware family",
+      "gloss": "A Go-based backdoor malware capable of executing remote shell commands and exfiltrating system information.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "38374:9",
+      "name": "oracle-java.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable payload disguised as legitimate Oracle Java software containing GrimPlant malware.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "38374:10",
+      "name": "microsoft-cortana.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable payload disguised as legitimate Microsoft Cortana software containing GraphSteel malware.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "38374:11",
+      "name": "194.31.98.124",
+      "kind": "ip address",
+      "gloss": "An IP address utilized for malicious network communications and command and control.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "attacks",
+      "tail": "державні органи України",
+      "evidence": "розповсюдження електронних листів з темою \"Заборгованість по зарплаті\" серед державних органів України"
+    },
+    {
+      "head": "державні органи України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "державних органів України"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "GraphSteel",
+      "evidence": "запуск на комп'ютері шкідливих програм GraphSteel та GrimPlant. Виявлену активність асоційовано з дільністю групи UAC-0056."
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "GrimPlant",
+      "evidence": "запуск на комп'ютері шкідливих програм GraphSteel та GrimPlant. Виявлену активність асоційовано з дільністю групи UAC-0056."
+    },
+    {
+      "head": "Заборгованість по зарплаті.xls",
+      "type": "delivers",
+      "tail": "Base-Update.exe",
+      "evidence": "створення EXE-файлу \"Base-Update.exe\" на комп'ютері та його виконання"
+    }
+  ],
+  "unclassified": []
+}

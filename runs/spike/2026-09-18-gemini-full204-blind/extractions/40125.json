@@ -1,0 +1,150 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0104",
+      "kind": "threat actor",
+      "gloss": "A threat actor group tracked by CERT-UA associated with cyberattacks delivering information-stealing malware."
+    },
+    {
+      "name": "JesterStealer",
+      "kind": "malware",
+      "gloss": "An information stealing malware designed to extract credentials, browser data, cryptocurrency wallets, and application tokens."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cloud-based instant messaging and voice over IP service used by threat actors for data exfiltration."
+    },
+    {
+      "name": "TOR",
+      "kind": "software product",
+      "gloss": "An open-source software enabling anonymous communication through an overlay network."
+    },
+    {
+      "name": "Map023.xlsb",
+      "kind": "file",
+      "gloss": "A malicious Excel binary workbook containing macros used to download and execute payload files."
+    },
+    {
+      "name": "Map021.xlsb",
+      "kind": "file",
+      "gloss": "A malicious Excel binary workbook containing macros used to download and execute payload files."
+    },
+    {
+      "name": "Map026.xlsb",
+      "kind": "file",
+      "gloss": "A malicious Excel binary workbook containing macros used to download and execute payload files."
+    },
+    {
+      "name": "Updater-Microsoft.exe",
+      "kind": "file",
+      "gloss": "A malicious executable payload disguised as a Microsoft updater used to execute JesterStealer."
+    },
+    {
+      "name": "a1.exe",
+      "kind": "file",
+      "gloss": "A malicious executable file associated with the deployment of JesterStealer."
+    },
+    {
+      "name": "OfficeUpdaterNew.exe",
+      "kind": "file",
+      "gloss": "A malicious executable file hosted on compromised infrastructure disguised as an Office update."
+    },
+    {
+      "name": "tachikawaobs@sv5206.xserver.jp",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator of compromise in phishing distributions."
+    },
+    {
+      "name": "157.112.183.47",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure in malicious campaign activity."
+    },
+    {
+      "name": "igshop.net",
+      "kind": "internet domain",
+      "gloss": "A compromised website domain used to host malicious files and executables."
+    },
+    {
+      "name": "dcshost.net",
+      "kind": "internet domain",
+      "gloss": "A compromised website domain used to host malicious executables."
+    },
+    {
+      "name": "marmaris.com.ua",
+      "kind": "internet domain",
+      "gloss": "A compromised Ukrainian website domain used to host malicious executables."
+    },
+    {
+      "name": "autodoka.com.ua",
+      "kind": "internet domain",
+      "gloss": "A compromised Ukrainian website domain used to host malicious executables."
+    },
+    {
+      "name": "lightnogu5owjjllyo4tj2sfos6fchnmcidlgo6c7e6fz2hgryhfhoyd.onion",
+      "kind": "internet domain",
+      "gloss": "A Tor hidden service address used as command and control or exfiltration infrastructure for malware."
+    },
+    {
+      "name": "wasabiwallet.online",
+      "kind": "internet domain",
+      "gloss": "A domain name used as network infrastructure in malware operations."
+    },
+    {
+      "name": "ip-api.com",
+      "kind": "internet domain",
+      "gloss": "A legitimate IP geolocation API service queried by software to determine public IP information."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0104",
+      "type": "uses-malware",
+      "tail": "JesterStealer",
+      "evidence": "призведе до ураження комп'ютера шкідливою програмою JesterStealer. Зауважимо... Активність тимчасово відстежується за ідентифікатором UAC-0104."
+    },
+    {
+      "head": "igshop.net",
+      "type": "hosts",
+      "tail": "Map026.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map026.xlsb"
+    },
+    {
+      "head": "igshop.net",
+      "type": "hosts",
+      "tail": "Map023.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map023.xlsb"
+    },
+    {
+      "head": "igshop.net",
+      "type": "hosts",
+      "tail": "Map021.xlsb",
+      "evidence": "hxxps://igshop[.]net/uploads/Map021.xlsb"
+    },
+    {
+      "head": "igshop.net",
+      "type": "hosts",
+      "tail": "Updater-Microsoft.exe",
+      "evidence": "hxxps://igshop[.]net/uploads/Updater-Microsoft.exe"
+    },
+    {
+      "head": "dcshost.net",
+      "type": "hosts",
+      "tail": "OfficeUpdaterNew.exe",
+      "evidence": "hxxps://dcshost[.]net/mail/OfficeUpdaterNew.exe"
+    },
+    {
+      "head": "marmaris.com.ua",
+      "type": "hosts",
+      "tail": "Updater-Microsoft.exe",
+      "evidence": "hxxps://marmaris.com[.]ua/misc/Updater-Microsoft.exe"
+    },
+    {
+      "head": "autodoka.com.ua",
+      "type": "hosts",
+      "tail": "Updater-Microsoft.exe",
+      "evidence": "hxxps://autodoka.com[.]ua/extra/Updater-Microsoft.exe"
+    }
+  ],
+  "newRelationTypes": []
+}

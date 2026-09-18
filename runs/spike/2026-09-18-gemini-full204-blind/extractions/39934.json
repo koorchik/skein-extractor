@@ -1,0 +1,98 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0098",
+      "kind": "threat actor",
+      "gloss": "A threat actor group tracked by CERT-UA associated with cyberattacks and cybercrime operations."
+    },
+    {
+      "name": "TrickBot",
+      "kind": "threat actor",
+      "gloss": "A prominent cybercrime group known for developing and operating malware of the same name."
+    },
+    {
+      "name": "Meterpreter",
+      "kind": "malware",
+      "gloss": "An advanced payload and post-exploitation tool that provides interactive command and control access."
+    },
+    {
+      "name": "Указ Президента України No 151 про безпрецедентні заходи безпеки.iso",
+      "kind": "malicious file",
+      "gloss": "A malicious ISO disk image file distributed as an email attachment in a phishing campaign."
+    },
+    {
+      "name": "a.docx",
+      "kind": "decoy document",
+      "gloss": "A lure Microsoft Word document opened to distract the victim during malware execution."
+    },
+    {
+      "name": "УКАЗ ПРЕЗИДЕНТА УКРАЇНИ №151_2022.mp4.lnk",
+      "kind": "malicious file",
+      "gloss": "A malicious Windows shortcut file used to trigger a PowerShell script execution chain."
+    },
+    {
+      "name": "z.ps1",
+      "kind": "malicious file",
+      "gloss": "A PowerShell script designed to execute a decoy document and a malicious payload executable."
+    },
+    {
+      "name": "b.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious Windows executable file that deploys the Meterpreter payload."
+    },
+    {
+      "name": "loader.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file identified as an indicator of compromise in the incident."
+    },
+    {
+      "name": "admin@rs500cosworth.com",
+      "kind": "email address",
+      "gloss": "An email address identified as an indicator of compromise related to the campaign."
+    },
+    {
+      "name": "195.211.99.29",
+      "kind": "ip address",
+      "gloss": "An external IP address associated with network infrastructure used in the campaign."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0098",
+      "type": "uses-malware",
+      "tail": "Meterpreter",
+      "evidence": "активність асоційовано з UAC-0098. ... комп'ютер буде уражено шкідливою програмою Meterpreter."
+    },
+    {
+      "head": "Указ Президента України No 151 про безпрецедентні заходи безпеки.iso",
+      "type": "delivers",
+      "tail": "УКАЗ ПРЕЗИДЕНТА УКРАЇНИ №151_2022.mp4.lnk",
+      "evidence": "ISO-файл містить документ-приманку \"a.docx\", LNK-файл \"УКАЗ ПРЕЗИДЕНТА УКРАЇНИ №151_2022.mp4.lnk\""
+    },
+    {
+      "head": "Указ Президента України No 151 про безпрецедентні заходи безпеки.iso",
+      "type": "delivers",
+      "tail": "a.docx",
+      "evidence": "ISO-файл містить документ-приманку \"a.docx\""
+    },
+    {
+      "head": "Указ Президента України No 151 про безпрецедентні заходи безпеки.iso",
+      "type": "delivers",
+      "tail": "z.ps1",
+      "evidence": "ISO-файл містить ... PowerShell-скрипт \"z.ps1\""
+    },
+    {
+      "head": "Указ Президента України No 151 про безпрецедентні заходи безпеки.iso",
+      "type": "delivers",
+      "tail": "b.exe",
+      "evidence": "ISO-файл містить ... EXE-файл \"b.exe\""
+    },
+    {
+      "head": "b.exe",
+      "type": "delivers",
+      "tail": "Meterpreter",
+      "evidence": "здійснить виконання файлу \"b.exe\". В результаті, комп'ютер буде уражено шкідливою програмою Meterpreter."
+    }
+  ],
+  "newRelationTypes": []
+}

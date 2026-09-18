@@ -1,0 +1,265 @@
+{
+  "docId": 5702579,
+  "date": "04.09.2023",
+  "title": "Кібератака APT28: msedge як завантажувач, TOR та сервіси mockbin.org/website.hook як центр управління (CERT-UA#7469)",
+  "entities": [
+    {
+      "id": "5702579:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S5",
+      "category": "Country",
+      "role": null
+    },
+    {
+      "id": "5702579:1",
+      "name": "APT28",
+      "kind": "hacking group",
+      "gloss": "A Russian state-sponsored cyber espionage group affiliated with the Russian military intelligence agency (GRU).",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "5702579:2",
+      "name": "HeadLace",
+      "kind": "malware family",
+      "gloss": "A malware campaign and toolset attributed to the Russian threat actor APT28.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "5702579:3",
+      "name": "photo.zip",
+      "kind": "malicious archive",
+      "gloss": "A malicious ZIP archive used as an initial delivery vehicle containing decoy images and a script.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "5702579:4",
+      "name": "weblinks.cmd",
+      "kind": "malicious script",
+      "gloss": "A batch script embedded inside the malicious ZIP archive that executes further attack stages.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "5702579:5",
+      "name": "lilikeeper.JPG",
+      "kind": "decoy file",
+      "gloss": "A decoy JPEG image contained inside the malicious ZIP archive.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "5702579:6",
+      "name": "pollymodel.JPG",
+      "kind": "decoy file",
+      "gloss": "A decoy JPEG image contained inside the malicious ZIP archive.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "5702579:7",
+      "name": "candy_girl_ua.JPG",
+      "kind": "decoy file",
+      "gloss": "A decoy JPEG image contained inside the malicious ZIP archive.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "5702579:8",
+      "name": "l09y3n.css",
+      "kind": "malicious script",
+      "gloss": "A malicious script file disguised with a CSS extension delivered via headless browser.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5702579:9",
+      "name": "l09y3n.cmd",
+      "kind": "malicious script",
+      "gloss": "A batch script executed from the ProgramData directory during the attack.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5702579:10",
+      "name": "z201qo.cmd",
+      "kind": "malicious script",
+      "gloss": "A batch script dropped in ProgramData during the attack.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5702579:11",
+      "name": "LotusManagementNowService.exe",
+      "kind": "executable file",
+      "gloss": "An executable dropped and executed as a service during the intrusion.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5702579:12",
+      "name": "Microsoft Edge",
+      "kind": "software product",
+      "gloss": "A proprietary web browser developed by Microsoft.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "5702579:13",
+      "name": "Windows Script Host",
+      "kind": "software product",
+      "gloss": "A Microsoft Windows automation tool used to execute scripts.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "5702579:14",
+      "name": "TOR",
+      "kind": "software product",
+      "gloss": "An open-source software enabling anonymous communication and onion routing.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "5702579:15",
+      "name": "mockbin.org",
+      "kind": "internet domain",
+      "gloss": "A legitimate web testing service abused by attackers for network communication.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "5702579:16",
+      "name": "mocky.io",
+      "kind": "internet domain",
+      "gloss": "A legitimate HTTP response mocking service abused by threat actors.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "5702579:17",
+      "name": "run.mocky.io",
+      "kind": "internet domain",
+      "gloss": "A subdomain of mocky.io used to serve mocked API responses.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "5702579:18",
+      "name": "webhook.site",
+      "kind": "internet domain",
+      "gloss": "A legitimate web service for inspecting and debugging webhooks and HTTP requests.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "5702579:19",
+      "name": "file.io",
+      "kind": "internet domain",
+      "gloss": "A legitimate ephemeral file sharing service abused for hosting payloads.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "5702579:20",
+      "name": "ipapi.co",
+      "kind": "internet domain",
+      "gloss": "An IP address geolocation and lookup API service.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "5702579:21",
+      "name": "arunmishra1974@portugalmail.pt",
+      "kind": "email address",
+      "gloss": "An email address used as a network indicator in the campaign.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "5702579:22",
+      "name": "louw@seznam.cz",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator in the campaign.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "5702579:23",
+      "name": "185.220.100.253",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious or proxy network infrastructure.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5702579:24",
+      "name": "173.239.196.198",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure in the incident.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "photo.zip",
+      "type": "delivers",
+      "tail": "weblinks.cmd",
+      "evidence": "ZIP-архіву, що містить три JPG-зображення (приманки) та BAT-файл \"weblinks.cmd\""
+    },
+    {
+      "head": "photo.zip",
+      "type": "delivers",
+      "tail": "lilikeeper.JPG",
+      "evidence": "ZIP-архіву, що містить три JPG-зображення (приманки)"
+    },
+    {
+      "head": "photo.zip",
+      "type": "delivers",
+      "tail": "pollymodel.JPG",
+      "evidence": "ZIP-архіву, що містить три JPG-зображення (приманки)"
+    },
+    {
+      "head": "photo.zip",
+      "type": "delivers",
+      "tail": "candy_girl_ua.JPG",
+      "evidence": "ZIP-архіву, що містить три JPG-зображення (приманки)"
+    },
+    {
+      "head": "APT28",
+      "type": "uses-malware",
+      "tail": "HeadLace",
+      "evidence": "Описана активність здійснюється угрупуванням APT28."
+    }
+  ],
+  "unclassified": []
+}

@@ -1,0 +1,33 @@
+{
+  "entities": [
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "AnyDesk",
+      "kind": "remote desktop software",
+      "gloss": "A proprietary remote desktop application enabling remote access and management of computer systems."
+    },
+    {
+      "name": "1518341498",
+      "kind": "account identifier",
+      "gloss": "An AnyDesk client identifier used by threat actors to initiate unauthorized remote connection requests."
+    }
+  ],
+  "relations": [
+    {
+      "head": "1518341498",
+      "type": "operates-via-software",
+      "tail": "AnyDesk",
+      "evidence": "ідентифікатор AnyDesk \"1518341498\""
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "operates-via-software",
+      "definition": "Specifies the software application or platform through which an account, address, or identifier functions."
+    }
+  ]
+}

@@ -1,0 +1,234 @@
+{
+  "entities": [
+    {
+      "name": "Київстар",
+      "kind": "telecommunications company",
+      "gloss": "A major Ukrainian telecommunications and mobile network operator."
+    },
+    {
+      "name": "Заборгованість абонента.zip",
+      "kind": "archive file",
+      "gloss": "A malicious ZIP archive distributed via email containing multi-part RAR archives."
+    },
+    {
+      "name": "Заборгованість абонента.rar",
+      "kind": "archive file",
+      "gloss": "A password-protected split RAR archive containing a malicious Word document."
+    },
+    {
+      "name": "Заборгованість абонента.doc",
+      "kind": "document file",
+      "gloss": "A malicious Word document containing macros used to trigger payload execution."
+    },
+    {
+      "name": "GB.exe",
+      "kind": "executable file",
+      "gloss": "An SFX archive downloaded via SMB that unpacks scripts to fetch further malware."
+    },
+    {
+      "name": "bitbucket",
+      "kind": "code repository service",
+      "gloss": "A web-based version control repository hosting service used by attackers to host malware."
+    },
+    {
+      "name": "wsuscr.exe",
+      "kind": "executable file",
+      "gloss": "An obfuscated executable responsible for decrypting and executing RemcosRAT."
+    },
+    {
+      "name": "SmartAssembly .NET",
+      "kind": "obfuscation software",
+      "gloss": "An obfuscator tool designed to protect .NET applications from reverse engineering."
+    },
+    {
+      "name": "RemcosRAT",
+      "kind": "remote access trojan",
+      "gloss": "A commercial remote access tool frequently utilized by threat actors for espionage and control."
+    },
+    {
+      "name": "СБУ",
+      "kind": "government body",
+      "gloss": "The Security Service of Ukraine, the primary law enforcement and intelligence agency of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Документи.zip",
+      "kind": "archive file",
+      "gloss": "A malicious ZIP archive attached to phishing emails masquerading as official SBU requests."
+    },
+    {
+      "name": "Запит.rar",
+      "kind": "archive file",
+      "gloss": "A password-protected split RAR archive containing a malicious executable."
+    },
+    {
+      "name": "Запит.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable delivering RemcosRAT."
+    },
+    {
+      "name": "UAC-0050",
+      "kind": "threat actor",
+      "gloss": "A financially and espionage-motivated threat actor targeting Ukrainian entities with commodity malware."
+    },
+    {
+      "name": "Shinjiru",
+      "kind": "hosting provider",
+      "gloss": "An offshore web hosting service provider based in Malaysia."
+    },
+    {
+      "name": "Малайзія",
+      "kind": "country",
+      "gloss": "A country located in Southeast Asia."
+    },
+    {
+      "name": "AS44477",
+      "kind": "autonomous system",
+      "gloss": "An autonomous system operated by Stark Industries Solutions Ltd hosting threat infrastructure."
+    },
+    {
+      "name": "STARK INDUSTRIES SOLUTIONS LTD",
+      "kind": "hosting company",
+      "gloss": "A technology infrastructure and hosting provider operating AS44477."
+    },
+    {
+      "name": "hXXps://bitbucket[.]org/olegovich-007/777/downloads/wsuscr.exe",
+      "kind": "url",
+      "gloss": "A malicious URL on Bitbucket used to download the wsuscr.exe payload."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Заборгованість абонента.zip",
+      "type": "contains",
+      "tail": "Заборгованість абонента.rar",
+      "evidence": "Зазначений ZIP-архів містить розділений на 2 частини RAR-архів \"Заборгованість абонента.rar\""
+    },
+    {
+      "head": "Заборгованість абонента.rar",
+      "type": "contains",
+      "tail": "Заборгованість абонента.doc",
+      "evidence": "В останньому знаходиться документ з макросом \"Заборгованість абонента.doc\""
+    },
+    {
+      "head": "Заборгованість абонента.doc",
+      "type": "downloads-and-executes",
+      "tail": "GB.exe",
+      "evidence": "здійснить завантаження на ЕОМ та запуск файлу \"GB.exe\""
+    },
+    {
+      "head": "GB.exe",
+      "type": "downloads-and-executes",
+      "tail": "wsuscr.exe",
+      "evidence": "містить BATCH-скрипт для завантаження з сервісу bitbucket та запуску виконуваного файлу \"wsuscr.exe\""
+    },
+    {
+      "head": "wsuscr.exe",
+      "type": "obfuscated-with",
+      "tail": "SmartAssembly .NET",
+      "evidence": "\"wsuscr.exe\", обфускованого за допомогою SmartAssembly .NET"
+    },
+    {
+      "head": "wsuscr.exe",
+      "type": "decrypts-and-executes",
+      "tail": "RemcosRAT",
+      "evidence": "призначенням якого є дешифрування та запуск програми для віддаленого управління RemcosRAT"
+    },
+    {
+      "head": "Документи.zip",
+      "type": "contains",
+      "tail": "Запит.rar",
+      "evidence": "архіву \"Документи.zip\", що містить захищений паролем та розділений на 3 частини RAR-архів \"Запит.rar\""
+    },
+    {
+      "head": "Запит.rar",
+      "type": "contains",
+      "tail": "Запит.exe",
+      "evidence": "В останньому знаходиться виконуваний файл \"Запит.exe\""
+    },
+    {
+      "head": "Запит.exe",
+      "type": "installs",
+      "tail": "RemcosRAT",
+      "evidence": "запуску виконуваних файлів ЕОМ може бути уражена програмою RemcosRAT"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "deploys-infrastructure-on",
+      "tail": "Shinjiru",
+      "evidence": "типового для UAC-0050 розміщення серверів управління RemcosRAT на технічному майданчику малайзійського хостинг-провайдера Shinjiru"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "deploys-infrastructure-on",
+      "tail": "AS44477",
+      "evidence": "їх також розміщено в межах автономної системи AS44477"
+    },
+    {
+      "head": "AS44477",
+      "type": "assigned-to",
+      "tail": "STARK INDUSTRIES SOLUTIONS LTD",
+      "evidence": "автономної системи AS44477 (STARK INDUSTRIES SOLUTIONS LTD)"
+    },
+    {
+      "head": "Shinjiru",
+      "type": "located-in",
+      "tail": "Малайзія",
+      "evidence": "малайзійського хостинг-провайдера Shinjiru"
+    },
+    {
+      "head": "СБУ",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Запит СБУ"
+    },
+    {
+      "head": "hXXps://bitbucket[.]org/olegovich-007/777/downloads/wsuscr.exe",
+      "type": "hosts",
+      "tail": "wsuscr.exe",
+      "evidence": "hXXps://bitbucket[.]org/olegovich-007/777/downloads/wsuscr.exe"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "contains",
+      "definition": "The subject archive or container file encapsulates the object file or data."
+    },
+    {
+      "name": "downloads-and-executes",
+      "definition": "The subject program downloads and runs the target payload or executable."
+    },
+    {
+      "name": "obfuscated-with",
+      "definition": "The subject payload or executable has been protected or obfuscated using the object software/tool."
+    },
+    {
+      "name": "decrypts-and-executes",
+      "definition": "The subject executable unpacks, decrypts, and executes the target payload."
+    },
+    {
+      "name": "installs",
+      "definition": "The subject installer or dropper installs or infects the system with the target malware."
+    },
+    {
+      "name": "deploys-infrastructure-on",
+      "definition": "The threat actor provisions or utilizes hosting or network infrastructure provided by the target entity."
+    },
+    {
+      "name": "assigned-to",
+      "definition": "The subject network resource or autonomous system is registered or operated by the target organization."
+    },
+    {
+      "name": "located-in",
+      "definition": "The subject entity is geographically situated in or operates from the target country."
+    },
+    {
+      "name": "hosts",
+      "definition": "The subject URL or web location serves or stores the object file."
+    }
+  ]
+}

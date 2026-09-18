@@ -1,0 +1,132 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+- uses-malware: A threat actor utilizes or deploys a specific malware tool or family in their operations.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p class="ql-align-justify"><span style="color: rgb(51, 51, 51);">Урядова команда реагування на комп’ютерні надзвичайні події України</span> CERT-UA вжила заходів з детального дослідження шкідливої програми, призначеної для незворотного знищення файлів шляхом перезапису їхнього вмісту послідовністю символів 0xCC розміром 1МБ (внутрішня назва WhisperKill; MD5: 3907c7fbd4148395284d8e6e3c1dba5d).</p><p class="ql-align-justify">Виконавши додатковий пошук і порівняльний аналіз за критеріями компілятора, розширень файлів, а також деяких функцій, фахівці дійшли висновку, що шкідлива програма WhisperKill більш ніж на 80% схожа зі шкідливою програмою «Encrpt3d Ransomware», також відомою як «WhiteBlackCrypt Ransomware», активність якої припала на березень 2021 року. Згадана шкідлива програма також є «фейковим» шифрувальником, адже насправді AES-ключ не зберігається, що, фактично, робить неможливим відновлення зашифрованих файлів.</p><p class="ql-align-justify">Цікавим є той факт, що повідомлення про викуп, що відображається шкідливою програмою WhiteBlackCrypt, містить тризуб (рис.&nbsp;1), а також адресу Bitcoin-гаманця 19B5Bt11oUqYnwSXfBgRpwwDGg5Ajirbjn і дві електронні поштові адреси: Whiteblackgroup002@gmail.com, Wbgroup022@gmail.com.</p><p class="ql-align-center"></p><p class="ql-align-center"><em>Рис. 1 Повідомлення про викуп (“ransom note”)</em></p><p class="ql-align-justify">Подальше дослідження відкритих джерел призводить до двох публікацій (05.01.2022 та 18.01.2022) у телеграм-каналі @tomhunter (також відомий як «Интернет-розыск»), рис.&nbsp;2.</p><p class="ql-align-center"></p><p class="ql-align-center"><em>Рис.&nbsp;2&nbsp;Публікації в телеграм-каналі @tomhunter</em></p><p class="ql-align-justify">Публікація від 05.01.2022 стосується випадків анонімного мінування будівель у Росії у 2019 році, що здійснювались невстановленою особою з метою повернення російським олігархом Костянтином Малофєєвим 120 біткоїнів, до викрадення яких останній був причетний у межах історії з криптобіржею WEX (до якої, за інформацією інших джерел, причетна ФСБ).&nbsp;</p><p class="ql-align-justify">При цьому адреса Bitcoin-гаманця, який відображався у ransom note програми WhiteBlackCrypt (2021 рік) і у електронних листах мінера-здирника (2019 рік) – однакові (рис.&nbsp;3).</p><p class="ql-align-center"></p><p class="ql-align-center"><em>Рис.&nbsp;3&nbsp;Приклад електронного листа мінера-здирника</em></p><p class="ql-align-justify">Наявність Bitcoin-гаманця мінера-здирника в публічному доступі з 2019 року робить можливим його використання будь-ким. Ураховуючи антиросійську діяльність мінера-здирника, невстановлені особи у першому кварталі 2021 року вирішують створити фейковий вірус-здирник WhiteBlackCrypt/Encrpt3d і не вигадують нічого кращого, ніж зазначити в ньому Bitcoin-гаманець мінера-здирника дворічної давнини (складно уявити, щоб справжні зловмисники протягом більше двох років не змінювали гаманців для отримання викупу) та ransom note з тризубом, невміло натякаючи на причетність України.</p><p class="ql-align-justify">Крім того, автор публікації у Telegram незрозумілим чином (хіба що на основі тризубу та антиросійської діяльності мінера-здирника) пов’язує «хакерське угруповання Encrpt3d» та ССО ЗС України.&nbsp;</p><p class="ql-align-justify">Отже, навмисне застосування 13-14 січня 2022 року шкідливої програми WhisperKill, що має морфологічні схожості зі шкідливою програмою WhiteBlackCrypt, і використання якої маніпулятивно асоційовано з ССО ЗС України, є спробою провокації та перекручення дійсності з метою звинуватити Україну в атаках 13-14 січня 2022 року.</p><p class="ql-align-justify">На рис. 4 наведено результат порівняння програм за допомогою утиліти програми BinDiff. Звертаємо увагу, що для BinDiff-порівняння використано файли: 3907c7fbd4148395284d8e6e3c1dba5d (WhisperKill) та e17f9959427a752f7287ee213dc55822 (WhiteBlackCrypt).</p><p class="ql-align-center"></p><p class="ql-align-center"><em>Рис.&nbsp;4&nbsp;Порівняння програм за допомогою BinDiff</em></p><p class="ql-align-justify">Більш детальне порівняння програм WhisperKill (MD5: 3907c7fbd4148395284d8e6e3c1dba5d) та WhiteBlackCrypt (MD5: b36e5c508efea796731d444c189b413c) наведено в таблиці.&nbsp;</p><p class="ql-align-justify">Таблиця&nbsp;Порівняння WhisperKill та WhiteBlackCrypt</p><p class="ql-align-justify"></p><p class="ql-align-center"></p><p class="ql-align-center"></p><p class="ql-align-center"></p><p class="ql-align-center"></p><p class="ql-align-center"></p><p class="ql-align-justify">Окрім зазначеного, отримана інформація, що в першій декаді січня 2022 року невстановленою особою, яка представилася раніше згаданим мінером-здирником, надіслано провокаційні листи до українських організацій (колективів) із закликом до здійснення атак проти Росії.</p><p class="ql-align-justify">CERT-UA продовжує аналізувати отримані з атакованих організацій дані з метою атрибуції кібератаки.</p>
+
+=== RESPONSE (5.4s, in 2893 / out 744 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "WhisperKill",
+      "kind": "malware family",
+      "gloss": "A destructive data-wiping malware designed to overwrite files and render them unrecoverable."
+    },
+    {
+      "name": "WhiteBlackCrypt Ransomware",
+      "kind": "malware family",
+      "gloss": "A fake ransomware malware family that irreversibly destroys data without saving encryption keys."
+    },
+    {
+      "name": "19B5Bt11oUqYnwSXfBgRpwwDGg5Ajirbjn",
+      "kind": "cryptocurrency wallet",
+      "gloss": "A Bitcoin wallet address included in ransom notes and extortion emails."
+    },
+    {
+      "name": "Whiteblackgroup002@gmail.com",
+      "kind": "email address",
+      "gloss": "An email address specified in ransom notes for communication."
+    },
+    {
+      "name": "Wbgroup022@gmail.com",
+      "kind": "email address",
+      "gloss": "An email address specified in ransom notes for communication."
+    },
+    {
+      "name": "@tomhunter",
+      "kind": "telegram channel",
+      "gloss": "A Telegram channel also known as Internet-Rozysk used to publish investigative and commentary posts."
+    },
+    {
+      "name": "Росія",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "Костянтин Малофєєв",
+      "kind": "person",
+      "gloss": "A Russian businessman and oligarch."
+    },
+    {
+      "name": "WEX",
+      "kind": "company",
+      "gloss": "A defunct cryptocurrency exchange platform."
+    },
+    {
+      "name": "ФСБ",
+      "kind": "government body",
+      "gloss": "The Federal Security Service, the principal security agency of the Russian Federation."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country located in Eastern Europe."
+    },
+    {
+      "name": "ССО ЗС України",
+      "kind": "government body",
+      "gloss": "The Special Operations Forces of the Armed Forces of Ukraine."
+    },
+    {
+      "name": "BinDiff",
+      "kind": "software product",
+      "gloss": "A comparison tool for binary files that assists in reverse engineering and vulnerability research."
+    }
+  ],
+  "relations": [
+    {
+      "head": "ФСБ",
+      "type": "located-in",
+      "tail": "Росія",
+      "evidence": "криптобіржею WEX (до якої, за інформацією інших джерел, причетна ФСБ)"
+    },
+    {
+      "head": "ССО ЗС України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "ССО ЗС України"
+    }
+  ],
+  "newRelationTypes": []
+}

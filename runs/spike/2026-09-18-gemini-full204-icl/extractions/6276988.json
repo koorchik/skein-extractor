@@ -1,0 +1,133 @@
+{
+  "entities": [
+    {
+      "name": "Trendmicro",
+      "kind": "software vendor",
+      "gloss": "A global cybersecurity and antivirus software company."
+    },
+    {
+      "name": "Ізраїль",
+      "kind": "country",
+      "gloss": "A country in Western Asia."
+    },
+    {
+      "name": "Армія оборони Ізраїлю (ЦАХАЛ)",
+      "kind": "government organization",
+      "gloss": "The national military force of the State of Israel."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Збройні Сили України",
+      "kind": "government organization",
+      "gloss": "The unified military forces of Ukraine."
+    },
+    {
+      "name": "Signal",
+      "kind": "software product",
+      "gloss": "An encrypted messaging and voice calling application."
+    },
+    {
+      "name": "REMCOSRAT",
+      "kind": "malware",
+      "gloss": "A commercial remote access trojan frequently abused by threat actors for espionage and control."
+    },
+    {
+      "name": "REVERSESSH",
+      "kind": "malware",
+      "gloss": "A tool or malware used to establish reverse SSH connections for remote system access."
+    },
+    {
+      "name": "UAC-0184",
+      "kind": "threat actor",
+      "gloss": "A cyber threat actor cluster tracked for attacks against Ukrainian military entities."
+    },
+    {
+      "name": "Центр кібербезпеки ІТС",
+      "kind": "government organization",
+      "gloss": "A cybersecurity operational subdivision within the Armed Forces of Ukraine."
+    },
+    {
+      "name": "csoc@post.mil.gov.ua",
+      "kind": "email address",
+      "gloss": "An official contact email address for the IT Cybersecurity Center of the Armed Forces of Ukraine."
+    },
+    {
+      "name": "194[.]87.31.181",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the malicious campaign infrastructure."
+    },
+    {
+      "name": "194[.]87.31.229",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the malicious campaign infrastructure."
+    },
+    {
+      "name": "45[.]120.177.220",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the malicious campaign infrastructure."
+    },
+    {
+      "name": "46[.]249.49.148",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the malicious campaign infrastructure."
+    },
+    {
+      "name": "46[.]249.58.40",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the malicious campaign infrastructure."
+    },
+    {
+      "name": "funedunet[.]com",
+      "kind": "domain name",
+      "gloss": "A malicious domain name used to deliver malware and malicious documents."
+    },
+    {
+      "name": "new-tech-savvy[.]com",
+      "kind": "domain name",
+      "gloss": "A malicious domain name used to deliver malware and malicious documents."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0184",
+      "type": "uses",
+      "tail": "REMCOSRAT",
+      "evidence": "ураження шкідливими програмами REMCOSRAT і REVERSESSH... відстежується за ідентифікатором UAC-0184"
+    },
+    {
+      "head": "UAC-0184",
+      "type": "uses",
+      "tail": "REVERSESSH",
+      "evidence": "ураження шкідливими програмами REMCOSRAT і REVERSESSH... відстежується за ідентифікатором UAC-0184"
+    },
+    {
+      "head": "UAC-0184",
+      "type": "uses",
+      "tail": "Signal",
+      "evidence": "невстановленими особами засобами Signal здійснюється розповсюдження архівів... відстежується за ідентифікатором UAC-0184"
+    },
+    {
+      "head": "Армія оборони Ізраїлю (ЦАХАЛ)",
+      "type": "located-in",
+      "tail": "Ізраїль",
+      "evidence": "Армії оборони Ізраїлю (ЦАХАЛ)"
+    },
+    {
+      "head": "Збройні Сили України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Збройних Сил України"
+    },
+    {
+      "head": "Центр кібербезпеки ІТС",
+      "type": "part-of",
+      "tail": "Збройні Сили України",
+      "evidence": "в ІКС Збройних сил України просимо невідкладно інформувати Центр кібербезпеки ІТС"
+    }
+  ],
+  "newRelationTypes": []
+}

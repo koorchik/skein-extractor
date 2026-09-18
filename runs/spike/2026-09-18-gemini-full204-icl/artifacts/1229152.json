@@ -1,0 +1,136 @@
+{
+  "docId": 1229152,
+  "date": "10.08.2022",
+  "title": "Кібератаки групи UAC-0010 (Armageddon): шкідливі програми GammaLoad, GammaSteel (CERT-UA#5134)",
+  "entities": [
+    {
+      "id": "1229152:0",
+      "name": "UAC-0010",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group also known as Armageddon or Gamaredon.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "1229152:1",
+      "name": "Armageddon",
+      "kind": "threat actor",
+      "gloss": "An alternative name for the Russian cyber espionage threat group UAC-0010.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": null
+    },
+    {
+      "id": "1229152:2",
+      "name": "GammaLoad.PS1",
+      "kind": "malware",
+      "gloss": "A PowerShell-based downloader malware family used by threat actor UAC-0010.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "1229152:3",
+      "name": "GammaSteel.PS1",
+      "kind": "malware",
+      "gloss": "A PowerShell-based information stealing malware family used to harvest files and browser credentials.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "1229152:4",
+      "name": "GammaSteel.NET",
+      "kind": "malware",
+      "gloss": "A .NET-based information stealing malware used to extract browser credentials and data.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "1229152:5",
+      "name": "HarvesterX",
+      "kind": "malware",
+      "gloss": "A legacy information-stealing malware tool used by UAC-0010.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "1229152:6",
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework by Microsoft comprising a command-line shell and scripting language.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "1229152:7",
+      "name": "wscript.exe",
+      "kind": "software product",
+      "gloss": "A built-in Windows executable that provides an environment for executing VBScript and JScript scripts.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "1229152:8",
+      "name": "mshta.exe",
+      "kind": "software product",
+      "gloss": "A Windows utility used to execute Microsoft HTML Application (HTA) files.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "1229152:9",
+      "name": "Normal.dotm",
+      "kind": "computer file",
+      "gloss": "A default Microsoft Word macro-enabled template file targeted for remote template injection.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "GammaLoad.PS1",
+      "evidence": "ланцюг доставки GammaLoad.PS1 на комп'ютер жертви"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "GammaSteel.PS1",
+      "evidence": "для чого застосовується GammaSteel.PS1"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "GammaSteel.NET",
+      "evidence": "застосовується GammaSteel.PS1 та GammaSteel.NET"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "PowerShell",
+      "evidence": "Активно використовується PowerShell"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "wscript.exe",
+      "evidence": "а також wscript.exe, mshta.exe"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "mshta.exe",
+      "evidence": "а також wscript.exe, mshta.exe"
+    }
+  ],
+  "unclassified": []
+}

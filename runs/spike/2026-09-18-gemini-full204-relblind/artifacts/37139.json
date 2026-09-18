@@ -1,0 +1,200 @@
+{
+  "docId": 37139,
+  "date": "18.02.2022",
+  "title": "Інформація щодо кібератак 15 лютого 2022 року",
+  "entities": [
+    {
+      "id": "37139:0",
+      "name": "Національний банк України (CSIRT-NBU)",
+      "kind": "central bank",
+      "gloss": "The central bank of Ukraine and its computer security incident response team.",
+      "scheme": null,
+      "category": "Government Body",
+      "role": null
+    },
+    {
+      "id": "37139:1",
+      "name": "Департамент кіберполіції Національної поліції України",
+      "kind": "law enforcement agency",
+      "gloss": "The cybercrime department of the National Police of Ukraine.",
+      "scheme": null,
+      "category": "Government Body",
+      "role": null
+    },
+    {
+      "id": "37139:2",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country located in Eastern Europe.",
+      "scheme": "S6",
+      "category": "Country",
+      "role": null
+    },
+    {
+      "id": "37139:3",
+      "name": "Донецька область",
+      "kind": "administrative region",
+      "gloss": "An administrative region in eastern Ukraine.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37139:4",
+      "name": "Mirai",
+      "kind": "botnet",
+      "gloss": "A malware family and botnet that enslaves connected devices to conduct distributed denial-of-service attacks.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "37139:5",
+      "name": "Meris",
+      "kind": "botnet",
+      "gloss": "A botnet composed primarily of compromised network routers used to perform distributed denial-of-service attacks.",
+      "scheme": null,
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "37139:6",
+      "name": "Mikrotik",
+      "kind": "hardware vendor",
+      "gloss": "A Latvian manufacturer of networking hardware and router software.",
+      "scheme": "S3",
+      "category": "Device",
+      "role": "target"
+    },
+    {
+      "id": "37139:7",
+      "name": "Shodan",
+      "kind": "search engine",
+      "gloss": "A search engine designed to discover and monitor internet-connected devices.",
+      "scheme": null,
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "37139:8",
+      "name": "MISP",
+      "kind": "threat intelligence platform",
+      "gloss": "An open-source software solution for collecting, storing, and sharing cyber threat intelligence.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "37139:9",
+      "name": "gov.ua",
+      "kind": "domain zone",
+      "gloss": "The Ukrainian government second-level domain zone under the top-level country code domain.",
+      "scheme": "S15",
+      "category": "Infrastructure",
+      "role": null
+    },
+    {
+      "id": "37139:10",
+      "name": "Cisco Crosswork",
+      "kind": "network management software",
+      "gloss": "A network automation and routing intelligence platform developed by Cisco.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "37139:11",
+      "name": "217.117.7.0/24",
+      "kind": "ip prefix",
+      "gloss": "An IPv4 network prefix allocated on the public internet.",
+      "scheme": "S13",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "37139:12",
+      "name": "Inq-Digital-Nigeria-AS (AS16284)",
+      "kind": "autonomous system",
+      "gloss": "An autonomous system operated by a Nigerian telecommunications and digital services provider.",
+      "scheme": null,
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "37139:13",
+      "name": "Приватбанк",
+      "kind": "commercial bank",
+      "gloss": "A large commercial bank operating in Ukraine.",
+      "scheme": null,
+      "category": "Organization",
+      "role": "attacker"
+    },
+    {
+      "id": "37139:14",
+      "name": "AS15742",
+      "kind": "autonomous system",
+      "gloss": "The autonomous system number assigned to the Ukrainian financial institution PrivatBank.",
+      "scheme": null,
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "37139:15",
+      "name": "AS37148",
+      "kind": "autonomous system",
+      "gloss": "An autonomous system operated by a telecommunications provider in Nigeria.",
+      "scheme": null,
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "37139:16",
+      "name": "Нігерія",
+      "kind": "country",
+      "gloss": "A sovereign country located in West Africa.",
+      "scheme": "S6",
+      "category": null,
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "Meris",
+      "type": "compromises-devices-from",
+      "tail": "Mikrotik",
+      "evidence": "через тисячі зламаних маршрутизаторів Mikrotik"
+    },
+    {
+      "head": "Приватбанк",
+      "type": "operates-autonomous-system",
+      "tail": "AS15742",
+      "evidence": "автономної системи Приватбанку (AS15742)"
+    },
+    {
+      "head": "Inq-Digital-Nigeria-AS (AS16284)",
+      "type": "owns-ip-prefix",
+      "tail": "217.117.7.0/24",
+      "evidence": "префікс 217.117.7.0/24, який фактично належить Inq-Digital-Nigeria-AS (AS16284)"
+    },
+    {
+      "head": "AS37148",
+      "type": "located-in-country",
+      "tail": "Нігерія",
+      "evidence": "нігерійського оператора телекомунікацій AS37148"
+    }
+  ],
+  "unclassified": [
+    "37139:0",
+    "37139:1",
+    "37139:3",
+    "37139:4",
+    "37139:5",
+    "37139:7",
+    "37139:8",
+    "37139:10",
+    "37139:12",
+    "37139:13",
+    "37139:14",
+    "37139:15"
+  ]
+}

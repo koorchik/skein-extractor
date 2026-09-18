@@ -1,0 +1,181 @@
+{
+  "docId": 6278620,
+  "date": "18.04.2024",
+  "title": "Чергова кібератака UAC-0149 з використанням Signal, вразливості CVE-2023-38831 та програми COOKBOX (CERT-UA#9522)",
+  "entities": [
+    {
+      "id": "6278620:0",
+      "name": "Сили оборони України",
+      "kind": "military force",
+      "gloss": "The military and security structures tasked with defending Ukraine.",
+      "scheme": "S17",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "6278620:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6278620:2",
+      "name": "Signal",
+      "kind": "messaging application",
+      "gloss": "An encrypted instant messaging service and application.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6278620:3",
+      "name": "Департамент операцій з підтримки миру ООН",
+      "kind": "international department",
+      "gloss": "A department of the United Nations responsible for managing peacekeeping operations.",
+      "scheme": null,
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "6278620:4",
+      "name": "ООН",
+      "kind": "international organization",
+      "gloss": "An intergovernmental organization aimed at maintaining international peace and security.",
+      "scheme": "S14",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "6278620:5",
+      "name": "Супровід.rar",
+      "kind": "malicious archive file",
+      "gloss": "A malicious RAR archive containing an exploit for WinRAR.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "6278620:6",
+      "name": "WinRAR",
+      "kind": "software product",
+      "gloss": "A file archiver utility for Windows.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "6278620:7",
+      "name": "CVE-2023-38831",
+      "kind": "vulnerability identifier",
+      "gloss": "A code execution vulnerability in WinRAR triggered during file decompression.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6278620:8",
+      "name": "супровід.pdf .cmd",
+      "kind": "malicious script",
+      "gloss": "A malicious CMD script executed via vulnerability exploitation to launch further payloads.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "6278620:9",
+      "name": "DPO_SEC23-1_OMA_P-3_16-ENG.pdf",
+      "kind": "decoy document",
+      "gloss": "A decoy PDF document related to UN peacekeeping positions displayed to deceive victims.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6278620:10",
+      "name": "COOKBOX",
+      "kind": "malware family",
+      "gloss": "A PowerShell-based backdoor malware family.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6278620:11",
+      "name": "NoIP",
+      "kind": "service provider",
+      "gloss": "A dynamic DNS service provider.",
+      "scheme": null,
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "6278620:12",
+      "name": "netman.servehttp[.]com",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS domain used as a command and control server.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "6278620:13",
+      "name": "worker-misty-mouse-6ac7.aky15825.workers[.]dev",
+      "kind": "internet domain",
+      "gloss": "A Cloudflare Workers domain used in malicious infrastructure.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Сили оборони України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "представника Сил оборони України"
+    },
+    {
+      "head": "Департамент операцій з підтримки миру ООН",
+      "type": "part-of",
+      "tail": "ООН",
+      "evidence": "Департаменті операцій з підтримки миру ООН"
+    },
+    {
+      "head": "CVE-2023-38831",
+      "type": "affects",
+      "tail": "WinRAR",
+      "evidence": "вразливості у програмному забезпеченні WinRAR (CVE-2023-38831)"
+    },
+    {
+      "head": "Супровід.rar",
+      "type": "exploits",
+      "tail": "CVE-2023-38831",
+      "evidence": "Згаданий архів містить експлойт для вразливості у програмному забезпеченні WinRAR (CVE-2023-38831)"
+    },
+    {
+      "head": "Супровід.rar",
+      "type": "delivers",
+      "tail": "супровід.pdf .cmd",
+      "evidence": "У випадку відкриття архіву та успішної експлуатації вразливості буде виконано CMD-файл \"супровід.pdf .cmd\""
+    },
+    {
+      "head": "супровід.pdf .cmd",
+      "type": "delivers",
+      "tail": "COOKBOX",
+      "evidence": "призведе до... запуску PowerShell-скриптів, що класифіковано як шкідливу програму COOKBOX"
+    },
+    {
+      "head": "COOKBOX",
+      "type": "communicates-with",
+      "tail": "netman.servehttp[.]com",
+      "evidence": "для забезпечення функціонування серверу управління COOKBOX використовується сервіс динамічного DNS NoIP"
+    }
+  ],
+  "unclassified": [
+    "6278620:3",
+    "6278620:11"
+  ]
+}

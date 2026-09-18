@@ -1,0 +1,158 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0024",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage threat actor tracked by CERT-UA, associated with the Turla group."
+    },
+    {
+      "name": "CAPIBAR",
+      "kind": "malware family",
+      "gloss": "A malware family also known as DeliveryCheck or GAMEDAY, with client and server components."
+    },
+    {
+      "name": "MS Exchange",
+      "kind": "software product",
+      "gloss": "A mail and calendaring server developed by Microsoft."
+    },
+    {
+      "name": "KAZUAR",
+      "kind": "malware family",
+      "gloss": "A multifunctional backdoor malware used for cyber espionage and credential theft."
+    },
+    {
+      "name": "rclone",
+      "kind": "software product",
+      "gloss": "An open-source command-line program to manage files on cloud and remote storage."
+    },
+    {
+      "name": "Turla",
+      "kind": "hacking group",
+      "gloss": "A Russian state-sponsored cyber espionage group also tracked as UAC-0003, KRYPTON, or Secret Blizzard."
+    },
+    {
+      "name": "фсб росії",
+      "kind": "government body",
+      "gloss": "The Federal Security Service of the Russian Federation, a principal security agency."
+    },
+    {
+      "name": "росії",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "Microsoft Threat Intelligence",
+      "kind": "organization",
+      "gloss": "A cybersecurity research and threat intelligence unit within Microsoft."
+    },
+    {
+      "name": "Mandiant",
+      "kind": "company",
+      "gloss": "An American cybersecurity firm providing threat intelligence and incident response."
+    },
+    {
+      "name": "Microsoft",
+      "kind": "software vendor",
+      "gloss": "A multinational technology corporation that produces software, electronics, and cloud services."
+    },
+    {
+      "name": "www.adelaida[.]ua",
+      "kind": "internet domain",
+      "gloss": "A compromised internet domain used for downloading malicious scripts."
+    },
+    {
+      "name": "atomydoc[.]kg",
+      "kind": "internet domain",
+      "gloss": "An internet domain used in cyberattack network infrastructure."
+    },
+    {
+      "name": "aleimportadora[.]net",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host malicious payloads and C2 communications."
+    },
+    {
+      "name": "octoberoctopus.co[.]za",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified in malicious network infrastructure."
+    },
+    {
+      "name": "sansaispa[.]com",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified in malicious network infrastructure."
+    },
+    {
+      "name": "www.pierreagencement[.]fr",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified in malicious network infrastructure."
+    },
+    {
+      "name": "mail.aet.in[.]ua",
+      "kind": "internet domain",
+      "gloss": "A compromised mail server domain used as a CAPIBAR command and control server."
+    },
+    {
+      "name": "mail.kzp[.]bg",
+      "kind": "internet domain",
+      "gloss": "A compromised mail server domain used as a CAPIBAR command and control server."
+    },
+    {
+      "name": "mail.numina[.]md",
+      "kind": "internet domain",
+      "gloss": "A compromised mail server domain used as a CAPIBAR command and control server."
+    },
+    {
+      "name": "mail.arlingtonhousing[.]us",
+      "kind": "internet domain",
+      "gloss": "A compromised mail server domain used as a CAPIBAR command and control server."
+    },
+    {
+      "name": "mail.lechateaudelatour[.]fr",
+      "kind": "internet domain",
+      "gloss": "A compromised mail server domain used as a CAPIBAR command and control server."
+    },
+    {
+      "name": "mail.lebsack[.]de",
+      "kind": "internet domain",
+      "gloss": "A compromised mail server domain used as a CAPIBAR command and control server."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0024",
+      "type": "uses-malware",
+      "tail": "CAPIBAR",
+      "evidence": "UAC-0024 відслідковується активність... із застосуванням шкідливої програми CAPIBAR"
+    },
+    {
+      "head": "UAC-0024",
+      "type": "uses-malware",
+      "tail": "KAZUAR",
+      "evidence": "на уражені ЕОМ довантажується складний багатофункціональний бекдор KAZUAR"
+    },
+    {
+      "head": "Turla",
+      "type": "uses-malware",
+      "tail": "KAZUAR",
+      "evidence": "факту використанням програми KAZUAR, з достатнім рівнем впевненості описану активність (UAC-0024) асоційовано з угрупуванням Turla"
+    },
+    {
+      "head": "Turla",
+      "type": "uses-malware",
+      "tail": "CAPIBAR",
+      "evidence": "описану активність (UAC-0024) асоційовано з угрупуванням Turla"
+    },
+    {
+      "head": "Microsoft Threat Intelligence",
+      "type": "part-of",
+      "tail": "Microsoft",
+      "evidence": "команді Microsoft Threat Intelligence"
+    },
+    {
+      "head": "фсб росії",
+      "type": "located-in",
+      "tail": "росії",
+      "evidence": "фсб росії"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,147 @@
+{
+  "entities": [
+    {
+      "name": "Petya",
+      "kind": "ransomware",
+      "gloss": "A family of encrypting ransomware targeting Microsoft Windows-based systems."
+    },
+    {
+      "name": "Misha",
+      "kind": "ransomware",
+      "gloss": "A ransomware strain distributed alongside certain variants of Petya."
+    },
+    {
+      "name": "CVE-2017-0199",
+      "kind": "vulnerability",
+      "gloss": "A remote code execution vulnerability in Microsoft Office and WordPad handling of OLE objects."
+    },
+    {
+      "name": "Microsoft Word",
+      "kind": "software product",
+      "gloss": "A widely used word processing application developed by Microsoft."
+    },
+    {
+      "name": "Microsoft Windows",
+      "kind": "operating system",
+      "gloss": "A family of proprietary graphical operating systems developed by Microsoft."
+    },
+    {
+      "name": "microsoft.com",
+      "kind": "domain",
+      "gloss": "The official domain of Microsoft Corporation."
+    },
+    {
+      "name": "Office 2007",
+      "kind": "software product",
+      "gloss": "A version of the Microsoft Office productivity suite."
+    },
+    {
+      "name": "Office 2010",
+      "kind": "software product",
+      "gloss": "A version of the Microsoft Office productivity suite."
+    },
+    {
+      "name": "Office 2013",
+      "kind": "software product",
+      "gloss": "A version of the Microsoft Office productivity suite."
+    },
+    {
+      "name": "Office 2016",
+      "kind": "software product",
+      "gloss": "A version of the Microsoft Office productivity suite."
+    },
+    {
+      "name": "Windows 7",
+      "kind": "operating system",
+      "gloss": "A major release of the Microsoft Windows operating system."
+    },
+    {
+      "name": "Windows Vista",
+      "kind": "operating system",
+      "gloss": "A major release of the Microsoft Windows operating system."
+    },
+    {
+      "name": "Windows Server 2008",
+      "kind": "operating system",
+      "gloss": "A server operating system produced by Microsoft."
+    },
+    {
+      "name": "Windows Server 2012",
+      "kind": "operating system",
+      "gloss": "A server operating system produced by Microsoft."
+    },
+    {
+      "name": "Microsoft Office",
+      "kind": "software suite",
+      "gloss": "A suite of productivity software developed by Microsoft."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Petya",
+      "type": "exploits",
+      "tail": "CVE-2017-0199",
+      "evidence": "атаки шифрувальників Petya та Misha у 2017 для поширення яких використовувалася вразливість для віддаленого виконання коду, а саме CVE-2017-0199"
+    },
+    {
+      "head": "Misha",
+      "type": "exploits",
+      "tail": "CVE-2017-0199",
+      "evidence": "атаки шифрувальників Petya та Misha у 2017 для поширення яких використовувалася вразливість для віддаленого виконання коду, а саме CVE-2017-0199"
+    },
+    {
+      "head": "CVE-2017-0199",
+      "type": "affects",
+      "tail": "Office 2007",
+      "evidence": "оновлення, які стосуються вразливості CVE-2017-0199 (Office 2007"
+    },
+    {
+      "head": "CVE-2017-0199",
+      "type": "affects",
+      "tail": "Office 2010",
+      "evidence": "оновлення, які стосуються вразливості CVE-2017-0199 Office 2010"
+    },
+    {
+      "head": "CVE-2017-0199",
+      "type": "affects",
+      "tail": "Office 2013",
+      "evidence": "оновлення, які стосуються вразливості CVE-2017-0199 Office 2013"
+    },
+    {
+      "head": "CVE-2017-0199",
+      "type": "affects",
+      "tail": "Office 2016",
+      "evidence": "оновлення, які стосуються вразливості CVE-2017-0199 Office 2016"
+    },
+    {
+      "head": "CVE-2017-0199",
+      "type": "affects",
+      "tail": "Windows 7",
+      "evidence": "оновлення, які стосуються вразливості CVE-2017-0199 Windows 7"
+    },
+    {
+      "head": "CVE-2017-0199",
+      "type": "affects",
+      "tail": "Windows Vista",
+      "evidence": "оновлення, які стосуються вразливості CVE-2017-0199 Windows Vista"
+    },
+    {
+      "head": "CVE-2017-0199",
+      "type": "affects",
+      "tail": "Windows Server 2008",
+      "evidence": "оновлення, які стосуються вразливості CVE-2017-0199 Windows Vista, Windows Server 2008"
+    },
+    {
+      "head": "CVE-2017-0199",
+      "type": "affects",
+      "tail": "Windows Server 2012",
+      "evidence": "оновлення, які стосуються вразливості CVE-2017-0199 Windows Server 2012"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "exploits",
+      "definition": "A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems."
+    }
+  ]
+}

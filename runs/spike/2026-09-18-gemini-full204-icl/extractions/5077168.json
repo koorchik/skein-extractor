@@ -1,0 +1,155 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0168",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA targeting entities in connection with political and military events."
+    },
+    {
+      "name": "MAGICSPELL",
+      "kind": "malware",
+      "gloss": "A malware loader designed to download, decrypt, ensure persistence for, and execute additional payloads."
+    },
+    {
+      "name": "Світовий конґрес українців",
+      "kind": "company",
+      "gloss": "An international non-governmental organization representing the interests of the global Ukrainian diaspora."
+    },
+    {
+      "name": "Організація Північноатлантичного договору",
+      "kind": "government organization",
+      "gloss": "An intergovernmental military alliance consisting of 32 member states from Europe and North America."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Литовська Республіка",
+      "kind": "country",
+      "gloss": "A sovereign Baltic state in Northern Europe."
+    },
+    {
+      "name": "ukrainianworldcongress.info",
+      "kind": "domain name",
+      "gloss": "A malicious spoofed domain mimicking the official Ukrainian World Congress website to deliver malware."
+    },
+    {
+      "name": "ukrainianworldcongress.org",
+      "kind": "domain name",
+      "gloss": "The legitimate official domain of the Ukrainian World Congress."
+    },
+    {
+      "name": "finformservice.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious network infrastructure in the cyberattack."
+    },
+    {
+      "name": "Overview_of_UWCs_UkraineInNATO_campaign.docx",
+      "kind": "computer file",
+      "gloss": "A malicious DOCX lure document weaponized to initiate a malware execution chain."
+    },
+    {
+      "name": "Letter_NATO_Summit_Vilnius_2023_ENG(1).docx",
+      "kind": "computer file",
+      "gloss": "A malicious DOCX lure document disguised as an official letter regarding the Vilnius NATO Summit."
+    },
+    {
+      "name": "afchunk.rtf",
+      "kind": "computer file",
+      "gloss": "A malicious RTF document embedded in lure DOCX files to fetch external payloads."
+    },
+    {
+      "name": "calc.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file identified as the MAGICSPELL loader."
+    },
+    {
+      "name": "testdll.dll",
+      "kind": "computer file",
+      "gloss": "A DLL file retrieved from the threat actor's SMB resource during the attack chain."
+    },
+    {
+      "name": "testdll64.cpl",
+      "kind": "computer file",
+      "gloss": "A Control Panel item file hosted on the threat actor's SMB share."
+    },
+    {
+      "name": "104.234.239.26",
+      "kind": "ip address",
+      "gloss": "An IP address hosting SMB network infrastructure used to deliver attack payloads."
+    },
+    {
+      "name": "213.139.204.173",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "74.50.94.156",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious web resources and files."
+    },
+    {
+      "name": "109.105.198.145",
+      "kind": "ip address",
+      "gloss": "An IP address utilized in the malicious network infrastructure."
+    },
+    {
+      "name": "65.21.27.250",
+      "kind": "ip address",
+      "gloss": "An IP address utilized in the threat actor's network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0168",
+      "type": "uses",
+      "tail": "MAGICSPELL",
+      "evidence": "файл \"calc.exe\" класифіковано як шкідливу програму (лоадер) MAGICSPELL"
+    },
+    {
+      "head": "UAC-0168",
+      "type": "uses",
+      "tail": "ukrainianworldcongress.info",
+      "evidence": "виявлено вебсайт hxxps://www.ukrainianworldcongress[.]info/"
+    },
+    {
+      "head": "ukrainianworldcongress.info",
+      "type": "hosts",
+      "tail": "Overview_of_UWCs_UkraineInNATO_campaign.docx",
+      "evidence": "На згаданому вебсайті розміщено два DOCX-документи \"Overview_of_UWCs_UkraineInNATO_campaign.docx\""
+    },
+    {
+      "head": "ukrainianworldcongress.info",
+      "type": "hosts",
+      "tail": "Letter_NATO_Summit_Vilnius_2023_ENG(1).docx",
+      "evidence": "розміщено два DOCX-документи \"Overview_of_UWCs_UkraineInNATO_campaign.docx\" та \"Letter_NATO_Summit_Vilnius_2023_ENG(1).docx\""
+    },
+    {
+      "head": "Overview_of_UWCs_UkraineInNATO_campaign.docx",
+      "type": "delivers",
+      "tail": "afchunk.rtf",
+      "evidence": "кожен з яких містить у своїй структурі RTF-документ \"afchunk.rtf\""
+    },
+    {
+      "head": "Letter_NATO_Summit_Vilnius_2023_ENG(1).docx",
+      "type": "delivers",
+      "tail": "afchunk.rtf",
+      "evidence": "кожен з яких містить у своїй структурі RTF-документ \"afchunk.rtf\""
+    },
+    {
+      "head": "104.234.239.26",
+      "type": "hosts",
+      "tail": "testdll.dll",
+      "evidence": "\\\\104[.]234.239.26\\share1\\MSHTML_C7\\pl\\testdll[.]dll"
+    },
+    {
+      "head": "104.234.239.26",
+      "type": "hosts",
+      "tail": "testdll64.cpl",
+      "evidence": "\\\\104[.]234.239.26\\share1\\MSHTML_C7\\pl\\testdll64[.]cpl"
+    }
+  ],
+  "newRelationTypes": []
+}

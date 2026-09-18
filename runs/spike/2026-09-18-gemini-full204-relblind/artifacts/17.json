@@ -1,0 +1,95 @@
+{
+  "docId": 17,
+  "date": "20.01.2020",
+  "title": "Критичні помилки плагіну WordPress дозволяють зловмисникам заволодіти вашим сайтом.",
+  "entities": [
+    {
+      "id": "17:0",
+      "name": "WP Data Reset",
+      "kind": "software product",
+      "gloss": "An open-source WordPress plugin designed to reset database tables to default settings.",
+      "scheme": null,
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "17:1",
+      "name": "WordPress",
+      "kind": "software product",
+      "gloss": "A popular open-source content management system.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "17:2",
+      "name": "WebFactory Ltd",
+      "kind": "software vendor",
+      "gloss": "A software development company that maintains WordPress plugins.",
+      "scheme": null,
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "17:3",
+      "name": "CVE-2020-7048",
+      "kind": "vulnerability identifier",
+      "gloss": "A critical vulnerability in the WP Data Reset plugin allowing unauthorized database table resets.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "17:4",
+      "name": "CVE-2020-7047",
+      "kind": "vulnerability identifier",
+      "gloss": "A high-severity privilege escalation vulnerability in the WP Data Reset plugin.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "17:5",
+      "name": "WordFence",
+      "kind": "cybersecurity company",
+      "gloss": "A cybersecurity firm specializing in WordPress security products and research.",
+      "scheme": null,
+      "category": "Organization",
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "WebFactory Ltd",
+      "type": "maintains",
+      "tail": "WP Data Reset",
+      "evidence": "WP Data Reset WordPress, підтримуваний WebFactory Ltd"
+    },
+    {
+      "head": "CVE-2020-7048",
+      "type": "affects",
+      "tail": "WP Data Reset",
+      "evidence": "Критичні помилки, знайдені у використовуваному понад 80 000 сайтів плагін"
+    },
+    {
+      "head": "CVE-2020-7047",
+      "type": "affects",
+      "tail": "WP Data Reset",
+      "evidence": "Критичні помилки, знайдені у використовуваному понад 80 000 сайтів плагін"
+    },
+    {
+      "head": "WordFence",
+      "type": "affects",
+      "tail": "WP Data Reset",
+      "evidence": "через тиждень після виявлення недоліку фірмою з безпеки WordPress - WordFence"
+    }
+  ],
+  "unclassified": [
+    "17:0",
+    "17:1",
+    "17:2",
+    "17:3",
+    "17:4",
+    "17:5"
+  ]
+}

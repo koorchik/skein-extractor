@@ -1,0 +1,262 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+- Country: A distinct territorial body or sovereign state with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Government Organization: An official agency, ministry, or administrative body operating as part of a national or state government. (also: Government Agency, Government Body, State Authority)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p>Компанія Cisco опублікувала «Рекомендації з безпеки програмного забезпечення Cisco ASA, FMC та FTD», що містять у собі 12 рекомендацій з безпеки Cisco, в яких описуються 12 вразливостей в програмному забезпеченні Cisco ASA та Cisco FTD. Також випустили оновлення, що направлені усунути описані вразливості.</p><p>Всі вразливості мають високий рівень загрози. Успішне використання даних вразливостей може дозволити зловмисникам отримати доступ до інформації користувачів, з можливістю її викрадення, модифікації та видалення, обійти аутентифікацію чи успішно реалізувати атаку на відмову в обслуговуванні (DoS) на вразливих пристроях.</p><p>Сім вразливостей стосуються програмного забезпечення Cisco ASA та Cisco FTD, одна з вразливостей – Cisco ASA, а чотири інші – Cisco FTD.</p><h3>&nbsp;</h3><h3><strong>Корисні посилання:</strong></h3><ul><li>CVE-2020-3191 – Cisco Adaptive Security Appliance Software and Firepower Threat Defense Software IPv6 DNS Denial of Service Vulnerability</li></ul><p><a href="https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asaftd-ipv6-67pA658k" rel="noopener noreferrer" target="_blank" style="color: rgb(0, 123, 255);">https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asaftd-ipv6-67pA658k</a></p><ul><li>CVE-2020-3298 – Cisco Adaptive Security Appliance Software and Firepower Threat Defense Software Malformed OSPF Packets Processing Denial of Service Vulnerability</li></ul><p><a href="https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asa-ftd-ospf-dos-RhMQY8qx" rel="noopener noreferrer" target="_blank" style="color: rgb(0, 123, 255);">https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asa-ftd-ospf-dos-RhMQY8qx</a></p><ul><li>CVE-2020-3254 – Cisco Adaptive Security Appliance Software and Firepower Threat Defense Software Media Gateway Control Protocol Denial of Service Vulnerabilities</li></ul><p><a href="https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asaftd-mgcp-SUqB8VKH" rel="noopener noreferrer" target="_blank" style="color: rgb(0, 123, 255);">https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asaftd-mgcp-SUqB8VKH</a></p><ul><li>CVE-2020-3195 – Cisco Adaptive Security Appliance Software and Firepower Threat Defense Software OSPF Packets Processing Memory Leak Vulnerability</li></ul><p><a href="https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asa-ftd-ospf-memleak-DHpsgfnv" rel="noopener noreferrer" target="_blank" style="color: rgb(0, 123, 255);">https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asa-ftd-ospf-memleak-DHpsgfnv</a></p><ul><li>CVE-2020-3196 – Cisco Adaptive Security Appliance Software and Firepower Threat Defense Software SSL/TLS Denial of Service Vulnerability</li></ul><p><a href="https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asa-ssl-vpn-dos-qY7BHpjN" rel="noopener noreferrer" target="_blank" style="color: rgb(0, 123, 255);">https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asa-ssl-vpn-dos-qY7BHpjN</a></p><ul><li>CVE-2020-3259 – Cisco Adaptive Security Appliance Software and Firepower Threat Defense Software Web Services Information Disclosure Vulnerability</li></ul><p><a href="https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asaftd-info-disclose-9eJtycMB" rel="noopener noreferrer" target="_blank" style="color: rgb(0, 123, 255);">https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asaftd-info-disclose-9eJtycMB</a></p><ul><li>CVE-2020-3187 – Cisco Adaptive Security Appliance Software and Firepower Threat Defense Software Web Services Path Traversal Vulnerability</li></ul><p><a href="https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asaftd-path-JE3azWw43" rel="noopener noreferrer" target="_blank" style="color: rgb(0, 123, 255);">https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asaftd-path-JE3azWw43</a></p><ul><li>CVE-2020-3125 – Cisco Adaptive Security Appliance Software Kerberos Authentication Bypass Vulnerability</li></ul><p><a href="https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-asa-kerberos-bypass-96Gghe2sS" rel="noopener noreferrer" target="_blank" style="color: rgb(0, 123, 255);">https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-asa-kerberos-bypass-96Gghe2sS</a></p><ul><li>CVE-2020-3283 – Cisco Firepower 1000 Series SSL/TLS Denial of Service Vulnerability</li></ul><p><a href="https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-ftd-tls-dos-4v5nmWtZ" rel="noopener noreferrer" target="_blank" style="color: rgb(0, 123, 255);">https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-ftd-tls-dos-4v5nmWtZ</a></p><ul><li>CVE-2020-3179 – Cisco Firepower Threat Defense Software Generic Routing Encapsulation Tunnel IPv6 Denial of Service Vulnerability</li></ul><p><a href="https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-ftd-dos-2-sS2h7aWe" rel="noopener noreferrer" target="_blank" style="color: rgb(0, 123, 255);">https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-ftd-dos-2-sS2h7aWe</a></p><ul><li>CVE-2020-3255 – Cisco Firepower Threat Defense Software Packet Flood Denial of Service Vulnerability</li></ul><p><a href="https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-ftd-dos-N2vQZASR" rel="noopener noreferrer" target="_blank" style="color: rgb(0, 123, 255);">https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-ftd-dos-N2vQZASR</a></p><ul><li>CVE-2020-3189 – Cisco Firepower Threat Defense Software VPN System Logging Denial of Service Vulnerability</li></ul><p><a href="https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-ftd-dos-Rdpe34sd8" rel="noopener noreferrer" target="_blank" style="color: rgb(0, 123, 255);">https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-ftd-dos-Rdpe34sd8</a></p>
+
+=== RESPONSE (9.3s, in 3323 / out 2284 tok, STOP) ===
+Cisco published 12 security advisories detailing 12 high-severity vulnerabilities affecting Cisco ASA (Adaptive Security Appliance) and Cisco FTD (Firepower Threat Defense) software, along with security updates to remediate them.
+
+```json
+{
+  "entities": [
+    {
+      "name": "Cisco",
+      "kind": "software vendor",
+      "gloss": "An American multinational digital communications and networking technology corporation."
+    },
+    {
+      "name": "Cisco Adaptive Security Appliance Software",
+      "kind": "software product",
+      "gloss": "A security software suite developed by Cisco for firewall and VPN capabilities."
+    },
+    {
+      "name": "Cisco Firepower Threat Defense Software",
+      "kind": "software product",
+      "gloss": "A unified software image providing firewall and threat defense capabilities for Cisco devices."
+    },
+    {
+      "name": "FMC",
+      "kind": "software product",
+      "gloss": "A centralized management application for Cisco security products and Firepower deployments."
+    },
+    {
+      "name": "Cisco Firepower 1000 Series",
+      "kind": "software product",
+      "gloss": "A family of network security appliances designed for small and midsize branch deployments."
+    },
+    {
+      "name": "CVE-2020-3191",
+      "kind": "security vulnerability",
+      "gloss": "A denial of service vulnerability in Cisco ASA and FTD IPv6 DNS handling."
+    },
+    {
+      "name": "CVE-2020-3298",
+      "kind": "security vulnerability",
+      "gloss": "A denial of service vulnerability in Cisco ASA and FTD malformed OSPF packet processing."
+    },
+    {
+      "name": "CVE-2020-3254",
+      "kind": "security vulnerability",
+      "gloss": "A denial of service vulnerability in Cisco ASA and FTD Media Gateway Control Protocol implementation."
+    },
+    {
+      "name": "CVE-2020-3195",
+      "kind": "security vulnerability",
+      "gloss": "A memory leak vulnerability in Cisco ASA and FTD OSPF packet processing."
+    },
+    {
+      "name": "CVE-2020-3196",
+      "kind": "security vulnerability",
+      "gloss": "A denial of service vulnerability in Cisco ASA and FTD SSL/TLS handling."
+    },
+    {
+      "name": "CVE-2020-3259",
+      "kind": "security vulnerability",
+      "gloss": "An information disclosure vulnerability in Cisco ASA and FTD Web Services."
+    },
+    {
+      "name": "CVE-2020-3187",
+      "kind": "security vulnerability",
+      "gloss": "A path traversal vulnerability in Cisco ASA and FTD Web Services."
+    },
+    {
+      "name": "CVE-2020-3125",
+      "kind": "security vulnerability",
+      "gloss": "An authentication bypass vulnerability in Cisco ASA Kerberos implementation."
+    },
+    {
+      "name": "CVE-2020-3283",
+      "kind": "security vulnerability",
+      "gloss": "A denial of service vulnerability in Cisco Firepower 1000 Series SSL/TLS implementation."
+    },
+    {
+      "name": "CVE-2020-3179",
+      "kind": "security vulnerability",
+      "gloss": "A denial of service vulnerability in Cisco FTD GRE Tunnel IPv6 handling."
+    },
+    {
+      "name": "CVE-2020-3255",
+      "kind": "security vulnerability",
+      "gloss": "A packet flood denial of service vulnerability in Cisco Firepower Threat Defense Software."
+    },
+    {
+      "name": "CVE-2020-3189",
+      "kind": "security vulnerability",
+      "gloss": "A denial of service vulnerability in Cisco Firepower Threat Defense Software VPN system logging."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2020-3191",
+      "type": "affects",
+      "tail": "Cisco Adaptive Security Appliance Software",
+      "evidence": "CVE-2020-3191 – Cisco Adaptive Security Appliance Software"
+    },
+    {
+      "head": "CVE-2020-3191",
+      "type": "affects",
+      "tail": "Cisco Firepower Threat Defense Software",
+      "evidence": "and Firepower Threat Defense Software IPv6 DNS Denial of Service"
+    },
+    {
+      "head": "CVE-2020-3298",
+      "type": "affects",
+      "tail": "Cisco Adaptive Security Appliance Software",
+      "evidence": "CVE-2020-3298 – Cisco Adaptive Security Appliance Software"
+    },
+    {
+      "head": "CVE-2020-3298",
+      "type": "affects",
+      "tail": "Cisco Firepower Threat Defense Software",
+      "evidence": "and Firepower Threat Defense Software Malformed OSPF Packets"
+    },
+    {
+      "head": "CVE-2020-3254",
+      "type": "affects",
+      "tail": "Cisco Adaptive Security Appliance Software",
+      "evidence": "CVE-2020-3254 – Cisco Adaptive Security Appliance Software"
+    },
+    {
+      "head": "CVE-2020-3254",
+      "type": "affects",
+      "tail": "Cisco Firepower Threat Defense Software",
+      "evidence": "and Firepower Threat Defense Software Media Gateway Control"
+    },
+    {
+      "head": "CVE-2020-3195",
+      "type": "affects",
+      "tail": "Cisco Adaptive Security Appliance Software",
+      "evidence": "CVE-2020-3195 – Cisco Adaptive Security Appliance Software"
+    },
+    {
+      "head": "CVE-2020-3195",
+      "type": "affects",
+      "tail": "Cisco Firepower Threat Defense Software",
+      "evidence": "and Firepower Threat Defense Software OSPF Packets Processing"
+    },
+    {
+      "head": "CVE-2020-3196",
+      "type": "affects",
+      "tail": "Cisco Adaptive Security Appliance Software",
+      "evidence": "CVE-2020-3196 – Cisco Adaptive Security Appliance Software"
+    },
+    {
+      "head": "CVE-2020-3196",
+      "type": "affects",
+      "tail": "Cisco Firepower Threat Defense Software",
+      "evidence": "and Firepower Threat Defense Software SSL/TLS Denial of Service"
+    },
+    {
+      "head": "CVE-2020-3259",
+      "type": "affects",
+      "tail": "Cisco Adaptive Security Appliance Software",
+      "evidence": "CVE-2020-3259 – Cisco Adaptive Security Appliance Software"
+    },
+    {
+      "head": "CVE-2020-3259",
+      "type": "affects",
+      "tail": "Cisco Firepower Threat Defense Software",
+      "evidence": "and Firepower Threat Defense Software Web Services Information Disclosure"
+    },
+    {
+      "head": "CVE-2020-3187",
+      "type": "affects",
+      "tail": "Cisco Adaptive Security Appliance Software",
+      "evidence": "CVE-2020-3187 – Cisco Adaptive Security Appliance Software"
+    },
+    {
+      "head": "CVE-2020-3187",
+      "type": "affects",
+      "tail": "Cisco Firepower Threat Defense Software",
+      "evidence": "and Firepower Threat Defense Software Web Services Path Traversal"
+    },
+    {
+      "head": "CVE-2020-3125",
+      "type": "affects",
+      "tail": "Cisco Adaptive Security Appliance Software",
+      "evidence": "CVE-2020-3125 – Cisco Adaptive Security Appliance Software Kerberos Authentication"
+    },
+    {
+      "head": "CVE-2020-3283",
+      "type": "affects",
+      "tail": "Cisco Firepower 1000 Series",
+      "evidence": "CVE-2020-3283 – Cisco Firepower 1000 Series SSL/TLS"
+    },
+    {
+      "head": "CVE-2020-3179",
+      "type": "affects",
+      "tail": "Cisco Firepower Threat Defense Software",
+      "evidence": "CVE-2020-3179 – Cisco Firepower Threat Defense Software Generic"
+    },
+    {
+      "head": "CVE-2020-3255",
+      "type": "affects",
+      "tail": "Cisco Firepower Threat Defense Software",
+      "evidence": "CVE-2020-3255 – Cisco Firepower Threat Defense Software Packet"
+    },
+    {
+      "head": "CVE-2020-3189",
+      "type": "affects",
+      "tail": "Cisco Firepower Threat Defense Software",
+      "evidence": "CVE-2020-3189 – Cisco Firepower Threat Defense Software VPN"
+    }
+  ],
+  "newRelationTypes": []
+}
+```

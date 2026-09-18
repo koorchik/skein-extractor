@@ -1,0 +1,204 @@
+{
+  "entities": [
+    {
+      "name": "Міністерство закордонних справ України",
+      "kind": "government organization",
+      "gloss": "The central executive government body responsible for foreign relations of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state located in Eastern Europe."
+    },
+    {
+      "name": "Protector.bat",
+      "kind": "computer file",
+      "gloss": "A malicious batch script used to download and execute PowerShell scripts for reconnaissance and data exfiltration."
+    },
+    {
+      "name": "CERT Polska",
+      "kind": "government organization",
+      "gloss": "The national computer emergency response team of Poland."
+    },
+    {
+      "name": "CSIRT MON",
+      "kind": "government organization",
+      "gloss": "The Computer Security Incident Response Team of the Ministry of National Defence of the Republic of Poland."
+    },
+    {
+      "name": "Республіка Польща",
+      "kind": "country",
+      "gloss": "A sovereign state located in Central Europe."
+    },
+    {
+      "name": "СБ України",
+      "kind": "government organization",
+      "gloss": "The primary security and counter-intelligence agency of Ukraine."
+    },
+    {
+      "name": "Поліція Польщі",
+      "kind": "government organization",
+      "gloss": "The national police force of the Republic of Poland."
+    },
+    {
+      "name": "МО України",
+      "kind": "government organization",
+      "gloss": "The ministry responsible for national defense and military management in Ukraine."
+    },
+    {
+      "name": "UAC-0114",
+      "kind": "threat actor",
+      "gloss": "A cyber threat actor also known as Winter Vivern, active in espionage against European and Ukrainian entities."
+    },
+    {
+      "name": "APERETIF",
+      "kind": "malware",
+      "gloss": "A malware strain utilized by cyber threat actors to compromise victim systems."
+    },
+    {
+      "name": "Забезпечення кібербезпеки.html",
+      "kind": "computer file",
+      "gloss": "A malicious phishing HTML file used in cyber attacks."
+    },
+    {
+      "name": "fjasmngptwq95824s.php",
+      "kind": "computer file",
+      "gloss": "A malicious PHP script hosted on threat infrastructure."
+    },
+    {
+      "name": "LG5362s5215098-xvbxzcnsaf4lmsa.php",
+      "kind": "computer file",
+      "gloss": "A malicious PHP script hosted on command and control infrastructure."
+    },
+    {
+      "name": "fx64g15g.xml",
+      "kind": "computer file",
+      "gloss": "A malicious XML file associated with threat actor operations."
+    },
+    {
+      "name": "9f5fe4bab163de5eedb995beed21c75578284fa4.php",
+      "kind": "computer file",
+      "gloss": "A malicious PHP script associated with threat infrastructure."
+    },
+    {
+      "name": "62d4677fcf600ac0c4933bd80dec255868827e00.php",
+      "kind": "computer file",
+      "gloss": "A malicious PHP script hosted on attacker infrastructure."
+    },
+    {
+      "name": "62d4677fcf600ac0c4933bd80dec255868827e00.dec.ps1",
+      "kind": "computer file",
+      "gloss": "A malicious PowerShell script used for payload execution and data theft."
+    },
+    {
+      "name": "ocspdep.com",
+      "kind": "domain name",
+      "gloss": "A domain name utilized as malicious infrastructure."
+    },
+    {
+      "name": "troadsecow.com",
+      "kind": "domain name",
+      "gloss": "A domain name utilized to host phishing sites and malicious payloads."
+    },
+    {
+      "name": "bugiplaysec.com",
+      "kind": "domain name",
+      "gloss": "A domain name used in cyber attack campaigns for hosting malicious content."
+    },
+    {
+      "name": "176.97.66.57",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat infrastructure."
+    },
+    {
+      "name": "195.54.170.26",
+      "kind": "ip address",
+      "gloss": "An IP address used in cyber attack operations."
+    },
+    {
+      "name": "45.136.198.141",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious activity."
+    },
+    {
+      "name": "80.79.119.239",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Міністерство закордонних справ України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Міністерства закордонних справ України"
+    },
+    {
+      "head": "СБ України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "СБ України"
+    },
+    {
+      "head": "МО України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "МО України"
+    },
+    {
+      "head": "CERT Polska",
+      "type": "located-in",
+      "tail": "Республіка Польща",
+      "evidence": "CERT Polska та CSIRT MON (Республіка Польща)"
+    },
+    {
+      "head": "CSIRT MON",
+      "type": "located-in",
+      "tail": "Республіка Польща",
+      "evidence": "CERT Polska та CSIRT MON (Республіка Польща)"
+    },
+    {
+      "head": "Поліція Польщі",
+      "type": "located-in",
+      "tail": "Республіка Польща",
+      "evidence": "Поліції Польщі"
+    },
+    {
+      "head": "UAC-0114",
+      "type": "uses",
+      "tail": "APERETIF",
+      "evidence": "використовуваних шкідливих програм APERETIF"
+    },
+    {
+      "head": "UAC-0114",
+      "type": "uses",
+      "tail": "Protector.bat",
+      "evidence": "завантажено BAT-файл \"Protector.bat\""
+    },
+    {
+      "head": "UAC-0114",
+      "type": "uses",
+      "tail": "troadsecow.com",
+      "evidence": "Згадана активність відстежується за ідентифікатором UAC-0114"
+    },
+    {
+      "head": "UAC-0114",
+      "type": "uses",
+      "tail": "bugiplaysec.com",
+      "evidence": "Згадана активність відстежується за ідентифікатором UAC-0114"
+    },
+    {
+      "head": "troadsecow.com",
+      "type": "hosts",
+      "tail": "fjasmngptwq95824s.php",
+      "evidence": "hXXps://troadsecow[.]com/fjasmngptwq95824s.php"
+    },
+    {
+      "head": "troadsecow.com",
+      "type": "hosts",
+      "tail": "fx64g15g.xml",
+      "evidence": "hXXps://troadsecow[.]com/gkaslnwqpasg/fx64g15g.xml"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,265 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+- uses-malware: A threat actor utilizes or deploys a specific malware tool or family in their operations.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><em>Оновлено: 19.06.2023. Скориговано атрибуцію: UAC-0036 -&gt; UAC-0102</em></p><p><br></p><p><strong>Загальна інформація</strong></p><p>Від учасника інформаційного обміну отримано електронний лист з темою "Помічена підозріла активність @UKR.NET" та додатком у вигляді PDF-файлу "Попередження про безпеку.pdf" надісланий, начебто, від імені технічної підтримки UKR.NET (електронна адреса відправника: "account.support.0@ukr.net").</p><p>Згаданий PDF-документ містить посилання на шахрайський вебресурс, що імітує вебсторінку поштового сервісу.</p><p>У випадку автентифікації на підробному вебсайті, логін та пароль користувача будуть надіслані зловмисникам, що створить передумови для отримання несанкціонованого доступу до електронної поштової скриньки користувача третіми особами.</p><p>CERT-UA вжито додаткових заходів з аналізу мережевої інфраструктури, що застосовується для здійснення аналогічних кібератак з 2021 року, в результаті чого виявлено, щонайменше, 118 пов'язаних доменних імен, що зареєстровані компанією "Internet Domain Service BS Corp." (@internet.bs, Багамські острови). Відповідні сервери, за даними Domaintools, розміщено в Нідерландах на технічному майданчику "Nice-IT" aka "@as49447.net" (номер автономної системи: 49447).</p><p>Описана активність відстежується за ідентифікатором UAC-0102.</p><p>Задля мінімізації вірогідності реалізації кіберзагроз у відношенні громадян України, ідентифіковані доменні імена додано до DNS RPZ зони, яка обслуговується CERT-UA, а також передано фахівцям CSIRT-NBU з метою внесення до DNS RPZ зони "шахрайство".</p><p>Закликаємо користувачів UKR.NET скористатися штатним функціоналом поштового сервісу та невідкладно вжити заходів з налаштування багатофакторної автентифікації.</p><p>Рекомендовано, починаючи з 01.01.2023, перевірити факти мережевої взаємодії з доменними іменами та IP-адресами, зазначеними в розділі "Індикатори кіберзагроз", принагідно звернувши увагу на наявність несанкціоновано налаштованих фільтрів пошти та сторонніх пристроїв/додатків, яким надо доступ до поштової скриньки.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">hXXp://accounts.cm1-ukr[.]net/desktop/security/login/
+hXXp://accounts.regs-ukr[.]net/desktop/security/login/
+45[.]9.148.178&nbsp; NL&nbsp; @as49447.net
+45[.]9.148.83&nbsp; &nbsp;NL&nbsp; @as49447.net
+se-ukr[.]net&nbsp; &nbsp; 2023-05-28
+sb-ukr[.]net&nbsp; &nbsp; 2023-05-28
+regs-ukr[.]net&nbsp; 2023-05-28
+om-ukr[.]net&nbsp; &nbsp; 2023-05-28
+mst-ukr[.]net&nbsp; &nbsp;2023-05-28
+f3-ukr[.]net&nbsp; &nbsp; 2023-05-28
+dat1-ukr[.]net&nbsp; 2023-05-28
+8-ukr[.]net 2023-05-28
+5-ukr[.]net 2023-05-28
+4e-ukr[.]net&nbsp; &nbsp; 2023-05-28
+v-ukr[.]net 2023-05-13
+verify-ukr[.]net&nbsp; &nbsp; 2023-05-13
+v1-ukr[.]net&nbsp; &nbsp; 2023-05-13
+tc-ukr[.]net&nbsp; &nbsp; 2023-05-13
+signup-ukr[.]net&nbsp; &nbsp; 2023-05-13
+score-ukr[.]net 2023-05-13
+p3-ukr[.]net&nbsp; &nbsp; 2023-05-13
+k-ukr[.]net 2023-05-13
+k1-ukr[.]net&nbsp; &nbsp; 2023-05-13
+details-ukr[.]net&nbsp; &nbsp;2023-05-13
+cm1-ukr[.]net&nbsp; &nbsp;2023-05-13
+1-ukr[.]net 2023-05-13
+0-ukr[.]net 2023-05-13
+uf1-ukr[.]net&nbsp; &nbsp;2023-05-04
+mx3-ukr[.]net&nbsp; &nbsp;2023-05-04
+lvc-ukr[.]net&nbsp; &nbsp;2023-05-04
+bnt-ukr[.]net&nbsp; &nbsp;2023-05-04
+private-ukr[.]net&nbsp; &nbsp;2023-04-29
+msx-ukr[.]net&nbsp; &nbsp;2023-04-29
+edisk-ukr[.]net 2023-04-29
+cck-ukr[.]net&nbsp; &nbsp;2023-04-29
+news-ukr[.]net&nbsp; 2023-03-23
+password-ukr[.]net&nbsp; 2023-03-17
+accounts-s-ukr[.]net&nbsp; &nbsp; 2023-02-24
+kt-ukr[.]net&nbsp; &nbsp; 2023-02-23
+a3-ukr[.]net&nbsp; &nbsp; 2023-02-19
+uo-ukr[.]net&nbsp; &nbsp; 2023-02-18
+bh-ukr[.]net&nbsp; &nbsp; 2023-02-18
+lv-ukr[.]net&nbsp; &nbsp; 2023-02-14
+kg-ukr[.]net&nbsp; &nbsp; 2023-02-06
+dx-ukr[.]net&nbsp; &nbsp; 2023-02-06
+kb-ukr[.]net&nbsp; &nbsp; 2023-02-04
+tt-ukr[.]net&nbsp; &nbsp; 2023-02-03
+o1-ukr[.]net&nbsp; &nbsp; 2023-02-02
+hj-ukr[.]net&nbsp; &nbsp; 2023-02-02
+uq-ukr[.]net&nbsp; &nbsp; 2023-01-30
+serv1-ukr[.]net 2023-01-30
+rew-ukr[.]net&nbsp; &nbsp;2023-01-30
+vv-ukr[.]net&nbsp; &nbsp; 2023-01-08
+lc-ukr[.]net&nbsp; &nbsp; 2023-01-08
+td-ukr[.]net&nbsp; &nbsp; 2023-01-04
+mf-ukr[.]net&nbsp; &nbsp; 2023-01-04
+reg-ukr[.]net&nbsp; &nbsp;2022-12-30
+el-ukr[.]net&nbsp; &nbsp; 2022-12-30
+acc-ukr[.]net&nbsp; &nbsp;2022-12-30
+login-ukr[.]net 2022-12-10
+confirm-ukr[.]net&nbsp; &nbsp;2022-11-25
+accounts-ukr[.]net&nbsp; 2022-10-16
+support-ukr[.]net&nbsp; &nbsp;2021-04-29
+numsecukr[.]net 2019-04-11
+(inactive)
+crv-ukr[.]net&nbsp; &nbsp;2023-05-04
+bld-ukr[.]net&nbsp; &nbsp;2023-05-04
+virtual-ukr[.]net&nbsp; &nbsp;2023-04-29
+settingsukr[.]net&nbsp; &nbsp;2023-04-29
+session-ukr[.]net&nbsp; &nbsp;2023-04-29
+mxukr[.]net 2023-04-29
+dubl-ukr[.]net&nbsp; 2023-04-29
+cmx-ukr[.]net&nbsp; &nbsp;2023-04-29
+static-ukr[.]net&nbsp; &nbsp; 2023-04-08
+stage-ukr[.]net 2023-04-08
+safe-ukr[.]net&nbsp; 2023-04-08
+s9-ukr[.]net&nbsp; &nbsp; 2023-04-08
+reply-ukr[.]net 2023-04-08
+prot-ukr[.]net&nbsp; 2023-04-08
+pm-kv-ukr[.]net 2023-04-08
+mta-ukr[.]net&nbsp; &nbsp;2023-04-08
+mod-ukr[.]net&nbsp; &nbsp;2023-04-08
+ksr1-ukr[.]net&nbsp; 2023-04-08
+files-ukr[.]net 2023-04-08
+client-ukr[.]net&nbsp; &nbsp; 2023-04-08
+clients-ukr[.]net&nbsp; &nbsp;2023-04-08
+web-ukr[.]net&nbsp; &nbsp;2023-04-02
+step-ukr[.]net&nbsp; 2023-04-02
+site-ukr[.]net&nbsp; 2023-04-02
+settings-ukr[.]net&nbsp; 2023-04-02
+pgh-ukr[.]net&nbsp; &nbsp;2023-04-02
+pas-ukr[.]net&nbsp; &nbsp;2023-04-02
+int-ukr[.]net&nbsp; &nbsp;2023-04-02
+inbox-ukr[.]net 2023-04-02
+cca-ukr[.]net&nbsp; &nbsp;2023-04-02
+btx-ukr[.]net&nbsp; &nbsp;2023-04-02
+2fa-ukr[.]net&nbsp; &nbsp;2023-04-02
+vh-ukr[.]net&nbsp; &nbsp; 2023-03-24
+out-ukr[.]net&nbsp; &nbsp;2023-03-24
+in-ukr[.]net&nbsp; &nbsp; 2023-03-24
+cvi-ukr[.]net&nbsp; &nbsp;2023-03-24
+stv-ukr[.]net&nbsp; &nbsp;2023-03-20
+pge-ukr[.]net&nbsp; &nbsp;2023-03-20
+accounts---ukr[.]net&nbsp; &nbsp; 2023-03-20
+changepassword-ukr[.]net&nbsp; &nbsp; 2023-03-17
+accounts--ukr[.]net 2023-03-17
+uc-ukr[.]net&nbsp; &nbsp; 2023-01-25
+ub-ukr[.]net&nbsp; &nbsp; 2023-01-25
+ck-ukr[.]net&nbsp; &nbsp; 2023-01-25
+kv-ukr[.]net&nbsp; &nbsp; 2023-01-19
+k1v-ukr[.]net&nbsp; &nbsp;2023-01-19
+vn-ukr[.]net&nbsp; &nbsp; 2023-01-13
+ser-ukr[.]net&nbsp; &nbsp;2023-01-13
+p-ukr[.]net 2023-01-13
+lt-ukr[.]net&nbsp; &nbsp; 2023-01-13
+ml-ukr[.]net&nbsp; &nbsp; 2022-12-28
+m1-ukr[.]net&nbsp; &nbsp; 2022-12-23
+u1-ukr[.]net&nbsp; &nbsp; 2022-12-15
+l-ukr[.]net 2022-12-15
+mail-ukr[.]net&nbsp; 2022-12-13
+conf-ukr[.]net&nbsp; 2022-12-13
+account-ukr[.]net&nbsp; &nbsp;2022-01-10
+notify-ukr[.]net&nbsp; &nbsp; 2021-03-17
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис. 1 Приклад фішингового листа та шахрайської вебсторінки</p>
+
+=== RESPONSE (6.2s, in 4848 / out 877 tok, STOP) ===
+UAC-0102 conducted phishing campaigns spoofing UKR.NET technical support using malicious PDF attachments and domain infrastructure registered via Internet Domain Service BS Corp. and hosted on Nice-IT in the Netherlands.
+
+```json
+{
+  "entities": [
+    {
+      "name": "UAC-0102",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracking identifier associated with credential phishing attacks targeting Ukrainian email users."
+    },
+    {
+      "name": "UAC-0036",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracking identifier previously associated with cyber attacks in Ukraine."
+    },
+    {
+      "name": "UKR.NET",
+      "kind": "web service",
+      "gloss": "A popular Ukrainian internet portal and email service provider."
+    },
+    {
+      "name": "account.support.0@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address used by attackers to spoof technical support and send phishing emails."
+    },
+    {
+      "name": "Попередження про безпеку.pdf",
+      "kind": "malicious file",
+      "gloss": "A malicious PDF document containing links to a phishing website impersonating a mail service."
+    },
+    {
+      "name": "Internet Domain Service BS Corp.",
+      "kind": "organization",
+      "gloss": "A domain name registrar company based in the Bahamas."
+    },
+    {
+      "name": "Багамські острови",
+      "kind": "country",
+      "gloss": "An island country in the West Indies."
+    },
+    {
+      "name": "Нідерланди",
+      "kind": "country",
+      "gloss": "A country located in Northwestern Europe."
+    },
+    {
+      "name": "Nice-IT",
+      "kind": "hosting provider",
+      "gloss": "A hosting platform associated with autonomous system AS49447."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "CSIRT-NBU",
+      "kind": "csirt",
+      "gloss": "The Computer Security Incident Response Team of the National Bank of Ukraine."
+    },
+    {
+      "name": "45.9.148.178",
+      "kind": "ip address",
+      "gloss": "An IP address located in the Netherlands associated with malicious phishing infrastructure."
+    },
+    {
+      "name": "45.9.148.83",
+      "kind": "ip address",
+      "gloss": "An IP address located in the Netherlands associated with malicious phishing infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Internet Domain Service BS Corp.",
+      "type": "located-in",
+      "tail": "Багамські острови",
+      "evidence": "компанією \"Internet Domain Service BS Corp.\" (@internet.bs, Багамські острови)"
+    },
+    {
+      "head": "Nice-IT",
+      "type": "located-in",
+      "tail": "Нідерланди",
+      "evidence": "розміщено в Нідерландах на технічному майданчику \"Nice-IT\""
+    },
+    {
+      "head": "UAC-0102",
+      "type": "attacks",
+      "tail": "UKR.NET",
+      "evidence": "Описана активність відстежується за ідентифікатором UAC-0102."
+    }
+  ],
+  "newRelationTypes": []
+}
+```

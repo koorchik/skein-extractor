@@ -1,0 +1,301 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Security Flaw, Security Vulnerability)
+- Software Product: A program, application, operating system, or software component designed for end users or computing systems. (also: Software Application, Software Program, Software)
+- Technology Vendor: A company or organization that develops, manufactures, or supplies software, hardware, or technology services. (also: Software Vendor, Vendor, Technology Company)
+- Country: A sovereign nation, state, or distinct territorial body with its own government. (also: Nation, Sovereign State)
+- Government Agency: An official institution, ministry, department, or administrative body operating under the authority of a national or regional government. (also: Government Body, Government Organization, State Authority)
+- Malware: Software, code, or executable files intentionally designed to disrupt, damage, or gain unauthorized access to computer systems or data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address identifying the location of a specific resource or endpoint on a computer network. (also: URL, Web Address, Link)
+- Person: An individual human being, such as a government official, cybersecurity professional, diplomat, or other public figure. (also: Individual, Human)
+- IP Address: A numerical label assigned to a device or network interface to identify its location on a computer network. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Email)
+- Computer File: A digital file, script, document, or archive stored on a filesystem or transmitted across a network. (also: File, Digital File)
+- Company: A commercial business, corporation, or enterprise operating within a specific industry or market. (also: Commercial Enterprise, Business, Corporation)
+- Domain Name: A unique identification string that defines a realm of administrative autonomy, authority, or control within the Internet. (also: Internet Domain, Domain, Fully Qualified Domain Name)
+- Threat Actor: An individual or organized group responsible for conducting malicious cyber activities, attacks, or espionage campaigns. (also: Threat Group, Hacker Group, Advanced Persistent Threat)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA 28.10.2024 виявлено факти масового розповсюдження електронних листів з темами податкової тематики та вкладеннями у вигляді PDF-документів, що імітували запити Державної податкової служби України.</p><p>Згадані документи містять посилання на файловий сервіс (qaz.im, qaz.is, qaz.su), у випадку переходу за якими на комп'ютер буде завантажено архів "dps_tax_gov_ua_0739220983.rar", в якому, з кількома рівнями вкладеності, знаходитиметься захищений паролем архів "Електронний запит документів податкової служби.pdf.rar", який, у свою чергу, буде містити SFX-файл "Електронний запит документів податкової служби.pdf.exe".</p><p>Відкриття останнього призведе до відображення користувачеві документу-приманки та запуску на комп'ютері MSI-пакету програми для віддаленого управління <strong>LITEMANAGER</strong>, що створить технічні передумови для <strong>несанкціонованого прихованого віддаленого доступу</strong> до ЕОМ.</p><p>Нагадаємо, що описана активність є фінансово мотивованою та здійснюється угрупуванням UAC-0050. В особливій зоні ризику перебувають <strong>бухгалтери</strong> підприємств, на комп'ютерах яких здійснюється робота з системами дистанційного банківського обслуговування. В деяких випадках, про що свідчать результати проведених комп'ютерно-технічних досліджень, від моменту первинного ураження до моменту викрадення грошових коштів може проходити <strong>не більше години</strong>.</p><p>Зауважимо, що зменшити вірогідність реалізації кіберзагрози можливо за рахунок налаштування штатних механізмів захисту операційної системи, а також, повноцінного використання функціоналу інформаційних систем банківських установ в частині автентифікації дій бухгалтера (створення платежу, модифікації платежу) за допомогою <strong>одноразових кодів</strong>.</p><p>При цьому, концепція "довіреного пристрою" в контексті розглянутої загрози не є достатньою, адже зловмисник має віддалений доступ до комп'ютера, а тому автентифікація повинна бути спрямована не на встановлення довіреності пристрою, а на <strong>верифікацію легітимності конкретних дій бухгалтера у відповідний момент часу</strong>.</p><p>Інструкції щодо можливості застосування посиленої автентифікації рекомендуємо отримати у менеджерів підприємств від відповідних фінансових установ.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">782e7ab334750d426a699cbdb56b33f5&nbsp;&nbsp;&nbsp; b41c6ce12344d4cbf916f4e57c82fe2426535be9befea6d622d861795eaede50&nbsp;&nbsp;&nbsp; Запит Податкової Служби_433742099345.pdf
+b612a4ad72e0f2750e109dd7d37e1b83&nbsp;&nbsp;&nbsp; a7182d7c401e1da60d5fbb4be92e9a29183327c614fce19efcc9565eeccd5d2c&nbsp;&nbsp;&nbsp; Запит Податкової Служби_225429345.pdf
+814afeac565d4f19d74f632c2c56ed59&nbsp;&nbsp;&nbsp; 6cf66bd337ce18da2a2a8b5c780ec13c99eb37bb161ab751ab119ff2df5a4654&nbsp;&nbsp;&nbsp; Запит Податкової Служби_742936845.pdf
+e8bffc1d7474125c5576862f5c85e975&nbsp;&nbsp;&nbsp; 0fa3f29ce1a2f209ddd198c05e16fc5c5438e8dd6e3b6b454f14f47860dc3ca4&nbsp;&nbsp;&nbsp; Запит Податкової Служби_330327445629345.pdf
+164ee1756f163cf52327fee72af5f036&nbsp;&nbsp;&nbsp; edb9f3b761ad3671f0637e105bae6fafb5123798e8d676f950fae4c5104517ee&nbsp;&nbsp;&nbsp; Запит Податкової Служби_7429345.pdf
+6aa307c14a33d1cf42cb001094948cff&nbsp;&nbsp;&nbsp; 814f63e71da29a50b68e549f8972b06eaf0c7a56612698ce23999a47fc1ece7c&nbsp;&nbsp;&nbsp; Запит Податкової Служби_3303288745.pdf
+17262eb723b6485428a0e2ae0f70925c&nbsp;&nbsp;&nbsp; 562d355dbae4d8b8ae8e265544c516046dcce8b61a1f3734e1724ada707ea87d&nbsp;&nbsp;&nbsp; Запит Податкової Служби_997429345.pdf
+d58227322a36679e15c3f7a047572390&nbsp;&nbsp;&nbsp; 873196955c89a74390cb9c3086f776a5dd8908880b2508554fedb02b07bb3486&nbsp;&nbsp;&nbsp; Запит Податкової Служби_4356737429345.pdf
+dae6abde806d805ded62d1f271ad338d&nbsp;&nbsp;&nbsp; ee61facd8602f6b43a88f9a198434a1a19c7c430750fb14457bbab7c76ce44a9&nbsp;&nbsp;&nbsp; Запит Податкової Служби_3327429345.pdf
+d2f43c8fd61d59e97efcb05859d8de34&nbsp;&nbsp;&nbsp; 7c8b6d911d1357202da47e2e3e9d3b9e3dc81946517a3ad49ca960a6317050ac&nbsp;&nbsp;&nbsp; Запит Податкової Служби_722429345.pdf
+94391b5ded68319abaa7511b25e3661d&nbsp;&nbsp;&nbsp; 9f678c529e6a46f3cb2e5213932c5e235ac806ee064dd23336170e32ba29f5f9&nbsp;&nbsp;&nbsp; Запит Податкової Служби_789337429345.pdf
+38076f234516da9a8000988cacc5f960&nbsp;&nbsp;&nbsp; 788f5102573d9d3aa0131d6bd01ade10beea12a0341d32c4699d876cdbe47188&nbsp;&nbsp;&nbsp; Вам надіслано електронний запит_198335404.pdf
+022e4f9264de631dc9f110e364b71803&nbsp;&nbsp;&nbsp; 04eb0155f783c00b687df1e4b3bf12768023a94de4bba64787efc852eed9d52f&nbsp;&nbsp;&nbsp; Вам надіслано електронний запит_198338704.pdf
+c85fa3f914fc88ea0b45c0f4c1e21487&nbsp;&nbsp;&nbsp; 7cc0ae872de2d1671a87020e66111aa67a978774f2c57144d2ff31570776ea3d&nbsp;&nbsp;&nbsp; Вам надіслано електронний запит_9473922.pdf
+e191879545f38723eb1e430d51bee3bb&nbsp;&nbsp;&nbsp; f7775c7285263fcddf9d5a0a40b0ced69fbffd520643d2e25a22d8f86ce3c816&nbsp;&nbsp;&nbsp; Вам надіслано електронний запит_19878444204.pdf
+73daa8f59401faddc505eb585ae1905b&nbsp;&nbsp;&nbsp; 8482a4e747261872eb3aec168f49ee54a09101d800a6a2227bd499fc5698e842&nbsp;&nbsp;&nbsp; Вам надіслано електронний запит_19878404.pdf
+af99c4959022d4efe39e6a8c1366ff79&nbsp;&nbsp;&nbsp; 7d2f4e61bd5be745eb43d09e66674ae7f99b0da8ab4f939d0c853b0f9144c9ba&nbsp;&nbsp;&nbsp; dps_tax_gov_ua_0739220983.rar
+61f03edcac487c38e350d5588fb3cc5c&nbsp;&nbsp;&nbsp; 9ab1f67b51466f3721d84cf8065db6722e451b4cbd2c98f0afea2cbf6353db8f&nbsp;&nbsp;&nbsp; Електронний запит документів податкової служби.zip
+0b26323458df31883f449fc7e1b9ec21&nbsp;&nbsp;&nbsp; 98fea4020b66280fd85421b2d5aa9a5e2776e2d5432706d731a86efa4468b7fc&nbsp;&nbsp;&nbsp; Електронний запит документів податкової служби.pdf.rar
+2d11dba46735af1cb1c0a42e9564e20d&nbsp;&nbsp;&nbsp; e19477a56b247e6cc435fee367abcf6e0c3db21de91ae2514b4a6b1807233c53&nbsp;&nbsp;&nbsp; Електронний запит документів податкової служби.pdf.exe
+7827620ba2cd12d54b41c006ba4d686c&nbsp;&nbsp;&nbsp; 9daa46f8d84b0e65e2d5fdf7fcd80ff6ca922278c32a2b5c9425c0c5ef7d2096&nbsp;&nbsp;&nbsp; Doc.pdf
+0c88f651eea7ebd95df08f6a492fcb38&nbsp;&nbsp;&nbsp; a1faae4e2b695c7df3846179192f4e67bd8dd05e7e5c6d0b4b72db175f629076&nbsp;&nbsp;&nbsp; pdf.msi
+63d0964168b927d00064aa684e79a300&nbsp;&nbsp;&nbsp; 33d1a34fec88ce59beb756f5a274ff451caf171a755aae12b047e678929e8023&nbsp;&nbsp;&nbsp; ROMFUSClient.exe
+f3d74b072b9697cf64b0b8445fdc8128&nbsp;&nbsp;&nbsp; 70186f0710d1402371ce2e6194b03d8a153443cea5ddb9fc57e7433cce96ae02&nbsp;&nbsp;&nbsp; ROMServer.exe
+b49e39cac948aead65a7d385aea27c1c&nbsp;&nbsp;&nbsp; e47fae290d2b2f2e2a8bf7711f57937d539016f411fce3c72dc0d5964d022b14&nbsp;&nbsp;&nbsp; код доступу 873901.txt
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">msiexec.exe /i "%TEMP%\pdf.msi" /qn
+%ProgramFiles(x86)%\LiteManager Pro - Server\
+%ProgramFiles(x86)%\LiteManager Pro - Server\ROMFUSClient.exe
+%ProgramFiles(x86)%\LiteManager Pro - Server\ROMServer.exe
+HKLM\SYSTEM\LiteManager\v3.4\Server\Parameters\'CallbackSettings'
+HKLM\SYSTEM\LiteManager\v3.4\Server\Parameters\'ChangeSettings'
+HKLM\SYSTEM\LiteManager\v3.4\Server\Parameters\'NoIPSettings'
+HKLM\SYSTEM\LiteManager\v3.4\Server\Parameters\'Options'
+HKLM\SYSTEM\LiteManager\v3.4\Server\Parameters\'Pwd'
+HKLM\SYSTEM\LiteManager\v3.4\Server\Parameters\'StartUpMode'
+
+"%ProgramFiles(x86)%\LiteManager Pro - Server\ROMFUSClient.exe" /server /firewall
+"%ProgramFiles(x86)%\LiteManager Pro - Server\ROMServer.exe"  /firewall
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">christine@rozsenich.com
+
+(tcp)://111[.]90.140.76:465
+(tcp)://111[.]90.140.76:5651
+(tcp)://111[.]90.140.76:80
+(tcp)://111[.]90.140.76:8080
+(tcp)://65[.]21.245.7:5555
+(tcp)://65[.]21.245.7:80
+(tcp)://91[.]240.86.200:5651
+
+109[.]71.247.168   (X-Originating-IP)
+31[.]214.157.49
+111[.]90.140.76    (C2)
+65[.]21.245.7      (C2)
+91[.]240.86.200    (типова IP-адреса для LITEMANAGER)
+
+tax-gov-ua[.]com
+dpsu-gov-ua[.]com
+
+hXXp://tax-gov-ua[.]com/dps_tax_gov_ua_0739220983.rar
+hXXps://qaz[.]im/load/92rksf/8bd23fcf-ac4e-4316-ac7a-cd868498bbb7
+hXXps://qaz[.]im/load/24A3zr/95a741c4-3e45-4232-80b5-2b63024e5417
+hXXps://qaz[.]im/load/2yEDdB/d5605a20-a710-4451-8960-a85b252de11a
+hXXps://qaz[.]im/load/ADYRrD/14248bac-ac25-4ba4-a8f8-55adb7fabab5
+hXXps://qaz[.]im/load/E5t5Ak/ad6e5edf-6a3e-40ec-beb7-362a57bdd366
+hXXps://qaz[.]im/load/FF6z7H/c0c57bb4-7b11-48c2-8698-eac2bc0053bd
+hXXps://qaz[.]im/load/QtDiys/c8b17655-2350-46ff-9500-aa7cce7dded1
+hXXps://qaz[.]im/load/anzRbi/4625764e-e4ed-423f-ba72-5f554565bde5
+hXXps://qaz[.]im/load/bY2Qey/628078c0-0acb-4629-b789-88290052ccda
+hXXps://qaz[.]im/load/iRYee3/c30a179d-65c7-4b3a-8482-c5e520160803
+hXXps://qaz[.]im/load/tf26t3/6b836ab8-9521-4e23-ad46-8384461defee
+hXXps://qaz[.]im/load/zBAzNQ/e7ead79f-5754-49c2-b2a4-19577fb1a3bf
+hXXps://qaz[.]im/load/zFyFG3/1fe83bc0-a8d6-44f1-b2f2-f33e47de4d04
+hXXps://qaz[.]is/load/NY37ZQ/f341bee7-2fc1-4862-8b7c-65cab54c0b7c
+hXXps://qaz[.]is/load/fK7NR3/668d3238-49f0-4207-9478-4e8005840fbb
+hXXps://qaz[.]is/load/fK7NR3/668d3238-49f0-4207-9478-4e8005840fbb
+hXXps://qaz[.]is/load/kftbyz/fa06a7ab-3e61-457b-97ef-e16d5f904765
+
+qaz[.]im (Файловий сервіс)
+qaz[.]is (Файловий сервіс)
+qaz[.]su (Файловий сервіс)
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Приклад ланцюга ураження</p>
+
+=== RESPONSE (5.9s, in 6932 / out 1569 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "Country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Державна податкова служба України",
+      "kind": "Government Agency",
+      "gloss": "The central executive body of Ukraine responsible for tax administration and policy enforcement."
+    },
+    {
+      "name": "UAC-0050",
+      "kind": "Threat Actor",
+      "gloss": "A financially motivated cybercriminal threat group active in attacks against Ukrainian organizations."
+    },
+    {
+      "name": "LITEMANAGER",
+      "kind": "Software Product",
+      "gloss": "A legitimate remote desktop control and computer administration software product frequently abused by attackers."
+    },
+    {
+      "name": "qaz.im",
+      "kind": "Domain Name",
+      "gloss": "A domain name providing online file sharing services used in malicious campaigns."
+    },
+    {
+      "name": "qaz.is",
+      "kind": "Domain Name",
+      "gloss": "A domain name providing online file sharing services used in malicious campaigns."
+    },
+    {
+      "name": "qaz.su",
+      "kind": "Domain Name",
+      "gloss": "A domain name providing online file sharing services used in malicious campaigns."
+    },
+    {
+      "name": "tax-gov-ua.com",
+      "kind": "Domain Name",
+      "gloss": "A domain name registered by threat actors to impersonate the Ukrainian tax authority."
+    },
+    {
+      "name": "dpsu-gov-ua.com",
+      "kind": "Domain Name",
+      "gloss": "A domain name registered by threat actors to impersonate Ukrainian government services."
+    },
+    {
+      "name": "christine@rozsenich.com",
+      "kind": "Email Address",
+      "gloss": "An email address observed as an indicator in the cyber incident."
+    },
+    {
+      "name": "111.90.140.76",
+      "kind": "IP Address",
+      "gloss": "An IP address identified as a command and control server in malicious operations."
+    },
+    {
+      "name": "65.21.245.7",
+      "kind": "IP Address",
+      "gloss": "An IP address identified as a command and control server in malicious operations."
+    },
+    {
+      "name": "91.240.86.200",
+      "kind": "IP Address",
+      "gloss": "An IP address associated with LiteManager network traffic."
+    },
+    {
+      "name": "109.71.247.168",
+      "kind": "IP Address",
+      "gloss": "An originating IP address recorded in email headers during the campaign."
+    },
+    {
+      "name": "31.214.157.49",
+      "kind": "IP Address",
+      "gloss": "An IP address identified as a network indicator of compromise."
+    },
+    {
+      "name": "dps_tax_gov_ua_0739220983.rar",
+      "kind": "Computer File",
+      "gloss": "A malicious RAR archive file downloaded during the infection chain."
+    },
+    {
+      "name": "Електронний запит документів податкової служби.pdf.rar",
+      "kind": "Computer File",
+      "gloss": "A password-protected nested RAR archive containing an executable masquerading as a PDF."
+    },
+    {
+      "name": "Електронний запит документів податкової служби.pdf.exe",
+      "kind": "Computer File",
+      "gloss": "A malicious SFX executable file that drops a decoy document and launches remote management software."
+    },
+    {
+      "name": "pdf.msi",
+      "kind": "Computer File",
+      "gloss": "A Windows Installer package used to install LiteManager remote control software."
+    },
+    {
+      "name": "ROMFUSClient.exe",
+      "kind": "Computer File",
+      "gloss": "An executable component of the LiteManager remote administration software suite."
+    },
+    {
+      "name": "ROMServer.exe",
+      "kind": "Computer File",
+      "gloss": "The server component executable of the LiteManager remote administration software."
+    },
+    {
+      "name": "Doc.pdf",
+      "kind": "Computer File",
+      "gloss": "A decoy PDF document displayed to the user during the infection process."
+    },
+    {
+      "name": "код доступу 873901.txt",
+      "kind": "Computer File",
+      "gloss": "A text file containing an access password or code observed in the campaign."
+    },
+    {
+      "name": "Електронний запит документів податкової служби.zip",
+      "kind": "Computer File",
+      "gloss": "A ZIP archive file distributed as an indicator in the campaign."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Державна податкова служба України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Державної податкової служби України"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses",
+      "tail": "LITEMANAGER",
+      "evidence": "описана активність є фінансово мотивованою та здійснюється угрупуванням UAC-0050"
+    },
+    {
+      "head": "Електронний запит документів податкової служби.pdf.exe",
+      "kind": "Computer File",
+      "type": "delivers",
+      "tail": "pdf.msi",
+      "evidence": "запуску на комп'ютері MSI-пакету програми для віддаленого управління LITEMANAGER"
+    },
+    {
+      "head": "ROMFUSClient.exe",
+      "type": "part-of",
+      "tail": "LITEMANAGER",
+      "evidence": "%ProgramFiles(x86)%\\LiteManager Pro - Server\\ROMFUSClient.exe"
+    },
+    {
+      "head": "ROMServer.exe",
+      "type": "part-of",
+      "tail": "LITEMANAGER",
+      "evidence": "%ProgramFiles(x86)%\\LiteManager Pro - Server\\ROMServer.exe"
+    }
+  ],
+  "newRelationTypes": []
+}

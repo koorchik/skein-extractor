@@ -1,0 +1,314 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA 09.01.2024 та 11.01.2024 зафіксовано масове розповсюдження електронних листів з тематикою "Запитів".</p><p>Так, 09.01.2024 відбулася розсилка листів з темами "Запит судових документів" та "Запит", з вкладенням у вигляді RAR-архіву "Запит.rar", в якому знаходиться одноіменний ZIP-архів. Останній містить у собі захищений багатотомний RAR-архів та TXT-файл з паролем від нього.</p><p>У першому випадку, в згаданому архіві містився виконуваний файл "Запит документів.pdf.exe", що призначений для створення та запуску AutoIt-скрипта, який в свою чергу забезпечує встановлення програми для віддаленого управління RemcosRAT (ідентифікатор ліцензії: 90A63732CBE64F87F97AC8716B711015).</p><p>У другому - виконуваний файл "Електронний запит.EXE", який з використанням команд PowerShell ініціює завантаження з легітимного сервісу Bitbucket та запуск шкідливої програми QuasarRAT.</p><p>11.01.2024 зафіксовано масове розпосюдження листів з темою "Запит від компанії Медок" з вкладенням у вигляді RAR-архіву "Запит.rar" або посиланням на його завантаження з сервісів Bitbucket чи Google Диск. В цьому архіві знаходиться файл з паролем та захищений багатотомний архів, що містить файл-приманку "reportservlet.pdf" та виконуваний файл "Електронний запит Medoc.exe". Запуск останнього призведе до встановлення в системі програми для віддаленого управління Remote Utilities.</p><p>У всіх трьох випадках було використано одні і ті ж сервери управління, розміщені в межах автономної системи AS215939.</p><p>Активність відстежується за ідентифікатором UAC-0050.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">782a42ea9749013b1a65e99d506fe932&nbsp; &nbsp; 6ddeb2664b954665e4d38120a11fe4ec5e1fd5df9c1e0a24b75adc19a176f76b&nbsp; &nbsp; Запит.rar&nbsp;
+9f20370ad78bd191e0da4a0fc1bcde3f&nbsp; &nbsp; f9cb4f0105da13ac259eac7d4812e25c3e73b6c39c10608cc9e4a2da9c7a9351&nbsp; &nbsp; Запит.zip
+43ea723fe9f5703f5effaf110d4af012&nbsp; &nbsp; 637c0cf26b76d6eb8ffbace5cbb9fafda4697c276fe6c51ed580dd9a86174ed5&nbsp; &nbsp; Запит документів.part3.rar
+bfe26d78da78b4f914c438b9a3ca2243&nbsp; &nbsp; e858a5a166251f86e7b9cc1e8cc164ed2c4aa32489ab64d24fc1ef59c7aabf66&nbsp; &nbsp; Запит документів.part1.rar
+95fb9c2a847cb93154f3cca736220cd5&nbsp; &nbsp; 854aa70d7a430e452d560b7ad13d5744a78f4477af8509e15ec1691d917ed038&nbsp; &nbsp; Запит документів.pdf.exe
+f33699c8bd2ed4f4d70c93bcbc7b9615&nbsp; &nbsp; d60a6c600830843fbe57c35e5137b1391aa54c1ce44ea8d285a81a778ea2f31d&nbsp; &nbsp; Ob
+c7960898f8899ccd8c3567e82edf2a2f&nbsp; &nbsp; 0e983c0a842e14e5d800da74b2d8c8c4dc8ccdb4fa0ad0dd796c5b535902f1bf&nbsp; &nbsp; Punch
+8a0b5a0cb6bd130b35253f17701b18a5&nbsp; &nbsp; 34035ccbeb5445ab0fe053cdaa7c9cbe456197763b19b5731d9a24bc574e173a&nbsp; &nbsp; Exceptional
+5ed7ae0451fd9217a7d3c45c1f8a5dc6&nbsp; &nbsp; 54f929fa4612e32a9925d7dfa92614be3fd19a4cdf96df55a132eb1c82089b58&nbsp; &nbsp; Victims
+5454ec285867ccc0966738c72728fa25&nbsp; &nbsp; 82a1c0c5771eab9f10b4a0e2d013b110ca8d04c7e1375aa0563fa8ba5cbd030b&nbsp; &nbsp; Hang
+31c9f09383df4942519766df33072ad6&nbsp; &nbsp; f53c00742dc131f7ff92ec69fd8f40de4d53c3f65bf20835d9b0245e443d89e4&nbsp; &nbsp; Springer
+9099b22eb9896cbb9dbc2a9be93f3810&nbsp; &nbsp; 045d7597aea15fb8447eb8bdfc58596f6a2fb980998bc5156bac0d263e5a5da3&nbsp; &nbsp; Xi
+d34ac59c2eb257ff9a04e424b53126e6&nbsp; &nbsp; 6d3e063abdbcf659cd3a29124956c19dadfd5f8db5d24c9098a760fbf4b033f7&nbsp; &nbsp; Princess
+e0ca593d38a400a4b3be0369d9987fdd&nbsp; &nbsp; 1e9a6b2c081ba96b26a8b204bb92d5c41c738353863e07f4d2ba9df93d6fe64e&nbsp; &nbsp; i
+99224a1a5cd93f482c4522ed4e729888&nbsp; &nbsp; dbd0797bc22a0f84b00773de7f818171dd95c8c47161fe3ebe91dcd75628c557&nbsp; &nbsp; Запит документів.part2.rar
+4a22d3b0675d7114996d78513d15e9f0&nbsp; &nbsp; 6197e6fb0dd386379182d03959fbcc86b867b8f4c6b221f36220e2384c29303b&nbsp; &nbsp; Запит документів.part4.rar
+a6ef808648f0b37dc3fa45ce067c5b3a&nbsp; &nbsp; 7c1f9160778107d27c7bc01db5221d26b879696dbd84ddf10603aeeb50990203&nbsp; &nbsp; Запит документів.part5.rar
+679c46b03e5270e5c7e9bea28eb69a53&nbsp; &nbsp; 727c60799e6583faf533baa5aa19219e694cf4c6e87ccd3343df784652b15ac3&nbsp; &nbsp; Запит.zip
+89026f8723b3b2914653e10d79e51812&nbsp; &nbsp; c304ffc2f06103d4b60c0ec37a0912f0cefb6ba60273d456d94bb4f6453fa68e&nbsp; &nbsp; Запит.rar
+283a18357289de8546a253435de2d6f9&nbsp; &nbsp; c5fe2158ba8a017a7548e13c90ffb8e3e6ff0f477094f5f5edc1ebf1de85adab&nbsp; &nbsp; Електронний запит.part1.rar
+2c4102facf34d60785c2e882121f46fb&nbsp; &nbsp; 76fb1494f160bb15a94de3401187fa0f4e64c1cff9a4dad27f0b24a8c8786950&nbsp; &nbsp; Електронний запит.EXE
+e6ae673e82f3d8e01ec7dad9010dbb3d&nbsp; &nbsp; 6bba3b38ad8322712205375ce5f90e8877a518e23a6eee6a63f54a8f611caef9&nbsp; &nbsp; test2.exe
+628ef6dc40f8b6e89b6d537463add174&nbsp; &nbsp; 8272c8939a325be870bcde372842b808a015d2b892e239e16a6211a5c0b4c789&nbsp; &nbsp; test2.bat
+54b75c6d7d4284552f591d62c1d3fa5d&nbsp; &nbsp; 2d2fc9f3a9fe316d783483114b772a975b895c1a6e233e8dda0c66a9de8a1de1&nbsp; &nbsp; sws.bat
+e638bb20ab708a628add2b0004471821&nbsp; &nbsp; e8af36287e2270581fd5f2d28c6e0b83b337f58d430554d28dbf55d2ca09fcca&nbsp; &nbsp; gbquas.exe
+b2c291c57617aaf4de3d099e249a8819&nbsp; &nbsp; 00e234f93837fdb5a27989b37f0f7e7c48bc641593caf2f02bf681e578a5798a&nbsp; &nbsp; gbquas_unpack.exe
+78000c9acd0406dc78ee8a86f872695f&nbsp; &nbsp; b07d36986470cd09256ecba5c11bc16b083776cf61480d9beedc7f0d959b3b23&nbsp; &nbsp; Електронний запит.part2.rar
+97f6e39f13028c487c754e575a680a53&nbsp; &nbsp; e3522b418b77fee951e14e559be564d148d1c8ab905dbeee5d03c628368fe2b0&nbsp; &nbsp; Електронний запит.part3.rar
+4b4f4a5bbabcfcbc4d41d45181d3c393&nbsp; &nbsp; 49edbf73f35118f2fcbefe9fa9aaeacc99c4a446efadfac2df02b814a3b9f587&nbsp; &nbsp; remcos.exe
+55009d03b55a92f3b187b8415b7b5773&nbsp; &nbsp; 5a03f51625adb3bc44429dffd6d4808ef4c57d79efd50032eb4cb2c4c6333364&nbsp; &nbsp; Запит.rar&nbsp;
+bc7653e26b4ca2c94e27270d1ef6ea2c&nbsp; &nbsp; 42a7eb275e343f838095582afd641629fafea581c27624707c4f0d9aa04d61be&nbsp; &nbsp; Запит документів.part3.rar
+27428abfe4ca7b5ca50b527c8e4a73f0&nbsp; &nbsp; c2ace97deed180300407035e9c6cfc9536df5d660be9ff46c26a9ca86f5c47b2&nbsp; &nbsp; Запит документів.part1.rar
+60a4c82bfb39a518ec53e57a0a67aad6&nbsp; &nbsp; 5f983f2d494f11050a85dcf38b74da937eb67ea13d0d445e8a89ef4753824499&nbsp; &nbsp; reportservlet.pdf
+0377166caf38438de4232fb6a86893f2&nbsp; &nbsp; 1c0b5baceb177598bafee74d48d91567428e3033521caec287021164db19b96e&nbsp; &nbsp; Електронний запит Medoc.exe
+9b55e10197e75a881d5f72c2e24743e7&nbsp; &nbsp; f4e6e0d6d9396fc49dee215685e84a6f159c26de97d2f4a82a1cf469a2103022&nbsp; &nbsp; STAB_unsigned.msi
+364ec0894d60d3cdd917561626084c5a&nbsp; &nbsp; 322ef7eee9de6bcda974e9e1509b1f1e96e3538078ab4874a106dbe34064b52c&nbsp; &nbsp; rutserv.exe
+2f5bf0d210cbc025e0bcac63aad2919f&nbsp; &nbsp; 48b65d2d67eb92eeb330ad37e0b29eaaad5c81549807c6c7dccb5f6e2f90a647&nbsp; &nbsp; Запит документів.part2.rar
+22d6c6039d9d977494b121c7b31a7194&nbsp; &nbsp; 4cd6fa9df98b6b0246dd40ec64d0088a7f589e13038dc76dd71abc077bd91596&nbsp; &nbsp; Запит документів.part4.rar
+ecffaeee4f8b3cfd51a35192b34ffcb9&nbsp; &nbsp; e470e448df7fc141bfd5b76d1cb069478a30dbacb7696a31c9fccb025bc79a34&nbsp; &nbsp; КОД - 8873.txt
+ad959d0f79c466ad036c9b77209d298e&nbsp; &nbsp; efdba2f14948fc30ea5ccb635fb2af9ef58aa18e58c6b7801e4e71dc6a603302&nbsp; &nbsp; zapit_medoc.rar
+a71dc609802943508208eb748c798e99&nbsp; &nbsp; 0624e14b342d4c943e668bbe6bfa79627ef129a3c12b48ca679de515dceba4c2&nbsp; &nbsp; Запит документів.rar
+7ffdeb79f1273ba873396cef6a9a8f52&nbsp; &nbsp; d7e6f51fad6faf5aa7b2dfe8a5b12a6617758438f2c6553b82cad52be36730dd&nbsp; &nbsp; Запит документів.zip
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">(tcp)://77[.]105.132.124:2404
+(tcp)://77[.]105.132.124:2525
+(tcp)://77[.]105.132.124:4899
+(tcp)://77[.]105.132.124:5555
+(tcp)://77[.]105.132.124:5651
+(tcp)://77[.]105.132.124:8080
+(tcp)://77[.]105.132.70:2404
+(tcp)://77[.]105.132.70:2525
+(tcp)://77[.]105.132.70:4899
+(tcp)://77[.]105.132.70:5651
+(tcp)://77[.]105.132.70:8080
+(tcp)://77[.]105.132.124:465
+(tcp)://77[.]105.132.124:5651
+(tcp)://77[.]105.132.70:465
+(tcp)://77[.]105.132.70:5651
+(tcp)://rmssrv[.]ru:5651
+rmssrv[.]ru
+77[.]105.132.124
+77[.]105.132.70
+188[.]127.224.64
+hXXps://bitbucket[.]org/yener3/yener3/downloads/gbquas.exe
+hXXps://bitbucket[.]org/dvsvc/medoc_doc/downloads/zapit_medoc.rar
+hXXps://drive.google[.]com/file/d/1juaof0k-j1uvpy1dcfxa-kobd-csur-f/view?usp=sharing
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%APPDATA%\DVG8873\Update.exe
+%APPDATA%\gbquas.exe
+%LOCALAPPDATA%\DesignPixel Innovations\PixelCraft.pif
+%LOCALAPPDATA%\DesignPixel Innovations\PixelCraft.pif" "%LOCALAPPDATA%\DesignPixel Innovations\i"
+%TEMP%\persistent2\test2.bat
+4f6b11a0-3dfc-4b48-b2dc-1f9ff07a13ad
+HKCU\Software\qsdrhgfdvg-BO5JSW
+cmd /c "test2.bat"
+cmd /c schtasks.exe /create /tn "Airport" /tr "wscript '%LOCALAPPDATA%\DesignPixel Innovations\PixelCraft.js'" /sc minute /mo 3 /F
+cmd /k echo [InternetShortcut] &gt; "%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\PixelCraft.url" &amp; echo URL="%LOCALAPPDATA%DesignPixel Innovations\PixelCraft.js" &gt;&gt; "%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\PixelCraft.url" &amp; exit
+cmd.exe /S /D /c" echo F "
+cmd.exe /c sws.bat &amp;&amp; test2.exe
+findstr /I "avastui.exe avgui.exe nswscsvc.exe sophoshealth.exe"
+findstr /I "wrsa.exe"
+fodhelper.exe
+powershell -Command "[System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String('JABwAHcAZAAgAD0AIAAiAEEAZABkAC0ATQBwAFAAcgBlAGYAZQByAGUAbgBjAGUAIAAtAEUAeABjAGwAdQBzAGkAbwBuAFAAYQB0AGgAIABDADoAXAAiAA0ACgAkAHAAdwBkACAAfAAgAEkAbgB2AG8AawBlAC0ARQB4AHAAcgBlAHMAcwBpAG8AbgA=')) |Invoke-Expression"
+qsdrhgfdvg-BO5JSW
+reg add 'HKCU\Software\Classes\ms-settings\CurVer' /d '.omg' /f
+reg add HKCU\Software\Classes\.omg\Shell\Open\command /d '%TEMP%\persistent2\test2.exe' /f
+reg delete 'HKCU\Software\Classes\.omg\' /f
+reg delete 'HKCU\Software\Classes\ms-settings\' /f
+word.exe
+wscript.exe "%LOCALAPPDATA%\DesignPixel Innovations\PixelCraft.js
+xcopy /s test2.bat "%TEMP%\persistent2\test2.bat"
+%PROGRAMDATA%\Remote Utilities\msi\69110_{E5803A4B-5A4B-44F6-A759-882FB6AD7982}
+HKLM\SOFTWARE\Usoris\Remote Utilities Host\Host\Parameters\CallbackSettings
+HKLM\SYSTEM\Remote Utilities Host Installer\General
+HKLM\SYSTEM\Remote Utilities Host Installer\Security
+HKLM\SYSTEM\Remote Utilities Host Installer\notification
+RManService (Windows Service)
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Приклад ланцюга ураження RemcosRAT</p><p><br></p><p></p><p>Рис.2 Приклад ланцюга ураження QuasarRAT</p><p><br></p><p></p><p>Рис.3 Приклад ланцюга ураження Remote Utilities</p>
+
+=== RESPONSE (7.8s, in 7283 / out 1863 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "UAC-0050",
+      "kind": "threat actor",
+      "gloss": "A threat actor group known for conducting cyber espionage and financial crime campaigns against Ukrainian entities."
+    },
+    {
+      "name": "RemcosRAT",
+      "kind": "malware family",
+      "gloss": "A commercial remote access tool frequently abused by threat actors for surveillance and unauthorized control."
+    },
+    {
+      "name": "QuasarRAT",
+      "kind": "malware family",
+      "gloss": "An open-source remote access trojan written in C# used for system reconnaissance and remote control."
+    },
+    {
+      "name": "Remote Utilities",
+      "kind": "software product",
+      "gloss": "A legitimate remote desktop software program often abused by malicious actors for unauthorized remote management."
+    },
+    {
+      "name": "AutoIt",
+      "kind": "software product",
+      "gloss": "A freeware automation language and scripting tool used to automate Windows tasks and frequently abused by malware."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "Bitbucket",
+      "kind": "cloud service",
+      "gloss": "A Git-based source code repository hosting service operated by Atlassian."
+    },
+    {
+      "name": "Google Диск",
+      "kind": "cloud service",
+      "gloss": "A cloud-based file storage and synchronization service developed by Google."
+    },
+    {
+      "name": "Медок",
+      "kind": "company",
+      "gloss": "A Ukrainian software company and brand known for electronic document management and accounting software."
+    },
+    {
+      "name": "AS215939",
+      "kind": "autonomous system",
+      "gloss": "An autonomous system network infrastructure utilized to host command and control servers."
+    },
+    {
+      "name": "rmssrv.ru",
+      "kind": "domain name",
+      "gloss": "An internet domain name used for network communications."
+    },
+    {
+      "name": "77.105.132.124",
+      "kind": "ip address",
+      "gloss": "An IPv4 address used as command and control infrastructure."
+    },
+    {
+      "name": "77.105.132.70",
+      "kind": "ip address",
+      "gloss": "An IPv4 address used as command and control infrastructure."
+    },
+    {
+      "name": "188.127.224.64",
+      "kind": "ip address",
+      "gloss": "An IPv4 address identified as network infrastructure in the campaign."
+    },
+    {
+      "name": "Запит.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive distributed via email attachments."
+    },
+    {
+      "name": "Запит документів.pdf.exe",
+      "kind": "file",
+      "gloss": "A malicious executable disguised as a PDF document used to execute AutoIt scripts."
+    },
+    {
+      "name": "Електронний запит.EXE",
+      "kind": "file",
+      "gloss": "A malicious executable that downloads and executes QuasarRAT."
+    },
+    {
+      "name": "Електронний запит Medoc.exe",
+      "kind": "file",
+      "gloss": "A malicious executable that installs the Remote Utilities software."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Запит документів.pdf.exe",
+      "type": "installs-malware",
+      "tail": "RemcosRAT",
+      "evidence": "забезпечує встановлення програми для віддаленого управління RemcosRAT"
+    },
+    {
+      "head": "Електронний запит.EXE",
+      "type": "downloads-payload-from",
+      "tail": "Bitbucket",
+      "evidence": "ініціює завантаження з легітимного сервісу Bitbucket"
+    },
+    {
+      "head": "Електронний запит.EXE",
+      "type": "executes-malware",
+      "tail": "QuasarRAT",
+      "evidence": "ініціює завантаження з легітимного сервісу Bitbucket та запуск шкідливої програми QuasarRAT."
+    },
+    {
+      "head": "Електронний запит Medoc.exe",
+      "type": "installs-software",
+      "tail": "Remote Utilities",
+      "evidence": "призведе до встановлення в системі програми для віддаленого управління Remote Utilities."
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-infrastructure",
+      "tail": "AS215939",
+      "evidence": "сервери управління, розміщені в межах автономної системи AS215939. Активність відстежується за ідентифікатором UAC-0050."
+    },
+    {
+      "head": "UAC-0050",
+      "type": "impersonates-organization",
+      "tail": "Медок",
+      "evidence": "масове розпосюдження листів з темою \"Запит від компанії Медок\""
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "RemcosRAT",
+      "evidence": "забезпечує встановлення програми для віддаленого управління RemcosRAT... Активність відстежується за ідентифікатором UAC-0050."
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "QuasarRAT",
+      "evidence": "запуск шкідливої програми QuasarRAT... Активність відстежується за ідентифікатором UAC-0050."
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "Remote Utilities",
+      "evidence": "встановлення в системі програми для віддаленого управління Remote Utilities... Активність відстежується за ідентифікатором UAC-0050."
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "installs-malware",
+      "definition": "Head executable or script installs the tail malware onto the infected system."
+    },
+    {
+      "name": "downloads-payload-from",
+      "definition": "Head file or script retrieves external files or payloads from the tail hosting service or URL."
+    },
+    {
+      "name": "executes-malware",
+      "definition": "Head executable or command launches the tail malicious program."
+    },
+    {
+      "name": "installs-software",
+      "definition": "Head file installs the tail software package or tool on the system."
+    },
+    {
+      "name": "uses-infrastructure",
+      "definition": "Head threat actor utilizes the tail network resource, autonomous system, or server for malicious operations."
+    },
+    {
+      "name": "impersonates-organization",
+      "definition": "Head threat actor mimics or uses the name of the tail organization as a lure in social engineering attacks."
+    },
+    {
+      "name": "uses-tool",
+      "definition": "Head threat actor employs the tail tool or malware during their operations."
+    }
+  ]
+}

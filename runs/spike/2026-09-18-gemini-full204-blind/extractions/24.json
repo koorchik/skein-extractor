@@ -1,0 +1,81 @@
+{
+  "entities": [
+    {
+      "name": "CVE-2017-11882",
+      "kind": "vulnerability identifier",
+      "gloss": "A memory corruption vulnerability in Microsoft Equation Editor allowing remote code execution."
+    },
+    {
+      "name": "MS Equation",
+      "kind": "software component",
+      "gloss": "A legacy equation editor component integrated into Microsoft Office products."
+    },
+    {
+      "name": "MS Office",
+      "kind": "software product",
+      "gloss": "A suite of productivity software developed by Microsoft."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "major[.]exe",
+      "kind": "malware",
+      "gloss": "A malicious executable payload downloaded onto compromised systems following vulnerability exploitation."
+    },
+    {
+      "name": "216.170.123.111",
+      "kind": "ip address",
+      "gloss": "An IP address used to host and distribute the malicious executable major.exe."
+    },
+    {
+      "name": "PGMB New Order 18-2077[.]xlsx",
+      "kind": "malicious file",
+      "gloss": "A malicious spreadsheet file used as an indicator of compromise in the campaign."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2017-11882",
+      "type": "affects",
+      "tail": "MS Equation",
+      "evidence": "вразливість надає можливість виконання віддаленого коду, коли програмне забезпечення MS Equation не обробляє"
+    },
+    {
+      "head": "CVE-2017-11882",
+      "type": "affects",
+      "tail": "MS Office",
+      "evidence": "Дана вразливість може використовуватись в Microsoft Office 2016 та попередніх версіях"
+    },
+    {
+      "head": "MS Equation",
+      "type": "part-of",
+      "tail": "MS Office",
+      "evidence": "Відключити Microsoft Equation Editor в Office."
+    },
+    {
+      "head": "216.170.123.111",
+      "type": "hosts",
+      "tail": "major[.]exe",
+      "evidence": "завантажується файл major[.]exe з адреси hххp[:]//216.170.123.111/major[.]exe"
+    },
+    {
+      "head": "CVE-2017-11882",
+      "type": "delivers",
+      "tail": "major[.]exe",
+      "evidence": "Після експлуатації вразливості CVE-2017-11882 на цільову систему завантажується файл major[.]exe"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "hosts",
+      "definition": "An IP address, server, or domain hosts a specific file, malware payload, or service."
+    },
+    {
+      "name": "delivers",
+      "definition": "An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system."
+    }
+  ]
+}

@@ -1,0 +1,167 @@
+{
+  "entities": [
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage threat group also tracked as DEV-0586 and unc2589."
+    },
+    {
+      "name": "CredPump",
+      "kind": "malware",
+      "gloss": "An SSH PAM module backdoor designed for unauthorized remote access and credential harvesting."
+    },
+    {
+      "name": "HoaxPen",
+      "kind": "malware",
+      "gloss": "A backdoor tool used to execute arbitrary commands on compromised servers."
+    },
+    {
+      "name": "HoaxApe",
+      "kind": "malware",
+      "gloss": "A backdoor implemented as an Apache web server module for command execution."
+    },
+    {
+      "name": "Apache",
+      "kind": "software product",
+      "gloss": "An open-source cross-platform web server software."
+    },
+    {
+      "name": "GOST",
+      "kind": "software product",
+      "gloss": "A Go-based simple tunnel tool used for network tunneling and proxying."
+    },
+    {
+      "name": "Ngrok",
+      "kind": "software product",
+      "gloss": "A cross-platform reverse proxy software used to expose local servers to the internet."
+    },
+    {
+      "name": "P0wnyShell",
+      "kind": "malware",
+      "gloss": "A single-file PHP web shell used to execute commands on compromised web servers."
+    },
+    {
+      "name": "index.php",
+      "kind": "computer file",
+      "gloss": "A PHP file placed in the root directory to modify website content."
+    },
+    {
+      "name": "23_12_2021_02_52_46.80530733761c3c85e7a764.php",
+      "kind": "computer file",
+      "gloss": "A malicious PHP web shell uploaded to a web server."
+    },
+    {
+      "name": "pam_syst.so",
+      "kind": "computer file",
+      "gloss": "A shared object library file representing the CredPump backdoor."
+    },
+    {
+      "name": "mod_https_.so",
+      "kind": "computer file",
+      "gloss": "An Apache module shared library file representing the HoaxApe backdoor."
+    },
+    {
+      "name": ".fastcgi",
+      "kind": "computer file",
+      "gloss": "A malicious file associated with the HoaxPen backdoor."
+    },
+    {
+      "name": "dns-resolv",
+      "kind": "computer file",
+      "gloss": "An executable file implementing the GOST tunneling tool."
+    },
+    {
+      "name": "dns_resolv.1",
+      "kind": "computer file",
+      "gloss": "An executable file implementing the Ngrok tool."
+    },
+    {
+      "name": "virt",
+      "kind": "computer file",
+      "gloss": "An executable file implementing the GOST tunneling tool."
+    },
+    {
+      "name": "avup",
+      "kind": "computer file",
+      "gloss": "An executable file implementing the Ngrok tool."
+    },
+    {
+      "name": "qaz",
+      "kind": "computer file",
+      "gloss": "A malicious file discovered on compromised infrastructure."
+    },
+    {
+      "name": "pages.php",
+      "kind": "computer file",
+      "gloss": "A malicious PHP script used on a compromised web server."
+    },
+    {
+      "name": "webforms.php",
+      "kind": "computer file",
+      "gloss": "A PHP file containing the P0wnyShell web shell."
+    },
+    {
+      "name": "185.59.221.226",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor network infrastructure."
+    },
+    {
+      "name": "178.162.212.26",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor network infrastructure."
+    },
+    {
+      "name": "178.162.222.44",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor network infrastructure."
+    },
+    {
+      "name": "37.58.60.153",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor network infrastructure."
+    },
+    {
+      "name": "94.46.175.132",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "CredPump",
+      "evidence": "порушення штатного режиму функціонування досліджених вебресурсів здійснено групою UAC-0056"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "HoaxPen",
+      "evidence": "порушення штатного режиму функціонування досліджених вебресурсів здійснено групою UAC-0056"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "HoaxApe",
+      "evidence": "порушення штатного режиму функціонування досліджених вебресурсів здійснено групою UAC-0056"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "GOST",
+      "evidence": "на ранніх етапах кібератаки застосовано GOST"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "Ngrok",
+      "evidence": "на ранніх етапах кібератаки застосовано GOST (Go Simple Tunnel) та програму Ngrok"
+    }
+  ],
+  "newRelationTypes": []
+}

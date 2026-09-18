@@ -1,0 +1,215 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0010",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group also known as Armageddon or Gamaredon."
+    },
+    {
+      "name": "ГУ СБУ в АР Крим",
+      "kind": "government body",
+      "gloss": "The former Main Directorate of the Security Service of Ukraine in the Autonomous Republic of Crimea."
+    },
+    {
+      "name": "ФСБ росії",
+      "kind": "government body",
+      "gloss": "The Federal Security Service of the Russian Federation."
+    },
+    {
+      "name": "росія",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cross-platform cloud-based instant messaging service."
+    },
+    {
+      "name": "WhatsApp",
+      "kind": "software product",
+      "gloss": "An instant messaging and voice-over-IP service."
+    },
+    {
+      "name": "Signal",
+      "kind": "software product",
+      "gloss": "An encrypted instant messaging service."
+    },
+    {
+      "name": "Microsoft Office Word",
+      "kind": "software product",
+      "gloss": "A word processing software product developed by Microsoft."
+    },
+    {
+      "name": "GAMMASTEEL",
+      "kind": "malware family",
+      "gloss": "An information-stealing malware family used by the Armageddon threat group."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "Anydesk",
+      "kind": "software product",
+      "gloss": "A remote desktop application used for remote access and control."
+    },
+    {
+      "name": "ООО \"ГЛОБАЛ ИНТЕРНЕТ РЕШЕНИЯ\"",
+      "kind": "company",
+      "gloss": "An Internet service provider operating in Sevastopol."
+    },
+    {
+      "name": "ООО \"ХОСТИНГ-ТЕХНОЛОГИИ\"",
+      "kind": "company",
+      "gloss": "A Russian hosting service provider."
+    },
+    {
+      "name": "ТОО \"ИТ‑ГРАД\"",
+      "kind": "company",
+      "gloss": "A cloud hosting and IT services provider operating in Kazakhstan."
+    },
+    {
+      "name": "Казахстан",
+      "kind": "country",
+      "gloss": "A transcontinental country located in Central Asia and Eastern Europe."
+    },
+    {
+      "name": "Чорногорія",
+      "kind": "country",
+      "gloss": "A country in Southeast Europe on the Adriatic coast."
+    },
+    {
+      "name": "Центр кібербезпеки ІТС",
+      "kind": "government body",
+      "gloss": "The cybersecurity center for information and telecommunication systems of the Ukrainian Armed Forces."
+    },
+    {
+      "name": "Starlink",
+      "kind": "software product",
+      "gloss": "A satellite internet constellation operated by SpaceX."
+    },
+    {
+      "name": "LOADSHORT",
+      "kind": "malware family",
+      "gloss": "A malicious tool associated with the Armageddon threat group."
+    },
+    {
+      "name": "LAKEFLASH",
+      "kind": "malware family",
+      "gloss": "A malicious tool associated with the Armageddon threat group."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0010",
+      "type": "operates-on-behalf-of",
+      "tail": "ФСБ росії",
+      "evidence": "діяльність якої здійснюється колишніми \"офіцерами\" ГУ СБУ в АР Крим, які у 2014 році зрадили військовій присязі і почали прислужувати ФСБ росії"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "targets",
+      "tail": "Україна",
+      "evidence": "Основним завданням угрупування є кібершпигунство у відношенні сил безпеки та оборони України."
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-malware",
+      "tail": "GAMMASTEEL",
+      "evidence": "викрадення файлів... здійснюється протягом 30-50 хвилин (як правило, із застосуванням шкідливих програм GAMMASTEEL)."
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-tool",
+      "tail": "PowerShell",
+      "evidence": "більшість функціоналу, призначеного для викрадення документів та віддаленого виконання команд, реалізовано за допомогою PowerShell."
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-tool",
+      "tail": "Anydesk",
+      "evidence": "За потреби здійснення інтерактивного віддаленого доступу за допомогою PowerShell на ЕОМ може бути встановлено Anydesk."
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-service",
+      "tail": "Telegram",
+      "evidence": "Як вектор первинної компрометації, здебільшого, використовуються електронні листи та повідомлення в месенджерах (Telegram, WhatsApp, Signal)"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-service",
+      "tail": "WhatsApp",
+      "evidence": "Як вектор первинної компрометації, здебільшого, використовуються електронні листи та повідомлення в месенджерах (Telegram, WhatsApp, Signal)"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-service",
+      "tail": "Signal",
+      "evidence": "Як вектор первинної компрометації, здебільшого, використовуються електронні листи та повідомлення в месенджерах (Telegram, WhatsApp, Signal)"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-malware",
+      "tail": "LOADSHORT",
+      "evidence": "Рис.11 Приклад шкідливої програми LOADSHORT"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-malware",
+      "tail": "LAKEFLASH",
+      "evidence": "Рис.12 Приклад шкідливої програми LAKEFLASH"
+    },
+    {
+      "head": "ФСБ росії",
+      "type": "located-in",
+      "tail": "росія",
+      "evidence": "ФСБ росії"
+    },
+    {
+      "head": "ТОО \"ИТ‑ГРАД\"",
+      "type": "located-in",
+      "tail": "Казахстан",
+      "evidence": "ТОО \"ИТ‑ГРАД\" (Казахстан)"
+    },
+    {
+      "head": "ООО \"ХОСТИНГ-ТЕХНОЛОГИИ\"",
+      "type": "located-in",
+      "tail": "росія",
+      "evidence": "ООО \"ХОСТИНГ-ТЕХНОЛОГИИ\" (росія)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "operates-on-behalf-of",
+      "definition": "The subject acts under the direction, control, or service of the object organization or government."
+    },
+    {
+      "name": "targets",
+      "definition": "The threat actor directs malicious cyber activities or espionage against the target."
+    },
+    {
+      "name": "uses-malware",
+      "definition": "The threat actor utilizes the specified malware family in its operations."
+    },
+    {
+      "name": "uses-tool",
+      "definition": "The threat actor employs the specified utility or software tool during operations."
+    },
+    {
+      "name": "uses-service",
+      "definition": "The threat actor leverages the specified communication or hosting service."
+    },
+    {
+      "name": "located-in",
+      "definition": "The entity is geographically or administratively based in the specified country."
+    }
+  ]
+}

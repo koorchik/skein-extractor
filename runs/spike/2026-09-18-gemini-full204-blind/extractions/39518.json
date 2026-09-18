@@ -1,0 +1,105 @@
+{
+  "entities": [
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "INDUSTROYER2",
+      "kind": "malware family",
+      "gloss": "A specialized ICS malware designed to manipulate and disrupt high-voltage electrical substation equipment."
+    },
+    {
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A widely used family of proprietary graphical operating systems developed by Microsoft."
+    },
+    {
+      "name": "CADDYWIPER",
+      "kind": "malware family",
+      "gloss": "A destructive data wiper malware targeting Windows operating systems."
+    },
+    {
+      "name": "ARGUEPATCH",
+      "kind": "malware loader",
+      "gloss": "A malware loader used to decrypt and launch destructive payloads."
+    },
+    {
+      "name": "TAILJUMP",
+      "kind": "malware component",
+      "gloss": "A shellcode component used in payload execution chains."
+    },
+    {
+      "name": "Linux",
+      "kind": "operating system",
+      "gloss": "An open-source Unix-like operating system kernel and family of operating systems."
+    },
+    {
+      "name": "ORCSHRED",
+      "kind": "malware family",
+      "gloss": "A destructive wiper script designed to destroy data on Linux server equipment."
+    },
+    {
+      "name": "SOLOSHRED",
+      "kind": "malware family",
+      "gloss": "A destructive wiper script designed to target Linux operating systems."
+    },
+    {
+      "name": "AWFULSHRED",
+      "kind": "malware family",
+      "gloss": "A destructive wiper script designed to target Linux server infrastructure."
+    },
+    {
+      "name": "POWERGAP",
+      "kind": "malware script",
+      "gloss": "A PowerShell script used to deploy group policies and schedule malicious payload execution."
+    },
+    {
+      "name": "IMPACKET",
+      "kind": "software framework",
+      "gloss": "A collection of Python classes for working with network protocols, frequently abused for lateral movement."
+    },
+    {
+      "name": "Microsoft",
+      "kind": "technology company",
+      "gloss": "An American multinational corporation that develops computer software, consumer electronics, and related services."
+    },
+    {
+      "name": "ESET",
+      "kind": "cybersecurity company",
+      "gloss": "A Slovak cybersecurity software and services company known for antivirus products."
+    },
+    {
+      "name": "91.245.255[.]243",
+      "kind": "ip address",
+      "gloss": "An IPv4 address identified as network infrastructure in malicious activity."
+    },
+    {
+      "name": "195.230.23[.]19",
+      "kind": "ip address",
+      "gloss": "An IPv4 address identified as network infrastructure in malicious activity."
+    }
+  ],
+  "relations": [
+    {
+      "head": "ARGUEPATCH",
+      "type": "delivers",
+      "tail": "CADDYWIPER",
+      "evidence": "для дешифрування і запуску останнього передбачено використання лоадеру ARGUEPATCH"
+    },
+    {
+      "head": "TAILJUMP",
+      "type": "delivers",
+      "tail": "CADDYWIPER",
+      "evidence": "для дешифрування і запуску останнього передбачено використання лоадеру ARGUEPATCH та шелкоду TAILJUMP"
+    },
+    {
+      "head": "POWERGAP",
+      "type": "delivers",
+      "tail": "CADDYWIPER",
+      "evidence": "передбачає завантаження компонентів файлового деструктору з контролеру домену... використано PowerShell-скрипт POWERGAP"
+    }
+  ],
+  "newRelationTypes": []
+}

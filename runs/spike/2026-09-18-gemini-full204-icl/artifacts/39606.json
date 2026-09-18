@@ -1,0 +1,127 @@
+{
+  "docId": 39606,
+  "date": "14.04.2022",
+  "title": "Кібератака на державні організації України з використанням експлойту для XSS вразливості в Zimbra Collaboration Suite (CVE-2018-6882) (CERT-UA#4461)",
+  "entities": [
+    {
+      "id": "39606:0",
+      "name": "UAC-0097",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA associated with targeted cyber attacks.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "39606:1",
+      "name": "CVE-2018-6882",
+      "kind": "security vulnerability",
+      "gloss": "A cross-site scripting (XSS) vulnerability affecting Zimbra Collaboration Suite.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "39606:2",
+      "name": "Zimbra Collaboration Suite",
+      "kind": "software product",
+      "gloss": "An enterprise email, calendar, and collaboration software suite.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "39606:3",
+      "name": "junit.js",
+      "kind": "malware",
+      "gloss": "A malicious JavaScript script designed to modify email configuration and exfiltrate user emails.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "39606:4",
+      "name": "joey@kmtacn[.]com",
+      "kind": "email address",
+      "gloss": "An email address observed as the sender envelope in malicious emails.",
+      "scheme": "S10",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "39606:5",
+      "name": "211.234.110[.]194",
+      "kind": "ip address",
+      "gloss": "An IP address observed as the client IP in malicious email delivery.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "39606:6",
+      "name": "hxxps://cdn.jsdelivr[.]net/gh/sukaut/beta@main/junit.js",
+      "kind": "uniform resource locator",
+      "gloss": "A URL on jsDelivr CDN used to host and deliver the malicious JavaScript payload.",
+      "scheme": "S7",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "39606:7",
+      "name": "repo.ma@hotmail[.]com",
+      "kind": "email address",
+      "gloss": "An email address configured by attackers to receive exfiltrated emails.",
+      "scheme": "S10",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "39606:8",
+      "name": "nov.td@yandex[.]ru",
+      "kind": "email address",
+      "gloss": "An email address associated with the malicious campaign.",
+      "scheme": "S10",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "39606:9",
+      "name": "hxxps://github[.]com/sukaut",
+      "kind": "uniform resource locator",
+      "gloss": "A GitHub repository URL associated with the threat actor infrastructure.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "39606:10",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe.",
+      "scheme": "S4",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2018-6882",
+      "type": "affects",
+      "tail": "Zimbra Collaboration Suite",
+      "evidence": "XSS (Cross-Site Scripting) вразливість в Zimbra Collaboration Suite"
+    },
+    {
+      "head": "UAC-0097",
+      "type": "exploits",
+      "tail": "CVE-2018-6882",
+      "evidence": "Технічна можливість реалізації описаної загрози класифікована за ідентифікатором CVE-2018-6882"
+    },
+    {
+      "head": "hxxps://cdn.jsdelivr[.]net/gh/sukaut/beta@main/junit.js",
+      "type": "hosts",
+      "tail": "junit.js",
+      "evidence": "hxxps://cdn.jsdelivr[.]net/gh/sukaut/beta@main/junit.js"
+    }
+  ],
+  "unclassified": []
+}

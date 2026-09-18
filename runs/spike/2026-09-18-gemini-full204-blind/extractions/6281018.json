@@ -1,0 +1,130 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Резерв+",
+      "kind": "software product",
+      "gloss": "An official Ukrainian mobile application used for military reservist and conscript data registration."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cloud-based instant messaging service and application platform."
+    },
+    {
+      "name": "@reserveplusbot",
+      "kind": "social media account",
+      "gloss": "A Telegram bot account abused to distribute malicious files pretending to be Reserve+ technical support."
+    },
+    {
+      "name": "MEDUZASTEALER",
+      "kind": "malware family",
+      "gloss": "An information stealer malware designed to exfiltrate documents, credentials, and sensitive files from compromised systems."
+    },
+    {
+      "name": "Microsoft Defender",
+      "kind": "software product",
+      "gloss": "An integrated antivirus and security component for Microsoft Windows."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A cross-platform task automation and configuration management framework by Microsoft."
+    },
+    {
+      "name": "RESERVPLUS.zip",
+      "kind": "file name",
+      "gloss": "A malicious ZIP archive distributed via Telegram containing droppers for MeduzaStealer."
+    },
+    {
+      "name": "installer.exe",
+      "kind": "file name",
+      "gloss": "An executable payload delivered inside ZIP archives to drop secondary-stage installers."
+    },
+    {
+      "name": "install.exe",
+      "kind": "file name",
+      "gloss": "An intermediate loader executable used to fetch and launch MeduzaStealer."
+    },
+    {
+      "name": "79.137.202.152",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server for MeduzaStealer."
+    },
+    {
+      "name": "185.208.158.47",
+      "kind": "ip address",
+      "gloss": "An IP address hosting various malicious executable payloads."
+    },
+    {
+      "name": "212.34.150.110",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious dropper executables."
+    },
+    {
+      "name": "5.252.118.50",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious executable files."
+    },
+    {
+      "name": "62.60.217.124",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious install executables."
+    }
+  ],
+  "relations": [
+    {
+      "head": "@reserveplusbot",
+      "type": "delivers",
+      "tail": "RESERVPLUS.zip",
+      "evidence": "за допомогою облікового запису Telegram @reserveplusbot... файл з назвою \"RESERVPLUS.zip\""
+    },
+    {
+      "head": "RESERVPLUS.zip",
+      "type": "delivers",
+      "tail": "installer.exe",
+      "evidence": "в розповсюджуваному ZIP-архіві знаходився виконуваний EXE-файл \"installer.exe\""
+    },
+    {
+      "head": "installer.exe",
+      "type": "delivers",
+      "tail": "install.exe",
+      "evidence": "запуск якого призводив до завантаження іншого файлу \"install.exe\""
+    },
+    {
+      "head": "install.exe",
+      "type": "delivers",
+      "tail": "MEDUZASTEALER",
+      "evidence": "забезпечував ураження комп'ютера шкідливим програмним забезпеченням MEDUZASTEALER"
+    },
+    {
+      "head": "MEDUZASTEALER",
+      "type": "communicates-with",
+      "tail": "79.137.202.152",
+      "evidence": "79.137.202.152:15666"
+    },
+    {
+      "head": "212.34.150.110",
+      "type": "hosts",
+      "tail": "install.exe",
+      "evidence": "http://212.34.150.110/install.exe"
+    },
+    {
+      "head": "62.60.217.124",
+      "type": "hosts",
+      "tail": "install.exe",
+      "evidence": "http://62.60.217.124/install.exe"
+    },
+    {
+      "head": "Резерв+",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA... “Резерв+”"
+    }
+  ],
+  "newRelationTypes": []
+}

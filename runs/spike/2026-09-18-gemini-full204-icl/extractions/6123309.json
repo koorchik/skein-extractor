@@ -1,0 +1,142 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0165",
+      "kind": "threat actor",
+      "gloss": "A threat actor group that targeted Ukrainian telecommunications providers in 2023."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "masscan",
+      "kind": "software product",
+      "gloss": "An open-source high-speed Internet port scanner."
+    },
+    {
+      "name": "ffuf",
+      "kind": "software product",
+      "gloss": "A fast web fuzzer written in Go used for discovering files, directories, and parameters."
+    },
+    {
+      "name": "dirbuster",
+      "kind": "software product",
+      "gloss": "A multi-threaded Java application designed to brute force directories and file names on web application servers."
+    },
+    {
+      "name": "gowitness",
+      "kind": "software product",
+      "gloss": "A web screenshot utility written in Go using Chrome Headless."
+    },
+    {
+      "name": "nmap",
+      "kind": "software product",
+      "gloss": "A network exploration tool and security / port scanner."
+    },
+    {
+      "name": "dante",
+      "kind": "software product",
+      "gloss": "A SOCKS proxy server and client implementation."
+    },
+    {
+      "name": "POEMGATE",
+      "kind": "malware",
+      "gloss": "A malicious Linux PAM module designed to capture authentication credentials and provide backdoor access."
+    },
+    {
+      "name": "WHITECAT",
+      "kind": "malware",
+      "gloss": "A utility used by threat actors to delete traces of unauthorized access on compromised systems."
+    },
+    {
+      "name": "POSEIDON",
+      "kind": "malware",
+      "gloss": "A Linux backdoor program providing remote access and system management capabilities."
+    },
+    {
+      "name": "Weevely",
+      "kind": "malware",
+      "gloss": "A stealth PHP web shell designed for post-exploitation and remote server administration."
+    },
+    {
+      "name": "КіберБеркут",
+      "kind": "threat actor",
+      "gloss": "A pro-Russian hacktivist group active against Ukrainian entities since 2014."
+    },
+    {
+      "name": "Mikrotik",
+      "kind": "software vendor",
+      "gloss": "A Latvian manufacturer of network equipment and software such as RouterOS."
+    },
+    {
+      "name": "eurotelle.com",
+      "kind": "domain name",
+      "gloss": "A network domain identified as infrastructure used in cyberattacks on telecommunications providers."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0165",
+      "type": "uses",
+      "tail": "masscan",
+      "evidence": "групою зловмисників, що відстежується за ідентифікатором UAC-0165... із застосуванням, зокрема, masscan"
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses",
+      "tail": "POEMGATE",
+      "evidence": "зловмисники встановлюють шкідливий PAM-модуль (відстежується як POEMGATE)"
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses",
+      "tail": "WHITECAT",
+      "evidence": "Видалення ознак несанкціонованого доступу досягається, серед іншого, запуском утиліти WHITECAT"
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses",
+      "tail": "POSEIDON",
+      "evidence": "Додатково на сервер може встановлюватися варіант програми POSEIDON"
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses",
+      "tail": "Weevely",
+      "evidence": "після компрометації вебсайту на вебсервер може завантажуватися бекдор Weevely"
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses",
+      "tail": "ffuf",
+      "evidence": "аналізуються за допомогою спеціалізованих програм, в тому числі: ffuf"
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses",
+      "tail": "dirbuster",
+      "evidence": "аналізуються за допомогою спеціалізованих програм, в тому числі: ffuf, dirbuster"
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses",
+      "tail": "gowitness",
+      "evidence": "аналізуються за допомогою спеціалізованих програм, в тому числі: ffuf, dirbuster, gowitness"
+    },
+    {
+      "head": "UAC-0165",
+      "type": "uses",
+      "tail": "nmap",
+      "evidence": "аналізуються за допомогою спеціалізованих програм, в тому числі: ffuf, dirbuster, gowitness, nmap"
+    },
+    {
+      "head": "UAC-0165",
+      "type": "affects",
+      "tail": "Україна",
+      "evidence": "здійснено втручання в інформаційно-комунікаційні системи (ІКС) не менше ніж 11 провайдерів телекомунікацій України"
+    }
+  ],
+  "newRelationTypes": []
+}

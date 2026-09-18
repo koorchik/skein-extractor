@@ -1,0 +1,446 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+- uses-malware: A threat actor utilizes or deploys a specific malware tool or family in their operations.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Електронна пошта є одним із засобів обміну інформацією, що також використовується для проведення кібератак, зокрема, для доставки (фішингових) посилань, вкладень, що містять шкідливі програми тощо.&nbsp;</p><p>В поточному ландшафті кіберзагроз експлуатація як корпоративних так і публічних поштових сервісів потребує відповідального ставлення, зокрема, дотримання елементарних правил "кібер-гігієни", налаштування двохфакторної автентифікації, перевірки сторонніх фільтрів та додатків, яким надано доступ до облікового запису за протоколами IMAP/POP3 та ін.</p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA досліджено один з інцидентів, інформацію про який в маніпулятивній формі опубліковано в телеграм-каналі JokerDPR.</p><p>З'ясовано, що одним із методів реалізації кіберзагроз, які здійснюються "послідовниками" JokerDPR і/або інформація про які публікується в згаданому каналі, є проведення фішингових атак, спрямованих на отримання несанкціонованого доступу до облікових записів поштових сервісів Google, Ukr.Net, Outlook, а також криптовалютних бірж EXMO та Binance.</p><p>Для втілення зловмисного задуму зловмисники за допомогою реєстраторів Tucows / Namecheap створюють характерні доменні імена та відповідні вебсторінки, що імітують легітимні сервіси. Згодом, посилання розповсюджуються засобами електронної пошти, в тому числі, з легітимних скомпрометованих акаунтів.</p><p>У випадку отримання доступу здійснюється вивантаження поштової кореспонденції, файлів зі сховищ, після чого, з використанням отриманих даних, готується інфопривід з подальшою публікацією викривленої інформації.</p><p>З метою інформування про особливості здійснення кібератак UAC-0177, а також, подальшого дослідження (в т.ч., ретроспективного) та атрибуції, у відповідному розділі наведено виявлені пов'язані індикатори компрометації.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">hXXps://edisk.ukr.net.ssl2[.]link/shared/
+179[.]43.162.29 (PA; @phaselayer.com; AS51852)
+185[.]196.9.215 (US; @simplecarrier.net; AS42624)
+80[.]78.22.194 (FI; @abstract.fi; AS39287)
+authcheck[.]in (2023-08-16; @tucows.com)
+authssl[.]in (2023-08-21; @namecheap.com)
+authssl[.]link (2023-08-26; @tucows.com)
+authssl[.]online (2023-08-21; @namecheap.com)
+authssl[.]org (2023-08-26; @tucows.com)
+authssl[.]site (2023-08-21; @namecheap.com)
+ssl1[.]online (2023-09-07; @namecheap.com)
+ssl1[.]site (2023-09-07; @namecheap.com)
+ssl2[.]in (2023-08-30; @tucows.com)
+ssl2[.]link (2023-08-30; @tucows.com)
+ssl2[.]online (2023-09-07; @namecheap.com)
+ssl2[.]site (2023-09-07; @namecheap.com)
+ssl3[.]online (2023-09-07; @namecheap.com)
+ssl3[.]site (2023-09-07; @namecheap.com)
+ssl4[.]online (2023-09-07; @namecheap.com)
+ssl4[.]site (2023-09-07; @namecheap.com)
+exmo[.]day (2023-07-03; @tucows.com)
+getssl[.]click (2023-08-26; @tucows.com)
+getssl[.]ink (2023-09-19; @namecheap.com)
+goaccount[.]link (2023-08-26; @tucows.com)
+passport2[.]zip (2023-06-10; @tucows.com)
+personlog[.]in (2023-08-20; @namecheap.com)
+certifiedauth[.]in (2023-08-22; @namecheap.com)
+hsts[.]online (2023-09-07; @namecheap.com)
+connectssl[.]in (2023-08-24; @namecheap.com)
+account.certifiedauth[.]in
+account.coinbase.exmo[.]day
+account.google.com.getssl[.]ink
+account.live.com.exmo[.]day
+account.live.com.getssl[.]click
+account.outlook.live.com.exmo[.]day
+accounts.binance.com.exmo[.]day
+accounts.binance.com.personlog[.]in
+accounts.certifiedauth[.]in
+accounts.google.com.getssl[.]click
+accounts.google2.certifiedauth[.]in
+accounts.personlog[.]in
+accounts.ukr.net.ssl2[.]in
+accounts.ukr.net.ssl2[.]link
+admin.certifiedauth[.]in
+analytics.certifiedauth[.]in
+analytics.google.com.getssl[.]click
+analytics.google2.certifiedauth[.]in
+api.binance.com.exmo[.]day
+api.binance.com.personlog[.]in
+api.personlog[.]in
+apis.certifiedauth[.]in
+apis.google.com.getssl[.]click
+apis.google2.certifiedauth[.]in
+azwus1-client-s.gateway.messenger.certifiedauth[.]in
+azwus1-client-s.gateway.messenger.exmo[.]day
+azwus1-client-s.gateway.messenger.live.com.getssl[.]click
+b.stats.certifiedauth[.]in
+bin.binance.com.exmo[.]day
+bin.binance.com.personlog[.]in
+bin.personlog[.]in
+binance.com.exmo[.]day
+binance.com.personlog[.]in
+blogger.certifiedauth[.]in
+blogger.google.com.getssl[.]click
+blogger.google2.certifiedauth[.]in
+browser.events.data.certifiedauth[.]in
+browser.events.data.exmo[.]day
+browser.events.data.live.com.getssl[.]click
+c.certifiedauth[.]in
+c6.certifiedauth[.]in
+cdn.certifiedauth[.]in
+cdn.exmo[.]day
+cdn.live.com.getssl[.]click
+coinbase.exmo[.]day
+com.authssl[.]online
+com.authssl[.]site
+com.connectssl[.]in
+com.exmo[.]day
+com.getssl[.]click
+com.getssl[.]ink
+com.personlog[.]in
+com.ssl2[.]online
+com.ssl2[.]site
+com.ssl3[.]online
+com.ssl3[.]site
+com.ssl4[.]online
+content.certifiedauth[.]in
+content.exmo[.]day
+content.google.com.getssl[.]click
+content.google2.certifiedauth[.]in
+csp.certifiedauth[.]in
+csp.exmo[.]day
+csp.live.com.getssl[.]click
+data.certifiedauth[.]in
+data.exmo[.]day
+data.live.com.getssl[.]click
+docs.gdrive.com.authssl[.]site
+docs.gdrive.com.ssl2[.]online
+docs.gdrive.com.ssl2[.]site
+docs.googie.com.authssl[.]online
+docs.googie.com.authssl[.]site
+docs.googie.com.connectssl[.]in
+docs.googie.com.ssl2[.]site
+docs.googie.com.ssl3[.]online
+docs.googie.com.ssl4[.]online
+docs.google.com.ssl2[.]site
+docs.google.com.ssl3[.]site
+docs.googleauth.com.ssl3[.]site
+docs.googledrive.com.ssl2[.]site
+docs.ukr.net.ssl2[.]in
+docs.ukr.net.ssl2[.]site
+docs.ukr.net.ssl4[.]site
+drive.certifiedauth[.]in
+drive.gdocs.com.authssl[.]site
+drive.gdocs.com.personlog[.]in
+drive.gdocs.com.ssl2[.]online
+drive.googie.com.connectssl[.]in
+drive.googie.com.ssl2[.]site
+drive.googie.com.ssl4[.]online
+drive.google.com.getssl[.]click
+drive.google2.certifiedauth[.]in
+drive.googles.com.personlog[.]in
+dynamic.exmo[.]day
+edisk.ukr.net.ssl1[.]online
+edisk.ukr.net.ssl2[.]in
+edisk.ukr.net.ssl2[.]link
+edisk.ukr.net.ssl3[.]site
+events.data.certifiedauth[.]in
+events.data.exmo[.]day
+events.data.live.com.getssl[.]click
+exceptions.exmo[.]day
+files.ukr.net.ssl2[.]in
+files.ukr.net.ssl2[.]online
+files.ukr.net.ssl4[.]online
+fonts.certifiedauth[.]in
+fonts.google.com.getssl[.]click
+fonts.google2.certifiedauth[.]in
+frontend-m.binance.com.exmo[.]day
+frontend-m.binance.com.personlog[.]in
+frontend-m.personlog[.]in
+gateway.messenger.certifiedauth[.]in
+gateway.messenger.exmo[.]day
+gateway.messenger.live.com.getssl[.]click
+gdocs.com.authssl[.]site
+gdocs.com.personlog[.]in
+gdocs.com.ssl2[.]online
+gdrive.com.authssl[.]site
+gdrive.com.ssl2[.]online
+gdrive.com.ssl2[.]site
+geolocation.authcheck[.]in
+googie.com.authssl[.]online
+googie.com.authssl[.]site
+googie.com.connectssl[.]in
+googie.com.ssl2[.]site
+googie.com.ssl3[.]online
+googie.com.ssl4[.]online
+google.com.getssl[.]click
+google.com.getssl[.]ink
+google.com.ssl2[.]site
+google.com.ssl3[.]site
+google.exmo[.]day
+google2.certifiedauth[.]in
+googleauth.com.ssl3[.]site
+googledrive.com.ssl2[.]site
+googles.com.personlog[.]in
+googletag.exmo[.]day
+hnd.stats.certifiedauth[.]in
+images.exmo[.]day
+lh3.google.com.getssl[.]click
+lh3.google2.certifiedauth[.]in
+live.com.exmo[.]day
+live.com.getssl[.]click
+login.certifiedauth[.]in
+login.exmo[.]day
+login.live.com.exmo[.]day
+login.live.com.getssl[.]click
+login.outlook.live.com.exmo[.]day
+logincdn.certifiedauth[.]in
+logincdn.exmo[.]day
+m.binance.com.exmo[.]day
+m.binance.com.personlog[.]in
+m.personlog[.]in
+mail.certifiedauth[.]in
+mail.google.com.getssl[.]click
+mail.google2.certifiedauth[.]in
+messenger.certifiedauth[.]in
+messenger.exmo[.]day
+messenger.live.com.getssl[.]click
+monitor.binance.com.exmo[.]day
+monitor.binance.com.personlog[.]in
+monitor.personlog[.]in
+myaccount.certifiedauth[.]in
+myaccount.google.com.getssl[.]click
+myaccount.google2.certifiedauth[.]in
+net.ssl1[.]online
+net.ssl1[.]site
+net.ssl2[.]in
+net.ssl2[.]link
+net.ssl2[.]online
+net.ssl2[.]site
+net.ssl3[.]online
+net.ssl3[.]site
+net.ssl4[.]online
+net.ssl4[.]site
+notifications.certifiedauth[.]in
+notifications.google.com.getssl[.]click
+notifications.google2.certifiedauth[.]in
+ns1.authcheck[.]in
+ns1.authssl[.]in
+ns1.authssl[.]link
+ns1.authssl[.]online
+ns1.authssl[.]org
+ns1.authssl[.]site
+ns1.certifiedauth[.]in
+ns1.connectssl[.]in
+ns1.exmo[.]day
+ns1.getssl[.]click
+ns1.goaccount[.]link
+ns1.passport2[.]zip
+ns1.personlog[.]in
+ns2.authcheck[.]in
+ns2.authssl[.]in
+ns2.authssl[.]link
+ns2.authssl[.]online
+ns2.authssl[.]org
+ns2.authssl[.]site
+ns2.certifiedauth[.]in
+ns2.connectssl[.]in
+ns2.exmo[.]day
+ns2.getssl[.]click
+ns2.goaccount[.]link
+ns2.passport2[.]zip
+ns2.personlog[.]in
+ogs.certifiedauth[.]in
+ogs.google.com.getssl[.]click
+ogs.google2.certifiedauth[.]in
+outlook-1.cdn.certifiedauth[.]in
+outlook-1.cdn.exmo[.]day
+outlook-1.cdn.live.com.getssl[.]click
+outlook.certifiedauth[.]in
+outlook.exmo[.]day
+outlook.live.com.exmo[.]day
+outlook.live.com.getssl[.]click
+outlook.outlook.live.com.exmo[.]day
+play.certifiedauth[.]in
+play.google.com.getssl[.]click
+play.google2.certifiedauth[.]in
+r4.res.certifiedauth[.]in
+r4.res.exmo[.]day
+r4.res.live.com.getssl[.]click
+res.certifiedauth[.]in
+res.exmo[.]day
+res.live.com.getssl[.]click
+secure.certifiedauth[.]in
+sensors.binance.com.exmo[.]day
+sensors.binance.com.personlog[.]in
+sensors.personlog[.]in
+share.ukr.net.ssl1[.]site
+share.ukr.net.ssl3[.]online
+shared.document.drive.googie.com.ssl4[.]site
+shared.drive.googie.com.ssl4[.]online
+shared.drive.googie.com.ssl4[.]site
+ssl.certifiedauth[.]in
+ssl.google.com.getssl[.]click
+ssl.google2.certifiedauth[.]in
+static.binance.com.exmo[.]day
+static.binance.com.personlog[.]in
+static.certifiedauth[.]in
+static.personlog[.]in
+stats.certifiedauth[.]in
+t.certifiedauth[.]in
+ukr.net.ssl1[.]online
+ukr.net.ssl1[.]site
+ukr.net.ssl2[.]in
+ukr.net.ssl2[.]link
+ukr.net.ssl2[.]online
+ukr.net.ssl2[.]site
+ukr.net.ssl3[.]online
+ukr.net.ssl3[.]site
+ukr.net.ssl4[.]online
+ukr.net.ssl4[.]site
+ws.exmo[.]day
+www.authcheck[.]in
+www.authssl[.]in
+www.authssl[.]online
+www.binance.com.exmo[.]day
+www.binance.com.personlog[.]in
+www.certifiedauth[.]in
+www.connectssl[.]in
+www.getssl[.]ink
+www.google2.certifiedauth[.]in
+www.hsts[.]online
+www.personlog[.]in
+www.ssl2[.]in
+www.ssl2[.]link
+www.ssl4[.]site
+www2.certifiedauth[.]in
+www2.google.com.getssl[.]click
+www2.google2.certifiedauth[.]in
+www3.google.com.getssl[.]click
+www3.google2.certifiedauth[.]in
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Приклад фішингового листа</p>
+
+=== RESPONSE (5.4s, in 5438 / out 910 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "JokerDPR",
+      "kind": "threat actor",
+      "gloss": "A pro-Russian threat actor and Telegram channel involved in hacktivism, cyberespionage, and information operations."
+    },
+    {
+      "name": "UAC-0177",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracking identifier used by CERT-UA for cyberattack activity associated with JokerDPR."
+    },
+    {
+      "name": "Google",
+      "kind": "company",
+      "gloss": "A multinational technology company providing internet-related services, including email and cloud storage."
+    },
+    {
+      "name": "Ukr.Net",
+      "kind": "company",
+      "gloss": "A Ukrainian web portal providing email and internet services."
+    },
+    {
+      "name": "Outlook",
+      "kind": "software product",
+      "gloss": "A personal information manager and webmail service developed by Microsoft."
+    },
+    {
+      "name": "EXMO",
+      "kind": "company",
+      "gloss": "A cryptocurrency exchange platform."
+    },
+    {
+      "name": "Binance",
+      "kind": "company",
+      "gloss": "A global cryptocurrency exchange platform."
+    },
+    {
+      "name": "Tucows",
+      "kind": "company",
+      "gloss": "A domain name registrar and telecommunications company."
+    },
+    {
+      "name": "Namecheap",
+      "kind": "company",
+      "gloss": "An ICANN-accredited domain name registrar and web hosting company."
+    },
+    {
+      "name": "179.43.162.29",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure in the cyberattacks."
+    },
+    {
+      "name": "185.196.9.215",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure in the cyberattacks."
+    },
+    {
+      "name": "80.78.22.194",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure in the cyberattacks."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0177",
+      "type": "attacks",
+      "tail": "Google",
+      "evidence": "фішингових атак, спрямованих на отримання несанкціонованого доступу до облікових записів поштових сервісів Google"
+    },
+    {
+      "head": "UAC-0177",
+      "type": "attacks",
+      "tail": "Ukr.Net",
+      "evidence": "фішингових атак, спрямованих на отримання несанкціонованого доступу до облікових записів поштових сервісів Google, Ukr.Net"
+    },
+    {
+      "head": "UAC-0177",
+      "type": "attacks",
+      "tail": "Outlook",
+      "evidence": "доступу до облікових записів поштових сервісів Google, Ukr.Net, Outlook"
+    },
+    {
+      "head": "UAC-0177",
+      "type": "attacks",
+      "tail": "EXMO",
+      "evidence": "а також криптовалютних бірж EXMO"
+    },
+    {
+      "head": "UAC-0177",
+      "type": "attacks",
+      "tail": "Binance",
+      "evidence": "криптовалютних бірж EXMO та Binance"
+    }
+  ],
+  "newRelationTypes": []
+}

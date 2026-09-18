@@ -1,0 +1,75 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage threat actor targeting Ukrainian state and defense organizations."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware",
+      "gloss": "A post-exploitation payload and agent component of the Cobalt Strike adversary simulation framework."
+    },
+    {
+      "name": "Інформація щодо наявності вакансій та їх укомплектування.xls",
+      "kind": "computer file",
+      "gloss": "A malicious Microsoft Excel spreadsheet containing a macro used as an initial attack vector."
+    },
+    {
+      "name": "write.exe",
+      "kind": "computer file",
+      "gloss": "A malicious dropper executable dropped by a macro in an Excel document."
+    },
+    {
+      "name": "TRYxaEbX",
+      "kind": "computer file",
+      "gloss": "An encrypted payload file created on disk by a dropper executable."
+    },
+    {
+      "name": "TRYxaEbX.ps1",
+      "kind": "computer file",
+      "gloss": "A malicious PowerShell script used in an attack sequence."
+    },
+    {
+      "name": "TRYxaEbX_2.ps1",
+      "kind": "computer file",
+      "gloss": "A malicious PowerShell script designed to decode and execute Cobalt Strike Beacon."
+    },
+    {
+      "name": "skreatortemp[.]site",
+      "kind": "domain name",
+      "gloss": "A malicious internet domain used as network infrastructure during an attack."
+    },
+    {
+      "name": "hXXps://skreatortemp[.]site/s/08u1XdxChhMrLYdTasfnOMQpbsLkpq3o/field-keywords/",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosted on an attack-related domain."
+    },
+    {
+      "name": "hXXps://skreatortemp[.]site/nBz07hg5l3C9wuWVCGV-5xHHu1amjf76F2A8i/avp/amznussraps/",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosted on an attack-related domain."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "асоціюємо з діяльністю групи UAC-0056"
+    },
+    {
+      "head": "Інформація щодо наявності вакансій та їх укомплектування.xls",
+      "type": "delivers",
+      "tail": "write.exe",
+      "evidence": "призведе до створення на комп'ютері та запуску файлу \"write.exe\""
+    },
+    {
+      "head": "write.exe",
+      "type": "delivers",
+      "tail": "TRYxaEbX",
+      "evidence": "забезпечуючи створення на диску файлу \"%PROGRAMDATA%\\TRYxaEbX\""
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,39 @@
+{
+  "entities": [
+    {
+      "name": "./перевірити діяльність.html",
+      "kind": "malicious file",
+      "gloss": "A malicious HTML attachment containing an encoded script used in a credential phishing campaign."
+    },
+    {
+      "name": "./decpded_page.html",
+      "kind": "malicious file",
+      "gloss": "A decoded HTML script file that redirects victims to a malicious credential-harvesting webpage."
+    },
+    {
+      "name": "hххps://cautionphenomenon[.]co[.]kr/ukraine",
+      "kind": "url",
+      "gloss": "A malicious URL used as a phishing landing page to harvest user login credentials."
+    }
+  ],
+  "relations": [
+    {
+      "head": "./перевірити діяльність.html",
+      "type": "delivers",
+      "tail": "./decpded_page.html",
+      "evidence": "файл містить закодований скрипт"
+    },
+    {
+      "head": "./decpded_page.html",
+      "type": "redirects-to",
+      "tail": "hххps://cautionphenomenon[.]co[.]kr/ukraine",
+      "evidence": "При активуванні такого скрипта відбувається перенаправлення на ресурс зловмисників"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "redirects-to",
+      "definition": "The subject script, webpage, or file redirects user traffic or execution to the object URL or host."
+    }
+  ]
+}

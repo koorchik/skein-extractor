@@ -1,0 +1,158 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Державна податкова служба України",
+      "kind": "government agency",
+      "gloss": "The central executive body of Ukraine responsible for tax administration and policy enforcement."
+    },
+    {
+      "name": "UAC-0050",
+      "kind": "threat actor",
+      "gloss": "A financially motivated cybercriminal threat group active in attacks against Ukrainian organizations."
+    },
+    {
+      "name": "LITEMANAGER",
+      "kind": "software product",
+      "gloss": "A legitimate remote desktop control and computer administration software product frequently abused by attackers."
+    },
+    {
+      "name": "qaz.im",
+      "kind": "domain name",
+      "gloss": "A domain name providing online file sharing services used in malicious campaigns."
+    },
+    {
+      "name": "qaz.is",
+      "kind": "domain name",
+      "gloss": "A domain name providing online file sharing services used in malicious campaigns."
+    },
+    {
+      "name": "qaz.su",
+      "kind": "domain name",
+      "gloss": "A domain name providing online file sharing services used in malicious campaigns."
+    },
+    {
+      "name": "tax-gov-ua.com",
+      "kind": "domain name",
+      "gloss": "A domain name registered by threat actors to impersonate the Ukrainian tax authority."
+    },
+    {
+      "name": "dpsu-gov-ua.com",
+      "kind": "domain name",
+      "gloss": "A domain name registered by threat actors to impersonate Ukrainian government services."
+    },
+    {
+      "name": "christine@rozsenich.com",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator in the cyber incident."
+    },
+    {
+      "name": "111.90.140.76",
+      "kind": "ip address",
+      "gloss": "An IP address identified as a command and control server in malicious operations."
+    },
+    {
+      "name": "65.21.245.7",
+      "kind": "ip address",
+      "gloss": "An IP address identified as a command and control server in malicious operations."
+    },
+    {
+      "name": "91.240.86.200",
+      "kind": "ip address",
+      "gloss": "An IP address associated with LiteManager network traffic."
+    },
+    {
+      "name": "109.71.247.168",
+      "kind": "ip address",
+      "gloss": "An originating IP address recorded in email headers during the campaign."
+    },
+    {
+      "name": "31.214.157.49",
+      "kind": "ip address",
+      "gloss": "An IP address identified as a network indicator of compromise."
+    },
+    {
+      "name": "dps_tax_gov_ua_0739220983.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive file downloaded during the infection chain."
+    },
+    {
+      "name": "Електронний запит документів податкової служби.pdf.rar",
+      "kind": "computer file",
+      "gloss": "A password-protected nested RAR archive containing an executable masquerading as a PDF."
+    },
+    {
+      "name": "Електронний запит документів податкової служби.pdf.exe",
+      "kind": "computer file",
+      "gloss": "A malicious SFX executable file that drops a decoy document and launches remote management software."
+    },
+    {
+      "name": "pdf.msi",
+      "kind": "computer file",
+      "gloss": "A Windows Installer package used to install LiteManager remote control software."
+    },
+    {
+      "name": "ROMFUSClient.exe",
+      "kind": "computer file",
+      "gloss": "An executable component of the LiteManager remote administration software suite."
+    },
+    {
+      "name": "ROMServer.exe",
+      "kind": "computer file",
+      "gloss": "The server component executable of the LiteManager remote administration software."
+    },
+    {
+      "name": "Doc.pdf",
+      "kind": "computer file",
+      "gloss": "A decoy PDF document displayed to the user during the infection process."
+    },
+    {
+      "name": "код доступу 873901.txt",
+      "kind": "computer file",
+      "gloss": "A text file containing an access password or code observed in the campaign."
+    },
+    {
+      "name": "Електронний запит документів податкової служби.zip",
+      "kind": "computer file",
+      "gloss": "A ZIP archive file distributed as an indicator in the campaign."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Державна податкова служба України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Державної податкової служби України"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses",
+      "tail": "LITEMANAGER",
+      "evidence": "описана активність є фінансово мотивованою та здійснюється угрупуванням UAC-0050"
+    },
+    {
+      "head": "Електронний запит документів податкової служби.pdf.exe",
+      "kind": "Computer File",
+      "type": "delivers",
+      "tail": "pdf.msi",
+      "evidence": "запуску на комп'ютері MSI-пакету програми для віддаленого управління LITEMANAGER"
+    },
+    {
+      "head": "ROMFUSClient.exe",
+      "type": "part-of",
+      "tail": "LITEMANAGER",
+      "evidence": "%ProgramFiles(x86)%\\LiteManager Pro - Server\\ROMFUSClient.exe"
+    },
+    {
+      "head": "ROMServer.exe",
+      "type": "part-of",
+      "tail": "LITEMANAGER",
+      "evidence": "%ProgramFiles(x86)%\\LiteManager Pro - Server\\ROMServer.exe"
+    }
+  ],
+  "newRelationTypes": []
+}

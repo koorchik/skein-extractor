@@ -1,0 +1,110 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p>Урядова команда реагування на комп’ютерні надзвичайні події України CERT-UA розробила інструкцію щодо встановлення двоетапної автентифікації (скорочено "2FA") для деяких месенджерів та інформаційних систем, зокрема:</p><ul><li>Telegram</li><li>Signal</li><li>WhatsApp</li><li>Viber</li><li>Ukrnet (необхідно встановити додаток-аутентифікатор)</li><li>Google (необхідно встановити додаток-аутентифікатор)</li><li>Facebook (необхідно встановити додаток-аутентифікатор)</li></ul><p>Другим фактором, як правило, є додатково придуманий пароль (PIN), одноразовий код, який генерується у відповідному додатку (Google Authenticator, Microsoft Authenticator) або USB-пристрій (апаратний ключ, токен) на кшталт Yubikey. При цьому, використання одноразових кодів в SMS як основного засобу 2FA не рекомендується.</p><p>У випадку викрадення (компрометації) логіну та паролю третім особам буде складніше отримати доступ до облікового запису, адже вони не знатимуть додаткового паролю і/або не зможуть згенерувати одноразовий код. Натомість, ви отримаєте сповіщення про спробу отримання доступу до вашого акаунту, що сигналізуватиме про витік і необхідність зміни логіну та паролю.</p><p>«Двохфакторка» є запорукою збереження конфіденційності ваших даних, а також додатковим бар’єром для шахраїв, що намагатимуться викрасти обліковий запис чи ініціювати збір коштів від вашого імені.</p><p>Зверніть увагу! Якщо ви втратите телефон із додатком-аутентифікатором це може призвести до неможливості отримати доступ до відповідного акаунту. У зв’язку з цим під час налаштування 2FA з використанням додатку додатково генеруйте коди для відновлення доступу і/або зазначайте альтернативний номер телефону чи адресу електронної пошти.</p><p>Доволі часто публічні поштові сервіси використовуються як основний «корпоративний» засіб електронного листування. З огляду на зазначене просимо керівників та осіб, які забезпечують виконання обов’язків з&nbsp;кіберзахисту, проконтролювати здійснення відповідних налаштувань.</p><p><br></p><p></p><p>Рис.1 Встановлення Google Authenticator</p><p><br></p><p></p><p>Рис.2 Налаштування 2FA в Telegram (iOS)</p><p><br></p><p></p><p>Рис.3 Налаштування 2FA в Telegram (Android)</p><p><br></p><p></p><p>Рис.4 Налаштування 2FA в Signal</p><p><br></p><p></p><p>Рис.5 Налаштування 2FA у WhatsApp (iOS)</p><p><br></p><p></p><p>Рис.6 Налаштування 2FA у WhatsApp (Android)</p><p><br></p><p></p><p>Рис.7 Налаштування 2FA у Viber</p><p><br></p><p></p><p>Рис.8 Налаштування 2FA в Ukrnet</p><p><br></p><p></p><p>Рис.9 Налаштування 2FA в Google (1)</p><p><br></p><p></p><p>Рис.10 Налаштування 2FA в Google (2)</p><p><br></p><p></p><p>Рис.11 Налаштування 2FA в Google (3)</p><p><br></p><p></p><p>Рис.12 Налаштування 2FA в Facebook (1)</p><p><br></p><p></p><p>Рис.13 Налаштування 2FA в Facebook (2)</p><p><br></p><p></p><p>Рис.14 Налаштування 2FA в Facebook (3)</p><p><br></p><p>У разі виникнення зауважень чи побажань щодо вмісту публікації просимо інформувати на електронну адресу cert@cert.gov.ua.</p>
+
+=== RESPONSE (5.0s, in 1895 / out 616 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "Telegram",
+      "kind": "messaging service",
+      "gloss": "A cross-platform cloud-based instant messaging service."
+    },
+    {
+      "name": "Signal",
+      "kind": "messaging service",
+      "gloss": "A cross-platform encrypted messaging service."
+    },
+    {
+      "name": "WhatsApp",
+      "kind": "messaging service",
+      "gloss": "An internationally available freeware, cross-platform, centralized instant messaging service."
+    },
+    {
+      "name": "Viber",
+      "kind": "messaging service",
+      "gloss": "A cross-platform voice over IP and instant messaging software application."
+    },
+    {
+      "name": "Ukrnet",
+      "kind": "web portal",
+      "gloss": "A major Ukrainian internet portal providing web and email services."
+    },
+    {
+      "name": "Google",
+      "kind": "technology company",
+      "gloss": "An American multinational technology company providing search engine, cloud computing, and software services."
+    },
+    {
+      "name": "Facebook",
+      "kind": "social media platform",
+      "gloss": "An online social media and social networking service owned by Meta."
+    },
+    {
+      "name": "Google Authenticator",
+      "kind": "software application",
+      "gloss": "A software-based authenticator that implements two-step verification services."
+    },
+    {
+      "name": "Microsoft Authenticator",
+      "kind": "software application",
+      "gloss": "A two-factor authentication app developed by Microsoft."
+    },
+    {
+      "name": "Yubikey",
+      "kind": "hardware token",
+      "gloss": "A hardware authentication device manufactured by Yubico that supports one-time passwords and public-key cryptography."
+    },
+    {
+      "name": "iOS",
+      "kind": "operating system",
+      "gloss": "A mobile operating system developed by Apple Inc."
+    },
+    {
+      "name": "Android",
+      "kind": "operating system",
+      "gloss": "A mobile operating system developed by Google."
+    },
+    {
+      "name": "cert@cert.gov.ua",
+      "kind": "e-mail address",
+      "gloss": "An official contact email address for CERT-UA."
+    }
+  ],
+  "relations": [],
+  "newRelationTypes": []
+}

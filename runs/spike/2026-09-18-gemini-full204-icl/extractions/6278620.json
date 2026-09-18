@@ -1,0 +1,133 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Сили оборони України",
+      "kind": "government organization",
+      "gloss": "The combined military and security forces responsible for the defense and territorial integrity of Ukraine."
+    },
+    {
+      "name": "Signal",
+      "kind": "software product",
+      "gloss": "A cross-platform encrypted instant messaging service and application."
+    },
+    {
+      "name": "Департамент операцій з підтримки миру ООН",
+      "kind": "government organization",
+      "gloss": "A United Nations department tasked with planning, preparing, managing, and directing UN peacekeeping operations."
+    },
+    {
+      "name": "ООН",
+      "kind": "government organization",
+      "gloss": "An intergovernmental organization that aims to maintain international peace and security."
+    },
+    {
+      "name": "Супровід.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive containing an exploit and decoy documents."
+    },
+    {
+      "name": "WinRAR",
+      "kind": "software product",
+      "gloss": "A file archiver utility for Windows developed by RARLAB."
+    },
+    {
+      "name": "CVE-2023-38831",
+      "kind": "security vulnerability",
+      "gloss": "A code execution vulnerability in RARLAB WinRAR before version 6.23 triggered when processing specially crafted archives."
+    },
+    {
+      "name": "супровід.pdf .cmd",
+      "kind": "computer file",
+      "gloss": "A malicious Windows command script executed during archive extraction."
+    },
+    {
+      "name": "DPO_SEC23-1_OMA_P-3_16-ENG.pdf",
+      "kind": "computer file",
+      "gloss": "A decoy PDF document related to United Nations peace operations vacancies."
+    },
+    {
+      "name": "DPO_SEC23-1_OMA_P-3_18-ENG.pdf.cmd",
+      "kind": "computer file",
+      "gloss": "A malicious command script file disguised as a PDF document."
+    },
+    {
+      "name": "супровід.pdf",
+      "kind": "computer file",
+      "gloss": "A decoy document file used in the phishing attack."
+    },
+    {
+      "name": "COOKBOX",
+      "kind": "malware",
+      "gloss": "A PowerShell-based backdoor malware used for persistent remote control and payload execution."
+    },
+    {
+      "name": "NoIP",
+      "kind": "company",
+      "gloss": "A dynamic DNS service provider offering managed DNS and domain name registration services."
+    },
+    {
+      "name": "netman.servehttp[.]com",
+      "kind": "domain name",
+      "gloss": "A dynamic DNS domain used as command and control infrastructure for COOKBOX malware."
+    },
+    {
+      "name": "worker-misty-mouse-6ac7.aky15825.workers[.]dev",
+      "kind": "domain name",
+      "gloss": "A Cloudflare Workers domain utilized in malicious network communications."
+    },
+    {
+      "name": "hXXp://netman.servehttp[.]com",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL associated with COOKBOX command and control communication."
+    },
+    {
+      "name": "hXXp://worker-misty-mouse-6ac7.aky15825.workers[.]dev/",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosted on Cloudflare Workers infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Сили оборони України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Сил оборони України"
+    },
+    {
+      "head": "Департамент операцій з підтримки миру ООН",
+      "type": "part-of",
+      "tail": "ООН",
+      "evidence": "Департаменті операцій з підтримки миру ООН"
+    },
+    {
+      "head": "Супровід.rar",
+      "type": "exploits",
+      "tail": "CVE-2023-38831",
+      "evidence": "Згаданий архів містить експлойт для вразливості у програмному забезпеченні WinRAR (CVE-2023-38831)"
+    },
+    {
+      "head": "CVE-2023-38831",
+      "type": "affects",
+      "tail": "WinRAR",
+      "evidence": "вразливості у програмному забезпеченні WinRAR (CVE-2023-38831)"
+    },
+    {
+      "head": "супровід.pdf .cmd",
+      "type": "delivers",
+      "tail": "COOKBOX",
+      "evidence": "виконано CMD-файл \"супровід.pdf .cmd\", що... призведе до... запуску PowerShell-скриптів, що класифіковано як шкідливу програму COOKBOX"
+    },
+    {
+      "head": "COOKBOX",
+      "type": "uses",
+      "tail": "NoIP",
+      "evidence": "для забезпечення функціонування серверу управління COOKBOX використовується сервіс динамічного DNS NoIP"
+    }
+  ],
+  "newRelationTypes": []
+}

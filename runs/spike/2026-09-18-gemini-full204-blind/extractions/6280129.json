@@ -1,0 +1,160 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0063",
+      "kind": "threat actor",
+      "gloss": "A cyber threat actor group tracked by CERT-UA associated with cyber espionage attacks against Ukraine."
+    },
+    {
+      "name": "APT28",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group linked to Russian military intelligence."
+    },
+    {
+      "name": "ГУ ГШ ЗС РФ",
+      "kind": "government body",
+      "gloss": "The Main Directorate of the General Staff of the Armed Forces of the Russian Federation."
+    },
+    {
+      "name": "РФ",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "HATVIBE",
+      "kind": "malware family",
+      "gloss": "An HTA-based backdoor malware family used for stealthy remote access."
+    },
+    {
+      "name": "CHERRYSPY",
+      "kind": "malware family",
+      "gloss": "A Python-based backdoor malware family compiled into a DLL/PYD file."
+    },
+    {
+      "name": "Python",
+      "kind": "software product",
+      "gloss": "A high-level general-purpose programming language and interpreter environment."
+    },
+    {
+      "name": "pyArmor",
+      "kind": "software product",
+      "gloss": "A command-line tool used to obfuscate and protect Python scripts."
+    },
+    {
+      "name": "Virustotal",
+      "kind": "online service",
+      "gloss": "A cloud-based service that analyzes files and URLs to detect malware."
+    },
+    {
+      "name": "HFS HTTP File Server",
+      "kind": "software product",
+      "gloss": "A free web server designed for sending and receiving files over HTTP."
+    },
+    {
+      "name": "CVE-2024-23692",
+      "kind": "vulnerability identifier",
+      "gloss": "A template injection vulnerability in Rejetto HTTP File Server allowing remote code execution."
+    },
+    {
+      "name": "Управління оборонної політики Міністерства оборони Республіки Вірменія",
+      "kind": "government body",
+      "gloss": "The defense policy department of the Ministry of Defence of the Republic of Armenia."
+    },
+    {
+      "name": "Республіка Вірменія",
+      "kind": "country",
+      "gloss": "A landlocked sovereign country located in the South Caucasus region."
+    },
+    {
+      "name": "Управління міжнародного військового співробітництва Міністерства оборони Киргизької Республіки",
+      "kind": "government body",
+      "gloss": "The international military cooperation department of the Ministry of Defense of the Kyrgyz Republic."
+    },
+    {
+      "name": "Киргизька Республіка",
+      "kind": "country",
+      "gloss": "A landlocked sovereign country located in Central Asia."
+    },
+    {
+      "name": "trust-certificate.net",
+      "kind": "internet domain",
+      "gloss": "An internet domain used by threat actors for payload delivery."
+    },
+    {
+      "name": "enrollmentdm.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain utilized by threat actors for network communication."
+    },
+    {
+      "name": "185.158.248.198",
+      "kind": "ip address",
+      "gloss": "An IP address utilized in threat actor network infrastructure."
+    },
+    {
+      "name": "193.124.65.97",
+      "kind": "ip address",
+      "gloss": "An IP address utilized in threat actor network infrastructure."
+    },
+    {
+      "name": "45.136.198.184",
+      "kind": "ip address",
+      "gloss": "An IP address utilized by threat actors for command and control."
+    },
+    {
+      "name": "5.45.70.178",
+      "kind": "ip address",
+      "gloss": "An IP address utilized by threat actors to host malicious payloads."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0063",
+      "type": "uses-malware",
+      "tail": "HATVIBE",
+      "evidence": "з використанням шкідливих програм HATVIBE та CHERRYSPY"
+    },
+    {
+      "head": "UAC-0063",
+      "type": "uses-malware",
+      "tail": "CHERRYSPY",
+      "evidence": "з використанням шкідливих програм HATVIBE та CHERRYSPY"
+    },
+    {
+      "head": "UAC-0063",
+      "type": "exploits",
+      "tail": "CVE-2024-23692",
+      "evidence": "встановлення бекдору HATVIBE шляхом експлуатації вразливості (вірогідно, CVE-2024-23692)"
+    },
+    {
+      "head": "CVE-2024-23692",
+      "type": "affects",
+      "tail": "HFS HTTP File Server",
+      "evidence": "вразливості (вірогідно, CVE-2024-23692) в програмному продукті HFS HTTP File Server"
+    },
+    {
+      "head": "APT28",
+      "type": "part-of",
+      "tail": "ГУ ГШ ЗС РФ",
+      "evidence": "угрупування APT28 (UAC-0001), яке має безпосереднє відношення до ГУ ГШ ЗС РФ"
+    },
+    {
+      "head": "ГУ ГШ ЗС РФ",
+      "type": "located-in",
+      "tail": "РФ",
+      "evidence": "ГУ ГШ ЗС РФ"
+    },
+    {
+      "head": "Управління оборонної політики Міністерства оборони Республіки Вірменія",
+      "type": "located-in",
+      "tail": "Республіка Вірменія",
+      "evidence": "Міністерства оборони Республіки Вірменія"
+    },
+    {
+      "head": "Управління міжнародного військового співробітництва Міністерства оборони Киргизької Республіки",
+      "type": "located-in",
+      "tail": "Киргизька Республіка",
+      "evidence": "Міністерства оборони Киргизької Республіки"
+    }
+  ],
+  "newRelationTypes": []
+}

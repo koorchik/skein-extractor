@@ -1,0 +1,176 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+- uses-malware: A threat actor utilizes or deploys a specific malware tool or family in their operations.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p class="ql-align-justify">Урядовою командою реагування на комп’ютерні надзвичайні події України CERT-UA у тісній взаємодії з фахівцями Національного банку України (CSIRT-NBU) та Департаменту кіберполіції Національної поліції України вжито окремих заходів з дослідження інцидентів інформаційної безпеки, що мали місце 15.02.2022.&nbsp;</p><p class="ql-align-justify">Зауважимо, що згадані кібератаки, на відміну від типової точкової діяльності окремих груп зловмисників, пов’язаної із розповсюдженням шкідливих програм, спір-фішингу, викраденням даних тощо, в більшості своїй були спрямовані на інфраструктурні елементи кіберпростору та окремі галузі, в тому числі, маючи підтекст інформаційно-психологічних операцій, спрямованих на дестабілізацію ситуації в країні.</p><p class="ql-align-justify">Серед основних способів реалізації зловмисного задуму можна виділити такі.</p><p class="ql-align-justify">1. Розсилання фейкових SMS-повідомлень громадянам про, начебто, порушення штатного режиму функціонування банкоматів окремих державних фінансових установ.</p><p class="ql-align-center"><em style="color: rgb(36, 36, 36);">Рис.1 Приклад фейкового SMS-повідомлення</em></p><p class="ql-align-justify">2. Розсилання електронних поштових повідомлень серед низки фінансових установ про мінування приміщень та будівель останніх. Було встановлено, що зазначена діяльність може здійснюватися мешканцем Донецької області.</p><p><em style="color: rgb(36, 36, 36);">Рис.2 Приклад електронного листа з повідомленням про мінування</em></p><p class="ql-align-justify">3. Проведення розподілених атак на відмову в обслуговуванні (DDoS) у відношенні веб-ресурсів українських банків та державних установ. В рамках дослідження, в тому числі, з урахуванням інформації від партнерів, визначено, що до здійснення атак, серед іншого, залучено бот-мережі Mirai (https://twitter.com/360Netlab/status/1493797519725367302) та Meris (шкідливий інформаційний потік спрямовується через тисячі зламаних маршрутизаторів Mikrotik та ряду інших IoT пристроїв з фільтрацією джерел за допомогою ACL, що дозволяє приховати згадані пристрої від пошукових систем на кшталт Shodan). Зазначене, з високим рівнем впевненості, дозволяє припустити, <span style="color: rgb(36, 36, 36);">що для проведення атак використано наявні потужності зловмисників, що надаються як послуга</span> (DDoS as a Service).</p><p class="ql-align-justify">У зв’язку з тим, що кількість подібних пристроїв налічує більше 30000, <span style="color: rgb(36, 36, 36);">список IP-адрес розповсюджено серед суб’єктів</span> координації за допомогою платформи MISP.</p><p><em style="color: rgb(36, 36, 36);">Рис.3 Приклад налаштування проксі-серверу Mikrotik та транзитного передавання інформаційних потоків</em></p><p class="ql-align-justify">4. Унеможливлення доступу до веб-ресурів в зоні gov.ua шляхом здійснення DDoS-атаки на обслуговуючі DNS-сервери (https://hostmaster.ua/news/?pr20220216). Виведення з ладу декількох серверів доменних імен призвело до тимчасового порушення доступу до значної кількості веб-ресурсів державних органів у зв’язку з неможливістю визначення A-запису (IP-адреси) для відповідних доменних імен.</p><p><em style="color: rgb(36, 36, 36);">Рис.4 Приклад неможливості отримання A-запису для веб-ресурсу в зоні gov.ua</em></p><p class="ql-align-justify">5. Підозріла маніпуляція з налаштуваннями автономних систем на рівні протоколу BGP. Так, за даними Cisco Crosswork&nbsp;(http://bgpstream.com/event/287011) протягом більше ніж двох годин, починаючи з 15:30 15.02.2022, префікс 217.117.7.0/24, який фактично належить Inq-Digital-Nigeria-AS (AS16284), було анонсовано від імені автономної системи Приватбанку (AS15742) через автономну систему нігерійського оператора телекомунікацій AS37148.</p><p class="ql-align-justify"><em style="color: rgb(36, 36, 36);">Рис.5 Приклад анонсування префіксу 217.117.7.0/24, начебто, від AS15742</em></p><p class="ql-align-justify">Зважаючи на значний зріст кількості кіберінцидентів, а також, ураховуючи той факт, що під час реагування на події інформаційної безпеки значну частину часу займає процес налагодження комунікації з суб’єктом координації <span style="color: rgb(36, 36, 36);">та збір і передавання цифрових доказів</span>, наполегливо рекомендуємо державним органам, об’єктам критичної інфраструктури налагодити оперативний зв’язок та процес інформаційного обміну з CERT-UA.</p>
+
+=== RESPONSE (6.6s, in 2639 / out 1218 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country located in Eastern Europe."
+    },
+    {
+      "name": "Національний банк України (CSIRT-NBU)",
+      "kind": "government body",
+      "gloss": "The central bank of Ukraine and its dedicated computer security incident response team."
+    },
+    {
+      "name": "Департамент кіберполіції Національної поліції України",
+      "kind": "government body",
+      "gloss": "A structural subdivision of the National Police of Ukraine responsible for investigating cybercrimes."
+    },
+    {
+      "name": "Національна поліція України",
+      "kind": "government body",
+      "gloss": "The central police agency of Ukraine."
+    },
+    {
+      "name": "Донецька область",
+      "kind": "region",
+      "gloss": "An eastern administrative oblast of Ukraine."
+    },
+    {
+      "name": "Mirai",
+      "kind": "malware family",
+      "gloss": "A malware family that infects networked IoT devices and recruits them into botnets used for distributed denial-of-service attacks."
+    },
+    {
+      "name": "Meris",
+      "kind": "botnet",
+      "gloss": "A high-powered IoT botnet composed largely of compromised network routers used for massive distributed denial-of-service attacks."
+    },
+    {
+      "name": "Mikrotik",
+      "kind": "hardware vendor",
+      "gloss": "A Latvian manufacturer of network equipment, including routers and wireless ISP systems."
+    },
+    {
+      "name": "Shodan",
+      "kind": "search engine",
+      "gloss": "A search engine that lets users find internet-connected devices and systems."
+    },
+    {
+      "name": "MISP",
+      "kind": "software product",
+      "gloss": "An open-source threat intelligence platform used for sharing and storing indicators of compromise."
+    },
+    {
+      "name": "gov.ua",
+      "kind": "domain zone",
+      "gloss": "The second-level public internet domain zone designated for Ukrainian government entities."
+    },
+    {
+      "name": "Cisco Crosswork",
+      "kind": "software platform",
+      "gloss": "A network automation and analysis platform developed by Cisco."
+    },
+    {
+      "name": "217.117.7.0/24",
+      "kind": "ip range",
+      "gloss": "An IPv4 network prefix allocated to an autonomous system in Nigeria."
+    },
+    {
+      "name": "Inq-Digital-Nigeria-AS (AS16284)",
+      "kind": "autonomous system",
+      "gloss": "An autonomous system operated by a Nigerian telecommunications and digital services provider."
+    },
+    {
+      "name": "Приватбанк",
+      "kind": "commercial bank",
+      "gloss": "The largest commercial bank in Ukraine."
+    },
+    {
+      "name": "AS15742",
+      "kind": "autonomous system",
+      "gloss": "An autonomous system routing internet traffic for PrivatBank."
+    },
+    {
+      "name": "AS37148",
+      "kind": "autonomous system",
+      "gloss": "An autonomous system belonging to a Nigerian telecommunications operator."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Департамент кіберполіції Національної поліції України",
+      "type": "part-of",
+      "tail": "Національна поліція України",
+      "evidence": "Департаменту кіберполіції Національної поліції України"
+    },
+    {
+      "head": "Національний банк України (CSIRT-NBU)",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Національного банку України"
+    },
+    {
+      "head": "Національна поліція України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Національної поліції України"
+    },
+    {
+      "head": "Донецька область",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "мешканцем Донецької області"
+    },
+    {
+      "head": "217.117.7.0/24",
+      "type": "part-of",
+      "tail": "Inq-Digital-Nigeria-AS (AS16284)",
+      "evidence": "217.117.7.0/24, який фактично належить Inq-Digital-Nigeria-AS (AS16284)"
+    },
+    {
+      "head": "AS15742",
+      "type": "part-of",
+      "tail": "Приватбанк",
+      "evidence": "автономної системи Приватбанку (AS15742)"
+    }
+  ],
+  "newRelationTypes": []
+}

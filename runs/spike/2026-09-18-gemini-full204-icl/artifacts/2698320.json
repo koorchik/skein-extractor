@@ -1,0 +1,154 @@
+{
+  "docId": 2698320,
+  "date": "09.11.2022",
+  "title": "Розповсюдження електронних листів з фейковим сканером, начебто, від імені CERT-UA (CERT-UA#5583)",
+  "entities": [
+    {
+      "id": "2698320:0",
+      "name": "UAC-0133",
+      "kind": "threat actor",
+      "gloss": "A cyber threat actor group tracked by CERT-UA.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "2698320:1",
+      "name": "sbu@online[.]ua",
+      "kind": "email address",
+      "gloss": "A compromised email address used to send phishing emails impersonating CERT-UA.",
+      "scheme": "S10",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "2698320:2",
+      "name": "online[.]ua",
+      "kind": "domain name",
+      "gloss": "A Ukrainian web portal and email service domain.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "2698320:3",
+      "name": "ESET_scanner.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive distributed as an email attachment.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "2698320:4",
+      "name": "ESET Online Scanner.exe",
+      "kind": "malware",
+      "gloss": "A malicious executable that masquerades as an antivirus scanner to download further payloads via SFTP.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "2698320:5",
+      "name": "LICENSE",
+      "kind": "computer file",
+      "gloss": "A file associated with the malicious ESET scanner archive.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2698320:6",
+      "name": "/home/gwesvnw/eset.yar",
+      "kind": "malware",
+      "gloss": "A malicious payload downloaded via SFTP and executed on compromised systems.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2698320:7",
+      "name": "Renci.SshNet",
+      "kind": "software product",
+      "gloss": "An open-source .NET library providing SSH and SFTP capabilities.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2698320:8",
+      "name": "hxxps://github[.]com/ArsenShnurkov/Renci.SshNet",
+      "kind": "uniform resource locator",
+      "gloss": "A GitHub URL hosting the Renci.SshNet library repository.",
+      "scheme": "S7",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2698320:9",
+      "name": "sftp://185[.]225.114.108:48765",
+      "kind": "uniform resource locator",
+      "gloss": "An SFTP URL used for payload download.",
+      "scheme": "S7",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2698320:10",
+      "name": "185[.]225.114.108",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious SFTP infrastructure.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "2698320:11",
+      "name": "ipfib[.]com",
+      "kind": "domain name",
+      "gloss": "A domain name associated with malicious IP infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0133",
+      "type": "uses",
+      "tail": "sbu@online[.]ua",
+      "evidence": "розповсюдження 08.11.2022 електронних листів... електронна адреса \"sbu@online[.]ua\"... Активність відстежується за ідентифікатором UAC-0133"
+    },
+    {
+      "head": "UAC-0133",
+      "type": "uses",
+      "tail": "ESET_scanner.rar",
+      "evidence": "В додатку до електронного листа знаходиться архів \"ESET_scanner.rar\"... Активність відстежується за ідентифікатором UAC-0133"
+    },
+    {
+      "head": "ESET_scanner.rar",
+      "type": "delivers",
+      "tail": "ESET Online Scanner.exe",
+      "evidence": "архів \"ESET_scanner.rar\", що містить файл \"ESET Online Scanner.exe\""
+    },
+    {
+      "head": "ESET Online Scanner.exe",
+      "type": "uses",
+      "tail": "Renci.SshNet",
+      "evidence": "завантаження здійснюється по протоколу SFTP з використанням бібліотеки \"Renci.SshNet\""
+    },
+    {
+      "head": "ESET Online Scanner.exe",
+      "type": "delivers",
+      "tail": "/home/gwesvnw/eset.yar",
+      "evidence": "призведе до завантаження... та запуску файлу... завантаження пейлоаду (\"/home/gwesvnw/eset.yar\")"
+    },
+    {
+      "head": "185[.]225.114.108",
+      "type": "hosts",
+      "tail": "/home/gwesvnw/eset.yar",
+      "evidence": "завантаження пейлоаду (\"/home/gwesvnw/eset.yar\") здійснюється по протоколу SFTP... sftp://185[.]225.114.108:48765"
+    }
+  ],
+  "unclassified": []
+}

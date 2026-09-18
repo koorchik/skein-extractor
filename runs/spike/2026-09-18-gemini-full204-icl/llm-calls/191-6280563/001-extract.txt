@@ -1,0 +1,363 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Security Flaw, Security Vulnerability)
+- Software Product: A program, application, operating system, or software component designed for end users or computing systems. (also: Software Application, Software Program, Software)
+- Technology Vendor: A company or organization that develops, manufactures, or supplies software, hardware, or technology services. (also: Software Vendor, Vendor, Technology Company)
+- Country: A sovereign nation, state, or distinct territorial body with its own government. (also: Nation, Sovereign State)
+- Government Agency: An official institution, ministry, department, or administrative body operating under the authority of a national or regional government. (also: Government Body, Government Organization, State Authority)
+- Malware: Software, code, or executable files intentionally designed to disrupt, damage, or gain unauthorized access to computer systems or data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address identifying the location of a specific resource or endpoint on a computer network. (also: URL, Web Address, Link)
+- Person: An individual human being, such as a government official, cybersecurity professional, diplomat, or other public figure. (also: Individual, Human)
+- IP Address: A numerical label assigned to a device or network interface to identify its location on a computer network. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Email)
+- Computer File: A digital file, script, document, or archive stored on a filesystem or transmitted across a network. (also: File, Digital File)
+- Company: A commercial business, corporation, or enterprise operating within a specific industry or market. (also: Commercial Enterprise, Business, Corporation)
+- Domain Name: A unique identification string that defines a realm of administrative autonomy, authority, or control within the Internet. (also: Internet Domain, Domain, Fully Qualified Domain Name)
+- Threat Actor: An individual or organized group responsible for conducting malicious cyber activities, attacks, or espionage campaigns. (also: Threat Group, Hacker Group, Advanced Persistent Threat)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Ведення сучасної війни неможливе без використання високих технологій, що все більш широко використовуються для управління боєм, розвідки, контролю повітряних цілей та ін. При цьому, для користування спеціальними військовими системами застосовуються мобільні пристрої. Відтак, зловмисники докладають чималих зусиль для компрометації смартфонів та планшетів військовослужбовців з метою викрадення автентифікаційних даних (які використовуються для доступу до інформаційних систем) та передачі GPS-координат пристроїв, що може мати безпосередні негативні наслідки для життя особового складу.</p><p>Так, Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA у взаємодії з адміністраторами безпеки ІКС "Очі", фахівцями в/ч А0334 та об'єднаної команди реагування Міністерства оборони України та Збройних сил України MILCERT (у складі ЦРК, ЦІРОТ та ЦМТР) виявлено та проаналізовано дві кібератаки, для реалізації яких зловмисниками засобами Signal серед військовослужбовців здійснено розповсюдження повідомлень з посиланнями для завантаження APK-файлів, начебто, військових систем GRISELDA (автоматизована система внесення, обробки та передачі інформації з використанням штучного інтелекту) та системи стеження "Очі".</p><p>У випадку з GRISELDA за посиланням відкривалася копія офіційного веб-сайту проєкту, де пропонувалося завантажити "мобільну версію" додатку GRISELDA. Слід зауважити, що такого додатку не існує, а завантажуваний APK-файл являв собою шкідливе програмне забезпечення HYDRA, функціонал якого, серед іншого, передбачає можливість викрадення даних сесій (HTTP Cookie), контактів, кейлогінг та ін.</p><p>У випадку з системою "Очі" за посиланням (Google Drive) пропонувалося завантажити APK-файл, який, окрім штатного функціоналу оригінальної програми, містив сторонній код, за допомогою якого здійснювалося викрадення логіну та паролю користувача, а також встановлення та передача GPS-координат пристрою. Ми припускаємо, що зловмисники здійснили модифікацію легітимної програми, додавши сторонній JAVA-клас, та реалізувавши його виклик у відповідних блоках коду.</p><p>Безпека мобільних пристроїв має критичне значення в контексті протистояння кіберзагрозам та потребує вжиття окремих комплексних заходів.</p><p>У випадку виявлення подібних кібератак просимо невідкладно інформувати CERT-UA та інші компетентні підрозділи. Завдяки оперативному обміну інформацією вірогідність реалізації кіберзагрози вдається зводити до мінімуму.</p><p>Вдячні командам Google Cloud та Cloudflare за сприяння в нейтралізації кібератак.</p><p>Для відстежування активності, повʼязаної з модифікацією програми “Очі”, створено ідентифікатор UAC-0210.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">c27ff4f44289c5c66cac5bfdeca9a391&nbsp; &nbsp; 852fb97e23fe551c4a962ea752b19c5479e91d9c637f31589bdd79f91c8216bf&nbsp; &nbsp; Griselda.apk (HYDRA)
+d6171caf4a5e9ff657558f30b595f8b0&nbsp; &nbsp; c8c5d2e0d2a29417c4a89c55c4a0e452b948b1429418eda84be725774504a35c&nbsp; &nbsp; 1.9.4.apk ("Очі")
+9275cb60e85eb039c2806548381af78d&nbsp; &nbsp; 28f07bdcafaebb2c37d206649022ccbe2938b0381d7febfe0b8154292dd04f39&nbsp; &nbsp; Crew.java
+eb58e0e223c84a46b4e5ad6154e869d1&nbsp; &nbsp; 61e5651c5bba683bcf93e27a040d6c5fd64399dab6d59d834518a6aadde18954&nbsp; &nbsp; LocationEntity.java
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">iniqestgoclued@proton.me
+vasilyi1997@proton.me
+152[.]89.198.76
+185[.]27.134.204
+185[.]27.134.57
+31[.]134.121.63
+79[.]137.80.206
+griselda-edu.com[.]ua
+griselda.biz[.]ua
+griselda.co[.]ua
+hXXp://152[.]89.198.76/
+hXXps://griselda.biz[.]ua/download
+hXXps://griselda.co[.]ua/download
+hXXps://griselda.co[.]ua/file/griselda.apk
+&nbsp; &nbsp;&nbsp;
+bitter-hall-1c0c.ochiplus.workers[.]dev
+falling-rice-4afa.ochiplus.workers[.]dev
+ochiplus.workers[.]dev
+hXXps://falling-rice-4afa.ochiplus.workers[.]dev
+</pre><pre class="hidden" spellcheck="false">iniqestgoclued@proton.me
+vasilyi1997@proton.me
+152.89.198.76
+185.27.134.204
+185.27.134.57
+31.134.121.63
+79.137.80.206
+griselda-edu.com.ua
+griselda.biz.ua
+griselda.co.ua
+hXXp://152.89.198.76/
+hXXps://griselda.biz.ua/download
+hXXps://griselda.co.ua/download
+hXXps://griselda.co.ua/file/griselda.apk
+&nbsp;&nbsp;&nbsp;
+bitter-hall-1c0c.ochiplus.workers.dev
+falling-rice-4afa.ochiplus.workers.dev
+ochiplus.workers.dev
+hXXps://falling-rice-4afa.ochiplus.workers.dev
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Приклад ланцюга ураження з використанням підробного вебсайту проєкту GRISELDA</p><p><br></p><p></p><p>Рис.2 Приклад ланцюга ураження з використанням модифікованого APK-файлу програми "Очі"</p>
+
+=== RESPONSE (8.7s, in 3559 / out 2509 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "Country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "ІКС \"Очі\"",
+      "kind": "Software Product",
+      "gloss": "A Ukrainian military situational awareness and tracking system."
+    },
+    {
+      "name": "в/ч А0334",
+      "kind": "Government Agency",
+      "gloss": "A military unit of the Armed Forces of Ukraine."
+    },
+    {
+      "name": "Міністерство оборони України",
+      "kind": "Government Agency",
+      "gloss": "The central government body responsible for national defense and military policy in Ukraine."
+    },
+    {
+      "name": "Збройні сили України",
+      "kind": "Government Agency",
+      "gloss": "The military forces of Ukraine responsible for state defense."
+    },
+    {
+      "name": "MILCERT",
+      "kind": "Government Agency",
+      "gloss": "The computer emergency response team of the Ministry of Defense and the Armed Forces of Ukraine."
+    },
+    {
+      "name": "ЦРК",
+      "kind": "Government Agency",
+      "gloss": "A specialized cybersecurity unit of the Ministry of Defense and Armed Forces of Ukraine."
+    },
+    {
+      "name": "ЦІРОТ",
+      "kind": "Government Agency",
+      "gloss": "A specialized technical division within the defense sector of Ukraine."
+    },
+    {
+      "name": "ЦМТР",
+      "kind": "Government Agency",
+      "gloss": "A technical research and development center within the defense sector of Ukraine."
+    },
+    {
+      "name": "Signal",
+      "kind": "Software Product",
+      "gloss": "A secure, cross-platform encrypted messaging service."
+    },
+    {
+      "name": "GRISELDA",
+      "kind": "Software Product",
+      "gloss": "An automated information processing and intelligence system using artificial intelligence for military use in Ukraine."
+    },
+    {
+      "name": "HYDRA",
+      "kind": "Malware",
+      "gloss": "A malicious Android trojan designed to steal session cookies, contacts, and keystrokes."
+    },
+    {
+      "name": "Google Drive",
+      "kind": "Software Product",
+      "gloss": "A cloud storage and file sharing service developed by Google."
+    },
+    {
+      "name": "Google Cloud",
+      "kind": "Technology Vendor",
+      "gloss": "A suite of cloud computing services and infrastructure provided by Google."
+    },
+    {
+      "name": "Cloudflare",
+      "kind": "Technology Vendor",
+      "gloss": "An American web infrastructure and website security company."
+    },
+    {
+      "name": "UAC-0210",
+      "kind": "Threat Actor",
+      "gloss": "A threat actor tracked by CERT-UA associated with attacks targeting Ukrainian military personnel using modified software."
+    },
+    {
+      "name": "Griselda.apk",
+      "kind": "Computer File",
+      "gloss": "A malicious Android application file distributing the HYDRA trojan under the guise of the GRISELDA project."
+    },
+    {
+      "name": "1.9.4.apk",
+      "kind": "Computer File",
+      "gloss": "A trojanized Android application package masquerading as the legitimate Ochi military system."
+    },
+    {
+      "name": "Crew.java",
+      "kind": "Computer File",
+      "gloss": "A Java class file embedded into a trojanized application for malicious functionality."
+    },
+    {
+      "name": "LocationEntity.java",
+      "kind": "Computer File",
+      "gloss": "A Java class file used in a modified Android application to exfiltrate GPS location data."
+    },
+    {
+      "name": "iniqestgoclued@proton.me",
+      "kind": "Email Address",
+      "gloss": "An email address used by malicious actors."
+    },
+    {
+      "name": "vasilyi1997@proton.me",
+      "kind": "Email Address",
+      "gloss": "An email address used by malicious actors."
+    },
+    {
+      "name": "152[.]89.198.76",
+      "kind": "IP Address",
+      "gloss": "An IP address associated with malicious cyber activity."
+    },
+    {
+      "name": "185[.]27.134.204",
+      "kind": "IP Address",
+      "gloss": "An IP address associated with malicious cyber activity."
+    },
+    {
+      "name": "185[.]27.134.57",
+      "kind": "IP Address",
+      "gloss": "An IP address associated with malicious cyber activity."
+    },
+    {
+      "name": "31[.]134.121.63",
+      "kind": "IP Address",
+      "gloss": "An IP address associated with malicious cyber activity."
+    },
+    {
+      "name": "79[.]137.80.206",
+      "kind": "IP Address",
+      "gloss": "An IP address associated with malicious cyber activity."
+    },
+    {
+      "name": "griselda-edu.com[.]ua",
+      "kind": "Domain Name",
+      "gloss": "A spoofed domain name used in a phishing campaign against Ukrainian military personnel."
+    },
+    {
+      "name": "griselda.biz[.]ua",
+      "kind": "Domain Name",
+      "gloss": "A spoofed domain name used to deliver malicious mobile applications."
+    },
+    {
+      "name": "griselda.co[.]ua",
+      "kind": "Domain Name",
+      "gloss": "A spoofed domain name used to distribute the HYDRA malware."
+    },
+    {
+      "name": "bitter-hall-1c0c.ochiplus.workers[.]dev",
+      "kind": "Domain Name",
+      "gloss": "A Cloudflare Workers domain utilized by threat actors for command and control or exfiltration."
+    },
+    {
+      "name": "falling-rice-4afa.ochiplus.workers[.]dev",
+      "kind": "Domain Name",
+      "gloss": "A Cloudflare Workers domain used for malicious infrastructure."
+    },
+    {
+      "name": "ochiplus.workers[.]dev",
+      "kind": "Domain Name",
+      "gloss": "A domain on Cloudflare Workers leveraged in malicious campaigns targeting military systems."
+    },
+    {
+      "name": "hXXp://152[.]89.198.76/",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL hosted on an IP address."
+    },
+    {
+      "name": "hXXps://griselda.biz[.]ua/download",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious download URL hosted on a spoofed domain."
+    },
+    {
+      "name": "hXXps://griselda.co[.]ua/download",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL designed to distribute fake GRISELDA software."
+    },
+    {
+      "name": "hXXps://griselda.co[.]ua/file/griselda.apk",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A direct download URL pointing to a malicious APK file containing HYDRA malware."
+    },
+    {
+      "name": "hXXps://falling-rice-4afa.ochiplus.workers[.]dev",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL associated with command and control infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Міністерство оборони України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Міністерства оборони України"
+    },
+    {
+      "head": "Збройні сили України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Збройних сил України"
+    },
+    {
+      "head": "MILCERT",
+      "type": "part-of",
+      "tail": "Міністерство оборони України",
+      "evidence": "об'єднаної команди реагування Міністерства оборони України"
+    },
+    {
+      "head": "MILCERT",
+      "type": "part-of",
+      "tail": "Збройні сили України",
+      "evidence": "об'єднаної команди реагування Міністерства оборони України та Збройних сил України"
+    },
+    {
+      "head": "ЦРК",
+      "type": "part-of",
+      "tail": "MILCERT",
+      "evidence": "MILCERT (у складі ЦРК, ЦІРОТ та ЦМТР)"
+    },
+    {
+      "head": "ЦІРОТ",
+      "type": "part-of",
+      "tail": "MILCERT",
+      "evidence": "MILCERT (у складі ЦРК, ЦІРОТ та ЦМТР)"
+    },
+    {
+      "head": "ЦМТР",
+      "type": "part-of",
+      "tail": "MILCERT",
+      "evidence": "MILCERT (у складі ЦРК, ЦІРОТ та ЦМТР)"
+    },
+    {
+      "head": "Griselda.apk",
+      "type": "delivers",
+      "tail": "HYDRA",
+      "evidence": "Griselda.apk (HYDRA)"
+    },
+    {
+      "head": "hXXps://griselda.co[.]ua/file/griselda.apk",
+      "type": "delivers",
+      "tail": "Griselda.apk",
+      "evidence": "hXXps://griselda.co[.]ua/file/griselda.apk"
+    },
+    {
+      "head": "UAC-0210",
+      "type": "uses",
+      "tail": "1.9.4.apk",
+      "evidence": "активності, повʼязаної з модифікацією програми “Очі”, створено ідентифікатор UAC-0210"
+    }
+  ],
+  "newRelationTypes": []
+}

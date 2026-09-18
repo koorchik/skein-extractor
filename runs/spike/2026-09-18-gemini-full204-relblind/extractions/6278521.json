@@ -1,0 +1,214 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0184",
+      "kind": "threat actor",
+      "gloss": "A threat actor targeting Ukrainian entities to steal documents and messenger data."
+    },
+    {
+      "name": "Сили оборони України",
+      "kind": "military organization",
+      "gloss": "The combined military forces responsible for the defense and security of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "IDAT",
+      "kind": "malware loader",
+      "gloss": "A malware loader also known as HijackLoader, SHADOWLADDER, or GHOSTPULSE used for initial infection."
+    },
+    {
+      "name": "REMCOSRAT",
+      "kind": "remote access trojan",
+      "gloss": "A commercial remote access tool frequently abused by threat actors for espionage and control."
+    },
+    {
+      "name": "VIOTTOKEYLOGGER",
+      "kind": "keylogger malware",
+      "gloss": "A commercial keylogging utility used to capture keystrokes and sensitive input from compromised systems."
+    },
+    {
+      "name": "XWORM",
+      "kind": "malware family",
+      "gloss": "A commodity malware family providing remote access, information theft, and botnet capabilities."
+    },
+    {
+      "name": "SIGTOP",
+      "kind": "data exfiltration tool",
+      "gloss": "An open-source utility used to extract and exfiltrate messages and contacts from the Signal messenger."
+    },
+    {
+      "name": "TUSC",
+      "kind": "data exfiltration tool",
+      "gloss": "An open-source utility used to export and exfiltrate data from targeted desktop applications."
+    },
+    {
+      "name": "Signal",
+      "kind": "messaging application",
+      "gloss": "An encrypted cross-platform instant messaging service widely used for secure communications."
+    },
+    {
+      "name": "Центр кібербезпеки ІТС",
+      "kind": "military unit",
+      "gloss": "A Ukrainian military cybersecurity operations center designated as military unit A0334."
+    },
+    {
+      "name": "i-like-hokku.co.ua",
+      "kind": "domain name",
+      "gloss": "A domain name used by attackers to host and distribute malicious executables."
+    },
+    {
+      "name": "the-new-age.co.ua",
+      "kind": "domain name",
+      "gloss": "A domain name configured as command-and-control infrastructure for malware."
+    },
+    {
+      "name": "yeah-biches.kyiv.ua",
+      "kind": "domain name",
+      "gloss": "A domain name used in cyberattacks to distribute secondary malicious payloads."
+    },
+    {
+      "name": "biches-yeah.co.ua",
+      "kind": "domain name",
+      "gloss": "A malicious domain name utilized for malware command-and-control communications."
+    },
+    {
+      "name": "178.33.57.148",
+      "kind": "ip address",
+      "gloss": "An IP address used as command-and-control infrastructure for malware such as XWORM."
+    },
+    {
+      "name": "178.33.57.149",
+      "kind": "ip address",
+      "gloss": "An IP address used for remote command and control of RemcosRAT implants."
+    },
+    {
+      "name": "178.33.57.159",
+      "kind": "ip address",
+      "gloss": "An IP address serving as network infrastructure for malware communications."
+    },
+    {
+      "name": "88.151.192.14",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command-and-control activity."
+    },
+    {
+      "name": "94.156.66.107",
+      "kind": "ip address",
+      "gloss": "An IP address hosting web hooks and services used in malicious operations."
+    },
+    {
+      "name": "51.38.145.47",
+      "kind": "ip address",
+      "gloss": "An IP address utilized to host files in support of cyber operations."
+    },
+    {
+      "name": "185.196.11.194",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "193.203.202.17",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious infrastructure used in cyberattacks."
+    },
+    {
+      "name": "78.153.139.61",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0184",
+      "type": "targets",
+      "tail": "Сили оборони України",
+      "evidence": "активність угрупування UAC-0184, що має на меті отримання доступу до комп'ютерів представників Сил оборони України"
+    },
+    {
+      "head": "UAC-0184",
+      "type": "uses-malware",
+      "tail": "IDAT",
+      "evidence": "зловмисники застосовують певний набір програмного забезпечення... IDAT (HijackLoader, SHADOWLADDER, GHOSTPULSE)"
+    },
+    {
+      "head": "UAC-0184",
+      "type": "uses-malware",
+      "tail": "REMCOSRAT",
+      "evidence": "зловмисники застосовують певний набір програмного забезпечення... REMCOSRAT"
+    },
+    {
+      "head": "UAC-0184",
+      "type": "uses-malware",
+      "tail": "VIOTTOKEYLOGGER",
+      "evidence": "зловмисники застосовують певний набір програмного забезпечення... VIOTTOKEYLOGGER"
+    },
+    {
+      "head": "UAC-0184",
+      "type": "uses-malware",
+      "tail": "XWORM",
+      "evidence": "зловмисники застосовують певний набір програмного забезпечення... XWORM"
+    },
+    {
+      "head": "UAC-0184",
+      "type": "uses-tool",
+      "tail": "SIGTOP",
+      "evidence": "зловмисники застосовують певний набір програмного забезпечення... SIGTOP"
+    },
+    {
+      "head": "UAC-0184",
+      "type": "uses-tool",
+      "tail": "TUSC",
+      "evidence": "зловмисники застосовують певний набір програмного забезпечення... TUSC"
+    },
+    {
+      "head": "SIGTOP",
+      "type": "steals-data-from",
+      "tail": "Signal",
+      "evidence": "SIGTOP та TUSC використовуються для викрадення та вивантаження даних з ЕОМ, зокрема, повідомлень та контактних даних Signal"
+    },
+    {
+      "head": "TUSC",
+      "type": "steals-data-from",
+      "tail": "Signal",
+      "evidence": "SIGTOP та TUSC використовуються для викрадення та вивантаження даних з ЕОМ, зокрема, повідомлень та контактних даних Signal"
+    },
+    {
+      "head": "Сили оборони України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Сил оборони України"
+    },
+    {
+      "head": "Центр кібербезпеки ІТС",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Центр кібербезпеки ІТС (в/ч А0334; email: csoc@post.mil.gov.ua"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets",
+      "definition": "The threat actor directs malicious activity or attacks against the target entity."
+    },
+    {
+      "name": "uses-malware",
+      "definition": "The threat actor deploys or executes the specified malicious software family."
+    },
+    {
+      "name": "uses-tool",
+      "definition": "The threat actor utilizes the specified utility or tool during an operation."
+    },
+    {
+      "name": "steals-data-from",
+      "definition": "The tool or malware extracts information or user data from the specified application or platform."
+    },
+    {
+      "name": "located-in",
+      "definition": "The entity is based, operates, or is legally organized within the specified geographic country."
+    }
+  ]
+}

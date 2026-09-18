@@ -1,0 +1,178 @@
+{
+  "docId": 3028,
+  "date": "07.08.2020",
+  "title": "Agent Tesla (шкідливе програмне забезпечення)",
+  "entities": [
+    {
+      "id": "3028:0",
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S4",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "3028:1",
+      "name": "Agent Tesla",
+      "kind": "malware",
+      "gloss": "A .NET-based keylogger, infostealer, and remote access trojan active since 2014.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "3028:2",
+      "name": "Google Chrome",
+      "kind": "software product",
+      "gloss": "A cross-platform web browser developed by Google.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "3028:3",
+      "name": "Mozilla Firefox",
+      "kind": "software product",
+      "gloss": "A free and open-source web browser developed by Mozilla.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "3028:4",
+      "name": "Microsoft Outlook",
+      "kind": "software product",
+      "gloss": "A personal information manager and email client from Microsoft.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "3028:5",
+      "name": "IceDragon",
+      "kind": "software product",
+      "gloss": "A Firefox-based web browser developed by Comodo.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "3028:6",
+      "name": "FILEZILLA",
+      "kind": "software product",
+      "gloss": "A free and open-source cross-platform FTP client.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "3028:7",
+      "name": "Defender",
+      "kind": "software product",
+      "gloss": "An anti-malware component of Microsoft Windows.",
+      "scheme": "S2",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "3028:8",
+      "name": "Internet Explorer",
+      "kind": "software product",
+      "gloss": "A series of graphical web browsers developed by Microsoft.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "3028:9",
+      "name": "https://DynDns.com",
+      "kind": "uniform resource locator",
+      "gloss": "A dynamic DNS service provider website.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "3028:10",
+      "name": "WinSCP",
+      "kind": "software product",
+      "gloss": "A free and open-source SFTP and FTP client for Microsoft Windows.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "3028:11",
+      "name": "hххp://BaDpDF.com",
+      "kind": "uniform resource locator",
+      "gloss": "A web address used in network communications by Agent Tesla.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "3028:12",
+      "name": "cm.islamabad@chinagrill.co",
+      "kind": "email address",
+      "gloss": "An email address used by Agent Tesla to exfiltrate stolen credentials via SMTP.",
+      "scheme": "S10",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "3028:13",
+      "name": "Apple",
+      "kind": "software vendor",
+      "gloss": "An American multinational technology company that develops consumer electronics, software, and online services.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Agent Tesla",
+      "type": "affects",
+      "tail": "Google Chrome",
+      "evidence": "отримувати облікові дані, що використовуються в різних програмах системи (наприклад Google Chrome"
+    },
+    {
+      "head": "Agent Tesla",
+      "type": "affects",
+      "tail": "Mozilla Firefox",
+      "evidence": "отримувати облікові дані, що використовуються в різних програмах системи (наприклад Google Chrome, Mozilla Firefox"
+    },
+    {
+      "head": "Agent Tesla",
+      "type": "affects",
+      "tail": "Microsoft Outlook",
+      "evidence": "отримувати облікові дані, що використовуються в різних програмах системи (наприклад Google Chrome, Mozilla Firefox, Microsoft Outlook"
+    },
+    {
+      "head": "Agent Tesla",
+      "type": "affects",
+      "tail": "IceDragon",
+      "evidence": "отримувати облікові дані, що використовуються в різних програмах системи (наприклад Google Chrome, Mozilla Firefox, Microsoft Outlook, IceDragon"
+    },
+    {
+      "head": "Agent Tesla",
+      "type": "affects",
+      "tail": "FILEZILLA",
+      "evidence": "отримувати облікові дані, що використовуються в різних програмах системи (наприклад Google Chrome, Mozilla Firefox, Microsoft Outlook, IceDragon, FILEZILLA"
+    },
+    {
+      "head": "Agent Tesla",
+      "type": "affects",
+      "tail": "Internet Explorer",
+      "evidence": "для отримання збережених облікових даних у браузері Internet Explorer"
+    },
+    {
+      "head": "Agent Tesla",
+      "type": "affects",
+      "tail": "Defender",
+      "evidence": "Agent Tesla має незавершений функціонал, щодо перевірки наявності програми Defender"
+    }
+  ],
+  "unclassified": []
+}

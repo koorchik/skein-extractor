@@ -1,0 +1,189 @@
+{
+  "docId": 955924,
+  "date": "25.07.2022",
+  "title": "Масове розповсюдження стілерів (Formbook, Snake Keylogger) та використання шкідливих програм RelicRace/RelicSource як засобу доставки (CERT-UA#5056)",
+  "entities": [
+    {
+      "id": "955924:0",
+      "name": "UAC-0041",
+      "kind": "threat group",
+      "gloss": "A threat group tracked by CERT-UA associated with mass malware distribution campaigns.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": null
+    },
+    {
+      "id": "955924:1",
+      "name": "RelicRace",
+      "kind": "malware family",
+      "gloss": "A .NET downloader malware designed to fetch, decode, and launch secondary payloads.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "955924:2",
+      "name": "RelicSource",
+      "kind": "malware family",
+      "gloss": "A .NET installer and loader malware used to decrypt and execute embedded payloads.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "955924:3",
+      "name": "Formbook",
+      "kind": "malware family",
+      "gloss": "An infostealer and spyware malware family sold on underground forums.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "955924:4",
+      "name": "Snake Keylogger",
+      "kind": "malware family",
+      "gloss": "A modular .NET-based keylogger and information stealer.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "955924:5",
+      "name": "OneDrive",
+      "kind": "cloud service",
+      "gloss": "A cloud file storage and synchronization service provided by Microsoft.",
+      "scheme": "S21",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "955924:6",
+      "name": "Telegram",
+      "kind": "messaging service",
+      "gloss": "A cloud-based instant messaging service frequently abused by threat actors for C2 communication.",
+      "scheme": null,
+      "category": "Organization",
+      "role": "target"
+    },
+    {
+      "id": "955924:7",
+      "name": "Остаточний платіж.tgz",
+      "kind": "file name",
+      "gloss": "A malicious TGZ archive attached to phishing emails.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "955924:8",
+      "name": "Остаточний платіж.tar",
+      "kind": "file name",
+      "gloss": "A malicious TAR archive extracted during the infection chain.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "955924:9",
+      "name": "Остаточний платіж.exe",
+      "kind": "file name",
+      "gloss": "An executable file containing the RelicRace downloader.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "955924:10",
+      "name": "Mvbsbaoqmoffjfvhqvkpaia.dll",
+      "kind": "file name",
+      "gloss": "A dynamic link library file associated with the RelicSource installer.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "955924:11",
+      "name": "formbook.exe",
+      "kind": "file name",
+      "gloss": "An executable file containing the Formbook stealer payload.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "955924:12",
+      "name": "clientes@taximadridclass.com",
+      "kind": "email address",
+      "gloss": "An email address used in malicious phishing email distribution.",
+      "scheme": "S14",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "955924:13",
+      "name": "info@kivanclardokum.com.tr",
+      "kind": "email address",
+      "gloss": "An email address used in malicious phishing email distribution.",
+      "scheme": "S14",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "955924:14",
+      "name": "barbacoalosmartinez.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified as malicious network infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "RelicRace",
+      "type": "downloads-payload",
+      "tail": "RelicSource",
+      "evidence": "призначений для завантаження (здебільшого з OneDrive), декодування та запуску в пам'яті шкідливої .NET-програми RelicSource"
+    },
+    {
+      "head": "RelicRace",
+      "type": "downloads-from",
+      "tail": "OneDrive",
+      "evidence": "призначений для завантаження (здебільшого з OneDrive)"
+    },
+    {
+      "head": "RelicSource",
+      "type": "executes-payload",
+      "tail": "Formbook",
+      "evidence": "Як пейлоад використовуються програми-стілери, а саме: Formbook та Snake Keylogger"
+    },
+    {
+      "head": "RelicSource",
+      "type": "executes-payload",
+      "tail": "Snake Keylogger",
+      "evidence": "Як пейлоад використовуються програми-стілери, а саме: Formbook та Snake Keylogger"
+    },
+    {
+      "head": "RelicSource",
+      "type": "sends-notifications-to",
+      "tail": "Telegram",
+      "evidence": "відправка нотифікацій до Telegram"
+    },
+    {
+      "head": "Snake Keylogger",
+      "type": "exfiltrates-data-to-email",
+      "tail": "Telegram",
+      "evidence": "Snake Keylogger (ексфільтрація за допомогою API Telegram)"
+    },
+    {
+      "head": "Остаточний платіж.tgz",
+      "type": "contains-file",
+      "tail": "Остаточний платіж.exe",
+      "evidence": "Архів містить EXE-файл, що класифіковано як .NET-даунлоадер RelicRace"
+    }
+  ],
+  "unclassified": [
+    "955924:6"
+  ]
+}

@@ -1,0 +1,129 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Чотирьохрічна помилка в Linux,&nbsp;що дозволяє хакерам повністю компрометувати заражені машини</strong></p><p>Критична помилка Linux, яку було розкрито експертами з питань безпеки пов’язана з недоліком в драйвері rtlwifi (Realtek WiFi). Драйвер вразливий до атаки переповнення буфера&nbsp;&nbsp;<a href="https://arstechnica.com/information-technology/2015/08/how-security-flaws-work-the-buffer-overflow/" rel="noopener noreferrer" target="_blank" style="color: rgb(0, 123, 255);">https://arstechnica.com/information-technology/2015/08/how-security-flaws-work-the-buffer-overflow/</a></p><p>Недолік полягає в тому, що драйвер не перевіряє певні пакети на сумісність, що можна використати для запуску різних атак. Зловмисник може надсилати шкідливі пакети з будь-якого місця в радіодіапазоні цільового пристрою, вразливість викликає переповнення буфера, що потенційно може призвести до збою системи або отримання зловмисником доступу до віддаленого виконання коду. Зловмиснику не потрібна автентифікація, щоб використовувати недолік.&nbsp;</p><p>Команда Linux розробила патч, який готовить додати в оновлення впродовж наступних тижнів&nbsp;<a href="https://lkml.org/lkml/2019/10/16/1226" rel="noopener noreferrer" target="_blank" style="color: rgb(0, 123, 255);">https://lkml.org/lkml/2019/10/16/1226</a></p><p>Детальна інформація про вразливість:&nbsp;<a href="http://nvd.nist.gov/vuln/detail/CVE-2019-17666" rel="noopener noreferrer" target="_blank" style="color: rgb(0, 123, 255);">https://nvd.nist.gov/vuln/detail/CVE-2019-17666</a></p><p><strong>Магічний пароль для підключення до Microsoft SQL Server.</strong></p><p>Кібер-шпигуни розробили зловмисне програмне забезпечення, яке змінює бази даних Microsoft SQL Server (MSSQL) V2, V11&nbsp;та створює "бекдор", який може дозволити хакерам підключитися до будь-якого облікового запису за допомогою "магічного пароля". Окрім того, в якості додаткової переваги, “бекдор” приховує сеанси про підключення користувачів до бази даних щоразу, коли використовується "магічний пароль", допомагаючи хакерам залишатися невиявленими, навіть коли адміністратори можуть підозрювати, що щось не так.&nbsp;</p><p>Це дозволяє зловмисникам копіювати, змінювати або видаляти вміст бази даних, наприклад маніпулювати з базою валютних операції та користь тих чи інших компаній.</p><p>Детальна інформація:&nbsp;<a href="https://www.welivesecurity.com/2019/10/21/winnti-group-skip2-0-microsoft-sql-server-backdoor/" rel="noopener noreferrer" target="_blank" style="color: rgb(0, 123, 255);">https://www.welivesecurity.com/2019/10/21/winnti-group-skip2-0-microsoft-sql-server-backdoor/</a></p><p><strong>Злам популярного сервісу&nbsp;TeamViewer</strong></p><p>На конференції Cyber Defense Summit 2019 спеціалісти з компанії FireEye підтвердили злом популярного додатка TeamViewer.</p><p>Згідно зі звітами, зловмисники могли керувати будь-яким комп’ютером, який увійшов у систему. Звіт показує, що TeamViewer був зламаний у 2016 році, інцидент, який призвів до крадіжки фінансової інформації у багатьох користувачів всього за 24 години. Вину за інцидент покладають на хакерську групу APT41, яка працює з Азії, зокрема з Китаю, та була пов'язана з кількома гучними зловмисними операціями.</p><p>Детальна інформація:&nbsp;<a href="https://twitter.com/cglyer/status/1182413194360508419" rel="noopener noreferrer" target="_blank" style="color: rgb(0, 123, 255);">https://twitter.com/cglyer/status/1182413194360508419</a></p>
+
+=== RESPONSE (5.4s, in 2073 / out 844 tok, STOP) ===
+```json
+{
+  "entities": [
+    {
+      "name": "Linux",
+      "kind": "operating system",
+      "gloss": "An open-source Unix-like operating system kernel and family of distributions."
+    },
+    {
+      "name": "rtlwifi",
+      "kind": "software driver",
+      "gloss": "A Linux kernel driver module providing support for Realtek wireless network devices."
+    },
+    {
+      "name": "Realtek",
+      "kind": "hardware vendor",
+      "gloss": "A Taiwanese semiconductor manufacturing company known for communications network integrated circuits."
+    },
+    {
+      "name": "CVE-2019-17666",
+      "kind": "vulnerability identifier",
+      "gloss": "A buffer overflow vulnerability in the rtlwifi driver of the Linux kernel."
+    },
+    {
+      "name": "Microsoft SQL Server",
+      "kind": "software product",
+      "gloss": "A relational database management system developed by Microsoft."
+    },
+    {
+      "name": "FireEye",
+      "kind": "cybersecurity company",
+      "gloss": "An American cybersecurity company specializing in threat intelligence and automated threat forensics."
+    },
+    {
+      "name": "TeamViewer",
+      "kind": "software product",
+      "gloss": "A remote access and remote control computer software application."
+    },
+    {
+      "name": "APT41",
+      "kind": "hacking group",
+      "gloss": "A prolific Chinese state-sponsored cyber threat group engaged in espionage and financially motivated operations."
+    },
+    {
+      "name": "Китай",
+      "kind": "country",
+      "gloss": "A country in East Asia."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2019-17666",
+      "type": "affects-software",
+      "tail": "rtlwifi",
+      "evidence": "пов’язана з недоліком в драйвері rtlwifi"
+    },
+    {
+      "head": "rtlwifi",
+      "type": "component-of",
+      "tail": "Linux",
+      "evidence": "Чотирьохрічна помилка в Linux, що дозволяє хакерам повністю компрометувати заражені машини"
+    },
+    {
+      "head": "APT41",
+      "type": "compromised",
+      "tail": "TeamViewer",
+      "evidence": "Вину за інцидент покладають на хакерську групу APT41"
+    },
+    {
+      "head": "APT41",
+      "type": "operates-from",
+      "tail": "Китай",
+      "evidence": "хакерську групу APT41, яка працює з Азії, зокрема з Китаю"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "affects-software",
+      "definition": "The subject vulnerability exists within or impacts the target software component or product."
+    },
+    {
+      "name": "component-of",
+      "definition": "The subject software module, driver, or feature is a constituent part of the target system."
+    },
+    {
+      "name": "compromised",
+      "definition": "The subject threat actor gained unauthorized access to or breached the target software, system, or organization."
+    },
+    {
+      "name": "operates-from",
+      "definition": "The subject threat actor conducts operations from or is located in the target geographic area."
+    }
+  ]
+}
+```

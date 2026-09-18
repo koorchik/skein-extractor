@@ -1,0 +1,129 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+- uses-malware: A threat actor utilizes or deploys a specific malware tool or family in their operations.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p class="ql-align-justify"><strong>Загальна інформація</strong></p><p>Спільними зусиллями фахівців Департаменту кіберполіції Національної поліції України та Урядової команди реагування на комп’ютерні надзвичайні події України CERT-UA вжито заходів з дослідження цільових атак, спрямованих на громадян України, що полягають у розповсюдженні повідомлень з посиланнями на, начебто, веб-сайт Telegram з метою отримання несанкціонованого доступу до облікових записів згаданого сервісу, в тому числі, з можливістю перехоплення одноразового SMS-коду.</p><p>В результаті подібних атак зловмисниками здійснюється викрадення даних сесії, переліку контактів та історії листування.</p><p>Закликаємо бути пильними та взяти до уваги описаний вектор атак, а також не переходити за підозрілими посиланнями та встановити додатковий пароль для двоетапної автентифікації в Telegram (поряд з кодом із SMS). </p><p>У разі отримання подібних повідомлень просимо терміново інформувати суб'єкти забезпечення кібербезпеки України з метою вжиття невідкладних заходів з блокування шкідливих веб-ресурсів.</p><p>Згадана активність відстежується за ідентифікатором UAC-0094.</p><p><br></p><p class="ql-align-justify"><strong>Індикатори компрометації</strong></p><p class="ql-align-justify"><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">hxxps://telegram.org.security[.]ohsxy.com/?access=true&amp;check=
+security-check.telegram.org.ohsxy[.]com
+telegram.org.security.ohsxy[.]com
+ohsxy[.]com
+telsec[.]org
+45[.]150.67.87
+193[.]106.191.202
+</pre><p><br></p><p class="ql-align-justify"><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (7.8s, in 1688 / out 699 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Департамент кіберполіції Національної поліції України",
+      "kind": "government body",
+      "gloss": "The specialized structural unit of the National Police of Ukraine responsible for investigating cybercrime."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cloud-based, cross-platform instant messaging and voice over IP service."
+    },
+    {
+      "name": "UAC-0094",
+      "kind": "threat actor",
+      "gloss": "A threat actor cluster tracked by CERT-UA targeting Telegram accounts."
+    },
+    {
+      "name": "hxxps://telegram.org.security[.]ohsxy.com/?access=true&check=",
+      "kind": "url",
+      "gloss": "A phishing URL used to hijack Telegram accounts."
+    },
+    {
+      "name": "security-check.telegram.org.ohsxy[.]com",
+      "kind": "internet domain",
+      "gloss": "A phishing subdomain mimicking Telegram security verification services."
+    },
+    {
+      "name": "telegram.org.security.ohsxy[.]com",
+      "kind": "internet domain",
+      "gloss": "A phishing subdomain imitating the official Telegram domain."
+    },
+    {
+      "name": "ohsxy[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain used to host malicious phishing infrastructure."
+    },
+    {
+      "name": "telsec[.]org",
+      "kind": "internet domain",
+      "gloss": "A domain used for phishing campaigns targeting Telegram users."
+    },
+    {
+      "name": "45[.]150.67.87",
+      "kind": "ip address",
+      "gloss": "An IP address associated with phishing infrastructure in the campaign."
+    },
+    {
+      "name": "193[.]106.191.202",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the phishing infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Департамент кіберполіції Національної поліції України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Департаменту кіберполіції Національної поліції України"
+    },
+    {
+      "head": "UAC-0094",
+      "type": "attacks",
+      "tail": "Telegram",
+      "evidence": "отримання несанкціонованого доступу до облікових записів згаданого сервісу"
+    }
+  ],
+  "newRelationTypes": []
+}

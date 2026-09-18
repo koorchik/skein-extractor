@@ -1,0 +1,124 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0145",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA associated with cyberattacks using trojanized pirated software."
+    },
+    {
+      "name": "Microsoft Office 2019",
+      "kind": "software product",
+      "gloss": "An office productivity software suite developed by Microsoft."
+    },
+    {
+      "name": "DarkCrystal RAT",
+      "kind": "malware",
+      "gloss": "A commercial remote access trojan (RAT) offering extensive surveillance and system control capabilities."
+    },
+    {
+      "name": "DWAgent",
+      "kind": "software product",
+      "gloss": "An open-source remote administration tool used for remote device access and management."
+    },
+    {
+      "name": "PinkyAgent",
+      "kind": "malware",
+      "gloss": "A trojan executable designed to execute Python-based scripts to launch the DWAgent remote administration tool."
+    },
+    {
+      "name": "Microsoft.Office-x64.v2019.x.iso.torrent",
+      "kind": "computer file",
+      "gloss": "A malicious torrent file used to download a trojanized Microsoft Office ISO image."
+    },
+    {
+      "name": "Microsoft.Office-x64.v2019.x.iso",
+      "kind": "computer file",
+      "gloss": "A trojanized ISO disk image containing Microsoft Office 2019 bundled with malware droppers."
+    },
+    {
+      "name": "AUTORUN.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file bundled in a trojanized ISO that drops and runs DarkCrystal RAT."
+    },
+    {
+      "name": "Windows Update.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable classified as PinkyAgent used to launch a Python agent script."
+    },
+    {
+      "name": "agent.py",
+      "kind": "computer file",
+      "gloss": "A modified Python script used to launch the DWAgent remote administration tool."
+    },
+    {
+      "name": "Windows Events.exe",
+      "kind": "computer file",
+      "gloss": "A packaged Python interpreter executable dropped onto compromised systems."
+    },
+    {
+      "name": "toloka.to",
+      "kind": "domain name",
+      "gloss": "A Ukrainian torrent tracker website used as a distribution platform for trojanized software."
+    },
+    {
+      "name": "dwservice.net",
+      "kind": "domain name",
+      "gloss": "The official domain name of the DWService remote management platform."
+    },
+    {
+      "name": "95.217.99.28",
+      "kind": "ip address",
+      "gloss": "An IP address associated with command and control infrastructure in the cyberattack."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0145",
+      "type": "uses",
+      "tail": "DarkCrystal RAT",
+      "evidence": "Описана активність відстежується за ідентифікатором UAC-0145."
+    },
+    {
+      "head": "UAC-0145",
+      "type": "uses",
+      "tail": "DWAgent",
+      "evidence": "в результаті використання неліцензійної версії програмного продукту Microsoft Office 2019 на ЕОМ було встановлено шкідливу програму DarkCrystal RAT та засіб віддаленого адміністрування DWAgent"
+    },
+    {
+      "head": "AUTORUN.exe",
+      "type": "delivers",
+      "tail": "DarkCrystal RAT",
+      "evidence": "AUTORUN.exe (MD5: 29a1b4b547c6edb8383c2f865fb71e52... створення... та запуск... виконуваного файлу... Створюваний виконуваний файл є шкідливою програмою DarkCrystal RAT"
+    },
+    {
+      "head": "DarkCrystal RAT",
+      "type": "delivers",
+      "tail": "Windows Update.exe",
+      "evidence": "за допомогою DarkCrystal RAT на ЕОМ було завантажено Python-інтерпретатор... та файл \"C:\\ProgramData\\service\\core\\Windows Update.exe\""
+    },
+    {
+      "head": "DarkCrystal RAT",
+      "type": "delivers",
+      "tail": "agent.py",
+      "evidence": "за допомогою DarkCrystal RAT на ЕОМ було завантажено... вихідний код засобу віддаленого адміністрування DWAgent"
+    },
+    {
+      "head": "DarkCrystal RAT",
+      "type": "delivers",
+      "tail": "Windows Events.exe",
+      "evidence": "за допомогою DarkCrystal RAT на ЕОМ було завантажено Python-інтерпретатор (Python 2.7.18) \"C:\\ProgramData\\Windows Events.exe\""
+    },
+    {
+      "head": "Windows Update.exe",
+      "type": "delivers",
+      "tail": "DWAgent",
+      "evidence": "призначенням якого є запуск за допомогою Python-інтерпретатору скрипта \"C:\\ProgramData\\service\\core\\agent.py\"... що, у свою чергу, здійснить запуск DWAgent"
+    }
+  ],
+  "newRelationTypes": []
+}

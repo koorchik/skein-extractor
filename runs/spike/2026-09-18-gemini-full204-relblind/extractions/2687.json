@@ -1,0 +1,93 @@
+{
+  "entities": [
+    {
+      "name": "Linux",
+      "kind": "operating system",
+      "gloss": "An open-source Unix-like operating system kernel and family of distributions."
+    },
+    {
+      "name": "rtlwifi",
+      "kind": "software driver",
+      "gloss": "A Linux kernel driver module providing support for Realtek wireless network devices."
+    },
+    {
+      "name": "Realtek",
+      "kind": "hardware vendor",
+      "gloss": "A Taiwanese semiconductor manufacturing company known for communications network integrated circuits."
+    },
+    {
+      "name": "CVE-2019-17666",
+      "kind": "vulnerability identifier",
+      "gloss": "A buffer overflow vulnerability in the rtlwifi driver of the Linux kernel."
+    },
+    {
+      "name": "Microsoft SQL Server",
+      "kind": "software product",
+      "gloss": "A relational database management system developed by Microsoft."
+    },
+    {
+      "name": "FireEye",
+      "kind": "cybersecurity company",
+      "gloss": "An American cybersecurity company specializing in threat intelligence and automated threat forensics."
+    },
+    {
+      "name": "TeamViewer",
+      "kind": "software product",
+      "gloss": "A remote access and remote control computer software application."
+    },
+    {
+      "name": "APT41",
+      "kind": "hacking group",
+      "gloss": "A prolific Chinese state-sponsored cyber threat group engaged in espionage and financially motivated operations."
+    },
+    {
+      "name": "Китай",
+      "kind": "country",
+      "gloss": "A country in East Asia."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2019-17666",
+      "type": "affects-software",
+      "tail": "rtlwifi",
+      "evidence": "пов’язана з недоліком в драйвері rtlwifi"
+    },
+    {
+      "head": "rtlwifi",
+      "type": "component-of",
+      "tail": "Linux",
+      "evidence": "Чотирьохрічна помилка в Linux, що дозволяє хакерам повністю компрометувати заражені машини"
+    },
+    {
+      "head": "APT41",
+      "type": "compromised",
+      "tail": "TeamViewer",
+      "evidence": "Вину за інцидент покладають на хакерську групу APT41"
+    },
+    {
+      "head": "APT41",
+      "type": "operates-from",
+      "tail": "Китай",
+      "evidence": "хакерську групу APT41, яка працює з Азії, зокрема з Китаю"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "affects-software",
+      "definition": "The subject vulnerability exists within or impacts the target software component or product."
+    },
+    {
+      "name": "component-of",
+      "definition": "The subject software module, driver, or feature is a constituent part of the target system."
+    },
+    {
+      "name": "compromised",
+      "definition": "The subject threat actor gained unauthorized access to or breached the target software, system, or organization."
+    },
+    {
+      "name": "operates-from",
+      "definition": "The subject threat actor conducts operations from or is located in the target geographic area."
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0057",
+      "kind": "threat actor",
+      "gloss": "A cyber threat group also tracked as UNC1151 and associated with the GhostWriter campaign."
+    },
+    {
+      "name": "PicassoLoader",
+      "kind": "malware family",
+      "gloss": "A malware loader designed to decode, achieve persistence, and execute secondary payloads."
+    },
+    {
+      "name": "njRAT",
+      "kind": "malware family",
+      "gloss": "A remote access trojan used to remotely control compromised Windows machines."
+    },
+    {
+      "name": "Mandiant",
+      "kind": "cybersecurity company",
+      "gloss": "An American cybersecurity company specializing in threat intelligence and incident response."
+    },
+    {
+      "name": "Avast",
+      "kind": "cybersecurity vendor",
+      "gloss": "A cybersecurity software company that develops antivirus and security products."
+    },
+    {
+      "name": "FireEye",
+      "kind": "cybersecurity vendor",
+      "gloss": "A cybersecurity company known for enterprise security software and network threat prevention."
+    },
+    {
+      "name": "Fortinet",
+      "kind": "cybersecurity vendor",
+      "gloss": "An American multinational cybersecurity company offering network security products and services."
+    },
+    {
+      "name": "PerekazF173_04072023.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet used to drop and launch PicassoLoader malware."
+    },
+    {
+      "name": "Rahunok_05072023.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet used to drop and launch PicassoLoader malware."
+    },
+    {
+      "name": "carpetmarker[.]pw",
+      "kind": "domain name",
+      "gloss": "A domain used to host payloads in cyberattack infrastructure."
+    },
+    {
+      "name": "everything-everywhere.at.ply[.]gg",
+      "kind": "domain name",
+      "gloss": "A domain used for malicious network communication infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0057",
+      "type": "uses-malware",
+      "tail": "PicassoLoader",
+      "evidence": "Активність здійснюється угрупуванням UAC-0057"
+    },
+    {
+      "head": "UAC-0057",
+      "type": "uses-malware",
+      "tail": "njRAT",
+      "evidence": "запуск шкідливої програми njRAT. Активність здійснюється угрупуванням UAC-0057"
+    },
+    {
+      "head": "PicassoLoader",
+      "type": "delivers",
+      "tail": "njRAT",
+      "evidence": "PicassoLoader забезпечував завантаження, дешифрування (AES) та запуск шкідливої програми njRAT"
+    },
+    {
+      "head": "PerekazF173_04072023.xls",
+      "type": "delivers",
+      "tail": "PicassoLoader",
+      "evidence": "PerekazF173_04072023.xls... запуск шкідливої програми PicassoLoader"
+    },
+    {
+      "head": "Rahunok_05072023.xls",
+      "type": "delivers",
+      "tail": "PicassoLoader",
+      "evidence": "Rahunok_05072023.xls... запуск шкідливої програми PicassoLoader"
+    }
+  ],
+  "newRelationTypes": []
+}

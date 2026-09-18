@@ -1,0 +1,145 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0215",
+      "kind": "threat actor",
+      "gloss": "A threat group tracked by CERT-UA associated with cyberattacks using malicious RDP configuration files."
+    },
+    {
+      "name": "Amazon",
+      "kind": "company",
+      "gloss": "An American multinational technology company providing cloud computing and other services."
+    },
+    {
+      "name": "Microsoft",
+      "kind": "company",
+      "gloss": "An American multinational technology corporation providing software and cloud services."
+    },
+    {
+      "name": "mstsc.exe",
+      "kind": "software product",
+      "gloss": "The built-in Microsoft Windows Remote Desktop Connection client executable."
+    },
+    {
+      "name": "Zero Trust Architecture Configuration.rdp",
+      "kind": "file",
+      "gloss": "A malicious Remote Desktop Protocol configuration file distributed via phishing emails."
+    },
+    {
+      "name": "ZTS Device Compatibility Test.rdp",
+      "kind": "file",
+      "gloss": "A malicious Remote Desktop Protocol configuration file distributed via phishing emails."
+    },
+    {
+      "name": "Device Configuration Verification.rdp",
+      "kind": "file",
+      "gloss": "A malicious Remote Desktop Protocol configuration file distributed via phishing emails."
+    },
+    {
+      "name": "Device Security Requirements Check.rdp",
+      "kind": "file",
+      "gloss": "A malicious Remote Desktop Protocol configuration file distributed via phishing emails."
+    },
+    {
+      "name": "Zero Trust Security Environment Compliance Check.rdp",
+      "kind": "file",
+      "gloss": "A malicious Remote Desktop Protocol configuration file distributed via phishing emails."
+    },
+    {
+      "name": "AWS IAM Quick Start.rdp",
+      "kind": "file",
+      "gloss": "A malicious Remote Desktop Protocol configuration file distributed via phishing emails."
+    },
+    {
+      "name": "AWS IAM Configuration.rdp",
+      "kind": "file",
+      "gloss": "A malicious Remote Desktop Protocol configuration file distributed via phishing emails."
+    },
+    {
+      "name": "AWS IAM Compliance Check.rdp",
+      "kind": "file",
+      "gloss": "A malicious Remote Desktop Protocol configuration file distributed via phishing emails."
+    },
+    {
+      "name": "yulia.antonenko@townoflakelure.com",
+      "kind": "email address",
+      "gloss": "An email address observed sending malicious messages in the cyberattack campaign."
+    },
+    {
+      "name": "alexandra.gerst@townoflakelure.com",
+      "kind": "email address",
+      "gloss": "An email address observed sending malicious messages in the cyberattack campaign."
+    },
+    {
+      "name": "oleksii.myronov@townoflakelure.com",
+      "kind": "email address",
+      "gloss": "An email address observed sending malicious messages in the cyberattack campaign."
+    },
+    {
+      "name": "zero-trust.solutions",
+      "kind": "domain name",
+      "gloss": "An internet domain used in the threat actor's malicious infrastructure."
+    },
+    {
+      "name": "ukrtelecom.cloud",
+      "kind": "domain name",
+      "gloss": "A masqueraded internet domain used in the threat actor's infrastructure."
+    },
+    {
+      "name": "awsplatform.online",
+      "kind": "domain name",
+      "gloss": "A masqueraded internet domain used in the threat actor's infrastructure."
+    },
+    {
+      "name": "aws-ukraine.cloud",
+      "kind": "domain name",
+      "gloss": "A masqueraded internet domain used in the threat actor's infrastructure."
+    },
+    {
+      "name": "ua-aws.army",
+      "kind": "domain name",
+      "gloss": "A masqueraded internet domain used in the threat actor's infrastructure."
+    },
+    {
+      "name": "ua-gov.cloud",
+      "kind": "domain name",
+      "gloss": "A masqueraded internet domain used in the threat actor's infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0215",
+      "type": "distributes-file",
+      "tail": "Zero Trust Architecture Configuration.rdp",
+      "evidence": "Описана активність відстежується за ідентифікатором UAC-0215."
+    },
+    {
+      "head": "UAC-0215",
+      "type": "distributes-file",
+      "tail": "AWS IAM Quick Start.rdp",
+      "evidence": "Описана активність відстежується за ідентифікатором UAC-0215."
+    },
+    {
+      "head": "yulia.antonenko@townoflakelure.com",
+      "type": "used-by-threat-actor",
+      "tail": "UAC-0215",
+      "evidence": "Мережеві: yulia.antonenko@townoflakelure.com"
+    },
+    {
+      "head": "zero-trust.solutions",
+      "type": "used-by-threat-actor",
+      "tail": "UAC-0215",
+      "evidence": "Описана активність відстежується за ідентифікатором UAC-0215."
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "distributes-file",
+      "definition": "The threat actor delivers or sends a specified malicious file to targets."
+    },
+    {
+      "name": "used-by-threat-actor",
+      "definition": "The infrastructure, domain, or email address is operated or used by the specified threat actor."
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "entities": [
+    {
+      "name": "Check Point",
+      "kind": "cybersecurity company",
+      "gloss": "An American-Israeli multinational provider of software and combined hardware and software products for IT security."
+    },
+    {
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A proprietary graphical operating system developed and marketed by Microsoft."
+    },
+    {
+      "name": "zakon.rar",
+      "kind": "malicious archive file",
+      "gloss": "A malicious RAR archive file used in attacks to drop and execute malicious payloads."
+    },
+    {
+      "name": "powershell",
+      "kind": "software tool",
+      "gloss": "A task automation and configuration management framework from Microsoft comprising a command-line shell and scripting language."
+    },
+    {
+      "name": "CVE-2018-20250",
+      "kind": "vulnerability identifier",
+      "gloss": "A path traversal vulnerability in the UNACEV2.DLL library used in WinRAR prior to version 5.70."
+    },
+    {
+      "name": "CVE-2018-20251",
+      "kind": "vulnerability identifier",
+      "gloss": "A path traversal vulnerability affecting WinRAR when processing ACE archives."
+    },
+    {
+      "name": "CVE-2018-20252",
+      "kind": "vulnerability identifier",
+      "gloss": "An out-of-bounds write vulnerability in WinRAR versions prior to 5.70."
+    },
+    {
+      "name": "CVE-2018-20253",
+      "kind": "vulnerability identifier",
+      "gloss": "An out-of-bounds write vulnerability affecting WinRAR before version 5.70."
+    },
+    {
+      "name": "WinRAR",
+      "kind": "software product",
+      "gloss": "A trialware file archiver utility for Windows developed by Eugene Roshal."
+    },
+    {
+      "name": "WinRAR 5.70 Beta 1",
+      "kind": "software version",
+      "gloss": "A beta version of the WinRAR file archiver utility that remediated several critical vulnerabilities."
+    },
+    {
+      "name": "https://research.checkpoint.com/extracting-code-execution-from-winrar/",
+      "kind": "web address",
+      "gloss": "A security research blog post URL detailing the WinRAR code execution vulnerability."
+    },
+    {
+      "name": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-20250",
+      "kind": "web address",
+      "gloss": "A CVE dictionary web address detailing the CVE-2018-20250 vulnerability."
+    },
+    {
+      "name": "https://www.win-rar.com/singlenewsview.html?&tx_ttnews%5Btt_news%5D=113&cHash=636c53b16e1726382668533e7b7c737f",
+      "kind": "web address",
+      "gloss": "An official WinRAR security advisory and release notice URL."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2018-20250",
+      "type": "affects-software",
+      "tail": "WinRAR",
+      "evidence": "зачіпає всі версії WinRAR, випущені за останні 19 років"
+    },
+    {
+      "head": "CVE-2018-20251",
+      "type": "affects-software",
+      "tail": "WinRAR",
+      "evidence": "зачіпає всі версії WinRAR, випущені за останні 19 років"
+    },
+    {
+      "head": "CVE-2018-20252",
+      "type": "affects-software",
+      "tail": "WinRAR",
+      "evidence": "зачіпає всі версії WinRAR, випущені за останні 19 років"
+    },
+    {
+      "head": "CVE-2018-20253",
+      "type": "affects-software",
+      "tail": "WinRAR",
+      "evidence": "зачіпає всі версії WinRAR, випущені за останні 19 років"
+    },
+    {
+      "head": "WinRAR 5.70 Beta 1",
+      "type": "patches-vulnerability",
+      "tail": "CVE-2018-20250",
+      "evidence": "випустили версію WinRAR 5.70 Beta 1, яка усуває цю вразливість"
+    },
+    {
+      "head": "zakon.rar",
+      "type": "executes-script-via",
+      "tail": "powershell",
+      "evidence": "Вірус завантажує powershell скрипти з їх подальшим виконанням"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "affects-software",
+      "definition": "The vulnerability affects the specified software product or application."
+    },
+    {
+      "name": "patches-vulnerability",
+      "definition": "The software update or version remediates or fixes the specified security vulnerability."
+    },
+    {
+      "name": "executes-script-via",
+      "definition": "The malware or malicious file executes scripts or commands using the specified tool or interpreter."
+    }
+  ]
+}

@@ -1,0 +1,175 @@
+{
+  "docId": 38374,
+  "date": "28.03.2022",
+  "title": "Кібератака групи UAC-0056 на державні органи України з використанням шкідливих програм GraphSteel та GrimPlant (CERT-UA#4293)",
+  "entities": [
+    {
+      "id": "38374:0",
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyberespionage threat group targeting Ukrainian organizations and government bodies.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "38374:1",
+      "name": "державні органи України",
+      "kind": "government sector",
+      "gloss": "The state and governmental bodies and agencies of Ukraine.",
+      "scheme": "S7",
+      "category": "Sector",
+      "role": "target"
+    },
+    {
+      "id": "38374:2",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "38374:3",
+      "name": "Заборгованість по зарплаті.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet containing macros used to drop an initial executable payload.",
+      "scheme": "S12",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "38374:4",
+      "name": "Base-Update.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable written in GoLang acting as a stage-one downloader.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "38374:5",
+      "name": "GoDownloader",
+      "kind": "malware family",
+      "gloss": "A malware downloader family written in GoLang designed to fetch and execute secondary payloads.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "38374:6",
+      "name": "GoLang",
+      "kind": "programming language",
+      "gloss": "An open-source compiled programming language developed by Google.",
+      "scheme": "S20",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "38374:7",
+      "name": "GraphSteel",
+      "kind": "malware family",
+      "gloss": "An information stealing malware family written in GoLang.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "38374:8",
+      "name": "GrimPlant",
+      "kind": "malware family",
+      "gloss": "A backdoor malware family written in GoLang capable of executing remote commands.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "38374:9",
+      "name": "java-sdk.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file functioning as a secondary GoDownloader payload.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "38374:10",
+      "name": "oracle-java.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable payload associated with the GrimPlant backdoor.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "38374:11",
+      "name": "microsoft-cortana.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable payload associated with the GraphSteel infostealer.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "38374:12",
+      "name": "194.31.98.124",
+      "kind": "ip address",
+      "gloss": "An IP address used for hosting malicious payloads and command and control communication.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "targets-sector",
+      "tail": "державні органи України",
+      "evidence": "розповсюдження електронних листів з темою \"Заборгованість по зарплаті\" серед державних органів України"
+    },
+    {
+      "head": "державні органи України",
+      "type": "located-in-country",
+      "tail": "Україна",
+      "evidence": "державних органів України"
+    },
+    {
+      "head": "Заборгованість по зарплаті.xls",
+      "type": "drops-and-executes",
+      "tail": "Base-Update.exe",
+      "evidence": "створення EXE-файлу \"Base-Update.exe\" на комп'ютері та його виконання"
+    },
+    {
+      "head": "Base-Update.exe",
+      "type": "written-in",
+      "tail": "GoLang",
+      "evidence": "розробленою з використанням мови програмування GoLang"
+    },
+    {
+      "head": "Base-Update.exe",
+      "type": "is-instance-of",
+      "tail": "GoDownloader",
+      "evidence": "Base-Update.exe (GoDownloader)"
+    },
+    {
+      "head": "java-sdk.exe",
+      "type": "is-instance-of",
+      "tail": "GoDownloader",
+      "evidence": "java-sdk.exe (GoDownloader)"
+    },
+    {
+      "head": "oracle-java.exe",
+      "type": "is-instance-of",
+      "tail": "GrimPlant",
+      "evidence": "oracle-java.exe (GrimPlant)"
+    },
+    {
+      "head": "microsoft-cortana.exe",
+      "type": "is-instance-of",
+      "tail": "GraphSteel",
+      "evidence": "microsoft-cortana.exe (GraphSteel)"
+    }
+  ],
+  "unclassified": []
+}

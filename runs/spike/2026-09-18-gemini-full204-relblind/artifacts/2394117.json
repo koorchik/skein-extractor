@@ -1,0 +1,199 @@
+{
+  "docId": 2394117,
+  "date": "22.10.2022",
+  "title": "Кібератака на державні організації України з використанням шкідливої програми RomCom. Можлива причетність Cuba Ransomware aka Tropical Scorpius aka UNC2596 (CERT-UA#5509)",
+  "entities": [
+    {
+      "id": "2394117:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "2394117:1",
+      "name": "Пресслужба Генштабу ЗСУ",
+      "kind": "government body",
+      "gloss": "The press service of the General Staff of the Armed Forces of Ukraine.",
+      "scheme": "S7",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "2394117:2",
+      "name": "ЗСУ",
+      "kind": "military organization",
+      "gloss": "The Armed Forces of Ukraine, the military forces of Ukraine.",
+      "scheme": "S23",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "2394117:3",
+      "name": "PDF Reader",
+      "kind": "software product",
+      "gloss": "A category or brand of software applications designed to view Portable Document Format files.",
+      "scheme": "S1",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2394117:4",
+      "name": "AcroRdrDCx642200120169_uk_UA.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable file masquerading as an Adobe Acrobat Reader installer.",
+      "scheme": "S12",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "2394117:5",
+      "name": "rmtpak.dll",
+      "kind": "executable file",
+      "gloss": "A malicious dynamic-link library file delivering the RomCom backdoor.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "2394117:6",
+      "name": "RomCom",
+      "kind": "malware family",
+      "gloss": "A backdoor malware family used for cyber espionage and financial operations.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2394117:7",
+      "name": "Tropical Scorpius",
+      "kind": "threat actor",
+      "gloss": "A financially motivated cyber threat group also known as UNC2596 and UAC-0132.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "2394117:8",
+      "name": "Unit42",
+      "kind": "cybersecurity company",
+      "gloss": "The threat intelligence and security research division of Palo Alto Networks.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2394117:9",
+      "name": "Mandiant",
+      "kind": "cybersecurity company",
+      "gloss": "An American cybersecurity firm providing threat intelligence and incident response services.",
+      "scheme": "S11",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "2394117:10",
+      "name": "Cuba Ransomware",
+      "kind": "malware family",
+      "gloss": "A ransomware strain distributed by the threat actor group Tropical Scorpius.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2394117:11",
+      "name": "UAC-0132",
+      "kind": "threat actor",
+      "gloss": "A threat actor designation used by CERT-UA for Tropical Scorpius/UNC2596.",
+      "scheme": "S19",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2394117:12",
+      "name": "UNC2596",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracking identifier assigned by Mandiant to Tropical Scorpius.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": null
+    },
+    {
+      "id": "2394117:13",
+      "name": "CVE-2022-24521",
+      "kind": "vulnerability identifier",
+      "gloss": "A privilege escalation vulnerability in the Windows Common Log File System (CLFS) driver.",
+      "scheme": "S4",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2394117:14",
+      "name": "s.l.sinkewitch@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address used as the sender in a malicious email distribution campaign.",
+      "scheme": "S14",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2394117:15",
+      "name": "Blythe Consulting sp. z o.o.",
+      "kind": "organization",
+      "gloss": "An entity name used as a digital signature certificate subject on malicious files.",
+      "scheme": "S10",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2394117:16",
+      "name": "Wechapaisch Consulting & Construction Limited",
+      "kind": "organization",
+      "gloss": "An entity name used as a digital signature certificate subject on malicious files.",
+      "scheme": "S10",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Пресслужба Генштабу ЗСУ",
+      "type": "is-part-of",
+      "tail": "ЗСУ",
+      "evidence": "Пресслужби Генштабу ЗСУ"
+    },
+    {
+      "head": "ЗСУ",
+      "type": "government-body-of",
+      "tail": "Україна",
+      "evidence": "Генштабу ЗСУ"
+    },
+    {
+      "head": "AcroRdrDCx642200120169_uk_UA.exe",
+      "type": "drops-and-executes",
+      "tail": "rmtpak.dll",
+      "evidence": "Запуск згаданого файлу, в результаті, призведе до декодування та запуску файлу \"rmtpak.dll\""
+    },
+    {
+      "head": "rmtpak.dll",
+      "type": "is-instance-of",
+      "tail": "RomCom",
+      "evidence": "Останній класифіковано як шкідливу програму RomCom"
+    },
+    {
+      "head": "Tropical Scorpius",
+      "type": "distributes-malware",
+      "tail": "Cuba Ransomware",
+      "evidence": "Tropical Scorpius (Unit42) aka UNC2596 (Mandiant), що відповідальна за розповсюдження Cuba Ransomware"
+    },
+    {
+      "head": "Tropical Scorpius",
+      "type": "uses-malware",
+      "tail": "RomCom",
+      "evidence": "використання бекдору RomCom... асоціювати виявлену активність з діяльністю групи Tropical Scorpius"
+    }
+  ],
+  "unclassified": []
+}

@@ -1,0 +1,233 @@
+{
+  "entities": [
+    {
+      "name": "CSIRT-NBU",
+      "kind": "incident response team",
+      "gloss": "The Computer Security Incident Response Team of the National Bank of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose organizations were targeted in the cyberattack."
+    },
+    {
+      "name": "SuperOps RMM",
+      "kind": "software product",
+      "gloss": "A legitimate remote management and monitoring software misused by threat actors for unauthorized access."
+    },
+    {
+      "name": "Dropbox",
+      "kind": "cloud service",
+      "gloss": "A legitimate file hosting and cloud storage service used to deliver malicious files."
+    },
+    {
+      "name": "PyInstaller",
+      "kind": "software tool",
+      "gloss": "A software utility used to bundle Python applications and dependencies into standalone executables."
+    },
+    {
+      "name": "Сапер",
+      "kind": "software product",
+      "gloss": "The Minesweeper video game whose legitimate Python code was embedded inside malicious executables."
+    },
+    {
+      "name": "anotepad.com",
+      "kind": "internet domain",
+      "gloss": "A public online notepad service used to host encoded Python scripts."
+    },
+    {
+      "name": "Європа",
+      "kind": "region",
+      "gloss": "A continent whose financial and insurance institutions were referenced in attack filenames."
+    },
+    {
+      "name": "США",
+      "kind": "country",
+      "gloss": "The United States of America, whose institutions were referenced in attack filenames."
+    },
+    {
+      "name": "superops.com",
+      "kind": "internet domain",
+      "gloss": "A domain name associated with the SuperOps RMM service."
+    },
+    {
+      "name": "superops.ai",
+      "kind": "internet domain",
+      "gloss": "A domain name associated with the SuperOps RMM service."
+    },
+    {
+      "name": "UAC-0188",
+      "kind": "threat actor",
+      "gloss": "A threat actor cluster tracked by CERT-UA for conducting attacks utilizing SuperOps RMM."
+    },
+    {
+      "name": "Медичні_Аналізи_від_20.05.2024.scr",
+      "kind": "file",
+      "gloss": "A malicious screensaver executable distributed to Ukrainian targets."
+    },
+    {
+      "name": "4qrjbatw.py",
+      "kind": "file",
+      "gloss": "A Python script downloaded from an external service during execution."
+    },
+    {
+      "name": "image.jpg",
+      "kind": "file",
+      "gloss": "A file dropped or used during the infection chain."
+    },
+    {
+      "name": "data.zip",
+      "kind": "file",
+      "gloss": "A password-protected ZIP archive containing installer files."
+    },
+    {
+      "name": "7A99IAJSMFI8_2KGVBADXSI68_windows_x64.msi",
+      "kind": "file",
+      "gloss": "A legitimate SuperOps RMM installer extracted and executed during the attack."
+    },
+    {
+      "name": "info_statement_ID00000235135381.scr",
+      "kind": "file",
+      "gloss": "A malicious screensaver executable identified in the campaign."
+    },
+    {
+      "name": "Document_ChaseStatement0003241353491 (1).scr",
+      "kind": "file",
+      "gloss": "A malicious screensaver executable disguised as a financial document."
+    },
+    {
+      "name": "2d94hf6q.py",
+      "kind": "file",
+      "gloss": "A Python script downloaded during the infection process."
+    },
+    {
+      "name": "img00.jpg",
+      "kind": "file",
+      "gloss": "An image file observed as an artifact in the campaign."
+    },
+    {
+      "name": "DGEY39OGHDS0_1XLVGTIHXL1J4_windows_x64.msi",
+      "kind": "file",
+      "gloss": "A SuperOps RMM installer used to establish unauthorized remote access."
+    },
+    {
+      "name": "CCleaner1.zip",
+      "kind": "file",
+      "gloss": "A ZIP archive observed as an indicator of compromise."
+    },
+    {
+      "name": "1SIQ42DK7TWCG_1IXOK8MU075KW_windows_x64.msi",
+      "kind": "file",
+      "gloss": "A SuperOps RMM MSI installer executed via PowerShell."
+    },
+    {
+      "name": "ImportantSecurityUpdate.vbs",
+      "kind": "file",
+      "gloss": "A VBScript file identified as an indicator of compromise."
+    },
+    {
+      "name": "8181331b4ae052d895aa91e06b938dc3",
+      "kind": "file",
+      "gloss": "A malicious file hash and artifact identified in the incident."
+    },
+    {
+      "name": "BankOfAmerica_Statement_0543922.scr",
+      "kind": "file",
+      "gloss": "A malicious screensaver executable disguised as a bank statement."
+    },
+    {
+      "name": "ChaseOnline_Statement_ID034241356941.txt",
+      "kind": "file",
+      "gloss": "A text file observed as an indicator of compromise."
+    },
+    {
+      "name": "patient-docs-mail.com",
+      "kind": "internet domain",
+      "gloss": "A domain name used in the phishing infrastructure."
+    },
+    {
+      "name": "support2@patient-docs-mail.com",
+      "kind": "email address",
+      "gloss": "An email address used to distribute malicious messages."
+    },
+    {
+      "name": "acmaiiykmm@protonmail.com",
+      "kind": "email address",
+      "gloss": "A ProtonMail email address associated with the malicious activity."
+    },
+    {
+      "name": "yemmyusa.com",
+      "kind": "internet domain",
+      "gloss": "A domain name identified as network infrastructure in the attack."
+    },
+    {
+      "name": "Lexical Analysis Software Ltd",
+      "kind": "software vendor",
+      "gloss": "A software company whose name appears as a host artifact or digital signature entity."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0188",
+      "type": "abuses-tool",
+      "tail": "SuperOps RMM",
+      "evidence": "кібератаку, спрямовану на отримання несанкціонованого віддаленого доступу... з використанням легітимної програми... SuperOps RMM"
+    },
+    {
+      "head": "UAC-0188",
+      "type": "targets-country",
+      "tail": "Україна",
+      "evidence": "кібератаку, спрямовану на отримання несанкціонованого віддаленого доступу до ЕОМ українських організацій"
+    },
+    {
+      "head": "support2@patient-docs-mail.com",
+      "type": "belongs-to-domain",
+      "tail": "patient-docs-mail.com",
+      "evidence": "support2@patient-docs-mail.com"
+    },
+    {
+      "head": "Медичні_Аналізи_від_20.05.2024.scr",
+      "type": "packaged-with",
+      "tail": "PyInstaller",
+      "evidence": "файл (.SCR)... створений за допомогою PyInstaller"
+    },
+    {
+      "head": "Медичні_Аналізи_від_20.05.2024.scr",
+      "type": "embeds-code-of",
+      "tail": "Сапер",
+      "evidence": "містить, серед іншого, легітимний програмний Python-код гри \"Сапер\""
+    },
+    {
+      "head": "Медичні_Аналізи_від_20.05.2024.scr",
+      "type": "downloads-payload-from",
+      "tail": "anotepad.com",
+      "evidence": "здійснює завантаження (з сервісу anotepad.com), декодування (base64) та виконання Python-коду"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "abuses-tool",
+      "definition": "The threat actor misuses a legitimate tool or software product to perform malicious operations."
+    },
+    {
+      "name": "targets-country",
+      "definition": "The threat actor or campaign directs attacks against entities located in the specified country."
+    },
+    {
+      "name": "belongs-to-domain",
+      "definition": "The email address is hosted under or derived from the specified internet domain."
+    },
+    {
+      "name": "packaged-with",
+      "definition": "The executable file was compiled, packed, or bundled using the specified software tool."
+    },
+    {
+      "name": "embeds-code-of",
+      "definition": "The file or script incorporates source code from the specified application or project."
+    },
+    {
+      "name": "downloads-payload-from",
+      "definition": "The malicious file or script fetches an additional payload or code from the specified host or domain."
+    }
+  ]
+}

@@ -1,0 +1,182 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0173",
+      "kind": "cybercrime group",
+      "gloss": "A financially motivated cybercriminal group targeting Ukrainian notaries to make unauthorized changes in state registries."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Міністерство юстиції України",
+      "kind": "government body",
+      "gloss": "The Ukrainian government ministry responsible for the country's legal system and state registries."
+    },
+    {
+      "name": "DARKCRYSTALRAT",
+      "kind": "trojan malware",
+      "gloss": "A commercial remote access trojan also known as DCRat used for surveillance and remote control."
+    },
+    {
+      "name": "RDPWRAPPER",
+      "kind": "software tool",
+      "gloss": "An open-source utility that enables concurrent Remote Desktop connections on Windows systems."
+    },
+    {
+      "name": "BORE",
+      "kind": "software tool",
+      "gloss": "A modern TCP tunnel tool used to expose local ports to the internet."
+    },
+    {
+      "name": "NMAP",
+      "kind": "software tool",
+      "gloss": "A network scanner used to discover hosts and services on a computer network."
+    },
+    {
+      "name": "FIDDLER",
+      "kind": "software tool",
+      "gloss": "A debugging proxy application used to monitor and capture HTTP/HTTPS traffic."
+    },
+    {
+      "name": "XWORM",
+      "kind": "stealer malware",
+      "gloss": "A malware family featuring information stealing, keylogging, and remote access capabilities."
+    },
+    {
+      "name": "SENDEMAIL",
+      "kind": "software tool",
+      "gloss": "A command-line SMTP email client used to send emails automatically."
+    },
+    {
+      "name": "PEAKLIGHT",
+      "kind": "malware family",
+      "gloss": "A memory-only dropper malware family used in multi-stage cyber attacks."
+    },
+    {
+      "name": "Нотаріальна палата України",
+      "kind": "non-governmental organization",
+      "gloss": "The professional self-governing organization uniting all notaries of Ukraine."
+    },
+    {
+      "name": "Комісія з Кібербезпеки НПУ",
+      "kind": "committee",
+      "gloss": "The cybersecurity and digital transformation commission of the Notary Chamber of Ukraine."
+    },
+    {
+      "name": "ДП \"НАІС\"",
+      "kind": "state enterprise",
+      "gloss": "The Ukrainian state enterprise National Information Systems operating state registries under the Ministry of Justice."
+    },
+    {
+      "name": "ram.gps@bestank.ph",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator in the cyber attack."
+    },
+    {
+      "name": "89.105.201.98",
+      "kind": "ip address",
+      "gloss": "An IP address functioning as a command and control server."
+    },
+    {
+      "name": "193.233.48.166",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious files."
+    },
+    {
+      "name": "194.0.234.155",
+      "kind": "ip address",
+      "gloss": "An IP address used in the distribution of malware."
+    },
+    {
+      "name": "87.120.126.48",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious scripts and executables."
+    },
+    {
+      "name": "91.92.246.18",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious payload files."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0173",
+      "type": "operates-in",
+      "tail": "Україна",
+      "evidence": "територією вчинення злочину, щонайменше, в контексті вигодонабувачів, є Україна"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "impersonates",
+      "tail": "Міністерство юстиції України",
+      "evidence": "нібито, від імені одного з територіальних підрозділів Міністерства юстиції України"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "deploys-malware",
+      "tail": "DARKCRYSTALRAT",
+      "evidence": "запуск якого призведе до ураження комп'ютера шкідливою програмою DARKCRYSTALRAT"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "uses-tool",
+      "tail": "RDPWRAPPER",
+      "evidence": "зловмисниками вживаються заходи зі встановлення додаткового інструментарію, зокрема, RDPWRAPPER"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "uses-tool",
+      "tail": "BORE",
+      "evidence": "у поєднанні із застосуванням утиліти BORE"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "uses-tool",
+      "tail": "NMAP",
+      "evidence": "відмічено використання програм для обходу механізму контролю облікових записів UAC (User Account Control), мережевого сканеру NMAP"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "uses-tool",
+      "tail": "FIDDLER",
+      "evidence": "проксі/сніферу FIDDLER (для перехоплення автентифікаційних даних"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "deploys-malware",
+      "tail": "XWORM",
+      "evidence": "стілеру XWORM (для викрадення логінів, паролів"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "uses-tool",
+      "tail": "SENDEMAIL",
+      "evidence": "для цього використовується консольна утиліта SENDEMAIL"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "operates-in",
+      "definition": "The threat actor carries out malicious activities targeting or within the specified geographic area."
+    },
+    {
+      "name": "impersonates",
+      "definition": "The threat actor falsely claims to represent an organization to deceive targets."
+    },
+    {
+      "name": "deploys-malware",
+      "definition": "The actor or group installs, distributes, or executes a specific malware program on targeted systems."
+    },
+    {
+      "name": "uses-tool",
+      "definition": "The actor or group leverages a specific legitimate software utility or tool during their operations."
+    },
+    {
+      "name": "subdivision-of",
+      "definition": "The entity is a formal internal body, commission, or division of another organization."
+    }
+  ]
+}

@@ -1,0 +1,237 @@
+{
+  "docId": 4905718,
+  "date": "16.06.2023",
+  "title": "Кібератака групи UAC-0057 (GhostWriter) у відношенні державної організації України з використанням PicassoLoader та Cobalt Strike Beacon (CERT-UA#6852)",
+  "entities": [
+    {
+      "id": "4905718:0",
+      "name": "daewdfq342r.ppt",
+      "kind": "malicious file",
+      "gloss": "A malicious PowerPoint presentation containing VBA macros used to deliver malware.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "4905718:1",
+      "name": "Національний університет оборони України імені Івана Черняхівського",
+      "kind": "higher education institution",
+      "gloss": "A leading Ukrainian military university whose emblem was impersonated in a lure document.",
+      "scheme": null,
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "4905718:2",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "4905718:3",
+      "name": "glkgh90kjykjkl650kj0.dll",
+      "kind": "malware file",
+      "gloss": "A malicious DLL file acting as an instance of PicassoLoader.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "4905718:4",
+      "name": "PicassoLoader",
+      "kind": "malware family",
+      "gloss": "A malware loader used to download, decrypt, and execute secondary payloads hidden inside images.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "4905718:5",
+      "name": "UAC-0057 (GhostWriter)",
+      "kind": "threat actor group",
+      "gloss": "A cyber threat actor associated with cyber espionage and disinformation campaigns.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "4905718:6",
+      "name": "PhotoMetadataHandler.dll",
+      "kind": "malware file",
+      "gloss": "A malicious DLL component used to decrypt and execute Cobalt Strike Beacon.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "4905718:7",
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware family",
+      "gloss": "The payload component of the Cobalt Strike adversary simulation software used for command and control.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "4905718:8",
+      "name": "російська федерація",
+      "kind": "country",
+      "gloss": "A country spanning Eastern Europe and Northern Asia.",
+      "scheme": "S5",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4905718:9",
+      "name": "Cloudflare",
+      "kind": "company",
+      "gloss": "An American web infrastructure and website security company providing CDN and reverse proxy services.",
+      "scheme": "S1",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "4905718:10",
+      "name": "Temphkl560yhk5h40ikhp4kh09k.lnk",
+      "kind": "malicious file",
+      "gloss": "A malicious shortcut file used to execute a payload on a victim system.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4905718:11",
+      "name": "JBLJDESK.dll",
+      "kind": "malware file",
+      "gloss": "A dynamic link library file associated with PicassoLoader.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "4905718:12",
+      "name": "lee-leopard.jpg",
+      "kind": "malicious file",
+      "gloss": "An image file used by PicassoLoader to conceal encrypted malware payloads.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "4905718:13",
+      "name": "lee-leopard.exe",
+      "kind": "malware file",
+      "gloss": "An executable payload delivered during the infection process.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4905718:14",
+      "name": "Mcirosoft Edge Update.lnk",
+      "kind": "malicious file",
+      "gloss": "A malicious shortcut file placed in the startup folder for persistence.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4905718:15",
+      "name": "PhotoMetadataHandler.exe",
+      "kind": "malware file",
+      "gloss": "An in-memory executable payload decrypted and executed during infection.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4905718:16",
+      "name": "CobaltStrikeBeacon.shellcode",
+      "kind": "malware file",
+      "gloss": "A shellcode file containing Cobalt Strike Beacon payload.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "4905718:17",
+      "name": "yotsubasociety[.]website",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used for command and control infrastructure.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4905718:18",
+      "name": "bourns[.]space",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used to host steganographic image payloads.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": "attacker"
+    }
+  ],
+  "relations": [
+    {
+      "head": "daewdfq342r.ppt",
+      "type": "delivers",
+      "tail": "glkgh90kjykjkl650kj0.dll",
+      "evidence": "буде створено виконуваний файл \"%APPDATA%\\Signal_update_6.0.3.4\\glkgh90kjykjkl650kj0.dll\""
+    },
+    {
+      "head": "glkgh90kjykjkl650kj0.dll",
+      "type": "part-of",
+      "tail": "PicassoLoader",
+      "evidence": "Файл \"glkgh90kjykjkl650kj0.dll\" класифіковано як шкідливу програму PicassoLoader"
+    },
+    {
+      "head": "UAC-0057 (GhostWriter)",
+      "type": "uses-malware",
+      "tail": "PicassoLoader",
+      "evidence": "типово використовується групою UAC-0057 (GhostWriter)"
+    },
+    {
+      "head": "PicassoLoader",
+      "type": "delivers",
+      "tail": "PhotoMetadataHandler.dll",
+      "evidence": "PicassoLoader забезпечить завантаження і запуск .NET-дроперу, що здійснить дешифрування (AES) та запуск виконуваного файлу \"PhotoMetadataHandler.dll\""
+    },
+    {
+      "head": "PhotoMetadataHandler.dll",
+      "type": "delivers",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "виконає дешифрування та запуск Cobalt Strike Beacon на ЕОМ жертви"
+    },
+    {
+      "head": "JBLJDESK.dll",
+      "type": "part-of",
+      "tail": "PicassoLoader",
+      "evidence": "JBLJDESK.dll (PicassoLoader)"
+    },
+    {
+      "head": "CobaltStrikeBeacon.shellcode",
+      "type": "part-of",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "CobaltStrikeBeacon.shellcode (Cobalt Strike Beacon)"
+    },
+    {
+      "head": "bourns[.]space",
+      "type": "hosts",
+      "tail": "lee-leopard.jpg",
+      "evidence": "hXXps://bourns[.]space/p/covers/assets/images/lee-leopard.jpg"
+    },
+    {
+      "head": "Національний університет оборони України імені Івана Черняхівського",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Національного університету оборони України імені Івана Черняхівського"
+    }
+  ],
+  "unclassified": [
+    "4905718:1"
+  ]
+}

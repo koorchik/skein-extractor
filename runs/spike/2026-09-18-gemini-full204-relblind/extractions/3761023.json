@@ -1,0 +1,179 @@
+{
+  "entities": [
+    {
+      "name": "Міністерства закордонних справ України",
+      "kind": "government body",
+      "gloss": "The government ministry responsible for Ukraine's foreign relations."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "Protector.bat",
+      "kind": "malicious script",
+      "gloss": "A malicious batch script used to launch subsequent PowerShell commands and payloads."
+    },
+    {
+      "name": "CERT Polska",
+      "kind": "csirt",
+      "gloss": "The national computer emergency response team of Poland."
+    },
+    {
+      "name": "CSIRT MON",
+      "kind": "csirt",
+      "gloss": "The computer security incident response team of the Ministry of National Defence of Poland."
+    },
+    {
+      "name": "Республіка Польща",
+      "kind": "country",
+      "gloss": "A sovereign state in Central Europe."
+    },
+    {
+      "name": "МЗС України",
+      "kind": "government body",
+      "gloss": "The Ministry of Foreign Affairs of Ukraine."
+    },
+    {
+      "name": "СБ України",
+      "kind": "government body",
+      "gloss": "The Security Service of Ukraine, the country's primary security agency."
+    },
+    {
+      "name": "Поліції Польщі",
+      "kind": "government body",
+      "gloss": "The national police force of Poland."
+    },
+    {
+      "name": "МО України",
+      "kind": "government body",
+      "gloss": "The Ministry of Defence of Ukraine."
+    },
+    {
+      "name": "UAC-0114",
+      "kind": "threat group",
+      "gloss": "A threat actor group also known as Winter Vivern that targets government organizations in Europe and Ukraine."
+    },
+    {
+      "name": "Winter Vivern",
+      "kind": "threat group",
+      "gloss": "An alias for the cyber threat group tracked as UAC-0114."
+    },
+    {
+      "name": "APERETIF",
+      "kind": "malware family",
+      "gloss": "A malware family used by the Winter Vivern (UAC-0114) threat actor group."
+    },
+    {
+      "name": "Забезпечення кібербезпеки.html",
+      "kind": "file",
+      "gloss": "An HTML file used as part of a phishing attack."
+    },
+    {
+      "name": "bugiplaysec[.]com",
+      "kind": "hostname",
+      "gloss": "A malicious domain used by threat actors for hosting phishing pages and scripts."
+    },
+    {
+      "name": "troadsecow[.]com",
+      "kind": "hostname",
+      "gloss": "A malicious domain used by threat actors to host phishing pages and malware payloads."
+    },
+    {
+      "name": "ocspdep[.]com",
+      "kind": "hostname",
+      "gloss": "A malicious domain used in phishing infrastructure mimicking government entities."
+    },
+    {
+      "name": "176[.]97.66.57",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat infrastructure."
+    },
+    {
+      "name": "195[.]54.170.26",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat infrastructure."
+    },
+    {
+      "name": "45[.]136.198.141",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat infrastructure."
+    },
+    {
+      "name": "80[.]79.119.239",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0114",
+      "type": "is-also-known-as",
+      "tail": "Winter Vivern",
+      "evidence": "UAC-0114 (також відома як Winter Vivern)"
+    },
+    {
+      "head": "UAC-0114",
+      "type": "uses-malware",
+      "tail": "APERETIF",
+      "evidence": "одна з використовуваних шкідливих програм APERETIF"
+    },
+    {
+      "head": "CERT Polska",
+      "type": "located-in",
+      "tail": "Республіка Польща",
+      "evidence": "CERT Polska та CSIRT MON (Республіка Польща)"
+    },
+    {
+      "head": "CSIRT MON",
+      "type": "located-in",
+      "tail": "Республіка Польща",
+      "evidence": "CSIRT MON (Республіка Польща)"
+    },
+    {
+      "head": "Поліції Польщі",
+      "type": "located-in",
+      "tail": "Республіка Польща",
+      "evidence": "Поліції Польщі"
+    },
+    {
+      "head": "Міністерства закордонних справ України",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "Міністерства закордонних справ України"
+    },
+    {
+      "head": "МЗС України",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "МЗС України"
+    },
+    {
+      "head": "СБ України",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "СБ України"
+    },
+    {
+      "head": "МО України",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "МО України"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "is-also-known-as",
+      "definition": "The head entity is known by an alternative identifier or alias."
+    },
+    {
+      "name": "uses-malware",
+      "definition": "The threat actor or group utilizes a specific malware family in its operations."
+    },
+    {
+      "name": "located-in",
+      "definition": "The entity is located within or belongs to a particular country or state."
+    }
+  ]
+}

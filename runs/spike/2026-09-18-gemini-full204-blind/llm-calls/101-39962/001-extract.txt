@@ -1,0 +1,162 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+- uses-malware: A threat actor utilizes or deploys a specific malware tool or family in their operations.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p class="ql-align-justify"><strong>Загальна інформація</strong>&nbsp;</p><p class="ql-align-justify">Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA, за участі суб'єктів забезпечення кібербезпеки України та суб'єктів координації, вживаються, серед іншого, заходи з накопичення та аналізу інформації щодо кіберзагроз.&nbsp;</p><p class="ql-align-justify">Керуючись п. 4 ст. 9 Закону України "Про основні засади забезпечення кібербезпеки України", з метою інформування суспільства, дані про кіберзагрози, а саме: перелік індикаторів компрометації, відомості щодо тактик, технік та процедур, що використовуються зловмисниками та відповідні рекомендації, розповсюджується серед суб'єктів координації та інших осіб чи організацій для вжиття відповідних заходів шляхом публікації матеріалів на офіційному веб-сайті <a href="https://cert.gov.ua" rel="noopener noreferrer" target="_blank">https://cert.gov.ua</a>.&nbsp;</p><p>Задля підвищення ефективності інформаційного обміну та рівня координації між суб'єктами забезпечення кібербезпеки України, подальше розповсюдження відомостей оперативно-тактичного рівня здійснюватиметься з рівнем обмеження доступу TLP:AMBER через мережу вузлів MISP, <span style="color: rgb(27, 27, 27);">розгорнутих в Службі безпеки України, Національному координаційному центрі кібербезпеки РНБО України, Національному банку України, Держспецзв'язку (CERT-UA) та інших, в т.ч. галузевих, центрах кібербезпеки.</span></p><p class="ql-align-justify">З метою оперативного отримання інформації про кіберзагрози просимо українські підприємства, установи та організації, незалежно від форми власності (в першу чергу – державні органи та об'єкти критичної інформаційної інфраструктури), невідкладно розпочати відповідну взаємодію з будь-яким із вищезгаданих суб'єктів забезпечення кібербезпеки України за згодою.&nbsp;</p><p class="ql-align-justify">Обмін інформацією можливо організувати або шляхом встановлення в організації вузла MISP, або ж через веб-інтерфейс одного з перелічених вище вузлів. Організація-учасник інформаційного обміну повинна надіслати заявку до відповідного суб'єкту забезпечення кібербезпеки України та бути готовою до верифікації відповідальної особи та факту приналежності до організації-учасника.&nbsp;</p><p class="ql-align-justify">Наголошуємо на важливості та необхідності невідкладного інформування про несанкціоновані дії (кібератаки, кіберінциденти), що безпосередньо визначено такими нормативно-правовими актами:&nbsp;</p><ul><li class="ql-align-justify">п.4 статті 6 Закону України "Про основні засади забезпечення кібербезпеки України";&nbsp;</li><li class="ql-align-justify">п.8 "Загальних вимог до кіберзахисту об’єктів критичної інфраструктури", затверджених постановою КМУ від 19.06.2019 №518;&nbsp;</li><li class="ql-align-justify">п.3 "Порядку координації діяльності органів державної влади, органів місцевого самоврядування, військових формувань, підприємств,&nbsp;установ і організацій незалежно від форм власності з питань запобігання, виявлення та усунення наслідків несанкціонованих дій щодо державних інформаційних ресурсів в інформаційних, телекомунікаційних та інформаційно-телекомунікаційних системах", затвердженого наказом Адміністрації Держспецзв'язку від 10.06.2008 №94.&nbsp;</li></ul><p class="ql-align-justify">&nbsp;</p><p class="ql-align-justify">Контактні дані суб'єктів забезпечення кібербезпеки України, на базі яких розгорнуто вузли MISP для обміну інформацією про кіберзагрози:&nbsp;</p><ul><li class="ql-align-justify">СБУ: support@dis.gov[.]ua&nbsp;</li><li class="ql-align-justify">НБУ: csirt-nbu@bank.gov[.]ua&nbsp;</li><li class="ql-align-justify">НКЦК: report@ncscc.gov[.]ua&nbsp;</li><li class="ql-align-justify">Держспецзв'язку: cert@cert.gov[.]ua&nbsp;</li></ul><p class="ql-align-justify">&nbsp;</p><p class="ql-align-justify"><strong>Порядок користування CERT-UA MISP</strong>&nbsp;</p><p class="ql-align-justify">Для реєстрації в системі особі, яка відповідальна за забезпечення кібербезпеки організації, зв’язатися з представниками CERT-UA за електронною поштою, пройти верифікацію, узгодити технічні аспекти інформаційного обміну (наявність додатку для багатофакторної автентифікації, перелік IP-адрес, з яких здійснюватиметься доступ тощо).&nbsp;</p><p class="ql-align-justify">Факт розміщення інформації про кіберзагрозу в CERT-UA MISP супроводжується надсиланням на email-адресу учасника інформаційного обміну електронного листа (рис. 1).&nbsp;</p><p></p><p class="ql-align-center">Рис.&nbsp;1&nbsp;Приклад нотифікації та значення тегів</p><p class="ql-align-center"><br></p><p class="ql-align-justify">З метою ознайомлення зі змістом чергового повідомлення про кіберзагрозу учасник інформаційного обміну авторизується в CERT-UA MISP (<a href="https://misp.cert.gov.ua/" rel="noopener noreferrer" target="_blank">https://misp.cert.gov.ua/</a>). Розділ "Event Actions" → "List Events" містить перелік опублікованих подій. Кожна подія містить короткий опис, рівень обмеженні доступу, ідентифікатор загрози, ідентифікатор кіберінциденту, а також, за наявності, назви шкідливих програм та інші атрибути (рис.&nbsp;2).</p><p></p><p class="ql-align-center">Рис.&nbsp;2&nbsp;Перелік опублікованих подій</p><p class="ql-align-center"><br></p><p class="ql-align-justify">Для експорту опублікованих індикаторів компрометації (хеш-суми файлів, IP-адреси, доменні імена та інше) необхідно відкрити контекст конкретної події та, в меню ліворуч, обрати пункт "Download as…", після чого у вікні, що відкриється, натиснути на пункт "CSV"; при цьому, галочку навпроти опції "Include non-IDS marked attributes" не ставити (рис.&nbsp;3-4).</p><p></p><p class="ql-align-center">Рис.&nbsp;3&nbsp;Експорт індикаторів конкретної події</p><p class="ql-align-center"><br></p><p></p><p class="ql-align-center">Рис.&nbsp;4&nbsp;Приклад експортованих індикаторів у форматі CSV</p><p><br></p><p class="ql-align-justify">Інформація, яка розповсюджується засобами MISP CERT-UA надається відповідальній особі з рівнем обмеження доступу TLP:AMBER, тобто, <strong>виключно з метою забезпечення кібербезпеки конкретної організації</strong>, без права її поширення серед третіх осіб, публічного оприлюднення тощо. Більш детально про TLP за посиланням: <a href="https://cert.gov.ua/recommendation/16894" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/recommendation/16894</a> (<a href="https://www.cisa.gov/tlp" rel="noopener noreferrer" target="_blank">https://www.cisa.gov/tlp</a>).</p><p class="ql-align-justify"><br></p><p class="ql-align-justify"><strong>Коментар для суб'єктів забезпечення кібербезпеки України (організаторів інформаційного обміну)</strong></p><ol><li class="ql-align-justify">Під час обміну інформацією про кіберзагрози дотримуватися протоколу TLP.</li><li class="ql-align-justify">За замовчуванням, інформація оперативно-тактичного рівня, що стосується активної фази атаки і/або передана учасником інформаційного обміну (та недоступна публічно), розповсюджується з рівнем обмеження доступу TLP:AMBER (дозволено використання виключно в межах організації-отримувача).</li><li class="ql-align-justify">У випадку, якщо вся інформація про кіберінцидент або її частина оприлюднена третіми особами в засобах масової інформації: новини, соціальні мережі, звіти інших компаній, або частково доступна в репозиторіях шкідливих програм і/або спеціальних сервісах, рівень обмеження доступу до такої інформації понижується до TLP:WHITE.</li><li class="ql-align-justify">Організатор інформаційного обміну під час розповсюдження інформації керується принципом мінімальної необхідності, здійснюючи інформаційний обмін виключно з особами, які відповідальні за забезпечення кібербезпеки в конкретній організації.</li><li class="ql-align-justify">Організатор інформаційного обміну, надаючи доступ до веб-інтерфейсу власного MISP-вузла, забезпечує ідентифікацію кожного учасника інформаційного обміну та налаштування багатофакторної автентифікації; за необхідності, налаштовується фільтрація на мережевому рівні тощо. У випадку інтеграцій та використання API вживаються заходи з фільтрації на мережевому рівні.</li><li class="ql-align-justify">За необхідності надсилання інформації про кіберзагрози рівня TLP:AMBER засобами електронної пошти – використовувати OpenPGP.</li><li class="ql-align-justify">Повідомлення про кіберінцидент/кіберзагрозу мають містити: короткий опис (контекст), ідентифікатор загрози (наприклад, UAC-0010), назви шкідливих програм, інформацію про файли (хеш-суми: MD5,SHA1,SHA256), а також індикатори компрометації.</li></ol>
+
+=== RESPONSE (5.8s, in 3804 / out 1044 tok, STOP) ===
+```json
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "Служба безпеки України",
+      "kind": "government body",
+      "gloss": "The state security and counterintelligence agency of Ukraine."
+    },
+    {
+      "name": "Національний координаційний центр кібербезпеки РНБО України",
+      "kind": "government body",
+      "gloss": "A working body of the NSDC of Ukraine coordinating cybersecurity activities."
+    },
+    {
+      "name": "РНБО України",
+      "kind": "government body",
+      "gloss": "The National Security and Defense Council of Ukraine."
+    },
+    {
+      "name": "Національний банк України",
+      "kind": "government body",
+      "gloss": "The central bank of Ukraine."
+    },
+    {
+      "name": "Держспецзв'язку",
+      "kind": "government body",
+      "gloss": "The State Service of Special Communications and Information Protection of Ukraine."
+    },
+    {
+      "name": "MISP",
+      "kind": "software product",
+      "gloss": "An open-source threat intelligence platform for sharing, storing, and correlating indicators of compromise."
+    },
+    {
+      "name": "support@dis.gov[.]ua",
+      "kind": "email address",
+      "gloss": "A contact email address associated with the Security Service of Ukraine for threat sharing."
+    },
+    {
+      "name": "csirt-nbu@bank.gov[.]ua",
+      "kind": "email address",
+      "gloss": "A contact email address for the CSIRT of the National Bank of Ukraine."
+    },
+    {
+      "name": "report@ncscc.gov[.]ua",
+      "kind": "email address",
+      "gloss": "A contact email address for the National Cyber Security Coordination Center of Ukraine."
+    },
+    {
+      "name": "cert@cert.gov[.]ua",
+      "kind": "email address",
+      "gloss": "A contact email address for the State Service of Special Communications and Information Protection."
+    },
+    {
+      "name": "misp.cert.gov.ua",
+      "kind": "internet domain",
+      "gloss": "A domain hosting the MISP threat intelligence platform instance operated by CERT-UA."
+    },
+    {
+      "name": "cert.gov.ua",
+      "kind": "internet domain",
+      "gloss": "The official domain of the Computer Emergency Response Team of Ukraine."
+    },
+    {
+      "name": "OpenPGP",
+      "kind": "software product",
+      "gloss": "An open standard for encrypting and signing email and data."
+    },
+    {
+      "name": "UAC-0010",
+      "kind": "hacking group",
+      "gloss": "A cyber threat actor identifier tracked by CERT-UA, also associated with Gamaredon / Armageddon."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Служба безпеки України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Службі безпеки України"
+    },
+    {
+      "head": "Національний координаційний центр кібербезпеки РНБО України",
+      "type": "part-of",
+      "tail": "РНБО України",
+      "evidence": "Національному координаційному центрі кібербезпеки РНБО України"
+    },
+    {
+      "head": "РНБО України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "РНБО України"
+    },
+    {
+      "head": "Національний банк України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Національному банку України"
+    },
+    {
+      "head": "Держспецзв'язку",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "суб'єктів забезпечення кібербезпеки України... Держспецзв'язку"
+    }
+  ],
+  "newRelationTypes": []
+}
+```

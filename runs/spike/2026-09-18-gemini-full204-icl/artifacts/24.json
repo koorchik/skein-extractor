@@ -1,0 +1,211 @@
+{
+  "docId": 24,
+  "date": "21.02.2020",
+  "title": "УВАГА! Спостерігається масова розсилка фішингових листів, які використовують вразливість CVE-2017-11882",
+  "entities": [
+    {
+      "id": "24:0",
+      "name": "MS Equation",
+      "kind": "software product",
+      "gloss": "A component of Microsoft Office used to insert and edit mathematical equations.",
+      "scheme": "S2",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "24:1",
+      "name": "CVE-2017-11882",
+      "kind": "security vulnerability",
+      "gloss": "A remote code execution vulnerability in Microsoft Equation Editor.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "24:2",
+      "name": "major[.]exe",
+      "kind": "malware",
+      "gloss": "A malicious executable file downloaded following exploitation of CVE-2017-11882.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "24:3",
+      "name": "216.170.123.111",
+      "kind": "ip address",
+      "gloss": "An IP address hosting a malicious executable payload.",
+      "scheme": null,
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "24:4",
+      "name": "hххp[:]//216.170.123.111/major[.]exe",
+      "kind": "url",
+      "gloss": "A malicious URL from which the major[.]exe payload is retrieved.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "24:5",
+      "name": "Microsoft Office 2016",
+      "kind": "software product",
+      "gloss": "A version of Microsoft's office productivity software suite.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "24:6",
+      "name": "MS Office",
+      "kind": "software product",
+      "gloss": "A suite of office productivity applications developed by Microsoft.",
+      "scheme": "S2",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "24:7",
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft.",
+      "scheme": "S2",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "24:8",
+      "name": "PGMB New Order 18-2077[.]xlsx",
+      "kind": "malicious file",
+      "gloss": "A weaponized spreadsheet file identified as an indicator of compromise.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "24:9",
+      "name": "Microsoft Office 2007 Service Pack 3",
+      "kind": "software product",
+      "gloss": "A service pack release of Microsoft Office 2007.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "24:10",
+      "name": "Microsoft Office 2010 Service Pack 2",
+      "kind": "software product",
+      "gloss": "A service pack release of Microsoft Office 2010.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "24:11",
+      "name": "Microsoft Office 2013 Service Pack 1",
+      "kind": "software product",
+      "gloss": "A service pack release of Microsoft Office 2013.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "24:12",
+      "name": "Security Update 4011604",
+      "kind": "security update",
+      "gloss": "A Microsoft security update for Office 2007 Service Pack 3.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "24:13",
+      "name": "Security Update 4011618",
+      "kind": "security update",
+      "gloss": "A Microsoft security update for Office 2010 Service Pack 2.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "24:14",
+      "name": "Security Update 3162047",
+      "kind": "security update",
+      "gloss": "A Microsoft security update for Office 2013 Service Pack 1.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "24:15",
+      "name": "Security Update 4011262",
+      "kind": "security update",
+      "gloss": "A Microsoft security update for Office 2016.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2017-11882",
+      "type": "affects",
+      "tail": "MS Equation",
+      "evidence": "коли програмне забезпечення MS Equation не обробляє належним чином об'єкти в пам'яті"
+    },
+    {
+      "head": "CVE-2017-11882",
+      "type": "affects",
+      "tail": "Microsoft Office 2016",
+      "evidence": "Дана вразливість може використовуватись в Microsoft Office 2016"
+    },
+    {
+      "head": "MS Equation",
+      "type": "part-of",
+      "tail": "MS Office",
+      "evidence": "Відключити Microsoft Equation Editor в Office"
+    },
+    {
+      "head": "216.170.123.111",
+      "type": "hosts",
+      "tail": "major[.]exe",
+      "evidence": "завантажується файл major[.]exe з адреси hххp[:]//216.170.123.111/major[.]exe"
+    },
+    {
+      "head": "Security Update 4011604",
+      "type": "fixes-vulnerability-in",
+      "tail": "Microsoft Office 2007 Service Pack 3",
+      "evidence": "Microsoft Office 2007 Service Pack 3 – Security Update 4011604"
+    },
+    {
+      "head": "Security Update 4011618",
+      "type": "fixes-vulnerability-in",
+      "tail": "Microsoft Office 2010 Service Pack 2",
+      "evidence": "Microsoft Office 2010 Service Pack 2 (32-bit editions) – Security Update 4011618"
+    },
+    {
+      "head": "Security Update 3162047",
+      "type": "fixes-vulnerability-in",
+      "tail": "Microsoft Office 2013 Service Pack 1",
+      "evidence": "Microsoft Office 2013 Service Pack 1 (32-bit editions) – Security Update 3162047"
+    },
+    {
+      "head": "Security Update 4011262",
+      "type": "fixes-vulnerability-in",
+      "tail": "Microsoft Office 2016",
+      "evidence": "Microsoft Office 2016 (32-bit edition) – Security Update 4011262"
+    }
+  ],
+  "unclassified": [
+    "24:2",
+    "24:3",
+    "24:4",
+    "24:8",
+    "24:12",
+    "24:13",
+    "24:14",
+    "24:15"
+  ]
+}

@@ -1,0 +1,202 @@
+{
+  "docId": 2394117,
+  "date": "22.10.2022",
+  "title": "Кібератака на державні організації України з використанням шкідливої програми RomCom. Можлива причетність Cuba Ransomware aka Tropical Scorpius aka UNC2596 (CERT-UA#5509)",
+  "entities": [
+    {
+      "id": "2394117:0",
+      "name": "Пресслужба Генштабу ЗСУ",
+      "kind": "government body",
+      "gloss": "The press service of the General Staff of the Armed Forces of Ukraine.",
+      "scheme": "S6",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "2394117:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "2394117:2",
+      "name": "Tropical Scorpius",
+      "kind": "threat actor",
+      "gloss": "A threat group tracked as UNC2596 and UAC-0132, known for deploying Cuba Ransomware and RomCom malware.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "2394117:3",
+      "name": "UNC2596",
+      "kind": "threat actor",
+      "gloss": "A threat group identifier assigned by Mandiant, also known as Tropical Scorpius and UAC-0132.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": null
+    },
+    {
+      "id": "2394117:4",
+      "name": "UAC-0132",
+      "kind": "threat actor",
+      "gloss": "A threat actor identifier tracked by CERT-UA, associated with Tropical Scorpius and RomCom malware.",
+      "scheme": "S15",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2394117:5",
+      "name": "RomCom",
+      "kind": "malware family",
+      "gloss": "A backdoor malware family used in cyberespionage and cybercrime campaigns.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2394117:6",
+      "name": "Cuba Ransomware",
+      "kind": "ransomware family",
+      "gloss": "A ransomware family operated and distributed by the threat actor Tropical Scorpius.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2394117:7",
+      "name": "Unit42",
+      "kind": "cybersecurity company",
+      "gloss": "The threat intelligence and cyber defense research arm of Palo Alto Networks.",
+      "scheme": "S10",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2394117:8",
+      "name": "Mandiant",
+      "kind": "cybersecurity company",
+      "gloss": "An American cybersecurity company specializing in threat intelligence and incident response.",
+      "scheme": "S10",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "2394117:9",
+      "name": "PDF Reader",
+      "kind": "software product",
+      "gloss": "A general class of software applications designed to view PDF documents, used as a lure.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2394117:10",
+      "name": "AcroRdrDCx642200120169_uk_UA.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable disguised as an Adobe Acrobat Reader installer used to drop RomCom malware.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "2394117:11",
+      "name": "rmtpak.dll",
+      "kind": "dynamic link library",
+      "gloss": "A malicious dynamic-link library file identified as the RomCom backdoor.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "2394117:12",
+      "name": "cve-2022-24521",
+      "kind": "vulnerability identifier",
+      "gloss": "A privilege escalation vulnerability in the Windows Common Log File System Driver.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2394117:13",
+      "name": "Blythe Consulting sp. z o.o.",
+      "kind": "company",
+      "gloss": "A business entity whose digital certificate was used to sign malicious files.",
+      "scheme": "S1",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2394117:14",
+      "name": "Wechapaisch Consulting & Construction Limited",
+      "kind": "company",
+      "gloss": "A business entity whose digital certificate was used to sign malicious software components.",
+      "scheme": "S1",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2394117:15",
+      "name": "notfiled.com",
+      "kind": "internet domain",
+      "gloss": "A domain name used as network infrastructure in malicious campaigns.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "2394117:16",
+      "name": "aspx.io",
+      "kind": "internet domain",
+      "gloss": "A domain name utilized to host malicious downloads and fake PDF lures.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "2394117:17",
+      "name": "s.l.sinkewitch@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address used to distribute malicious phishing emails.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Пресслужба Генштабу ЗСУ",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Пресслужби Генштабу ЗСУ"
+    },
+    {
+      "head": "Tropical Scorpius",
+      "type": "uses-malware",
+      "tail": "RomCom",
+      "evidence": "групи Tropical Scorpius... що відповідальна за розповсюдження Cuba Ransomware"
+    },
+    {
+      "head": "Tropical Scorpius",
+      "type": "uses-malware",
+      "tail": "Cuba Ransomware",
+      "evidence": "Tropical Scorpius... що відповідальна за розповсюдження Cuba Ransomware"
+    },
+    {
+      "head": "AcroRdrDCx642200120169_uk_UA.exe",
+      "type": "delivers",
+      "tail": "rmtpak.dll",
+      "evidence": "призведе до декодування та запуску файлу \"rmtpak.dll\""
+    },
+    {
+      "head": "rmtpak.dll",
+      "type": "part-of",
+      "tail": "RomCom",
+      "evidence": "файлу \"rmtpak.dll\". Останній класифіковано як шкідливу програму RomCom"
+    }
+  ],
+  "unclassified": []
+}

@@ -1,0 +1,142 @@
+{
+  "docId": 13156,
+  "date": "13.07.2021",
+  "title": "Зафіксовано атаку на державні органи України з використанням веб-сайту, що імітує Офіційне інтернет-представництво Президента України",
+  "entities": [
+    {
+      "id": "13156:0",
+      "name": "OUTSTEEL",
+      "kind": "malware family",
+      "gloss": "A malware family designed for document discovery and data exfiltration.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "13156:1",
+      "name": "LOADJUMP",
+      "kind": "malware family",
+      "gloss": "A malware family designed to download and execute secondary payloads.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "13156:2",
+      "name": "Президент України",
+      "kind": "government body",
+      "gloss": "The head of state and supreme executive authority of Ukraine.",
+      "scheme": "S6",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "13156:3",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "13156:4",
+      "name": "756285df0c8b81cf14ad3463a57d33ed.xll",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel Add-in file containing the LOADJUMP malware.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "13156:5",
+      "name": "0707a[.]exe",
+      "kind": "malicious file",
+      "gloss": "A malicious .NET executable that decodes and executes the OUTSTEEL malware.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "13156:6",
+      "name": "differencecell.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable downloaded and executed by a malicious document macro.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "13156:7",
+      "name": "1833[.]site",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host malicious executable payloads.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "13156:8",
+      "name": "gov-ua[.]info",
+      "kind": "internet domain",
+      "gloss": "A spoofed internet domain imitating Ukrainian government web resources.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "13156:9",
+      "name": "giraffe-tour[.]ru",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host malicious payloads.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "13156:10",
+      "name": "45.146.165[.]91",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server for data exfiltration.",
+      "scheme": "S11",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "13156:11",
+      "name": "31.31.198[.]151",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious campaign infrastructure.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Президент України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "офіційне інтернет-представництво Президента України"
+    },
+    {
+      "head": "1833[.]site",
+      "type": "hosts",
+      "tail": "0707a[.]exe",
+      "evidence": "з'єднання з URL-адресою http[:]//1833[.]site/0707a[.]exe, завантажить і виконає файл “0707a[.]exe”"
+    },
+    {
+      "head": "0707a[.]exe",
+      "type": "delivers",
+      "tail": "OUTSTEEL",
+      "evidence": "Файл 0707a.exe є .NET програмою, яка забезпечить декодування і запуск шкідливої програми OUTSTEEL"
+    },
+    {
+      "head": "OUTSTEEL",
+      "type": "communicates-with",
+      "tail": "45.146.165[.]91",
+      "evidence": "передачу цих даних на сервер управління... http://45.146.165[.]91:8080/upld/"
+    }
+  ],
+  "unclassified": []
+}

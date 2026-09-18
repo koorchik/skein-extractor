@@ -1,0 +1,82 @@
+{
+  "entities": [
+    {
+      "name": "Microsoft",
+      "kind": "software company",
+      "gloss": "An American multinational technology corporation providing software, hardware, and cloud services."
+    },
+    {
+      "name": "CVE-2022-21907",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in the Windows HTTP Protocol Stack (http.sys)."
+    },
+    {
+      "name": "HTTP Protocol Stack (http.sys)",
+      "kind": "software component",
+      "gloss": "A Windows kernel-mode device driver handling HTTP requests."
+    },
+    {
+      "name": "IIS (Internet Information Services)",
+      "kind": "software product",
+      "gloss": "An extensible web server software created by Microsoft for the Windows NT operating system family."
+    },
+    {
+      "name": "Windows Server 2019",
+      "kind": "operating system",
+      "gloss": "A server operating system developed by Microsoft as part of the Windows NT family."
+    },
+    {
+      "name": "Windows 10 версії 1809",
+      "kind": "operating system version",
+      "gloss": "A specific feature update version of the Microsoft Windows 10 operating system."
+    },
+    {
+      "name": "Windows",
+      "kind": "operating system family",
+      "gloss": "A family of proprietary graphical operating systems developed and marketed by Microsoft."
+    },
+    {
+      "name": "https://msrc.microsoft.com/update-guide/en-US/vulnerability/CVE-2022-21907",
+      "kind": "security advisory",
+      "gloss": "A Microsoft Security Update Guide advisory documenting vulnerability CVE-2022-21907."
+    },
+    {
+      "name": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-21907",
+      "kind": "vulnerability reference",
+      "gloss": "A MITRE CVE database entry providing technical details for CVE-2022-21907."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2022-21907",
+      "type": "affects",
+      "tail": "HTTP Protocol Stack (http.sys)",
+      "evidence": "Ця вразливість стосується файлу HTTP Protocol Stack (http.sys)"
+    },
+    {
+      "head": "CVE-2022-21907",
+      "type": "affects",
+      "tail": "Windows Server 2019",
+      "evidence": "зменшення впливу вразливості на Windows Server 2019"
+    },
+    {
+      "head": "CVE-2022-21907",
+      "type": "affects",
+      "tail": "Windows 10 версії 1809",
+      "evidence": "впливу вразливості на Windows Server 2019 та Windows 10 версії 1809"
+    },
+    {
+      "head": "Microsoft",
+      "type": "publishes",
+      "tail": "https://msrc.microsoft.com/update-guide/en-US/vulnerability/CVE-2022-21907",
+      "evidence": "Компанія Microsoft опублікувала інформацію про вразливість CVE-2022-21907"
+    },
+    {
+      "head": "HTTP Protocol Stack (http.sys)",
+      "type": "part-of",
+      "tail": "IIS (Internet Information Services)",
+      "evidence": "використовується для прослуховування HTTP-запитів на серверах IIS (Internet Information Services)"
+    }
+  ],
+  "newRelationTypes": []
+}

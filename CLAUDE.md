@@ -81,7 +81,7 @@ disagree on a number, the run card wins.
   stream curves), `bin/evaluate.ts`, `bin/stats.ts`, `bin/order-ari.ts`. Do not refactor it for
   taste; change it only when an experiment needs it.
 - TypeScript through ts-node, no build step, Node ≥ 22. `npm run typecheck` and `npm test`
-  (node:test, 790 tests) must pass before any hand-off.
+  (node:test, 800 tests) must pass before any hand-off.
 
 ## Working conventions
 

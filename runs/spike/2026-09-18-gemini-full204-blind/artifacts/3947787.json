@@ -1,0 +1,176 @@
+{
+  "docId": 3947787,
+  "date": "23.02.2023",
+  "title": "Кібератака, спрямована на порушення цілісності та доступності державних інформаційних ресурсів (CERT-UA#6060)",
+  "entities": [
+    {
+      "id": "3947787:0",
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A threat actor group, also tracked as DEV-0586 and unc2589, known for cyber espionage and disruptive attacks against Ukraine.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "3947787:1",
+      "name": "CredPump",
+      "kind": "malware",
+      "gloss": "An SSH backdoor implemented as a PAM module that provides covert remote SSH access and logs credentials.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "3947787:2",
+      "name": "HoaxPen",
+      "kind": "backdoor",
+      "gloss": "A backdoor malware designed to execute arbitrary commands on compromised Unix-like systems.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "3947787:3",
+      "name": "HoaxApe",
+      "kind": "backdoor",
+      "gloss": "A backdoor implemented as an Apache web server module to execute arbitrary commands.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "3947787:4",
+      "name": "GOST",
+      "kind": "software tool",
+      "gloss": "A cross-platform tunnel and proxy tool written in Go, used for network forwarding.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "3947787:5",
+      "name": "Ngrok",
+      "kind": "software product",
+      "gloss": "A cross-platform reverse proxy software used to expose local network ports to the public internet.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "3947787:6",
+      "name": "P0wnyShell",
+      "kind": "web shell",
+      "gloss": "A lightweight, single-file PHP web shell used to execute commands on compromised web servers.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "3947787:7",
+      "name": "Apache",
+      "kind": "software product",
+      "gloss": "An open-source cross-platform web server software developed by the Apache Software Foundation.",
+      "scheme": "S3",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "3947787:8",
+      "name": "Ukraine",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose government web resources were targeted in the incident.",
+      "scheme": "S5",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "3947787:9",
+      "name": "185.59.221.226",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious activity in the incident.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "3947787:10",
+      "name": "178.162.212.26",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious activity in the incident.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "3947787:11",
+      "name": "178.162.222.44",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious activity in the incident.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "3947787:12",
+      "name": "37.58.60.153",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious activity in the incident.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "3947787:13",
+      "name": "94.46.175.132",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious activity in the incident.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "CredPump",
+      "evidence": "порушення штатного режиму функціонування досліджених вебресурсів здійснено групою UAC-0056"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "HoaxPen",
+      "evidence": "порушення штатного режиму функціонування досліджених вебресурсів здійснено групою UAC-0056"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "HoaxApe",
+      "evidence": "порушення штатного режиму функціонування досліджених вебресурсів здійснено групою UAC-0056"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "GOST",
+      "evidence": "на ранніх етапах кібератаки застосовано GOST"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "Ngrok",
+      "evidence": "на ранніх етапах кібератаки застосовано GOST (Go Simple Tunnel) та програму Ngrok"
+    },
+    {
+      "head": "HoaxApe",
+      "type": "part-of",
+      "tail": "Apache",
+      "evidence": "HoaxApe (у вигляді модулю для вебсерверу Apache)"
+    }
+  ],
+  "unclassified": [
+    "3947787:2",
+    "3947787:3",
+    "3947787:6"
+  ]
+}

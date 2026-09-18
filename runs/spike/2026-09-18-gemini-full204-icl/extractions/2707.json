@@ -1,0 +1,64 @@
+{
+  "entities": [
+    {
+      "name": "Smokeloader",
+      "kind": "malware",
+      "gloss": "A modular downloader malware family used to download and execute secondary malicious payloads."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "http://chubanomania[.]icu/prima/spi.exe?rCuz",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL used to host and distribute executable payloads."
+    },
+    {
+      "name": "93.179.69.41",
+      "kind": "ip address",
+      "gloss": "An IP address associated with command and control infrastructure distributing malware."
+    },
+    {
+      "name": "spi.exe",
+      "kind": "malware",
+      "gloss": "A malicious executable payload associated with SmokeLoader."
+    },
+    {
+      "name": "До оплати від 11.12.18.lzh",
+      "kind": "malware",
+      "gloss": "A malicious archive attachment used to deliver script loaders."
+    },
+    {
+      "name": "Рахунки и новые списки.lzh",
+      "kind": "malware",
+      "gloss": "A malicious archive attachment used to deliver script loaders."
+    },
+    {
+      "name": "Рахунки за выполненные работы от 11.12.2018.js",
+      "kind": "malware",
+      "gloss": "A malicious JavaScript file used to download executable payloads."
+    },
+    {
+      "name": "До оплати рах.ф. 74 - 2018р.js",
+      "kind": "malware",
+      "gloss": "A malicious JavaScript file used to download executable payloads."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Smokeloader",
+      "type": "affects",
+      "tail": "Україна",
+      "evidence": "може свідчити про таргетованість атаки на Україну"
+    },
+    {
+      "head": "http://chubanomania[.]icu/prima/spi.exe?rCuz",
+      "type": "hosts",
+      "tail": "spi.exe",
+      "evidence": "http://chubanomania[.]icu/prima/spi.exe?rCuz (IP: 93.179.69.41) Шкідливі файли: Payload: spi.exe"
+    }
+  ],
+  "newRelationTypes": []
+}

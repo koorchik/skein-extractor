@@ -1,0 +1,153 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події CERT-UA 10.08.2023 зафіксовано масове розповсюдження серед державних органів фішингових електронних листів з темою "[CERT-UA#5086] Підозрілий вхід у вашу поштову скриньку", начебто, від імені CERT-UA з використанням символіки ДЦКЗ Держспецзв'язку.</p><p>Згадані листи містять заклик до зміни паролю та посилання на вебресурс, що імітує вебінтерфейс програмного забезпечення Roundcube.</p><p>У випадку переходу за посиланням та введення автентифікаційних даних, логін та пароль будуть відправлені зловмиснику за допомогою HTTP POST-запиту.</p><p>На цей раз підробний вебресурс створено за допомогою безкоштовного сервісу InfinityFree; крім того, використано субдомен mlcrosoft.rf[.]gd, що, вірогідно, мав би імітувати сервіси Microsoft.</p><p>Активність відстежується за ідентифікатором UAC-0170.</p><p>Принагідно, з метою зменшення вірогідності реалізації загрози, нагадуємо про необхідність використання багатофакторної автентифікації на основі одноразового коду з мобільного додатку.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">185[.]27.134.129&nbsp;(@ifastnet.com; UK)
+185[.]88.153.138 (Received)
+hXXps://mlcrosoft.rf[.]gd/mail/?el=3c6d0a4516de3b6a89b373f0d8d6de4cc081154fc3680efbe7b9f9d1
+hXXps://mlcrosoft.rf[.]gd/mail/?el=4ef85906f8a881986a3f05fbb699ab0d6096919c73553dbb93c906d6
+hXXps://mlcrosoft.rf[.]gd/mail/?el=7247301f1ba605aa98c5b2194819f558986e5d89467041b0da78a04c
+hXXps://mlcrosoft.rf[.]gd/mail/inf.php
+hXXps://mlcrosoft.rf[.]gd/mail/script.js
+hr.damroodi@beroozresaan.com
+soraya@tataguyz.co.za
+mlcrosoft.rf[.]gd
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (8.1s, in 1618 / out 1085 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "ДЦКЗ Держспецзв'язку",
+      "kind": "government body",
+      "gloss": "The State Cyber Protection Centre of the State Special Communications Service of Ukraine."
+    },
+    {
+      "name": "Roundcube",
+      "kind": "software product",
+      "gloss": "A free and open-source webmail software suite."
+    },
+    {
+      "name": "InfinityFree",
+      "kind": "hosting service",
+      "gloss": "A free web hosting service provider."
+    },
+    {
+      "name": "Microsoft",
+      "kind": "technology company",
+      "gloss": "An American multinational technology corporation."
+    },
+    {
+      "name": "UAC-0170",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA for conducting phishing campaigns against Ukrainian organizations."
+    },
+    {
+      "name": "185.27.134.129",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious hosting infrastructure."
+    },
+    {
+      "name": "185.88.153.138",
+      "kind": "ip address",
+      "gloss": "An IP address identified in email transport headers of phishing messages."
+    },
+    {
+      "name": "mlcrosoft.rf.gd",
+      "kind": "domain name",
+      "gloss": "A typo-squatted domain name used to host phishing pages mimicking webmail services."
+    },
+    {
+      "name": "hr.damroodi@beroozresaan.com",
+      "kind": "email address",
+      "gloss": "An email address used to distribute phishing emails."
+    },
+    {
+      "name": "soraya@tataguyz.co.za",
+      "kind": "email address",
+      "gloss": "An email address used to distribute phishing emails."
+    },
+    {
+      "name": "UK",
+      "kind": "country",
+      "gloss": "A sovereign country located off the north-western coast of European mainland."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0170",
+      "type": "operates-infrastructure",
+      "tail": "mlcrosoft.rf.gd",
+      "evidence": "використано субдомен mlcrosoft.rf[.]gd... Активність відстежується за ідентифікатором UAC-0170"
+    },
+    {
+      "head": "mlcrosoft.rf.gd",
+      "type": "hosted-on",
+      "tail": "InfinityFree",
+      "evidence": "підробний вебресурс створено за допомогою безкоштовного сервісу InfinityFree; крім того, використано субдомен mlcrosoft.rf[.]gd"
+    },
+    {
+      "head": "mlcrosoft.rf.gd",
+      "type": "mimics",
+      "tail": "Roundcube",
+      "evidence": "посилання на вебресурс, що імітує вебінтерфейс програмного забезпечення Roundcube"
+    },
+    {
+      "head": "mlcrosoft.rf.gd",
+      "type": "mimics",
+      "tail": "Microsoft",
+      "evidence": "субдомен mlcrosoft.rf[.]gd, що, вірогідно, мав би імітувати сервіси Microsoft"
+    },
+    {
+      "head": "185.27.134.129",
+      "type": "located-in",
+      "tail": "UK",
+      "evidence": "185[.]27.134.129 (@ifastnet.com; UK)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "operates-infrastructure",
+      "definition": "The threat actor controls or utilizes the specified network infrastructure in a campaign."
+    },
+    {
+      "name": "hosted-on",
+      "definition": "The domain or web resource is hosted using the specified service or infrastructure provider."
+    },
+    {
+      "name": "mimics",
+      "definition": "The entity impersonates or visually/technically copies the brand, software, or organization."
+    },
+    {
+      "name": "located-in",
+      "definition": "The IP address or infrastructure is geographically located in the specified country or region."
+    }
+  ]
+}

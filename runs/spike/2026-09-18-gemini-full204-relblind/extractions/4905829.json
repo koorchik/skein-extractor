@@ -1,0 +1,235 @@
+{
+  "entities": [
+    {
+      "name": "APT28",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage threat group."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "NV",
+      "kind": "media organization",
+      "gloss": "A Ukrainian news media outlet and publishing company."
+    },
+    {
+      "name": "nv.ua",
+      "kind": "internet domain",
+      "gloss": "The web domain of the Ukrainian news outlet NV."
+    },
+    {
+      "name": "ukraine_news@meta[.]ua",
+      "kind": "email address",
+      "gloss": "A malicious email address used to send phishing messages."
+    },
+    {
+      "name": "str.vidil@meta[.]ua",
+      "kind": "email address",
+      "gloss": "An email address used by attackers for data exfiltration."
+    },
+    {
+      "name": "Roundcube",
+      "kind": "software product",
+      "gloss": "An open-source webmail software application."
+    },
+    {
+      "name": "Roundcube 1.4.1",
+      "kind": "software product",
+      "gloss": "An outdated version of the Roundcube webmail software."
+    },
+    {
+      "name": "CVE-2020-35730",
+      "kind": "vulnerability identifier",
+      "gloss": "A cross-site scripting vulnerability in Roundcube webmail."
+    },
+    {
+      "name": "CVE-2021-44026",
+      "kind": "vulnerability identifier",
+      "gloss": "A SQL injection vulnerability in Roundcube webmail."
+    },
+    {
+      "name": "CVE-2020-12641",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in Roundcube webmail."
+    },
+    {
+      "name": "q.js",
+      "kind": "malicious script",
+      "gloss": "A malicious JavaScript file exploiting CVE-2021-44026 for database exfiltration."
+    },
+    {
+      "name": "e.js",
+      "kind": "malicious script",
+      "gloss": "A malicious JavaScript file used for email forwarding configuration and data exfiltration."
+    },
+    {
+      "name": "c.js",
+      "kind": "malicious script",
+      "gloss": "A malicious JavaScript file exploiting CVE-2020-12641 for command execution."
+    },
+    {
+      "name": "Recorded Future",
+      "kind": "company",
+      "gloss": "A private cybersecurity and threat intelligence company."
+    },
+    {
+      "name": "185[.]225.226.57",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat actor infrastructure."
+    },
+    {
+      "name": "185[.]82.126.85",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat actor infrastructure."
+    },
+    {
+      "name": "77[.]243.181.238",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat actor infrastructure."
+    },
+    {
+      "name": "global-world-news[.]net",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used for receiving exfiltrated victim data."
+    },
+    {
+      "name": "aneria[.]net",
+      "kind": "internet domain",
+      "gloss": "A domain identified as threat infrastructure in the campaign."
+    },
+    {
+      "name": "armpress[.]net",
+      "kind": "internet domain",
+      "gloss": "A domain identified as threat infrastructure in the campaign."
+    },
+    {
+      "name": "ceriossl[.]info",
+      "kind": "internet domain",
+      "gloss": "A domain identified as threat infrastructure in the campaign."
+    },
+    {
+      "name": "fountainrate[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain identified as threat infrastructure in the campaign."
+    },
+    {
+      "name": "global-news-world[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain identified as threat infrastructure in the campaign."
+    },
+    {
+      "name": "lonejade[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain identified as threat infrastructure in the campaign."
+    },
+    {
+      "name": "modeselling[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain identified as threat infrastructure in the campaign."
+    },
+    {
+      "name": "oncetrips[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain identified as threat infrastructure in the campaign."
+    },
+    {
+      "name": "vtxhospital[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain identified as threat infrastructure in the campaign."
+    },
+    {
+      "name": "ns1.fountainrate[.]com",
+      "kind": "internet domain",
+      "gloss": "A name server domain identified as threat infrastructure."
+    },
+    {
+      "name": "ns2.fountainrate[.]com",
+      "kind": "internet domain",
+      "gloss": "A name server domain identified as threat infrastructure."
+    },
+    {
+      "name": "ns1.lonejade[.]com",
+      "kind": "internet domain",
+      "gloss": "A name server domain identified as threat infrastructure."
+    },
+    {
+      "name": "ns1.modeselling[.]com",
+      "kind": "internet domain",
+      "gloss": "A name server domain identified as threat infrastructure."
+    },
+    {
+      "name": "ns2.modeselling[.]com",
+      "kind": "internet domain",
+      "gloss": "A name server domain identified as threat infrastructure."
+    },
+    {
+      "name": "ns1.oncetrips[.]com",
+      "kind": "internet domain",
+      "gloss": "A name server domain identified as threat infrastructure."
+    },
+    {
+      "name": "ns2.oncetrips[.]com",
+      "kind": "internet domain",
+      "gloss": "A name server domain identified as threat infrastructure."
+    },
+    {
+      "name": "ns1.vtxhospital[.]com",
+      "kind": "internet domain",
+      "gloss": "A name server domain identified as threat infrastructure."
+    },
+    {
+      "name": "ns2.vtxhospital[.]com",
+      "kind": "internet domain",
+      "gloss": "A name server domain identified as threat infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2020-35730",
+      "type": "vulnerability-in",
+      "tail": "Roundcube",
+      "evidence": "вразливості в Roundcube CVE-2020-35730 (XSS)"
+    },
+    {
+      "head": "CVE-2021-44026",
+      "type": "vulnerability-in",
+      "tail": "Roundcube",
+      "evidence": "вразливості в Roundcube CVE-2021-44026 (SQLi)"
+    },
+    {
+      "head": "q.js",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2021-44026",
+      "evidence": "\"q.js\" містить експлойт для вразливості в Roundcube CVE-2021-44026"
+    },
+    {
+      "head": "c.js",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2020-12641",
+      "evidence": "\"c.js\", що містить експлойт для вразливості CVE-2020-12641"
+    },
+    {
+      "head": "ukraine_news@meta[.]ua",
+      "type": "distributes-via-email",
+      "tail": "CVE-2020-35730",
+      "evidence": "отриманий 12.05.2023 з адреси \"ukraine_news@meta[.]ua\", що містив... експлойт для вразливості в Roundcube CVE-2020-35730"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "vulnerability-in",
+      "definition": "Identifies the software product or system affected by a specific vulnerability."
+    },
+    {
+      "name": "exploits-vulnerability",
+      "definition": "Indicates that a tool or script contains an exploit targeted at a specific vulnerability identifier."
+    },
+    {
+      "name": "distributes-via-email",
+      "definition": "Indicates that an email address sent an email message delivering an exploit, file, or content."
+    }
+  ]
+}

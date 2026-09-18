@@ -1,0 +1,118 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0010",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage threat group also known as Armageddon or Gamaredon."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country located in Eastern Europe."
+    },
+    {
+      "name": "державні органи України",
+      "kind": "government body",
+      "gloss": "State and governmental authorities of Ukraine targeted by cyberattacks."
+    },
+    {
+      "name": "GammaLoad.PS1",
+      "kind": "malware family",
+      "gloss": "A PowerShell-based reconnaissance and downloader malware script associated with the Gamaredon threat group."
+    },
+    {
+      "name": "Військові злочинці РФ.htm",
+      "kind": "malicious file",
+      "gloss": "A malicious HTML attachment designed to create a RAR archive on the victim computer."
+    },
+    {
+      "name": "Viyskovi_zlochinci_RU.rar",
+      "kind": "malicious file",
+      "gloss": "A malicious RAR archive dropped by an HTML file containing a malicious shortcut file."
+    },
+    {
+      "name": "Військові-злочинці що знищують Україну (домашні адреси, фото, номера телефонів, сторінки у соціальних сетях).lnk",
+      "kind": "malicious file",
+      "gloss": "A malicious shortcut file designed to trigger the download of an HTA payload."
+    },
+    {
+      "name": "vadim_melnik88@i.ua",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors as an envelope-from address in a phishing campaign."
+    },
+    {
+      "name": "194.38.21.12",
+      "kind": "ip address",
+      "gloss": "An IP address identified as the sender of malicious phishing emails."
+    },
+    {
+      "name": "66.175.219.231",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious infrastructure of the campaign."
+    },
+    {
+      "name": "jokotras.ru",
+      "kind": "domain name",
+      "gloss": "An internet domain used in the campaign to host malicious components."
+    },
+    {
+      "name": "tiloraso.ru",
+      "kind": "domain name",
+      "gloss": "An internet domain used as command and control infrastructure to host PowerShell scripts."
+    },
+    {
+      "name": "milotrad.ru",
+      "kind": "domain name",
+      "gloss": "An internet domain identified as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "potrakit.ru",
+      "kind": "domain name",
+      "gloss": "An internet domain identified as part of the threat actor's network infrastructure."
+    },
+    {
+      "name": "tortunas.ru",
+      "kind": "domain name",
+      "gloss": "An internet domain identified as part of the threat actor's network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0010",
+      "type": "attacks",
+      "tail": "державні органи України",
+      "evidence": "розповсюдження електронних листів з темою \"Інформація щодо військових злочинців РФ\" серед державних органів України"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-malware",
+      "tail": "GammaLoad.PS1",
+      "evidence": "запуск powershell-скрипта \"get.php\" (GammaLoad.PS1). Активність асоційовано з діяльністю групи UAC-0010"
+    },
+    {
+      "head": "державні органи України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "серед державних органів України"
+    },
+    {
+      "head": "Військові злочинці РФ.htm",
+      "type": "delivers",
+      "tail": "Viyskovi_zlochinci_RU.rar",
+      "evidence": "відкриття якого призведе до створення на комп'ютері RAR-архіву \"Viyskovi_zlochinci_RU.rar\""
+    },
+    {
+      "head": "Viyskovi_zlochinci_RU.rar",
+      "type": "delivers",
+      "tail": "Військові-злочинці що знищують Україну (домашні адреси, фото, номера телефонів, сторінки у соціальних сетях).lnk",
+      "evidence": "архів містить файл-ярлик \"Військові-злочинці що знищують Україну"
+    },
+    {
+      "head": "tiloraso.ru",
+      "type": "hosts",
+      "tail": "GammaLoad.PS1",
+      "evidence": "hxxp://tiloraso[.]ru/get.php"
+    }
+  ],
+  "newRelationTypes": []
+}

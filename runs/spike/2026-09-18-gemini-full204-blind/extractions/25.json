@@ -1,0 +1,110 @@
+{
+  "entities": [
+    {
+      "name": "CoronaMap.exe",
+      "kind": "malware payload",
+      "gloss": "A malicious executable disguised as a COVID-19 map application used to deliver information-stealing malware."
+    },
+    {
+      "name": "Університет Джона Хопкінса",
+      "kind": "university",
+      "gloss": "A private research university in Baltimore, Maryland, known for its public health tracking maps."
+    },
+    {
+      "name": "AZORult",
+      "kind": "malware family",
+      "gloss": "An information-stealing Trojan designed to exfiltrate credentials, browser data, cryptocurrency keys, and system information."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "Windows",
+      "kind": "operating system family",
+      "gloss": "A family of proprietary graphical operating systems developed by Microsoft."
+    },
+    {
+      "name": "Windows XP",
+      "kind": "operating system",
+      "gloss": "A legacy version of the Microsoft Windows operating system released in 2001."
+    },
+    {
+      "name": "Windows 10",
+      "kind": "operating system",
+      "gloss": "A major release of the Microsoft Windows operating system released in 2015."
+    },
+    {
+      "name": "Java",
+      "kind": "software platform",
+      "gloss": "A set of software products and specifications for application development and cross-platform execution."
+    },
+    {
+      "name": "MS Office",
+      "kind": "office suite",
+      "gloss": "A suite of productivity software applications developed by Microsoft."
+    },
+    {
+      "name": ".NET",
+      "kind": "software framework",
+      "gloss": "A free, open-source developer platform created by Microsoft for building various types of applications."
+    },
+    {
+      "name": "VirusTotal",
+      "kind": "security service",
+      "gloss": "A free online service that analyzes suspicious files and URLs for malicious content using antivirus engines."
+    },
+    {
+      "name": "Державний центр кіберзахисту та протидії кіберзагрозам Держспецзв’язку",
+      "kind": "government body",
+      "gloss": "A Ukrainian state cybersecurity center operating under SSSCIP to protect state information resources."
+    },
+    {
+      "name": "Держспецзв’язок",
+      "kind": "government body",
+      "gloss": "The State Service of Special Communications and Information Protection of Ukraine."
+    },
+    {
+      "name": "Corona-virus-Map.com.exe",
+      "kind": "malware payload",
+      "gloss": "A malicious executable file masquerading as a coronavirus tracking tool."
+    },
+    {
+      "name": "2b35aa9c70ef66197abfb9bc409952897f9f70818633ab43da85b3825b256307",
+      "kind": "cryptographic hash",
+      "gloss": "A SHA-256 hash identifying a malicious Corona-virus-Map.com.exe file."
+    },
+    {
+      "name": "f195f28ad0823fd6430b8999fb112bbecba81538b7eb28b88d0925ea4e8e5c95",
+      "kind": "cryptographic hash",
+      "gloss": "A SHA-256 hash identifying a CoronaMap AZORult Trojan file."
+    },
+    {
+      "name": "63fcf6b19ac3a6a232075f65b4b58d69cfd4e7f396f573d4da46aaf210f82564",
+      "kind": "cryptographic hash",
+      "gloss": "A SHA-256 hash identifying a CoronaMap AZORult Trojan file."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CoronaMap.exe",
+      "type": "delivers",
+      "tail": "AZORult",
+      "evidence": "при запуску зловмисної програми CoronaMap.exe ... ініціюється запуск шкідливого програмного забезпечення, відомого як AZORult"
+    },
+    {
+      "head": "Державний центр кіберзахисту та протидії кіберзагрозам Держспецзв’язку",
+      "type": "part-of",
+      "tail": "Держспецзв’язок",
+      "evidence": "Державного центру кіберзахисту та протидії кіберзагрозам Держспецзв’язку"
+    },
+    {
+      "head": "Держспецзв’язок",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Держспецзв’язку"
+    }
+  ],
+  "newRelationTypes": []
+}

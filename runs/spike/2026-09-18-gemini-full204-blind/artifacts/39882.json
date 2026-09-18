@@ -1,0 +1,88 @@
+{
+  "docId": 39882,
+  "date": "26.04.2022",
+  "title": "Кібератака групи UAC-0056 з використанням шкідливих програм GraphSteel і GrimPlant та тематики COVID-19 (CERT-UA#4545)",
+  "entities": [
+    {
+      "id": "39882:0",
+      "name": "Aid request COVID-19-04_5_22.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet with macros used to deliver malware loaders.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "39882:1",
+      "name": "GraphSteel",
+      "kind": "malware family",
+      "gloss": "A Go-based backdoor and information-stealing malware family.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "39882:2",
+      "name": "GrimPlant",
+      "kind": "malware family",
+      "gloss": "A Go-based backdoor malware family capable of remote command execution.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "39882:3",
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage threat actor group known for targeting Ukrainian entities.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "39882:4",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "39882:5",
+      "name": "212.192.246.115",
+      "kind": "ip address",
+      "gloss": "An IP address used as malicious command and control infrastructure.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "GraphSteel",
+      "evidence": "Активність асоційовано з діяльністю групи UAC-0056."
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "GrimPlant",
+      "evidence": "Активність асоційовано з діяльністю групи UAC-0056."
+    },
+    {
+      "head": "Aid request COVID-19-04_5_22.xls",
+      "type": "delivers",
+      "tail": "GraphSteel",
+      "evidence": "будуть завантажені та виконані шкідливі програми GraphSteel"
+    },
+    {
+      "head": "Aid request COVID-19-04_5_22.xls",
+      "type": "delivers",
+      "tail": "GrimPlant",
+      "evidence": "будуть завантажені та виконані шкідливі програми GraphSteel (дата компіляції: 2022-04-21) та GrimPlant."
+    }
+  ],
+  "unclassified": []
+}

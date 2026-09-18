@@ -1,0 +1,142 @@
+{
+  "docId": 37688,
+  "date": "09.03.2022",
+  "title": "Кібератака на державні організації України з використанням шкідливої програми Formbook/XLoader (CERT-UA#4125)",
+  "entities": [
+    {
+      "id": "37688:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "37688:1",
+      "name": "державних організацій України",
+      "kind": "government bodies",
+      "gloss": "State authorities and governmental organizations of Ukraine targeted in cyberattacks.",
+      "scheme": "S7",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "37688:2",
+      "name": "лист підтримки.xlsx",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet attachment containing macros used to download malware.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "37688:3",
+      "name": "Formbook/XLoader v2.5",
+      "kind": "malware family",
+      "gloss": "An info-stealer and loader malware family designed to extract credentials from infected systems.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37688:4",
+      "name": "UAC-0041",
+      "kind": "threat actor",
+      "gloss": "A threat actor cluster tracked by CERT-UA known for distributing Formbook/XLoader malware.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "related"
+    },
+    {
+      "id": "37688:5",
+      "name": "vbc.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable payload downloaded during the infection process.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37688:6",
+      "name": "formbook.exe",
+      "kind": "malicious file",
+      "gloss": "An executable payload associated with the Formbook malware family.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "37688:7",
+      "name": "mariya@posish.club",
+      "kind": "email address",
+      "gloss": "An email address used as a sender address in malicious email campaigns.",
+      "scheme": "S14",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "37688:8",
+      "name": "104.168.247.233",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure in the cyberattack.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37688:9",
+      "name": "103.167.92.57",
+      "kind": "ip address",
+      "gloss": "An IP address used to host and distribute malicious payloads.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37688:10",
+      "name": "hxxp://103.167.92.57/xx_cloudprotect/vbc.exe",
+      "kind": "url",
+      "gloss": "A malicious URL hosting the vbc.exe executable payload.",
+      "scheme": "S5",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "37688:11",
+      "name": "gobits3.com",
+      "kind": "domain name",
+      "gloss": "A domain name identified as network infrastructure used in the cyber incident.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0041",
+      "type": "associated-with-activity",
+      "tail": "Formbook/XLoader v2.5",
+      "evidence": "асоціюються з кластером активностей, що відстежується за ідентифікатором UAC-0041"
+    },
+    {
+      "head": "державних організацій України",
+      "type": "located-in-country",
+      "tail": "Україна",
+      "evidence": "державних організацій України"
+    },
+    {
+      "head": "лист підтримки.xlsx",
+      "type": "downloads-payload",
+      "tail": "Formbook/XLoader v2.5",
+      "evidence": "забезпечить завантаження і запуск шкідливої програми Formbook/XLoader v2.5"
+    },
+    {
+      "head": "hxxp://103.167.92.57/xx_cloudprotect/vbc.exe",
+      "type": "hosts-file",
+      "tail": "vbc.exe",
+      "evidence": "hxxp://103[.]167.92.57/xx_cloudprotect/vbc.exe"
+    }
+  ],
+  "unclassified": []
+}

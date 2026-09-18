@@ -1,0 +1,106 @@
+{
+  "docId": 38088,
+  "date": "22.03.2022",
+  "title": "Кібератака на українські підприємства з використанням програми-деструктора DoubleZero (CERT-UA#4243)",
+  "entities": [
+    {
+      "id": "38088:0",
+      "name": "DoubleZero",
+      "kind": "malware",
+      "gloss": "A destructive wiper malware written in C# designed to overwrite files and corrupt the Windows registry.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "38088:1",
+      "name": "UAC-0088",
+      "kind": "threat actor",
+      "gloss": "A threat group tracked by CERT-UA associated with cyberattacks targeting Ukrainian organizations.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "38088:2",
+      "name": "Вирус... крайне опасно!!!.zip",
+      "kind": "computer file",
+      "gloss": "A malicious ZIP archive used to distribute the DoubleZero wiper malware.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "38088:3",
+      "name": "csrss.zip",
+      "kind": "computer file",
+      "gloss": "A malicious ZIP archive used to distribute the DoubleZero wiper malware.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "38088:4",
+      "name": "cpcrs.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file identified as the DoubleZero wiper.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "38088:5",
+      "name": "csrss.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file identified as the DoubleZero wiper.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "38088:6",
+      "name": "Windows",
+      "kind": "software product",
+      "gloss": "A family of proprietary operating systems developed by Microsoft.",
+      "scheme": "S2",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "38088:7",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S4",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0088",
+      "type": "uses",
+      "tail": "DoubleZero",
+      "evidence": "Активність відстежується за ідентифікатором UAC-0088"
+    },
+    {
+      "head": "Вирус... крайне опасно!!!.zip",
+      "type": "delivers",
+      "tail": "DoubleZero",
+      "evidence": "Кожен з архівів містить обфусковану .NET-програму... класифіковано як DoubleZero"
+    },
+    {
+      "head": "csrss.zip",
+      "type": "delivers",
+      "tail": "DoubleZero",
+      "evidence": "Кожен з архівів містить обфусковану .NET-програму... класифіковано як DoubleZero"
+    },
+    {
+      "head": "DoubleZero",
+      "type": "affects",
+      "tail": "Windows",
+      "evidence": "знищуються гілки реєстру Windows: HKCU, HKU, HKLM, HKLM\\BCD"
+    }
+  ],
+  "unclassified": []
+}

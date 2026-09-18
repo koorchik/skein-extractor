@@ -1,0 +1,58 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "Єдиний державний реєстр декларацій осіб, уповноважених на виконання функцій держави або місцевого самоврядування",
+      "kind": "state register",
+      "gloss": "A Ukrainian state electronic register used by public officials for asset declaration."
+    },
+    {
+      "name": "portal.nazk.gov.ua",
+      "kind": "internet domain",
+      "gloss": "The official web portal address for the Ukrainian asset declaration system."
+    },
+    {
+      "name": "portal.nazk.org.ua",
+      "kind": "internet domain",
+      "gloss": "A phishing domain spoofing the official Ukrainian asset declaration portal."
+    }
+  ],
+  "relations": [
+    {
+      "head": "portal.nazk.gov.ua",
+      "type": "official-domain-of",
+      "tail": "Єдиний державний реєстр декларацій осіб, уповноважених на виконання функцій держави або місцевого самоврядування",
+      "evidence": "єдиною офіційною адресою Реєстру в мережі Інтернет є portal.nazk.gov.ua"
+    },
+    {
+      "head": "portal.nazk.org.ua",
+      "type": "spoofs",
+      "tail": "portal.nazk.gov.ua",
+      "evidence": "СПРАВЖНЯ: portal.nazk.gov.ua Фішингова: portal.nazk.org.ua"
+    },
+    {
+      "head": "portal.nazk.org.ua",
+      "type": "impersonates",
+      "tail": "Єдиний державний реєстр декларацій осіб, уповноважених на виконання функцій держави або місцевого самоврядування",
+      "evidence": "було розміщено фішинговий ресурс Єдиного державного реєстру декларацій"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "official-domain-of",
+      "definition": "Identifies the legitimate or authorized domain address used by a system or organization."
+    },
+    {
+      "name": "spoofs",
+      "definition": "Indicates that a malicious entity or domain mimics the identity or name of a legitimate one."
+    },
+    {
+      "name": "impersonates",
+      "definition": "Indicates that a resource fraudulently poses as a specific legitimate organization or service."
+    }
+  ]
+}

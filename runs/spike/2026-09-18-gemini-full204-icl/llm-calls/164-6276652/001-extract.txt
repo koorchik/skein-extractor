@@ -1,0 +1,285 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+- Country: A distinct territorial body or sovereign state with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Government Organization: An official agency, ministry, or administrative body operating as part of a national or state government. (also: Government Agency, Government Body, State Authority)
+- Malware: Malicious software, code, or executables designed to infiltrate, damage, or compromise computer systems and data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address specifying the location and retrieval mechanism of a resource on a computer network. (also: URL, Web Address, Web Link)
+- Person: An individual human being, such as a government official, cybersecurity expert, researcher, or executive. (also: Individual, Natural Person)
+- IP Address: A numerical label assigned to a device connected to a computer network that uses the Internet Protocol for communication. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Electronic Mail Address)
+- Computer File: A digital resource or named item stored on a computer system, containing data, code, or instructions. (also: File, Digital File, Filename)
+- Company: A commercial business, corporation, or enterprise operating in any economic sector or industry. (also: Enterprise, Corporation, Commercial Organization)
+- Domain Name: A human-readable identification string defining a realm of administrative autonomy or resource location within the Internet Domain Name System. (also: Internet Domain, FQDN, Fully Qualified Domain Name)
+- Threat Actor: An individual, group, or organization responsible for malicious cyber activities, attacks, or cyber espionage operations. (also: Threat Group, Cyber Threat Actor, Hacker Group)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA вживаються організаційно-технічні заходи із запобігання, виявлення та реагування на кіберінциденти і кібератаки.</p><p>Так, 07.12.2023 виявлено факт масового розповсюдження електронних листів з темою "судових претензій" і "заборгованості" та додатками у вигляді вкладених RAR-архівів, захищених паролем.</p><p>У випадку відкриття такого архіву та запуску виконуваних файлів ЕОМ може бути уражена програмами RemcosRAT (ідентифікатор ліцензії: 3DBAF89B8E287E6A5221436A08EAA6B8, ідентифікатор кампанії: "DaVinci") або MeduzaStealer. При цьому, зокрема, застосовано Autoit-інжектор.</p><p>Типово для UAC-0050 сервери управління RemcosRAT розміщено на технічному майданчику малайзійського хостинг-провайдера Shinjiru.</p><p>Зауважимо, що для розсилання електронних листів використано легітимні скомпрометовані облікові записи, в т.ч. в домені gov.ua. Крім того, виявлено електронні листи, що свідчать про спрямування кібератаки проти органів державної влади Польщі.</p><p>Вкотре рекомендуємо елетронні листи з додатками, що захищені паролями (як архіви так і документи), фільтрувати на рівні поштових шлюзів.</p><p>CERT-UA вжито заходів з протидії кіберзагрозі.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">573806ca8fe46711550de2e961e09145&nbsp; &nbsp; 3c99a4a03bd7c9b54ef6c2262dad042bb04f3f61f2453d336201c8e086606085&nbsp; &nbsp; запит.rar&nbsp;
+6ce55c5384d54141bf6cd97787fce9a0&nbsp; &nbsp; 7d6133584418f2aeb1ae3147731c78806f93004d62beecaeb3ced5b0d8a4a727&nbsp; &nbsp; електронний запит.rar
+fad0fac025dc107d194710bf4d71fe93&nbsp; &nbsp; 4cc6fb5b5f416527296a4b2a84a6da92ce97dcca7db03f9e1c526048443453d2&nbsp; &nbsp; електронний запит.pdf.exe (MeduzaStealer)
+26c885bd7a28236a8f82ce795ed1c21d&nbsp; &nbsp; d6028c7ed3324a01614e2697f4cf0d095170eff8f36fae7e6e66aa5412d08b45&nbsp; &nbsp; Судова претензія.rar&nbsp;
+5e27454611915cbe6a898e0b1223c7e2&nbsp; &nbsp; fcbc9b3b79c1ff1ca5c5d6c858b90a62be9f6c52093ebc6e6b10d743fee02019&nbsp; &nbsp; Судова претензія.rar
+e9bda9a2099a3517fa87fbc8627d06e3&nbsp; &nbsp; e9c848a14f2cafcf90d912d0af0530bb3075559ba134f39483d55f462941fcb8&nbsp; &nbsp; Судова претензія.exe
+848164d084384c49937f99d5b894253e&nbsp; &nbsp; f58d3a4b2f3f7f10815c24586fae91964eeed830369e7e0701b43895b0cefbd3&nbsp; &nbsp; VideoMagic.pif (AutoIt3)
+f92ba75d9b1576587eac561324236965&nbsp; &nbsp; ad87af966492f5d7c6b4ccd2a08a5adcb3dd66be1a8b8eff44f57dc3c52b7126&nbsp; &nbsp; A
+5ae2b6a47e6fce919b191ecfe2d74b71&nbsp; &nbsp; 109a78347a8ef06775ebdab96979377aee6bb5325452754234d90955f0daf4eb&nbsp; &nbsp; remcos.exe (RemcosRAT)
+e9616499683400fa97dc8e8cb466bdcb&nbsp; &nbsp; 778231490899e006025bfb14f720c8faeacac7c7c1ee7bdd607cd458804a2944&nbsp; &nbsp; roszczenie prawne.rar&nbsp;
+502264acd60a5f84bfd6d1dad03f8862&nbsp; &nbsp; ac5401906cefc2ecfda5a84f272c1289f5660c74753c35bfcc84ea49f13f8e41&nbsp; &nbsp; roszczenie prawne.rar
+33f28845863fa59c79b3ac8669722b68&nbsp; &nbsp; 8a244379c63cf5ae11f1c79cb7834374f76fd1c6ebed293d0569102d5d6308aa&nbsp; &nbsp; roszczenie prawne.exe
+00736ba8ccd459a131dda33a6563b66d&nbsp; &nbsp; d20ef93dcd262985040f049c4df26c26b8bfcd4a97afa6cff41f5b4e92baf3fc&nbsp; &nbsp; remcos.exe (RemcosRAT)
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">(tcp)://101[.]99.75.140:8080
+(tcp)://101[.]99.75.142:8080
+(tcp)://101[.]99.75.145:465
+(tcp)://101[.]99.75.145:8080
+(tcp)://101[.]99.75.147:465
+(tcp)://101[.]99.75.148:8080
+(tcp)://101[.]99.75.156:465
+(tcp)://101[.]99.75.159:465
+(tcp)://101[.]99.75.233:465
+(tcp)://101[.]99.75.233:8080
+(tcp)://101[.]99.92.100:80
+(tcp)://101[.]99.92.100:8080
+(tcp)://101[.]99.92.101:80
+(tcp)://101[.]99.92.102:80
+(tcp)://101[.]99.92.102:8080
+(tcp)://101[.]99.92.103:80
+(tcp)://101[.]99.92.104:80
+(tcp)://101[.]99.92.104:8080
+(tcp)://101[.]99.92.105:80
+(tcp)://101[.]99.92.106:80
+(tcp)://101[.]99.92.107:80
+(tcp)://101[.]99.92.108:80
+(tcp)://101[.]99.92.108:8080
+(tcp)://101[.]99.92.110:8080
+(tcp)://101[.]99.92.230:8080
+(tcp)://101[.]99.92.252:8080
+(tcp)://79[.]137.205.201:15666
+101[.]99.75.140
+101[.]99.75.142
+101[.]99.75.145
+101[.]99.75.147
+101[.]99.75.148
+101[.]99.75.156
+101[.]99.75.159
+101[.]99.75.233
+101[.]99.92.100
+101[.]99.92.101
+101[.]99.92.102
+101[.]99.92.103
+101[.]99.92.104
+101[.]99.92.105
+101[.]99.92.106
+101[.]99.92.107
+101[.]99.92.108
+101[.]99.92.110
+101[.]99.92.230
+101[.]99.92.252
+79[.]137.205.201
+journal@ndibk.gov.ua (скомпрометований обліковий запис)
+kl@aten.ua (скомпрометований обліковий запис)
+ms-service@ndibk.gov.ua (скомпрометований обліковий запис)
+o.slavgorodska@bdf.gov.ua (скомпрометований обліковий запис)
+petrochenko@ndibk.gov.ua (скомпрометований обліковий запис)
+zakupivli@trnvk.gov.ua (скомпрометований обліковий запис)
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\VideoMagic.url
+%LOCALAPPDATA%\MagicMedia Studios\A
+%LOCALAPPDATA%\MagicMedia Studios\VideoMagic.js
+%LOCALAPPDATA%\MagicMedia Studios\VideoMagic.pif
+%LOCALAPPDATA%\MagicMedia Studios\VideoMagic.pif %LOCALAPPDATA%\MagicMedia Studios\A
+cmd /k echo [InternetShortcut] &gt; "%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\VideoMagic.url" &amp; echo URL="%USERPROFILE%\AppData\Local\MagicMedia Studios\VideoMagic.js" &gt;&gt; "%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\VideoMagic.url" &amp; exit
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Приклад ланцюга ураження</p>
+
+=== RESPONSE (7.2s, in 4868 / out 1448 tok, STOP) ===
+This report details a malicious email campaign targeting Ukrainian entities and Polish government authorities, attributed to threat actor UAC-0050. The attack delivers MeduzaStealer and RemcosRAT malware (using AutoIt-based injection), with RemcosRAT command-and-control infrastructure hosted by Malaysian provider Shinjiru and emails dispatched using compromised Ukrainian accounts.
+
+{
+  "entities": [
+    {
+      "name": "UAC-0050",
+      "kind": "threat actor",
+      "gloss": "A threat actor known for conducting cyber attacks against Ukrainian and foreign organizations using various malware strains."
+    },
+    {
+      "name": "RemcosRAT",
+      "kind": "malware",
+      "gloss": "A commercial remote access trojan frequently used by cyber threat actors for unauthorized surveillance and control."
+    },
+    {
+      "name": "MeduzaStealer",
+      "kind": "malware",
+      "gloss": "An information-stealing malware designed to extract sensitive data and credentials from infected Windows systems."
+    },
+    {
+      "name": "AutoIt",
+      "kind": "software product",
+      "gloss": "A freeware programming language and automation tool commonly abused by malware authors to execute malicious payloads."
+    },
+    {
+      "name": "Shinjiru",
+      "kind": "company",
+      "gloss": "A web hosting and infrastructure provider based in Malaysia."
+    },
+    {
+      "name": "Польща",
+      "kind": "country",
+      "gloss": "A sovereign state in Central Europe."
+    },
+    {
+      "name": "gov.ua",
+      "kind": "domain name",
+      "gloss": "The official second-level domain name reserved for governmental organizations in Ukraine."
+    },
+    {
+      "name": "запит.rar",
+      "kind": "computer file",
+      "gloss": "A password-protected RAR archive distributed in phishing emails to deliver malicious payloads."
+    },
+    {
+      "name": "електронний запит.rar",
+      "kind": "computer file",
+      "gloss": "A password-protected RAR archive distributed via phishing emails."
+    },
+    {
+      "name": "електронний запит.pdf.exe",
+      "kind": "computer file",
+      "gloss": "An executable file delivering the MeduzaStealer malware."
+    },
+    {
+      "name": "Судова претензія.rar",
+      "kind": "computer file",
+      "gloss": "A password-protected RAR archive used in malicious email campaigns."
+    },
+    {
+      "name": "Судова претензія.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable payload dropped from email attachments."
+    },
+    {
+      "name": "VideoMagic.pif",
+      "kind": "computer file",
+      "gloss": "An AutoIt-based executable file used as an injector during infection."
+    },
+    {
+      "name": "roszczenie prawne.rar",
+      "kind": "computer file",
+      "gloss": "A password-protected RAR archive used in email attacks targeting Polish entities."
+    },
+    {
+      "name": "roszczenie prawne.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file used in cyber attacks targeting Polish entities."
+    },
+    {
+      "name": "remcos.exe",
+      "kind": "computer file",
+      "gloss": "An executable payload corresponding to the RemcosRAT malware."
+    },
+    {
+      "name": "journal@ndibk.gov.ua",
+      "kind": "email address",
+      "gloss": "A compromised Ukrainian government email address used to distribute malicious emails."
+    },
+    {
+      "name": "kl@aten.ua",
+      "kind": "email address",
+      "gloss": "A compromised email address used to send phishing emails."
+    },
+    {
+      "name": "ms-service@ndibk.gov.ua",
+      "kind": "email address",
+      "gloss": "A compromised Ukrainian email account used for phishing distribution."
+    },
+    {
+      "name": "o.slavgorodska@bdf.gov.ua",
+      "kind": "email address",
+      "gloss": "A compromised Ukrainian state email account used in malicious mailouts."
+    },
+    {
+      "name": "petrochenko@ndibk.gov.ua",
+      "kind": "email address",
+      "gloss": "A compromised Ukrainian organizational email address used to send malicious emails."
+    },
+    {
+      "name": "zakupivli@trnvk.gov.ua",
+      "kind": "email address",
+      "gloss": "A compromised Ukrainian public procurement email address used to distribute malware."
+    },
+    {
+      "name": "79.137.205.201",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious network activity."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0050",
+      "type": "uses",
+      "tail": "RemcosRAT",
+      "evidence": "Типово для UAC-0050 сервери управління RemcosRAT розміщено на технічному майданчику"
+    },
+    {
+      "head": "Shinjiru",
+      "type": "hosts",
+      "tail": "RemcosRAT",
+      "evidence": "сервери управління RemcosRAT розміщено на технічному майданчику малайзійського хостинг-провайдера Shinjiru"
+    },
+    {
+      "head": "електронний запит.pdf.exe",
+      "type": "delivers",
+      "tail": "MeduzaStealer",
+      "evidence": "електронний запит.pdf.exe (MeduzaStealer)"
+    },
+    {
+      "head": "remcos.exe",
+      "type": "delivers",
+      "tail": "RemcosRAT",
+      "evidence": "remcos.exe (RemcosRAT)"
+    }
+  ],
+  "newRelationTypes": []
+}

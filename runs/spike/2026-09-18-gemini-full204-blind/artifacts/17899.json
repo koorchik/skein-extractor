@@ -1,0 +1,153 @@
+{
+  "docId": 17899,
+  "date": "14.01.2022",
+  "title": "Кібератака на сайти державних органів",
+  "entities": [
+    {
+      "id": "17899:0",
+      "name": "МЗС",
+      "kind": "government body",
+      "gloss": "The Ministry of Foreign Affairs of Ukraine, responsible for foreign relations.",
+      "scheme": "S6",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "17899:1",
+      "name": "МОН",
+      "kind": "government body",
+      "gloss": "The Ministry of Education and Science of Ukraine, responsible for educational and scientific policy.",
+      "scheme": "S6",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "17899:2",
+      "name": "Держспецзв'язку",
+      "kind": "government body",
+      "gloss": "A Ukrainian central executive body responsible for state communications and cyber protection.",
+      "scheme": "S6",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "17899:3",
+      "name": "Служба безпеки України",
+      "kind": "law enforcement agency",
+      "gloss": "The primary security and intelligence agency of the government of Ukraine.",
+      "scheme": null,
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "17899:4",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S5",
+      "category": "Country",
+      "role": "related"
+    },
+    {
+      "id": "17899:5",
+      "name": "Кіберполіція",
+      "kind": "law enforcement agency",
+      "gloss": "The cybercrime department of the National Police of Ukraine.",
+      "scheme": "S6",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "17899:6",
+      "name": "October CMS",
+      "kind": "software product",
+      "gloss": "An open-source, self-hosted content management system platform based on PHP and the Laravel framework.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "17899:7",
+      "name": "CVE-2021-32648",
+      "kind": "vulnerability identifier",
+      "gloss": "An authentication bypass vulnerability in October CMS enabling account takeover via specially crafted requests.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "17899:8",
+      "name": "GHSA-mxr5-mc97-63rc",
+      "kind": "security advisory",
+      "gloss": "A GitHub Security Advisory detailing the authentication bypass vulnerability CVE-2021-32648 in October CMS.",
+      "scheme": "S7",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "17899:9",
+      "name": "NGINX",
+      "kind": "software product",
+      "gloss": "A web server and reverse proxy software product.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "17899:10",
+      "name": "APACHE",
+      "kind": "software product",
+      "gloss": "An open-source cross-platform HTTP web server software product.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2021-32648",
+      "type": "affects",
+      "tail": "October CMS",
+      "evidence": "використання зловмисниками вразливості October CMS: https://www.cvedetails.com/cve/CVE-2021-32648/"
+    },
+    {
+      "head": "GHSA-mxr5-mc97-63rc",
+      "type": "addresses-vulnerability-in",
+      "tail": "October CMS",
+      "evidence": "https://github.com/octobercms/october/security/advisories/GHSA-mxr5-mc97-63rc"
+    },
+    {
+      "head": "Служба безпеки України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Службою безпеки України"
+    },
+    {
+      "head": "Держспецзв'язку",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Держспецзв'язку спільно зі Службою безпеки України"
+    },
+    {
+      "head": "МЗС",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "сайтів державних органів, зокрема МЗС"
+    },
+    {
+      "head": "МОН",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "сайтів державних органів, зокрема МЗС, МОН"
+    },
+    {
+      "head": "Кіберполіція",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Службою безпеки України та Кіберполіцією"
+    }
+  ],
+  "unclassified": [
+    "17899:3"
+  ]
+}

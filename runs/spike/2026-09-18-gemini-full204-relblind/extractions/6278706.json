@@ -1,0 +1,207 @@
+{
+  "entities": [
+    {
+      "name": "Sandworm",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage and sabotage group also tracked as APT44 and UAC-0002."
+    },
+    {
+      "name": "UAC-0133",
+      "kind": "threat actor",
+      "gloss": "A threat group and suspected subcluster of Sandworm (UAC-0002) targeting critical infrastructure."
+    },
+    {
+      "name": "QUEUESEED",
+      "kind": "malware family",
+      "gloss": "A C++ backdoor malware family also tracked as KNUCKLETOUCH, ICYWELL, WRONGSENS, and KAPEKA."
+    },
+    {
+      "name": "LOADGRIP",
+      "kind": "malware family",
+      "gloss": "A C-based ELF injector malware used to decrypt and inject payloads on Linux systems via ptrace API."
+    },
+    {
+      "name": "BIASBOAT",
+      "kind": "malware family",
+      "gloss": "A C-based Linux variant of the QUEUESEED backdoor malware distributed as an encrypted ELF payload."
+    },
+    {
+      "name": "WEEVELY",
+      "kind": "webshell",
+      "gloss": "A stealthy PHP webshell designed for remote server administration and command execution."
+    },
+    {
+      "name": "REGEORG.NEO",
+      "kind": "tunneling tool",
+      "gloss": "A web-based tunneling tool used to establish SOCKS proxies through web servers via HTTP/HTTPS."
+    },
+    {
+      "name": "PIVOTNACCI",
+      "kind": "tunneling tool",
+      "gloss": "A PHP-based tunneling and proxy tool used for lateral movement in compromised networks."
+    },
+    {
+      "name": "GOSSIPFLOW",
+      "kind": "malware family",
+      "gloss": "A Go-based malware providing tunneling and SOCKS5 proxy functionality using the Yamux multiplexer library."
+    },
+    {
+      "name": "SDELETE",
+      "kind": "software utility",
+      "gloss": "A secure file deletion command-line utility from Microsoft Sysinternals used in destructive cyber attacks."
+    },
+    {
+      "name": "CHISEL",
+      "kind": "tunneling tool",
+      "gloss": "A fast TCP/UDP tunnel tool written in Go and transported over HTTP/WebSockets."
+    },
+    {
+      "name": "LIBPROCESSHIDER",
+      "kind": "rootkit tool",
+      "gloss": "A Linux library used to hide processes under Linux using the LD_PRELOAD hooking technique."
+    },
+    {
+      "name": "JUICYPOTATONG",
+      "kind": "privilege escalation tool",
+      "gloss": "A Windows privilege escalation tool derived from JuicyPotato for abusing SeImpersonatePrivilege."
+    },
+    {
+      "name": "ROTTENPOTATONG",
+      "kind": "privilege escalation tool",
+      "gloss": "A Windows local privilege escalation tool designed to abuse token impersonation privileges."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose critical infrastructure was targeted by Sandworm."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0133",
+      "type": "is-subcluster-of",
+      "tail": "Sandworm",
+      "evidence": "UAC-0133 є субкластером UAC-0002 (Sandworm/APT44)"
+    },
+    {
+      "head": "Sandworm",
+      "type": "targets-sector-in",
+      "tail": "Україна",
+      "evidence": "підприємств галузі енергетики, водо та теплопостачання (ОКІ) у десяти регіонах України"
+    },
+    {
+      "head": "Sandworm",
+      "type": "deploys-malware",
+      "tail": "QUEUESEED",
+      "evidence": "окрім відомого з 2022 року бекдору QUEUESEED"
+    },
+    {
+      "head": "Sandworm",
+      "type": "deploys-malware",
+      "tail": "LOADGRIP",
+      "evidence": "виявлено новий інструментарій зловмисників, а саме, шкідливі програми LOADGRIP та BIASBOAT"
+    },
+    {
+      "head": "Sandworm",
+      "type": "deploys-malware",
+      "tail": "BIASBOAT",
+      "evidence": "виявлено новий інструментарій зловмисників, а саме, шкідливі програми LOADGRIP та BIASBOAT"
+    },
+    {
+      "head": "LOADGRIP",
+      "type": "executes-payload",
+      "tail": "BIASBOAT",
+      "evidence": "Запуск на ЕОМ здійснюється за допомогою інжектору LOADGRIP."
+    },
+    {
+      "head": "Sandworm",
+      "type": "deploys-tool",
+      "tail": "WEEVELY",
+      "evidence": "виявлено заздалегідь створений PHP-вебшелл WEEVELY"
+    },
+    {
+      "head": "Sandworm",
+      "type": "deploys-tool",
+      "tail": "REGEORG.NEO",
+      "evidence": "PHP-тунель REGEORG.NEO"
+    },
+    {
+      "head": "Sandworm",
+      "type": "deploys-tool",
+      "tail": "PIVOTNACCI",
+      "evidence": "або PIVOTNACCI."
+    },
+    {
+      "head": "UAC-0133",
+      "type": "uses-malware",
+      "tail": "QUEUESEED",
+      "evidence": "використовувалося шкідливе програмне забезпечення QUEUESEED та GOSSIPFLOW, яке відстежується з 2022 року в контексті деструктивних кібератак угрупування UAC-0133"
+    },
+    {
+      "head": "UAC-0133",
+      "type": "uses-malware",
+      "tail": "GOSSIPFLOW",
+      "evidence": "використовувалося шкідливе програмне забезпечення QUEUESEED та GOSSIPFLOW, яке відстежується з 2022 року в контексті деструктивних кібератак угрупування UAC-0133"
+    },
+    {
+      "head": "UAC-0133",
+      "type": "uses-tool",
+      "tail": "SDELETE",
+      "evidence": "зокрема, з використанням SDELETE"
+    },
+    {
+      "head": "Sandworm",
+      "type": "deploys-tool",
+      "tail": "CHISEL",
+      "evidence": "угрупуванням також застосовувалися, але не виключно: CHISEL"
+    },
+    {
+      "head": "Sandworm",
+      "type": "deploys-tool",
+      "tail": "LIBPROCESSHIDER",
+      "evidence": "LIBPROCESSHIDER"
+    },
+    {
+      "head": "Sandworm",
+      "type": "deploys-tool",
+      "tail": "JUICYPOTATONG",
+      "evidence": "JUICYPOTATONG"
+    },
+    {
+      "head": "Sandworm",
+      "type": "deploys-tool",
+      "tail": "ROTTENPOTATONG",
+      "evidence": "ROTTENPOTATONG"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "is-subcluster-of",
+      "definition": "The subject threat actor or cluster is an identified subunit or subcluster of the object threat group."
+    },
+    {
+      "name": "targets-sector-in",
+      "definition": "The subject threat actor targets specific critical infrastructure or organizational sectors located in the object country."
+    },
+    {
+      "name": "deploys-malware",
+      "definition": "The subject threat actor deploys or installs the object malware family during an intrusion."
+    },
+    {
+      "name": "executes-payload",
+      "definition": "The subject tool or loader decrypts, injects, or initiates execution of the object payload."
+    },
+    {
+      "name": "deploys-tool",
+      "definition": "The subject threat actor places or uses the object utility or tool on compromised systems."
+    },
+    {
+      "name": "uses-malware",
+      "definition": "The subject threat actor is known to utilize the object malware family in its cyber operations."
+    },
+    {
+      "name": "uses-tool",
+      "definition": "The subject threat actor leverages the object utility or software tool during malicious activities."
+    }
+  ]
+}

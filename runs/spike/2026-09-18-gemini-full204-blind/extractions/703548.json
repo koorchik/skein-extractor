@@ -1,0 +1,97 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "державні органи України",
+      "kind": "government sector",
+      "gloss": "The public sector and governmental authorities of Ukraine."
+    },
+    {
+      "name": "UAC-0056",
+      "kind": "threat group",
+      "gloss": "A threat actor group known for conducting cyber espionage and malware attacks against Ukrainian targets."
+    },
+    {
+      "name": "Гуманітарна катастрофа України з 24 лютого 2022 року.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet containing macros used to execute an executable payload."
+    },
+    {
+      "name": "baseupd.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file dropped to deploy and launch Cobalt Strike Beacon."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware family",
+      "gloss": "A modular post-exploitation agent used for command and control, lateral movement, and payload execution."
+    },
+    {
+      "name": "oYUuQbXu",
+      "kind": "malicious file",
+      "gloss": "A malicious file deployed on infected host systems during the attack."
+    },
+    {
+      "name": "stage1.ps1",
+      "kind": "malicious file",
+      "gloss": "A malicious PowerShell script used as an infection stage loader."
+    },
+    {
+      "name": "stage2.ps1",
+      "kind": "malicious file",
+      "gloss": "A malicious PowerShell script used as a secondary stage payload loader."
+    },
+    {
+      "name": "shellcode.x86.bin",
+      "kind": "malicious file",
+      "gloss": "A 32-bit shellcode payload containing Cobalt Strike Beacon."
+    },
+    {
+      "name": "shellcode.x64.bin",
+      "kind": "malicious file",
+      "gloss": "A 64-bit shellcode payload containing Cobalt Strike Beacon."
+    },
+    {
+      "name": "136.144.41.177",
+      "kind": "ip address",
+      "gloss": "An external IP address utilized as command and control infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "attacks",
+      "tail": "державні органи України",
+      "evidence": "електронні листи розсилаються зі скомпрометованих електронних адрес державних органів України"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses-malware",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "Виходячи з використаних тактик, активність асоційовано з діяльністю групи UAC-0056"
+    },
+    {
+      "head": "Гуманітарна катастрофа України з 24 лютого 2022 року.xls",
+      "type": "delivers",
+      "tail": "baseupd.exe",
+      "evidence": "документ містить макрос, активація якого призведе до запуску файлу \"baseupd.exe\""
+    },
+    {
+      "head": "baseupd.exe",
+      "type": "delivers",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "виконання якого призведе до ураження комп'ютера шкідливою програмою Cobalt Strike Beacon"
+    },
+    {
+      "head": "державні органи України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "державних органів України"
+    }
+  ],
+  "newRelationTypes": []
+}

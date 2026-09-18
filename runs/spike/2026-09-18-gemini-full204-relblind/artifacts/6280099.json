@@ -1,0 +1,274 @@
+{
+  "docId": 6280099,
+  "date": "17.07.2024",
+  "title": "Цільові кібератаки UAC-0180 у відношенні оборонних підприємств з використанням GLUEEGG / DROPCLUE / ATERA (CERT-UA#10375)",
+  "entities": [
+    {
+      "id": "6280099:0",
+      "name": "UAC-0180",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA targeting Ukrainian defense enterprises and military entities.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6280099:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose organizations and defense entities were targeted in cyber attacks.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6280099:2",
+      "name": "Сили оборони України",
+      "kind": "military organization",
+      "gloss": "The combined military and defense forces of Ukraine targeted in cyber espionage campaigns.",
+      "scheme": "S23",
+      "category": "Government Body",
+      "role": "target"
+    },
+    {
+      "id": "6280099:3",
+      "name": "GLUEEGG",
+      "kind": "malware family",
+      "gloss": "A malware loader written in Go used to decrypt and execute subsequent payloads.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "6280099:4",
+      "name": "DROPCLUE",
+      "kind": "malware family",
+      "gloss": "A loader malware developed in the Lua programming language used to deploy additional payloads.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "6280099:5",
+      "name": "ATERA",
+      "kind": "software product",
+      "gloss": "A legitimate remote management and monitoring software abused by attackers for unauthorized access.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6280099:6",
+      "name": "ACROBAIT",
+      "kind": "malware family",
+      "gloss": "A malware family written in C utilized by the UAC-0180 threat group.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6280099:7",
+      "name": "ROSEBLOOM",
+      "kind": "malware family",
+      "gloss": "A malware family developed in the Rust programming language.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6280099:8",
+      "name": "ROSETHORN",
+      "kind": "malware family",
+      "gloss": "A malware family written in the Rust programming language.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6280099:9",
+      "name": "adobe_acrobat_fonts_pack.exe",
+      "kind": "file name",
+      "gloss": "An executable file containing the GLUEEGG malware loader.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6280099:10",
+      "name": "font-pack-pdf-windows-64-bit",
+      "kind": "file name",
+      "gloss": "A malicious executable file dropped to launch a batch script leading to ATERA installation.",
+      "scheme": "S12",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "6280099:11",
+      "name": "UA-2024-07-04-010019.zip",
+      "kind": "file name",
+      "gloss": "A malicious archive file distributed in phishing emails disguised as drone procurement information.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6280099:12",
+      "name": "UA-2024-07-04-010019.pdf",
+      "kind": "file name",
+      "gloss": "A lure PDF document containing a link that initiates malware delivery.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6280099:13",
+      "name": "UA-2024-07-04-010019-a-open.pdf",
+      "kind": "file name",
+      "gloss": "A decoy PDF document opened on the victim machine to avoid suspicion.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6280099:14",
+      "name": "prozorro-ua.net",
+      "kind": "internet domain",
+      "gloss": "A malicious domain name masquerading as a Ukrainian procurement platform used to distribute malware.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6280099:15",
+      "name": "mariquillaharmond262@proton.me",
+      "kind": "email address",
+      "gloss": "An email address used by the threat actor in the cyber attack campaign.",
+      "scheme": "S14",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6280099:16",
+      "name": "servicedesk.atera.com",
+      "kind": "internet domain",
+      "gloss": "A legitimate domain belonging to ATERA remote monitoring software abused in the attack.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6280099:17",
+      "name": "linedrv.com",
+      "kind": "internet domain",
+      "gloss": "A command-and-control domain associated with ACROBAIT malware operations.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6280099:18",
+      "name": "drv2ms.com",
+      "kind": "internet domain",
+      "gloss": "A domain name used in connection with ACROBAIT malware distribution and operations.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6280099:19",
+      "name": "devtools.bond",
+      "kind": "internet domain",
+      "gloss": "A domain name utilized in threat activity associated with ACROBAIT malware.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6280099:20",
+      "name": "olminx.com",
+      "kind": "internet domain",
+      "gloss": "A domain name associated with ACROBAIT malware samples.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6280099:21",
+      "name": "xeontime.com",
+      "kind": "internet domain",
+      "gloss": "A domain name used as infrastructure for distributing ACROBAIT malware samples.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0180",
+      "type": "targets-sector",
+      "tail": "Сили оборони України",
+      "evidence": "угрупування UAC-0180, незважаючи на широку географію атак, не полишає спроб отримання несанкціонованого доступу до ЕОМ співробітників оборонних підприємств та Сил оборони України"
+    },
+    {
+      "head": "UAC-0180",
+      "type": "uses-malware",
+      "tail": "ACROBAIT",
+      "evidence": "оновлюваний арсенал шкідливих програм, розроблених з використанням різних мов програмування, включаючи: C (ACROBAIT)"
+    },
+    {
+      "head": "UAC-0180",
+      "type": "uses-malware",
+      "tail": "ROSEBLOOM",
+      "evidence": "Rust (ROSEBLOOM, ROSETHORN)"
+    },
+    {
+      "head": "UAC-0180",
+      "type": "uses-malware",
+      "tail": "ROSETHORN",
+      "evidence": "Rust (ROSEBLOOM, ROSETHORN)"
+    },
+    {
+      "head": "UAC-0180",
+      "type": "uses-malware",
+      "tail": "GLUEEGG",
+      "evidence": "Go (GLUEEGG)"
+    },
+    {
+      "head": "UAC-0180",
+      "type": "uses-malware",
+      "tail": "DROPCLUE",
+      "evidence": "Lua (DROPCLUE)"
+    },
+    {
+      "head": "GLUEEGG",
+      "type": "executes",
+      "tail": "DROPCLUE",
+      "evidence": "Основним призначенням GLUEEGG є дешифрування (XOR зі 128-байтним ключем) та запуск завантажувача DROPCLUE"
+    },
+    {
+      "head": "DROPCLUE",
+      "type": "drops-and-executes",
+      "tail": "UA-2024-07-04-010019-a-open.pdf",
+      "evidence": "DROPCLUE... забезпечить завантаження та відкриття на ЕОМ документу-приманки \"UA-2024-07-04-010019-a-open.pdf\""
+    },
+    {
+      "head": "DROPCLUE",
+      "type": "drops-and-executes",
+      "tail": "font-pack-pdf-windows-64-bit",
+      "evidence": "забезпечить завантаження та відкриття на ЕОМ документу-приманки \"UA-2024-07-04-010019-a-open.pdf\", а також EXE-файлу \"font-pack-pdf-windows-64-bit\""
+    },
+    {
+      "head": "font-pack-pdf-windows-64-bit",
+      "type": "deploys-software",
+      "tail": "ATERA",
+      "evidence": "font-pack-pdf-windows-64-bit\", що забезпечить запуск BAT-файлу, який, у свою чергу... здійснить завантаження і встановлення MSI-файлу легітимної програми для віддаленого управління ЕОМ ATERA"
+    },
+    {
+      "head": "UA-2024-07-04-010019.zip",
+      "type": "contains-file",
+      "tail": "UA-2024-07-04-010019.pdf",
+      "evidence": "вкладенням у вигляді ZIP-файлу, що містить PDF-документ з посиланням"
+    }
+  ],
+  "unclassified": []
+}

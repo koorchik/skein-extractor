@@ -1,0 +1,216 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0006",
+      "kind": "threat actor",
+      "gloss": "A financially motivated cyber threat group that primarily targets Ukrainian organizations with SmokeLoader malware."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "росія",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "SmokeLoader",
+      "kind": "malware",
+      "gloss": "A modular malicious bot program used to download and execute additional malware payloads."
+    },
+    {
+      "name": "iqhost.ru",
+      "kind": "hosting provider",
+      "gloss": "A Russian internet hosting service provider."
+    },
+    {
+      "name": "ruvds.com",
+      "kind": "hosting provider",
+      "gloss": "A Russian cloud infrastructure and virtual server hosting provider."
+    },
+    {
+      "name": "dnspod.com",
+      "kind": "dns service",
+      "gloss": "A domain name system hosting and resolution service provider."
+    },
+    {
+      "name": "193.106.174.173",
+      "kind": "ip address",
+      "gloss": "An IP address hosted in Russia associated with malicious infrastructure."
+    },
+    {
+      "name": "193.108.114.148",
+      "kind": "ip address",
+      "gloss": "An IP address hosted in Russia associated with malicious infrastructure."
+    },
+    {
+      "name": "Windows Script Host",
+      "kind": "software product",
+      "gloss": "A Microsoft Windows component providing scripting capabilities."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "wscript.exe",
+      "kind": "executable file",
+      "gloss": "A built-in Windows executable that provides an environment for executing scripts."
+    },
+    {
+      "name": "cscript.exe",
+      "kind": "executable file",
+      "gloss": "A built-in command-line Windows executable used to run scripts."
+    },
+    {
+      "name": "Акт_Звiрки_та_рах.факт_вiд_12_07_2023.zip",
+      "kind": "archive file",
+      "gloss": "A malicious ZIP archive distributed as an email attachment containing a VBScript file."
+    },
+    {
+      "name": "рахунок_вiд_12_07_2023_до_оплати.vbs",
+      "kind": "script file",
+      "gloss": "A malicious VBScript file designed to download and execute SmokeLoader malware."
+    },
+    {
+      "name": "Спісок_счетов_від_14_07_2023р.zip",
+      "kind": "archive file",
+      "gloss": "A malicious ZIP archive distributed as an email attachment containing malicious HTML files."
+    },
+    {
+      "name": "UKR_net_рахунки_№418_до_оплати_вiд_14_07_2023_Архив.html",
+      "kind": "script file",
+      "gloss": "A malicious HTML file designed to download an executable SmokeLoader dropper."
+    },
+    {
+      "name": "рахунки_до_оплати_вiд_14_07_2023_Архив_rar.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable file used to infect systems with SmokeLoader."
+    },
+    {
+      "name": "htainfo.txt",
+      "kind": "text file",
+      "gloss": "A file associated with the SmokeLoader infection chain."
+    },
+    {
+      "name": "1.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable payload dropped during a SmokeLoader infection."
+    },
+    {
+      "name": "новые реквизиты та рах. ф. до оплати.zip",
+      "kind": "archive file",
+      "gloss": "A malicious ZIP archive distributed via email lures."
+    },
+    {
+      "name": "рахунок_вiд_13_07_2023_до_оплати.vbs",
+      "kind": "script file",
+      "gloss": "A malicious VBScript file delivered to download and execute payloads."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "SmokeLoader",
+      "evidence": "Активність відстежується за ідентифікатором UAC-0006."
+    },
+    {
+      "head": "Акт_Звiрки_та_рах.факт_вiд_12_07_2023.zip",
+      "type": "contains-file",
+      "tail": "рахунок_вiд_12_07_2023_до_оплати.vbs",
+      "evidence": "файлу \"Акт_Звiрки_та_рах.факт_вiд_12_07_2023.zip \", що містить VBS-файл \"рахунок_вiд_12_07_2023_до_оплати.vbs\""
+    },
+    {
+      "head": "рахунок_вiд_12_07_2023_до_оплати.vbs",
+      "type": "downloads-and-executes",
+      "tail": "SmokeLoader",
+      "evidence": "відкриття якого забезпечить завантаження і запуск шкідливої програми SmokeLoader."
+    },
+    {
+      "head": "Спісок_счетов_від_14_07_2023р.zip",
+      "type": "contains-file",
+      "tail": "UKR_net_рахунки_№418_до_оплати_вiд_14_07_2023_Архив.html",
+      "evidence": "архіву \"Спісок_счетов_від_14_07_2023р.zip\", що містить три HTML-файли з назвами \"UKR_net_рахунки_№418_до_оплати_вiд_14_07_2023_Архив.html\""
+    },
+    {
+      "head": "UKR_net_рахунки_№418_до_оплати_вiд_14_07_2023_Архив.html",
+      "type": "downloads-file",
+      "tail": "рахунки_до_оплати_вiд_14_07_2023_Архив_rar.exe",
+      "evidence": "Відкриття одного з цих файлів призведе до завантаження виконуваного файлу \"рахунки_до_оплати_вiд_14_07_2023_Архив_rar.exe\""
+    },
+    {
+      "head": "рахунки_до_оплати_вiд_14_07_2023_Архив_rar.exe",
+      "type": "installs-malware",
+      "tail": "SmokeLoader",
+      "evidence": "запуск якого призведе до ураження комп'ютера шкідливою програмою SmokeLoader."
+    },
+    {
+      "head": "193.106.174.173",
+      "type": "hosted-by-provider",
+      "tail": "iqhost.ru",
+      "evidence": "IP-адреса: 193.106.174[.]173; провайдер @iqhost[.]ru"
+    },
+    {
+      "head": "193.108.114.148",
+      "type": "hosted-by-provider",
+      "tail": "ruvds.com",
+      "evidence": "IP-адреса: 193.108.114[.]148; провайдер @ruvds[.]com"
+    },
+    {
+      "head": "SmokeLoader",
+      "type": "queries-dns-service",
+      "tail": "dnspod.com",
+      "evidence": "визначення актуальних A-записів для доменних імен шляхом зверення до DNS-серверів сервісу @dnspod[.]com."
+    },
+    {
+      "head": "Windows Script Host",
+      "type": "includes-software",
+      "tail": "wscript.exe",
+      "evidence": "Windows Script Host (wscript.exe, cscript.exe)"
+    },
+    {
+      "head": "Windows Script Host",
+      "type": "includes-software",
+      "tail": "cscript.exe",
+      "evidence": "Windows Script Host (wscript.exe, cscript.exe)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-malware",
+      "definition": "The threat actor employs the specified malware family or tool in its operations."
+    },
+    {
+      "name": "contains-file",
+      "definition": "An archive, document, or container holds the specified file."
+    },
+    {
+      "name": "downloads-and-executes",
+      "definition": "The entity downloads and runs a subsequent payload or malware."
+    },
+    {
+      "name": "downloads-file",
+      "definition": "The entity causes a file to be downloaded to the system."
+    },
+    {
+      "name": "installs-malware",
+      "definition": "The executable or installer deploys malware onto the infected system."
+    },
+    {
+      "name": "hosted-by-provider",
+      "definition": "The network address or resource is hosted or managed by the specified service provider."
+    },
+    {
+      "name": "queries-dns-service",
+      "definition": "The malware contacts the specified DNS provider to resolve domain names."
+    },
+    {
+      "name": "includes-software",
+      "definition": "The software suite or platform includes the specified component or executable binary."
+    }
+  ]
+}

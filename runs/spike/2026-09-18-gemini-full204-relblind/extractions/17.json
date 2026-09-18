@@ -1,0 +1,74 @@
+{
+  "entities": [
+    {
+      "name": "WP Data Reset",
+      "kind": "software product",
+      "gloss": "An open-source WordPress plugin designed to reset database tables to default settings."
+    },
+    {
+      "name": "WordPress",
+      "kind": "software product",
+      "gloss": "A popular open-source content management system."
+    },
+    {
+      "name": "WebFactory Ltd",
+      "kind": "software vendor",
+      "gloss": "A software development company that maintains WordPress plugins."
+    },
+    {
+      "name": "CVE-2020-7048",
+      "kind": "vulnerability identifier",
+      "gloss": "A critical vulnerability in the WP Data Reset plugin allowing unauthorized database table resets."
+    },
+    {
+      "name": "CVE-2020-7047",
+      "kind": "vulnerability identifier",
+      "gloss": "A high-severity privilege escalation vulnerability in the WP Data Reset plugin."
+    },
+    {
+      "name": "WordFence",
+      "kind": "cybersecurity company",
+      "gloss": "A cybersecurity firm specializing in WordPress security products and research."
+    }
+  ],
+  "relations": [
+    {
+      "head": "WebFactory Ltd",
+      "type": "maintains",
+      "tail": "WP Data Reset",
+      "evidence": "WP Data Reset WordPress, підтримуваний WebFactory Ltd"
+    },
+    {
+      "head": "CVE-2020-7048",
+      "type": "affects",
+      "tail": "WP Data Reset",
+      "evidence": "Критичні помилки, знайдені у використовуваному понад 80 000 сайтів плагін"
+    },
+    {
+      "head": "CVE-2020-7047",
+      "type": "affects",
+      "tail": "WP Data Reset",
+      "evidence": "Критичні помилки, знайдені у використовуваному понад 80 000 сайтів плагін"
+    },
+    {
+      "head": "WordFence",
+      "type": "discovered-vulnerability-in",
+      "tail": "WP Data Reset",
+      "evidence": "через тиждень після виявлення недоліку фірмою з безпеки WordPress - WordFence"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "maintains",
+      "definition": "The head entity develops, supports, or maintains the tail software product."
+    },
+    {
+      "name": "affects",
+      "definition": "The head vulnerability exists in or impacts the tail software product."
+    },
+    {
+      "name": "discovered-vulnerability-in",
+      "definition": "The head entity identified a security vulnerability in the tail software product."
+    }
+  ]
+}

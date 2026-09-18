@@ -1,0 +1,119 @@
+{
+  "entities": [
+    {
+      "name": "Aid request COVID-19-04_5_22.xls",
+      "kind": "computer file",
+      "gloss": "A malicious Excel spreadsheet containing a macro used to drop and execute malware payloads."
+    },
+    {
+      "name": "GraphSteel",
+      "kind": "malware",
+      "gloss": "A Go-based backdoor malware family designed for credential theft and system reconnaissance."
+    },
+    {
+      "name": "GrimPlant",
+      "kind": "malware",
+      "gloss": "A Go-based backdoor malware family that uses gRPC for command and control communication."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country located in Eastern Europe."
+    },
+    {
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyber threat group known for cyber espionage attacks targeting Ukrainian government entities."
+    },
+    {
+      "name": "base_update.exe",
+      "kind": "computer file",
+      "gloss": "A malicious Go-based downloader executable."
+    },
+    {
+      "name": "java-sdk.exe",
+      "kind": "computer file",
+      "gloss": "A malicious Go-based downloader executable disguised as a Java SDK component."
+    },
+    {
+      "name": "microsoft-cortana.exe",
+      "kind": "computer file",
+      "gloss": "An executable file delivering or executing the GraphSteel malware payload."
+    },
+    {
+      "name": "oracle-java.exe",
+      "kind": "computer file",
+      "gloss": "An executable file delivering or executing the GrimPlant malware payload."
+    },
+    {
+      "name": "212[.]192.246.115",
+      "kind": "ip address",
+      "gloss": "An IP address used for malicious command and control or payload distribution."
+    },
+    {
+      "name": "hxxps://212[.]192.246.115/i",
+      "kind": "uniform resource locator",
+      "gloss": "A network URL used for malicious command and control communication or payload delivery."
+    },
+    {
+      "name": "hxxps://212[.]192.246.115/m",
+      "kind": "uniform resource locator",
+      "gloss": "A network URL used for malicious command and control communication or payload delivery."
+    },
+    {
+      "name": "hxxps://212[.]192.246.115/p",
+      "kind": "uniform resource locator",
+      "gloss": "A network URL used for malicious command and control communication or payload delivery."
+    },
+    {
+      "name": "ws://212[.]192.246.115:443/c",
+      "kind": "uniform resource locator",
+      "gloss": "A WebSocket URL used for network communication by malware."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Aid request COVID-19-04_5_22.xls",
+      "type": "delivers",
+      "tail": "GraphSteel",
+      "evidence": "на комп'ютер будуть завантажені та виконані шкідливі програми GraphSteel"
+    },
+    {
+      "head": "Aid request COVID-19-04_5_22.xls",
+      "type": "delivers",
+      "tail": "GrimPlant",
+      "evidence": "на комп'ютер будуть завантажені та виконані шкідливі програми GraphSteel ... та GrimPlant"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "Aid request COVID-19-04_5_22.xls",
+      "evidence": "Активність асоційовано з діяльністю групи UAC-0056."
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "GraphSteel",
+      "evidence": "Активність асоційовано з діяльністю групи UAC-0056."
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "GrimPlant",
+      "evidence": "Активність асоційовано з діяльністю групи UAC-0056."
+    },
+    {
+      "head": "microsoft-cortana.exe",
+      "type": "part-of",
+      "tail": "GraphSteel",
+      "evidence": "microsoft-cortana.exe (2022-04-21) (GraphSteel)"
+    },
+    {
+      "head": "oracle-java.exe",
+      "type": "part-of",
+      "tail": "GrimPlant",
+      "evidence": "oracle-java.exe (GrimPlant)"
+    }
+  ],
+  "newRelationTypes": []
+}

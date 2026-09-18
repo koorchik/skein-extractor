@@ -1,0 +1,228 @@
+{
+  "entities": [
+    {
+      "name": "gordon6.hopto.org",
+      "kind": "hostname",
+      "gloss": "A dynamic DNS hostname used as a command and control server."
+    },
+    {
+      "name": "antiteror2@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address used by attackers to distribute phishing messages."
+    },
+    {
+      "name": "hXXps://fex.net/load/241936161376/270094424",
+      "kind": "url",
+      "gloss": "A malicious download URL hosted on the FEX.NET file sharing service."
+    },
+    {
+      "name": "feb_13_18.doc.exe_",
+      "kind": "file",
+      "gloss": "A malicious executable file disguised as a document."
+    },
+    {
+      "name": "Schwarze-Sonne-Remote-Access-Trojan",
+      "kind": "malware family",
+      "gloss": "A remote access trojan that provides unauthorized remote control of infected systems."
+    },
+    {
+      "name": "62.76.105.46",
+      "kind": "ip address",
+      "gloss": "An IP address located in the Russian Federation used as command and control infrastructure."
+    },
+    {
+      "name": "Російська Федерація",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "otkachenko@me.gov.ua",
+      "kind": "email address",
+      "gloss": "A compromised or spoofed email address used to send phishing emails."
+    },
+    {
+      "name": "____28.02.docx.exe",
+      "kind": "file",
+      "gloss": "A malicious executable file masquerading as a Word document."
+    },
+    {
+      "name": "Nano.exe",
+      "kind": "file",
+      "gloss": "A malicious executable payload protected with .Net Reactor."
+    },
+    {
+      "name": ".Net Reactor",
+      "kind": "software product",
+      "gloss": "A commercial code protection and obfuscation tool for .NET applications."
+    },
+    {
+      "name": "Як зміняться зарплати військовослужбовців у 2018 році",
+      "kind": "file",
+      "gloss": "A malicious file masquerading as a presentation document exploiting CVE-2017-8759."
+    },
+    {
+      "name": "CVE-2017-8759",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in the Microsoft .NET Framework."
+    },
+    {
+      "name": "52.71.211.89",
+      "kind": "ip address",
+      "gloss": "An IP address located in the United States used as command and control infrastructure."
+    },
+    {
+      "name": "США",
+      "kind": "country",
+      "gloss": "A sovereign country primarily located in North America."
+    },
+    {
+      "name": "a224368_1@s8.h.mchost.ru",
+      "kind": "email address",
+      "gloss": "An email address used to distribute phishing messages impersonating the Mission of Ukraine to NATO."
+    },
+    {
+      "name": "Mission of Ukraine to NATO",
+      "kind": "government body",
+      "gloss": "The diplomatic mission representing Ukraine at NATO headquarters."
+    },
+    {
+      "name": "Ukraine",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "NATO",
+      "kind": "international organization",
+      "gloss": "An intergovernmental military alliance consisting of North American and European member states."
+    },
+    {
+      "name": "hXXp://edisk.ukr.net/get/501023417/%D0%94%D0%BE%D0%BF%D0%BE%D0%B2%D1%96%D0%B4%D1%8C%20%D0%9D%D0%A3.doc.exe",
+      "kind": "url",
+      "gloss": "A malicious link pointing to an executable payload disguised as a document."
+    }
+  ],
+  "relations": [
+    {
+      "head": "antiteror2@ukr.net",
+      "type": "distributes-link",
+      "tail": "hXXps://fex.net/load/241936161376/270094424",
+      "evidence": "Відбувалася 13.02.2018 з електронної адреси antiteror2@ukr.net... В листі містилось посилання на шкідливий файл"
+    },
+    {
+      "head": "feb_13_18.doc.exe_",
+      "type": "injects-malware",
+      "tail": "Schwarze-Sonne-Remote-Access-Trojan",
+      "evidence": "записує туди тіло шкідливого коду Schwarze-Sonne-Remote-Access-Trojan"
+    },
+    {
+      "head": "feb_13_18.doc.exe_",
+      "type": "communicates-with-c2",
+      "tail": "gordon6.hopto.org",
+      "evidence": "Зазначений процес зв'язується з командно-контрольним центром... gordon6.hopto.org"
+    },
+    {
+      "head": "gordon6.hopto.org",
+      "type": "resolves-to-ip",
+      "tail": "62.76.105.46",
+      "evidence": "gordon6.hopto.org (62.76.105.46)"
+    },
+    {
+      "head": "62.76.105.46",
+      "type": "located-in-country",
+      "tail": "Російська Федерація",
+      "evidence": "62.76.105.46 (Російська Федерація)"
+    },
+    {
+      "head": "otkachenko@me.gov.ua",
+      "type": "distributes-file",
+      "tail": "____28.02.docx.exe",
+      "evidence": "Відбувалася 14.02.2018 з електронної адреси otkachenko@me.gov.ua... з темою повідомлення «Нарада» та прикріпленими шкідливими файлами"
+    },
+    {
+      "head": "otkachenko@me.gov.ua",
+      "type": "distributes-file",
+      "tail": "Як зміняться зарплати військовослужбовців у 2018 році",
+      "evidence": "Відбувалася 14.02.2018 з електронної адреси otkachenko@me.gov.ua... та прикріпленими шкідливими файлами"
+    },
+    {
+      "head": "____28.02.docx.exe",
+      "type": "injects-malware",
+      "tail": "Schwarze-Sonne-Remote-Access-Trojan",
+      "evidence": "записує в нього шкідливий код Schwarze-Sonne-Remote-Access-Trojan"
+    },
+    {
+      "head": "____28.02.docx.exe",
+      "type": "communicates-with-c2",
+      "tail": "gordon6.hopto.org",
+      "evidence": "Цей процес зв'язується з кк центром gordon6.hopto.org"
+    },
+    {
+      "head": "Nano.exe",
+      "type": "protected-by",
+      "tail": ".Net Reactor",
+      "evidence": "Справжня назва файлу Nano.exe. Захищений .Net Reactor протектором."
+    },
+    {
+      "head": "Як зміняться зарплати військовослужбовців у 2018 році",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2017-8759",
+      "evidence": "Цей файл є xml, який використовує вразливість CVE-2017-8759."
+    },
+    {
+      "head": "52.71.211.89",
+      "type": "located-in-country",
+      "tail": "США",
+      "evidence": "52.71.211.89 (США)"
+    },
+    {
+      "head": "a224368_1@s8.h.mchost.ru",
+      "type": "spoofs-identity-of",
+      "tail": "Mission of Ukraine to NATO",
+      "evidence": "a224368_1@s8.h.mchost.ru On Behalf Of Mission of Ukraine to NATO"
+    },
+    {
+      "head": "a224368_1@s8.h.mchost.ru",
+      "type": "distributes-link",
+      "tail": "hXXp://edisk.ukr.net/get/501023417/%D0%94%D0%BE%D0%BF%D0%BE%D0%B2%D1%96%D0%B4%D1%8C%20%D0%9D%D0%A3.doc.exe",
+      "evidence": "В листі містилися посилання на шкідливий файл: hXXp://edisk.ukr.net/get/501023417/..."
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "distributes-link",
+      "definition": "An email address or sender delivers a message containing a specific URL."
+    },
+    {
+      "name": "injects-malware",
+      "definition": "A file, dropper, or process unpacks or injects a specific malware payload into memory or a process."
+    },
+    {
+      "name": "communicates-with-c2",
+      "definition": "A malicious process or file establishes network communications with a command and control server."
+    },
+    {
+      "name": "resolves-to-ip",
+      "definition": "A domain name or hostname resolves or points to an IP address."
+    },
+    {
+      "name": "located-in-country",
+      "definition": "An IP address or infrastructure element is geographically located in a specified country."
+    },
+    {
+      "name": "distributes-file",
+      "definition": "An email address or sender sends an attachment or file to targets."
+    },
+    {
+      "name": "protected-by",
+      "definition": "A software file or binary is obfuscated, packed, or protected by a specific security or packing software."
+    },
+    {
+      "name": "exploits-vulnerability",
+      "definition": "A malicious file or exploit code leverages a specific vulnerability identifier to achieve execution."
+    },
+    {
+      "name": "spoofs-identity-of",
+      "definition": "An email address or entity impersonates another organization, person, or body."
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0133",
+      "kind": "threat actor",
+      "gloss": "A cyber threat actor group tracked by CERT-UA."
+    },
+    {
+      "name": "sbu@online[.]ua",
+      "kind": "email address",
+      "gloss": "A compromised email address used to send phishing emails impersonating CERT-UA."
+    },
+    {
+      "name": "online[.]ua",
+      "kind": "domain name",
+      "gloss": "A Ukrainian web portal and email service domain."
+    },
+    {
+      "name": "ESET_scanner.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive distributed as an email attachment."
+    },
+    {
+      "name": "ESET Online Scanner.exe",
+      "kind": "malware",
+      "gloss": "A malicious executable that masquerades as an antivirus scanner to download further payloads via SFTP."
+    },
+    {
+      "name": "LICENSE",
+      "kind": "computer file",
+      "gloss": "A file associated with the malicious ESET scanner archive."
+    },
+    {
+      "name": "/home/gwesvnw/eset.yar",
+      "kind": "malware",
+      "gloss": "A malicious payload downloaded via SFTP and executed on compromised systems."
+    },
+    {
+      "name": "Renci.SshNet",
+      "kind": "software product",
+      "gloss": "An open-source .NET library providing SSH and SFTP capabilities."
+    },
+    {
+      "name": "hxxps://github[.]com/ArsenShnurkov/Renci.SshNet",
+      "kind": "uniform resource locator",
+      "gloss": "A GitHub URL hosting the Renci.SshNet library repository."
+    },
+    {
+      "name": "sftp://185[.]225.114.108:48765",
+      "kind": "uniform resource locator",
+      "gloss": "An SFTP URL used for payload download."
+    },
+    {
+      "name": "185[.]225.114.108",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious SFTP infrastructure."
+    },
+    {
+      "name": "ipfib[.]com",
+      "kind": "domain name",
+      "gloss": "A domain name associated with malicious IP infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0133",
+      "type": "uses",
+      "tail": "sbu@online[.]ua",
+      "evidence": "розповсюдження 08.11.2022 електронних листів... електронна адреса \"sbu@online[.]ua\"... Активність відстежується за ідентифікатором UAC-0133"
+    },
+    {
+      "head": "UAC-0133",
+      "type": "uses",
+      "tail": "ESET_scanner.rar",
+      "evidence": "В додатку до електронного листа знаходиться архів \"ESET_scanner.rar\"... Активність відстежується за ідентифікатором UAC-0133"
+    },
+    {
+      "head": "ESET_scanner.rar",
+      "type": "delivers",
+      "tail": "ESET Online Scanner.exe",
+      "evidence": "архів \"ESET_scanner.rar\", що містить файл \"ESET Online Scanner.exe\""
+    },
+    {
+      "head": "ESET Online Scanner.exe",
+      "type": "uses",
+      "tail": "Renci.SshNet",
+      "evidence": "завантаження здійснюється по протоколу SFTP з використанням бібліотеки \"Renci.SshNet\""
+    },
+    {
+      "head": "ESET Online Scanner.exe",
+      "type": "delivers",
+      "tail": "/home/gwesvnw/eset.yar",
+      "evidence": "призведе до завантаження... та запуску файлу... завантаження пейлоаду (\"/home/gwesvnw/eset.yar\")"
+    },
+    {
+      "head": "185[.]225.114.108",
+      "type": "hosts",
+      "tail": "/home/gwesvnw/eset.yar",
+      "evidence": "завантаження пейлоаду (\"/home/gwesvnw/eset.yar\") здійснюється по протоколу SFTP... sftp://185[.]225.114.108:48765"
+    }
+  ],
+  "newRelationTypes": []
+}

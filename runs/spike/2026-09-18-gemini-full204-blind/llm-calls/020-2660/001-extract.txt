@@ -1,0 +1,193 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p>Всі памʼятають масові атаки шифрувальників Petya та Misha у 2017 для поширення яких використовувалася вразливість для віддаленого виконання коду, а саме CVE-2017-0199.</p><p>При отриманні листів з посиланнями на ресурс для завантаження Microsoft Word документу або ж просто з прикріпленим документом (наприклад з розширенням .rtf, .docx) потрібно бути особливо пильними, оскільки документ з розширенням .rtf може містити вбудований ole-обʼєкт, а документ з розширенням .docx - посилання на інший файл. Зазначимо, що ole-обʼєкт може завантажити і виконати сторонню Microsoft Windows програму, в тому числі скрипт. Інфікування системи відбувається саме при виконанні такого завантаженого файла, програми чи скрипта.</p><p>Для зменшення ризиків компрометації системи необхідно:</p><p>- перевірити чи система має оновлення, які стосуються вразливості CVE-2017-0199</p><p>(<a href="https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2017-0199" rel="noopener noreferrer" target="_blank">microsoft.com</a>)</p><p>(Office 2007 (KB3141529)</p><p>Office 2013 (KB3178710)</p><p>Office 2010 (KB3141538)</p><p>Office 2016 (KB3178703)</p><p>Windows 7 (KB4015549)</p><p>Windows 7 (KB4015546)</p><p>Windows Vista, Windows Server 2008 (KB4014793)</p><p>Windows Server 2012 (KB4015551)</p><p>Windows Server 2012 (KB4015548));</p><p>- при можливості, заблокувати додаткам Microsoft Office доступ до мережі Інтернет;</p><p>- перевіряти по можливості відправника підозрілих листів та бути обережним при відкритті прикріплених файлів.</p><p>Додаткові рекомендаціі в&nbsp;<a href="https://cert.gov.ua/recommendation/31" rel="noopener noreferrer" target="_blank">основних правилах кібергігієни</a>.</p>
+
+=== RESPONSE (5.6s, in 1675 / out 1560 tok, STOP) ===
+```json
+{
+  "entities": [
+    {
+      "name": "Petya",
+      "kind": "ransomware",
+      "gloss": "A family of encrypting ransomware targeting Microsoft Windows-based systems."
+    },
+    {
+      "name": "Misha",
+      "kind": "ransomware",
+      "gloss": "A ransomware strain distributed alongside certain variants of Petya."
+    },
+    {
+      "name": "CVE-2017-0199",
+      "kind": "vulnerability",
+      "gloss": "A remote code execution vulnerability in Microsoft Office and WordPad handling of OLE objects."
+    },
+    {
+      "name": "Microsoft Word",
+      "kind": "software product",
+      "gloss": "A widely used word processing application developed by Microsoft."
+    },
+    {
+      "name": "Microsoft Windows",
+      "kind": "operating system",
+      "gloss": "A family of proprietary graphical operating systems developed by Microsoft."
+    },
+    {
+      "name": "microsoft.com",
+      "kind": "domain",
+      "gloss": "The official domain of Microsoft Corporation."
+    },
+    {
+      "name": "Office 2007",
+      "kind": "software product",
+      "gloss": "A version of the Microsoft Office productivity suite."
+    },
+    {
+      "name": "Office 2010",
+      "kind": "software product",
+      "gloss": "A version of the Microsoft Office productivity suite."
+    },
+    {
+      "name": "Office 2013",
+      "kind": "software product",
+      "gloss": "A version of the Microsoft Office productivity suite."
+    },
+    {
+      "name": "Office 2016",
+      "kind": "software product",
+      "gloss": "A version of the Microsoft Office productivity suite."
+    },
+    {
+      "name": "Windows 7",
+      "kind": "operating system",
+      "gloss": "A major release of the Microsoft Windows operating system."
+    },
+    {
+      "name": "Windows Vista",
+      "kind": "operating system",
+      "gloss": "A major release of the Microsoft Windows operating system."
+    },
+    {
+      "name": "Windows Server 2008",
+      "kind": "operating system",
+      "gloss": "A server operating system produced by Microsoft."
+    },
+    {
+      "name": "Windows Server 2012",
+      "kind": "operating system",
+      "gloss": "A server operating system produced by Microsoft."
+    },
+    {
+      "name": "Microsoft Office",
+      "kind": "software suite",
+      "gloss": "A suite of productivity software developed by Microsoft."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Petya",
+      "type": "exploits",
+      "tail": "CVE-2017-0199",
+      "evidence": "атаки шифрувальників Petya та Misha у 2017 для поширення яких використовувалася вразливість для віддаленого виконання коду, а саме CVE-2017-0199"
+    },
+    {
+      "head": "Misha",
+      "type": "exploits",
+      "tail": "CVE-2017-0199",
+      "evidence": "атаки шифрувальників Petya та Misha у 2017 для поширення яких використовувалася вразливість для віддаленого виконання коду, а саме CVE-2017-0199"
+    },
+    {
+      "head": "CVE-2017-0199",
+      "type": "affects",
+      "tail": "Office 2007",
+      "evidence": "оновлення, які стосуються вразливості CVE-2017-0199 (Office 2007"
+    },
+    {
+      "head": "CVE-2017-0199",
+      "type": "affects",
+      "tail": "Office 2010",
+      "evidence": "оновлення, які стосуються вразливості CVE-2017-0199 Office 2010"
+    },
+    {
+      "head": "CVE-2017-0199",
+      "type": "affects",
+      "tail": "Office 2013",
+      "evidence": "оновлення, які стосуються вразливості CVE-2017-0199 Office 2013"
+    },
+    {
+      "head": "CVE-2017-0199",
+      "type": "affects",
+      "tail": "Office 2016",
+      "evidence": "оновлення, які стосуються вразливості CVE-2017-0199 Office 2016"
+    },
+    {
+      "head": "CVE-2017-0199",
+      "type": "affects",
+      "tail": "Windows 7",
+      "evidence": "оновлення, які стосуються вразливості CVE-2017-0199 Windows 7"
+    },
+    {
+      "head": "CVE-2017-0199",
+      "type": "affects",
+      "tail": "Windows Vista",
+      "evidence": "оновлення, які стосуються вразливості CVE-2017-0199 Windows Vista"
+    },
+    {
+      "head": "CVE-2017-0199",
+      "type": "affects",
+      "tail": "Windows Server 2008",
+      "evidence": "оновлення, які стосуються вразливості CVE-2017-0199 Windows Vista, Windows Server 2008"
+    },
+    {
+      "head": "CVE-2017-0199",
+      "type": "affects",
+      "tail": "Windows Server 2012",
+      "evidence": "оновлення, які стосуються вразливості CVE-2017-0199 Windows Server 2012"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "exploits",
+      "definition": "A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems."
+    }
+  ]
+}
+```

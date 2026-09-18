@@ -1,0 +1,90 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p>Звертаємо увагу на критичні вразливості в Zabbix&nbsp;(CVE-2022-23131, CVE-2022-23134), які активно експлуатуються зловмисниками, для отрмання несанкціонованого доступу до Zabbix.</p><p>Вразливість CVE-2022-23131 має рівень важливості 9,1 та пов’язана з небезпечним зберіганням сеансу клієнта, що призводить до обходу автентифікації в Zabbix з налаштованим SAML. </p><p>У випадку увімкненої (не за замовчуванням) автентифікації &nbsp;SAML SSO, дані сеансу можуть бути змінені зловмисником, так як логін користувача, що зберігається в сеансі, не перевіряється. Це дає змогу зловмисникові, який не пройшов перевірку, використати дану вразливість для підвищення привілеїв та отримання доступу адміністратора до &nbsp;Zabbix Frontend.</p><p>Для здійснення такої атаки необхідно увімкнути автентифікацію SAML та знати ім’я користувача Zabbix.</p><p>Друга вразливість CVE-2022-23134 оцінюється як середнього ступеня небезпеки і дозволяє отримати доступ до деяких методів файлу setup.php не тільки супер-адміністраторам, а й неавтентифікованим користувачам. Це дає змогу зловмисникові пройти перевірку і змінити конфігурацію Zabbix.</p><p>Обидві вразливості були виправлені у версіях 6.0.0beta2, 5.4.9, 5.0.19, та 4.0.37. </p><p>Рекомендуємо негайно оновити Zabbix до цих версій.</p><p>Інформація щодо вразливостей:</p><p><a href="https://portswigger.net/daily-swig/critical-vulnerabilities-in-zabbix-web-frontend-allow-authentication-bypass-code-execution-on-servers" rel="noopener noreferrer" target="_blank">https://portswigger.net/daily-swig/critical-vulnerabilities-in-zabbix-web-frontend-allow-authentication-bypass-code-execution-on-servers</a></p><p><a href="https://blog.sonarsource.com/zabbix-case-study-of-unsafe-session-storage" rel="noopener noreferrer" target="_blank">https://blog.sonarsource.com/zabbix-case-study-of-unsafe-session-storage</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p><p><a href="https://nvd.nist.gov/vuln/detail/CVE-2022-23131" rel="noopener noreferrer" target="_blank">https://nvd.nist.gov/vuln/detail/CVE-2022-23131</a></p><p><a href="https://nvd.nist.gov/vuln/detail/CVE-2022-23134" rel="noopener noreferrer" target="_blank">https://nvd.nist.gov/vuln/detail/CVE-2022-23134</a></p><p><a href="https://support.zabbix.com/browse/ZBX-20350" rel="noopener noreferrer" target="_blank">https://support.zabbix.com/browse/ZBX-20350</a></p><p><a href="https://support.zabbix.com/browse/ZBX-20384" rel="noopener noreferrer" target="_blank">https://support.zabbix.com/browse/ZBX-20384</a></p>
+
+=== RESPONSE (4.1s, in 1822 / out 637 tok, STOP) ===
+An alert regarding active exploitation of critical vulnerabilities CVE-2022-23131 and CVE-2022-23134 in Zabbix network monitoring software, affecting Zabbix Frontend and setup.php.
+
+{
+  "entities": [
+    {
+      "name": "Zabbix",
+      "kind": "software product",
+      "gloss": "An open-source network monitoring software tool."
+    },
+    {
+      "name": "CVE-2022-23131",
+      "kind": "vulnerability identifier",
+      "gloss": "A critical authentication bypass vulnerability in Zabbix with SAML SSO enabled."
+    },
+    {
+      "name": "CVE-2022-23134",
+      "kind": "vulnerability identifier",
+      "gloss": "A medium-severity vulnerability in Zabbix setup script allowing unauthorized configuration access."
+    },
+    {
+      "name": "setup.php",
+      "kind": "file name",
+      "gloss": "A PHP setup and configuration script in Zabbix."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2022-23131",
+      "type": "affects-software",
+      "tail": "Zabbix",
+      "evidence": "критичні вразливості в Zabbix (CVE-2022-23131, CVE-2022-23134)"
+    },
+    {
+      "head": "CVE-2022-23134",
+      "type": "affects-software",
+      "tail": "Zabbix",
+      "evidence": "критичні вразливості в Zabbix (CVE-2022-23131, CVE-2022-23134)"
+    },
+    {
+      "head": "CVE-2022-23134",
+      "type": "allows-unauthorized-access-to",
+      "tail": "setup.php",
+      "evidence": "CVE-2022-23134 оцінюється як середнього ступеня небезпеки і дозволяє отримати доступ до деяких методів файлу setup.php"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "affects-software",
+      "definition": "Identifies the software product or component containing the security vulnerability."
+    },
+    {
+      "name": "allows-unauthorized-access-to",
+      "definition": "Indicates a file, component, or system that can be accessed without proper authorization due to a vulnerability."
+    }
+  ]
+}

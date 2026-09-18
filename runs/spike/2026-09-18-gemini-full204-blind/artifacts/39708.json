@@ -1,0 +1,163 @@
+{
+  "docId": 39708,
+  "date": "18.04.2022",
+  "title": "Кібератака на державні організації України з використанням теми \"Азовсталі\" та шкідливої програми Cobalt Strike Beacon (CERT-UA#4490)",
+  "entities": [
+    {
+      "id": "39708:0",
+      "name": "UAC-0098",
+      "kind": "threat group",
+      "gloss": "A threat actor group tracked for conducting targeted cyberattacks against Ukrainian organizations.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "39708:1",
+      "name": "TrickBot",
+      "kind": "cybercrime group",
+      "gloss": "A sophisticated cybercrime group known for developing and operating trojans, ransomware, and malicious loaders.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": null
+    },
+    {
+      "id": "39708:2",
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware",
+      "gloss": "A post-exploitation agent and penetration testing payload frequently abused by threat actors for remote access.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "39708:3",
+      "name": "Військові на Азовсталі.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet containing macros used to drop and execute secondary malware payloads.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "39708:4",
+      "name": "pe.dll",
+      "kind": "malicious dynamic-link library",
+      "gloss": "A malicious DLL protected with a crypter associated with TrickBot and used to deliver Cobalt Strike Beacon.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "39708:5",
+      "name": "notevil.dll",
+      "kind": "malicious dynamic-link library",
+      "gloss": "A dynamic-link library containing a Cobalt Strike Beacon payload.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "39708:6",
+      "name": "shellcode.bin.packed.dll",
+      "kind": "malicious file",
+      "gloss": "A packed DLL file containing shellcode associated with the cyberattack.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "39708:7",
+      "name": "spisok.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file protected by a crypter linked to the TrickBot group.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "39708:8",
+      "name": "CERT-UA#4464",
+      "kind": "security advisory",
+      "gloss": "A security alert issued by CERT-UA regarding malicious cyber activity.",
+      "scheme": "S7",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "39708:9",
+      "name": "138.68.229.0",
+      "kind": "ip address",
+      "gloss": "An IP address used by threat actors to host and distribute malicious files.",
+      "scheme": "S11",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "39708:10",
+      "name": "84.32.188.29",
+      "kind": "ip address",
+      "gloss": "An IP address identified as infrastructure used in malicious network operations.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "39708:11",
+      "name": "dezword.com",
+      "kind": "internet domain",
+      "gloss": "A domain name utilized for malicious command and control communications.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "39708:12",
+      "name": "cherryservers.com",
+      "kind": "hosting provider",
+      "gloss": "A dedicated server and cloud hosting services provider.",
+      "scheme": null,
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "39708:13",
+      "name": "hostkey.com",
+      "kind": "hosting provider",
+      "gloss": "A web hosting and server infrastructure service provider.",
+      "scheme": null,
+      "category": "Organization",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Військові на Азовсталі.xls",
+      "type": "delivers",
+      "tail": "pe.dll",
+      "evidence": "останній здійснить завантаження, створення на диску та запуск файлу \"pe.dll\""
+    },
+    {
+      "head": "pe.dll",
+      "type": "delivers",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "призведе до ураження комп'ютера шкідливою програмою Cobalt Strike Beacon"
+    },
+    {
+      "head": "138.68.229.0",
+      "type": "hosts",
+      "tail": "pe.dll",
+      "evidence": "hxxp://138[.]68.229.0/pe.dll"
+    },
+    {
+      "head": "UAC-0098",
+      "type": "uses-malware",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "ураження комп'ютера шкідливою програмою Cobalt Strike Beacon ... відстежуватиметься за ідентифікатором UAC-0098"
+    }
+  ],
+  "unclassified": [
+    "39708:12",
+    "39708:13"
+  ]
+}

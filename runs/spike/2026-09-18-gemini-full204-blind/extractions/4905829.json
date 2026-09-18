@@ -1,0 +1,173 @@
+{
+  "entities": [
+    {
+      "name": "APT28",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group attributed to the Main Intelligence Directorate of the General Staff of the Russian Armed Forces."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Roundcube",
+      "kind": "software product",
+      "gloss": "An open-source webmail software suite written in PHP."
+    },
+    {
+      "name": "CVE-2020-35730",
+      "kind": "vulnerability",
+      "gloss": "A cross-site scripting vulnerability affecting certain versions of Roundcube Webmail."
+    },
+    {
+      "name": "q.js",
+      "kind": "malware script",
+      "gloss": "A malicious JavaScript file designed to exploit Roundcube SQL injection vulnerabilities and exfiltrate database contents."
+    },
+    {
+      "name": "e.js",
+      "kind": "malware script",
+      "gloss": "A malicious JavaScript file designed to create mail forwarding filters and exfiltrate sensitive data via HTTP requests."
+    },
+    {
+      "name": "CVE-2021-44026",
+      "kind": "vulnerability",
+      "gloss": "An SQL injection vulnerability in Roundcube Webmail search functionality."
+    },
+    {
+      "name": "c.js",
+      "kind": "malware script",
+      "gloss": "A malicious JavaScript file designed to exploit Roundcube vulnerabilities to execute remote commands."
+    },
+    {
+      "name": "CVE-2020-12641",
+      "kind": "vulnerability",
+      "gloss": "A remote code execution vulnerability in Roundcube Webmail."
+    },
+    {
+      "name": "NV",
+      "kind": "media organization",
+      "gloss": "A Ukrainian news media publisher and print magazine."
+    },
+    {
+      "name": "nv.ua",
+      "kind": "domain",
+      "gloss": "An Internet domain belonging to the Ukrainian news publication NV."
+    },
+    {
+      "name": "ukraine_news@meta[.]ua",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors to distribute malicious emails disguised as news."
+    },
+    {
+      "name": "str.vidil@meta[.]ua",
+      "kind": "email address",
+      "gloss": "An email address configured by attackers to receive exfiltrated victim email data."
+    },
+    {
+      "name": "185[.]225.226.57",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious network infrastructure."
+    },
+    {
+      "name": "185[.]82.126.85",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious network infrastructure."
+    },
+    {
+      "name": "77[.]243.181.238",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious network infrastructure."
+    },
+    {
+      "name": "global-world-news[.]net",
+      "kind": "domain",
+      "gloss": "A domain name used by threat actors to host malicious scripts and receive exfiltrated data."
+    },
+    {
+      "name": "aneria[.]net",
+      "kind": "domain",
+      "gloss": "A domain name identified as malicious threat actor infrastructure."
+    },
+    {
+      "name": "armpress[.]net",
+      "kind": "domain",
+      "gloss": "A domain name identified as malicious threat actor infrastructure."
+    },
+    {
+      "name": "ceriossl[.]info",
+      "kind": "domain",
+      "gloss": "A domain name identified as malicious threat actor infrastructure."
+    },
+    {
+      "name": "fountainrate[.]com",
+      "kind": "domain",
+      "gloss": "A domain name identified as malicious threat actor infrastructure."
+    },
+    {
+      "name": "global-news-world[.]com",
+      "kind": "domain",
+      "gloss": "A domain name identified as malicious threat actor infrastructure."
+    },
+    {
+      "name": "lonejade[.]com",
+      "kind": "domain",
+      "gloss": "A domain name identified as malicious threat actor infrastructure."
+    },
+    {
+      "name": "modeselling[.]com",
+      "kind": "domain",
+      "gloss": "A domain name identified as malicious threat actor infrastructure."
+    },
+    {
+      "name": "oncetrips[.]com",
+      "kind": "domain",
+      "gloss": "A domain name identified as malicious threat actor infrastructure."
+    },
+    {
+      "name": "vtxhospital[.]com",
+      "kind": "domain",
+      "gloss": "A domain name identified as malicious threat actor infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2020-35730",
+      "type": "affects",
+      "tail": "Roundcube",
+      "evidence": "експлойт для вразливості в Roundcube CVE-2020-35730"
+    },
+    {
+      "head": "CVE-2021-44026",
+      "type": "affects",
+      "tail": "Roundcube",
+      "evidence": "експлойт для вразливості в Roundcube CVE-2021-44026"
+    },
+    {
+      "head": "CVE-2020-12641",
+      "type": "affects",
+      "tail": "Roundcube",
+      "evidence": "експлойт для вразливості CVE-2020-12641 та забезпечує виконання команд на поштовому сервері"
+    },
+    {
+      "head": "q.js",
+      "type": "exploits",
+      "tail": "CVE-2021-44026",
+      "evidence": "q.js містить експлойт для вразливості в Roundcube CVE-2021-44026"
+    },
+    {
+      "head": "c.js",
+      "type": "exploits",
+      "tail": "CVE-2020-12641",
+      "evidence": "c.js, що містить експлойт для вразливості CVE-2020-12641"
+    },
+    {
+      "head": "NV",
+      "type": "part-of",
+      "tail": "nv.ua",
+      "evidence": "видання \"NV\" (nv.ua)"
+    }
+  ],
+  "newRelationTypes": []
+}

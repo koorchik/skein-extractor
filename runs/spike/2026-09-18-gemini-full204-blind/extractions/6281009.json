@@ -1,0 +1,147 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0050",
+      "kind": "threat actor",
+      "gloss": "A financially motivated and espionage-focused threat actor known for targeting Ukrainian organizations and individuals."
+    },
+    {
+      "name": "Fire Cells Group",
+      "kind": "threat actor",
+      "gloss": "A persona or brand used by threat actor UAC-0050 to conduct information and psychological operations."
+    },
+    {
+      "name": "UAC-0006",
+      "kind": "threat actor",
+      "gloss": "A financially motivated threat actor active since 2013 targeting financial accounts of organizations and individuals."
+    },
+    {
+      "name": "REMCOS",
+      "kind": "malware family",
+      "gloss": "A commercial remote access trojan frequently abused by cybercriminals for remote management and data theft."
+    },
+    {
+      "name": "TEKTONITRMS",
+      "kind": "software product",
+      "gloss": "A legitimate remote administration software product abused by attackers for unauthorized remote computer access."
+    },
+    {
+      "name": "MEDUZASTEALER",
+      "kind": "malware family",
+      "gloss": "An information-stealing malware family designed to harvest credentials, browser data, and cryptocurrency information."
+    },
+    {
+      "name": "LUMMASTEALER",
+      "kind": "malware family",
+      "gloss": "An information stealer malware sold on dark web forums that targets browser credentials, cookies, and crypto wallets."
+    },
+    {
+      "name": "XENORAT",
+      "kind": "malware family",
+      "gloss": "An open-source remote access trojan written in C# providing full control over compromised systems."
+    },
+    {
+      "name": "SECTOPRAT",
+      "kind": "malware family",
+      "gloss": "A remote access trojan capable of creating hidden desktop sessions and executing unauthorized commands."
+    },
+    {
+      "name": "MARSSTEALER",
+      "kind": "malware family",
+      "gloss": "An information-stealing malware designed to extract sensitive data from web browsers, extensions, and system applications."
+    },
+    {
+      "name": "DARKTRACKRAT",
+      "kind": "malware family",
+      "gloss": "A remote access trojan tool facilitating remote control and keylogging on infected Windows systems."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe whose organizations and enterprises are targeted in cyberattacks."
+    },
+    {
+      "name": "77.105.161.194",
+      "kind": "ip address",
+      "gloss": "An IP address used by threat actors to host malicious payloads and stage malware execution."
+    },
+    {
+      "name": "avoufshire.icu",
+      "kind": "internet domain",
+      "gloss": "A malicious domain name utilized for command-and-control communication or hosting malicious scripts."
+    },
+    {
+      "name": "qwdfewf.com",
+      "kind": "internet domain",
+      "gloss": "A malicious internet domain used to host payloads and register compromised machines."
+    },
+    {
+      "name": "6706e721f2c06.exe",
+      "kind": "file name",
+      "gloss": "A malicious executable payload deployed during the infection process."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "REMCOS",
+      "evidence": "UAC-0050 в результаті отримання несанкціонованого доступу до комп'ютерів бухгалтерів з використанням програмного забезпечення REMCOS"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "TEKTONITRMS",
+      "evidence": "UAC-0050 в результаті отримання несанкціонованого доступу до комп'ютерів бухгалтерів з використанням програмного забезпечення REMCOS / TEKTONITRMS"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "MEDUZASTEALER",
+      "evidence": "пояснює використання широкого спектру програм, таких як: REMCOS, TEKTONITRMS, MEDUZASTEALER"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "LUMMASTEALER",
+      "evidence": "пояснює використання широкого спектру програм, таких як: REMCOS, TEKTONITRMS, MEDUZASTEALER, LUMMASTEALER"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "XENORAT",
+      "evidence": "пояснює використання широкого спектру програм, таких як: REMCOS, TEKTONITRMS, MEDUZASTEALER, LUMMASTEALER, XENORAT"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "SECTOPRAT",
+      "evidence": "пояснює використання широкого спектру програм, таких як: REMCOS, TEKTONITRMS, MEDUZASTEALER, LUMMASTEALER, XENORAT, SECTOPRAT"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "MARSSTEALER",
+      "evidence": "пояснює використання широкого спектру програм, таких як: REMCOS, TEKTONITRMS, MEDUZASTEALER, LUMMASTEALER, XENORAT, SECTOPRAT, MARSSTEALER"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "DARKTRACKRAT",
+      "evidence": "пояснює використання широкого спектру програм, таких як: REMCOS, TEKTONITRMS, MEDUZASTEALER, LUMMASTEALER, XENORAT, SECTOPRAT, MARSSTEALER, DARKTRACKRAT"
+    },
+    {
+      "head": "Fire Cells Group",
+      "type": "part-of",
+      "tail": "UAC-0050",
+      "evidence": "інформаційно-психологічні операції, які здійснюються від імені Fire Cells Group... є частиною активності угрупування UAC-0050"
+    },
+    {
+      "head": "77.105.161.194",
+      "type": "hosts",
+      "tail": "6706e721f2c06.exe",
+      "evidence": "http://77.105.161.194/file/6706e721f2c06.exe"
+    }
+  ],
+  "newRelationTypes": []
+}

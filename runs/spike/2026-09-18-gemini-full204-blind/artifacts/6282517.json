@@ -1,0 +1,211 @@
+{
+  "docId": 6282517,
+  "date": "23.02.2025",
+  "title": "Цільова активність UAC-0212 у відношенні розробників та постачальників рішень АСУТП з метою здійснення кібератак на об'єкти критичної інфраструктури України (CERT-UA#13702)",
+  "entities": [
+    {
+      "id": "6282517:0",
+      "name": "UAC-0133",
+      "kind": "threat actor cluster",
+      "gloss": "A threat actor cluster tracked by CERT-UA associated with cyberattacks on Ukrainian infrastructure.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "related"
+    },
+    {
+      "id": "6282517:1",
+      "name": "UAC-0002",
+      "kind": "threat group",
+      "gloss": "A Russian state-sponsored cyber espionage and sabotage group also known as Sandworm, APT44, or Seashell Blizzard.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "related"
+    },
+    {
+      "id": "6282517:2",
+      "name": "UAC-0212",
+      "kind": "threat actor cluster",
+      "gloss": "A sub-cluster of UAC-0002 targeting supply chain entities and critical infrastructure in Ukraine and Europe.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6282517:3",
+      "name": "CVE-2024-38213",
+      "kind": "vulnerability identifier",
+      "gloss": "A security feature bypass vulnerability in Microsoft Windows SmartScreen.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6282517:4",
+      "name": "SECONDBEST",
+      "kind": "malware family",
+      "gloss": "A malware tool used in cyberespionage campaigns associated with Sandworm.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6282517:5",
+      "name": "EMPIREPAST",
+      "kind": "malware family",
+      "gloss": "A malicious payload family deployed by threat actors in cyber operations.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6282517:6",
+      "name": "SPARK",
+      "kind": "malware family",
+      "gloss": "A malware tool utilized by threat actors for system compromise.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6282517:7",
+      "name": "CROOKBAG",
+      "kind": "malware loader",
+      "gloss": "A loader malware written in GoLang used to stage additional malicious tools.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6282517:8",
+      "name": "PEAKLIGHT",
+      "kind": "malware family",
+      "gloss": "A malware component deployed in cyberattack delivery chains.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6282517:9",
+      "name": "RSYNC",
+      "kind": "software tool",
+      "gloss": "A file copying and synchronization tool abused by threat actors for data exfiltration.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6282517:10",
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country located in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "6282517:11",
+      "name": "Сербії",
+      "kind": "country",
+      "gloss": "A landlocked sovereign state located at the crossroads of Central and Southeast Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "6282517:12",
+      "name": "Чехії",
+      "kind": "country",
+      "gloss": "A landlocked country in Central Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "6282517:13",
+      "name": "Microsoft",
+      "kind": "software vendor",
+      "gloss": "An American multinational technology corporation producing software, hardware, and cybersecurity solutions.",
+      "scheme": "S1",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "6282517:14",
+      "name": "Strike Ready",
+      "kind": "cybersecurity company",
+      "gloss": "A cybersecurity company providing threat intelligence and security posture management.",
+      "scheme": "S10",
+      "category": "Organization",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0133",
+      "type": "attributed-to",
+      "tail": "UAC-0002",
+      "evidence": "UAC-0133, який з високим рівнем впевненості мав відношення до UAC-0002"
+    },
+    {
+      "head": "UAC-0212",
+      "type": "part-of",
+      "tail": "UAC-0002",
+      "evidence": "UAC-0212, який є субкластером UAC-0002"
+    },
+    {
+      "head": "UAC-0212",
+      "type": "exploits",
+      "tail": "CVE-2024-38213",
+      "evidence": "у поєднанні з експлуатацією вразливості CVE-2024-38213"
+    },
+    {
+      "head": "UAC-0212",
+      "type": "uses-malware",
+      "tail": "SECONDBEST",
+      "evidence": "використовувалися такі: SECONDBEST / EMPIREPAST, SPARK, CROOKBAG"
+    },
+    {
+      "head": "UAC-0212",
+      "type": "uses-malware",
+      "tail": "EMPIREPAST",
+      "evidence": "використовувалися такі: SECONDBEST / EMPIREPAST, SPARK, CROOKBAG"
+    },
+    {
+      "head": "UAC-0212",
+      "type": "uses-malware",
+      "tail": "SPARK",
+      "evidence": "використовувалися такі: SECONDBEST / EMPIREPAST, SPARK, CROOKBAG"
+    },
+    {
+      "head": "UAC-0212",
+      "type": "uses-malware",
+      "tail": "CROOKBAG",
+      "evidence": "використовувалися такі: SECONDBEST / EMPIREPAST, SPARK, CROOKBAG"
+    },
+    {
+      "head": "UAC-0212",
+      "type": "uses-malware",
+      "tail": "RSYNC",
+      "evidence": "з метою довготривалого викрадення документів, також було застосовано RSYNC"
+    },
+    {
+      "head": "UAC-0212",
+      "type": "attacks",
+      "tail": "України",
+      "evidence": "здійснено цільові атаки у відношенні підприємств-постачальників з Сербії, Чехії, України"
+    },
+    {
+      "head": "UAC-0212",
+      "type": "attacks",
+      "tail": "Сербії",
+      "evidence": "здійснено цільові атаки у відношенні підприємств-постачальників з Сербії, Чехії, України"
+    },
+    {
+      "head": "UAC-0212",
+      "type": "attacks",
+      "tail": "Чехії",
+      "evidence": "здійснено цільові атаки у відношенні підприємств-постачальників з Сербії, Чехії, України"
+    }
+  ],
+  "unclassified": []
+}

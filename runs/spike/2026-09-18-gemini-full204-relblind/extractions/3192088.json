@@ -1,0 +1,128 @@
+{
+  "entities": [
+    {
+      "name": "АТ \"Укрзалізниця\"",
+      "kind": "company",
+      "gloss": "The state-owned railway operator of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "Державна служба України з надзвичайних ситуацій",
+      "kind": "government body",
+      "gloss": "The central executive body of Ukraine responsible for civil defense and emergency rescue services."
+    },
+    {
+      "name": "morgunov.a@dsns.com[.]ua",
+      "kind": "email address",
+      "gloss": "A spoofed or malicious email address used to distribute phishing messages impersonating Ukrainian emergency services."
+    },
+    {
+      "name": "dsns.com[.]ua",
+      "kind": "internet domain",
+      "gloss": "A malicious domain registered to impersonate the State Emergency Service of Ukraine."
+    },
+    {
+      "name": "shahed-136.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive distributed via email as part of a cyber attack."
+    },
+    {
+      "name": "shahed.ppsx",
+      "kind": "file",
+      "gloss": "A malicious PPSX presentation file containing embedded script code."
+    },
+    {
+      "name": "SearchEmbdIndex.ps1",
+      "kind": "file",
+      "gloss": "A malicious PowerShell script used to download payloads and establish persistence."
+    },
+    {
+      "name": "CodeMeter.exe",
+      "kind": "software product",
+      "gloss": "A legitimate software executable abused for DLL side-loading."
+    },
+    {
+      "name": "WibuCm32.dll",
+      "kind": "file",
+      "gloss": "A malicious dynamic-link library containing the DolphinCape malware payload."
+    },
+    {
+      "name": "DolphinCape",
+      "kind": "malware family",
+      "gloss": "A Delphi-based malware family capable of system information gathering, file management, payload execution, and screenshot capture."
+    },
+    {
+      "name": "UAC-0140",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA responsible for phishing and malware campaigns targeting Ukraine."
+    },
+    {
+      "name": "195[.]123.237.147",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications in the UAC-0140 campaign."
+    },
+    {
+      "name": "202[.]157.187.190",
+      "kind": "ip address",
+      "gloss": "An IP address used for network infrastructure in the UAC-0140 campaign."
+    }
+  ],
+  "relations": [
+    {
+      "head": "shahed-136.rar",
+      "type": "contains-file",
+      "tail": "shahed.ppsx",
+      "evidence": "RAR-архів \"shahed-136.rar\", що містить PPSX-документ \"shahed.ppsx\""
+    },
+    {
+      "head": "WibuCm32.dll",
+      "type": "is-instance-of",
+      "tail": "DolphinCape",
+      "evidence": "Файл \"WibuCm32.dll\" класифіковано як шкідливу програму DolphinCape"
+    },
+    {
+      "head": "morgunov.a@dsns.com[.]ua",
+      "type": "impersonates",
+      "tail": "Державна служба України з надзвичайних ситуацій",
+      "evidence": "з адреси \"morgunov.a@dsns.com[.]ua\", начебто, від імені Державної служби України з надзвичайних ситуацій"
+    },
+    {
+      "head": "morgunov.a@dsns.com[.]ua",
+      "type": "uses-domain",
+      "tail": "dsns.com[.]ua",
+      "evidence": "morgunov.a@dsns.com[.]ua ... зареєстровано відповідне доменне імя"
+    },
+    {
+      "head": "Державна служба України з надзвичайних ситуацій",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Державної служби України з надзвичайних ситуацій"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "contains-file",
+      "definition": "Indicates that an archive or container file holds another specified file."
+    },
+    {
+      "name": "is-instance-of",
+      "definition": "Indicates that a specific file is an implementation or instance of a particular malware family or software."
+    },
+    {
+      "name": "impersonates",
+      "definition": "Indicates that an entity falsely presents itself as another legitimate entity."
+    },
+    {
+      "name": "uses-domain",
+      "definition": "Indicates that an email address or service operates under a specified domain name."
+    },
+    {
+      "name": "located-in",
+      "definition": "Indicates the geographic country or territory in which an organization or entity is based."
+    }
+  ]
+}

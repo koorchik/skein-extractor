@@ -1,0 +1,75 @@
+{
+  "entities": [
+    {
+      "name": "Smokeloader",
+      "kind": "malware family",
+      "gloss": "A modular malicious loader used to download and execute additional malware payloads."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "chubanomania[.]icu",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used as command and control and payload distribution infrastructure."
+    },
+    {
+      "name": "93.179.69.41",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command and control infrastructure."
+    },
+    {
+      "name": "spi.exe",
+      "kind": "malware payload",
+      "gloss": "A malicious executable payload associated with Smokeloader malware."
+    },
+    {
+      "name": "ckZ89.ExE",
+      "kind": "malware payload",
+      "gloss": "A dropped executable filename used by Smokeloader payload in the temporary folder."
+    },
+    {
+      "name": "До оплати від 11.12.18.lzh",
+      "kind": "malicious archive",
+      "gloss": "A malicious archive file distributed as an email attachment."
+    },
+    {
+      "name": "Рахунки и новые списки.lzh",
+      "kind": "malicious archive",
+      "gloss": "A malicious archive file distributed as an email attachment."
+    },
+    {
+      "name": "Рахунки за выполненные работы от 11.12.2018.js",
+      "kind": "malicious script",
+      "gloss": "A malicious JavaScript loader used to download and execute secondary malware payloads."
+    },
+    {
+      "name": "До оплати рах.ф. 74 - 2018р.js",
+      "kind": "malicious script",
+      "gloss": "A malicious JavaScript loader used to download and execute secondary malware payloads."
+    }
+  ],
+  "relations": [
+    {
+      "head": "chubanomania[.]icu",
+      "type": "hosts",
+      "tail": "spi.exe",
+      "evidence": "http://chubanomania[.]icu/prima/spi.exe?rCuz"
+    },
+    {
+      "head": "Рахунки за выполненные работы от 11.12.2018.js",
+      "type": "delivers",
+      "tail": "Smokeloader",
+      "evidence": "JS-скрипт, який при активації - завантажує шкідливе програмне забезпечення #Smokeloader"
+    },
+    {
+      "head": "До оплати рах.ф. 74 - 2018р.js",
+      "type": "delivers",
+      "tail": "Smokeloader",
+      "evidence": "JS-скрипт, який при активації - завантажує шкідливе програмне забезпечення #Smokeloader"
+    }
+  ],
+  "newRelationTypes": []
+}

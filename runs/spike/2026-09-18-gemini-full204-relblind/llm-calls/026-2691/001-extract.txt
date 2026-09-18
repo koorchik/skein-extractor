@@ -1,0 +1,117 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p>19-20 вересня 2019 р. у Києві за підтримки МОН України&nbsp;проходила&nbsp;XVIІI Міжнародна науково-практична конференція «Побудова інформаційного суспільства: ресурси і технології».</p><p>Обговорювалися&nbsp;актуальні&nbsp;питання&nbsp;цифрової економіки, науки, освіти та технологій.</p><p>В.о начальника Державного&nbsp;центру кіберзахисту Державної служби спеціального зв’язку та захисту інформації України&nbsp;Худинцевим Миколою Миколайовичем було здійснено доповідь&nbsp;на тему: "Практичне значення незалежної науково-технічної експертизи технічних проектів Державного центру кіберзахисту"</p><p>Також, на конференції&nbsp;були&nbsp;організовані панельні сесії за напрямками:</p><ul><li>цифрова економіка (становлення цифрової економіки та основні виклики для суспільства; Big Data, інтернет-аналітика та пов’язані з цим нові форми бізнесу);</li><li>цифрові сервіси та технології (безпека технологій VS технології безпеки; держава онлайн; технології штучного інтелекту; цифрові дані та способи їх збереження);</li><li>розвиток науки та освіти у цифровому просторі (цифрові технології&nbsp;в освіті та наукових дослідженнях; електронні сховища, архіви репозитарії; цифрові дані та сервіси їх зберігання; соціальні мережі у професійному спілкуванні, наукових дослідженнях і маркетингу).</li></ul><p><br></p>
+
+=== RESPONSE (5.8s, in 1265 / out 888 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Київ",
+      "kind": "city",
+      "gloss": "The capital city of Ukraine."
+    },
+    {
+      "name": "МОН України",
+      "kind": "government body",
+      "gloss": "The Ministry of Education and Science of Ukraine, a central government agency."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "XVIІI Міжнародна науково-практична конференція «Побудова інформаційного суспільства: ресурси і технології»",
+      "kind": "conference",
+      "gloss": "An international scientific and practical conference on digital society and technologies held in Ukraine."
+    },
+    {
+      "name": "Державний центр кіберзахисту",
+      "kind": "government body",
+      "gloss": "The State Cyber Protection Centre, an executive cybersecurity subdivision in Ukraine."
+    },
+    {
+      "name": "Державна служба спеціального зв’язку та захисту інформації України",
+      "kind": "government body",
+      "gloss": "The state agency responsible for information protection and cybersecurity policy in Ukraine."
+    },
+    {
+      "name": "Худинцев Микола Миколайович",
+      "kind": "person",
+      "gloss": "An official who served as the acting head of the State Cyber Protection Centre of Ukraine."
+    }
+  ],
+  "relations": [
+    {
+      "head": "МОН України",
+      "type": "supported",
+      "tail": "XVIІI Міжнародна науково-практична конференція «Побудова інформаційного суспільства: ресурси і технології»",
+      "evidence": "за підтримки МОН України проходила XVIІI Міжнародна науково-практична конференція"
+    },
+    {
+      "head": "XVIІI Міжнародна науково-практична конференція «Побудова інформаційного суспільства: ресурси і технології»",
+      "type": "held-in",
+      "tail": "Київ",
+      "evidence": "у Києві за підтримки МОН України проходила XVIІI Міжнародна науково-практична конференція"
+    },
+    {
+      "head": "Худинцев Микола Миколайович",
+      "type": "acted-as-head-of",
+      "tail": "Державний центр кіберзахисту",
+      "evidence": "В.о начальника Державного центру кіберзахисту... Худинцевим Миколою Миколайовичем"
+    },
+    {
+      "head": "Державний центр кіберзахисту",
+      "type": "subordinate-to",
+      "tail": "Державна служба спеціального зв’язку та захисту інформації України",
+      "evidence": "Державного центру кіберзахисту Державної служби спеціального зв’язку та захисту інформації України"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "supported",
+      "definition": "The head entity sponsored, facilitated, or supported the tail event."
+    },
+    {
+      "name": "held-in",
+      "definition": "The head event took place in the tail geographic location."
+    },
+    {
+      "name": "acted-as-head-of",
+      "definition": "The head person served as the director or acting leader of the tail organization."
+    },
+    {
+      "name": "subordinate-to",
+      "definition": "The head organizational body is structurally part of or subordinated to the tail organization."
+    }
+  ]
+}

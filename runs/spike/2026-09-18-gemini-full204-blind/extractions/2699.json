@@ -1,0 +1,94 @@
+{
+  "entities": [
+    {
+      "name": "Smokeloader",
+      "kind": "malware family",
+      "gloss": "A modular malware loader used to download and execute additional malicious payloads on compromised systems."
+    },
+    {
+      "name": "Україні",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "К оплате за январь Агро.lzh",
+      "kind": "archive file",
+      "gloss": "A malicious LZH archive attachment used in a phishing campaign to deliver malware."
+    },
+    {
+      "name": "Рахунок №6-19 от 29.01.2019р.xls.js",
+      "kind": "script file",
+      "gloss": "A malicious JavaScript file disguised as an Excel spreadsheet."
+    },
+    {
+      "name": "91.234.2.202",
+      "kind": "ip address",
+      "gloss": "An IP address identified in phishing email headers."
+    },
+    {
+      "name": "sekretar2@svit-mebliv.ua",
+      "kind": "email address",
+      "gloss": "An email address used as the sender envelope in a phishing wave."
+    },
+    {
+      "name": "договір та р.фактура від 30.01.19.lzh",
+      "kind": "archive file",
+      "gloss": "A malicious LZH archive file delivered via phishing emails."
+    },
+    {
+      "name": "Pax. 19-208 - 30.01.2019p..js",
+      "kind": "script file",
+      "gloss": "A malicious JavaScript file extracted from an archive attachment."
+    },
+    {
+      "name": "unit.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable payload associated with the Smokeloader campaign."
+    },
+    {
+      "name": "91.198.36.68",
+      "kind": "ip address",
+      "gloss": "An IP address observed in phishing email transmission headers."
+    },
+    {
+      "name": "abed@i.ua",
+      "kind": "email address",
+      "gloss": "An email address observed as the envelope sender in malicious email distribution."
+    },
+    {
+      "name": "ceronamtinclube.icu",
+      "kind": "internet domain",
+      "gloss": "A domain name used to host malicious executable files."
+    },
+    {
+      "name": "62.173.138.170",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious payload files."
+    },
+    {
+      "name": "aviatorssm.bit",
+      "kind": "internet domain",
+      "gloss": "A domain name utilized as command and control infrastructure for malware."
+    },
+    {
+      "name": "www.msftncsi.com",
+      "kind": "internet domain",
+      "gloss": "A legitimate Microsoft Network Connectivity Status Indicator domain contacted for connectivity checks."
+    }
+  ],
+  "relations": [
+    {
+      "head": "ceronamtinclube.icu",
+      "type": "hosts",
+      "tail": "unit.exe",
+      "evidence": "ceronamtinclube.icu/opuba/unit.exe"
+    },
+    {
+      "head": "62.173.138.170",
+      "type": "hosts",
+      "tail": "unit.exe",
+      "evidence": "ceronamtinclube.icu/opuba/unit.exe [ 62.173.138.170]"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,175 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0006",
+      "kind": "threat actor",
+      "gloss": "A financially motivated cyber threat group known for distributing SmokeLoader and banking malware."
+    },
+    {
+      "name": "SmokeLoader",
+      "kind": "malware",
+      "gloss": "A modular malicious loader used to download and execute additional malware payloads on compromised systems."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware",
+      "gloss": "A commercial post-exploitation tool and implant used for persistence, lateral movement, and remote command execution."
+    },
+    {
+      "name": "Windows Script Host",
+      "kind": "software product",
+      "gloss": "A Microsoft Windows component that provides scripting capabilities to automate tasks using VBScript or JScript."
+    },
+    {
+      "name": "Заява шахрайська операція СІРІОН.scr",
+      "kind": "file",
+      "gloss": "A malicious Windows screen saver executable containing a Cobalt Strike Beacon payload."
+    },
+    {
+      "name": "акт_звірки_та_рахунки.html",
+      "kind": "file",
+      "gloss": "A malicious HTML file used as part of an infection chain to deliver SmokeLoader."
+    },
+    {
+      "name": "акт_звірки_та_рахунки.zip",
+      "kind": "file",
+      "gloss": "A malicious ZIP archive used to distribute downstream loader scripts."
+    },
+    {
+      "name": "рахунок_№415_2023.js",
+      "kind": "file",
+      "gloss": "A malicious JavaScript loader script responsible for downloading and executing executable payloads."
+    },
+    {
+      "name": "акт_звірки_рахунки.zip",
+      "kind": "file",
+      "gloss": "A malicious ZIP archive used in a SmokeLoader delivery chain."
+    },
+    {
+      "name": "Акти_та_рахунки.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive containing disk image files used for payload delivery."
+    },
+    {
+      "name": "Акти_та_рахунки.vhd",
+      "kind": "file",
+      "gloss": "A virtual hard disk image file containing malicious scripts."
+    },
+    {
+      "name": "Акри та рахунки.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive distributing disk image files."
+    },
+    {
+      "name": "Акри та рахунки.vhdx",
+      "kind": "file",
+      "gloss": "A virtual hard disk image file containing malicious scripts and payloads."
+    },
+    {
+      "name": "renew.exe",
+      "kind": "file",
+      "gloss": "A malicious Windows executable downloaded during the infection process."
+    },
+    {
+      "name": "smoke.exe",
+      "kind": "file",
+      "gloss": "An executable file containing the SmokeLoader malware payload."
+    },
+    {
+      "name": "viktor@promarma.com.ua",
+      "kind": "email address",
+      "gloss": "A compromised email account used to distribute malicious emails."
+    },
+    {
+      "name": "reg.ru",
+      "kind": "company",
+      "gloss": "A Russian domain name registrar and web hosting service provider."
+    },
+    {
+      "name": "nic.ru",
+      "kind": "company",
+      "gloss": "A Russian domain name registrar and hosting provider."
+    },
+    {
+      "name": "iqhost.ru",
+      "kind": "company",
+      "gloss": "A Russian web hosting and infrastructure service provider."
+    },
+    {
+      "name": "macloud.ru",
+      "kind": "company",
+      "gloss": "A Russian cloud hosting provider."
+    },
+    {
+      "name": "cloudx.ru",
+      "kind": "company",
+      "gloss": "A Russian cloud infrastructure and hosting provider."
+    },
+    {
+      "name": "premiumjeck.site",
+      "kind": "internet domain",
+      "gloss": "A domain name used by attackers to host malicious payloads."
+    },
+    {
+      "name": "lamazone.site",
+      "kind": "internet domain",
+      "gloss": "A domain name used for command and control infrastructure."
+    },
+    {
+      "name": "polinamailserverip.ru",
+      "kind": "internet domain",
+      "gloss": "A domain name used for threat actor command and control infrastructure."
+    },
+    {
+      "name": "176.124.193.111",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command and control infrastructure."
+    },
+    {
+      "name": "193.106.174.215",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor infrastructure."
+    },
+    {
+      "name": "23.230.13.93",
+      "kind": "ip address",
+      "gloss": "An IP address associated with attack infrastructure."
+    },
+    {
+      "name": "77.232.37.148",
+      "kind": "ip address",
+      "gloss": "An IP address associated with command and control infrastructure."
+    },
+    {
+      "name": "93.185.166.142",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious scripts and receive submitted data."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "SmokeLoader",
+      "evidence": "чергову кампанію з розповсюдження шкідливої програми SmokeLoader... тактиках, техніках і процедурах UAC-0006"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "виявлення шкідливої програми Cobalt Strike Beacon може свідчити про розширення переліку використовуваного угрупуванням інструментарію"
+    },
+    {
+      "head": "premiumjeck.site",
+      "type": "hosts",
+      "tail": "renew.exe",
+      "evidence": "hxxp://premiumjeck[.]site/one/renew.exe"
+    }
+  ],
+  "newRelationTypes": []
+}

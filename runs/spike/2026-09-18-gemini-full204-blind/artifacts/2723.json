@@ -1,0 +1,119 @@
+{
+  "docId": 2723,
+  "date": "15.05.2018",
+  "title": "EFAIL - Критична вразливість в PGP та S/MIME (Оновлюється).",
+  "entities": [
+    {
+      "id": "2723:0",
+      "name": "EFAIL",
+      "kind": "vulnerability",
+      "gloss": "A vulnerability in email encryption standards allowing exfiltration of plaintext from encrypted emails via HTML styling.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2723:1",
+      "name": "PGP",
+      "kind": "encryption standard",
+      "gloss": "A data encryption and decryption standard used for securing email communications.",
+      "scheme": null,
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2723:2",
+      "name": "S/MIME",
+      "kind": "encryption standard",
+      "gloss": "A standard for public key encryption and signing of MIME data in email communications.",
+      "scheme": null,
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2723:3",
+      "name": "Apple Mail",
+      "kind": "software product",
+      "gloss": "An email client developed by Apple Inc. for macOS.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2723:4",
+      "name": "iOS Mail",
+      "kind": "software product",
+      "gloss": "An email client developed by Apple Inc. for iOS devices.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2723:5",
+      "name": "Mozilla Thunderbird",
+      "kind": "software product",
+      "gloss": "A free and open-source cross-platform email client developed by the Mozilla Foundation.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2723:6",
+      "name": "OpenPGP",
+      "kind": "encryption standard",
+      "gloss": "An open-source standard for encrypting and signing data, derived from PGP.",
+      "scheme": null,
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2723:7",
+      "name": "CVE-2017-17688",
+      "kind": "vulnerability identifier",
+      "gloss": "A vulnerability identifier for OpenPGP CFB gadget attacks associated with the EFAIL flaw.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2723:8",
+      "name": "CVE-2017-17689",
+      "kind": "vulnerability identifier",
+      "gloss": "A vulnerability identifier for S/MIME CBC gadget attacks associated with the EFAIL flaw.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "EFAIL",
+      "type": "affects",
+      "tail": "PGP",
+      "evidence": "Критична вразливість EFAIL в PGP"
+    },
+    {
+      "head": "EFAIL",
+      "type": "affects",
+      "tail": "S/MIME",
+      "evidence": "Критична вразливість EFAIL в PGP та S/MIME"
+    },
+    {
+      "head": "CVE-2017-17688",
+      "type": "affects",
+      "tail": "OpenPGP",
+      "evidence": "CVE-2017-17688: OpenPGP CFB gadget attacks"
+    },
+    {
+      "head": "CVE-2017-17689",
+      "type": "affects",
+      "tail": "S/MIME",
+      "evidence": "CVE-2017-17689: S/MIME CBC gadget attacks"
+    }
+  ],
+  "unclassified": [
+    "2723:1",
+    "2723:2",
+    "2723:6"
+  ]
+}

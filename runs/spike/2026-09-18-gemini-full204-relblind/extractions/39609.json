@@ -1,0 +1,228 @@
+{
+  "entities": [
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0098",
+      "kind": "threat actor",
+      "gloss": "A financially and cyber-espionage motivated threat group tracked by CERT-UA."
+    },
+    {
+      "name": "GzipLoader",
+      "kind": "malware family",
+      "gloss": "A lightweight loader malware designed to decrypt and execute secondary payloads such as IcedID."
+    },
+    {
+      "name": "IcedID",
+      "kind": "malware family",
+      "gloss": "A modular banking trojan and malware loader also known as BankBot used to steal credentials."
+    },
+    {
+      "name": "Мобілізаційний реєстр.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet containing macros designed to deploy malware."
+    },
+    {
+      "name": "ggthvjhvjhb.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel file associated with malware deployment."
+    },
+    {
+      "name": "spisok.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file used in the attack chain."
+    },
+    {
+      "name": "gziploader.exe",
+      "kind": "malicious file",
+      "gloss": "An executable payload implementing the GzipLoader malware."
+    },
+    {
+      "name": "forest32.dat",
+      "kind": "malicious file",
+      "gloss": "A malicious data or payload file used during malware execution."
+    },
+    {
+      "name": "init_dll_64.dll",
+      "kind": "malicious file",
+      "gloss": "A dynamic link library file used as part of the malware payload."
+    },
+    {
+      "name": "license.dat",
+      "kind": "malicious file",
+      "gloss": "A malicious data file dropped and loaded by the malware."
+    },
+    {
+      "name": "module.bin",
+      "kind": "malicious file",
+      "gloss": "A binary payload file used in the malware execution chain."
+    },
+    {
+      "name": "%APPDATA%\\runsx.exe",
+      "kind": "malicious file",
+      "gloss": "An executable file path used by malware for execution in the AppData directory."
+    },
+    {
+      "name": "rivertimad.com",
+      "kind": "internet domain",
+      "gloss": "A domain name used as network infrastructure for malware distribution or command and control."
+    },
+    {
+      "name": "winuvinnosluk.club",
+      "kind": "internet domain",
+      "gloss": "A domain name used as network infrastructure for malware operations."
+    },
+    {
+      "name": "successilin.top",
+      "kind": "internet domain",
+      "gloss": "A domain name associated with malicious command and control infrastructure."
+    },
+    {
+      "name": "reteredelete.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used for malicious network communication."
+    },
+    {
+      "name": "naffalno.site",
+      "kind": "internet domain",
+      "gloss": "A domain name associated with malicious activity."
+    },
+    {
+      "name": "ritionalvalueon.top",
+      "kind": "internet domain",
+      "gloss": "A domain name utilized for malicious infrastructure."
+    },
+    {
+      "name": "oceriesfornot.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used for malicious infrastructure."
+    },
+    {
+      "name": "arelyevennot.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in malicious operations."
+    },
+    {
+      "name": "dogiraftig.com",
+      "kind": "internet domain",
+      "gloss": "A domain name used as infrastructure for malicious campaigns."
+    },
+    {
+      "name": "fikasterwer.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in malicious operations."
+    },
+    {
+      "name": "jevejosader.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used in malicious operations."
+    },
+    {
+      "name": "ertimadifa.com",
+      "kind": "internet domain",
+      "gloss": "A domain name used for malicious operations."
+    },
+    {
+      "name": "rresteraftin.com",
+      "kind": "internet domain",
+      "gloss": "A domain name used in malicious infrastructure."
+    },
+    {
+      "name": "ndlestomak.top",
+      "kind": "internet domain",
+      "gloss": "A domain name used for malicious operations."
+    },
+    {
+      "name": "168.100.8.42",
+      "kind": "ip address",
+      "gloss": "An IP address used for hosting and delivering malicious payloads."
+    },
+    {
+      "name": "188.166.154.118",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious network infrastructure."
+    },
+    {
+      "name": "134.209.144.87",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious network infrastructure."
+    },
+    {
+      "name": "http://168.100.8.42/micro.exe",
+      "kind": "url",
+      "gloss": "A URL hosting a malicious executable payload."
+    },
+    {
+      "name": "http://168.100.8.42/spisok.exe",
+      "kind": "url",
+      "gloss": "A URL hosting the spisok.exe malicious payload."
+    },
+    {
+      "name": "http://rivertimad.com/",
+      "kind": "url",
+      "gloss": "A URL used in malicious network operations."
+    },
+    {
+      "name": "http://168.100.8.42/list.exe",
+      "kind": "url",
+      "gloss": "A URL hosting a malicious executable payload."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0098",
+      "type": "targets-citizens-of",
+      "tail": "України",
+      "evidence": "масового розповсюдження серед громадян України"
+    },
+    {
+      "head": "UAC-0098",
+      "type": "distributes-file",
+      "tail": "Мобілізаційний реєстр.xls",
+      "evidence": "масового розповсюдження серед громадян України XLS-документів з назвою \"Мобілізаційний реєстр.xls\""
+    },
+    {
+      "head": "Мобілізаційний реєстр.xls",
+      "type": "drops-and-executes",
+      "tail": "GzipLoader",
+      "evidence": "дешифрування та запуск на комп'ютері шкідливої програми GzipLoader"
+    },
+    {
+      "head": "GzipLoader",
+      "type": "downloads-and-executes",
+      "tail": "IcedID",
+      "evidence": "GzipLoader, яка, в свою чергу, здійснить завантаження, дешифрування та запуск шкідливої програми IcedID"
+    },
+    {
+      "head": "http://168.100.8.42/spisok.exe",
+      "type": "hosts-file",
+      "tail": "spisok.exe",
+      "evidence": "hXXp://168[.]100.8.42/spisok[.]exe"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets-citizens-of",
+      "definition": "Indicates that a threat actor conducts a campaign directed against citizens of a specific country."
+    },
+    {
+      "name": "distributes-file",
+      "definition": "Indicates that an entity spreads or delivers a specific malicious file."
+    },
+    {
+      "name": "drops-and-executes",
+      "definition": "Indicates that a malicious file unpacks, decrypts, or launches a subsequent malware program."
+    },
+    {
+      "name": "downloads-and-executes",
+      "definition": "Indicates that a malware loader retrieves and executes an additional malware payload."
+    },
+    {
+      "name": "hosts-file",
+      "definition": "Indicates that a specific URL serves or hosts a named file."
+    }
+  ]
+}

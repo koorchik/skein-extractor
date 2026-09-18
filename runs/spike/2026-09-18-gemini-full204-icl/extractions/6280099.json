@@ -1,0 +1,172 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0180",
+      "kind": "threat actor",
+      "gloss": "A threat actor group targeting Ukrainian defense enterprises and defense forces."
+    },
+    {
+      "name": "GLUEEGG",
+      "kind": "malware",
+      "gloss": "A malware loader written in Go designed to decrypt and execute DROPCLUE."
+    },
+    {
+      "name": "DROPCLUE",
+      "kind": "malware",
+      "gloss": "A downloader malware family written in Lua."
+    },
+    {
+      "name": "ACROBAIT",
+      "kind": "malware",
+      "gloss": "A malware family written in C used by UAC-0180."
+    },
+    {
+      "name": "ROSEBLOOM",
+      "kind": "malware",
+      "gloss": "A malware family written in Rust used by UAC-0180."
+    },
+    {
+      "name": "ROSETHORN",
+      "kind": "malware",
+      "gloss": "A malware family written in Rust used by UAC-0180."
+    },
+    {
+      "name": "ATERA",
+      "kind": "software product",
+      "gloss": "A legitimate remote management and monitoring software platform abused by threat actors."
+    },
+    {
+      "name": "UA-2024-07-04-010019.zip",
+      "kind": "computer file",
+      "gloss": "A malicious ZIP archive distributed via phishing emails containing a PDF document with a link."
+    },
+    {
+      "name": "UA-2024-07-04-010019.pdf",
+      "kind": "computer file",
+      "gloss": "A malicious PDF document containing a link to download GLUEEGG malware."
+    },
+    {
+      "name": "adobe_acrobat_fonts_pack.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable containing the GLUEEGG malware payload."
+    },
+    {
+      "name": "UA-2024-07-04-010019-a-open.pdf",
+      "kind": "computer file",
+      "gloss": "A decoy PDF document downloaded and opened by DROPCLUE."
+    },
+    {
+      "name": "font-pack-pdf-windows-64-bit",
+      "kind": "computer file",
+      "gloss": "A malicious executable file downloaded and launched by DROPCLUE."
+    },
+    {
+      "name": "setup.msi",
+      "kind": "computer file",
+      "gloss": "An MSI installer file for the ATERA remote management agent."
+    },
+    {
+      "name": "mariquillaharmond262@proton.me",
+      "kind": "email address",
+      "gloss": "An email address used as an indicator of compromise in the cyber attack."
+    },
+    {
+      "name": "prozorro-ua.net",
+      "kind": "domain name",
+      "gloss": "A malicious domain used to host malware payloads impersonating the Ukrainian procurement system."
+    },
+    {
+      "name": "servicedesk.atera.com",
+      "kind": "domain name",
+      "gloss": "A legitimate domain belonging to Atera used for downloading agent installers."
+    },
+    {
+      "name": "linedrv.com",
+      "kind": "domain name",
+      "gloss": "A domain name associated with ACROBAIT malware distribution."
+    },
+    {
+      "name": "drv2ms.com",
+      "kind": "domain name",
+      "gloss": "A domain name associated with ACROBAIT malware distribution."
+    },
+    {
+      "name": "devtools.bond",
+      "kind": "domain name",
+      "gloss": "A domain name associated with ACROBAIT malware distribution."
+    },
+    {
+      "name": "olminx.com",
+      "kind": "domain name",
+      "gloss": "A domain name associated with ACROBAIT malware distribution."
+    },
+    {
+      "name": "xeontime.com",
+      "kind": "domain name",
+      "gloss": "A domain name associated with ACROBAIT malware distribution."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0180",
+      "type": "uses",
+      "tail": "GLUEEGG",
+      "evidence": "використовуючи, при цьому, оновлюваний арсенал шкідливих програм... Go (GLUEEGG)"
+    },
+    {
+      "head": "UAC-0180",
+      "type": "uses",
+      "tail": "DROPCLUE",
+      "evidence": "використовуючи, при цьому, оновлюваний арсенал шкідливих програм... Lua (DROPCLUE)"
+    },
+    {
+      "head": "UAC-0180",
+      "type": "uses",
+      "tail": "ACROBAIT",
+      "evidence": "арсенал шкідливих програм, розроблених з використанням різних мов програмування, включаючи: C (ACROBAIT)"
+    },
+    {
+      "head": "UAC-0180",
+      "type": "uses",
+      "tail": "ROSEBLOOM",
+      "evidence": "арсенал шкідливих програм... Rust (ROSEBLOOM, ROSETHORN)"
+    },
+    {
+      "head": "UAC-0180",
+      "type": "uses",
+      "tail": "ROSETHORN",
+      "evidence": "арсенал шкідливих програм... Rust (ROSEBLOOM, ROSETHORN)"
+    },
+    {
+      "head": "GLUEEGG",
+      "type": "delivers",
+      "tail": "DROPCLUE",
+      "evidence": "Основним призначенням GLUEEGG є дешифрування (XOR зі 128-байтним ключем) та запуск завантажувача DROPCLUE"
+    },
+    {
+      "head": "DROPCLUE",
+      "type": "delivers",
+      "tail": "UA-2024-07-04-010019-a-open.pdf",
+      "evidence": "Останній забезпечить завантаження та відкриття на ЕОМ документу-приманки \"UA-2024-07-04-010019-a-open.pdf\""
+    },
+    {
+      "head": "DROPCLUE",
+      "type": "delivers",
+      "tail": "font-pack-pdf-windows-64-bit",
+      "evidence": "забезпечить завантаження та відкриття на ЕОМ... а також EXE-файлу \"font-pack-pdf-windows-64-bit\""
+    },
+    {
+      "head": "prozorro-ua.net",
+      "kind": "Domain Name",
+      "type": "hosts",
+      "tail": "adobe_acrobat_fonts_pack.exe",
+      "evidence": "hXXps://prozorro-ua[.]net/tender/ua-2024-06-25-006884-a/print/limited-reporting/adobe_acrobat_fonts_pack.exe"
+    }
+  ],
+  "newRelationTypes": []
+}

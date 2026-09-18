@@ -1,0 +1,126 @@
+{
+  "entities": [
+    {
+      "name": "Генштаб ЗСУ",
+      "kind": "government organization",
+      "gloss": "The General Staff of the Armed Forces of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "RomCom",
+      "kind": "malware",
+      "gloss": "A modular backdoor trojan used for cyber espionage and ransomware operations."
+    },
+    {
+      "name": "Cuba Ransomware",
+      "kind": "malware",
+      "gloss": "A ransomware strain targeting enterprise networks, linked to the threat group Tropical Scorpius."
+    },
+    {
+      "name": "Tropical Scorpius",
+      "kind": "threat actor",
+      "gloss": "A threat group, also tracked as UNC2596 and UAC-0132, associated with Cuba ransomware and RomCom backdoor."
+    },
+    {
+      "name": "Unit42",
+      "kind": "company",
+      "gloss": "The threat intelligence and cybersecurity research organization of Palo Alto Networks."
+    },
+    {
+      "name": "Mandiant",
+      "kind": "company",
+      "gloss": "An American cybersecurity and threat intelligence firm."
+    },
+    {
+      "name": "CVE-2022-24521",
+      "kind": "security vulnerability",
+      "gloss": "A Windows Common Log File System (CLFS) driver elevation of privilege vulnerability."
+    },
+    {
+      "name": "AcroRdrDCx642200120169_uk_UA.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable disguised as an Adobe PDF Reader installer used to drop RomCom."
+    },
+    {
+      "name": "rmtpak.dll",
+      "kind": "computer file",
+      "gloss": "A malicious DLL file classified as the RomCom backdoor."
+    },
+    {
+      "name": "Наказ_309.pdf",
+      "kind": "computer file",
+      "gloss": "A lure PDF document used in the phishing campaign."
+    },
+    {
+      "name": "s.l.sinkewitch@ukr.net",
+      "kind": "email address",
+      "gloss": "A sender email address used in the phishing campaign impersonating Ukrainian military officials."
+    },
+    {
+      "name": "www.get.adobe.com.aspx.io",
+      "kind": "domain name",
+      "gloss": "A spoofed domain used to host malicious executable downloads."
+    },
+    {
+      "name": "gov.mil.ua.aspx.io",
+      "kind": "domain name",
+      "gloss": "A spoofed domain masquerading as Ukrainian government military services."
+    },
+    {
+      "name": "notfiled.com",
+      "kind": "domain name",
+      "gloss": "A domain used for command and control communications in the attack."
+    },
+    {
+      "name": "45.158.38.74",
+      "kind": "ip address",
+      "gloss": "An IP address involved in sending phishing emails."
+    },
+    {
+      "name": "45.87.155.99",
+      "kind": "ip address",
+      "gloss": "A network IP address observed in the malicious campaign infrastructure."
+    },
+    {
+      "name": "69.49.231.103",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the campaign infrastructure."
+    },
+    {
+      "name": "Blythe Consulting sp. z o.o.",
+      "kind": "company",
+      "gloss": "A company name used in code-signing certificates to sign malware components."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Генштаб ЗСУ",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Пресслужби Генштабу ЗСУ"
+    },
+    {
+      "head": "Tropical Scorpius",
+      "type": "uses",
+      "tail": "RomCom",
+      "evidence": "використання бекдору RomCom, а також інші особливості пов'язаних файлів, вважаємо за можливе асоціювати виявлену активність з діяльністю групи Tropical Scorpius"
+    },
+    {
+      "head": "Tropical Scorpius",
+      "type": "uses",
+      "tail": "Cuba Ransomware",
+      "evidence": "групи Tropical Scorpius (Unit42) aka UNC2596 (Mandiant), що відповідальна за розповсюдження Cuba Ransomware"
+    },
+    {
+      "head": "AcroRdrDCx642200120169_uk_UA.exe",
+      "type": "delivers",
+      "tail": "rmtpak.dll",
+      "evidence": "Запуск згаданого файлу, в результаті, призведе до декодування та запуску файлу \"rmtpak.dll\""
+    }
+  ],
+  "newRelationTypes": []
+}

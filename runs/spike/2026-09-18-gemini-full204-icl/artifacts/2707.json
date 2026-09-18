@@ -1,0 +1,103 @@
+{
+  "docId": 2707,
+  "date": "13.12.2018",
+  "title": "Нові хвилі масових розсилок листів з #Smokeloader",
+  "entities": [
+    {
+      "id": "2707:0",
+      "name": "Smokeloader",
+      "kind": "malware",
+      "gloss": "A modular downloader malware family used to download and execute secondary malicious payloads.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2707:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S4",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "2707:2",
+      "name": "http://chubanomania[.]icu/prima/spi.exe?rCuz",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL used to host and distribute executable payloads.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "2707:3",
+      "name": "93.179.69.41",
+      "kind": "ip address",
+      "gloss": "An IP address associated with command and control infrastructure distributing malware.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2707:4",
+      "name": "spi.exe",
+      "kind": "malware",
+      "gloss": "A malicious executable payload associated with SmokeLoader.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2707:5",
+      "name": "До оплати від 11.12.18.lzh",
+      "kind": "malware",
+      "gloss": "A malicious archive attachment used to deliver script loaders.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2707:6",
+      "name": "Рахунки и новые списки.lzh",
+      "kind": "malware",
+      "gloss": "A malicious archive attachment used to deliver script loaders.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2707:7",
+      "name": "Рахунки за выполненные работы от 11.12.2018.js",
+      "kind": "malware",
+      "gloss": "A malicious JavaScript file used to download executable payloads.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2707:8",
+      "name": "До оплати рах.ф. 74 - 2018р.js",
+      "kind": "malware",
+      "gloss": "A malicious JavaScript file used to download executable payloads.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Smokeloader",
+      "type": "affects",
+      "tail": "Україна",
+      "evidence": "може свідчити про таргетованість атаки на Україну"
+    },
+    {
+      "head": "http://chubanomania[.]icu/prima/spi.exe?rCuz",
+      "type": "hosts",
+      "tail": "spi.exe",
+      "evidence": "http://chubanomania[.]icu/prima/spi.exe?rCuz (IP: 93.179.69.41) Шкідливі файли: Payload: spi.exe"
+    }
+  ],
+  "unclassified": []
+}

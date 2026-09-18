@@ -39,6 +39,43 @@ What each run is evidence for:
 A cost line in a run card covers the last invocation only: runs that reused cached extractions
 show naming calls and no extraction calls.
 
+## Full-stream runs (2026-09-18, exploratory)
+
+All 204 reports in numeric-id order, adopted configuration (kind-first 0.9, τ 0.80, pool link 0.85,
+mass 3), extraction fresh for every document in both arms. Not pre-registered, single replicate:
+nothing here is reportable. Side by side: `full204-runs.html` (run switcher, the three runs).
+
+| run | differs in | mentions | kind phrases | schemes | pool | relation types | naming calls |
+|---|---|---|---|---|---|---|---|
+| `2026-09-18-gemini-full204-blind` | schema-blind extraction (`extract-open-v1`) | 3371 | 235 | 24 | 112 (3.3%) | 12 | 27 |
+| `2026-09-18-gemini-full204-icl` | in-context arm (`extract-open-icl-v1`, scheme list in the extraction prompt) | 3709 | 51 | 14 | 31 (0.8%) | 10 | 14 |
+| `2026-09-18-gemini-full204-relblind` | fully blind prompt (`extract-open-relblind-v1`: no scheme list, no relation inventory); all extractions made at once, 12 calls in flight, then the sequential fold | 3955 | 273 | 34 | 146 (3.7%) | 195 raw phrases | 40 |
+
+Notes that a reader of these two runs needs:
+
+- Document 6279491 (CERT-UA#9688) is refused by Gemini (`blockReason: PROHIBITED_CONTENT`) in both
+  arms and is recorded as `extract-failed`; 203 documents carry an extraction. The driver was
+  changed to skip a provider-blocked document instead of aborting (`isProviderContentBlock`).
+- Both runs were resumed once from their cached extractions after that abort (181 documents done).
+  The in-context arm replayed the same trajectory (schemes and pool equal at every one of the 181
+  documents). The blind arm did not: with identical extractions the resumed fold minted one more
+  scheme at document 25, because a naming call at temperature 0 answered differently. The final
+  state of the blind run is the resumed fold, one pass over all documents. Inventory size is
+  therefore sensitive to naming-call variance, which replicates have to cover.
+- A cost line in these run cards covers the last invocation only (the last 22 extractions and the
+  naming calls of the resumed fold).
+- `…-full204-relblind` ran in one attempt: about 3.5 minutes for the 204 extraction calls against
+  about 25 minutes of sequential extraction in the other two arms. Its relation types are raw
+  phrases merged at 0.85, to be typed by the relation layer (`spike-relations`) over this run. Its
+  scheme layer separates what the blind arm merged: Malware Family (266), Uniform Resource Locator
+  (151) and Malicious File (775, file kinds only) are three schemes. It is the intended source of
+  cached extractions for threshold studies of both layers.
+- The blind arm shows early-mint absorption at scale: `Malicious File` (911) holds file, malware
+  family, malicious file, url and file name; there is no separate Malware or URL scheme. The
+  in-context arm keeps Malware (298), Computer File (665) and Uniform Resource Locator (376) apart
+  and extracts more mentions (256 URLs and 177 files that the blind arm does not have), with 51
+  kind phrases against 235.
+
 ## Relation-layer runs (2026-09-17)
 
 Driver `bin/spike-relations.ts`: entities and schemes are replayed from `2026-09-16-gemini-mid20-relblind`

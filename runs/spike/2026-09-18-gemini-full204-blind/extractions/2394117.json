@@ -1,0 +1,127 @@
+{
+  "entities": [
+    {
+      "name": "Пресслужба Генштабу ЗСУ",
+      "kind": "government body",
+      "gloss": "The press service of the General Staff of the Armed Forces of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Tropical Scorpius",
+      "kind": "threat actor",
+      "gloss": "A threat group tracked as UNC2596 and UAC-0132, known for deploying Cuba Ransomware and RomCom malware."
+    },
+    {
+      "name": "UNC2596",
+      "kind": "threat actor",
+      "gloss": "A threat group identifier assigned by Mandiant, also known as Tropical Scorpius and UAC-0132."
+    },
+    {
+      "name": "UAC-0132",
+      "kind": "threat actor",
+      "gloss": "A threat actor identifier tracked by CERT-UA, associated with Tropical Scorpius and RomCom malware."
+    },
+    {
+      "name": "RomCom",
+      "kind": "malware family",
+      "gloss": "A backdoor malware family used in cyberespionage and cybercrime campaigns."
+    },
+    {
+      "name": "Cuba Ransomware",
+      "kind": "ransomware family",
+      "gloss": "A ransomware family operated and distributed by the threat actor Tropical Scorpius."
+    },
+    {
+      "name": "Unit42",
+      "kind": "cybersecurity company",
+      "gloss": "The threat intelligence and cyber defense research arm of Palo Alto Networks."
+    },
+    {
+      "name": "Mandiant",
+      "kind": "cybersecurity company",
+      "gloss": "An American cybersecurity company specializing in threat intelligence and incident response."
+    },
+    {
+      "name": "PDF Reader",
+      "kind": "software product",
+      "gloss": "A general class of software applications designed to view PDF documents, used as a lure."
+    },
+    {
+      "name": "AcroRdrDCx642200120169_uk_UA.exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable disguised as an Adobe Acrobat Reader installer used to drop RomCom malware."
+    },
+    {
+      "name": "rmtpak.dll",
+      "kind": "dynamic link library",
+      "gloss": "A malicious dynamic-link library file identified as the RomCom backdoor."
+    },
+    {
+      "name": "cve-2022-24521",
+      "kind": "vulnerability identifier",
+      "gloss": "A privilege escalation vulnerability in the Windows Common Log File System Driver."
+    },
+    {
+      "name": "Blythe Consulting sp. z o.o.",
+      "kind": "company",
+      "gloss": "A business entity whose digital certificate was used to sign malicious files."
+    },
+    {
+      "name": "Wechapaisch Consulting & Construction Limited",
+      "kind": "company",
+      "gloss": "A business entity whose digital certificate was used to sign malicious software components."
+    },
+    {
+      "name": "notfiled.com",
+      "kind": "internet domain",
+      "gloss": "A domain name used as network infrastructure in malicious campaigns."
+    },
+    {
+      "name": "aspx.io",
+      "kind": "internet domain",
+      "gloss": "A domain name utilized to host malicious downloads and fake PDF lures."
+    },
+    {
+      "name": "s.l.sinkewitch@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address used to distribute malicious phishing emails."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Пресслужба Генштабу ЗСУ",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Пресслужби Генштабу ЗСУ"
+    },
+    {
+      "head": "Tropical Scorpius",
+      "type": "uses-malware",
+      "tail": "RomCom",
+      "evidence": "групи Tropical Scorpius... що відповідальна за розповсюдження Cuba Ransomware"
+    },
+    {
+      "head": "Tropical Scorpius",
+      "type": "uses-malware",
+      "tail": "Cuba Ransomware",
+      "evidence": "Tropical Scorpius... що відповідальна за розповсюдження Cuba Ransomware"
+    },
+    {
+      "head": "AcroRdrDCx642200120169_uk_UA.exe",
+      "type": "delivers",
+      "tail": "rmtpak.dll",
+      "evidence": "призведе до декодування та запуску файлу \"rmtpak.dll\""
+    },
+    {
+      "head": "rmtpak.dll",
+      "type": "part-of",
+      "tail": "RomCom",
+      "evidence": "файлу \"rmtpak.dll\". Останній класифіковано як шкідливу програму RomCom"
+    }
+  ],
+  "newRelationTypes": []
+}

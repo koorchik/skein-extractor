@@ -1,0 +1,210 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0063",
+      "kind": "threat actor",
+      "gloss": "A threat actor cluster tracked by CERT-UA, associated with Russian military intelligence."
+    },
+    {
+      "name": "HATVIBE",
+      "kind": "malware",
+      "gloss": "A backdoor malware family deployed in malicious campaigns as an HTA file."
+    },
+    {
+      "name": "CHERRYSPY",
+      "kind": "malware",
+      "gloss": "A Python-based backdoor malware compiled as a dynamic library."
+    },
+    {
+      "name": "APT28",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group associated with the GRU."
+    },
+    {
+      "name": "ГУ ГШ ЗС РФ",
+      "kind": "government body",
+      "gloss": "The Main Directorate of the General Staff of the Armed Forces of the Russian Federation."
+    },
+    {
+      "name": "Virustotal",
+      "kind": "online service",
+      "gloss": "A malware analysis and scanning service aggregating multiple antivirus engines."
+    },
+    {
+      "name": "Вірменія",
+      "kind": "country",
+      "gloss": "A country in the South Caucasus region."
+    },
+    {
+      "name": "Управління оборонної політики Міністерства оборони Республіки Вірменія",
+      "kind": "government body",
+      "gloss": "The defence policy department within the Ministry of Defence of Armenia."
+    },
+    {
+      "name": "Управління міжнародного військового співробітництва Міністерства оборони Киргизької Республіки",
+      "kind": "government body",
+      "gloss": "The international military cooperation department of the Ministry of Defence of Kyrgyzstan."
+    },
+    {
+      "name": "Киргизька Республіка",
+      "kind": "country",
+      "gloss": "A landlocked country in Central Asia."
+    },
+    {
+      "name": "CVE-2024-23692",
+      "kind": "vulnerability",
+      "gloss": "A remote code execution vulnerability affecting HFS HTTP File Server."
+    },
+    {
+      "name": "HFS HTTP File Server",
+      "kind": "software product",
+      "gloss": "A free web server designed for file publishing and sharing."
+    },
+    {
+      "name": "pyArmor",
+      "kind": "software product",
+      "gloss": "A command-line tool used to obfuscate and protect Python scripts."
+    },
+    {
+      "name": "Python",
+      "kind": "software product",
+      "gloss": "A high-level general-purpose programming language and interpreter."
+    },
+    {
+      "name": "punkt-1-07-10-24-na-zasid.doc",
+      "kind": "file",
+      "gloss": "A malicious Word document containing a macro used in the infection chain."
+    },
+    {
+      "name": "RecordsService",
+      "kind": "file",
+      "gloss": "An encoded HTA payload implementing the HATVIBE malware."
+    },
+    {
+      "name": "pip_update.cp37-win32.pyd",
+      "kind": "file",
+      "gloss": "A compiled Python extension file containing the CHERRYSPY malware."
+    },
+    {
+      "name": "33c3e4599ad678133905e6c1589c12d2.doc",
+      "kind": "file",
+      "gloss": "A malicious document uploaded from Armenia containing a decoy text."
+    },
+    {
+      "name": "trust-certificate.net",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious command and control infrastructure."
+    },
+    {
+      "name": "enrollmentdm.com",
+      "kind": "domain name",
+      "gloss": "A domain name used in threat actor network infrastructure."
+    },
+    {
+      "name": "185.158.248.198",
+      "kind": "ip address",
+      "gloss": "An IP address identified in malicious network infrastructure."
+    },
+    {
+      "name": "193.124.65.97",
+      "kind": "ip address",
+      "gloss": "An IP address located in Russia used in cyber attack infrastructure."
+    },
+    {
+      "name": "45.136.198.184",
+      "kind": "ip address",
+      "gloss": "An IP address hosting control endpoints for malicious activity."
+    },
+    {
+      "name": "5.45.70.178",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious HTA payloads."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0063",
+      "type": "uses-malware",
+      "tail": "HATVIBE",
+      "evidence": "кібератаку угрупування UAC-0063... з використанням шкідливих програм HATVIBE та CHERRYSPY"
+    },
+    {
+      "head": "UAC-0063",
+      "type": "uses-malware",
+      "tail": "CHERRYSPY",
+      "evidence": "кібератаку угрупування UAC-0063... з використанням шкідливих програм HATVIBE та CHERRYSPY"
+    },
+    {
+      "head": "UAC-0063",
+      "type": "associated-with-actor",
+      "tail": "APT28",
+      "evidence": "UAC-0063, з середнім рівнем впевненості асоційовано з діяльністю угрупування APT28"
+    },
+    {
+      "head": "APT28",
+      "type": "linked-to-agency",
+      "tail": "ГУ ГШ ЗС РФ",
+      "evidence": "APT28 (UAC-0001), яке має безпосереднє відношення до ГУ ГШ ЗС РФ"
+    },
+    {
+      "head": "HATVIBE",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2024-23692",
+      "evidence": "встановлення бекдору HATVIBE шляхом експлуатації вразливості (вірогідно, CVE-2024-23692)"
+    },
+    {
+      "head": "CVE-2024-23692",
+      "type": "affects-software",
+      "tail": "HFS HTTP File Server",
+      "evidence": "вразливості (вірогідно, CVE-2024-23692) в програмному продукті HFS HTTP File Server"
+    },
+    {
+      "head": "punkt-1-07-10-24-na-zasid.doc",
+      "type": "drops-file",
+      "tail": "RecordsService",
+      "evidence": "створення на ЕОМ закодованого HTA-файлу шкідливої програми HATVIBE \"RecordsService\""
+    },
+    {
+      "head": "pip_update.cp37-win32.pyd",
+      "type": "instance-of-malware",
+      "tail": "CHERRYSPY",
+      "evidence": "pip_update.cp37-win32.pyd (CHERRYSPY)"
+    },
+    {
+      "head": "RecordsService",
+      "type": "instance-of-malware",
+      "tail": "HATVIBE",
+      "evidence": "RecordsService (HATVIBE)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-malware",
+      "definition": "The threat actor utilizes the specified malware family in its operations."
+    },
+    {
+      "name": "associated-with-actor",
+      "definition": "A threat group or cluster is assessed as linked or identical to another threat actor."
+    },
+    {
+      "name": "linked-to-agency",
+      "definition": "The threat actor is organizationally or operationally connected to a state agency."
+    },
+    {
+      "name": "exploits-vulnerability",
+      "definition": "The malware or threat actor takes advantage of a specific vulnerability."
+    },
+    {
+      "name": "affects-software",
+      "definition": "The vulnerability resides in or affects the specified software product."
+    },
+    {
+      "name": "drops-file",
+      "definition": "The file or document creates or extracts another file onto the target system."
+    },
+    {
+      "name": "instance-of-malware",
+      "definition": "The specified file is an artifact or payload belonging to the malware family."
+    }
+  ]
+}

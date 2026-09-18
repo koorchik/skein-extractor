@@ -1,0 +1,138 @@
+{
+  "entities": [
+    {
+      "name": "OUTSTEEL",
+      "kind": "malware",
+      "gloss": "A malware family designed to search for and exfiltrate documents to a command-and-control server."
+    },
+    {
+      "name": "LOADJUMP",
+      "kind": "malware",
+      "gloss": "A malware family designed to download and execute secondary payloads."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state located in Eastern Europe."
+    },
+    {
+      "name": "Президент України",
+      "kind": "government organization",
+      "gloss": "The head of state and supreme executive authority of Ukraine."
+    },
+    {
+      "name": "756285df0c8b81cf14ad3463a57d33ed.xll",
+      "kind": "computer file",
+      "gloss": "A malicious Excel Add-in file containing the LOADJUMP malware."
+    },
+    {
+      "name": "0707a.exe",
+      "kind": "computer file",
+      "gloss": "A malicious .NET executable that decodes and launches the OUTSTEEL malware."
+    },
+    {
+      "name": "756285df0c8b81cf14ad3463a57d33ed.dll",
+      "kind": "computer file",
+      "gloss": "A dynamic link library file associated with LOADJUMP."
+    },
+    {
+      "name": "differencecell.exe",
+      "kind": "computer file",
+      "gloss": "An executable payload downloaded and launched via macro-enabled documents."
+    },
+    {
+      "name": "44fcb1b922317cc82b3c3fc5a82efb19_1583907427.doc",
+      "kind": "computer file",
+      "gloss": "A macro-enabled Word document used to download secondary malware."
+    },
+    {
+      "name": "756285df0c8b81cf14ad3463a57d33ed_1583907427.doc",
+      "kind": "computer file",
+      "gloss": "A macro-enabled Word document used to download secondary malware."
+    },
+    {
+      "name": "d42580f0a3391eff1571ee7e7c19d05a_1583907427.doc",
+      "kind": "computer file",
+      "gloss": "A macro-enabled Word document used to download secondary malware."
+    },
+    {
+      "name": "f70b4c4e23405b0e0cc5d8e539471cce_1583907427.doc",
+      "kind": "computer file",
+      "gloss": "A macro-enabled Word document used to download secondary malware."
+    },
+    {
+      "name": "45.146.165.91",
+      "kind": "ip address",
+      "gloss": "An IP address hosting a command-and-control upload endpoint."
+    },
+    {
+      "name": "31.31.198.151",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the malicious infrastructure."
+    },
+    {
+      "name": "1833.site",
+      "kind": "domain name",
+      "gloss": "A domain name used to distribute malicious executable files."
+    },
+    {
+      "name": "gov-ua.info",
+      "kind": "domain name",
+      "gloss": "A domain name used in a spoofing campaign mimicking Ukrainian government sites."
+    },
+    {
+      "name": "http://1833.site/0707a.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A URL used to download the 0707a.exe executable."
+    },
+    {
+      "name": "http://45.146.165.91:8080/upld/",
+      "kind": "uniform resource locator",
+      "gloss": "A command-and-control server upload URL used by OUTSTEEL."
+    },
+    {
+      "name": "http://giraffe-tour.ru/123/index.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A URL contacted by malicious macros to download secondary payloads."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Президент України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "офіційне інтернет-представництво Президента України"
+    },
+    {
+      "head": "LOADJUMP",
+      "type": "uses",
+      "tail": "http://1833.site/0707a.exe",
+      "evidence": "забезпечить з'єднання з URL-адресою http://1833[.]site/0707a[.]exe"
+    },
+    {
+      "head": "LOADJUMP",
+      "type": "delivers",
+      "tail": "0707a.exe",
+      "evidence": "завантажить і виконає файл “0707a[.]exe”"
+    },
+    {
+      "head": "0707a.exe",
+      "type": "delivers",
+      "tail": "OUTSTEEL",
+      "evidence": "забезпечить декодування і запуск шкідливої програми OUTSTEEL"
+    },
+    {
+      "head": "http://1833.site/0707a.exe",
+      "type": "hosts",
+      "tail": "0707a.exe",
+      "evidence": "http://1833[.]site/0707a[.]exe"
+    },
+    {
+      "head": "http://giraffe-tour.ru/123/index.exe",
+      "type": "hosts",
+      "tail": "differencecell.exe",
+      "evidence": "з'єднання з URL-адресою http://giraffe-tour[.]ru/123/index[.]exe та забезпечить завантаження і запуск файлу %USERPROFILE%\\Documents\\differencecell.exe"
+    }
+  ],
+  "newRelationTypes": []
+}

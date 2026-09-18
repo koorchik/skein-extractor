@@ -1,0 +1,150 @@
+{
+  "docId": 25,
+  "date": "24.03.2020",
+  "title": "Фішингові листи на тему коронавірусу, що приховують у собі ШПЗ",
+  "entities": [
+    {
+      "id": "25:0",
+      "name": "CoronaMap.exe",
+      "kind": "malware",
+      "gloss": "A malicious executable disguised as a coronavirus tracking application that executes the AZORult trojan in the background.",
+      "scheme": null,
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "25:1",
+      "name": "AZORult",
+      "kind": "malware",
+      "gloss": "An information-stealing Trojan malware designed to collect browser credentials, cookies, and sensitive user information from infected systems.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "25:2",
+      "name": "Університету Джона Хопкінса",
+      "kind": "academic institution",
+      "gloss": "A private research university in the United States known for publishing global epidemiological tracking data.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "25:3",
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S4",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "25:4",
+      "name": "Windows",
+      "kind": "software product",
+      "gloss": "A proprietary operating system family developed and maintained by Microsoft.",
+      "scheme": "S2",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "25:5",
+      "name": "Java",
+      "kind": "software product",
+      "gloss": "A software platform and runtime environment developed by Oracle for running applications.",
+      "scheme": "S2",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "25:6",
+      "name": "MS Office",
+      "kind": "software product",
+      "gloss": "A suite of desktop productivity applications developed by Microsoft.",
+      "scheme": "S2",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "25:7",
+      "name": ".NET",
+      "kind": "software product",
+      "gloss": "A software development framework created by Microsoft for building and running Windows applications.",
+      "scheme": "S2",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "25:8",
+      "name": "VirusTotal",
+      "kind": "online service",
+      "gloss": "A free online service that analyzes suspicious files and URLs to detect types of malware.",
+      "scheme": null,
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "25:9",
+      "name": "Державного центру кіберзахисту та протидії кіберзагрозам Держспецзв’язку",
+      "kind": "government body",
+      "gloss": "A specialized cybersecurity unit operating under the State Service of Special Communications and Information Protection of Ukraine.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "25:10",
+      "name": "Держспецзв’язку",
+      "kind": "government body",
+      "gloss": "The State Service of Special Communications and Information Protection of Ukraine responsible for state telecommunications and cybersecurity.",
+      "scheme": null,
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "25:11",
+      "name": "Corona-virus-Map.com.exe",
+      "kind": "malware",
+      "gloss": "A malicious executable file used to deliver information-stealing malware under the guise of a coronavirus map.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "CoronaMap.exe",
+      "type": "delivers",
+      "tail": "AZORult",
+      "evidence": "при запуску зловмисної програми CoronaMap.exe... ініціюється запуск шкідливого програмного забезпечення, відомого як AZORult"
+    },
+    {
+      "head": "AZORult",
+      "type": "affects",
+      "tail": "Windows",
+      "evidence": "Дане ШПЗ працює на всіх версіях Windows"
+    },
+    {
+      "head": "Державного центру кіберзахисту та протидії кіберзагрозам Держспецзв’язку",
+      "type": "part-of",
+      "tail": "Держспецзв’язку",
+      "evidence": "Державного центру кіберзахисту та протидії кіберзагрозам Держспецзв’язку"
+    },
+    {
+      "head": "Держспецзв’язку",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "Державного центру кіберзахисту та протидії кіберзагрозам Держспецзв’язку"
+    }
+  ],
+  "unclassified": [
+    "25:0",
+    "25:1",
+    "25:2",
+    "25:8",
+    "25:9",
+    "25:10",
+    "25:11"
+  ]
+}

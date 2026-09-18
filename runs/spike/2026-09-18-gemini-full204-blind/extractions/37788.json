@@ -1,0 +1,70 @@
+{
+  "entities": [
+    {
+      "name": "UKR.NET",
+      "kind": "web portal",
+      "gloss": "A major Ukrainian internet portal and webmail service provider."
+    },
+    {
+      "name": "Pipedream",
+      "kind": "cloud platform",
+      "gloss": "An integration and workflow automation platform used for building and running web applications."
+    },
+    {
+      "name": "UAC-0028 (APT28)",
+      "kind": "threat actor",
+      "gloss": "A Russian cyber espionage threat group linked to the Main Intelligence Directorate of the Russian General Staff (GRU)."
+    },
+    {
+      "name": "hxxps://tinyurl[.]com/2p8kpb9v",
+      "kind": "url",
+      "gloss": "A shortened URL used in phishing emails to redirect targets to a malicious credential-harvesting page."
+    },
+    {
+      "name": "panelunregistertle-348.frge[.]io",
+      "kind": "domain name",
+      "gloss": "A domain hosting a fraudulent page that imitates the UKR.NET password change interface."
+    },
+    {
+      "name": "frge[.]io",
+      "kind": "domain name",
+      "gloss": "A domain hosting infrastructure leveraged to support credential harvesting pages."
+    },
+    {
+      "name": "eoy7zvsvn6xfcmy.m.pipedream[.]net",
+      "kind": "domain name",
+      "gloss": "A Pipedream platform endpoint used by attackers to collect exfiltrated user credentials."
+    },
+    {
+      "name": "eo9p1d2bfmioiot.m.pipedream[.]net",
+      "kind": "domain name",
+      "gloss": "A Pipedream platform endpoint used to receive harvested credentials via HTTP POST requests."
+    },
+    {
+      "name": "eoiw8lhjwuc3sh2.m.pipedream[.]net",
+      "kind": "domain name",
+      "gloss": "A Pipedream endpoint utilized for capturing exfiltrated authentication information."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0028 (APT28)",
+      "type": "attacks",
+      "tail": "UKR.NET",
+      "evidence": "асоціюємо виявлену активність з діяльністю групи UAC-0028 (APT28)"
+    },
+    {
+      "head": "eo9p1d2bfmioiot.m.pipedream[.]net",
+      "type": "part-of",
+      "tail": "Pipedream",
+      "evidence": "надіслано на веб-ресурс, розгорнутий зловмисниками на платформі Pipedream"
+    },
+    {
+      "head": "panelunregistertle-348.frge[.]io",
+      "type": "part-of",
+      "tail": "frge[.]io",
+      "evidence": "panelunregistertle-348.frge[.]io"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,141 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyberespionage threat group targeting Ukrainian organizations and government bodies."
+    },
+    {
+      "name": "державні органи України",
+      "kind": "government sector",
+      "gloss": "The state and governmental bodies and agencies of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "Заборгованість по зарплаті.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel spreadsheet containing macros used to drop an initial executable payload."
+    },
+    {
+      "name": "Base-Update.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable written in GoLang acting as a stage-one downloader."
+    },
+    {
+      "name": "GoDownloader",
+      "kind": "malware family",
+      "gloss": "A malware downloader family written in GoLang designed to fetch and execute secondary payloads."
+    },
+    {
+      "name": "GoLang",
+      "kind": "programming language",
+      "gloss": "An open-source compiled programming language developed by Google."
+    },
+    {
+      "name": "GraphSteel",
+      "kind": "malware family",
+      "gloss": "An information stealing malware family written in GoLang."
+    },
+    {
+      "name": "GrimPlant",
+      "kind": "malware family",
+      "gloss": "A backdoor malware family written in GoLang capable of executing remote commands."
+    },
+    {
+      "name": "java-sdk.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file functioning as a secondary GoDownloader payload."
+    },
+    {
+      "name": "oracle-java.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable payload associated with the GrimPlant backdoor."
+    },
+    {
+      "name": "microsoft-cortana.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable payload associated with the GraphSteel infostealer."
+    },
+    {
+      "name": "194.31.98.124",
+      "kind": "ip address",
+      "gloss": "An IP address used for hosting malicious payloads and command and control communication."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "targets",
+      "tail": "державні органи України",
+      "evidence": "розповсюдження електронних листів з темою \"Заборгованість по зарплаті\" серед державних органів України"
+    },
+    {
+      "head": "державні органи України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "державних органів України"
+    },
+    {
+      "head": "Заборгованість по зарплаті.xls",
+      "type": "drops-and-executes",
+      "tail": "Base-Update.exe",
+      "evidence": "створення EXE-файлу \"Base-Update.exe\" на комп'ютері та його виконання"
+    },
+    {
+      "head": "Base-Update.exe",
+      "type": "written-in",
+      "tail": "GoLang",
+      "evidence": "розробленою з використанням мови програмування GoLang"
+    },
+    {
+      "head": "Base-Update.exe",
+      "type": "instance-of",
+      "tail": "GoDownloader",
+      "evidence": "Base-Update.exe (GoDownloader)"
+    },
+    {
+      "head": "java-sdk.exe",
+      "type": "instance-of",
+      "tail": "GoDownloader",
+      "evidence": "java-sdk.exe (GoDownloader)"
+    },
+    {
+      "head": "oracle-java.exe",
+      "type": "instance-of",
+      "tail": "GrimPlant",
+      "evidence": "oracle-java.exe (GrimPlant)"
+    },
+    {
+      "head": "microsoft-cortana.exe",
+      "type": "instance-of",
+      "tail": "GraphSteel",
+      "evidence": "microsoft-cortana.exe (GraphSteel)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets",
+      "definition": "The subject attempts to compromise or direct malicious activity against the target."
+    },
+    {
+      "name": "located-in",
+      "definition": "The subject is geographically or organizationally situated within the target country or region."
+    },
+    {
+      "name": "drops-and-executes",
+      "definition": "The subject creates and executes another file on the victim's filesystem."
+    },
+    {
+      "name": "written-in",
+      "definition": "The subject is authored or developed using the specified programming language."
+    },
+    {
+      "name": "instance-of",
+      "definition": "The subject is a specific sample or file belonging to the specified malware family."
+    }
+  ]
+}

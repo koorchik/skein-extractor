@@ -1,0 +1,60 @@
+{
+  "entities": [
+    {
+      "name": "Smokeloader",
+      "kind": "malware",
+      "gloss": "A modular bot and loader malware family used to deploy secondary malicious payloads."
+    },
+    {
+      "name": "Monero",
+      "kind": "cryptocurrency",
+      "gloss": "A privacy-focused cryptocurrency frequently targeted and mined by unauthorized cryptojacking malware."
+    },
+    {
+      "name": "Заявка.js",
+      "kind": "malware",
+      "gloss": "A malicious JavaScript file used to execute PowerShell and download the Smokeloader payload."
+    },
+    {
+      "name": "crsse.exe",
+      "kind": "malware",
+      "gloss": "A malicious executable containing the Smokeloader loader masquerading as a Windows system process."
+    },
+    {
+      "name": "curl.exe",
+      "kind": "malware",
+      "gloss": "A malicious cryptocurrency mining software payload used to mine Monero on infected hosts."
+    },
+    {
+      "name": "http://enterwords.ru/uadoc/crsse.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious web URL used to host and distribute the Smokeloader executable crsse.exe."
+    },
+    {
+      "name": "http://parodadoca.ru/panel/mr/curl.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious web URL used to host and distribute the Monero cryptocurrency miner curl.exe."
+    }
+  ],
+  "relations": [
+    {
+      "head": "http://enterwords.ru/uadoc/crsse.exe",
+      "type": "hosts",
+      "tail": "crsse.exe",
+      "evidence": "скачує з сайту hXXp://enterwords.ru/uadoc/crsse.exe файл crsse.exe"
+    },
+    {
+      "head": "http://parodadoca.ru/panel/mr/curl.exe",
+      "type": "hosts",
+      "tail": "curl.exe",
+      "evidence": "скачує з hXXp://parodadoca.ru/panel/mr/curl.exe файл curl.exe"
+    },
+    {
+      "head": "Smokeloader",
+      "type": "delivers",
+      "tail": "curl.exe",
+      "evidence": "Smokeloader, який скачував на комп’ютери жертв програму для майнингу"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,180 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "shodan.io",
+      "kind": "online service",
+      "gloss": "A search engine allowing users to find specific types of computers and devices connected to the internet."
+    },
+    {
+      "name": "Mikrotik",
+      "kind": "software product",
+      "gloss": "Networking hardware and router management software."
+    },
+    {
+      "name": "Proxmox",
+      "kind": "software product",
+      "gloss": "An open-source server virtualization management platform."
+    },
+    {
+      "name": "ISPManager",
+      "kind": "software product",
+      "gloss": "A commercial web hosting control panel."
+    },
+    {
+      "name": "DirectAdmin",
+      "kind": "software product",
+      "gloss": "A graphical web-based control panel designed for website and server administration."
+    },
+    {
+      "name": "Webmin",
+      "kind": "software product",
+      "gloss": "A web-based system configuration tool for Unix-like systems."
+    },
+    {
+      "name": "PhpMyAdmin",
+      "kind": "software product",
+      "gloss": "A free software tool intended to handle the administration of MySQL and MariaDB over the Web."
+    },
+    {
+      "name": "АСКОД",
+      "kind": "software product",
+      "gloss": "A Ukrainian electronic document management system."
+    },
+    {
+      "name": "CISA",
+      "kind": "government body",
+      "gloss": "The Cybersecurity and Infrastructure Security Agency of the United States."
+    },
+    {
+      "name": "Microsoft Exchange Server",
+      "kind": "software product",
+      "gloss": "A mail server and calendaring server developed by Microsoft."
+    },
+    {
+      "name": "CVE-2021-34523",
+      "kind": "vulnerability identifier",
+      "gloss": "A Microsoft Exchange Server remote code execution vulnerability."
+    },
+    {
+      "name": "CVE-2021-34473",
+      "kind": "vulnerability identifier",
+      "gloss": "A Microsoft Exchange Server remote code execution vulnerability."
+    },
+    {
+      "name": "CVE-2021-31207",
+      "kind": "vulnerability identifier",
+      "gloss": "A Microsoft Exchange Server security feature bypass vulnerability."
+    },
+    {
+      "name": "CVE-2021-26855",
+      "kind": "vulnerability identifier",
+      "gloss": "A server-side request forgery vulnerability in Microsoft Exchange Server."
+    },
+    {
+      "name": "CVE-2021-26858",
+      "kind": "vulnerability identifier",
+      "gloss": "A post-authentication arbitrary file write vulnerability in Microsoft Exchange Server."
+    },
+    {
+      "name": "CVE-2021-26857",
+      "kind": "vulnerability identifier",
+      "gloss": "An insecure deserialization vulnerability in Microsoft Exchange Server."
+    },
+    {
+      "name": "CVE-2021-27065",
+      "kind": "vulnerability identifier",
+      "gloss": "A post-authentication arbitrary file write vulnerability in Microsoft Exchange Server."
+    },
+    {
+      "name": "Fortinet",
+      "kind": "software vendor",
+      "gloss": "An American multinational cybersecurity corporation."
+    },
+    {
+      "name": "CVE-2018-13379",
+      "kind": "vulnerability identifier",
+      "gloss": "A path traversal vulnerability in the FortiOS SSL VPN web portal."
+    },
+    {
+      "name": "Apache Log4j",
+      "kind": "software product",
+      "gloss": "A Java-based logging utility developed by the Apache Software Foundation."
+    },
+    {
+      "name": "CVE-2021-44228",
+      "kind": "vulnerability identifier",
+      "gloss": "A critical remote code execution vulnerability in Apache Log4j also known as Log4Shell."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2021-34523",
+      "type": "affects-software",
+      "tail": "Microsoft Exchange Server",
+      "evidence": "Microsoft Exchange Server: CVE-2021-34523"
+    },
+    {
+      "head": "CVE-2021-34473",
+      "type": "affects-software",
+      "tail": "Microsoft Exchange Server",
+      "evidence": "Microsoft Exchange Server: CVE-2021-34523, CVE-2021-34473"
+    },
+    {
+      "head": "CVE-2021-31207",
+      "type": "affects-software",
+      "tail": "Microsoft Exchange Server",
+      "evidence": "Microsoft Exchange Server: CVE-2021-34523, CVE-2021-34473, CVE-2021-31207"
+    },
+    {
+      "head": "CVE-2021-26855",
+      "type": "affects-software",
+      "tail": "Microsoft Exchange Server",
+      "evidence": "Microsoft Exchange Server: CVE-2021-26855"
+    },
+    {
+      "head": "CVE-2021-26858",
+      "type": "affects-software",
+      "tail": "Microsoft Exchange Server",
+      "evidence": "Microsoft Exchange Server: CVE-2021-26855, CVE-2021-26858"
+    },
+    {
+      "head": "CVE-2021-26857",
+      "type": "affects-software",
+      "tail": "Microsoft Exchange Server",
+      "evidence": "Microsoft Exchange Server: CVE-2021-26855, CVE-2021-26858, CVE-2021-26857"
+    },
+    {
+      "head": "CVE-2021-27065",
+      "type": "affects-software",
+      "tail": "Microsoft Exchange Server",
+      "evidence": "Microsoft Exchange Server: CVE-2021-26855, CVE-2021-26858, CVE-2021-26857, CVE-2021-27065"
+    },
+    {
+      "head": "CVE-2018-13379",
+      "type": "affects-vendor-products",
+      "tail": "Fortinet",
+      "evidence": "Fortinet: CVE-2018-13379"
+    },
+    {
+      "head": "CVE-2021-44228",
+      "type": "affects-software",
+      "tail": "Apache Log4j",
+      "evidence": "Apache Log4j: CVE-2021-44228"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "affects-software",
+      "definition": "The vulnerability affects or exists within the specified software product."
+    },
+    {
+      "name": "affects-vendor-products",
+      "definition": "The vulnerability affects products developed by the specified vendor."
+    }
+  ]
+}

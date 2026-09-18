@@ -1,0 +1,149 @@
+{
+  "entities": [
+    {
+      "name": "Trendmicro",
+      "kind": "cybersecurity company",
+      "gloss": "A multinational cybersecurity software and defense company."
+    },
+    {
+      "name": "3-тьої окремої штурмової бригади",
+      "kind": "military unit",
+      "gloss": "A brigade of the Ukrainian Ground Forces."
+    },
+    {
+      "name": "Армії оборони Ізраїлю (ЦАХАЛ)",
+      "kind": "military organization",
+      "gloss": "The national military force of the State of Israel."
+    },
+    {
+      "name": "Ізраїлю",
+      "kind": "country",
+      "gloss": "A country in the Middle East."
+    },
+    {
+      "name": "Збройних Сил України",
+      "kind": "military organization",
+      "gloss": "The national armed forces of Ukraine."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Signal",
+      "kind": "software application",
+      "gloss": "An encrypted cross-platform instant messaging service."
+    },
+    {
+      "name": "REMCOSRAT",
+      "kind": "malware family",
+      "gloss": "A commercial remote administration tool frequently abused as a remote access trojan by threat actors."
+    },
+    {
+      "name": "REVERSESSH",
+      "kind": "malware family",
+      "gloss": "A tool used to establish reverse SSH tunnels for unauthorized remote access."
+    },
+    {
+      "name": "mshta.exe",
+      "kind": "software product",
+      "gloss": "A legitimate Windows utility that executes Microsoft HTML Applications (HTA files)."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "UAC-0184",
+      "kind": "threat actor",
+      "gloss": "A threat actor cluster tracked by CERT-UA targeting Ukrainian organizations and military personnel."
+    },
+    {
+      "name": "Центр кібербезпеки ІТС",
+      "kind": "military unit",
+      "gloss": "A cybersecurity center within the Armed Forces of Ukraine (military unit A0334)."
+    },
+    {
+      "name": "194.87.31.181",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious command and control infrastructure."
+    },
+    {
+      "name": "194.87.31.229",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious command and control infrastructure."
+    },
+    {
+      "name": "45.120.177.220",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious infrastructure."
+    },
+    {
+      "name": "46.249.49.148",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious command and control infrastructure."
+    },
+    {
+      "name": "46.249.58.40",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious infrastructure."
+    },
+    {
+      "name": "funedunet[.]com",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used to distribute payloads and lure documents."
+    },
+    {
+      "name": "new-tech-savvy[.]com",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used to host payloads and lure documents."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0184",
+      "type": "attacks",
+      "tail": "Збройних Сил України",
+      "evidence": "проводяться проти військовослужбовців Збройних Сил України."
+    },
+    {
+      "head": "UAC-0184",
+      "type": "uses-malware",
+      "tail": "REMCOSRAT",
+      "evidence": "ланцюг ураження шкідливими програмами REMCOSRAT і REVERSESSH"
+    },
+    {
+      "head": "UAC-0184",
+      "type": "uses-malware",
+      "tail": "REVERSESSH",
+      "evidence": "ланцюг ураження шкідливими програмами REMCOSRAT і REVERSESSH"
+    },
+    {
+      "head": "Збройних Сил України",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "Збройних Сил України"
+    },
+    {
+      "head": "3-тьої окремої штурмової бригади",
+      "type": "part-of",
+      "tail": "Збройних Сил України",
+      "evidence": "рекрутингу до 3-тьої окремої штурмової бригади та Армії оборони Ізраїлю (ЦАХАЛ), проводяться проти військовослужбовців Збройних Сил України"
+    },
+    {
+      "head": "Армії оборони Ізраїлю (ЦАХАЛ)",
+      "type": "located-in",
+      "tail": "Ізраїлю",
+      "evidence": "Армії оборони Ізраїлю"
+    },
+    {
+      "head": "Центр кібербезпеки ІТС",
+      "type": "part-of",
+      "tail": "Збройних Сил України",
+      "evidence": "в ІКС Збройних сил України просимо невідкладно інформувати Центр кібербезпеки ІТС"
+    }
+  ],
+  "newRelationTypes": []
+}

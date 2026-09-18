@@ -1,0 +1,122 @@
+{
+  "entities": [
+    {
+      "name": "PerekazF173_04072023.xls",
+      "kind": "computer file",
+      "gloss": "A malicious XLS spreadsheet containing macros designed to deploy PicassoLoader malware."
+    },
+    {
+      "name": "Rahunok_05072023.xls",
+      "kind": "computer file",
+      "gloss": "A malicious XLS document containing macros designed to decode and execute PicassoLoader."
+    },
+    {
+      "name": "PicassoLoader",
+      "kind": "malware",
+      "gloss": "A malware loader that downloads, decrypts, and executes secondary payloads like njRAT."
+    },
+    {
+      "name": "Avast",
+      "kind": "company",
+      "gloss": "A cybersecurity software company known for antivirus and security solutions."
+    },
+    {
+      "name": "FireEye",
+      "kind": "company",
+      "gloss": "A cybersecurity company providing threat intelligence and defense software."
+    },
+    {
+      "name": "Fortinet",
+      "kind": "company",
+      "gloss": "An American cybersecurity company providing network and endpoint security products."
+    },
+    {
+      "name": "njRAT",
+      "kind": "malware",
+      "gloss": "A remote access trojan allowing unauthorized control over infected Windows systems."
+    },
+    {
+      "name": "UAC-0057",
+      "kind": "threat actor",
+      "gloss": "A cyber threat actor also tracked as UNC1151 and associated with the GhostWriter campaign."
+    },
+    {
+      "name": "GhostWriter",
+      "kind": "threat actor",
+      "gloss": "An information operation and cyber threat cluster associated with threat actor UNC1151."
+    },
+    {
+      "name": "UNC1151",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage threat group associated with the Belarusian government, also tracked as UAC-0057."
+    },
+    {
+      "name": "Mandiant",
+      "kind": "company",
+      "gloss": "An American cybersecurity and incident response intelligence company."
+    },
+    {
+      "name": "gk40jklkgt3w094gh.dll",
+      "kind": "computer file",
+      "gloss": "A malicious DLL file associated with PicassoLoader."
+    },
+    {
+      "name": "sgsdgkjsgkljsegseuigh38g.dll",
+      "kind": "computer file",
+      "gloss": "A malicious DLL file implementing PicassoLoader."
+    },
+    {
+      "name": "Carpet_Shop_3b09adf.exe",
+      "kind": "computer file",
+      "gloss": "An executable file containing njRAT malware."
+    },
+    {
+      "name": "carpetmarker[.]pw",
+      "kind": "domain name",
+      "gloss": "A malicious domain used for hosting image files and malware payloads."
+    },
+    {
+      "name": "everything-everywhere.at.ply[.]gg",
+      "kind": "domain name",
+      "gloss": "A network domain used for command and control or network communications."
+    },
+    {
+      "name": "hXXps://carpetmarker[.]pw/images/carpet_shop_3b09adf.jpg",
+      "kind": "uniform resource locator",
+      "gloss": "A URL used to host a payload or staging file disguised as an image."
+    }
+  ],
+  "relations": [
+    {
+      "head": "PerekazF173_04072023.xls",
+      "type": "delivers",
+      "tail": "PicassoLoader",
+      "evidence": "макрос, який здійснить декодування, забезпечення персистентності та запуск шкідливої програми PicassoLoader"
+    },
+    {
+      "head": "Rahunok_05072023.xls",
+      "type": "delivers",
+      "tail": "PicassoLoader",
+      "evidence": "макрос, який здійснить декодування, забезпечення персистентності та запуск шкідливої програми PicassoLoader"
+    },
+    {
+      "head": "PicassoLoader",
+      "type": "delivers",
+      "tail": "njRAT",
+      "evidence": "PicassoLoader забезпечував завантаження, дешифрування (AES) та запуск шкідливої програми njRAT"
+    },
+    {
+      "head": "UAC-0057",
+      "type": "uses",
+      "tail": "PicassoLoader",
+      "evidence": "Активність здійснюється угрупуванням UAC-0057."
+    },
+    {
+      "head": "carpetmarker[.]pw",
+      "type": "hosts",
+      "tail": "hXXps://carpetmarker[.]pw/images/carpet_shop_3b09adf.jpg",
+      "evidence": "hXXps://carpetmarker[.]pw/images/carpet_shop_3b09adf.jpg"
+    }
+  ],
+  "newRelationTypes": []
+}

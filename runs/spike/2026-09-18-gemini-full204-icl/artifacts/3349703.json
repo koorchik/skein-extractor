@@ -1,0 +1,283 @@
+{
+  "docId": 3349703,
+  "date": "18.12.2022",
+  "title": "Кібератака на користувачів системи DELTA з використанням шкідливих програм RomCom/FateGrab/StealDeal (CERT-UA#5709)",
+  "entities": [
+    {
+      "id": "3349703:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S4",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "3349703:1",
+      "name": "Міністерство оборони України",
+      "kind": "government organization",
+      "gloss": "The central executive body responsible for national defense policy and military governance in Ukraine.",
+      "scheme": "S5",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "3349703:2",
+      "name": "Центр інновацій та розвитку оборонних технологій Міністерства оборони України",
+      "kind": "government organization",
+      "gloss": "A defense technology innovation and development unit within the Ministry of Defense of Ukraine.",
+      "scheme": "S5",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "3349703:3",
+      "name": "підрозділ ISTAR ОУВ \"Запоріжжя\"",
+      "kind": "government organization",
+      "gloss": "An intelligence, surveillance, target acquisition, and reconnaissance unit within the Ukrainian military operational grouping Zaporizhzhia.",
+      "scheme": "S5",
+      "category": "Government Body",
+      "role": null
+    },
+    {
+      "id": "3349703:4",
+      "name": "DELTA",
+      "kind": "software product",
+      "gloss": "A situational awareness and battle management software system developed for Ukrainian defense forces.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "3349703:5",
+      "name": "VMProtect",
+      "kind": "software product",
+      "gloss": "A commercial software protection tool used to obfuscate and protect executable code.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "3349703:6",
+      "name": "RomCom",
+      "kind": "malware",
+      "gloss": "A backdoor malware strain capable of executing commands and launching secondary malicious payloads.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "3349703:7",
+      "name": "FateGrab",
+      "kind": "malware",
+      "gloss": "A malicious tool designed to steal documents and specific file types and exfiltrate them via FTP.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "3349703:8",
+      "name": "StealDeal",
+      "kind": "malware",
+      "gloss": "An infostealer malware designed to harvest browser credentials, cookies, and history data.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "3349703:9",
+      "name": "UAC-0142",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA targeting Ukrainian military personnel with RomCom malware.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "3349703:10",
+      "name": "UAC-0132",
+      "kind": "threat actor",
+      "gloss": "A cyber threat cluster tracked by CERT-UA associated with malicious campaigns against Ukraine.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": null
+    },
+    {
+      "id": "3349703:11",
+      "name": "certificates_rootca.zip",
+      "kind": "computer file",
+      "gloss": "A malicious ZIP archive containing the initial executable payload.",
+      "scheme": "S11",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "3349703:12",
+      "name": "certificates_rootCA.exe",
+      "kind": "computer file",
+      "gloss": "A VMProtect-packed malicious executable that initiates payload extraction and execution.",
+      "scheme": "S11",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "3349703:13",
+      "name": "ais.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable simulating a certificate installation process.",
+      "scheme": "S11",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "3349703:14",
+      "name": "FileInfo.dll",
+      "kind": "computer file",
+      "gloss": "A dynamic link library component implementing FateGrab file stealer functionality.",
+      "scheme": "S11",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "3349703:15",
+      "name": "procsys.dll",
+      "kind": "computer file",
+      "gloss": "A dynamic link library component implementing StealDeal infostealer functionality.",
+      "scheme": "S11",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "3349703:16",
+      "name": "customizer.dll",
+      "kind": "computer file",
+      "gloss": "A dynamic link library file associated with RomCom malware.",
+      "scheme": "S11",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "3349703:17",
+      "name": "delta-storages.com",
+      "kind": "domain name",
+      "gloss": "A malicious domain registered to spoof DELTA system certificate storage infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "3349703:18",
+      "name": "delta.mil.gov.ua.delta-storages.com",
+      "kind": "domain name",
+      "gloss": "A subdomain used to host malicious phishing and download links spoofing the Ukrainian military domain.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "3349703:19",
+      "name": "hexactor.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as command and control infrastructure in cyber operations.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "3349703:20",
+      "name": "46.249.49.109",
+      "kind": "ip address",
+      "gloss": "An IP address utilized for network communication and FTP exfiltration by attackers.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "3349703:21",
+      "name": "gor4j3d@proton.me",
+      "kind": "email address",
+      "gloss": "An email address used to register malicious domain infrastructure.",
+      "scheme": "S10",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "3349703:22",
+      "name": "Great C Technologies Inc",
+      "kind": "company",
+      "gloss": "An organization entity associated with a digital certificate used to sign malicious executables.",
+      "scheme": "S12",
+      "category": "Organization",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Центр інновацій та розвитку оборонних технологій Міністерства оборони України",
+      "type": "part-of",
+      "tail": "Міністерство оборони України",
+      "evidence": "Центру інновацій та розвитку оборонних технологій Міністерства оборони України"
+    },
+    {
+      "head": "Міністерство оборони України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Міністерства оборони України"
+    },
+    {
+      "head": "certificates_rootca.zip",
+      "type": "delivers",
+      "tail": "certificates_rootCA.exe",
+      "evidence": "архів \"certificates_rootca.zip\", що містить виконуваний файл \"certificates_rootCA.exe\""
+    },
+    {
+      "head": "certificates_rootCA.exe",
+      "type": "delivers",
+      "tail": "ais.exe",
+      "evidence": "Після запуску EXE-файлу на ЕОМ буде створено декілька DLL-файлів... і файл \"ais.exe\""
+    },
+    {
+      "head": "RomCom",
+      "type": "delivers",
+      "tail": "FateGrab",
+      "evidence": "RomCom... яка, у свою чергу, забезпечить виконання двох шкідливих програм: FateGrab"
+    },
+    {
+      "head": "RomCom",
+      "type": "delivers",
+      "tail": "StealDeal",
+      "evidence": "RomCom... яка, у свою чергу, забезпечить виконання двох шкідливих програм: FateGrab... та StealDeal"
+    },
+    {
+      "head": "FileInfo.dll",
+      "type": "part-of",
+      "tail": "FateGrab",
+      "evidence": "FileInfo.dll (FateGrab)"
+    },
+    {
+      "head": "procsys.dll",
+      "type": "part-of",
+      "tail": "StealDeal",
+      "evidence": "procsys.dll (StealDeal)"
+    },
+    {
+      "head": "customizer.dll",
+      "type": "part-of",
+      "tail": "RomCom",
+      "evidence": "customizer.dll (RomCom)"
+    },
+    {
+      "head": "UAC-0142",
+      "type": "uses",
+      "tail": "RomCom",
+      "evidence": "В подальшому, на комп'ютері жертви буде здійснено запуск шкідливої програми RomCom... Активність відстежується за ідентифікатором UAC-0142"
+    },
+    {
+      "head": "delta.mil.gov.ua.delta-storages.com",
+      "type": "part-of",
+      "tail": "delta-storages.com",
+      "evidence": "delta.mil.gov.ua.delta-storages.com"
+    }
+  ],
+  "unclassified": []
+}

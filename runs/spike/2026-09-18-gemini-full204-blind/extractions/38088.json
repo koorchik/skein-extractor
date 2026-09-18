@@ -1,0 +1,59 @@
+{
+  "entities": [
+    {
+      "name": "DoubleZero",
+      "kind": "malware family",
+      "gloss": "A destructive wiper malware written in C# designed to overwrite files and corrupt the Windows registry."
+    },
+    {
+      "name": "UAC-0088",
+      "kind": "threat group",
+      "gloss": "A threat group tracked by CERT-UA associated with cyberattacks against Ukrainian enterprises."
+    },
+    {
+      "name": "Вирус... крайне опасно!!!.zip",
+      "kind": "malicious file",
+      "gloss": "A malicious ZIP archive containing an obfuscated DoubleZero wiper payload."
+    },
+    {
+      "name": "csrss.zip",
+      "kind": "malicious file",
+      "gloss": "A malicious ZIP archive containing the DoubleZero wiper payload."
+    },
+    {
+      "name": "cpcrs.exe",
+      "kind": "malicious file",
+      "gloss": "An executable file identified as the DoubleZero wiper malware."
+    },
+    {
+      "name": "csrss.exe",
+      "kind": "malicious file",
+      "gloss": "An executable file identified as the DoubleZero wiper malware."
+    },
+    {
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A widely used family of proprietary graphical operating systems developed by Microsoft."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0088",
+      "type": "uses-malware",
+      "tail": "DoubleZero",
+      "evidence": "Активність відстежується за ідентифікатором UAC-0088"
+    },
+    {
+      "head": "DoubleZero",
+      "type": "affects",
+      "tail": "Windows",
+      "evidence": "знищуються гілки реєстру Windows"
+    }
+  ],
+  "newRelationTypes": []
+}

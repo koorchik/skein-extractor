@@ -1,0 +1,97 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p class="ql-align-justify">Урядова команда реагування на комп’ютерні надзвичайні події України CERT-UA досліджує масштабну кібератаку, направлену на компрометацію облікових записів електронної пошти працівників державних установ України.</p><p class="ql-align-justify">Кібератаки з використанням фішингових сторінок та листів для компрометації пошти не є чимось новим, але в цьому випадку CERT-UA спостерігає тривалу взаємозв’язану кампанію, яка продовжується з початку жовтня.</p><p class="ql-align-justify">Хакери розсилають фішингові листи на електронні адреси організацій в домені gov.ua начебто від ІТ-служби підтримки Zimbra. Листи містять фейкову інформацію про необхідність оновлення свого облікового запису, його підтвердження або іншу інформацію, яка спонукає отримувача перейти за посиланням. Посилання веде на фішинговий веб-сайт, що імітує сторінку для входу на поштовий сервер Zimbra.</p><p class="ql-align-justify">Приклади текстів фішингових електронних листів.</p><pre class="ql-syntax" spellcheck="false">Шановні співробітники,
+Цей електронний лист надіслано вам ІТ-службою підтримки. Зверніть увагу, що якщо ви не погодитесь оновити свій обліковий запис, ваш обліковий запис електронної пошти буде заблоковано, і ви більше не зможете отримати доступ до свого облікового запису електронної пошти.
+Щоб уникнути втрати доступу до електронної пошти;&nbsp;ВХОДИТИ ЗАРАЗ
+Дякуємо за вибір веб-клієнта&nbsp;Zimbra. Ми цінуємо вас як нашого замовника.
+Спасибі голові - Адміністрації
+</pre><p class="ql-align-justify"><br></p><pre class="ql-syntax" spellcheck="false">Шановний користувач електронної пошти,
+Важлива інформація про службу безпеки Зімбри
+Ми знаходимося в процесі оновлення нашої бази даних і центру облікового запису електронної пошти Zimbra і помітили, що ваша електронна пошта не пройшла процес верифікації / оновлення, над яким ми працюємо прямо зараз.
+Щоб мати найкращу безпеку в Інтернеті та уникати закриття або видалення облікового запису, необхідно оновити його, щоб ми знали, що це обліковий запис, який наразі використовується.
+Щоб завершити підтвердження облікового запису,&nbsp;(*шкідливе посилання*) 
+Дякуємо за вибір веб-пошти Zimbra Web Access для ваших потреб спілкування.
+Голова адміністрації,
+Веб-доступ служби безпеки веб-пошти Zimbra®
+</pre><p></p><p><br></p><p><span style="color: black;">Після чого необережні працівники переходять на фішинговий ресурс та вводять логін і пароль до своєї робочої поштової скриньки.</span></p><p><span style="color: black;">Одна із фішингових сторінок, яка імітує сторінку входу на поштовий сервер Zimbra. </span></p><p><br></p><p></p><p><br></p><p>Фішингова сторінка, яка імітує панель для входу в сервіс електронної пошти організації в залежності від домену пошти (тут автоматично підтягується favicon з веб-сайту організації жертви)</p><p></p><p class="ql-align-justify">Як наслідок, хакери отримують доступ до поштових облікових записів працівників державних установ, в тому числі до усіх вхідних та вихідних листів та до списку контактів. Після отримання доступу хакери починають розсилати подібні фішингові листи до контактів поштової скриньки. Тут варто зазначити, що зміст фішингових листів змінюється в залежності від організації жертви, іноді із зазначенням зміненого посилання на реальні легітимні сторінки для входу на поштовий сервер організації (але при переході за посиланням жертва потрапляє на фішинговий сайт), що в свою чергу говорить про спланованість та організованість кібератаки та її направлення саме на державний сектор України.</p><p class="ql-align-justify">Також, отримання подібного листа з реальної поштової скриньки в домені gov.ua збільшує ймовірність переходу жертви на фішингову сторінку та введення логіну та паролю.</p><p class="ql-align-justify">І так хакери діють по циклу: отримують доступи до поштових скриньок працівників державних та комерційних установ, збирають інформацію, роблять повторні фішингові розсилки на інші електронні пошти зі скомпрометованих.</p><p class="ql-align-justify">Також, варто зазначити, що після компрометації відбуваються спроби з’єднань до поштових серверів організацій з ІР-адрес, які належать або зареєстровані в Російській Федерації.</p><p class="ql-align-justify"><br></p><p class="ql-align-justify"><br></p><p class="ql-align-justify"><strong style="color: rgb(230, 0, 0);">Наразі фішингові розсилки продовжуються. Всі відомі CERT-UA фішингові сторінки заблоковані, але постійно з'являються нові. Якщо Ви отримували або отримаєте подібні листи просимо надсилати інформацію про них до CERT-UA на пошту </strong><a href="mailto:cert@cert.gov.ua" rel="noopener noreferrer" target="_blank" style="color: rgb(230, 0, 0);"><strong>cert@cert.gov.ua</strong></a><strong style="color: rgb(230, 0, 0);"> із вкладеним фішинговим листом (для цього потрібно зберегти фішинговий лист в .eml форматі) для подальшого дослідження кіберінциденту та виявлення потенційно скомпрометованих організацій. </strong></p><p class="ql-align-justify"><br></p><p class="ql-align-justify"><br></p><p class="ql-align-justify"><br></p><p class="ql-align-justify">Рекомендації:</p><p class="ql-align-justify">1. Якщо ви переходили за подібними посиланнями, потрібно негайно змінити пароль вашої електронної пошти та повідомити про зазначений факт представника відділу інформаційної безпеки (або відповідальній особі) вашої організації.</p><p class="ql-align-justify">2. Важливо розуміти, що якщо хакери отримали доступ до електронної поштової скриньки, то вони мають доступ до всієї переписки працівника. Виходячи з цього потрібно робити висновки про майбутні ризики для організації. Переписка та вкладені в ній файли можуть в подальшому бути опубліковані у вільному доступі в мережі Інтернет.</p><p class="ql-align-justify">3. Дотримуватись основних правил кібергігієни:&nbsp;&nbsp;</p><p class="ql-align-justify">(<a href="https://cert.gov.ua/recommendation/30" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/recommendation/30</a>).</p><p class="ql-align-justify">4. Будьте уважним до проявів Інтернет-шахрайства. Найпоширенішим засобом уведення в оману в мережі Інтернет є фішинг. Особливу увагу варто звертати на доменне ім'я веб-ресурсу, що запитує автентифікаційні дані, перш ніж натиснути на посилання: зловмисники можуть замаскувати доменне ім'я, щоб воно виглядало знайомим (facelook.com, gooogle.com тощо) . В іншому разі є велика ймовірність перейти на фішингову сторінку, ззовні ідентичну справжній, та самостійно «віддати» власні автентифікаційні дані.</p><p class="ql-align-justify">5. Будьте особливо обережними з відкриттям вкладень до електронної пошти від невідомих осіб. Сьогодні найактуальнішим засобом розсилання шкідливого програмного забезпечення є електронна пошта. Під час роботи з поштою потрібно перевіряти розширення вкладених файлів та не відкривати файли навіть з безпечними розширеннями. Звертайте увагу на ім'я електронної пошти: навіть якщо воно здається легітимним, усе одно потрібно перевірити (у телефонному режимі або в будь-який інший спосіб), чи дійсно ця особа відправляла вам повідомлення з вкладенням.</p>
+
+=== RESPONSE (5.4s, in 3315 / out 305 tok, STOP) ===
+The report describes an ongoing phishing campaign targeting Ukrainian state organizations using spoofed Zimbra IT support notifications to steal email credentials and compromise accounts in the gov.ua domain, with subsequent connection attempts originating from Russian IP addresses.
+
+```json
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Російська Федерація",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "Zimbra",
+      "kind": "software product",
+      "gloss": "An enterprise collaborative software suite including an email server and web client."
+    },
+    {
+      "name": "gov.ua",
+      "kind": "internet domain",
+      "gloss": "The second-level domain zone designated for government institutions of Ukraine."
+    }
+  ],
+  "relations": [
+    {
+      "head": "gov.ua",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "організацій в домені gov.ua... направлення саме на державний сектор України"
+    }
+  ],
+  "newRelationTypes": []
+}
+```

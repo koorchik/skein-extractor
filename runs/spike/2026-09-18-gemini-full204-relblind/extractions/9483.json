@@ -1,0 +1,119 @@
+{
+  "entities": [
+    {
+      "name": "FireEye",
+      "kind": "cybersecurity company",
+      "gloss": "An American cybersecurity company known for incident response and threat intelligence."
+    },
+    {
+      "name": "США",
+      "kind": "country",
+      "gloss": "A country in North America."
+    },
+    {
+      "name": "GitHub",
+      "kind": "hosting platform",
+      "gloss": "A web-based platform for version control and software collaboration."
+    },
+    {
+      "name": "Snort",
+      "kind": "software product",
+      "gloss": "An open-source network intrusion detection and prevention system."
+    },
+    {
+      "name": "YARA",
+      "kind": "software product",
+      "gloss": "A tool used to identify and classify malware samples based on textual or binary patterns."
+    },
+    {
+      "name": "ClamAV",
+      "kind": "software product",
+      "gloss": "An open-source antivirus software toolkit used for detecting malicious software."
+    },
+    {
+      "name": "HXIOC",
+      "kind": "data format",
+      "gloss": "An indicator of compromise format used by FireEye endpoint security solutions."
+    },
+    {
+      "name": "OpenIOC",
+      "kind": "data format",
+      "gloss": "An open XML-based schema for describing technical indicators of compromise."
+    },
+    {
+      "name": "STIX",
+      "kind": "data format",
+      "gloss": "A standardized language for describing cyber threat information."
+    },
+    {
+      "name": "CyBOX",
+      "kind": "data format",
+      "gloss": "A standardized schema for specifying, capturing, and exchanging cyber observables."
+    },
+    {
+      "name": "OASIS",
+      "kind": "standards organization",
+      "gloss": "A global nonprofit consortium that develops open standards for security and information technologies."
+    },
+    {
+      "name": "SolarWinds",
+      "kind": "software company",
+      "gloss": "An American company that develops software for businesses to help manage their networks, systems, and information technology infrastructure."
+    },
+    {
+      "name": "SolarWinds Orion",
+      "kind": "software product",
+      "gloss": "An IT infrastructure and network management platform developed by SolarWinds."
+    }
+  ],
+  "relations": [
+    {
+      "head": "FireEye",
+      "type": "publishes-to",
+      "tail": "GitHub",
+      "evidence": "FireEye опублікували на GitHub індикатори компрометації"
+    },
+    {
+      "head": "HXIOC",
+      "type": "based-on",
+      "tail": "OpenIOC",
+      "evidence": "Надані правила HXIOC базуються на форматі OpenIOC."
+    },
+    {
+      "head": "OASIS",
+      "type": "maintains-standard",
+      "tail": "STIX",
+      "evidence": "форматів STIX та CyBOX, що підтримуються OASIS."
+    },
+    {
+      "head": "OASIS",
+      "type": "maintains-standard",
+      "tail": "CyBOX",
+      "evidence": "форматів STIX та CyBOX, що підтримуються OASIS."
+    },
+    {
+      "head": "SolarWinds",
+      "type": "develops-software",
+      "tail": "SolarWinds Orion",
+      "evidence": "Виправлення порушень коду SolarWinds Orion"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "publishes-to",
+      "definition": "An entity publishes data, code, or resources to an external platform or service."
+    },
+    {
+      "name": "based-on",
+      "definition": "A format, technology, or standard is built upon or derived from another format or standard."
+    },
+    {
+      "name": "maintains-standard",
+      "definition": "An organization develops, supports, or manages a technical specification or standard."
+    },
+    {
+      "name": "develops-software",
+      "definition": "A vendor or organization authors and produces a software product."
+    }
+  ]
+}

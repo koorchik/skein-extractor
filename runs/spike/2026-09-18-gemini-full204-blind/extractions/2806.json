@@ -1,0 +1,101 @@
+{
+  "entities": [
+    {
+      "name": "AZORult",
+      "kind": "malware family",
+      "gloss": "An information-stealing malware family that collects passwords, browser data, cryptocurrency wallet information, and user credentials."
+    },
+    {
+      "name": "QUOTATION N0AB.doc",
+      "kind": "malicious file",
+      "gloss": "A malicious Microsoft Word document used as a lure to distribute malware via email."
+    },
+    {
+      "name": "PO.jpg",
+      "kind": "malicious file",
+      "gloss": "An executable payload disguised with an image file extension."
+    },
+    {
+      "name": "office.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable configured to execute on system startup."
+    },
+    {
+      "name": "office.lnk",
+      "kind": "file",
+      "gloss": "A shortcut file configured to persist and run malware on system startup."
+    },
+    {
+      "name": "67.199.248.10",
+      "kind": "ip address",
+      "gloss": "An IP address used as command and control infrastructure for malware."
+    },
+    {
+      "name": "67.199.248.11",
+      "kind": "ip address",
+      "gloss": "An IP address used as command and control infrastructure for malware."
+    },
+    {
+      "name": "192.198.87.130",
+      "kind": "ip address",
+      "gloss": "An IP address used as command and control infrastructure for malware."
+    },
+    {
+      "name": "185.193.38.78",
+      "kind": "ip address",
+      "gloss": "An IP address used as command and control infrastructure for malware."
+    },
+    {
+      "name": "CVE-2017-11882",
+      "kind": "vulnerability identifier",
+      "gloss": "A memory corruption vulnerability in the Microsoft Equation Editor component of Microsoft Office."
+    },
+    {
+      "name": "Outlook",
+      "kind": "software product",
+      "gloss": "An email client and personal information manager developed by Microsoft."
+    },
+    {
+      "name": "Thunderbird",
+      "kind": "software product",
+      "gloss": "A free and open-source email client developed by the Mozilla Foundation."
+    },
+    {
+      "name": "Filezilla",
+      "kind": "software product",
+      "gloss": "A free and open-source cross-platform FTP client."
+    },
+    {
+      "name": "WinSCP",
+      "kind": "software product",
+      "gloss": "A free and open-source SFTP and FTP client for Microsoft Windows."
+    }
+  ],
+  "relations": [
+    {
+      "head": "AZORult",
+      "type": "communicates-with",
+      "tail": "67.199.248.10",
+      "evidence": "Шкідливі домени та ІР (С2): 67.199.248.10"
+    },
+    {
+      "head": "AZORult",
+      "type": "communicates-with",
+      "tail": "67.199.248.11",
+      "evidence": "Шкідливі домени та ІР (С2): 67.199.248.11"
+    },
+    {
+      "head": "AZORult",
+      "type": "communicates-with",
+      "tail": "192.198.87.130",
+      "evidence": "Шкідливі домени та ІР (С2): 192.198.87.130"
+    },
+    {
+      "head": "AZORult",
+      "type": "communicates-with",
+      "tail": "185.193.38.78",
+      "evidence": "Шкідливі домени та ІР (С2): 185.193.38.78"
+    }
+  ],
+  "newRelationTypes": []
+}

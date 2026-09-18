@@ -1,0 +1,449 @@
+{
+  "docId": 37815,
+  "date": "17.03.2022",
+  "title": "Кібератака групи UAC-0020 (Vermin) на державні організації України з використанням шкідливої програми SPECTR (CERT-UA#4207)",
+  "entities": [
+    {
+      "id": "37815:0",
+      "name": "Міністерство оборони України",
+      "kind": "government body",
+      "gloss": "The central executive body and military department of Ukraine responsible for national defense policy.",
+      "scheme": "S6",
+      "category": "Government Body",
+      "role": "target"
+    },
+    {
+      "id": "37815:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S5",
+      "category": "Country",
+      "role": "related"
+    },
+    {
+      "id": "37815:2",
+      "name": "UAC-0020 (Vermin)",
+      "kind": "hacking group",
+      "gloss": "A cyber espionage threat group associated with the security agencies of the self-proclaimed Luhansk People's Republic.",
+      "scheme": null,
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "37815:3",
+      "name": "органи безпеки т.з. ЛНР",
+      "kind": "government body",
+      "gloss": "De facto security agencies operating within the Russian-backed separatist region of Luhansk.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37815:4",
+      "name": "vServerCo",
+      "kind": "internet service provider",
+      "gloss": "An internet hosting provider operating out of Luhansk, associated with AS58271.",
+      "scheme": null,
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "37815:5",
+      "name": "AS58271",
+      "kind": "autonomous system",
+      "gloss": "An autonomous system number associated with the hosting infrastructure provider vServerCo.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37815:6",
+      "name": "SPECTR",
+      "kind": "malware family",
+      "gloss": "A modular spyware and backdoor malware family used by threat actor UAC-0020.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37815:7",
+      "name": "SPECTR.Usb",
+      "kind": "malware component",
+      "gloss": "A module of the SPECTR malware designed to monitor and exfiltrate data from USB drives.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37815:8",
+      "name": "SPECTR.Shell",
+      "kind": "malware component",
+      "gloss": "A module of the SPECTR malware designed to execute arbitrary command-line shell commands.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37815:9",
+      "name": "SPECTR.Fs",
+      "kind": "malware component",
+      "gloss": "A module of the SPECTR malware responsible for file system surveillance and manipulation.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37815:10",
+      "name": "SPECTR.Info",
+      "kind": "malware component",
+      "gloss": "A module of the SPECTR malware designed to gather victim host system information.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37815:11",
+      "name": "SPECTR.Archiver",
+      "kind": "malware component",
+      "gloss": "A module of the SPECTR malware used to compress gathered files and data for exfiltration.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37815:12",
+      "name": "SPECTR.Installer",
+      "kind": "malware component",
+      "gloss": "An installer module used to establish persistence and deploy the SPECTR malware suite.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "37815:13",
+      "name": "SPECTR.PluginLoader",
+      "kind": "malware component",
+      "gloss": "A component of SPECTR responsible for executing and managing malicious plugins.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "37815:14",
+      "name": "SPECTR.Spectator2",
+      "kind": "malware component",
+      "gloss": "A core payload and component within the SPECTR malware architecture.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "37815:15",
+      "name": "SPECTR.Ft",
+      "kind": "malware component",
+      "gloss": "A file transfer module of the SPECTR malware ecosystem.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "37815:16",
+      "name": "SPECTR.Mgr",
+      "kind": "malware component",
+      "gloss": "A management module within the SPECTR modular malware framework.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "37815:17",
+      "name": "ДВТПРОВТ.rar",
+      "kind": "file",
+      "gloss": "A password-protected RAR archive attachment used to distribute the initial malicious payloads.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "37815:18",
+      "name": "4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf.lnk",
+      "kind": "file",
+      "gloss": "A malicious Windows shortcut file that triggers the execution of an embedded executable.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "37815:19",
+      "name": "4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf",
+      "kind": "file",
+      "gloss": "A disguised executable file containing an RTF extension that deploys the SPECTR malware.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "37815:20",
+      "name": "data.out",
+      "kind": "file",
+      "gloss": "A data payload file hosted on an external web server for download.",
+      "scheme": "S9",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "37815:21",
+      "name": "license.dat",
+      "kind": "file",
+      "gloss": "A malicious payload file associated with the SPECTR.Installer module.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37815:22",
+      "name": "conhost.exe",
+      "kind": "file",
+      "gloss": "A malicious executable file masquerading as a legitimate Windows console host process.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37815:23",
+      "name": "PluginExec.exe",
+      "kind": "file",
+      "gloss": "An executable file responsible for loading SPECTR plugins.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37815:24",
+      "name": "Spectator2.exe",
+      "kind": "file",
+      "gloss": "An executable file implementing the SPECTR.Spectator2 component.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37815:25",
+      "name": "Archiver.dll",
+      "kind": "file",
+      "gloss": "A dynamic link library file implementing the SPECTR.Archiver plugin.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37815:26",
+      "name": "ClientInfo.dll",
+      "kind": "file",
+      "gloss": "A dynamic link library file implementing the SPECTR.Info component.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37815:27",
+      "name": "FileSystem.dll",
+      "kind": "file",
+      "gloss": "A dynamic link library file implementing the SPECTR.Fs component.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37815:28",
+      "name": "FileTransfer.dll",
+      "kind": "file",
+      "gloss": "A dynamic link library file implementing the SPECTR.Ft component.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37815:29",
+      "name": "Manager.dll",
+      "kind": "file",
+      "gloss": "A dynamic link library file implementing the SPECTR.Mgr component.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37815:30",
+      "name": "Shell.dll",
+      "kind": "file",
+      "gloss": "A dynamic link library file implementing the SPECTR.Shell component.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37815:31",
+      "name": "Usb.dll",
+      "kind": "file",
+      "gloss": "A dynamic link library file implementing the SPECTR.Usb component.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37815:32",
+      "name": "getmod.host",
+      "kind": "internet domain",
+      "gloss": "A domain name used as command-and-control infrastructure by threat actors.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "37815:33",
+      "name": "syncapp.host",
+      "kind": "internet domain",
+      "gloss": "A domain name used for malicious infrastructure and communication.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "37815:34",
+      "name": "netbin.host",
+      "kind": "internet domain",
+      "gloss": "A domain name used in connection with threat group infrastructure.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "37815:35",
+      "name": "stormpredictor.host",
+      "kind": "internet domain",
+      "gloss": "A network domain used in the campaign's command and control infrastructure.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "37815:36",
+      "name": "meteolink.host",
+      "kind": "internet domain",
+      "gloss": "A network domain associated with the threat actor's command infrastructure.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "37815:37",
+      "name": "176.119.2.212",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious payload files used during the attack.",
+      "scheme": "S11",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "37815:38",
+      "name": "176.119.2.214",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command-and-control infrastructure.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37815:39",
+      "name": "176.119.5.194",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the threat actor's network infrastructure.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37815:40",
+      "name": "176.119.5.195",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure used by the threat actor.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Міністерство оборони України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Міністерства оборони України"
+    },
+    {
+      "head": "UAC-0020 (Vermin)",
+      "type": "attacks",
+      "tail": "Міністерство оборони України",
+      "evidence": "Атаку здійснено групою UAC-0020 (Vermin)"
+    },
+    {
+      "head": "UAC-0020 (Vermin)",
+      "type": "uses-malware",
+      "tail": "SPECTR",
+      "evidence": "комп'ютер жертви буде уражено модульною шкідливою програмою SPECTR"
+    },
+    {
+      "head": "SPECTR.Usb",
+      "type": "part-of",
+      "tail": "SPECTR",
+      "evidence": "SPECTR, що, серед іншого, включає: SPECTR.Usb"
+    },
+    {
+      "head": "SPECTR.Shell",
+      "type": "part-of",
+      "tail": "SPECTR",
+      "evidence": "SPECTR, що, серед іншого, включає: SPECTR.Usb, SPECTR.Shell"
+    },
+    {
+      "head": "SPECTR.Fs",
+      "type": "part-of",
+      "tail": "SPECTR",
+      "evidence": "SPECTR, що, серед іншого, включає: SPECTR.Usb, SPECTR.Shell, SPECTR.Fs"
+    },
+    {
+      "head": "SPECTR.Info",
+      "type": "part-of",
+      "tail": "SPECTR",
+      "evidence": "SPECTR, що, серед іншого, включає: SPECTR.Usb, SPECTR.Shell, SPECTR.Fs, SPECTR.Info"
+    },
+    {
+      "head": "SPECTR.Archiver",
+      "type": "part-of",
+      "tail": "SPECTR",
+      "evidence": "SPECTR.Info, SPECTR.Archiver та інші компоненти."
+    },
+    {
+      "head": "ДВТПРОВТ.rar",
+      "type": "delivers",
+      "tail": "4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf.lnk",
+      "evidence": "архів \"ДВТПРОВТ.rar\", який містить файл-ярлик \"4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf.lnk\""
+    },
+    {
+      "head": "ДВТПРОВТ.rar",
+      "type": "delivers",
+      "tail": "4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf",
+      "evidence": "архів \"ДВТПРОВТ.rar\", який містить... та EXE-файл з назвою \"4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf\""
+    },
+    {
+      "head": "176.119.2.212",
+      "type": "hosts",
+      "tail": "data.out",
+      "evidence": "hxxp://176[.]119.2.212/web/t/data.out"
+    }
+  ],
+  "unclassified": [
+    "37815:2",
+    "37815:4",
+    "37815:5"
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "entities": [
+    {
+      "name": "Intel",
+      "kind": "software vendor",
+      "gloss": "An American multinational corporation and technology company producing hardware and software products."
+    },
+    {
+      "name": "Adobe",
+      "kind": "software vendor",
+      "gloss": "An American multinational computer software company known for creative and multimedia products."
+    },
+    {
+      "name": "Oracle",
+      "kind": "software vendor",
+      "gloss": "An American multinational computer technology corporation specializing in database software and cloud systems."
+    },
+    {
+      "name": "VMware",
+      "kind": "software vendor",
+      "gloss": "An American cloud computing and virtualization technology company."
+    },
+    {
+      "name": "Adobe Illustrator CC",
+      "kind": "software product",
+      "gloss": "A vector graphics editor developed and marketed by Adobe."
+    },
+    {
+      "name": "Adobe Experience Manager",
+      "kind": "software product",
+      "gloss": "A comprehensive content management solution developed by Adobe."
+    },
+    {
+      "name": "APSB20-03",
+      "kind": "security advisory",
+      "gloss": "A security advisory issued by Adobe addressing vulnerabilities in Illustrator CC."
+    },
+    {
+      "name": "APSB20-01",
+      "kind": "security advisory",
+      "gloss": "A security advisory issued by Adobe addressing vulnerabilities in Experience Manager."
+    },
+    {
+      "name": "VMware Tools",
+      "kind": "software product",
+      "gloss": "A suite of utilities that enhances the performance and management of VMware virtual machines."
+    },
+    {
+      "name": "VMSA-2020-0002",
+      "kind": "security advisory",
+      "gloss": "A security advisory issued by VMware addressing a vulnerability in VMware Tools."
+    },
+    {
+      "name": "INTEL-SA-00300",
+      "kind": "security advisory",
+      "gloss": "A security advisory issued by Intel for SNMP Subagent Stand-Alone for Windows."
+    },
+    {
+      "name": "INTEL-SA-00306",
+      "kind": "security advisory",
+      "gloss": "A security advisory issued by Intel for Chipset Device Software."
+    },
+    {
+      "name": "INTEL-SA-00308",
+      "kind": "security advisory",
+      "gloss": "A security advisory issued by Intel for RWC 3 for Windows."
+    },
+    {
+      "name": "INTEL-SA-00314",
+      "kind": "security advisory",
+      "gloss": "A security advisory issued by Intel for Processor Graphics."
+    },
+    {
+      "name": "INTEL-SA-00325",
+      "kind": "security advisory",
+      "gloss": "A security advisory issued by Intel for VTune Amplifier for Windows."
+    },
+    {
+      "name": "INTEL-SA-00332",
+      "kind": "security advisory",
+      "gloss": "A security advisory issued by Intel for Data Analytics Acceleration Library."
+    },
+    {
+      "name": "Oracle January 2020 Critical Patch Update",
+      "kind": "security advisory",
+      "gloss": "A quarterly security update bulletin issued by Oracle addressing multiple vulnerabilities across its products."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Adobe",
+      "type": "publishes",
+      "tail": "APSB20-03",
+      "evidence": "Adobe випустила оновлення безпеки для усунення вразливостей в Illustrator CC"
+    },
+    {
+      "head": "APSB20-03",
+      "type": "addresses-vulnerability-in",
+      "tail": "Adobe Illustrator CC",
+      "evidence": "Adobe Illustrator CC APSB20-03"
+    },
+    {
+      "head": "Adobe",
+      "type": "publishes",
+      "tail": "APSB20-01",
+      "evidence": "Adobe випустила оновлення безпеки для усунення вразливостей в Illustrator CC та Experience Manager"
+    },
+    {
+      "head": "APSB20-01",
+      "type": "addresses-vulnerability-in",
+      "tail": "Adobe Experience Manager",
+      "evidence": "Adobe Experience Manager APSB20-01"
+    },
+    {
+      "head": "VMware",
+      "type": "publishes",
+      "tail": "VMSA-2020-0002",
+      "evidence": "Ознайомтесь з VMware Security Advisory VMSA-2020-0002"
+    },
+    {
+      "head": "VMSA-2020-0002",
+      "type": "addresses-vulnerability-in",
+      "tail": "VMware Tools",
+      "evidence": "VMware також було опубліковано оновлення безпеки для усунення вразливості в VMware Tools."
+    },
+    {
+      "head": "Intel",
+      "type": "publishes",
+      "tail": "INTEL-SA-00300",
+      "evidence": "Intel опублікувала оновлення безпеки для усунення вразливостей у кількох продуктах."
+    },
+    {
+      "head": "Intel",
+      "type": "publishes",
+      "tail": "INTEL-SA-00306",
+      "evidence": "Intel опублікувала оновлення безпеки для усунення вразливостей у кількох продуктах."
+    },
+    {
+      "head": "Intel",
+      "type": "publishes",
+      "tail": "INTEL-SA-00308",
+      "evidence": "Intel опублікувала оновлення безпеки для усунення вразливостей у кількох продуктах."
+    },
+    {
+      "head": "Intel",
+      "type": "publishes",
+      "tail": "INTEL-SA-00314",
+      "evidence": "Intel опублікувала оновлення безпеки для усунення вразливостей у кількох продуктах."
+    },
+    {
+      "head": "Intel",
+      "type": "publishes",
+      "tail": "INTEL-SA-00325",
+      "evidence": "Intel опублікувала оновлення безпеки для усунення вразливостей у кількох продуктах."
+    },
+    {
+      "head": "Intel",
+      "type": "publishes",
+      "tail": "INTEL-SA-00332",
+      "evidence": "Intel опублікувала оновлення безпеки для усунення вразливостей у кількох продуктах."
+    },
+    {
+      "head": "Oracle",
+      "type": "publishes",
+      "tail": "Oracle January 2020 Critical Patch Update",
+      "evidence": "Oracle випустила оновлення Critical Patch 2020 року"
+    }
+  ],
+  "newRelationTypes": []
+}

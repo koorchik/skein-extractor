@@ -1,0 +1,381 @@
+{
+  "runId": "2026-09-18-gemini-full204-icl",
+  "config": {
+    "docs": 204,
+    "offset": 0,
+    "inputDir": "data/fetched",
+    "frozenDir": "data/extractions/gpt-5",
+    "llmProvider": "gemini",
+    "llmModel": "gemini-3.7-flash",
+    "embedModel": "gemini-embedding-2",
+    "embedTaskType": "CLUSTERING",
+    "embedDims": 768,
+    "k": 10,
+    "tau": 0.8,
+    "delta": 0.1,
+    "poolLink": 0.85,
+    "mass": 3,
+    "relMerge": 0.85,
+    "repr": "combo",
+    "alpha": 0.7,
+    "kindFirst": 0.9,
+    "icl": true,
+    "relBlind": false,
+    "out": "runs/spike/2026-09-18-gemini-full204-icl",
+    "cacheDir": "runs/spike-cache-icl/embeddings-cache"
+  },
+  "prompts": {
+    "extract-open-icl-v1": "c7a8ef1ae00b2874ac6187daebbd6c399c66498716c179c3d5322f85edb3f1d9",
+    "scheme-name-v1": "bb1b66dab2ce5b681df1477d9eb79d2669b66fba6487b9ed437e1cdcd5b4d1b9"
+  },
+  "embeddings": {
+    "config": {
+      "provider": "gemini",
+      "model": "gemini-embedding-2",
+      "taskType": "CLUSTERING"
+    },
+    "dimensions": 768,
+    "cache": {
+      "hits": 4018,
+      "misses": 378,
+      "entries": 4471
+    }
+  },
+  "documents": 204,
+  "mentions": 3709,
+  "schemes": [
+    {
+      "id": "S1",
+      "label": "Vulnerability",
+      "members": 134,
+      "born": 23,
+      "altLabels": [
+        "Security Flaw",
+        "Security Vulnerability"
+      ]
+    },
+    {
+      "id": "S2",
+      "label": "Software Product",
+      "members": 424,
+      "born": 23,
+      "altLabels": [
+        "Software Application",
+        "Software Program",
+        "Software"
+      ]
+    },
+    {
+      "id": "S3",
+      "label": "Technology Vendor",
+      "members": 57,
+      "born": 23,
+      "altLabels": [
+        "Software Vendor",
+        "Vendor",
+        "Technology Company"
+      ]
+    },
+    {
+      "id": "S4",
+      "label": "Country",
+      "members": 189,
+      "born": 25,
+      "altLabels": [
+        "Nation",
+        "Sovereign State"
+      ]
+    },
+    {
+      "id": "S5",
+      "label": "Government Agency",
+      "members": 179,
+      "born": 26,
+      "altLabels": [
+        "Government Body",
+        "Government Organization",
+        "State Authority"
+      ]
+    },
+    {
+      "id": "S6",
+      "label": "Malware",
+      "members": 298,
+      "born": 2660,
+      "altLabels": [
+        "Malicious Software",
+        "Malware Family",
+        "Malware Strain"
+      ]
+    },
+    {
+      "id": "S7",
+      "label": "Uniform Resource Locator",
+      "members": 376,
+      "born": 2683,
+      "altLabels": [
+        "URL",
+        "Web Address",
+        "Link"
+      ]
+    },
+    {
+      "id": "S8",
+      "label": "Person",
+      "members": 21,
+      "born": 2691,
+      "altLabels": [
+        "Individual",
+        "Human"
+      ]
+    },
+    {
+      "id": "S9",
+      "label": "IP Address",
+      "members": 368,
+      "born": 2699,
+      "altLabels": [
+        "Internet Protocol Address"
+      ]
+    },
+    {
+      "id": "S10",
+      "label": "Email Address",
+      "members": 126,
+      "born": 2699,
+      "altLabels": [
+        "E-mail Address",
+        "Email"
+      ]
+    },
+    {
+      "id": "S11",
+      "label": "Computer File",
+      "members": 665,
+      "born": 2806,
+      "altLabels": [
+        "File",
+        "Digital File"
+      ]
+    },
+    {
+      "id": "S12",
+      "label": "Company",
+      "members": 89,
+      "born": 17474,
+      "altLabels": [
+        "Commercial Enterprise",
+        "Business",
+        "Corporation"
+      ]
+    },
+    {
+      "id": "S13",
+      "label": "Domain Name",
+      "members": 594,
+      "born": 18163,
+      "altLabels": [
+        "Internet Domain",
+        "Domain",
+        "Fully Qualified Domain Name"
+      ]
+    },
+    {
+      "id": "S14",
+      "label": "Threat Actor",
+      "members": 158,
+      "born": 18163,
+      "altLabels": [
+        "Threat Group",
+        "Hacker Group",
+        "Advanced Persistent Threat"
+      ]
+    }
+  ],
+  "pool": 31,
+  "relationTypes": 10,
+  "overlay": {
+    "aligned": 2389,
+    "coverage": 0.6441089242383392,
+    "crossTab": {
+      "Technology Vendor": {
+        "Organization": 46,
+        "Device": 8,
+        "(unaligned)": 2,
+        "Software": 1
+      },
+      "Software Product": {
+        "Software": 312,
+        "(unaligned)": 71,
+        "Organization": 29,
+        "Device": 5,
+        "Infrastructure": 4,
+        "Domain": 3
+      },
+      "Vulnerability": {
+        "(unaligned)": 20,
+        "Organization": 14,
+        "Software": 100
+      },
+      "(pool)": {
+        "(unaligned)": 9,
+        "Organization": 13,
+        "Software": 7,
+        "Domain": 1,
+        "Infrastructure": 1
+      },
+      "Government Agency": {
+        "Government Body": 121,
+        "(unaligned)": 43,
+        "Organization": 13,
+        "Sector": 2
+      },
+      "Country": {
+        "(unaligned)": 135,
+        "Country": 36,
+        "Sector": 8,
+        "Government Body": 9,
+        "Organization": 1
+      },
+      "Uniform Resource Locator": {
+        "(unaligned)": 88,
+        "Organization": 24,
+        "Software": 50,
+        "Domain": 213,
+        "Government Body": 1
+      },
+      "Malware": {
+        "Software": 288,
+        "(unaligned)": 10
+      },
+      "IP Address": {
+        "(unaligned)": 364,
+        "Domain": 4
+      },
+      "Email Address": {
+        "Domain": 83,
+        "(unaligned)": 41,
+        "Country": 1,
+        "Organization": 1
+      },
+      "Person": {
+        "Individual": 16,
+        "(unaligned)": 5
+      },
+      "Threat Actor": {
+        "HackerGroup": 145,
+        "(unaligned)": 11,
+        "Organization": 1,
+        "Infrastructure": 1
+      },
+      "Company": {
+        "Organization": 77,
+        "(unaligned)": 8,
+        "Domain": 3,
+        "Software": 1
+      },
+      "Domain Name": {
+        "Domain": 589,
+        "Infrastructure": 1,
+        "(unaligned)": 4
+      },
+      "Computer File": {
+        "(unaligned)": 509,
+        "Software": 151,
+        "Organization": 4,
+        "Government Body": 1
+      }
+    }
+  },
+  "closestSchemePairs": [
+    {
+      "a": "Software Product",
+      "b": "Technology Vendor",
+      "sim": 0.8316918649292375
+    },
+    {
+      "a": "Vulnerability",
+      "b": "Malware",
+      "sim": 0.8037892162616832
+    },
+    {
+      "a": "Malware",
+      "b": "Threat Actor",
+      "sim": 0.8010417001856722
+    },
+    {
+      "a": "Uniform Resource Locator",
+      "b": "Domain Name",
+      "sim": 0.7925225585529401
+    },
+    {
+      "a": "IP Address",
+      "b": "Domain Name",
+      "sim": 0.7834609581779182
+    },
+    {
+      "a": "Vulnerability",
+      "b": "Threat Actor",
+      "sim": 0.7784453484436155
+    },
+    {
+      "a": "Email Address",
+      "b": "Domain Name",
+      "sim": 0.7649279749454918
+    },
+    {
+      "a": "IP Address",
+      "b": "Email Address",
+      "sim": 0.7590938076823129
+    }
+  ],
+  "cost": {
+    "runId": "2026-09-18-gemini-full204-icl",
+    "totals": {
+      "calls": 60,
+      "inputTokens": 181587,
+      "outputTokens": 38108,
+      "costUsd": 0,
+      "unpricedCalls": 60,
+      "wallClockMs": 240222
+    },
+    "byOperator": {
+      "scheme-name": {
+        "calls": 14,
+        "inputTokens": 10685,
+        "outputTokens": 885,
+        "costUsd": 0,
+        "unpricedCalls": 14,
+        "wallClockMs": 53624
+      },
+      "extract": {
+        "calls": 22,
+        "inputTokens": 170902,
+        "outputTokens": 37223,
+        "costUsd": 0,
+        "unpricedCalls": 22,
+        "wallClockMs": 175031
+      },
+      "embed-gloss": {
+        "calls": 22,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "costUsd": 0,
+        "unpricedCalls": 22,
+        "wallClockMs": 10877
+      },
+      "embed-kind": {
+        "calls": 2,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "costUsd": 0,
+        "unpricedCalls": 2,
+        "wallClockMs": 690
+      }
+    },
+    "unpricedModels": [
+      "gemini/gemini-3.7-flash",
+      "gemini/gemini-embedding-2"
+    ]
+  }
+}

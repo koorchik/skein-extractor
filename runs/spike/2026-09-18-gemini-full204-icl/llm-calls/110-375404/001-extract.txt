@@ -1,0 +1,216 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+- Country: A distinct territorial body or sovereign state with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Government Organization: An official agency, ministry, or administrative body operating as part of a national or state government. (also: Government Agency, Government Body, State Authority)
+- Malware: Malicious software, code, or executables designed to infiltrate, damage, or compromise computer systems and data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address specifying the location and retrieval mechanism of a resource on a computer network. (also: URL, Web Address, Web Link)
+- Person: An individual human being, such as a government official, cybersecurity expert, researcher, or executive. (also: Individual, Natural Person)
+- IP Address: A numerical label assigned to a device connected to a computer network that uses the Internet Protocol for communication. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Electronic Mail Address)
+- Computer File: A digital resource or named item stored on a computer system, containing data, code, or instructions. (also: File, Digital File, Filename)
+- Company: A commercial business, corporation, or enterprise operating in any economic sector or industry. (also: Enterprise, Corporation, Commercial Organization)
+- Domain Name: A human-readable identification string defining a realm of administrative autonomy or resource location within the Internet Domain Name System. (also: Internet Domain, FQDN, Fully Qualified Domain Name)
+- Threat Actor: An individual, group, or organization responsible for malicious cyber activities, attacks, or cyber espionage operations. (also: Threat Group, Cyber Threat Actor, Hacker Group)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA виявлено декілька шкідливих файлів зі специфічними назвами: "Вниманию.doc", "17.06.2022_Протокол_МРГ_Подгруппа_ИБ.doc", "замечания таблица 20.06.2022.doc", "О_формировании_проекта_ПНС_2022_файл_отображен.doc".</p><p>Згадані RTF-документи містять шкідливий код, що забезпечує експлуатацію однієї або декількох відомих вразливостей в MS Office Word (вірогідно, документи створено за допомогою білдера RoyalRoad). Як результат, комп'ютер жертви буде уражено шкідливою програмою Bisonal (в одному з випадків використовується завантажувач QuickMute).</p><p>За даними дослідників кіберзагроз, використання білдеру RoyalRoad є однією з характерних ознак для угруповань, що пов'язують з Китаєм. Більше того, шкідлива програма Bisonal, як приклад, є інструментом групи TontoTeam (UAC-0018).</p><p>Зважаючи на викладене, доцільно припустити, що групи, які асоціюють з КНР, активізували діяльність у відношенні російської федерації (підприємства наукового-технічної, авіаційної галузі, а також державні органи).</p><p>Рекомендуємо взяти до уваги описаний спосіб здійснення кібератак та ще раз наголошуємо на необхідності вчасного оновлення програмного забезпечення.</p><p><br></p><p><strong>Індикатори компрометації</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">8cdd56b2b4e1e901f7e728a984221d10&nbsp; &nbsp; 7944fa9cbfef2c7d652f032edc159abeaa1fb4fd64143a8fe3b175095c4519f5&nbsp; &nbsp; Вниманию.doc
+83b8d4462566a23298ca38c418eeccde&nbsp; &nbsp; f76f3277385195c27fdf2f90a01a8dd70bd05d92ab70696a6e6d7b0d5fb8e70c&nbsp; &nbsp; dcnx18pwh.wmf (XOR: 0xFC)
+2f6d6e783d0c0cbe237714dd34d68e73&nbsp; &nbsp; 7bfb283ee5c283ac6ebae718edb6ed340ab986a095ebab8c13ae828bffbaef9d&nbsp; &nbsp; dcnx18pwh.exe (QuickMute)
+
+80987dcdb36e7cb52bb03f00261aa2bd&nbsp; &nbsp; c7018ee3783f4b2fb19fedc78c59586390efa1b72c907867794bf42141eb767c&nbsp; &nbsp; 17.06.2022_Протокол_МРГ_Подгруппа_ИБ.doc
+001b53acfab523dc060d38d73d63feef&nbsp; &nbsp; d79dcb90dfc01723f8df5628f502352c6f922187d3ef5942a6e8465552f40edf&nbsp; &nbsp; замечания таблица 20.06.2022.doc
+b8387fc571a8e79efab3e2cc343aae24&nbsp; &nbsp; c2ba362693aad8686f79822712c3871f0da1570465578843f5d73c70db07e631&nbsp; &nbsp; О_формировании_проекта_ПНС_2022_файл_отображен.doc
+67bfa75dbc39ab88da995c21565d05ca&nbsp; &nbsp; 7970393e506934e9304f1d18ced34b86ef04a0d278d8e3cdb4b0064caee73846&nbsp; &nbsp; Вниманию.doc
+518439fc23cb0b4d21c7fd39484376ff&nbsp; &nbsp; 0f704f3ab4a3ec30656dab6094c582b1089cbc8fcba280cadf3c7a651aeaacc3&nbsp; &nbsp; dcnx18pwh.wmf (XOR: 0xFC)
+2342bdd79ea84c4fa1b59d224f5a534e&nbsp; &nbsp; f87b327dd7a3608fec6c0b0bb3486cc8c9b52271fdb3dc0b07229be116ca3786&nbsp; &nbsp; dcnx18pwh.exe (2022-06-20) (Bisonal)
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36
+Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko
+hXXps://upportteam.lingrevelat[.]com/update/v32/default
+hXXps://upportteam.lingrevelat[.]com
+upportteam.lingrevelat[.]com
+lingrevelat[.]com
+137[.]220.176.165
+</pre><p><br></p><p><strong>Додаткова інформація</strong></p><p>QuickMute - шкідлива програма, розроблена з використанням мови програмування C/C++. Функціонально забезпечує завантаження, RC4-дешифрування та in-memory запуск пейлоаду (очікує PE-файл з експортною функцією "HttpsVictimMain"). Для комунікації з сервером управління передбачено використання ряду протоколів, зокрема: TCP, UDP, HTTP, HTTPS. Разом з тим, в розглянутому зразку імплементовано лише HTTPS (програмний код частини функцій видалено).</p><p><br></p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (6.9s, in 3524 / out 1369 tok, STOP) ===
+```json
+{
+  "entities": [
+    {
+      "name": "Вниманию.doc",
+      "kind": "Computer File",
+      "gloss": "A malicious Microsoft Word document used to exploit vulnerabilities and deliver malware."
+    },
+    {
+      "name": "17.06.2022_Протокол_МРГ_Подгруппа_ИБ.doc",
+      "kind": "Computer File",
+      "gloss": "A malicious Microsoft Word document used as a decoy and payload carrier in cyberattacks."
+    },
+    {
+      "name": "замечания таблица 20.06.2022.doc",
+      "kind": "Computer File",
+      "gloss": "A malicious Microsoft Word document used to deliver malware payloads."
+    },
+    {
+      "name": "О_формировании_проекта_ПНС_2022_файл_отображен.doc",
+      "kind": "Computer File",
+      "gloss": "A malicious Microsoft Word document weaponized to exploit vulnerabilities."
+    },
+    {
+      "name": "MS Office Word",
+      "kind": "Software Product",
+      "gloss": "A word processing software developed by Microsoft."
+    },
+    {
+      "name": "RoyalRoad",
+      "kind": "Malware",
+      "gloss": "A malicious document builder tool used by various advanced persistent threat groups."
+    },
+    {
+      "name": "Bisonal",
+      "kind": "Malware",
+      "gloss": "A remote access trojan malware family associated with cyber espionage campaigns."
+    },
+    {
+      "name": "QuickMute",
+      "kind": "Malware",
+      "gloss": "A C/C++ malware loader designed to decrypt and execute payloads in memory."
+    },
+    {
+      "name": "Китай",
+      "kind": "Country",
+      "gloss": "A country in East Asia."
+    },
+    {
+      "name": "TontoTeam (UAC-0018)",
+      "kind": "Threat Actor",
+      "gloss": "A Chinese state-sponsored advanced persistent threat group also tracked as UAC-0018."
+    },
+    {
+      "name": "російської федерації",
+      "kind": "Country",
+      "gloss": "A transcontinental country spanning Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "dcnx18pwh.wmf",
+      "kind": "Computer File",
+      "gloss": "An obfuscated vector graphics file used to stage and drop malware payloads."
+    },
+    {
+      "name": "dcnx18pwh.exe",
+      "kind": "Computer File",
+      "gloss": "An executable file containing malware dropped during the attack."
+    },
+    {
+      "name": "hXXps://upportteam.lingrevelat[.]com/update/v32/default",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL used for command and control communication."
+    },
+    {
+      "name": "hXXps://upportteam.lingrevelat[.]com",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious base URL used for malware network communications."
+    },
+    {
+      "name": "upportteam.lingrevelat[.]com",
+      "kind": "Domain Name",
+      "gloss": "A malicious domain name configured for malware command and control infrastructure."
+    },
+    {
+      "name": "lingrevelat[.]com",
+      "kind": "Domain Name",
+      "gloss": "A malicious parent domain used in cyber threat infrastructure."
+    },
+    {
+      "name": "137.220.176.165",
+      "kind": "IP Address",
+      "gloss": "An IP address associated with command and control infrastructure in cyberattacks."
+    }
+  ],
+  "relations": [
+    {
+      "head": "TontoTeam (UAC-0018)",
+      "type": "uses",
+      "tail": "Bisonal",
+      "evidence": "Bisonal, як приклад, є інструментом групи TontoTeam (UAC-0018)"
+    },
+    {
+      "head": "TontoTeam (UAC-0018)",
+      "type": "located-in",
+      "tail": "Китай",
+      "evidence": "угруповань, що пов'язують з Китаєм. Більше того, шкідлива програма Bisonal, як приклад, є інструментом групи TontoTeam"
+    },
+    {
+      "head": "Вниманию.doc",
+      "type": "delivers",
+      "tail": "QuickMute",
+      "evidence": "комп'ютер жертви буде уражено шкідливою програмою Bisonal (в одному з випадків використовується завантажувач QuickMute)"
+    },
+    {
+      "head": "Вниманию.doc",
+      "type": "delivers",
+      "tail": "Bisonal",
+      "evidence": "комп'ютер жертви буде уражено шкідливою програмою Bisonal"
+    },
+    {
+      "head": "QuickMute",
+      "type": "delivers",
+      "tail": "Bisonal",
+      "evidence": "завантажувач QuickMute"
+    },
+    {
+      "head": "pportteam.lingrevelat[.]com",
+      "type": "part-of",
+      "tail": "lingrevelat[.]com",
+      "evidence": "upportteam.lingrevelat[.]com lingrevelat[.]com"
+    }
+  ],
+  "newRelationTypes": []
+}
+```

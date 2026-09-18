@@ -1,0 +1,305 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Security Flaw, Security Vulnerability)
+- Software Product: A program, application, operating system, or software component designed for end users or computing systems. (also: Software Application, Software Program, Software)
+- Technology Vendor: A company or organization that develops, manufactures, or supplies software, hardware, or technology services. (also: Software Vendor, Vendor, Technology Company)
+- Country: A sovereign nation, state, or distinct territorial body with its own government. (also: Nation, Sovereign State)
+- Government Agency: An official institution, ministry, department, or administrative body operating under the authority of a national or regional government. (also: Government Body, Government Organization, State Authority)
+- Malware: Software, code, or executable files intentionally designed to disrupt, damage, or gain unauthorized access to computer systems or data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address identifying the location of a specific resource or endpoint on a computer network. (also: URL, Web Address, Link)
+- Person: An individual human being, such as a government official, cybersecurity professional, diplomat, or other public figure. (also: Individual, Human)
+- IP Address: A numerical label assigned to a device or network interface to identify its location on a computer network. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Email)
+- Computer File: A digital file, script, document, or archive stored on a filesystem or transmitted across a network. (also: File, Digital File)
+- Company: A commercial business, corporation, or enterprise operating within a specific industry or market. (also: Commercial Enterprise, Business, Corporation)
+- Domain Name: A unique identification string that defines a realm of administrative autonomy, authority, or control within the Internet. (also: Internet Domain, Domain, Fully Qualified Domain Name)
+- Threat Actor: An individual or organized group responsible for conducting malicious cyber activities, attacks, or espionage campaigns. (also: Threat Group, Hacker Group, Advanced Persistent Threat)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Використання публічних поштових сервісів, поряд з корпоративними електронними поштовими скриньками, є доволі розповсюдженою практикою серед працівників державних органів, військовослужбовців, а також співробітників інших українських підприємств та організацій.</p><p>Ураховуючи зазначене, та, беручи до уваги відсутність засобів захисту для перевірки електронних листів, такі сервіси використовуються, в тому числі, як додатковий спосіб реалізації зловмисного задуму.</p><p>Так, угрупуванням UAC-0102 протягом липня 2024 року здійснюється розповсюдження електронних листів із вкладеннями у вигляді архівів, що містять HTML-файл, відкриття якого забезпечує перенаправлення користувача на вебресурс, який імітує вебсторінку сервісу UKR.NET.</p><p>У випадку введення логіну та паролю, автентифікаційні дані будуть відправлені зловмисникам, а на комп'ютер жертві, у якості приманки, буде завантажено документ.</p><p>З метою скорочення поверхні атаки рекомендуємо:</p><ul><li>увімкнути двохфакторну автентифікацію (<a href="https://cert.gov.ua/article/6278274" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/article/6278274</a>);</li><li>уникнути використання публічних поштових сервісів зі службових ЕОМ;</li><li>налаштувати фільтр для перенаправлення копій вхідних листів на корпоративну email-адресу, що дозволить, хоч і ретроспективно, здійснити аналіз електронного листа наявними засобами захисту.</li></ul><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">85f0b3fe0ff5954b826c0851af48b209&nbsp; &nbsp; 5157bdce538e7eeaa4bb7d9e05f42c9ea4da92b314b5445a9d004b66a2a39064&nbsp; &nbsp; kyiv-zvern-1707.zip&nbsp;
+d23a122f3594aed542f40204fba7e971&nbsp; &nbsp; f6ba9368caa2cc1ea367d6214f58456c4e9047f36cb0776a67ebf8eeb45ff21b&nbsp; &nbsp; kyiv-zvern-1707.html
+1fdf1b572f066b552161d1b13d5011bd&nbsp; &nbsp; c16926a74f8d30b4086057241edc46e88bb0cf675ff5b5ced93ea654ea2b4e26&nbsp; &nbsp; терміново_23_07_2024.zip&nbsp;
+d1699825d3fffb91d130ee2c25fe9759&nbsp; &nbsp; 9e49db0eb920e130c0393a87c96434b9f0257025584cf546f623c1cb0b074333&nbsp; &nbsp; терміново_info_23_07_2024.html
+2ce540983499aac5eab6e8b25a26b041&nbsp; &nbsp; f8439752899a3910e85560c9c11f04396a80a0ffb3d4264d0710a52a359cdb4d&nbsp; &nbsp; Терміново 1607.zip
+dcf745727ba64e60912da2f97e1f9420&nbsp; &nbsp; 32743e28066bfbf990fd49a3a7cdca7887dd344737dcb784092d6d95f678777c&nbsp; &nbsp; Терміново 1607.html
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">82[.]221.139.200
+hXXp://82[.]221.139.200/login/enter.html
+hXXp://82[.]221.139.200/login/out.html
+hXXp://82[.]221.139.200/login/php/1308_8711629.html
+hXXp://uasystdoc[.]com/login/doc.html
+hXXp://82[.]221.139.200/login/php/dl2.php
+hXXp://82[.]221.139.200/login/php/dl3.php
+hXXp://82[.]221.139.200/login/php/dl4.php
+hXXp://82[.]221.139.200/login/php/dl5.php
+hXXp://82[.]221.139.200/login/php/dl6.php
+hXXp://82[.]221.139.200/login/php/dl8.php
+hXXp://82[.]221.139.200/login/php/dl.php
+hXXp://82[.]221.139.200/login/php/47.pdf
+hXXp://82[.]221.139.200/login/php/organizations_kharkiv_2021_12_03-1.xlsx
+hXXp://82[.]221.139.200/login/php/tsu-sbu-vid-13042023-131-site.doc
+hXXp://82[.]221.139.200/login/php/zrazok.pdf
+hXXp://uasystdoc[.]com/login/php/dod_zvit_pro_kons_iii_kvartal_2021_.pdf
+hXXps://ukainua[.]com/login/php/d534990-20240427.pdf
+viddkhpolice@ukr.net
+kyivpolice17@ukr.net
+uaccsnet[.]com
+ualogaccs[.]com
+uasettings[.]com
+uasetukr[.]com
+uasystdoc[.]com
+uasystnet[.]com
+ukainua[.]com
+ukenlog[.]com
+uknetlogin[.]com
+ukrsets[.]com
+ukrsett[.]com
+ukrstnet[.]com
+unetset[.]com
+</pre><pre class="hidden" spellcheck="false">82.221.139.200
+http://82.221.139.200/login/enter.html
+http://82.221.139.200/login/out.html
+http://82.221.139.200/login/php/1308_8711629.html
+http://uasystdoc.com/login/doc.html
+http://82.221.139.200/login/php/dl2.php
+http://82.221.139.200/login/php/dl3.php
+http://82.221.139.200/login/php/dl4.php
+http://82.221.139.200/login/php/dl5.php
+http://82.221.139.200/login/php/dl6.php
+http://82.221.139.200/login/php/dl8.php
+http://82.221.139.200/login/php/dl.php
+http://82.221.139.200/login/php/47.pdf
+http://82.221.139.200/login/php/organizations_kharkiv_2021_12_03-1.xlsx
+http://82.221.139.200/login/php/tsu-sbu-vid-13042023-131-site.doc
+http://82.221.139.200/login/php/zrazok.pdf
+http://uasystdoc.com/login/php/dod_zvit_pro_kons_iii_kvartal_2021_.pdf
+https://ukainua.com/login/php/d534990-20240427.pdf
+viddkhpolice@ukr.net
+kyivpolice17@ukr.net
+uaccsnet.com
+ualogaccs.com
+uasettings.com
+uasetukr.com
+uasystdoc.com
+uasystnet.com
+ukainua.com
+ukenlog.com
+uknetlogin.com
+ukrsets.com
+ukrsett.com
+ukrstnet.com
+unetset.com
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Приклад ланцюга ураження</p><p></p><p>Рис.2 Приклад документів-приманок</p>
+
+=== RESPONSE (6.7s, in 4171 / out 1683 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "UAC-0102",
+      "kind": "threat actor",
+      "gloss": "A threat actor group known for conducting phishing campaigns targeting Ukrainian organizations and public email services."
+    },
+    {
+      "name": "UKR.NET",
+      "kind": "software product",
+      "gloss": "A popular Ukrainian web portal and free email service provider."
+    },
+    {
+      "name": "kyiv-zvern-1707.zip",
+      "kind": "computer file",
+      "gloss": "A malicious ZIP archive containing an HTML phishing attachment."
+    },
+    {
+      "name": "kyiv-zvern-1707.html",
+      "kind": "computer file",
+      "gloss": "A malicious HTML file that redirects victims to a credential phishing webpage."
+    },
+    {
+      "name": "терміново_23_07_2024.zip",
+      "kind": "computer file",
+      "gloss": "A malicious ZIP archive containing an HTML phishing attachment."
+    },
+    {
+      "name": "терміново_info_23_07_2024.html",
+      "kind": "computer file",
+      "gloss": "A malicious HTML file that redirects victims to a credential phishing webpage."
+    },
+    {
+      "name": "Терміново 1607.zip",
+      "kind": "computer file",
+      "gloss": "A malicious ZIP archive containing an HTML phishing attachment."
+    },
+    {
+      "name": "Терміново 1607.html",
+      "kind": "computer file",
+      "gloss": "A malicious HTML file that redirects victims to a credential phishing webpage."
+    },
+    {
+      "name": "82.221.139.200",
+      "kind": "ip address",
+      "gloss": "An IP address used to host phishing pages and decoy documents."
+    },
+    {
+      "name": "viddkhpolice@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors to distribute phishing messages."
+    },
+    {
+      "name": "kyivpolice17@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors to distribute phishing messages."
+    },
+    {
+      "name": "uaccsnet.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure in a phishing campaign."
+    },
+    {
+      "name": "ualogaccs.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure in a phishing campaign."
+    },
+    {
+      "name": "uasettings.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure in a phishing campaign."
+    },
+    {
+      "name": "uasetukr.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure in a phishing campaign."
+    },
+    {
+      "name": "uasystdoc.com",
+      "kind": "domain name",
+      "gloss": "A domain name used to host phishing pages and decoy documents."
+    },
+    {
+      "name": "uasystnet.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure in a phishing campaign."
+    },
+    {
+      "name": "ukainua.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure in a phishing campaign."
+    },
+    {
+      "name": "ukenlog.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure in a phishing campaign."
+    },
+    {
+      "name": "uknetlogin.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure in a phishing campaign."
+    },
+    {
+      "name": "ukrsets.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure in a phishing campaign."
+    },
+    {
+      "name": "ukrsett.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure in a phishing campaign."
+    },
+    {
+      "name": "ukrstnet.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure in a phishing campaign."
+    },
+    {
+      "name": "unetset.com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure in a phishing campaign."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0102",
+      "type": "uses",
+      "tail": "kyiv-zvern-1707.zip",
+      "evidence": "угрупуванням UAC-0102 протягом липня 2024 року здійснюється розповсюдження електронних листів із вкладеннями у вигляді архівів"
+    },
+    {
+      "head": "kyiv-zvern-1707.zip",
+      "type": "delivers",
+      "tail": "kyiv-zvern-1707.html",
+      "evidence": "архівів, що містять HTML-файл"
+    },
+    {
+      "head": "терміново_23_07_2024.zip",
+      "type": "delivers",
+      "tail": "терміново_info_23_07_2024.html",
+      "evidence": "архівів, що містять HTML-файл"
+    },
+    {
+      "head": "Терміново 1607.zip",
+      "type": "delivers",
+      "tail": "Терміново 1607.html",
+      "evidence": "архівів, що містять HTML-файл"
+    },
+    {
+      "head": "UAC-0102",
+      "type": "uses",
+      "tail": "viddkhpolice@ukr.net",
+      "evidence": "viddkhpolice@ukr.net"
+    },
+    {
+      "head": "UAC-0102",
+      "type": "uses",
+      "tail": "kyivpolice17@ukr.net",
+      "evidence": "kyivpolice17@ukr.net"
+    },
+    {
+      "head": "UAC-0102",
+      "type": "uses",
+      "tail": "82.221.139.200",
+      "evidence": "82.221.139.200"
+    }
+  ],
+  "newRelationTypes": []
+}

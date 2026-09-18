@@ -1,0 +1,174 @@
+{
+  "docId": 761668,
+  "date": "14.07.2022",
+  "title": "Онлайн-шахрайство з використанням тематики \"грошової компенсації\" (CERT-UA#4964)",
+  "entities": [
+    {
+      "id": "761668:0",
+      "name": "Facebook",
+      "kind": "social media platform",
+      "gloss": "An online social media and networking service operated by Meta Platforms.",
+      "scheme": "S22",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "761668:1",
+      "name": "Єдиний Компенсаційний Центр Повернення Невиплачених Грошових Коштів",
+      "kind": "fraudulent service",
+      "gloss": "A fraudulent brand and service claiming to compensate unpaid funds used to steal payment card data.",
+      "scheme": null,
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "761668:2",
+      "name": "UAC-0100",
+      "kind": "threat actor",
+      "gloss": "A threat group or activity cluster tracked by CERT-UA engaged in financial fraud and phishing.",
+      "scheme": "S19",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "761668:3",
+      "name": "hXXp://kohhd[.]com/",
+      "kind": "phishing url",
+      "gloss": "A malicious URL associated with the UAC-0100 financial fraud campaign.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "761668:4",
+      "name": "hXXps://rivierafamily[.]com/",
+      "kind": "phishing url",
+      "gloss": "A malicious URL associated with the UAC-0100 financial fraud campaign.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "761668:5",
+      "name": "hXXps://compensationukr[.]com/",
+      "kind": "phishing url",
+      "gloss": "A malicious URL associated with the UAC-0100 financial fraud campaign.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "761668:6",
+      "name": "hXXps://compensations-ukrain[.]bar/",
+      "kind": "phishing url",
+      "gloss": "A malicious URL associated with the UAC-0100 financial fraud campaign.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "761668:7",
+      "name": "hXXps://compensation-ukr[.]com/",
+      "kind": "phishing url",
+      "gloss": "A malicious URL associated with the UAC-0100 financial fraud campaign.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "761668:8",
+      "name": "hXXps://europadonnaireland[.]org/",
+      "kind": "phishing url",
+      "gloss": "A malicious URL associated with the UAC-0100 financial fraud campaign.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "761668:9",
+      "name": "hXXps://foundpomoshi[.]com/",
+      "kind": "phishing url",
+      "gloss": "A malicious URL associated with the UAC-0100 financial fraud campaign.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "761668:10",
+      "name": "hXXps://peer-gos[.]top/",
+      "kind": "phishing url",
+      "gloss": "A malicious URL associated with the UAC-0100 financial fraud campaign.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "761668:11",
+      "name": "hXXps://helpzzfound[.]site/",
+      "kind": "phishing url",
+      "gloss": "A malicious URL associated with the UAC-0100 financial fraud campaign.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "761668:12",
+      "name": "hXXps://uacompensation[.]xyz/",
+      "kind": "phishing url",
+      "gloss": "A malicious URL associated with the UAC-0100 financial fraud campaign.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "761668:13",
+      "name": "hXXps://pay.uacompensation[.]xyz/",
+      "kind": "phishing url",
+      "gloss": "A malicious URL associated with the UAC-0100 financial fraud campaign.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "761668:14",
+      "name": "Національного банку України",
+      "kind": "central bank",
+      "gloss": "The central bank of Ukraine, responsible for the country's monetary policy and financial system.",
+      "scheme": "S7",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "761668:15",
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S6",
+      "category": "Government Body",
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0100",
+      "type": "operates-on-platform",
+      "tail": "Facebook",
+      "evidence": "у соціальній мережі Facebook виявлено низку шахрайських сторінок... відстежується за ідентифікатором UAC-0100"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "operates-scheme",
+      "tail": "Єдиний Компенсаційний Центр Повернення Невиплачених Грошових Коштів",
+      "evidence": "шахрайських сторінок, що містять посилання на так званий \"Єдиний Компенсаційний Центр... UAC-0100"
+    },
+    {
+      "head": "Національного банку України",
+      "type": "is-national-bank-of",
+      "tail": "України",
+      "evidence": "Національного банку України"
+    }
+  ],
+  "unclassified": [
+    "761668:1"
+  ]
+}

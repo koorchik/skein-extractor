@@ -1,0 +1,288 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0185",
+      "kind": "threat actor",
+      "gloss": "A cyber threat group tracked by CERT-UA, also known as UNC4221."
+    },
+    {
+      "name": "UNC4221",
+      "kind": "threat actor",
+      "gloss": "An alternative designation for the threat group UAC-0185."
+    },
+    {
+      "name": "MIL.CERT-UA",
+      "kind": "cyber defense unit",
+      "gloss": "The computer emergency response team of the Ministry of Defense of Ukraine."
+    },
+    {
+      "name": "Український союз промисловців та підприємців",
+      "kind": "organization",
+      "gloss": "A non-governmental organization uniting business and industrial enterprises in Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "НАТО",
+      "kind": "international organization",
+      "gloss": "An intergovernmental military alliance consisting of North American and European member states."
+    },
+    {
+      "name": "Сили оборони України",
+      "kind": "military organization",
+      "gloss": "The collective defense and armed forces of Ukraine."
+    },
+    {
+      "name": "Signal",
+      "kind": "software product",
+      "gloss": "An encrypted instant messaging and voice calling application."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cloud-based instant messaging service and platform."
+    },
+    {
+      "name": "WhatsApp",
+      "kind": "software product",
+      "gloss": "An instant messaging and voice-over-IP service owned by Meta."
+    },
+    {
+      "name": "DELTA",
+      "kind": "software product",
+      "gloss": "A Ukrainian military situational awareness and battle management system."
+    },
+    {
+      "name": "ТЕНЕТА",
+      "kind": "software product",
+      "gloss": "A Ukrainian military automated information system."
+    },
+    {
+      "name": "Кропива",
+      "kind": "software product",
+      "gloss": "A Ukrainian military tactical management and artillery command software application."
+    },
+    {
+      "name": "MESHAGENT",
+      "kind": "remote administration tool",
+      "gloss": "An open-source remote management software agent used for remote access and administration."
+    },
+    {
+      "name": "ULTRAVNC",
+      "kind": "remote administration tool",
+      "gloss": "An open-source remote administration software package for Microsoft Windows."
+    },
+    {
+      "name": "mshta.exe",
+      "kind": "software product",
+      "gloss": "A legitimate Windows utility that executes Microsoft HTML Applications."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework from Microsoft."
+    },
+    {
+      "name": "лист_02-1-437.lnk",
+      "kind": "file",
+      "gloss": "A malicious shortcut file used as an initial infection vector."
+    },
+    {
+      "name": "start.hta",
+      "kind": "file",
+      "gloss": "A malicious HTML Application file executed during the infection chain."
+    },
+    {
+      "name": "Front.png",
+      "kind": "file",
+      "gloss": "A malicious archive disguised as an image file containing secondary payloads."
+    },
+    {
+      "name": "Back.png",
+      "kind": "file",
+      "gloss": "A lure document downloaded and displayed to the victim."
+    },
+    {
+      "name": "Main.bat",
+      "kind": "file",
+      "gloss": "A batch script that sets up persistence and executes subsequent payloads."
+    },
+    {
+      "name": "Registry.hta",
+      "kind": "file",
+      "gloss": "An HTML Application file moved to startup to execute the remote access agent."
+    },
+    {
+      "name": "update.exe",
+      "kind": "file",
+      "gloss": "An executable file identified as the MESHAGENT remote management tool."
+    },
+    {
+      "name": "gnv.exe",
+      "kind": "file",
+      "gloss": "An executable file identified as the ULTRAVNC remote management tool."
+    },
+    {
+      "name": "OnedriveAgent.exe",
+      "kind": "file",
+      "gloss": "An executable file identified as MESHAGENT masquerading as a OneDrive component."
+    },
+    {
+      "name": "rr.vbs",
+      "kind": "file",
+      "gloss": "A VBScript file used in the attack chain."
+    },
+    {
+      "name": "delta_1.0.0.apk",
+      "kind": "file",
+      "gloss": "A malicious Android package file impersonating the DELTA military application."
+    },
+    {
+      "name": "mititarycua@gmail[.]com",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors in cyberattack infrastructure."
+    },
+    {
+      "name": "device.redirecl[.]com",
+      "kind": "domain name",
+      "gloss": "A malicious domain used to host payloads in the attack chain."
+    },
+    {
+      "name": "mail.outloolc[.]com",
+      "kind": "domain name",
+      "gloss": "A typosquatted domain used to deliver malicious payloads and decoy files."
+    },
+    {
+      "name": "svc.odwebp[.]com",
+      "kind": "domain name",
+      "gloss": "A command-and-control server domain used for MESHAGENT communication."
+    },
+    {
+      "name": "plntr.account-viewer[.]com",
+      "kind": "domain name",
+      "gloss": "A malicious domain used in attacker infrastructure."
+    },
+    {
+      "name": "delta.milgov[.]site",
+      "kind": "domain name",
+      "gloss": "A phishing domain spoofing the DELTA military system."
+    },
+    {
+      "name": "kropyva[.]group",
+      "kind": "domain name",
+      "gloss": "A phishing domain spoofing the Kropyva tactical management system."
+    },
+    {
+      "name": "group.teneta[.]site",
+      "kind": "domain name",
+      "gloss": "A phishing domain spoofing the TENETA military system."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0185",
+      "type": "targets-organization",
+      "tail": "Сили оборони України",
+      "evidence": "а також Сил оборони України з використанням спеціалізованих програмних засобів"
+    },
+    {
+      "head": "UAC-0185",
+      "type": "uses-tool",
+      "tail": "MESHAGENT",
+      "evidence": "з використанням спеціалізованих програмних засобів, зокрема, MESHAGENT"
+    },
+    {
+      "head": "UAC-0185",
+      "type": "uses-tool",
+      "tail": "ULTRAVNC",
+      "evidence": "зокрема, MESHAGENT та ULTRAVNC"
+    },
+    {
+      "head": "UAC-0185",
+      "type": "targets-system",
+      "tail": "DELTA",
+      "evidence": "та військових систем \"DELTA\", \"ТЕНЕТА\", \"Кропива\""
+    },
+    {
+      "head": "UAC-0185",
+      "type": "targets-system",
+      "tail": "ТЕНЕТА",
+      "evidence": "та військових систем \"DELTA\", \"ТЕНЕТА\", \"Кропива\""
+    },
+    {
+      "head": "UAC-0185",
+      "type": "targets-system",
+      "tail": "Кропива",
+      "evidence": "та військових систем \"DELTA\", \"ТЕНЕТА\", \"Кропива\""
+    },
+    {
+      "head": "UAC-0185",
+      "type": "impersonates-entity",
+      "tail": "Український союз промисловців та підприємців",
+      "evidence": "нібито, від імені Українського союзу промисловців та підприємців (УСПП)"
+    },
+    {
+      "head": "start.hta",
+      "type": "executes-tool",
+      "tail": "PowerShell",
+      "evidence": "HTA-файл містить JavaScript-код, призначений для запуску двох PowerShell-команд"
+    },
+    {
+      "head": "Registry.hta",
+      "type": "executes-file",
+      "tail": "update.exe",
+      "evidence": "Насамкінець \"Registry.hta\" запустить \"update.exe\""
+    },
+    {
+      "head": "update.exe",
+      "type": "implements-malware",
+      "tail": "MESHAGENT",
+      "evidence": "\"update.exe\", який класифіковано як програму віддаленого керування MESHAGENT"
+    },
+    {
+      "head": "gnv.exe",
+      "type": "implements-malware",
+      "tail": "ULTRAVNC",
+      "evidence": "gnv.exe (ULTRAVNC)"
+    },
+    {
+      "head": "OnedriveAgent.exe",
+      "type": "implements-malware",
+      "tail": "MESHAGENT",
+      "evidence": "OnedriveAgent.exe (MESHAGENT)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets-organization",
+      "definition": "Identifies an organization targeted by a threat actor or cyber operation."
+    },
+    {
+      "name": "uses-tool",
+      "definition": "Identifies software, tools, or utilities leveraged by a threat actor."
+    },
+    {
+      "name": "targets-system",
+      "definition": "Identifies a specific software system, platform, or service targeted for credential theft or compromise."
+    },
+    {
+      "name": "impersonates-entity",
+      "definition": "Identifies an entity or organization that is spoofed or impersonated by an attacker in lure communications."
+    },
+    {
+      "name": "executes-tool",
+      "definition": "Specifies that a file or script initiates or runs an external tool or utility."
+    },
+    {
+      "name": "executes-file",
+      "definition": "Specifies that a script or program executes another file."
+    },
+    {
+      "name": "implements-malware",
+      "definition": "Links a specific binary or executable file to the malware family or software tool it implements."
+    }
+  ]
+}

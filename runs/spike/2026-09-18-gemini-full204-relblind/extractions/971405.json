@@ -1,0 +1,227 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0010",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage threat group also known as Armageddon or Gamaredon."
+    },
+    {
+      "name": "Armageddon",
+      "kind": "threat actor",
+      "gloss": "An alternative designation for the Russian advanced persistent threat group UAC-0010 or Gamaredon."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country located in Eastern Europe."
+    },
+    {
+      "name": "Національна академія СБ України",
+      "kind": "government body",
+      "gloss": "A specialized higher education institution of the Security Service of Ukraine."
+    },
+    {
+      "name": "Департамент контрозвідки Служби безпеки України",
+      "kind": "government body",
+      "gloss": "A counterintelligence department within the Security Service of Ukraine."
+    },
+    {
+      "name": "Служба безпеки України",
+      "kind": "government body",
+      "gloss": "The national security and intelligence agency of Ukraine."
+    },
+    {
+      "name": "GammaLoad.PS1_v2",
+      "kind": "malware family",
+      "gloss": "A PowerShell-based malware downloader associated with the Gamaredon threat actor."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework from Microsoft."
+    },
+    {
+      "name": "cloudflare-dns[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain providing public DNS over HTTPS services operated by Cloudflare."
+    },
+    {
+      "name": "whoer[.]net",
+      "kind": "internet domain",
+      "gloss": "A web service providing IP address verification and network diagnostic tools."
+    },
+    {
+      "name": "a0695487.xsph[.]ru",
+      "kind": "internet domain",
+      "gloss": "A domain used as malicious command and control or payload hosting infrastructure."
+    },
+    {
+      "name": "a0698262.xsph[.]ru",
+      "kind": "internet domain",
+      "gloss": "A domain used as malicious command and control or payload hosting infrastructure."
+    },
+    {
+      "name": "a0698649.xsph[.]ru",
+      "kind": "internet domain",
+      "gloss": "A domain used as malicious command and control or payload hosting infrastructure."
+    },
+    {
+      "name": "fishitor[.]ru",
+      "kind": "internet domain",
+      "gloss": "A domain used as malicious command and control or staging infrastructure."
+    },
+    {
+      "name": "leonardis[.]ru",
+      "kind": "internet domain",
+      "gloss": "A domain used as malicious command and control or staging infrastructure."
+    },
+    {
+      "name": "mail-box[.]site",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious email distribution infrastructure."
+    },
+    {
+      "name": "fast-mail[.]site",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious email distribution infrastructure."
+    },
+    {
+      "name": "your-mail[.]press",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious email distribution infrastructure."
+    },
+    {
+      "name": "164[.]92.166.107",
+      "kind": "ip address",
+      "gloss": "An IP address used for malicious command and control communications."
+    },
+    {
+      "name": "45[.]63.114.110",
+      "kind": "ip address",
+      "gloss": "An IP address used for malicious command and control communications."
+    },
+    {
+      "name": "159[.]223.218.10",
+      "kind": "ip address",
+      "gloss": "An IP address used for malicious command and control communications."
+    },
+    {
+      "name": "194[.]67.87.33",
+      "kind": "ip address",
+      "gloss": "An IP address used as malicious infrastructure."
+    },
+    {
+      "name": "visnik-ssu@mail-box[.]site",
+      "kind": "e-mail address",
+      "gloss": "An email address used to distribute malicious phishing emails."
+    },
+    {
+      "name": "dnipro@fast-mail[.]site",
+      "kind": "e-mail address",
+      "gloss": "An email address used to distribute malicious phishing emails."
+    },
+    {
+      "name": "visnik-ssu@your-mail[.]press",
+      "kind": "e-mail address",
+      "gloss": "An email address used to distribute malicious phishing emails."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0010",
+      "type": "has-alias",
+      "tail": "Armageddon",
+      "evidence": "Описана активність здійснюється групою UAC-0010 (Armageddon)."
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses-malware",
+      "tail": "GammaLoad.PS1_v2",
+      "evidence": "запуск шкідливої програми GammaLoad.PS1_v2... активність здійснюється групою UAC-0010"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "impersonates",
+      "tail": "Національна академія СБ України",
+      "evidence": "електронних листів... в тому числі, начебто, від Національної академії СБ України"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "impersonates",
+      "tail": "Департамент контрозвідки Служби безпеки України",
+      "evidence": "Інформаційний бюлетень Департаменту контрозвідки Служби безпеки України від 22 липня 2022 року.lnk"
+    },
+    {
+      "head": "Департамент контрозвідки Служби безпеки України",
+      "type": "subordinate-to",
+      "tail": "Служба безпеки України",
+      "evidence": "Департаменту контрозвідки Служби безпеки України"
+    },
+    {
+      "head": "Національна академія СБ України",
+      "type": "subordinate-to",
+      "tail": "Служба безпеки України",
+      "evidence": "Національної академії СБ України"
+    },
+    {
+      "head": "Служба безпеки України",
+      "type": "operates-in",
+      "tail": "Україна",
+      "evidence": "Служби безпеки України"
+    },
+    {
+      "head": "PowerShell",
+      "type": "executes",
+      "tail": "GammaLoad.PS1_v2",
+      "evidence": "за допомогою PowerShell, здійснить декодування та запуск шкідливої програми GammaLoad.PS1_v2"
+    },
+    {
+      "head": "visnik-ssu@mail-box[.]site",
+      "type": "uses-domain",
+      "tail": "mail-box[.]site",
+      "evidence": "visnik-ssu@mail-box[.]site"
+    },
+    {
+      "head": "dnipro@fast-mail[.]site",
+      "type": "uses-domain",
+      "tail": "fast-mail[.]site",
+      "evidence": "dnipro@fast-mail[.]site"
+    },
+    {
+      "head": "visnik-ssu@your-mail[.]press",
+      "type": "uses-domain",
+      "tail": "your-mail[.]press",
+      "evidence": "visnik-ssu@your-mail[.]press"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "has-alias",
+      "definition": "Identifies an alternate name or pseudonym for an entity."
+    },
+    {
+      "name": "uses-malware",
+      "definition": "Specifies a malware family deployed or operated by a threat actor."
+    },
+    {
+      "name": "impersonates",
+      "definition": "Indicates an entity falsely pretending to be another entity in social engineering attacks."
+    },
+    {
+      "name": "subordinate-to",
+      "definition": "Designates an organizational sub-unit or subordinate body belonging to a parent entity."
+    },
+    {
+      "name": "operates-in",
+      "definition": "Denotes the geographical country or jurisdiction within which an entity exists or functions."
+    },
+    {
+      "name": "executes",
+      "definition": "Specifies a software tool or environment used to run or decode another piece of code or malware."
+    },
+    {
+      "name": "uses-domain",
+      "definition": "Links an email address or resource to the internet domain it is registered under."
+    }
+  ]
+}

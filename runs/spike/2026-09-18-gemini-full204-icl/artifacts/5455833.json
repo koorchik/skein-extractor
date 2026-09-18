@@ -1,0 +1,169 @@
+{
+  "docId": 5455833,
+  "date": "11.08.2023",
+  "title": "\"Змініть пароль до Roundcube\": чергова фішингова атака з використанням атрибутів CERT-UA та символіки ДЦКЗ Держспецзв'язку (CERT-UA#7223)",
+  "entities": [
+    {
+      "id": "5455833:0",
+      "name": "ДЦКЗ Держспецзв'язку",
+      "kind": "government organization",
+      "gloss": "A Ukrainian state cyber protection center operating under the State Service of Special Communications and Information Protection.",
+      "scheme": "S5",
+      "category": "Government Body",
+      "role": null
+    },
+    {
+      "id": "5455833:1",
+      "name": "Roundcube",
+      "kind": "software product",
+      "gloss": "An open-source webmail software application with a web-based user interface.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "5455833:2",
+      "name": "InfinityFree",
+      "kind": "company",
+      "gloss": "A free web hosting service provider offering website hosting infrastructure.",
+      "scheme": "S12",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "5455833:3",
+      "name": "Microsoft",
+      "kind": "software vendor",
+      "gloss": "A multinational technology corporation that develops computer software, consumer electronics, and cloud services.",
+      "scheme": "S3",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "5455833:4",
+      "name": "UAC-0170",
+      "kind": "threat actor",
+      "gloss": "A cyber threat group tracked by CERT-UA involved in phishing and credential harvesting attacks.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "5455833:5",
+      "name": "mlcrosoft.rf[.]gd",
+      "kind": "domain name",
+      "gloss": "A spoofed domain name used to host phishing pages impersonating webmail services.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "5455833:6",
+      "name": "185[.]27.134.129",
+      "kind": "ip address",
+      "gloss": "An IP address associated with hosting infrastructure used in the cyberattack.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5455833:7",
+      "name": "185[.]88.153.138",
+      "kind": "ip address",
+      "gloss": "An IP address observed in network activity related to the phishing campaign.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5455833:8",
+      "name": "hXXps://mlcrosoft.rf[.]gd/mail/?el=3c6d0a4516de3b6a89b373f0d8d6de4cc081154fc3680efbe7b9f9d1",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious phishing URL used to harvest user credentials.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "5455833:9",
+      "name": "hXXps://mlcrosoft.rf[.]gd/mail/?el=4ef85906f8a881986a3f05fbb699ab0d6096919c73553dbb93c906d6",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious phishing URL used to harvest user credentials.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "5455833:10",
+      "name": "hXXps://mlcrosoft.rf[.]gd/mail/?el=7247301f1ba605aa98c5b2194819f558986e5d89467041b0da78a04c",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious phishing URL used to harvest user credentials.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "5455833:11",
+      "name": "hXXps://mlcrosoft.rf[.]gd/mail/inf.php",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious web script URL used in the phishing attack.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "5455833:12",
+      "name": "hXXps://mlcrosoft.rf[.]gd/mail/script.js",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious JavaScript URL used in the phishing attack infrastructure.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "5455833:13",
+      "name": "hr.damroodi@beroozresaan.com",
+      "kind": "email address",
+      "gloss": "An email address identified as an indicator of compromise in the attack.",
+      "scheme": "S10",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "5455833:14",
+      "name": "soraya@tataguyz.co.za",
+      "kind": "email address",
+      "gloss": "An email address identified as an indicator of compromise in the attack.",
+      "scheme": "S10",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0170",
+      "type": "uses",
+      "tail": "InfinityFree",
+      "evidence": "вебресурс створено за допомогою безкоштовного сервісу InfinityFree"
+    },
+    {
+      "head": "UAC-0170",
+      "type": "uses",
+      "tail": "mlcrosoft.rf[.]gd",
+      "evidence": "використано субдомен mlcrosoft.rf[.]gd"
+    },
+    {
+      "head": "mlcrosoft.rf[.]gd",
+      "type": "hosts",
+      "tail": "hXXps://mlcrosoft.rf[.]gd/mail/inf.php",
+      "evidence": "hXXps://mlcrosoft.rf[.]gd/mail/inf.php"
+    },
+    {
+      "head": "mlcrosoft.rf[.]gd",
+      "type": "hosts",
+      "tail": "hXXps://mlcrosoft.rf[.]gd/mail/script.js",
+      "evidence": "hXXps://mlcrosoft.rf[.]gd/mail/script.js"
+    }
+  ],
+  "unclassified": []
+}

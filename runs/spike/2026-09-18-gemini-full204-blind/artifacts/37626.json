@@ -1,0 +1,202 @@
+{
+  "docId": 37626,
+  "date": "07.03.2022",
+  "title": "Кібератака групи UAC-0057 (unc1151) на державні організації України з  використанням шкідливої програми MicroBackdoor (CERT-UA#4109)",
+  "entities": [
+    {
+      "id": "37626:0",
+      "name": "UAC-0057",
+      "kind": "threat actor",
+      "gloss": "A cyberespionage threat group also tracked as UNC1151, associated with attacks against Ukraine.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "37626:1",
+      "name": "Mandiant",
+      "kind": "cybersecurity company",
+      "gloss": "An American cybersecurity firm providing threat intelligence and incident response services.",
+      "scheme": "S10",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "37626:2",
+      "name": "MicroBackdoor",
+      "kind": "malware family",
+      "gloss": "An open-source C++ backdoor malware providing remote command execution and basic bot management capabilities.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37626:3",
+      "name": "довідка.zip",
+      "kind": "archive file",
+      "gloss": "A ZIP archive used as an initial infection vector containing a malicious CHM file.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "37626:4",
+      "name": "dovidka.chm",
+      "kind": "malicious file",
+      "gloss": "A Microsoft Compiled HTML Help file used to drop decoy content and execute malicious script files.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "37626:5",
+      "name": "image.jpg",
+      "kind": "decoy file",
+      "gloss": "A decoy image file containing instructions on actions during artillery shelling.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "37626:6",
+      "name": "file.htm",
+      "kind": "malicious file",
+      "gloss": "An HTA file containing malicious VBScript code embedded within a CHM file.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "37626:7",
+      "name": "ignit.vbs",
+      "kind": "malware dropper",
+      "gloss": "A VBScript dropper responsible for decoding and dropping the .NET loader and supporting components.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "37626:8",
+      "name": "core.dll",
+      "kind": "malware loader",
+      "gloss": "A .NET loader DLL that decodes and executes the MicroBackdoor payload.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "37626:9",
+      "name": "desktop.ini",
+      "kind": "malicious script",
+      "gloss": "A malicious script file used to execute the core.dll loader via regasm.exe.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37626:10",
+      "name": "Windows Prefetch.lNk",
+      "kind": "shortcut file",
+      "gloss": "A malicious Windows shortcut file placed in Startup to execute desktop.ini using wscript.exe.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37626:11",
+      "name": "microbackdoor.dll",
+      "kind": "malware payload",
+      "gloss": "A dynamic link library payload implementing the MicroBackdoor functionality.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "37626:12",
+      "name": "xbeta[.]online",
+      "kind": "internet domain",
+      "gloss": "A domain name configured and used as a command and control server for MicroBackdoor.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "37626:13",
+      "name": "185[.]175.158.27",
+      "kind": "ip address",
+      "gloss": "An IP address associated with command and control infrastructure in the attack.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37626:14",
+      "name": "cr4sh",
+      "kind": "person",
+      "gloss": "The developer alias of Dmytro Oleksiuk, original author of the MicroBackdoor tool.",
+      "scheme": "S8",
+      "category": "Individual",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0057",
+      "type": "uses-malware",
+      "tail": "MicroBackdoor",
+      "evidence": "Активність асоційовано з діяльністю групи UAC-0057"
+    },
+    {
+      "head": "довідка.zip",
+      "type": "delivers",
+      "tail": "dovidka.chm",
+      "evidence": "довідка.zip\", який містить файл контекстної довідки (Microsoft Compiled HTML Help) \"dovidka.chm\""
+    },
+    {
+      "head": "dovidka.chm",
+      "type": "delivers",
+      "tail": "file.htm",
+      "evidence": "CHM-файл, у свою чергу, містить зображення-приманку \"image.jpg\" ... та HTA-файл \"file.htm\""
+    },
+    {
+      "head": "dovidka.chm",
+      "type": "delivers",
+      "tail": "image.jpg",
+      "evidence": "CHM-файл, у свою чергу, містить зображення-приманку \"image.jpg\""
+    },
+    {
+      "head": "file.htm",
+      "type": "delivers",
+      "tail": "ignit.vbs",
+      "evidence": "призведе до створення на комп'ютері і запуску дропера \"ignit.vbs\""
+    },
+    {
+      "head": "ignit.vbs",
+      "type": "delivers",
+      "tail": "core.dll",
+      "evidence": "забезпечить декодування .NET-лоадеру \"core.dll\""
+    },
+    {
+      "head": "ignit.vbs",
+      "type": "delivers",
+      "tail": "desktop.ini",
+      "evidence": "а також файлів \"desktop.ini\""
+    },
+    {
+      "head": "ignit.vbs",
+      "type": "delivers",
+      "tail": "Windows Prefetch.lNk",
+      "evidence": "і \"Windows Prefetch.lNk\""
+    },
+    {
+      "head": "core.dll",
+      "type": "delivers",
+      "tail": "MicroBackdoor",
+      "evidence": ".NET-лоадер здійснить декодування і виконання шкідливої програми MicroBackdoor"
+    }
+  ],
+  "unclassified": [
+    "37626:5",
+    "37626:10"
+  ]
+}

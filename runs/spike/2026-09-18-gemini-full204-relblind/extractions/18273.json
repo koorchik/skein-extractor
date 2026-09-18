@@ -1,0 +1,184 @@
+{
+  "entities": [
+    {
+      "name": "Національної служби здоров’я України",
+      "kind": "government body",
+      "gloss": "A Ukrainian central executive body responsible for healthcare financing and public health services."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Discord",
+      "kind": "communication platform",
+      "gloss": "A proprietary instant messaging and digital distribution platform."
+    },
+    {
+      "name": "powershell",
+      "kind": "software tool",
+      "gloss": "A task automation and configuration management framework by Microsoft."
+    },
+    {
+      "name": "OutSteel",
+      "kind": "malware family",
+      "gloss": "A document-stealing malware family written in the AutoIt scripting language."
+    },
+    {
+      "name": "SaintBot",
+      "kind": "malware family",
+      "gloss": "A modular loader and downloader malware family."
+    },
+    {
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyber threat actor tracked by CERT-UA targeting Ukrainian organizations."
+    },
+    {
+      "name": "d5aadb4ace8ffccb.zip",
+      "kind": "file",
+      "gloss": "A malicious ZIP archive hosted on Discord."
+    },
+    {
+      "name": "Додаток_2.docx",
+      "kind": "file",
+      "gloss": "A decoy document file contained in the malicious archive."
+    },
+    {
+      "name": "Додаток_1.docx.lnk",
+      "kind": "file",
+      "gloss": "A malicious shortcut file used to execute a PowerShell command."
+    },
+    {
+      "name": "up74987340.exe",
+      "kind": "file",
+      "gloss": "An executable payload file delivering OutSteel malware."
+    },
+    {
+      "name": "up74987340.dec.exe",
+      "kind": "file",
+      "gloss": "A decrypted executable file associated with OutSteel malware."
+    },
+    {
+      "name": "load74h74830.exe",
+      "kind": "file",
+      "gloss": "A malicious executable loader file."
+    },
+    {
+      "name": "1406.exe",
+      "kind": "file",
+      "gloss": "An executable file delivering SaintBot malware."
+    },
+    {
+      "name": "eumr[.]site",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious payload distribution."
+    },
+    {
+      "name": "8003659902[.]space",
+      "kind": "internet domain",
+      "gloss": "A domain used as command and control infrastructure."
+    },
+    {
+      "name": "smm2021[.]net",
+      "kind": "internet domain",
+      "gloss": "A domain used as command and control infrastructure."
+    },
+    {
+      "name": "8003659902[.]site",
+      "kind": "internet domain",
+      "gloss": "A domain used as command and control infrastructure."
+    },
+    {
+      "name": "1000020[.]xyz",
+      "kind": "internet domain",
+      "gloss": "A domain identified as an indicator of compromise."
+    },
+    {
+      "name": "185.244.41[.]109",
+      "kind": "ip address",
+      "gloss": "An IP address used for malicious command and control."
+    },
+    {
+      "name": "testsid@lthhc-zm[.]com",
+      "kind": "email address",
+      "gloss": "An email address used in malicious phishing communications."
+    },
+    {
+      "name": "rmm.bat",
+      "kind": "file",
+      "gloss": "A batch script associated with the malicious campaign."
+    },
+    {
+      "name": "svjhost.exe",
+      "kind": "file",
+      "gloss": "An executable file dropped in the temporary folder."
+    },
+    {
+      "name": "AutoIt",
+      "kind": "programming language",
+      "gloss": "A freeware scripting language designed for automating the Windows GUI."
+    }
+  ],
+  "relations": [
+    {
+      "head": "d5aadb4ace8ffccb.zip",
+      "type": "hosted-on",
+      "tail": "Discord",
+      "evidence": "ZIP-архів, розміщений на публічному сервісі Discord"
+    },
+    {
+      "head": "d5aadb4ace8ffccb.zip",
+      "type": "contains-file",
+      "tail": "Додаток_2.docx",
+      "evidence": "Згаданий ZIP-архів містить документ-приманку"
+    },
+    {
+      "head": "d5aadb4ace8ffccb.zip",
+      "type": "contains-file",
+      "tail": "Додаток_1.docx.lnk",
+      "evidence": "Згаданий ZIP-архів містить документ-приманку та два ідентичні файли-ярлики"
+    },
+    {
+      "head": "OutSteel",
+      "type": "downloads-and-executes",
+      "tail": "SaintBot",
+      "evidence": "завантажить і виконає шкідливу програму SaintBot"
+    },
+    {
+      "head": "OutSteel",
+      "type": "written-in",
+      "tail": "AutoIt",
+      "evidence": "OutSteel – шкідлива програма, розроблена з використанням мови програмування AutoIt"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "targets-country",
+      "tail": "України",
+      "evidence": "Згадана активність спрямована на державні організації України"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "hosted-on",
+      "definition": "The head file or resource is stored or hosted on the tail platform or infrastructure."
+    },
+    {
+      "name": "contains-file",
+      "definition": "The head container file or archive packages or encloses the tail file."
+    },
+    {
+      "name": "downloads-and-executes",
+      "definition": "The head malware fetches and executes the tail payload or malware program."
+    },
+    {
+      "name": "written-in",
+      "definition": "The head software or malware was authored using the tail programming language."
+    },
+    {
+      "name": "targets-country",
+      "definition": "The head threat actor directs malicious cyber activities toward entities in the tail country."
+    }
+  ]
+}

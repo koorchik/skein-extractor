@@ -1,0 +1,179 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0002",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage and sabotage threat group also known as Sandworm, APT44, and Seashell Blizzard."
+    },
+    {
+      "name": "UAC-0133",
+      "kind": "threat actor",
+      "gloss": "A threat cluster associated with UAC-0002 involved in cyberattacks against critical infrastructure."
+    },
+    {
+      "name": "UAC-0212",
+      "kind": "threat actor",
+      "gloss": "A sub-cluster of UAC-0002 targeting supply chain and automated process control developers."
+    },
+    {
+      "name": "CVE-2024-38213",
+      "kind": "vulnerability",
+      "gloss": "A Windows Mark of the Web security feature bypass vulnerability."
+    },
+    {
+      "name": "SECONDBEST",
+      "kind": "malware",
+      "gloss": "A malware family used in targeted attacks against Ukrainian organizations."
+    },
+    {
+      "name": "EMPIREPAST",
+      "kind": "malware",
+      "gloss": "A malware family utilized by Russian threat actors for persistence and execution."
+    },
+    {
+      "name": "SPARK",
+      "kind": "malware",
+      "gloss": "A malicious software tool used by threat actors in cyber operations."
+    },
+    {
+      "name": "CROOKBAG",
+      "kind": "malware",
+      "gloss": "A malware loader written in GoLang used to deploy malicious payloads."
+    },
+    {
+      "name": "PEAKLIGHT",
+      "kind": "malware",
+      "gloss": "A malware family observed executing payload delivery scripts."
+    },
+    {
+      "name": "RSYNC",
+      "kind": "software product",
+      "gloss": "A legitimate file synchronization and transfer utility abused for data exfiltration."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "Сербія",
+      "kind": "country",
+      "gloss": "A landlocked country in Southeastern Europe."
+    },
+    {
+      "name": "Чехія",
+      "kind": "country",
+      "gloss": "A landlocked country in Central Europe."
+    },
+    {
+      "name": "Microsoft",
+      "kind": "technology vendor",
+      "gloss": "An American multinational corporation and technology vendor."
+    },
+    {
+      "name": "Strike Ready",
+      "kind": "company",
+      "gloss": "A cybersecurity company providing threat intelligence and security advisory reports."
+    },
+    {
+      "name": "documents-reader.com",
+      "kind": "domain name",
+      "gloss": "A malicious domain name used by attackers for payload hosting and WebDAV distribution."
+    },
+    {
+      "name": "object-storage-service.com",
+      "kind": "domain name",
+      "gloss": "A domain name configured for CROOKBAG command-and-control operations."
+    },
+    {
+      "name": "protectconnections.com",
+      "kind": "domain name",
+      "gloss": "A domain name utilized for EMPIREPAST network communications."
+    },
+    {
+      "name": "cdnauthsoft.com",
+      "kind": "domain name",
+      "gloss": "A domain name utilized for SPARK network communication."
+    },
+    {
+      "name": "91.232.31.178",
+      "kind": "ip address",
+      "gloss": "An IP address hosting an RSYNC server for exfiltrated data collection."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0133",
+      "type": "part-of",
+      "tail": "UAC-0002",
+      "evidence": "кластер загроз UAC-0133, який з високим рівнем впевненості мав відношення до UAC-0002"
+    },
+    {
+      "head": "UAC-0212",
+      "type": "part-of",
+      "tail": "UAC-0002",
+      "evidence": "UAC-0212, який є субкластером UAC-0002"
+    },
+    {
+      "head": "UAC-0002",
+      "type": "exploits",
+      "tail": "CVE-2024-38213",
+      "evidence": "у поєднанні з експлуатацією вразливості CVE-2024-38213"
+    },
+    {
+      "head": "UAC-0002",
+      "type": "uses",
+      "tail": "SECONDBEST",
+      "evidence": "використовувалися такі: SECONDBEST / EMPIREPAST, SPARK, CROOKBAG"
+    },
+    {
+      "head": "UAC-0002",
+      "type": "uses",
+      "tail": "EMPIREPAST",
+      "evidence": "використовувалися такі: SECONDBEST / EMPIREPAST, SPARK, CROOKBAG"
+    },
+    {
+      "head": "UAC-0002",
+      "type": "uses",
+      "tail": "SPARK",
+      "evidence": "використовувалися такі: SECONDBEST / EMPIREPAST, SPARK, CROOKBAG"
+    },
+    {
+      "head": "UAC-0002",
+      "type": "uses",
+      "tail": "CROOKBAG",
+      "evidence": "використовувалися такі: SECONDBEST / EMPIREPAST, SPARK, CROOKBAG"
+    },
+    {
+      "head": "UAC-0002",
+      "type": "uses",
+      "tail": "RSYNC",
+      "evidence": "зловмисниками, з метою довготривалого викрадення документів, також було застосовано RSYNC"
+    },
+    {
+      "head": "protectconnections.com",
+      "type": "hosts",
+      "tail": "EMPIREPAST",
+      "evidence": "protectconnections.com 2024-09-18 publicdomainregistry.com (EMPIREPAST)"
+    },
+    {
+      "head": "cdnauthsoft.com",
+      "type": "hosts",
+      "tail": "SPARK",
+      "evidence": "cdnauthsoft.com 2024-10-30 onamae.com (SPARK)"
+    },
+    {
+      "head": "object-storage-service.com",
+      "type": "hosts",
+      "tail": "CROOKBAG",
+      "evidence": "object-storage-service.com 2025-02-20 ordertld.com (CROOKBAG)"
+    },
+    {
+      "head": "91.232.31.178",
+      "type": "hosts",
+      "tail": "RSYNC",
+      "evidence": "91.232.31.178 (RSYNC)"
+    }
+  ],
+  "newRelationTypes": []
+}

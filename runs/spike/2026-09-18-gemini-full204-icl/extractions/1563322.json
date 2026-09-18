@@ -1,0 +1,182 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0120",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA associated with malicious email distribution campaigns."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "Австрія",
+      "kind": "country",
+      "gloss": "A sovereign state in Central Europe."
+    },
+    {
+      "name": "Німеччина",
+      "kind": "country",
+      "gloss": "A sovereign state in Central Europe."
+    },
+    {
+      "name": "AgentTesla",
+      "kind": "malware",
+      "gloss": "An advanced spyware and remote access trojan malware family."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "Технічне креслення.img",
+      "kind": "computer file",
+      "gloss": "A disk image file used as a malicious email attachment."
+    },
+    {
+      "name": "Technisches Zeichnen.img",
+      "kind": "computer file",
+      "gloss": "A malicious disk image attachment distributed via email."
+    },
+    {
+      "name": "Dessin technique.img",
+      "kind": "computer file",
+      "gloss": "A malicious disk image file used in phishing distribution."
+    },
+    {
+      "name": "Technisches Zeichnen.chm",
+      "kind": "computer file",
+      "gloss": "A compiled HTML help file used to execute malicious scripts."
+    },
+    {
+      "name": "node.txt",
+      "kind": "computer file",
+      "gloss": "A file containing malicious PowerShell code designed to decode and execute payloads."
+    },
+    {
+      "name": "y74gh00rffd.dll",
+      "kind": "computer file",
+      "gloss": "A dynamic link library file functioning as an injector."
+    },
+    {
+      "name": "RegAsm.exe",
+      "kind": "computer file",
+      "gloss": "An executable file containing the AgentTesla malware payload."
+    },
+    {
+      "name": "gtrhgfh.htm",
+      "kind": "computer file",
+      "gloss": "An HTML file associated with malicious execution."
+    },
+    {
+      "name": "j1fgh00.htm",
+      "kind": "computer file",
+      "gloss": "An HTML file used in malicious execution chains."
+    },
+    {
+      "name": "eric.fehling@t-online.de",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator of compromise."
+    },
+    {
+      "name": "bondar_mob@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator of compromise."
+    },
+    {
+      "name": "bonitet_ltd@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator of compromise."
+    },
+    {
+      "name": "adv.rsnord@westafrance.com",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator of compromise."
+    },
+    {
+      "name": "a.bindhammer@aon.at",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator of compromise."
+    },
+    {
+      "name": "a.ehrnhofer@aon.at",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator of compromise."
+    },
+    {
+      "name": "a.bernsteiner@aon.at",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator of compromise."
+    },
+    {
+      "name": "pro@ssttekstil.com",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator of compromise."
+    },
+    {
+      "name": "ftp.ssttekstil.com",
+      "kind": "domain name",
+      "gloss": "A domain name observed in malicious network infrastructure."
+    },
+    {
+      "name": "sackmeister.de",
+      "kind": "domain name",
+      "gloss": "A domain name used to host malicious files."
+    },
+    {
+      "name": "ssttekstil.com",
+      "kind": "domain name",
+      "gloss": "A domain name associated with malicious network activity."
+    },
+    {
+      "name": "academiadutygroup.com.br",
+      "kind": "domain name",
+      "gloss": "A domain name used to host malicious payloads."
+    },
+    {
+      "name": "https://academiadutygroup.com.br/sticky.txt",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosting a payload script."
+    },
+    {
+      "name": "https://sackmeister.de/node.txt",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosting the node.txt script."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0120",
+      "type": "uses",
+      "tail": "AgentTesla",
+      "evidence": "Файл EXE є шкідливою програмою AgentTesla. Активність тимчасово відстежується за ідентифікатором UAC-0120."
+    },
+    {
+      "head": "node.txt",
+      "type": "delivers",
+      "tail": "AgentTesla",
+      "evidence": "node.txt... здійснить декодування, декомпресію (Gzip) і виконання DLL та EXE файлів. Файл EXE є шкідливою програмою AgentTesla"
+    },
+    {
+      "head": "academiadutygroup.com.br",
+      "type": "hosts",
+      "tail": "https://academiadutygroup.com.br/sticky.txt",
+      "evidence": "https://academiadutygroup.com.br/sticky.txt"
+    },
+    {
+      "head": "sackmeister.de",
+      "type": "hosts",
+      "tail": "https://sackmeister.de/node.txt",
+      "evidence": "https://sackmeister.de/node.txt"
+    },
+    {
+      "head": "https://sackmeister.de/node.txt",
+      "type": "delivers",
+      "tail": "node.txt",
+      "evidence": "https://sackmeister.de/node.txt"
+    }
+  ],
+  "newRelationTypes": []
+}

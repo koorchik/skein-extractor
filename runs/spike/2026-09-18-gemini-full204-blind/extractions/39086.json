@@ -1,0 +1,96 @@
+{
+  "entities": [
+    {
+      "name": "Assistance.rar",
+      "kind": "archive file",
+      "gloss": "A malicious RAR archive file used to deliver shortcut files in phishing campaigns."
+    },
+    {
+      "name": "Necessary_military_assistance.rar",
+      "kind": "archive file",
+      "gloss": "A malicious RAR archive file used as a delivery mechanism in phishing campaigns."
+    },
+    {
+      "name": "List of necessary things for the provision of military humanitarian assistance to Ukraine.lnk",
+      "kind": "malicious shortcut file",
+      "gloss": "A malicious LNK file distributed inside archives to execute arbitrary commands."
+    },
+    {
+      "name": "Providing military humanitarian assistance to Ukraine.lnk",
+      "kind": "malicious shortcut file",
+      "gloss": "A malicious LNK shortcut file used to trigger payload execution."
+    },
+    {
+      "name": "Providing military humanitarian assistance to Ukraine.eml",
+      "kind": "email file",
+      "gloss": "A phishing email file used to deliver links to malicious archives."
+    },
+    {
+      "name": "Латвія",
+      "kind": "country",
+      "gloss": "A Baltic country in Northern Europe whose state body was targeted."
+    },
+    {
+      "name": "UAC-0010",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage threat group also known as Armageddon or Gamaredon."
+    },
+    {
+      "name": "Європейський Союз",
+      "kind": "international organization",
+      "gloss": "A political and economic union of European states whose government bodies were targeted."
+    },
+    {
+      "name": "Info@military-ukraine[.]site",
+      "kind": "email address",
+      "gloss": "A malicious sender email address used in phishing attacks."
+    },
+    {
+      "name": "194[.]58.104.86",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the infrastructure used to send malicious emails."
+    },
+    {
+      "name": "military-ukraine[.]site",
+      "kind": "domain name",
+      "gloss": "A malicious domain name used to host malicious archives and send emails."
+    },
+    {
+      "name": "military-ukraine[.]online",
+      "kind": "domain name",
+      "gloss": "A malicious domain name used as part of the threat actor's infrastructure."
+    },
+    {
+      "name": "co87972.tmweb[.]ru",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious command-and-control or resource requests."
+    }
+  ],
+  "relations": [
+    {
+      "head": "military-ukraine[.]site",
+      "type": "hosts",
+      "tail": "Assistance.rar",
+      "evidence": "hxxp://military-ukraine[.]site/Assistance.rar"
+    },
+    {
+      "head": "military-ukraine[.]site",
+      "type": "hosts",
+      "tail": "Necessary_military_assistance.rar",
+      "evidence": "hxxps://military-ukraine[.]site/Necessary_military_assistance.rar"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "attacks",
+      "tail": "Латвія",
+      "evidence": "лист надіслано на адресу державного органу Латвії"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "attacks",
+      "tail": "Європейський Союз",
+      "evidence": "здійснення атак групою UAC-0010 (Armageddon) на державні органи країн Європейського Союзу"
+    }
+  ],
+  "newRelationTypes": []
+}

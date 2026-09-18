@@ -1,0 +1,111 @@
+{
+  "docId": 24,
+  "date": "21.02.2020",
+  "title": "УВАГА! Спостерігається масова розсилка фішингових листів, які використовують вразливість CVE-2017-11882",
+  "entities": [
+    {
+      "id": "24:0",
+      "name": "CVE-2017-11882",
+      "kind": "vulnerability identifier",
+      "gloss": "A memory corruption vulnerability in Microsoft Equation Editor allowing arbitrary remote code execution.",
+      "scheme": "S4",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "24:1",
+      "name": "MS Equation",
+      "kind": "software component",
+      "gloss": "A formula editing component integrated into Microsoft Office suites.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "24:2",
+      "name": "Microsoft Office",
+      "kind": "software suite",
+      "gloss": "A suite of productivity applications developed by Microsoft.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "24:3",
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework by Microsoft comprising a command-line shell.",
+      "scheme": "S1",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "24:4",
+      "name": "PGMB New Order 18-2077[.]xlsx",
+      "kind": "file name",
+      "gloss": "A malicious spreadsheet document used as an indicator of compromise.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "24:5",
+      "name": "major[.]exe",
+      "kind": "executable file",
+      "gloss": "A malicious executable downloaded and executed on target systems following vulnerability exploitation.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "24:6",
+      "name": "hххp[:]//216.170.123.111/major[.]exe",
+      "kind": "url",
+      "gloss": "A malicious URL used to distribute the major.exe executable.",
+      "scheme": "S5",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "24:7",
+      "name": "216.170.123.111",
+      "kind": "ip address",
+      "gloss": "An IP address hosting a malicious payload.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2017-11882",
+      "type": "addresses-vulnerability-in",
+      "tail": "MS Equation",
+      "evidence": "програмне забезпечення MS Equation не обробляє належним чином об'єкти в пам'яті"
+    },
+    {
+      "head": "CVE-2017-11882",
+      "type": "addresses-vulnerability-in",
+      "tail": "Microsoft Office",
+      "evidence": "Дана вразливість може використовуватись в Microsoft Office 2016 та попередніх версіях"
+    },
+    {
+      "head": "hххp[:]//216.170.123.111/major[.]exe",
+      "type": "hosts-file",
+      "tail": "major[.]exe",
+      "evidence": "завантажується файл major[.]exe з адреси hххp[:]//216.170.123.111/major[.]exe"
+    },
+    {
+      "head": "hххp[:]//216.170.123.111/major[.]exe",
+      "type": "hosted-on-ip",
+      "tail": "216.170.123.111",
+      "evidence": "hххp[:]//216.170.123.111/major[.]exe"
+    }
+  ],
+  "unclassified": [
+    "24:1",
+    "24:4",
+    "24:5",
+    "24:7"
+  ]
+}

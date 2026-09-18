@@ -1,0 +1,255 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+- communicates-with: A malware payload or host establishes network connections to an external IP address or server.
+- uses-malware: A threat actor utilizes or deploys a specific malware tool or family in their operations.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп’ютерні надзвичайні події України CERT-UA від суб'єкту координації отримано електронний лист з темою "№1275 від 07.04.2022", що містить одноіменний HTML-файл, відриття якого призведе до створення на комп'ютері архіву "1275_07.04.2022.rar". Останній містить LNK-файл "Щодо фактів переслідування та вбивства працівників Прокуратури з боку російських військових на тимчасово окупованих територіях.lnk", відкриття якого призведе до завантаження і запуску пейлоаду.</p><p>Активність асоційовано з діяльністю групи UAC-0010 (Armageddon).</p><p>З метою забезпечення відмовостійкості своєї інфраструктури, члени групи, серед іншого, використовують Dynamic DNS сервіс NO-IP. Звертаємо увагу на доцільність моніторингу з'єднань з доменними іменами, що використовуються згаданим сервісом. Перелік безкоштовних доменних імен наведено нижче; розгорнутий список доступний за посиланням hxxps://www.noip[.]com/support/faq/free-dynamic-dns-domains/.</p><p><br></p><p class="ql-align-justify"><strong>Індикатори компрометації</strong></p><p class="ql-align-justify"><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">b4f22ee176ab9f579cad79c85c18a72a&nbsp; &nbsp; 69366a4e652041c78c2cc267288a4c4bb0d4eece4074adda82eecd11d9dcf08d&nbsp; &nbsp; 1275_07.04.2022.htm
+1cce0fb426cd2bd3182c544af19e9c61&nbsp; &nbsp; 945d49d58d2d3041aad9445487f01a13d863cf8e76151e9a5008615175f7e52e&nbsp; &nbsp; 1275_07.04.2022.rar&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+16868c4fadd1d4874bcb32c6fa80123b&nbsp; &nbsp; 208fc38faf5a2267d837971b48889e855c0edc164c0b2edefff08d0782ccf1bb&nbsp; &nbsp; Щодо фактів переслідування та вбивства працівників Прокуратури з боку російських військових на тимчасово окупованих територіях.lnk
+cde5cb3f8bb1d520a52d7e279155fc39&nbsp; &nbsp; 890f25ee7cfb2931536ee3e12fb75ce3f0be21ec03bdfdb38dc688db06e07198&nbsp; &nbsp; 1275_07.04.2022 (1).rar&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+d6fe6243a9b4293db6384f22524ff709&nbsp; &nbsp; de4040a631b95044e08797837e2143c64ef7c6b981547a9220f8ed7b40701ef9&nbsp; &nbsp; Щодо фактів переслідування та вбивства працівників Прокуратури з боку російських військових на тимчасово окупованих територіях.lnk
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">military-prosecutor@post.cz
+hXXp://m-vz.webhop[.]me/prk/faicon.ico
+hXXp://a0656203.xsph[.]ru/prescription/seized.xml
+hXXp://a0656203.xsph[.]ru/prepared/semi.xml
+m-vz.webhop[.]me
+a0656203.xsph[.]ru
+a0322810.xsph[.]ru
+webhop[.]me
+xsph[.]ru
+lnk-upload.dodortar[.]ru
+dod-upload.dodortar[.]ru
+ln-upl.ddns[.]net
+d-upl.ddns[.]net
+up-dot.myftp[.]org
+up-lnk.myftp[.]org
+nitikora[.]ru
+dodortar[.]ru
+kopratiso[.]ru
+billyhot[.]ru
+bilitora[.]ru
+194[.]58.121.198
+194[.]180.174.105
+149[.]248.13.58
+</pre><p><br></p><p><em>Перелік безкоштовних доменних імен сервісу NO-IP:</em></p><pre class="ql-syntax" spellcheck="false">ddns[.]net
+ddnsking[.]com
+3utilities[.]com
+bounceme[.]net
+freedynamicdns[.]net
+freedynamicdns[.]org
+gotdns[.]ch
+hopto[.]org
+myddns[.]me
+myftp[.]biz
+myftp[.]org
+myvnc[.]com
+onthewifi[.]com
+redirectme[.]net
+servebeer[.]com
+serveblog[.]net
+servecounterstrike[.]com
+serveftp[.]com
+servegame[.]com
+servehalflife[.]com
+servehttp[.]com
+serveirc[.]com
+serveminecraft[.]net
+servemp3[.]com
+servepics[.]com
+servequake[.]com
+sytes[.]net
+viewdns[.]net
+webhop[.]me
+zapto[.]org
+</pre><p><br></p><p class="ql-align-justify"><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (6.2s, in 2784 / out 1581 tok, STOP) ===
+An incident report describes phishing activity attributed to UAC-0010 (Armageddon) using malicious HTML, RAR archives, and LNK shortcut files, leveraging Dynamic DNS infrastructure including NO-IP services to download payloads.
+
+```json
+{
+  "entities": [
+    {
+      "name": "UAC-0010 (Armageddon)",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage threat group also known as Gamaredon."
+    },
+    {
+      "name": "NO-IP",
+      "kind": "service provider",
+      "gloss": "A dynamic DNS service provider frequently abused by threat actors for infrastructure resilience."
+    },
+    {
+      "name": "1275_07.04.2022.htm",
+      "kind": "malicious file",
+      "gloss": "A malicious HTML attachment that creates an archive file upon being opened."
+    },
+    {
+      "name": "1275_07.04.2022.rar",
+      "kind": "malicious file",
+      "gloss": "A malicious RAR archive containing an LNK shortcut file."
+    },
+    {
+      "name": "1275_07.04.2022 (1).rar",
+      "kind": "malicious file",
+      "gloss": "A malicious RAR archive used to deliver a shortcut payload."
+    },
+    {
+      "name": "Щодо фактів переслідування та вбивства працівників Прокуратури з боку російських військових на тимчасово окупованих територіях.lnk",
+      "kind": "malicious file",
+      "gloss": "A malicious Windows shortcut file designed to download and execute an external payload."
+    },
+    {
+      "name": "military-prosecutor@post.cz",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors in phishing operations."
+    },
+    {
+      "name": "m-vz.webhop.me",
+      "kind": "domain name",
+      "gloss": "A dynamic DNS domain used as command and control or payload distribution infrastructure."
+    },
+    {
+      "name": "a0656203.xsph.ru",
+      "kind": "domain name",
+      "gloss": "A domain used for malicious payload hosting or command and control communication."
+    },
+    {
+      "name": "a0322810.xsph.ru",
+      "kind": "domain name",
+      "gloss": "A domain used for malicious network infrastructure."
+    },
+    {
+      "name": "lnk-upload.dodortar.ru",
+      "kind": "domain name",
+      "gloss": "A malicious subdomain used for network communication or payload delivery."
+    },
+    {
+      "name": "dod-upload.dodortar.ru",
+      "kind": "domain name",
+      "gloss": "A malicious subdomain used for network communication or payload delivery."
+    },
+    {
+      "name": "ln-upl.ddns.net",
+      "kind": "domain name",
+      "gloss": "A dynamic DNS domain used by threat actors as network infrastructure."
+    },
+    {
+      "name": "d-upl.ddns.net",
+      "kind": "domain name",
+      "gloss": "A dynamic DNS domain used by threat actors as network infrastructure."
+    },
+    {
+      "name": "up-dot.myftp.org",
+      "kind": "domain name",
+      "gloss": "A dynamic DNS domain used by threat actors as network infrastructure."
+    },
+    {
+      "name": "up-lnk.myftp.org",
+      "kind": "domain name",
+      "gloss": "A dynamic DNS domain used by threat actors as network infrastructure."
+    },
+    {
+      "name": "nitikora.ru",
+      "kind": "domain name",
+      "gloss": "A domain associated with malicious threat infrastructure."
+    },
+    {
+      "name": "dodortar.ru",
+      "kind": "domain name",
+      "gloss": "A domain associated with malicious threat infrastructure."
+    },
+    {
+      "name": "kopratiso.ru",
+      "kind": "domain name",
+      "gloss": "A domain associated with malicious threat infrastructure."
+    },
+    {
+      "name": "billyhot.ru",
+      "kind": "domain name",
+      "gloss": "A domain associated with malicious threat infrastructure."
+    },
+    {
+      "name": "bilitora.ru",
+      "kind": "domain name",
+      "gloss": "A domain associated with malicious threat infrastructure."
+    },
+    {
+      "name": "194.58.121.198",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat infrastructure."
+    },
+    {
+      "name": "194.180.174.105",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat infrastructure."
+    },
+    {
+      "name": "149.248.13.58",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "1275_07.04.2022.htm",
+      "type": "delivers",
+      "tail": "1275_07.04.2022.rar",
+      "evidence": "призведе до створення на комп'ютері архіву \"1275_07.04.2022.rar\""
+    },
+    {
+      "head": "1275_07.04.2022.rar",
+      "type": "delivers",
+      "tail": "Щодо фактів переслідування та вбивства працівників Прокуратури з боку російських військових на тимчасово окупованих територіях.lnk",
+      "evidence": "Останній містить LNK-файл \"Щодо фактів переслідування та вбивства працівників Прокуратури"
+    },
+    {
+      "head": "UAC-0010 (Armageddon)",
+      "type": "uses-malware",
+      "tail": "1275_07.04.2022.htm",
+      "evidence": "Активність асоційовано з діяльністю групи UAC-0010 (Armageddon)"
+    }
+  ],
+  "newRelationTypes": []
+}
+```

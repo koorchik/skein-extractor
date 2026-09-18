@@ -1,0 +1,51 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You maintain a small, growing set of CONCEPT SCHEMES (entity categories) for a knowledge registry built from cybersecurity incident reports. A group of entities extracted from several reports has just been found to be close to each other and far from every existing scheme. Decide whether the group is a genuinely new scheme or an alias of an existing one, and name it.
+
+### EXISTING SCHEMES ###
+- Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security.
+- Software Product: A program, application, operating system, or software component designed for end users or computing systems.
+- Technology Vendor: A company or organization that develops, manufactures, or supplies software, hardware, or technology services.
+- Country: A sovereign nation, state, or distinct territorial body with its own government.
+- Government Agency: An official institution, ministry, department, or administrative body operating under the authority of a national or regional government.
+- Malware: Software, code, or executable files intentionally designed to disrupt, damage, or gain unauthorized access to computer systems or data.
+- Uniform Resource Locator: A standardized web address identifying the location of a specific resource or endpoint on a computer network.
+- Person: An individual human being, such as a government official, cybersecurity professional, diplomat, or other public figure.
+- IP Address: A numerical label assigned to a device or network interface to identify its location on a computer network.
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network.
+
+### THE GROUP ###
+Each line is one entity with the description written at extraction time:
+- office.lnk [file] — A shortcut file used for persistence in the startup directory.
+- PO.jpg [file] — A malicious executable disguised as an image file.
+- office.exe [file] — A malicious executable file configured for startup persistence.
+- К оплате за январь Агро.lzh [file] — A malicious archive file distributed via phishing emails.
+- договір та р.фактура від 30.01.19.lzh [file] — A malicious archive file used as an email attachment.
+- Рахунок №6-19 от 29.01.2019р.xls.js [file] — A malicious JavaScript file used in phishing distribution campaigns.
+- anketa_21_3_2018 (4).zip [file] — A malicious ZIP archive distributed via email containing an obfuscated JavaScript file.
+- documents (5).zip [file] — A malicious ZIP archive distributed via email containing an obfuscated JavaScript file.
+- Pax. 19-208 - 30.01.2019p..js [file] — A malicious script file used in cyberattack delivery.
+- QUOTATION N0AB.doc [file] — A malicious document file used to exploit Microsoft Office vulnerabilities and deliver malware.
+
+### RULES ###
+- A scheme is a KIND of entity (e.g. "Hacker group", "Malware family", "Software product", "Government body", "Internet domain", "Country"), never a role in an incident and never a single entity.
+- Return `"verdict": "alias-of"` with `"target"` set to an existing scheme's label when the group is the same kind as that scheme (different wording, same meaning). Judge by MEANING of the descriptions, not by surface words.
+- Return `"verdict": "new"` when no existing scheme covers the group. Then give:
+  - `prefLabel`: a short English noun phrase, 1–3 words, singular, Title Case (e.g. "Malware Family").
+  - `definition`: one sentence, at most 25 words, stating what belongs to the scheme, general enough to hold across reports.
+  - `altLabels`: 0–3 alternative English labels.
+- If the group mixes clearly different kinds, name the kind of the MAJORITY and list the minority entity names in `outliers`.
+- If uncertain between alias and new, prefer `new`: an extra scheme can be merged later; a wrong merge cannot be undone cheaply.
+
+### OUTPUT ###
+A single raw JSON object, no markdown fences, no commentary:
+{ "verdict": "new" | "alias-of", "target": "<existing label or null>", "prefLabel": "...", "definition": "...", "altLabels": [...], "outliers": [...] }
+
+--- text ---
+Decide and name the group now.
+
+=== RESPONSE (4.5s, in 972 / out 61 tok, STOP) ===
+{"verdict": "new", "target": null, "prefLabel": "Computer File", "definition": "A digital file, script, document, or archive stored on a filesystem or transmitted across a network.", "altLabels": ["File", "Digital File"], "outliers": []}

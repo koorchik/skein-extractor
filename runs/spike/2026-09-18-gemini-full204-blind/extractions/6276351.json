@@ -1,0 +1,184 @@
+{
+  "entities": [
+    {
+      "name": "СБ України",
+      "kind": "government body",
+      "gloss": "The state security and counterintelligence agency of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0050",
+      "kind": "threat actor",
+      "gloss": "A cybercrime and cyberespionage threat group frequently targeting Ukrainian organizations."
+    },
+    {
+      "name": "Remcos RAT",
+      "kind": "malware family",
+      "gloss": "A commercial remote access trojan frequently used in cyberattacks for surveillance and control."
+    },
+    {
+      "name": "Електронна вимога СБУ України.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive distributed via phishing emails."
+    },
+    {
+      "name": "Вимога СБУ 543 від 13.11.2023.pdf.rar",
+      "kind": "file",
+      "gloss": "A password-protected RAR archive nested inside a phishing attachment."
+    },
+    {
+      "name": "Вимога СБУ 543 від 13.11.2023.pdf.exe",
+      "kind": "file",
+      "gloss": "A malicious executable disguised as a PDF document that installs Remcos RAT."
+    },
+    {
+      "name": "Код 8161.txt",
+      "kind": "file",
+      "gloss": "A text file associated with the malware delivery archive."
+    },
+    {
+      "name": "Remcos.exe",
+      "kind": "file",
+      "gloss": "An executable payload of the Remcos RAT remote access trojan."
+    },
+    {
+      "name": "%PROGRAMDATA%\\davinci\\sql.exe",
+      "kind": "file",
+      "gloss": "A malicious executable dropped on the compromised host."
+    },
+    {
+      "name": "Shinjiru",
+      "kind": "company",
+      "gloss": "An offshore web hosting service provider based in Malaysia."
+    },
+    {
+      "name": "Малайзія",
+      "kind": "country",
+      "gloss": "A country in Southeast Asia."
+    },
+    {
+      "name": "REG.RU",
+      "kind": "company",
+      "gloss": "A Russian domain name registrar and web hosting service provider."
+    },
+    {
+      "name": "російську",
+      "kind": "country",
+      "gloss": "A country spanning Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "info@davincigroup[.]online",
+      "kind": "email address",
+      "gloss": "An email address associated with the malicious campaign."
+    },
+    {
+      "name": "davincigroup[.]online",
+      "kind": "internet domain",
+      "gloss": "A malicious domain name registered for the attack campaign."
+    },
+    {
+      "name": "groupdavinci[.]online",
+      "kind": "internet domain",
+      "gloss": "A malicious domain name registered for the attack campaign."
+    },
+    {
+      "name": "111.90.147.133",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server."
+    },
+    {
+      "name": "111.90.147.157",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server."
+    },
+    {
+      "name": "111.90.147.188",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server."
+    },
+    {
+      "name": "111.90.147.190",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server."
+    },
+    {
+      "name": "111.90.147.21",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server."
+    },
+    {
+      "name": "111.90.147.216",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server."
+    },
+    {
+      "name": "111.90.147.78",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server."
+    },
+    {
+      "name": "111.90.147.98",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command and control server."
+    },
+    {
+      "name": "195.133.199.230",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the threat infrastructure."
+    },
+    {
+      "name": "45.10.245.245",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the threat infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0050",
+      "type": "uses-malware",
+      "tail": "Remcos RAT",
+      "evidence": "призведе до встановлення на ЕОМ програми для віддаленого управління Remcos RAT"
+    },
+    {
+      "head": "Електронна вимога СБУ України.rar",
+      "type": "delivers",
+      "tail": "Вимога СБУ 543 від 13.11.2023.pdf.rar",
+      "evidence": "архів містить ще один одноіменний архів в якому знаходиться черговий, захищений паролем RAR-файл"
+    },
+    {
+      "head": "Вимога СБУ 543 від 13.11.2023.pdf.rar",
+      "type": "delivers",
+      "tail": "Вимога СБУ 543 від 13.11.2023.pdf.exe",
+      "evidence": "Останній містить виконуваний файл \"Вимога СБУ 543 від 13.11.2023.pdf.exe\""
+    },
+    {
+      "head": "Вимога СБУ 543 від 13.11.2023.pdf.exe",
+      "type": "delivers",
+      "tail": "Remcos RAT",
+      "evidence": "запуск якого призведе до встановлення на ЕОМ програми для віддаленого управління Remcos RAT"
+    },
+    {
+      "head": "Shinjiru",
+      "type": "located-in",
+      "tail": "Малайзія",
+      "evidence": "технічних потужностях компанії Shinjiru (Малайзія)"
+    },
+    {
+      "head": "REG.RU",
+      "type": "located-in",
+      "tail": "російську",
+      "evidence": "російську компанію REG.RU"
+    },
+    {
+      "head": "СБ України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "СБ України"
+    }
+  ],
+  "newRelationTypes": []
+}

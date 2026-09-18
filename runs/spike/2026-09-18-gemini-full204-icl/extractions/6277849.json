@@ -1,0 +1,118 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Центр кібернетичної безпеки інформаційно-телекомунікаційних систем військової частини А0334",
+      "kind": "government organization",
+      "gloss": "A cybersecurity unit within the Armed Forces of Ukraine."
+    },
+    {
+      "name": "Сили оборони України",
+      "kind": "government organization",
+      "gloss": "The collective military and defense structures of Ukraine."
+    },
+    {
+      "name": "Signal",
+      "kind": "software product",
+      "gloss": "A cross-platform centralized encrypted instant messaging service."
+    },
+    {
+      "name": "1_ф_5.39-2024.xlsm",
+      "kind": "computer file",
+      "gloss": "A malicious macro-enabled Excel document used to initiate malware execution."
+    },
+    {
+      "name": "mob2002.data",
+      "kind": "computer file",
+      "gloss": "A malicious PowerShell script hosted on GitHub used to install COOKBOX."
+    },
+    {
+      "name": "COOKBOX",
+      "kind": "malware",
+      "gloss": "A PowerShell backdoor script that downloads and executes PowerShell cmdlets."
+    },
+    {
+      "name": "Cloudflare Workers",
+      "kind": "software product",
+      "gloss": "A serverless application platform executed on Cloudflare's edge network."
+    },
+    {
+      "name": "gotdns.ch",
+      "kind": "domain name",
+      "gloss": "A dynamic DNS service domain name."
+    },
+    {
+      "name": "myftp.biz",
+      "kind": "domain name",
+      "gloss": "A dynamic DNS service domain name."
+    },
+    {
+      "name": "UAC-0149",
+      "kind": "threat actor",
+      "gloss": "A cyber threat cluster tracked by CERT-UA targeting Ukrainian organizations."
+    },
+    {
+      "name": "array.myftp.biz",
+      "kind": "domain name",
+      "gloss": "A malicious dynamic DNS domain used as command and control infrastructure."
+    },
+    {
+      "name": "bom02.gotdns.ch",
+      "kind": "domain name",
+      "gloss": "A malicious dynamic DNS domain used as command and control infrastructure."
+    },
+    {
+      "name": "worker-test-6f41.idv64828.workers.dev",
+      "kind": "domain name",
+      "gloss": "A Cloudflare Workers domain used for malicious command and control infrastructure."
+    },
+    {
+      "name": "34.199.8.144",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command and control infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0149",
+      "type": "uses",
+      "tail": "COOKBOX",
+      "evidence": "Описана активність здійснюється, щонайменше, з осені 2023 року... відстежується за ідентифікатором UAC-0149"
+    },
+    {
+      "head": "1_ф_5.39-2024.xlsm",
+      "type": "delivers",
+      "tail": "mob2002.data",
+      "evidence": "забезпечував запуск PowerShell-команди, призначеної для завантаження, декодування та виконання PowerShell-сценарію \"mob2002.data\""
+    },
+    {
+      "head": "mob2002.data",
+      "type": "delivers",
+      "tail": "COOKBOX",
+      "evidence": "містить черговий PowerShell-скрипт, який здійснить GZIP-декомпресію та запуск шкідливої програми COOKBOX"
+    },
+    {
+      "head": "UAC-0149",
+      "type": "affects",
+      "tail": "Сили оборони України",
+      "evidence": "спробі ураження шкідливим програмним забезпеченням ЕОМ представників Сил оборони України"
+    },
+    {
+      "head": "Центр кібернетичної безпеки інформаційно-телекомунікаційних систем військової частини А0334",
+      "type": "part-of",
+      "tail": "Сили оборони України",
+      "evidence": "Центром кібернетичної безпеки інформаційно-телекомунікаційних систем військової частини А0334"
+    },
+    {
+      "head": "Сили оборони України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Сил оборони України"
+    }
+  ],
+  "newRelationTypes": []
+}

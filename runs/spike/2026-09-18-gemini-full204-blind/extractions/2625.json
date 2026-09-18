@@ -1,0 +1,167 @@
+{
+  "entities": [
+    {
+      "name": "CISA",
+      "kind": "government body",
+      "gloss": "The United States Cybersecurity and Infrastructure Security Agency."
+    },
+    {
+      "name": "Директиву щодо надзвичайних ситуацій 20-02",
+      "kind": "security directive",
+      "gloss": "An emergency cybersecurity directive issued by CISA regarding critical Windows vulnerabilities."
+    },
+    {
+      "name": "Microsoft",
+      "kind": "software vendor",
+      "gloss": "An American multinational technology corporation providing software and operating systems."
+    },
+    {
+      "name": "Microsoft Windows",
+      "kind": "operating system family",
+      "gloss": "A family of proprietary graphical operating systems developed and marketed by Microsoft."
+    },
+    {
+      "name": "Windows 10",
+      "kind": "operating system",
+      "gloss": "A major release of the Microsoft Windows NT operating system."
+    },
+    {
+      "name": "Windows Server 2016",
+      "kind": "operating system",
+      "gloss": "A server operating system developed by Microsoft as part of the Windows NT family."
+    },
+    {
+      "name": "Windows Server 2019",
+      "kind": "operating system",
+      "gloss": "A server operating system developed by Microsoft as part of the Windows NT family."
+    },
+    {
+      "name": "Windows Server 2012",
+      "kind": "operating system",
+      "gloss": "A server operating system released by Microsoft as part of the Windows NT family."
+    },
+    {
+      "name": "Windows 7",
+      "kind": "operating system",
+      "gloss": "A legacy desktop operating system developed by Microsoft."
+    },
+    {
+      "name": "Windows 2008 R2",
+      "kind": "operating system",
+      "gloss": "A legacy server operating system developed by Microsoft."
+    },
+    {
+      "name": "CryptoAPI",
+      "kind": "software component",
+      "gloss": "A cryptographic application programming interface included in Microsoft Windows operating systems."
+    },
+    {
+      "name": "Windows Remote Desktop Client",
+      "kind": "software component",
+      "gloss": "A client application used in Windows for connecting to remote systems over RDP."
+    },
+    {
+      "name": "Remote Desktop Gateway",
+      "kind": "software component",
+      "gloss": "A Windows Server role service enabling authorized remote users to connect to internal resources."
+    },
+    {
+      "name": "CVE-2020-0601",
+      "kind": "vulnerability identifier",
+      "gloss": "A spoofing vulnerability in Windows CryptoAPI affecting ECC certificate validation."
+    },
+    {
+      "name": "CVE-2020-0609",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in Windows Remote Desktop Gateway Server."
+    },
+    {
+      "name": "CVE-2020-0610",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in Windows Remote Desktop Gateway Server."
+    },
+    {
+      "name": "CVE-2020-0611",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in Windows Remote Desktop Client."
+    },
+    {
+      "name": "January 2020 Security Updates",
+      "kind": "software update",
+      "gloss": "A monthly security update package released by Microsoft in January 2020."
+    },
+    {
+      "name": "US-CERT",
+      "kind": "government body",
+      "gloss": "The computer emergency readiness team organization within the United States government."
+    },
+    {
+      "name": "NSA",
+      "kind": "government body",
+      "gloss": "The National Security Agency, a national-level intelligence agency of the United States."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CISA",
+      "type": "publishes",
+      "tail": "Директиву щодо надзвичайних ситуацій 20-02",
+      "evidence": "Агентство з питань кібербезпеки та інфраструктури (CISA) видало Директиву щодо надзвичайних ситуацій 20-02"
+    },
+    {
+      "head": "CVE-2020-0601",
+      "type": "affects",
+      "tail": "Windows 10",
+      "evidence": "Вразливість перевірки сертифікатів ECC є у MS Windows 10"
+    },
+    {
+      "head": "CVE-2020-0601",
+      "type": "affects",
+      "tail": "Windows Server 2016",
+      "evidence": "є у MS Windows 10, MS Server 2016 та MS Server 2019"
+    },
+    {
+      "head": "CVE-2020-0601",
+      "type": "affects",
+      "tail": "Windows Server 2019",
+      "evidence": "є у MS Windows 10, MS Server 2016 та MS Server 2019"
+    },
+    {
+      "head": "CVE-2020-0601",
+      "type": "affects",
+      "tail": "CryptoAPI",
+      "evidence": "а веб-браузер, який спирається на CryptoAPI Windows"
+    },
+    {
+      "head": "CVE-2020-0609",
+      "type": "affects",
+      "tail": "Remote Desktop Gateway",
+      "evidence": "RDP Gateway Server (є на Windows Server 2012, 2016, 2019)"
+    },
+    {
+      "head": "CVE-2020-0610",
+      "type": "affects",
+      "tail": "Remote Desktop Gateway",
+      "evidence": "RDP Gateway Server (є на Windows Server 2012, 2016, 2019)"
+    },
+    {
+      "head": "CVE-2020-0611",
+      "type": "affects",
+      "tail": "Windows Remote Desktop Client",
+      "evidence": "CVE-2020-0611 вразливість віддаленого виконання коду, яка існує в Windows Remote Desktop Client"
+    },
+    {
+      "head": "Microsoft",
+      "type": "publishes",
+      "tail": "January 2020 Security Updates",
+      "evidence": "Патчі для цих вразливостей вже випущені компанією Microsoft як частина оновлення January 2020 Security Updates"
+    },
+    {
+      "head": "January 2020 Security Updates",
+      "type": "addresses-vulnerability-in",
+      "tail": "Microsoft Windows",
+      "evidence": "Патчі для цих вразливостей вже випущені компанією Microsoft як частина оновлення January 2020 Security Updates"
+    }
+  ],
+  "newRelationTypes": []
+}

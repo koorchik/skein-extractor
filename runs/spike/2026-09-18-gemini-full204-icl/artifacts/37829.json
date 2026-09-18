@@ -1,0 +1,163 @@
+{
+  "docId": 37829,
+  "date": "18.03.2022",
+  "title": "Кібератака групи UAC-0035 (InvisiMole) на державні організації України (CERT-UA#4213)",
+  "entities": [
+    {
+      "id": "37829:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S4",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "37829:1",
+      "name": "UAC-0035",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage threat group also tracked as InvisiMole.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "37829:2",
+      "name": "LoadEdge",
+      "kind": "malware",
+      "gloss": "A C++ backdoor malware designed to execute system commands and deliver secondary payloads.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "37829:3",
+      "name": "TunnelMole",
+      "kind": "malware",
+      "gloss": "A DNS backdoor malware family associated with cyber espionage campaigns.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37829:4",
+      "name": "RC2CL",
+      "kind": "malware",
+      "gloss": "A malware tool associated with cyber espionage operations.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "37829:5",
+      "name": "501_25_103.zip",
+      "kind": "computer file",
+      "gloss": "A malicious ZIP archive distributed via email attachments.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "37829:6",
+      "name": "501_25_103.lnk",
+      "kind": "computer file",
+      "gloss": "A malicious Windows shortcut file that triggers the download and execution of an HTA payload.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "37829:7",
+      "name": "We4Qu6.hta",
+      "kind": "computer file",
+      "gloss": "A malicious HTML Application file containing VBScript code to deploy malware.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "37829:8",
+      "name": "501_25_103.doc",
+      "kind": "computer file",
+      "gloss": "A decoy document file dropped during the infection process.",
+      "scheme": "S11",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "37829:9",
+      "name": "EdgeNotification.dll",
+      "kind": "computer file",
+      "gloss": "A dynamic link library file containing the LoadEdge backdoor payload.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "37829:10",
+      "name": "45.95.11.34",
+      "kind": "ip address",
+      "gloss": "An IP address used for command and control and hosting malicious payloads.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0035",
+      "type": "uses",
+      "tail": "LoadEdge",
+      "evidence": "Активність асоційовано з діяльністю групи UAC-0035 (InvisiMole)... LoadEdge"
+    },
+    {
+      "head": "UAC-0035",
+      "type": "uses",
+      "tail": "TunnelMole",
+      "evidence": "іншими шкідливими програмами з арсеналу групи: TunnelMole"
+    },
+    {
+      "head": "UAC-0035",
+      "type": "uses",
+      "tail": "RC2CL",
+      "evidence": "іншими шкідливими програмами з арсеналу групи: TunnelMole (DNS backdoor), RC2CL"
+    },
+    {
+      "head": "501_25_103.zip",
+      "type": "delivers",
+      "tail": "501_25_103.lnk",
+      "evidence": "архів \"501_25_103.zip\", що містить одноіменний файл-ярлик"
+    },
+    {
+      "head": "501_25_103.lnk",
+      "type": "delivers",
+      "tail": "We4Qu6.hta",
+      "evidence": "відкриття LNK-файлу на комп'ютер буде завантажено та виконано HTA-файл"
+    },
+    {
+      "head": "We4Qu6.hta",
+      "type": "delivers",
+      "tail": "LoadEdge",
+      "evidence": "VBScript-код, який забезпечить завантаження і декодування файлу-приманки та шкідливої програми LoadEdge"
+    },
+    {
+      "head": "We4Qu6.hta",
+      "type": "delivers",
+      "tail": "501_25_103.doc",
+      "evidence": "VBScript-код, який забезпечить завантаження і декодування файлу-приманки"
+    },
+    {
+      "head": "LoadEdge",
+      "type": "delivers",
+      "tail": "TunnelMole",
+      "evidence": "LoadEdge, яка, у свою чергу, повинна була б забезпечити ураження комп'ютера іншими шкідливими програмами з арсеналу групи: TunnelMole"
+    },
+    {
+      "head": "LoadEdge",
+      "type": "delivers",
+      "tail": "RC2CL",
+      "evidence": "LoadEdge, яка, у свою чергу, повинна була б забезпечити ураження комп'ютера іншими шкідливими програмами з арсеналу групи: TunnelMole (DNS backdoor), RC2CL"
+    }
+  ],
+  "unclassified": []
+}

@@ -1,0 +1,108 @@
+{
+  "entities": [
+    {
+      "name": "Agent Tesla",
+      "kind": "malware family",
+      "gloss": "A .NET-based infostealer, keylogger, and remote access trojan used to harvest credentials and system information."
+    },
+    {
+      "name": "RegAsm.exe",
+      "kind": "software tool",
+      "gloss": "A legitimate Microsoft .NET Assembly Registration utility often abused by malware to execute code."
+    },
+    {
+      "name": "AvqOUjZwpiXQ.exe",
+      "kind": "file name",
+      "gloss": "A randomly named executable file dropped and executed by Agent Tesla during installation."
+    },
+    {
+      "name": "DynDns.com",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS service provider utilized for dynamic domain resolution."
+    },
+    {
+      "name": "BaDpDF.com",
+      "kind": "internet domain",
+      "gloss": "A malicious domain name associated with Agent Tesla command and control communications."
+    },
+    {
+      "name": "cm.islamabad@chinagrill.co",
+      "kind": "email address",
+      "gloss": "An email address used by Agent Tesla to exfiltrate stolen credentials via SMTP."
+    },
+    {
+      "name": "68AAFAD91C955972089F099B62FCA0F2F6D6AC43",
+      "kind": "sha1 hash",
+      "gloss": "A SHA-1 cryptographic hash identifying a sample of Agent Tesla malware."
+    },
+    {
+      "name": "A857E20D897F5CF77A2E80129285F477B6B0F96A",
+      "kind": "sha1 hash",
+      "gloss": "A SHA-1 cryptographic hash identifying a sample of Agent Tesla malware."
+    },
+    {
+      "name": "6A951FE5B72AC99090BEBE3C7A15039AB2A5757C",
+      "kind": "sha1 hash",
+      "gloss": "A SHA-1 cryptographic hash identifying a sample of Agent Tesla malware."
+    },
+    {
+      "name": "8DAA8D63B10698130C84913F57B4B77AC5D08550",
+      "kind": "sha1 hash",
+      "gloss": "A SHA-1 cryptographic hash identifying a sample of Agent Tesla malware."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Agent Tesla",
+      "type": "launches",
+      "tail": "RegAsm.exe",
+      "evidence": "Далі програма запускає системний файл RegAsm.exe"
+    },
+    {
+      "head": "Agent Tesla",
+      "type": "creates-file",
+      "tail": "AvqOUjZwpiXQ.exe",
+      "evidence": "створює виконуваний файл з псевдовипадковою назвою (наприклад AvqOUjZwpiXQ.exe)"
+    },
+    {
+      "head": "Agent Tesla",
+      "type": "uses-service",
+      "tail": "DynDns.com",
+      "evidence": "використовується механізм динамічної зміни IP-адреси використовуючи послуги https://DynDns.com"
+    },
+    {
+      "head": "Agent Tesla",
+      "type": "communicates-with-domain",
+      "tail": "BaDpDF.com",
+      "evidence": "HTTP протокол, наприклад, “hххp://BaDpDF.com"
+    },
+    {
+      "head": "Agent Tesla",
+      "type": "exfiltrates-data-to-email",
+      "tail": "cm.islamabad@chinagrill.co",
+      "evidence": "відправляючи дані на поштову адресу cm.islamabad@chinagrill.co"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "launches",
+      "definition": "The malware or threat actor executes or launches a specific system executable or program."
+    },
+    {
+      "name": "creates-file",
+      "definition": "The subject creates, drops, or writes the specified file to the file system."
+    },
+    {
+      "name": "uses-service",
+      "definition": "The malware or threat actor uses an online infrastructure service for operational capabilities."
+    },
+    {
+      "name": "communicates-with-domain",
+      "definition": "The malware establishes network communication with the specified domain."
+    },
+    {
+      "name": "exfiltrates-data-to-email",
+      "definition": "The malware transmits stolen or harvested data to the specified email address."
+    }
+  ]
+}

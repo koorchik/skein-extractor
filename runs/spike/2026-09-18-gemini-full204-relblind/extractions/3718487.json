@@ -1,0 +1,155 @@
+{
+  "entities": [
+    {
+      "name": "CyberArmyofRussia_Reborn",
+      "kind": "telegram channel",
+      "gloss": "A Telegram channel used to publish information about cyberattacks and claimed hacktivist activities."
+    },
+    {
+      "name": "Українське національне інформаційне агентство \"Укрінформ\"",
+      "kind": "state news agency",
+      "gloss": "The national public news agency of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "CaddyWiper",
+      "kind": "malware family",
+      "gloss": "A data wiping malware designed to overwrite and destroy files and disk partitions on Windows systems."
+    },
+    {
+      "name": "ZeroWipe",
+      "kind": "malware family",
+      "gloss": "A wiper malware used to overwrite files and destroy data on Windows systems."
+    },
+    {
+      "name": "SDelete",
+      "kind": "software tool",
+      "gloss": "A legitimate command-line utility developed by Microsoft Sysinternals for securely deleting files and data."
+    },
+    {
+      "name": "AwfulShred",
+      "kind": "malware script",
+      "gloss": "A malicious shell script used to corrupt and wipe data on Linux systems."
+    },
+    {
+      "name": "BidSwipe",
+      "kind": "malware script",
+      "gloss": "A malicious shell script used to wipe and destroy data on FreeBSD systems."
+    },
+    {
+      "name": "news.bat",
+      "kind": "batch script",
+      "gloss": "A malicious batch script used to execute the SDelete utility for destructive purposes."
+    },
+    {
+      "name": "UAC-0082",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage and sabotage group attributed to the GRU, also known as Sandworm."
+    },
+    {
+      "name": "гу гш зс рф",
+      "kind": "intelligence agency",
+      "gloss": "The foreign military intelligence agency of the General Staff of the Armed Forces of the Russian Federation."
+    },
+    {
+      "name": "рф",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "new.exe",
+      "kind": "file",
+      "gloss": "An executable file containing the CaddyWiper malware."
+    },
+    {
+      "name": "upd.exe",
+      "kind": "file",
+      "gloss": "An executable file containing the ZeroWipe malware."
+    },
+    {
+      "name": "sdelete.exe",
+      "kind": "file",
+      "gloss": "An executable file of the SDelete data erasure utility."
+    },
+    {
+      "name": "r.sh",
+      "kind": "file",
+      "gloss": "A shell script file implementing the AwfulShred wiper on Linux."
+    },
+    {
+      "name": "audit.sh",
+      "kind": "file",
+      "gloss": "A shell script file implementing the BidSwipe wiper on FreeBSD."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0082",
+      "type": "associated-with",
+      "tail": "гу гш зс рф",
+      "evidence": "діяльність якої асоціюється з гу гш зс рф"
+    },
+    {
+      "head": "UAC-0082",
+      "type": "targeted",
+      "tail": "Українське національне інформаційне агентство \"Укрінформ\"",
+      "evidence": "кібератаку здійснено групою UAC-0082 (Sandworm)"
+    },
+    {
+      "head": "UAC-0082",
+      "type": "used-tool",
+      "tail": "CaddyWiper",
+      "evidence": "використанням шкідливих програм-деструкторів CaddyWiper"
+    },
+    {
+      "head": "UAC-0082",
+      "type": "used-tool",
+      "tail": "ZeroWipe",
+      "evidence": "використанням шкідливих програм-деструкторів CaddyWiper та ZeroWipe"
+    },
+    {
+      "head": "UAC-0082",
+      "type": "used-tool",
+      "tail": "SDelete",
+      "evidence": "а також легітимної утиліти SDelete"
+    },
+    {
+      "head": "news.bat",
+      "type": "executes",
+      "tail": "SDelete",
+      "evidence": "файлу \"news.bat\", який здійснює запуск утиліти SDelete"
+    },
+    {
+      "head": "CyberArmyofRussia_Reborn",
+      "type": "publicized-activity-of",
+      "tail": "UAC-0082",
+      "evidence": "ексклюзивно висвітлює деструктивну активність, що здійснюється згаданим угрупуванням"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "associated-with",
+      "definition": "Indicates an organizational, operational, or state attribution link between an actor and a governing body."
+    },
+    {
+      "name": "targeted",
+      "definition": "Indicates that a threat actor directed cyber attacks or reconnaissance against a specific entity."
+    },
+    {
+      "name": "used-tool",
+      "definition": "Indicates that a threat actor deployed or utilized a specific malware family or software tool during an operation."
+    },
+    {
+      "name": "executes",
+      "definition": "Indicates that a script or program launches and executes another tool or executable."
+    },
+    {
+      "name": "publicized-activity-of",
+      "definition": "Indicates that an online channel or media outlet specifically publishes reports or claims about operations conducted by a threat actor."
+    }
+  ]
+}

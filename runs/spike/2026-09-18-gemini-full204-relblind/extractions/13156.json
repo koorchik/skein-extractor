@@ -1,0 +1,169 @@
+{
+  "entities": [
+    {
+      "name": "OUTSTEEL",
+      "kind": "malware family",
+      "gloss": "A malware family designed to search for and exfiltrate documents of specific file extensions."
+    },
+    {
+      "name": "LOADJUMP",
+      "kind": "malware family",
+      "gloss": "A malware loader designed to download and execute secondary payloads."
+    },
+    {
+      "name": "Президент України",
+      "kind": "government body",
+      "gloss": "The head of state and supreme commander-in-chief of Ukraine, whose official web portal was impersonated."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "756285df0c8b81cf14ad3463a57d33ed.xll",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel add-in file compiled to deliver the LOADJUMP malware."
+    },
+    {
+      "name": "0707a.exe",
+      "kind": "malicious file",
+      "gloss": "A .NET executable file that decodes and launches the OUTSTEEL malware."
+    },
+    {
+      "name": "differencecell.exe",
+      "kind": "malicious file",
+      "gloss": "An executable payload downloaded by malicious macros found on the spoofed website."
+    },
+    {
+      "name": "44fcb1b922317cc82b3c3fc5a82efb19_1583907427.doc",
+      "kind": "malicious file",
+      "gloss": "A macro-enabled Word document hosted on the phishing website."
+    },
+    {
+      "name": "756285df0c8b81cf14ad3463a57d33ed_1583907427.doc",
+      "kind": "malicious file",
+      "gloss": "A macro-enabled Word document hosted on the phishing website."
+    },
+    {
+      "name": "d42580f0a3391eff1571ee7e7c19d05a_1583907427.doc",
+      "kind": "malicious file",
+      "gloss": "A macro-enabled Word document hosted on the phishing website."
+    },
+    {
+      "name": "f70b4c4e23405b0e0cc5d8e539471cce_1583907427.doc",
+      "kind": "malicious file",
+      "gloss": "A macro-enabled Word document hosted on the phishing website."
+    },
+    {
+      "name": "1833[.]site",
+      "kind": "internet domain",
+      "gloss": "A domain name used to host and distribute the 0707a.exe payload."
+    },
+    {
+      "name": "gov-ua[.]info",
+      "kind": "internet domain",
+      "gloss": "A domain name used to host a fake website impersonating the President of Ukraine."
+    },
+    {
+      "name": "giraffe-tour[.]ru",
+      "kind": "internet domain",
+      "gloss": "A domain name referenced in malicious Word macros for payload delivery."
+    },
+    {
+      "name": "45.146.165[.]91",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command-and-control server receiving exfiltrated data."
+    },
+    {
+      "name": "31.31.198[.]151",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the malicious campaign infrastructure."
+    },
+    {
+      "name": "http[:]//1833[.]site/0707a[.]exe",
+      "kind": "url",
+      "gloss": "A malicious URL from which the 0707a.exe payload is fetched by LOADJUMP."
+    },
+    {
+      "name": "http[:]//giraffe-tour[.]ru/123/index[.]exe",
+      "kind": "url",
+      "gloss": "A malicious URL contacted by macros to retrieve differencecell.exe."
+    },
+    {
+      "name": "http://45.146.165[.]91:8080/upld/",
+      "kind": "url",
+      "gloss": "A command-and-control URL used for receiving exfiltrated files."
+    }
+  ],
+  "relations": [
+    {
+      "head": "756285df0c8b81cf14ad3463a57d33ed.xll",
+      "type": "contains-payload",
+      "tail": "LOADJUMP",
+      "evidence": "файл “756285df0c8b81cf14ad3463a57d33ed.xll”... що є шкідливою програмою LOADJUMP"
+    },
+    {
+      "head": "LOADJUMP",
+      "type": "downloads-from",
+      "tail": "http[:]//1833[.]site/0707a[.]exe",
+      "evidence": "забезпечить з'єднання з URL-адресою http[:]//1833[.]site/0707a[.]exe, завантажить і виконає"
+    },
+    {
+      "head": "http[:]//1833[.]site/0707a[.]exe",
+      "type": "delivers-file",
+      "tail": "0707a.exe",
+      "evidence": "забезпечить з'єднання з URL-адресою http[:]//1833[.]site/0707a[.]exe, завантажить і виконає файл “0707a[.]exe”"
+    },
+    {
+      "head": "0707a.exe",
+      "type": "executes",
+      "tail": "OUTSTEEL",
+      "evidence": "забезпечить декодування і запуск шкідливої програми OUTSTEEL"
+    },
+    {
+      "head": "OUTSTEEL",
+      "type": "communicates-with",
+      "tail": "http://45.146.165[.]91:8080/upld/",
+      "evidence": "забезпечить передачу цих даних на сервер управління з використанням протоколу HTTP"
+    },
+    {
+      "head": "http[:]//giraffe-tour[.]ru/123/index[.]exe",
+      "type": "delivers-file",
+      "tail": "differencecell.exe",
+      "evidence": "ініціює з'єднання з URL-адресою http[:]//giraffe-tour[.]ru/123/index[.]exe та забезпечить завантаження і запуск файлу"
+    },
+    {
+      "head": "Президент України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Президента України"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "contains-payload",
+      "definition": "The source file contains, encapsulates, or represents the target malware payload."
+    },
+    {
+      "name": "downloads-from",
+      "definition": "The source software or malware initiates network connections to retrieve content from the target URL or address."
+    },
+    {
+      "name": "delivers-file",
+      "definition": "The source URL or network resource serves or supplies the target file for download."
+    },
+    {
+      "name": "executes",
+      "definition": "The source program unpacks, launches, or executes the target malware or code."
+    },
+    {
+      "name": "communicates-with",
+      "definition": "The source entity establishes network communication or sends data to the target endpoint."
+    },
+    {
+      "name": "located-in",
+      "definition": "The source organization or entity is based in or belongs to the target country."
+    }
+  ]
+}

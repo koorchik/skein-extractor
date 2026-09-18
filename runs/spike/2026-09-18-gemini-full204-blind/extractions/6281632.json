@@ -1,0 +1,253 @@
+{
+  "entities": [
+    {
+      "name": "MIL.CERT-UA",
+      "kind": "military organization",
+      "gloss": "A Ukrainian military computer emergency response unit."
+    },
+    {
+      "name": "Український союз промисловців та підприємців",
+      "kind": "non-governmental organization",
+      "gloss": "A Ukrainian non-governmental organization representing business and industrial associations."
+    },
+    {
+      "name": "ОПК України",
+      "kind": "industrial sector",
+      "gloss": "The defense-industrial complex sector of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country located in Eastern Europe."
+    },
+    {
+      "name": "НАТО",
+      "kind": "international organization",
+      "gloss": "An intergovernmental military alliance of North American and European countries."
+    },
+    {
+      "name": "Київ",
+      "kind": "city",
+      "gloss": "The capital city of Ukraine."
+    },
+    {
+      "name": "mshta.exe",
+      "kind": "software tool",
+      "gloss": "A legitimate Windows utility used to execute Microsoft HTML Application files."
+    },
+    {
+      "name": "UAC-0185",
+      "kind": "threat actor",
+      "gloss": "A threat actor group targeting Ukrainian military entities and defense sector organizations."
+    },
+    {
+      "name": "UNC4221",
+      "kind": "threat actor",
+      "gloss": "An alias for the threat actor group tracked as UAC-0185."
+    },
+    {
+      "name": "Signal",
+      "kind": "software product",
+      "gloss": "A cross-platform encrypted messaging service."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cloud-based instant messaging and voice over IP service."
+    },
+    {
+      "name": "WhatsApp",
+      "kind": "software product",
+      "gloss": "An instant messaging and voice-over-IP service."
+    },
+    {
+      "name": "DELTA",
+      "kind": "software product",
+      "gloss": "A situational awareness and battle management system used by Ukrainian armed forces."
+    },
+    {
+      "name": "ТЕНЕТА",
+      "kind": "software product",
+      "gloss": "A military software system used in Ukraine."
+    },
+    {
+      "name": "Кропива",
+      "kind": "software product",
+      "gloss": "A tactical combat management and situational awareness software used in Ukraine."
+    },
+    {
+      "name": "Сили оборони України",
+      "kind": "military organization",
+      "gloss": "The military and security formations responsible for the defense of Ukraine."
+    },
+    {
+      "name": "MESHAGENT",
+      "kind": "software tool",
+      "gloss": "An open-source remote management agent software often abused by threat actors."
+    },
+    {
+      "name": "ULTRAVNC",
+      "kind": "software product",
+      "gloss": "An open-source remote administration and desktop sharing software."
+    },
+    {
+      "name": "лист_02-1-437.lnk",
+      "kind": "file",
+      "gloss": "A malicious Windows shortcut file used to initiate a malware execution chain."
+    },
+    {
+      "name": "start.hta",
+      "kind": "file",
+      "gloss": "A malicious HTML Application file executing PowerShell commands."
+    },
+    {
+      "name": "Front.png",
+      "kind": "file",
+      "gloss": "A ZIP archive disguised with a PNG extension containing malicious payloads."
+    },
+    {
+      "name": "Main.bat",
+      "kind": "file",
+      "gloss": "A malicious batch script used to configure persistence and launch further payloads."
+    },
+    {
+      "name": "Registry.hta",
+      "kind": "file",
+      "gloss": "A malicious HTML Application script used to launch the MESHAGENT executable."
+    },
+    {
+      "name": "update.exe",
+      "kind": "file",
+      "gloss": "An executable file containing the MESHAGENT remote management software."
+    },
+    {
+      "name": "gnv.exe",
+      "kind": "file",
+      "gloss": "An executable file associated with UltraVNC remote administration software."
+    },
+    {
+      "name": "OnedriveAgent.exe",
+      "kind": "file",
+      "gloss": "A malicious executable file delivering the MESHAGENT tool."
+    },
+    {
+      "name": "mititarycua@gmail.com",
+      "kind": "email address",
+      "gloss": "An email address observed in the malicious network infrastructure."
+    },
+    {
+      "name": "device.redirecl.com",
+      "kind": "domain name",
+      "gloss": "A domain name used for hosting and delivering malicious payloads."
+    },
+    {
+      "name": "mail.outloolc.com",
+      "kind": "domain name",
+      "gloss": "A spoofed domain name used to download malicious payloads."
+    },
+    {
+      "name": "svc.odwebp.com",
+      "kind": "domain name",
+      "gloss": "A command-and-control domain name used for agent communications."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0185",
+      "type": "attacks",
+      "tail": "ОПК України",
+      "evidence": "кібератаки, що мають на меті отримання несанкціонованого віддаленого доступу до ЕОМ співробітників підприємств оборонно-промислового комплексу"
+    },
+    {
+      "head": "UAC-0185",
+      "type": "attacks",
+      "tail": "Сили оборони України",
+      "evidence": "а також Сил оборони України з використанням спеціалізованих програмних засобів"
+    },
+    {
+      "head": "UAC-0185",
+      "type": "uses-malware",
+      "tail": "MESHAGENT",
+      "evidence": "Сил оборони України з використанням спеціалізованих програмних засобів, зокрема, MESHAGENT"
+    },
+    {
+      "head": "UAC-0185",
+      "type": "uses-malware",
+      "tail": "ULTRAVNC",
+      "evidence": "спеціалізованих програмних засобів, зокрема, MESHAGENT та ULTRAVNC"
+    },
+    {
+      "head": "лист_02-1-437.lnk",
+      "type": "delivers",
+      "tail": "start.hta",
+      "evidence": "Відкриття LNK-файлу призведе до завантаження і запуску за допомогою штатної утиліти mshta.exe файлу \"start.hta\""
+    },
+    {
+      "head": "start.hta",
+      "type": "delivers",
+      "tail": "Front.png",
+      "evidence": "а друга - завантаження файлу \"Front.png\""
+    },
+    {
+      "head": "Front.png",
+      "type": "delivers",
+      "tail": "Main.bat",
+      "evidence": "знаходяться три файли: \"Main.bat\", \"Registry.hta\" та \"update.exe\""
+    },
+    {
+      "head": "Front.png",
+      "type": "delivers",
+      "tail": "Registry.hta",
+      "evidence": "знаходяться три файли: \"Main.bat\", \"Registry.hta\" та \"update.exe\""
+    },
+    {
+      "head": "Front.png",
+      "type": "delivers",
+      "tail": "update.exe",
+      "evidence": "знаходяться три файли: \"Main.bat\", \"Registry.hta\" та \"update.exe\""
+    },
+    {
+      "head": "Registry.hta",
+      "type": "delivers",
+      "tail": "update.exe",
+      "evidence": "\"Registry.hta\" запустить \"update.exe\""
+    },
+    {
+      "head": "device.redirecl.com",
+      "type": "hosts",
+      "tail": "start.hta",
+      "evidence": "hXXps://device.redirecl[.]com/yS558pd/start.hta"
+    },
+    {
+      "head": "mail.outloolc.com",
+      "type": "hosts",
+      "tail": "Front.png",
+      "evidence": "hXXps://mail.outloolc[.]com/yS558pd/Front.png"
+    },
+    {
+      "head": "Український союз промисловців та підприємців",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Українського союзу промисловців та підприємців"
+    },
+    {
+      "head": "ОПК України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "переходу продукції ОПК України на технічні стандарти"
+    },
+    {
+      "head": "Сили оборони України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Сил оборони України"
+    },
+    {
+      "head": "Київ",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "проводилася в м.Києві"
+    }
+  ],
+  "newRelationTypes": []
+}

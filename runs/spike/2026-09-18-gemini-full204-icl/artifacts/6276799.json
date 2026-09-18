@@ -1,0 +1,394 @@
+{
+  "docId": 6276799,
+  "date": "19.12.2023",
+  "title": "Modus operandi UAC-0177 (JokerDPR) на прикладі однієї з кібератак (CERT-UA#8290)",
+  "entities": [
+    {
+      "id": "6276799:0",
+      "name": "JokerDPR",
+      "kind": "threat actor",
+      "gloss": "A pro-Russian Telegram channel and persona involved in information operations and cyber attacks.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": null
+    },
+    {
+      "id": "6276799:1",
+      "name": "UAC-0177",
+      "kind": "threat actor",
+      "gloss": "A threat actor group tracked by CERT-UA associated with phishing attacks.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6276799:2",
+      "name": "Google",
+      "kind": "company",
+      "gloss": "A multinational technology company providing internet-related services and products, including email.",
+      "scheme": "S12",
+      "category": "Organization",
+      "role": "target"
+    },
+    {
+      "id": "6276799:3",
+      "name": "Ukr.Net",
+      "kind": "company",
+      "gloss": "A major Ukrainian internet portal and webmail service provider.",
+      "scheme": "S12",
+      "category": "Organization",
+      "role": "target"
+    },
+    {
+      "id": "6276799:4",
+      "name": "Outlook",
+      "kind": "software product",
+      "gloss": "A personal information manager and webmail service developed by Microsoft.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "6276799:5",
+      "name": "EXMO",
+      "kind": "company",
+      "gloss": "A cryptocurrency exchange platform.",
+      "scheme": "S12",
+      "category": "Organization",
+      "role": "target"
+    },
+    {
+      "id": "6276799:6",
+      "name": "Binance",
+      "kind": "company",
+      "gloss": "A global company that operates the largest cryptocurrency exchange.",
+      "scheme": "S12",
+      "category": "Organization",
+      "role": "target"
+    },
+    {
+      "id": "6276799:7",
+      "name": "Tucows",
+      "kind": "company",
+      "gloss": "A domain name registrar and telecommunications company.",
+      "scheme": "S12",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "6276799:8",
+      "name": "Namecheap",
+      "kind": "company",
+      "gloss": "An ICANN-accredited domain name registrar and web hosting company.",
+      "scheme": "S12",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "6276799:9",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe.",
+      "scheme": "S4",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6276799:10",
+      "name": "179.43.162.29",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious network infrastructure.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6276799:11",
+      "name": "185.196.9.215",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious network infrastructure.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6276799:12",
+      "name": "80.78.22.194",
+      "kind": "ip address",
+      "gloss": "An IP address identified as malicious network infrastructure.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6276799:13",
+      "name": "authcheck.in",
+      "kind": "domain name",
+      "gloss": "A malicious domain name registered for phishing infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6276799:14",
+      "name": "authssl.in",
+      "kind": "domain name",
+      "gloss": "A malicious domain name registered for phishing infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6276799:15",
+      "name": "authssl.link",
+      "kind": "domain name",
+      "gloss": "A malicious domain name registered for phishing infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6276799:16",
+      "name": "authssl.online",
+      "kind": "domain name",
+      "gloss": "A malicious domain name registered for phishing infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6276799:17",
+      "name": "authssl.org",
+      "kind": "domain name",
+      "gloss": "A malicious domain name registered for phishing infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6276799:18",
+      "name": "authssl.site",
+      "kind": "domain name",
+      "gloss": "A malicious domain name registered for phishing infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6276799:19",
+      "name": "ssl1.online",
+      "kind": "domain name",
+      "gloss": "A malicious domain name registered for phishing infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6276799:20",
+      "name": "ssl1.site",
+      "kind": "domain name",
+      "gloss": "A malicious domain name registered for phishing infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6276799:21",
+      "name": "ssl2.in",
+      "kind": "domain name",
+      "gloss": "A malicious domain name registered for phishing infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6276799:22",
+      "name": "ssl2.link",
+      "kind": "domain name",
+      "gloss": "A malicious domain name registered for phishing infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6276799:23",
+      "name": "ssl2.online",
+      "kind": "domain name",
+      "gloss": "A malicious domain name registered for phishing infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6276799:24",
+      "name": "ssl2.site",
+      "kind": "domain name",
+      "gloss": "A malicious domain name registered for phishing infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6276799:25",
+      "name": "ssl3.online",
+      "kind": "domain name",
+      "gloss": "A malicious domain name registered for phishing infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6276799:26",
+      "name": "ssl3.site",
+      "kind": "domain name",
+      "gloss": "A malicious domain name registered for phishing infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6276799:27",
+      "name": "ssl4.online",
+      "kind": "domain name",
+      "gloss": "A malicious domain name registered for phishing infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6276799:28",
+      "name": "ssl4.site",
+      "kind": "domain name",
+      "gloss": "A malicious domain name registered for phishing infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6276799:29",
+      "name": "exmo.day",
+      "kind": "domain name",
+      "gloss": "A malicious domain name spoofing the EXMO cryptocurrency platform.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6276799:30",
+      "name": "getssl.click",
+      "kind": "domain name",
+      "gloss": "A malicious domain name registered for phishing infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6276799:31",
+      "name": "getssl.ink",
+      "kind": "domain name",
+      "gloss": "A malicious domain name registered for phishing infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6276799:32",
+      "name": "goaccount.link",
+      "kind": "domain name",
+      "gloss": "A malicious domain name registered for phishing infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6276799:33",
+      "name": "passport2.zip",
+      "kind": "domain name",
+      "gloss": "A malicious domain name registered for phishing infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6276799:34",
+      "name": "personlog.in",
+      "kind": "domain name",
+      "gloss": "A malicious domain name registered for phishing infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6276799:35",
+      "name": "certifiedauth.in",
+      "kind": "domain name",
+      "gloss": "A malicious domain name registered for phishing infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6276799:36",
+      "name": "hsts.online",
+      "kind": "domain name",
+      "gloss": "A malicious domain name registered for phishing infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6276799:37",
+      "name": "connectssl.in",
+      "kind": "domain name",
+      "gloss": "A malicious domain name registered for phishing infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0177",
+      "type": "affects",
+      "tail": "Google",
+      "evidence": "фішингових атак, спрямованих на отримання несанкціонованого доступу до облікових записів поштових сервісів Google"
+    },
+    {
+      "head": "UAC-0177",
+      "type": "affects",
+      "tail": "Ukr.Net",
+      "evidence": "несанкціонованого доступу до облікових записів поштових сервісів Google, Ukr.Net"
+    },
+    {
+      "head": "UAC-0177",
+      "type": "affects",
+      "tail": "Outlook",
+      "evidence": "облікових записів поштових сервісів Google, Ukr.Net, Outlook"
+    },
+    {
+      "head": "UAC-0177",
+      "type": "affects",
+      "tail": "EXMO",
+      "evidence": "а також криптовалютних бірж EXMO"
+    },
+    {
+      "head": "UAC-0177",
+      "type": "affects",
+      "tail": "Binance",
+      "evidence": "криптовалютних бірж EXMO та Binance"
+    },
+    {
+      "head": "UAC-0177",
+      "type": "uses",
+      "tail": "Tucows",
+      "evidence": "зловмисники за допомогою реєстраторів Tucows / Namecheap створюють характерні доменні імена"
+    },
+    {
+      "head": "UAC-0177",
+      "type": "uses",
+      "tail": "Namecheap",
+      "evidence": "зловмисники за допомогою реєстраторів Tucows / Namecheap створюють характерні доменні імена"
+    }
+  ],
+  "unclassified": []
+}

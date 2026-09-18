@@ -1,0 +1,337 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+- Country: A distinct territorial body or sovereign state with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Government Organization: An official agency, ministry, or administrative body operating as part of a national or state government. (also: Government Agency, Government Body, State Authority)
+- Malware: Malicious software, code, or executables designed to infiltrate, damage, or compromise computer systems and data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address specifying the location and retrieval mechanism of a resource on a computer network. (also: URL, Web Address, Web Link)
+- Person: An individual human being, such as a government official, cybersecurity expert, researcher, or executive. (also: Individual, Natural Person)
+- IP Address: A numerical label assigned to a device connected to a computer network that uses the Internet Protocol for communication. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Electronic Mail Address)
+- Computer File: A digital resource or named item stored on a computer system, containing data, code, or instructions. (also: File, Digital File, Filename)
+- Company: A commercial business, corporation, or enterprise operating in any economic sector or industry. (also: Enterprise, Corporation, Commercial Organization)
+- Domain Name: A human-readable identification string defining a realm of administrative autonomy or resource location within the Internet Domain Name System. (also: Internet Domain, FQDN, Fully Qualified Domain Name)
+- Threat Actor: An individual, group, or organization responsible for malicious cyber activities, attacks, or cyber espionage operations. (also: Threat Group, Cyber Threat Actor, Hacker Group)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Від учасника інформаційного обміну отримано оперативну інформацію щодо виявлення мережевих з'єднань між інформаційно-комунікаційною системою (ІКС) державної організації України та інфраструктурою, що асоціється з угрупуванням APT28.</p><p>В процесі аналізу журнальних файлів міжмережевого екрану суб'єкту координації ідентифіковано електронно-обчислювальну машину (ЕОМ), з якої 12.05.2023 здійснювалася згадана вище комунікація; проте, ознак ураження комп'ютера шкідливими програмами не виявлено.</p><p>Разом з тим, під час дослідження вмісту поштової скриньки користувача ЕОМ виявлено електронний лист з темою "Новини України", отриманий 12.05.2023 з адреси "ukraine_news@meta[.]ua", що містив контент-приманку у вигляді статті видання "NV" (nv.ua), а також експлойт для вразливості в Roundcube CVE-2020-35730 (XSS) і відповідний JavaScript-код, призначений для завантаження і запуску додаткових JavaScript-файлів: "q.js" та "e.js".</p><p>Серед згаданих файлів, "e.js" забезпечує створення фільтру "default filter" для перенаправлення вхідних електронних листів на сторонню електронну адресу, а також здійснює ексфільтрацію за допомогою HTTP POST-запитів: адресної книги, значень сесії (Cookie) та електронних повідомлень жертви.&nbsp;В свою чергу "q.js" містить експлойт для вразливості в Roundcube CVE-2021-44026 (SQLi), за допомогою якого здійснюється ексфільтрація інформації з бази даних Roundcube.</p><p>Додатково виявлено програмний код "c.js", що містить експлойт для вразливості CVE-2020-12641 та забезпечує виконання команд на поштовому сервері.</p><p>Загалом, подібні електронні листи відправлено на адреси більше ніж 40 українських організацій.</p><p>Наголошуємо, що реалізації загрози сприяло використання застарілої версії Roundcube (1.4.1).</p><p><br></p><p>Користуючись нагодою висловлюємо подяку дослідникам міжнародної компанії, оперативний обмін інформацією з якими дозволив вчасно виявити спроби реалізації кіберзагрози. Більш детальна інформація щодо кібератаки може бути отримана за посиланням: <a href="https://www.recordedfuture.com/bluedelta-exploits-ukrainian-government-roundcube-mail-servers" rel="noopener noreferrer" target="_blank">https://www.recordedfuture.com/bluedelta-exploits-ukrainian-government-roundcube-mail-servers</a>.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">a723e1a8231023d14925bcf1eb84667b	d94b13e70e97053e2171ddb81c749f90959ad90ea415b839be34ff78fc9bed4d	- (CVE-2020-35730)
+f3bb09a022e99fd556dd2bdf15f46ff0	d4513d9c26cf8040bce4bbebefb8a2dcc2d35fc92d79083879b1f274d17ab197	- (CVE-2020-35730)
+9e2926d1237b24e33db655041fd60ebf	d6899f318026b65342d74682bab64d50da9fe8fb31a2765d99015b5aeb025e7a	e.js (Exfiltration capability)
+6e17139a83b062ce90042a8c56b59f48	fed8487faa22fe2fc1d3580d2028de44e7a274a8e22981dbf96346f5f74171d8	q.js (CVE-2021-44026)
+0c030fe8696b00600baf8653c507cb80	1277be4f8ef5af3404487f49a5ca3d0e506e64b24eebcfa65f196f983f6c4f11	c.js (CVE-2020-12641)
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">ukraine_news@meta[.]ua (адреса відправника)
+str.vidil@meta[.]ua (адреса для ексфільтрації)
+185[.]225.226.57
+185[.]82.126.85
+77[.]243.181.238
+hXXps://global-world-news[.]net:443/about/&lt;base64_string&gt;
+hXXps://global-world-news[.]net:443/addressbook/&lt;base64_string&gt;
+hXXps://global-world-news[.]net:443/db/&lt;base64_string&gt;
+hXXps://global-world-news[.]net:443/e?m=&lt;base64_string&gt;&amp;r=&lt;base64_string_2&gt;&amp;s=&lt;base64_string_3&gt;
+hXXps://global-world-news[.]net:443/e?m=&lt;base64_string&gt;&amp;r=&lt;base64_string_2&gt;&amp;s=&lt;base64_string_3&gt;
+hXXps://global-world-news[.]net:443/emails/&lt;base64_string&gt;
+hXXps://global-world-news[.]net:443/l/&lt;base64_string&gt;
+hXXps://global-world-news[.]net:443/q?r=&lt;base64_string_2&gt;&amp;m=&lt;base64_string&gt;
+hXXps://global-world-news[.]net:443/q?r=&lt;base64_string_2&gt;&amp;m=&lt;base64_string&gt;
+hXXps://global-world-news[.]net:443/s/&lt;base64_string&gt;
+aneria[.]net
+armpress[.]net
+ceriossl[.]info
+fountainrate[.]com
+global-news-world[.]com
+global-world-news[.]net
+lonejade[.]com
+modeselling[.]com
+oncetrips[.]com
+vtxhospital[.]com
+ns1.fountainrate[.]com
+ns2.fountainrate[.]com
+ns1.lonejade[.]com
+ns1.modeselling[.]com
+ns2.modeselling[.]com
+ns1.oncetrips[.]com
+ns2.oncetrips[.]com
+ns1.vtxhospital[.]com
+ns2.vtxhospital[.]com
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Приклад електронного листа з експлойтом для CVE-2020-35730 (XSS)</p><p><br></p><p></p><p>Рис.2 Приклад програмного коду з експлойтом для CVE-2021-44026 (SQLi)</p><p><br></p><p></p><p>Рис.3 Приклад програмного коду з експлойтом для CVE-2020-12641 (RCE)</p>
+
+=== RESPONSE (8.2s, in 3772 / out 2167 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "APT28",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group associated with the GRU."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "NV",
+      "kind": "company",
+      "gloss": "A Ukrainian media outlet and publishing company."
+    },
+    {
+      "name": "nv.ua",
+      "kind": "domain name",
+      "gloss": "An internet domain of the Ukrainian news media NV."
+    },
+    {
+      "name": "Roundcube",
+      "kind": "software product",
+      "gloss": "An open-source web-based IMAP email client."
+    },
+    {
+      "name": "Roundcube 1.4.1",
+      "kind": "software product",
+      "gloss": "A specific legacy release version of the Roundcube webmail application."
+    },
+    {
+      "name": "CVE-2020-35730",
+      "kind": "security vulnerability",
+      "gloss": "A cross-site scripting (XSS) vulnerability in Roundcube webmail."
+    },
+    {
+      "name": "CVE-2021-44026",
+      "kind": "security vulnerability",
+      "gloss": "A SQL injection vulnerability in Roundcube webmail."
+    },
+    {
+      "name": "CVE-2020-12641",
+      "kind": "security vulnerability",
+      "gloss": "A remote code execution vulnerability in Roundcube webmail."
+    },
+    {
+      "name": "q.js",
+      "kind": "malware",
+      "gloss": "A malicious JavaScript file designed to exploit Roundcube vulnerabilities and exfiltrate database data."
+    },
+    {
+      "name": "e.js",
+      "kind": "malware",
+      "gloss": "A malicious JavaScript script that configures email forwarding filters and exfiltrates sensitive user data."
+    },
+    {
+      "name": "c.js",
+      "kind": "malware",
+      "gloss": "A malicious JavaScript script that exploits Roundcube to execute commands on the mail server."
+    },
+    {
+      "name": "Recorded Future",
+      "kind": "company",
+      "gloss": "A cybersecurity intelligence company."
+    },
+    {
+      "name": "ukraine_news@meta.ua",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors to distribute malicious emails."
+    },
+    {
+      "name": "str.vidil@meta.ua",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors as an exfiltration destination."
+    },
+    {
+      "name": "185.225.226.57",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure."
+    },
+    {
+      "name": "185.82.126.85",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure."
+    },
+    {
+      "name": "77.243.181.238",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure."
+    },
+    {
+      "name": "aneria.net",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "armpress.net",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "ceriossl.info",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "fountainrate.com",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "global-news-world.com",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "global-world-news.net",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "lonejade.com",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "modeselling.com",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "oncetrips.com",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "vtxhospital.com",
+      "kind": "domain name",
+      "gloss": "A domain name identified as malicious network infrastructure."
+    },
+    {
+      "name": "ns1.fountainrate.com",
+      "kind": "domain name",
+      "gloss": "A malicious nameserver hostname."
+    },
+    {
+      "name": "ns2.fountainrate.com",
+      "kind": "domain name",
+      "gloss": "A malicious nameserver hostname."
+    },
+    {
+      "name": "ns1.lonejade.com",
+      "kind": "domain name",
+      "gloss": "A malicious nameserver hostname."
+    },
+    {
+      "name": "ns1.modeselling.com",
+      "kind": "domain name",
+      "gloss": "A malicious nameserver hostname."
+    },
+    {
+      "name": "ns2.modeselling.com",
+      "kind": "domain name",
+      "gloss": "A malicious nameserver hostname."
+    },
+    {
+      "name": "ns1.oncetrips.com",
+      "kind": "domain name",
+      "gloss": "A malicious nameserver hostname."
+    },
+    {
+      "name": "ns2.oncetrips.com",
+      "kind": "domain name",
+      "gloss": "A malicious nameserver hostname."
+    },
+    {
+      "name": "ns1.vtxhospital.com",
+      "kind": "domain name",
+      "gloss": "A malicious nameserver hostname."
+    },
+    {
+      "name": "ns2.vtxhospital.com",
+      "kind": "domain name",
+      "gloss": "A malicious nameserver hostname."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2020-35730",
+      "type": "affects",
+      "tail": "Roundcube",
+      "evidence": "експлойт для вразливості в Roundcube CVE-2020-35730 (XSS)"
+    },
+    {
+      "head": "CVE-2021-44026",
+      "type": "affects",
+      "tail": "Roundcube",
+      "evidence": "експлойт для вразливості в Roundcube CVE-2021-44026 (SQLi)"
+    },
+    {
+      "head": "CVE-2020-12641",
+      "type": "affects",
+      "tail": "Roundcube",
+      "evidence": "програмний код \"c.js\", що містить експлойт для вразливості CVE-2020-12641"
+    },
+    {
+      "head": "q.js",
+      "type": "exploits",
+      "tail": "CVE-2021-44026",
+      "evidence": "\"q.js\" містить експлойт для вразливості в Roundcube CVE-2021-44026"
+    },
+    {
+      "head": "c.js",
+      "type": "exploits",
+      "tail": "CVE-2020-12641",
+      "evidence": "\"c.js\", що містить експлойт для вразливості CVE-2020-12641"
+    },
+    {
+      "head": "Roundcube 1.4.1",
+      "type": "part-of",
+      "tail": "Roundcube",
+      "evidence": "використання застарілої версії Roundcube (1.4.1)"
+    },
+    {
+      "head": "nv.ua",
+      "kind": "part-of",
+      "tail": "NV",
+      "evidence": "статті видання \"NV\" (nv.ua)"
+    }
+  ],
+  "newRelationTypes": []
+}

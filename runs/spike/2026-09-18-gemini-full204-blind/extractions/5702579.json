@@ -1,0 +1,162 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "APT28",
+      "kind": "hacking group",
+      "gloss": "A Russian state-sponsored cyber espionage group affiliated with the Russian military intelligence agency (GRU)."
+    },
+    {
+      "name": "HeadLace",
+      "kind": "malware family",
+      "gloss": "A malware campaign and toolset attributed to the Russian threat actor APT28."
+    },
+    {
+      "name": "photo.zip",
+      "kind": "malicious archive",
+      "gloss": "A malicious ZIP archive used as an initial delivery vehicle containing decoy images and a script."
+    },
+    {
+      "name": "weblinks.cmd",
+      "kind": "malicious script",
+      "gloss": "A batch script embedded inside the malicious ZIP archive that executes further attack stages."
+    },
+    {
+      "name": "lilikeeper.JPG",
+      "kind": "decoy file",
+      "gloss": "A decoy JPEG image contained inside the malicious ZIP archive."
+    },
+    {
+      "name": "pollymodel.JPG",
+      "kind": "decoy file",
+      "gloss": "A decoy JPEG image contained inside the malicious ZIP archive."
+    },
+    {
+      "name": "candy_girl_ua.JPG",
+      "kind": "decoy file",
+      "gloss": "A decoy JPEG image contained inside the malicious ZIP archive."
+    },
+    {
+      "name": "l09y3n.css",
+      "kind": "malicious script",
+      "gloss": "A malicious script file disguised with a CSS extension delivered via headless browser."
+    },
+    {
+      "name": "l09y3n.cmd",
+      "kind": "malicious script",
+      "gloss": "A batch script executed from the ProgramData directory during the attack."
+    },
+    {
+      "name": "z201qo.cmd",
+      "kind": "malicious script",
+      "gloss": "A batch script dropped in ProgramData during the attack."
+    },
+    {
+      "name": "LotusManagementNowService.exe",
+      "kind": "executable file",
+      "gloss": "An executable dropped and executed as a service during the intrusion."
+    },
+    {
+      "name": "Microsoft Edge",
+      "kind": "software product",
+      "gloss": "A proprietary web browser developed by Microsoft."
+    },
+    {
+      "name": "Windows Script Host",
+      "kind": "software product",
+      "gloss": "A Microsoft Windows automation tool used to execute scripts."
+    },
+    {
+      "name": "TOR",
+      "kind": "software product",
+      "gloss": "An open-source software enabling anonymous communication and onion routing."
+    },
+    {
+      "name": "mockbin.org",
+      "kind": "internet domain",
+      "gloss": "A legitimate web testing service abused by attackers for network communication."
+    },
+    {
+      "name": "mocky.io",
+      "kind": "internet domain",
+      "gloss": "A legitimate HTTP response mocking service abused by threat actors."
+    },
+    {
+      "name": "run.mocky.io",
+      "kind": "internet domain",
+      "gloss": "A subdomain of mocky.io used to serve mocked API responses."
+    },
+    {
+      "name": "webhook.site",
+      "kind": "internet domain",
+      "gloss": "A legitimate web service for inspecting and debugging webhooks and HTTP requests."
+    },
+    {
+      "name": "file.io",
+      "kind": "internet domain",
+      "gloss": "A legitimate ephemeral file sharing service abused for hosting payloads."
+    },
+    {
+      "name": "ipapi.co",
+      "kind": "internet domain",
+      "gloss": "An IP address geolocation and lookup API service."
+    },
+    {
+      "name": "arunmishra1974@portugalmail.pt",
+      "kind": "email address",
+      "gloss": "An email address used as a network indicator in the campaign."
+    },
+    {
+      "name": "louw@seznam.cz",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator in the campaign."
+    },
+    {
+      "name": "185.220.100.253",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious or proxy network infrastructure."
+    },
+    {
+      "name": "173.239.196.198",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure in the incident."
+    }
+  ],
+  "relations": [
+    {
+      "head": "photo.zip",
+      "type": "delivers",
+      "tail": "weblinks.cmd",
+      "evidence": "ZIP-архіву, що містить три JPG-зображення (приманки) та BAT-файл \"weblinks.cmd\""
+    },
+    {
+      "head": "photo.zip",
+      "type": "delivers",
+      "tail": "lilikeeper.JPG",
+      "evidence": "ZIP-архіву, що містить три JPG-зображення (приманки)"
+    },
+    {
+      "head": "photo.zip",
+      "type": "delivers",
+      "tail": "pollymodel.JPG",
+      "evidence": "ZIP-архіву, що містить три JPG-зображення (приманки)"
+    },
+    {
+      "head": "photo.zip",
+      "type": "delivers",
+      "tail": "candy_girl_ua.JPG",
+      "evidence": "ZIP-архіву, що містить три JPG-зображення (приманки)"
+    },
+    {
+      "head": "APT28",
+      "type": "uses-malware",
+      "tail": "HeadLace",
+      "evidence": "Описана активність здійснюється угрупуванням APT28."
+    }
+  ],
+  "newRelationTypes": []
+}

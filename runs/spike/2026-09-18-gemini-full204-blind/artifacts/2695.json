@@ -1,0 +1,121 @@
+{
+  "docId": 2695,
+  "date": "28.02.2019",
+  "title": "Зараз в Україні активно розповсюджується шкідливе програмне забезпечення, яке використовує WinRAR exploit (#CVE-2018-20250).",
+  "entities": [
+    {
+      "id": "2695:0",
+      "name": "Check Point",
+      "kind": "cybersecurity company",
+      "gloss": "An American-Israeli multinational provider of software and combined hardware and software products for IT security.",
+      "scheme": "S10",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "2695:1",
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A family of proprietary graphical operating systems developed and marketed by Microsoft.",
+      "scheme": "S4",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2695:2",
+      "name": "zakon.rar",
+      "kind": "malicious archive file",
+      "gloss": "A malicious RAR archive file used in an attack campaign to deliver secondary payloads.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2695:3",
+      "name": "CVE-2018-20250",
+      "kind": "vulnerability identifier",
+      "gloss": "A path traversal vulnerability in the UNACEV2.DLL library used in WinRAR.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2695:4",
+      "name": "CVE-2018-20251",
+      "kind": "vulnerability identifier",
+      "gloss": "A path traversal vulnerability in older versions of WinRAR.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2695:5",
+      "name": "CVE-2018-20252",
+      "kind": "vulnerability identifier",
+      "gloss": "A vulnerability in WinRAR allowing arbitrary code execution or file placement.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2695:6",
+      "name": "CVE-2018-20253",
+      "kind": "vulnerability identifier",
+      "gloss": "A security vulnerability affecting WinRAR extraction mechanisms.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2695:7",
+      "name": "WinRAR",
+      "kind": "software product",
+      "gloss": "A trialware file archiver utility for Windows developed by Eugene Roshal.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2695:8",
+      "name": "WinRAR 5.70 Beta 1",
+      "kind": "software product version",
+      "gloss": "A beta update release of the WinRAR file archiver providing security fixes.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2018-20250",
+      "type": "affects",
+      "tail": "WinRAR",
+      "evidence": "зачіпає всі версії WinRAR, випущені за останні 19 років"
+    },
+    {
+      "head": "CVE-2018-20251",
+      "type": "affects",
+      "tail": "WinRAR",
+      "evidence": "зачіпає всі версії WinRAR, випущені за останні 19 років"
+    },
+    {
+      "head": "CVE-2018-20252",
+      "type": "affects",
+      "tail": "WinRAR",
+      "evidence": "зачіпає всі версії WinRAR, випущені за останні 19 років"
+    },
+    {
+      "head": "CVE-2018-20253",
+      "type": "affects",
+      "tail": "WinRAR",
+      "evidence": "зачіпає всі версії WinRAR, випущені за останні 19 років"
+    },
+    {
+      "head": "WinRAR 5.70 Beta 1",
+      "type": "addresses-vulnerability-in",
+      "tail": "WinRAR",
+      "evidence": "випустили версію WinRAR 5.70 Beta 1, яка усуває цю вразливість"
+    }
+  ],
+  "unclassified": []
+}

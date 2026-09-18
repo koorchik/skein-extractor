@@ -1,0 +1,33 @@
+{
+  "entities": [
+    {
+      "name": "Zoom",
+      "kind": "software product",
+      "gloss": "A cloud-based video conferencing software platform."
+    },
+    {
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A family of proprietary graphical operating systems developed by Microsoft."
+    },
+    {
+      "name": "Hashcat",
+      "kind": "password cracking tool",
+      "gloss": "An open-source password recovery and hash cracking utility."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Zoom",
+      "type": "runs-on",
+      "tail": "Windows",
+      "evidence": "Версія даного програмного забезпечення для Windows має вразливість у чаті"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "runs-on",
+      "definition": "Indicates the operating system or computing platform on which a software product executes."
+    }
+  ]
+}

@@ -1,0 +1,209 @@
+{
+  "docId": 3718487,
+  "date": "27.01.2023",
+  "title": "Кібератака Sandworm на інформаційно-комунікаційну систему Укрінформ (CERT-UA#5850)",
+  "entities": [
+    {
+      "id": "3718487:0",
+      "name": "CyberArmyofRussia_Reborn",
+      "kind": "telegram channel",
+      "gloss": "A Telegram channel used to publish information about cyberattacks and claimed hacktivist activities.",
+      "scheme": null,
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "3718487:1",
+      "name": "Українське національне інформаційне агентство \"Укрінформ\"",
+      "kind": "state news agency",
+      "gloss": "The national public news agency of Ukraine.",
+      "scheme": null,
+      "category": "Organization",
+      "role": "target"
+    },
+    {
+      "id": "3718487:2",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "3718487:3",
+      "name": "CaddyWiper",
+      "kind": "malware family",
+      "gloss": "A data wiping malware designed to overwrite and destroy files and disk partitions on Windows systems.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "3718487:4",
+      "name": "ZeroWipe",
+      "kind": "malware family",
+      "gloss": "A wiper malware used to overwrite files and destroy data on Windows systems.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "3718487:5",
+      "name": "SDelete",
+      "kind": "software tool",
+      "gloss": "A legitimate command-line utility developed by Microsoft Sysinternals for securely deleting files and data.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "3718487:6",
+      "name": "AwfulShred",
+      "kind": "malware script",
+      "gloss": "A malicious shell script used to corrupt and wipe data on Linux systems.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "3718487:7",
+      "name": "BidSwipe",
+      "kind": "malware script",
+      "gloss": "A malicious shell script used to wipe and destroy data on FreeBSD systems.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "3718487:8",
+      "name": "news.bat",
+      "kind": "batch script",
+      "gloss": "A malicious batch script used to execute the SDelete utility for destructive purposes.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "3718487:9",
+      "name": "UAC-0082",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage and sabotage group attributed to the GRU, also known as Sandworm.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "3718487:10",
+      "name": "гу гш зс рф",
+      "kind": "intelligence agency",
+      "gloss": "The foreign military intelligence agency of the General Staff of the Armed Forces of the Russian Federation.",
+      "scheme": null,
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "3718487:11",
+      "name": "рф",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe and Northern Asia.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "3718487:12",
+      "name": "new.exe",
+      "kind": "file",
+      "gloss": "An executable file containing the CaddyWiper malware.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "3718487:13",
+      "name": "upd.exe",
+      "kind": "file",
+      "gloss": "An executable file containing the ZeroWipe malware.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "3718487:14",
+      "name": "sdelete.exe",
+      "kind": "file",
+      "gloss": "An executable file of the SDelete data erasure utility.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "3718487:15",
+      "name": "r.sh",
+      "kind": "file",
+      "gloss": "A shell script file implementing the AwfulShred wiper on Linux.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "3718487:16",
+      "name": "audit.sh",
+      "kind": "file",
+      "gloss": "A shell script file implementing the BidSwipe wiper on FreeBSD.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0082",
+      "type": "associated-with-activity",
+      "tail": "гу гш зс рф",
+      "evidence": "діяльність якої асоціюється з гу гш зс рф"
+    },
+    {
+      "head": "UAC-0082",
+      "type": "targeted",
+      "tail": "Українське національне інформаційне агентство \"Укрінформ\"",
+      "evidence": "кібератаку здійснено групою UAC-0082 (Sandworm)"
+    },
+    {
+      "head": "UAC-0082",
+      "type": "uses-malware",
+      "tail": "CaddyWiper",
+      "evidence": "використанням шкідливих програм-деструкторів CaddyWiper"
+    },
+    {
+      "head": "UAC-0082",
+      "type": "uses-malware",
+      "tail": "ZeroWipe",
+      "evidence": "використанням шкідливих програм-деструкторів CaddyWiper та ZeroWipe"
+    },
+    {
+      "head": "UAC-0082",
+      "type": "uses-malware",
+      "tail": "SDelete",
+      "evidence": "а також легітимної утиліти SDelete"
+    },
+    {
+      "head": "news.bat",
+      "type": "executes",
+      "tail": "SDelete",
+      "evidence": "файлу \"news.bat\", який здійснює запуск утиліти SDelete"
+    },
+    {
+      "head": "CyberArmyofRussia_Reborn",
+      "type": "publicized-activity-of",
+      "tail": "UAC-0082",
+      "evidence": "ексклюзивно висвітлює деструктивну активність, що здійснюється згаданим угрупуванням"
+    }
+  ],
+  "unclassified": [
+    "3718487:0",
+    "3718487:1",
+    "3718487:10"
+  ]
+}

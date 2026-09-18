@@ -1,0 +1,182 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0010",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group, also known as Armageddon, targeting Ukrainian security and defense sectors."
+    },
+    {
+      "name": "ФСБ росії",
+      "kind": "government organization",
+      "gloss": "The Federal Security Service of the Russian Federation."
+    },
+    {
+      "name": "ГУ СБУ в АР Крим",
+      "kind": "government organization",
+      "gloss": "The Main Directorate of the Security Service of Ukraine in the Autonomous Republic of Crimea."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "росія",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "Казахстан",
+      "kind": "country",
+      "gloss": "A transcontinental country located primarily in Central Asia."
+    },
+    {
+      "name": "Чорногорія",
+      "kind": "country",
+      "gloss": "A country located in Southeastern Europe on the Adriatic Sea."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cloud-based instant messaging service and application."
+    },
+    {
+      "name": "WhatsApp",
+      "kind": "software product",
+      "gloss": "An instant messaging and voice-over-IP service owned by Meta."
+    },
+    {
+      "name": "Signal",
+      "kind": "software product",
+      "gloss": "An encrypted instant messaging and voice calling application."
+    },
+    {
+      "name": "Microsoft Office Word",
+      "kind": "software product",
+      "gloss": "A widely used word processor software developed by Microsoft."
+    },
+    {
+      "name": "GAMMASTEEL",
+      "kind": "malware",
+      "gloss": "An information stealer malware family used to harvest and exfiltrate specific file types from compromised systems."
+    },
+    {
+      "name": "LOADSHORT",
+      "kind": "malware",
+      "gloss": "A malware tool used to load and execute malicious scripts or payloads."
+    },
+    {
+      "name": "LAKEFLASH",
+      "kind": "malware",
+      "gloss": "A malware family used in cyber espionage attacks."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework from Microsoft."
+    },
+    {
+      "name": "Anydesk",
+      "kind": "software product",
+      "gloss": "A remote desktop application providing remote access to personal computers."
+    },
+    {
+      "name": "ООО \"ГЛОБАЛ ИНТЕРНЕТ РЕШЕНИЯ\"",
+      "kind": "company",
+      "gloss": "An internet and hosting service provider based in Sevastopol."
+    },
+    {
+      "name": "ООО \"ХОСТИНГ-ТЕХНОЛОГИИ\"",
+      "kind": "company",
+      "gloss": "A Russian hosting service provider operating under the vdsina brand."
+    },
+    {
+      "name": "ТОО \"ИТ‑ГРАД\"",
+      "kind": "company",
+      "gloss": "A cloud service provider and hosting company based in Kazakhstan."
+    },
+    {
+      "name": "Збройні сили України",
+      "kind": "government organization",
+      "gloss": "The military forces of Ukraine responsible for state defense."
+    },
+    {
+      "name": "Центру кібербезпеки ІТС",
+      "kind": "government organization",
+      "gloss": "The cybersecurity center of the Ukrainian Armed Forces information and telecommunication systems."
+    },
+    {
+      "name": "csoc@post.mil.gov.ua",
+      "kind": "email address",
+      "gloss": "An official contact email address for the Ukrainian Armed Forces Cybersecurity Center."
+    },
+    {
+      "name": "Starlink",
+      "kind": "software product",
+      "gloss": "A satellite internet constellation providing broadband internet access."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "GAMMASTEEL",
+      "evidence": "із застосуванням шкідливих програм GAMMASTEEL"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "LOADSHORT",
+      "evidence": "Рис.11 Приклад шкідливої програми LOADSHORT"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "LAKEFLASH",
+      "evidence": "Рис.12 Приклад шкідливої програми LAKEFLASH"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "PowerShell",
+      "evidence": "виконання команд, реалізовано за допомогою PowerShell"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "Anydesk",
+      "evidence": "за допомогою PowerShell на ЕОМ може бути встановлено Anydesk"
+    },
+    {
+      "head": "UAC-0010",
+      "type": "uses",
+      "tail": "Telegram",
+      "evidence": "використовуються сторонні сервіси і/або ресурси Telegram"
+    },
+    {
+      "head": "ООО \"ХОСТИНГ-ТЕХНОЛОГИИ\"",
+      "type": "located-in",
+      "tail": "росія",
+      "evidence": "ООО \"ХОСТИНГ-ТЕХНОЛОГИИ\" (росія)"
+    },
+    {
+      "head": "ТОО \"ИТ‑ГРАД\"",
+      "type": "located-in",
+      "tail": "Казахстан",
+      "evidence": "ТОО \"ИТ‑ГРАД\" (Казахстан)"
+    },
+    {
+      "head": "Збройні сили України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Збройних сил України"
+    },
+    {
+      "head": "Центру кібербезпеки ІТС",
+      "type": "part-of",
+      "tail": "Збройні сили України",
+      "evidence": "військовослужбовець Збройних сил України... зверніться до Центру кібербезпеки ІТС"
+    }
+  ],
+  "newRelationTypes": []
+}

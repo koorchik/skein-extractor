@@ -1,0 +1,119 @@
+{
+  "entities": [
+    {
+      "name": "АТ \"Укрзалізниця\"",
+      "kind": "company",
+      "gloss": "The state-owned joint-stock company operating the national railway network in Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "morgunov.a@dsns.com[.]ua",
+      "kind": "e-mail address",
+      "gloss": "A spoofed email address used in a phishing campaign impersonating the State Emergency Service of Ukraine."
+    },
+    {
+      "name": "Державна служба України з надзвичайних ситуацій",
+      "kind": "government body",
+      "gloss": "The central executive body of Ukraine responsible for civil protection, emergency rescue, and disaster response."
+    },
+    {
+      "name": "dsns.com[.]ua",
+      "kind": "internet domain",
+      "gloss": "A lookalike internet domain registered to impersonate the State Emergency Service of Ukraine."
+    },
+    {
+      "name": "shahed-136.rar",
+      "kind": "file name",
+      "gloss": "A malicious RAR archive distributed via phishing emails containing a weaponized PPSX document."
+    },
+    {
+      "name": "shahed.ppsx",
+      "kind": "file name",
+      "gloss": "A malicious PowerPoint slide show document containing embedded VBScript code."
+    },
+    {
+      "name": "SearchEmbdIndex.ps1",
+      "kind": "file name",
+      "gloss": "A PowerShell script dropped by a malicious document to download secondary payloads."
+    },
+    {
+      "name": "CodeMeter.exe",
+      "kind": "software product",
+      "gloss": "A legitimate executable file used in a DLL side-loading attack to load malware."
+    },
+    {
+      "name": "WibuCm32.dll",
+      "kind": "file name",
+      "gloss": "A malicious DLL file containing the DolphinCape malware disguised as a legitimate library."
+    },
+    {
+      "name": "DolphinCape",
+      "kind": "malware family",
+      "gloss": "A Delphi-based spyware and backdoor malware family designed to collect system information and execute commands."
+    },
+    {
+      "name": "UAC-0140",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage threat actor tracked by CERT-UA."
+    },
+    {
+      "name": "195[.]123.237.147",
+      "kind": "ip address",
+      "gloss": "An IP address used for malicious command and control or payload distribution."
+    },
+    {
+      "name": "202[.]157.187.190",
+      "kind": "ip address",
+      "gloss": "An IP address used for malicious network communications in the campaign."
+    }
+  ],
+  "relations": [
+    {
+      "head": "АТ \"Укрзалізниця\"",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "фахівців підрозділу кібербезпеки АТ \"Укрзалізниця\""
+    },
+    {
+      "head": "Державна служба України з надзвичайних ситуацій",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Державної служби України з надзвичайних ситуацій"
+    },
+    {
+      "head": "UAC-0140",
+      "type": "uses-malware",
+      "tail": "DolphinCape",
+      "evidence": "Файл \"WibuCm32.dll\" класифіковано як шкідливу програму DolphinCape... Активність відстежується за ідентифікатором UAC-0140"
+    },
+    {
+      "head": "shahed-136.rar",
+      "type": "delivers",
+      "tail": "shahed.ppsx",
+      "evidence": "RAR-архів \"shahed-136.rar\", що містить PPSX-документ \"shahed.ppsx\""
+    },
+    {
+      "head": "shahed.ppsx",
+      "type": "delivers",
+      "tail": "SearchEmbdIndex.ps1",
+      "evidence": "створення на ЕОМ та запуску PowerShell-скрипта"
+    },
+    {
+      "head": "SearchEmbdIndex.ps1",
+      "type": "delivers",
+      "tail": "WibuCm32.dll",
+      "evidence": "здійснить завантаження виконуваних файлів \"WibuCm32.dll\""
+    },
+    {
+      "head": "SearchEmbdIndex.ps1",
+      "type": "delivers",
+      "tail": "CodeMeter.exe",
+      "evidence": "здійснить завантаження виконуваних файлів \"WibuCm32.dll\", \"CodeMeter.exe\""
+    }
+  ],
+  "newRelationTypes": []
+}

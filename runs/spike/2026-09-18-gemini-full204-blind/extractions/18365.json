@@ -1,0 +1,129 @@
+{
+  "entities": [
+    {
+      "name": "Armageddon",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored advanced persistent threat group also tracked as UAC-0010 or Gamaredon."
+    },
+    {
+      "name": "GammaLoad",
+      "kind": "malware family",
+      "gloss": "A VBScript-based malware downloader designed for system reconnaissance and staging additional payloads."
+    },
+    {
+      "name": "Кіберцентр Державної прикордонної служби України",
+      "kind": "government body",
+      "gloss": "The cyber defense unit of the State Border Guard Service of Ukraine."
+    },
+    {
+      "name": "ДП «Адміністрація морських портів України»",
+      "kind": "state enterprise",
+      "gloss": "The state enterprise managing seaports and maritime infrastructure in Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country located in Eastern Europe."
+    },
+    {
+      "name": "порти АРК.rar",
+      "kind": "archive file",
+      "gloss": "A malicious RAR archive distributed via phishing emails containing weaponized DOCX documents."
+    },
+    {
+      "name": "Щодо заходження суден під іноземним прапором в порти АР Крим на 27.01.2022.docx",
+      "kind": "malicious file",
+      "gloss": "A malicious DOCX document containing an embedded URL used to download a macro-enabled payload."
+    },
+    {
+      "name": "Щодо заходження суден під державним прапором в порти АР Крим на 27.01.2022.docx",
+      "kind": "malicious file",
+      "gloss": "A malicious DOCX document containing an embedded URL used to download a macro-enabled payload."
+    },
+    {
+      "name": "derg.gif",
+      "kind": "file",
+      "gloss": "A malicious file hosted remotely and retrieved during the infection chain."
+    },
+    {
+      "name": "hxxp://surname192.temp.swtest[.]ru/prapor/su/derg.gif",
+      "kind": "url",
+      "gloss": "A malicious URL hosting a payload file used in the attack."
+    },
+    {
+      "name": "hxxp://surname192.temp.swtest[.]ru/prapor/su/ino.gif",
+      "kind": "url",
+      "gloss": "A malicious URL utilized to deliver payloads in the attack."
+    },
+    {
+      "name": "surname192.temp.swtest[.]ru",
+      "kind": "domain",
+      "gloss": "An internet domain used by threat actors to host malicious payloads."
+    },
+    {
+      "name": "coagula[.]online",
+      "kind": "domain",
+      "gloss": "A network domain identified as an indicator of compromise."
+    },
+    {
+      "name": "tortunas[.]ru",
+      "kind": "domain",
+      "gloss": "A network domain identified as an indicator of compromise."
+    },
+    {
+      "name": "phymateus[.]online",
+      "kind": "domain",
+      "gloss": "A network domain identified as an indicator of compromise."
+    },
+    {
+      "name": "stopcovid@email[.]cz",
+      "kind": "email address",
+      "gloss": "An email address identified as an indicator of compromise in the campaign."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Armageddon",
+      "type": "uses-malware",
+      "tail": "GammaLoad",
+      "evidence": "Атаку асоційовано з діяльністю групи Armageddon"
+    },
+    {
+      "head": "Кіберцентр Державної прикордонної служби України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Кіберцентр Державної прикордонної служби України"
+    },
+    {
+      "head": "ДП «Адміністрація морських портів України»",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "ДП «Адміністрація морських портів України»"
+    },
+    {
+      "head": "порти АРК.rar",
+      "type": "delivers",
+      "tail": "Щодо заходження суден під іноземним прапором в порти АР Крим на 27.01.2022.docx",
+      "evidence": "Згаданий RAR-архів містить шкідливі DOCX-документи"
+    },
+    {
+      "head": "порти АРК.rar",
+      "type": "delivers",
+      "tail": "Щодо заходження суден під державним прапором в порти АР Крим на 27.01.2022.docx",
+      "evidence": "Згаданий RAR-архів містить шкідливі DOCX-документи"
+    },
+    {
+      "head": "surname192.temp.swtest[.]ru",
+      "type": "hosts",
+      "tail": "hxxp://surname192.temp.swtest[.]ru/prapor/su/derg.gif",
+      "evidence": "hxxp://surname192.temp.swtest[.]ru/prapor/su/derg.gif"
+    },
+    {
+      "head": "surname192.temp.swtest[.]ru",
+      "type": "hosts",
+      "tail": "hxxp://surname192.temp.swtest[.]ru/prapor/su/ino.gif",
+      "evidence": "hxxp://surname192.temp.swtest[.]ru/prapor/su/ino.gif"
+    }
+  ],
+  "newRelationTypes": []
+}

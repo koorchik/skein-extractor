@@ -1,0 +1,298 @@
+{
+  "docId": 6281701,
+  "date": "18.12.2024",
+  "title": "Кібератака UAC-0125 з використанням тематики \"Армія+\" (CERT-UA#12559)",
+  "entities": [
+    {
+      "id": "6281701:0",
+      "name": "MIL.CERT-UA",
+      "kind": "government body",
+      "gloss": "The computer emergency response team for the Armed Forces of Ukraine.",
+      "scheme": "S6",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "6281701:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "6281701:2",
+      "name": "Армія+",
+      "kind": "software product",
+      "gloss": "An official Ukrainian mobile application designed for military personnel.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6281701:3",
+      "name": "Cloudlfare Workers",
+      "kind": "cloud service",
+      "gloss": "A serverless execution platform provided by Cloudflare.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281701:4",
+      "name": "ArmyPlusInstaller-v.0.10.23722.exe",
+      "kind": "malware installer",
+      "gloss": "A malicious NSIS installer masquerading as an Army+ desktop application update.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "6281701:5",
+      "name": "ArmyPlusInstaller-v.0.10.23672.exe",
+      "kind": "malware installer",
+      "gloss": "A malicious NSIS installer posing as the Army+ desktop application.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6281701:6",
+      "name": "NSIS",
+      "kind": "software product",
+      "gloss": "An open-source script-driven installer authoring system for Windows.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6281701:7",
+      "name": "ArmyPlus.exe",
+      "kind": "decoy file",
+      "gloss": "A .NET decoy executable displayed to targets during the malicious installation process.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6281701:8",
+      "name": "Python",
+      "kind": "programming language",
+      "gloss": "A widely used high-level programming language and interpreter.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6281701:9",
+      "name": "Tor",
+      "kind": "software product",
+      "gloss": "Open-source software and an overlay network for anonymous communications.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6281701:10",
+      "name": "init.ps1",
+      "kind": "malicious script",
+      "gloss": "A PowerShell script configuring OpenSSH and a Tor hidden service for remote access.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6281701:11",
+      "name": "OpenSSH",
+      "kind": "software suite",
+      "gloss": "An open-source implementation of the Secure Shell protocol for secure remote access.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6281701:12",
+      "name": "curl",
+      "kind": "software tool",
+      "gloss": "A command-line tool and library for transferring data with network protocols.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6281701:13",
+      "name": "UAC-0125",
+      "kind": "threat actor",
+      "gloss": "A threat activity cluster tracked by CERT-UA targeting Ukrainian organizations.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "related"
+    },
+    {
+      "id": "6281701:14",
+      "name": "UAC-0002",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage and sabotage group also known as Sandworm and APT44.",
+      "scheme": "S15",
+      "category": "HackerGroup",
+      "role": "related"
+    },
+    {
+      "id": "6281701:15",
+      "name": "Microsoft Office",
+      "kind": "software suite",
+      "gloss": "A suite of productivity desktop applications developed by Microsoft.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6281701:16",
+      "name": "Office16.iso",
+      "kind": "malicious file",
+      "gloss": "A malicious disk image containing trojanized Microsoft Office installation files.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "6281701:17",
+      "name": "omas-x-none.msp",
+      "kind": "malicious file",
+      "gloss": "A trojanized installer patch file packaged within a malicious Office ISO image.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "6281701:18",
+      "name": "CommunicatorContentBinApp.cmd",
+      "kind": "malicious script",
+      "gloss": "A command script executing PowerShell commands extracted from a trojanized MSP component.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6281701:19",
+      "name": "guid.txt",
+      "kind": "file",
+      "gloss": "An indicator file associated with the malicious Army+ installer infection chain.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "6281701:20",
+      "name": "desktopapluscom.workers.dev",
+      "kind": "internet domain",
+      "gloss": "A Cloudflare Workers domain mimicking the official Army+ application service.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281701:21",
+      "name": "desktopaplus.workers.dev",
+      "kind": "internet domain",
+      "gloss": "A Cloudflare Workers domain mimicking the official Army+ application service.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281701:22",
+      "name": "armyplus-desktop.workers.dev",
+      "kind": "internet domain",
+      "gloss": "A Cloudflare Workers domain mimicking the official Army+ application service.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281701:23",
+      "name": "aplusdesktop.workers.dev",
+      "kind": "internet domain",
+      "gloss": "A Cloudflare Workers domain mimicking the official Army+ application service.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281701:24",
+      "name": "armylpus.workers.dev",
+      "kind": "internet domain",
+      "gloss": "A Cloudflare Workers domain mimicking the official Army+ application service.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281701:25",
+      "name": "aplusmodgovua.workers.dev",
+      "kind": "internet domain",
+      "gloss": "A Cloudflare Workers domain mimicking the Ukrainian Ministry of Defence Army+ service.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6281701:26",
+      "name": "wvtmsouaa2gt6jmcuxj5hkfrqdss5lhecoqijt5dl7gfruueu3i5mkad.onion",
+      "kind": "tor hidden service",
+      "gloss": "A Tor hidden service address used as command-and-control infrastructure.",
+      "scheme": null,
+      "category": "Domain",
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "MIL.CERT-UA",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "фахівців MIL.CERT-UA отримано інформацію щодо виявлення"
+    },
+    {
+      "head": "ArmyPlusInstaller-v.0.10.23722.exe",
+      "type": "delivers",
+      "tail": "ArmyPlus.exe",
+      "evidence": "окрім .NET файлу-приманки \"ArmyPlus.exe\""
+    },
+    {
+      "head": "ArmyPlusInstaller-v.0.10.23722.exe",
+      "type": "delivers",
+      "tail": "init.ps1",
+      "evidence": "а також PowerShell-скрипт \"init.ps1\""
+    },
+    {
+      "head": "init.ps1",
+      "type": "communicates-with",
+      "tail": "wvtmsouaa2gt6jmcuxj5hkfrqdss5lhecoqijt5dl7gfruueu3i5mkad.onion",
+      "evidence": "відправка приватного ключа за допомогою \"curl\" на сервер зловмисників (TOR-адреса)"
+    },
+    {
+      "head": "UAC-0125",
+      "type": "attributed-to",
+      "tail": "UAC-0002",
+      "evidence": "відстежується CERT-UA за ідентифікатором UAC-0125 та... асоціюється з кластером UAC-0002"
+    },
+    {
+      "head": "Office16.iso",
+      "type": "delivers",
+      "tail": "omas-x-none.msp",
+      "evidence": "Office16.iso... що містив троянізований компонент \"omas-x-none.msp\""
+    },
+    {
+      "head": "omas-x-none.msp",
+      "type": "delivers",
+      "tail": "CommunicatorContentBinApp.cmd",
+      "evidence": "в якому знаходився файл \"CommunicatorContentBinApp.cmd\""
+    }
+  ],
+  "unclassified": [
+    "6281701:8",
+    "6281701:26"
+  ]
+}

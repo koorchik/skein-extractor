@@ -1,0 +1,141 @@
+{
+  "docId": 4492467,
+  "date": "28.04.2023",
+  "title": "Кібератака групи APT28: розповсюдження електронних листів з \"інструкціями\" щодо \"оновлення операційної системи\" (CERT-UA#6562)",
+  "entities": [
+    {
+      "id": "4492467:0",
+      "name": "APT28",
+      "kind": "hacking group",
+      "gloss": "A Russian state-sponsored cyber espionage group associated with the General Staff Main Intelligence Directorate (GRU).",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "4492467:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "4492467:2",
+      "name": "державні органи України",
+      "kind": "government sector",
+      "gloss": "State authorities and government organizations of Ukraine.",
+      "scheme": "S7",
+      "category": "Sector",
+      "role": "target"
+    },
+    {
+      "id": "4492467:3",
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A proprietary graphical operating system family developed by Microsoft.",
+      "scheme": "S2",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4492467:4",
+      "name": "PowerShell",
+      "kind": "software tool",
+      "gloss": "A task automation and configuration management framework consisting of a command-line shell and scripting language.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "4492467:5",
+      "name": "Mocky",
+      "kind": "web service",
+      "gloss": "A legitimate online mock API service designed for testing HTTP requests and responses.",
+      "scheme": "S24",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "4492467:6",
+      "name": "@outlook.com",
+      "kind": "email service",
+      "gloss": "A free personal webmail service domain provided by Microsoft.",
+      "scheme": null,
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4492467:7",
+      "name": "146[.]70.105.61",
+      "kind": "ip address",
+      "gloss": "An IP address associated with infrastructure used in the cyberattack.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4492467:8",
+      "name": "77[.]75.78.125",
+      "kind": "ip address",
+      "gloss": "An IP address observed in the network indicators of the attack.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4492467:9",
+      "name": "mockbin[.]org",
+      "kind": "internet domain",
+      "gloss": "A legitimate API testing web service domain abused by attackers.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "4492467:10",
+      "name": "run.mocky[.]io",
+      "kind": "internet domain",
+      "gloss": "A subdomain of the Mocky web service used to host mock API endpoints.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "APT28",
+      "type": "targets-sector",
+      "tail": "державні органи України",
+      "evidence": "розповсюдження серед державних органів України ... Активність здійснюється групою APT28"
+    },
+    {
+      "head": "державні органи України",
+      "type": "located-in-country",
+      "tail": "Україна",
+      "evidence": "державних органів України"
+    },
+    {
+      "head": "APT28",
+      "type": "uses-service",
+      "tail": "Mocky",
+      "evidence": "відправку отриманих результатів за допомогою HTTP запиту до API сервісу Mocky"
+    },
+    {
+      "head": "APT28",
+      "type": "abuses-domain",
+      "tail": "run.mocky[.]io",
+      "evidence": "hXXp://run.mocky[.]io/v3/1e88179a-3105-4a5c-9eb3-aebea36e9c21"
+    },
+    {
+      "head": "APT28",
+      "type": "abuses-domain",
+      "tail": "mockbin[.]org",
+      "evidence": "hXXp://mockbin[.]org/bin/4aa17a07-7635-4ee0-9f3a-449fcd91f342"
+    }
+  ],
+  "unclassified": [
+    "4492467:6"
+  ]
+}

@@ -1,0 +1,489 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+- Country: A distinct territorial body or sovereign state with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Government Organization: An official agency, ministry, or administrative body operating as part of a national or state government. (also: Government Agency, Government Body, State Authority)
+- Malware: Malicious software, code, or executables designed to infiltrate, damage, or compromise computer systems and data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address specifying the location and retrieval mechanism of a resource on a computer network. (also: URL, Web Address, Web Link)
+- Person: An individual human being, such as a government official, cybersecurity expert, researcher, or executive. (also: Individual, Natural Person)
+- IP Address: A numerical label assigned to a device connected to a computer network that uses the Internet Protocol for communication. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Electronic Mail Address)
+- Computer File: A digital resource or named item stored on a computer system, containing data, code, or instructions. (also: File, Digital File, Filename)
+- Company: A commercial business, corporation, or enterprise operating in any economic sector or industry. (also: Enterprise, Corporation, Commercial Organization)
+- Domain Name: A human-readable identification string defining a realm of administrative autonomy or resource location within the Internet Domain Name System. (also: Internet Domain, FQDN, Fully Qualified Domain Name)
+- Threat Actor: An individual, group, or organization responsible for malicious cyber activities, attacks, or cyber espionage operations. (also: Threat Group, Cyber Threat Actor, Hacker Group)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп’ютерні надзвичайні події України CERT-UA від Міністерства оборони України отримано повідомлення про розповсюдження електронних листів з темою "постачання" серед державних органів України. У додатку до листа знаходиться захищений паролем архів "ДВТПРОВТ.rar", який містить файл-ярлик "4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf.lnk" та EXE-файл з назвою "4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf", що буде виконаний у разі відкриття LNK-файлу.</p><p>В результаті атаки комп'ютер жертви буде уражено модульною шкідливою програмою SPECTR, що, серед іншого, включає: SPECTR.Usb, SPECTR.Shell, SPECTR.Fs, SPECTR.Info, SPECTR.Archiver та інші компоненти.</p><p>Атаку здійснено групою UAC-0020 (Vermin), діяльність якої асоційовано з т.з. органами безпеки т.з. ЛНР. Зауважимо, що для атаки 17.03.2022 року використано інфраструктуру, яка застосовувалася групою ще у липні 2019 року. Слід додати, що серверне обладнання групи UAC-0020 (Vermin) вже багато років розміщено на технічному майданчику луганського провайдера vServerCo (AS58271).</p><p><br></p><p><strong>Індикатори компрометації:</strong></p><p><strong>Файли:</strong></p><pre class="ql-syntax" spellcheck="false">baf502b4b823b6806cc91e2c1dd07613    ДВТПРОВТ.rar
+993415425b61183dd3f900d9b81ac57f    4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf
+1c2c41a5a5f89eccafea6e34183d5db9    4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf.lnk
+d34dbbd28775b2c3a0b55d86d418f293    data.out
+67274bdd5c9537affbd51567f4ba8d5f    license.dat (2022-02-25) (SPECTR.Installer)
+75e1ce42e0892ed04a43e3b68afdbc07    conhost.exe
+e08d7c4daa45beca5079870251e50236    PluginExec.exe (SPECTR.PluginLoader)
+adebdc32ef35209fb142d44050928083    Spectator2.exe (SPECTR.Spectator2)
+3ed8263abe009c19c4af8706d52060f8    Archiver.dll (2021-04-09) (SPECTR.Archiver)
+f0197bbb56465b5e2f1f17876c0da5ba    ClientInfo.dll (SPECTR.Info)
+d0632ef34514bbb0f675c59e6ecca717    FileSystem.dll (2021-04-09) (SPECTR.Fs)
+00a54a6496734d87dab6685aa90588f8    FileTransfer.dll (2021-04-09) (SPECTR.Ft)
+5db4313b8dbb9204f8f98f2c129fd734    Manager.dll (SPECTR.Mgr)
+32343f2a6b8ac9b6587e2e07989362ab    Shell.dll (2021-04-09) (SPECTR.Shell)
+ecc7bb2e4672b958bd82fe9ec9cfab14    Usb.dll (SPECTR.Usb)
+</pre><p><strong>Мережеві:</strong></p><pre class="ql-syntax" spellcheck="false">hxxp://176[.]119.2.212/web/t/data.out
+hxxp://getmod[.]host/DSGb3Y3X
+hxxp://getmod[.]host/ThlAHy3S
+hxxp://getmod[.]host/OcthdaLm
+getmod[.]host (2019-07-12)
+syncapp[.]host (2019-07-12)
+netbin[.]host (2019-07-12)
+stormpredictor[.]host
+meteolink[.]host
+176[.]119.2.212
+176[.]119.2.214
+176[.]119.5.194
+176[.]119.5.195
+AS58271
+</pre><p><strong>Хостові:</strong></p><pre class="ql-syntax" spellcheck="false">HKCU\Software\Google\Chrome\NativeMessagingHosts\com.microsoft.browsersec\EncodedProfile
+HKCU\Software\Google\Chrome\NativeMessagingHosts\com.microsoft.browsercli\EncodedProfile
+%APPDATA%\Microsoft\ExcelCnv\1033\license.dat
+%APPDATA%\Microsoft\ExcelCnv\1033\conhost.exe
+ESET_OPINIONS (змінна середовища)
+MSO (змінна середовища)
+MS Office Add-In Install Task (заплановане завдання)
+</pre><p><br></p><p><strong>Графічні зображення:</strong></p><p></p>
+
+=== RESPONSE (12.3s, in 3235 / out 4084 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Міністерство оборони України",
+      "kind": "Government Organization",
+      "gloss": "The central executive body and ministry responsible for national defense in Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "Country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "ДВТПРОВТ.rar",
+      "kind": "Computer File",
+      "gloss": "A password-protected malicious RAR archive delivered via phishing emails."
+    },
+    {
+      "name": "4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf.lnk",
+      "kind": "Computer File",
+      "gloss": "A malicious shortcut file that executes an embedded executable file."
+    },
+    {
+      "name": "4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf",
+      "kind": "Computer File",
+      "gloss": "A malicious executable disguised with an RTF extension."
+    },
+    {
+      "name": "SPECTR",
+      "kind": "Malware",
+      "gloss": "A modular malware framework used for cyber espionage."
+    },
+    {
+      "name": "SPECTR.Usb",
+      "kind": "Malware",
+      "gloss": "A module of the SPECTR malware designed to interact with USB devices."
+    },
+    {
+      "name": "SPECTR.Shell",
+      "kind": "Malware",
+      "gloss": "A command-execution shell module of the SPECTR malware."
+    },
+    {
+      "name": "SPECTR.Fs",
+      "kind": "Malware",
+      "gloss": "A file system manipulation module belonging to the SPECTR malware framework."
+    },
+    {
+      "name": "SPECTR.Info",
+      "kind": "Malware",
+      "gloss": "An information-gathering module belonging to the SPECTR malware framework."
+    },
+    {
+      "name": "SPECTR.Archiver",
+      "kind": "Malware",
+      "gloss": "An archive manipulation component belonging to the SPECTR malware framework."
+    },
+    {
+      "name": "SPECTR.Ft",
+      "kind": "Malware",
+      "gloss": "A file transfer module belonging to the SPECTR malware framework."
+    },
+    {
+      "name": "SPECTR.Mgr",
+      "kind": "Malware",
+      "gloss": "A management component belonging to the SPECTR malware framework."
+    },
+    {
+      "name": "SPECTR.PluginLoader",
+      "kind": "Malware",
+      "gloss": "A plugin loader component of the SPECTR malware framework."
+    },
+    {
+      "name": "SPECTR.Spectator2",
+      "kind": "Malware",
+      "gloss": "A payload component belonging to the SPECTR malware framework."
+    },
+    {
+      "name": "SPECTR.Installer",
+      "kind": "Malware",
+      "gloss": "An installer component used to deploy the SPECTR malware."
+    },
+    {
+      "name": "UAC-0020",
+      "kind": "Threat Actor",
+      "gloss": "A cyber espionage threat group also known as Vermin."
+    },
+    {
+      "name": "vServerCo",
+      "kind": "Company",
+      "gloss": "An internet hosting provider located in Luhansk."
+    },
+    {
+      "name": "AS58271",
+      "kind": "Company",
+      "gloss": "An autonomous system operated by the hosting provider vServerCo."
+    },
+    {
+      "name": "data.out",
+      "kind": "Computer File",
+      "gloss": "A malicious file associated with the SPECTR malware attack."
+    },
+    {
+      "name": "license.dat",
+      "kind": "Computer File",
+      "gloss": "A malicious data file associated with the SPECTR installer."
+    },
+    {
+      "name": "conhost.exe",
+      "kind": "Computer File",
+      "gloss": "An executable file used maliciously as part of the SPECTR malware deployment."
+    },
+    {
+      "name": "PluginExec.exe",
+      "kind": "Computer File",
+      "gloss": "An executable component that executes plugins in the SPECTR framework."
+    },
+    {
+      "name": "Spectator2.exe",
+      "kind": "Computer File",
+      "gloss": "An executable component belonging to the SPECTR malware family."
+    },
+    {
+      "name": "Archiver.dll",
+      "kind": "Computer File",
+      "gloss": "A dynamic link library implementing the SPECTR.Archiver module."
+    },
+    {
+      "name": "ClientInfo.dll",
+      "kind": "Computer File",
+      "gloss": "A dynamic link library implementing the SPECTR.Info module."
+    },
+    {
+      "name": "FileSystem.dll",
+      "kind": "Computer File",
+      "gloss": "A dynamic link library implementing the SPECTR.Fs module."
+    },
+    {
+      "name": "FileTransfer.dll",
+      "kind": "Computer File",
+      "gloss": "A dynamic link library implementing the SPECTR.Ft module."
+    },
+    {
+      "name": "Manager.dll",
+      "kind": "Computer File",
+      "gloss": "A dynamic link library implementing the SPECTR.Mgr module."
+    },
+    {
+      "name": "Shell.dll",
+      "kind": "Computer File",
+      "gloss": "A dynamic link library implementing the SPECTR.Shell module."
+    },
+    {
+      "name": "Usb.dll",
+      "kind": "Computer File",
+      "gloss": "A dynamic link library implementing the SPECTR.Usb module."
+    },
+    {
+      "name": "hxxp://176[.]119.2.212/web/t/data.out",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL used to download the data.out payload."
+    },
+    {
+      "name": "hxxp://getmod[.]host/DSGb3Y3X",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL hosted on getmod.host used in the cyberattack."
+    },
+    {
+      "name": "hxxp://getmod[.]host/ThlAHy3S",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL hosted on getmod.host used in the cyberattack."
+    },
+    {
+      "name": "hxxp://getmod[.]host/OcthdaLm",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL hosted on getmod.host used in the cyberattack."
+    },
+    {
+      "name": "getmod[.]host",
+      "kind": "Domain Name",
+      "gloss": "A domain name used as malicious command and control or delivery infrastructure."
+    },
+    {
+      "name": "syncapp[.]host",
+      "kind": "Domain Name",
+      "gloss": "A domain name used for threat group infrastructure."
+    },
+    {
+      "name": "netbin[.]host",
+      "kind": "Domain Name",
+      "gloss": "A domain name used for threat group infrastructure."
+    },
+    {
+      "name": "stormpredictor[.]host",
+      "kind": "Domain Name",
+      "gloss": "A domain name used for threat group infrastructure."
+    },
+    {
+      "name": "meteolink[.]host",
+      "kind": "Domain Name",
+      "gloss": "A domain name used for threat group infrastructure."
+    },
+    {
+      "name": "176[.]119.2.212",
+      "kind": "IP Address",
+      "gloss": "An IP address used to host malicious payloads and infrastructure."
+    },
+    {
+      "name": "176[.]119.2.214",
+      "kind": "IP Address",
+      "gloss": "An IP address utilized in malicious network infrastructure."
+    },
+    {
+      "name": "176[.]119.5.194",
+      "kind": "IP Address",
+      "gloss": "An IP address utilized in malicious network infrastructure."
+    },
+    {
+      "name": "176[.]119.5.195",
+      "kind": "IP Address",
+      "gloss": "An IP address utilized in malicious network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Міністерство оборони України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Міністерства оборони України"
+    },
+    {
+      "head": "4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf.lnk",
+      "type": "part-of",
+      "tail": "ДВТПРОВТ.rar",
+      "evidence": "архів \"ДВТПРОВТ.rar\", який містить файл-ярлик"
+    },
+    {
+      "head": "4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf",
+      "type": "part-of",
+      "tail": "ДВТПРОВТ.rar",
+      "evidence": "архів \"ДВТПРОВТ.rar\", який містить ... EXE-файл"
+    },
+    {
+      "head": "4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf.lnk",
+      "type": "delivers",
+      "tail": "4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf",
+      "evidence": "EXE-файл ... що буде виконаний у разі відкриття LNK-файлу"
+    },
+    {
+      "head": "4222 ВП МОУ на лист ДВТПРОВТ від 09.03.22 403-5-1324.rtf",
+      "type": "delivers",
+      "tail": "SPECTR",
+      "evidence": "В результаті атаки комп'ютер жертви буде уражено модульною шкідливою програмою SPECTR"
+    },
+    {
+      "head": "SPECTR.Usb",
+      "type": "part-of",
+      "tail": "SPECTR",
+      "evidence": "модульною шкідливою програмою SPECTR, що, серед іншого, включає: SPECTR.Usb"
+    },
+    {
+      "head": "SPECTR.Shell",
+      "type": "part-of",
+      "tail": "SPECTR",
+      "evidence": "модульною шкідливою програмою SPECTR, що, серед іншого, включає: ... SPECTR.Shell"
+    },
+    {
+      "head": "SPECTR.Fs",
+      "type": "part-of",
+      "tail": "SPECTR",
+      "evidence": "модульною шкідливою програмою SPECTR, що, серед іншого, включає: ... SPECTR.Fs"
+    },
+    {
+      "head": "SPECTR.Info",
+      "type": "part-of",
+      "tail": "SPECTR",
+      "evidence": "модульною шкідливою програмою SPECTR, що, серед іншого, включає: ... SPECTR.Info"
+    },
+    {
+      "head": "SPECTR.Archiver",
+      "type": "part-of",
+      "tail": "SPECTR",
+      "evidence": "модульною шкідливою програмою SPECTR, що, серед іншого, включає: ... SPECTR.Archiver"
+    },
+    {
+      "head": "UAC-0020",
+      "type": "uses",
+      "tail": "SPECTR",
+      "evidence": "Атаку здійснено групою UAC-0020 (Vermin)"
+    },
+    {
+      "head": "UAC-0020",
+      "type": "uses",
+      "tail": "vServerCo",
+      "evidence": "серверне обладнання групи UAC-0020 (Vermin) вже багато років розміщено на технічному майданчику луганського провайдера vServerCo"
+    },
+    {
+      "head": "vServerCo",
+      "type": "uses",
+      "tail": "AS58271",
+      "evidence": "провайдера vServerCo (AS58271)"
+    },
+    {
+      "head": "Archiver.dll",
+      "type": "part-of",
+      "tail": "SPECTR.Archiver",
+      "evidence": "Archiver.dll (2021-04-09) (SPECTR.Archiver)"
+    },
+    {
+      "head": "ClientInfo.dll",
+      "type": "part-of",
+      "tail": "SPECTR.Info",
+      "evidence": "ClientInfo.dll (SPECTR.Info)"
+    },
+    {
+      "head": "FileSystem.dll",
+      "type": "part-of",
+      "tail": "SPECTR.Fs",
+      "evidence": "FileSystem.dll (2021-04-09) (SPECTR.Fs)"
+    },
+    {
+      "head": "FileTransfer.dll",
+      "type": "part-of",
+      "tail": "SPECTR.Ft",
+      "evidence": "FileTransfer.dll (2021-04-09) (SPECTR.Ft)"
+    },
+    {
+      "head": "Manager.dll",
+      "type": "part-of",
+      "tail": "SPECTR.Mgr",
+      "evidence": "Manager.dll (SPECTR.Mgr)"
+    },
+    {
+      "head": "Shell.dll",
+      "type": "part-of",
+      "tail": "SPECTR.Shell",
+      "evidence": "Shell.dll (2021-04-09) (SPECTR.Shell)"
+    },
+    {
+      "head": "Usb.dll",
+      "type": "part-of",
+      "tail": "SPECTR.Usb",
+      "evidence": "Usb.dll (SPECTR.Usb)"
+    },
+    {
+      "head": "license.dat",
+      "type": "part-of",
+      "tail": "SPECTR.Installer",
+      "evidence": "license.dat (2022-02-25) (SPECTR.Installer)"
+    },
+    {
+      "head": "PluginExec.exe",
+      "type": "part-of",
+      "tail": "SPECTR.PluginLoader",
+      "evidence": "PluginExec.exe (SPECTR.PluginLoader)"
+    },
+    {
+      "head": "Spectator2.exe",
+      "type": "part-of",
+      "tail": "SPECTR.Spectator2",
+      "evidence": "Spectator2.exe (SPECTR.Spectator2)"
+    },
+    {
+      "head": "176[.]119.2.212",
+      "type": "hosts",
+      "tail": "hxxp://176[.]119.2.212/web/t/data.out",
+      "evidence": "hxxp://176[.]119.2.212/web/t/data.out"
+    },
+    {
+      "head": "getmod[.]host",
+      "type": "hosts",
+      "tail": "hxxp://getmod[.]host/DSGb3Y3X",
+      "evidence": "hxxp://getmod[.]host/DSGb3Y3X"
+    },
+    {
+      "head": "getmod[.]host",
+      "type": "hosts",
+      "tail": "hxxp://getmod[.]host/ThlAHy3S",
+      "evidence": "hxxp://getmod[.]host/ThlAHy3S"
+    },
+    {
+      "head": "getmod[.]host",
+      "type": "hosts",
+      "tail": "hxxp://getmod[.]host/OcthdaLm",
+      "evidence": "hxxp://getmod[.]host/OcthdaLm"
+    }
+  ],
+  "newRelationTypes": []
+}

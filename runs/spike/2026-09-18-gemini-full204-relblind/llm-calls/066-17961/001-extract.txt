@@ -1,0 +1,145 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p>Як показує практика, не оновлене вчасно програмне забезпечення і не усунуті вразливості можуть призводити до істотних негативних наслідків. Урядова команда реагування на комп'ютерні надзвичайні події України CERT-UA продовжує інформування про критичні вразливості програмного забезпечення.</p><p>Компанія Microsoft опублікувала інформацію про вразливість CVE-2022-21907, використання якої дозволяє зловмисникам здійснити віддалене виконання коду на вразливому хості.&nbsp;</p><p>Ця вразливість стосується файлу HTTP Protocol Stack (http.sys), який використовується для прослуховування HTTP-запитів на серверах IIS (Internet Information Services). Надсилання спеціально створеного пакета дозволяє віддалено виконувати код неавтентифікованими користувачами.&nbsp;</p><p>За замовчуванням Windows Server 2019 і Windows 10 версії 1809 не є вразливими, якщо вимкнена підтримка HTTP Trailer через значення реєстру EnableTrailerSupport.</p><p>Для зменшення впливу вразливості на Windows Server 2019 та Windows 10 версії 1809 рекомендовано видалити значення DWORD реєстру 'EnableTrailerSupport', якщо воно є в: HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\HTTP\Parameters.</p><p><strong>В мережі вже опубліковано експлойти для використання зазначеної вразливості!</strong></p><p>Радимо негайно оновити ваші ОС Windows до актуальної версії:</p><p><a href="https://msrc.microsoft.com/update-guide/en-US/vulnerability/CVE-2022-21907" rel="noopener noreferrer" target="_blank">https://msrc.microsoft.com/update-guide/en-US/vulnerability/CVE-2022-21907</a></p><p>Більш детальна інформація щодо вразливості:</p><p><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-21907" rel="noopener noreferrer" target="_blank">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-21907</a></p>
+
+=== RESPONSE (6.1s, in 1440 / out 1340 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Microsoft",
+      "kind": "software vendor",
+      "gloss": "A multinational technology corporation producing computer software, consumer electronics, and operating systems."
+    },
+    {
+      "name": "CVE-2022-21907",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in the Windows HTTP Protocol Stack (http.sys)."
+    },
+    {
+      "name": "HTTP Protocol Stack (http.sys)",
+      "kind": "software component",
+      "gloss": "A Windows kernel-mode device driver that processes HTTP requests."
+    },
+    {
+      "name": "IIS",
+      "kind": "software product",
+      "gloss": "An extensible web server software created by Microsoft for use with the Windows NT family."
+    },
+    {
+      "name": "Windows Server 2019",
+      "kind": "operating system",
+      "gloss": "A server operating system developed by Microsoft as part of the Windows NT family."
+    },
+    {
+      "name": "Windows 10 версії 1809",
+      "kind": "operating system",
+      "gloss": "A major release of the Microsoft Windows 10 operating system."
+    },
+    {
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A family of proprietary graphical operating systems developed and marketed by Microsoft."
+    },
+    {
+      "name": "https://msrc.microsoft.com/update-guide/en-US/vulnerability/CVE-2022-21907",
+      "kind": "url",
+      "gloss": "A web link to Microsoft's security update advisory for vulnerability CVE-2022-21907."
+    },
+    {
+      "name": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-21907",
+      "kind": "url",
+      "gloss": "A web link to the MITRE CVE database entry for vulnerability CVE-2022-21907."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Microsoft",
+      "type": "disclosed-vulnerability",
+      "tail": "CVE-2022-21907",
+      "evidence": "Компанія Microsoft опублікувала інформацію про вразливість CVE-2022-21907"
+    },
+    {
+      "head": "CVE-2022-21907",
+      "type": "affects-software",
+      "tail": "HTTP Protocol Stack (http.sys)",
+      "evidence": "Ця вразливість стосується файлу HTTP Protocol Stack (http.sys)"
+    },
+    {
+      "head": "HTTP Protocol Stack (http.sys)",
+      "type": "used-by-software",
+      "tail": "IIS",
+      "evidence": "який використовується для прослуховування HTTP-запитів на серверах IIS"
+    },
+    {
+      "head": "CVE-2022-21907",
+      "type": "affects-software",
+      "tail": "Windows Server 2019",
+      "evidence": "Для зменшення впливу вразливості на Windows Server 2019"
+    },
+    {
+      "head": "CVE-2022-21907",
+      "type": "affects-software",
+      "tail": "Windows 10 версії 1809",
+      "evidence": "Для зменшення впливу вразливості на Windows Server 2019 та Windows 10 версії 1809"
+    },
+    {
+      "head": "https://msrc.microsoft.com/update-guide/en-US/vulnerability/CVE-2022-21907",
+      "type": "provides-information-on",
+      "tail": "CVE-2022-21907",
+      "evidence": "Радимо негайно оновити ваші ОС Windows до актуальної версії: https://msrc.microsoft.com/update-guide/en-US/vulnerability/CVE-2022-21907"
+    },
+    {
+      "head": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-21907",
+      "type": "provides-information-on",
+      "tail": "CVE-2022-21907",
+      "evidence": "Більш детальна інформація щодо вразливості: https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-21907"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "disclosed-vulnerability",
+      "definition": "The entity publicly released information or an advisory regarding a security vulnerability."
+    },
+    {
+      "name": "affects-software",
+      "definition": "The vulnerability exists within or impacts the specified software, component, or operating system."
+    },
+    {
+      "name": "used-by-software",
+      "definition": "The component or driver is utilized by the specified software application or server service."
+    },
+    {
+      "name": "provides-information-on",
+      "definition": "The URL or resource contains documentation or technical details concerning the entity."
+    }
+  ]
+}

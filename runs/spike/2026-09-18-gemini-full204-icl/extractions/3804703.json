@@ -1,0 +1,160 @@
+{
+  "entities": [
+    {
+      "name": "АТ \"Укртелеком\"",
+      "kind": "company",
+      "gloss": "A major Ukrainian telecommunications company."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Remcos",
+      "kind": "malware",
+      "gloss": "A commercial remote access tool and surveillance software frequently abused as malware."
+    },
+    {
+      "name": "BreakingSecurity",
+      "kind": "software vendor",
+      "gloss": "A software company that develops and sells the Remcos remote administration tool."
+    },
+    {
+      "name": "UAC-0050",
+      "kind": "threat actor",
+      "gloss": "A cyber threat group tracked by CERT-UA since at least 2020, known for espionage attacks against Ukrainian entities."
+    },
+    {
+      "name": "RemoteUtilities",
+      "kind": "software product",
+      "gloss": "A legitimate remote desktop software program previously utilized by threat actors in cyberattacks."
+    },
+    {
+      "name": "судовий лист, інформація щодо заборгування.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive attached to phishing emails."
+    },
+    {
+      "name": "Ваш персональний код доступу -254507.txt",
+      "kind": "computer file",
+      "gloss": "A text file containing a password for a protected archive."
+    },
+    {
+      "name": "судовий лист, інформація щодо заборгування. pdf.rar",
+      "kind": "computer file",
+      "gloss": "A password-protected RAR archive containing an executable payload."
+    },
+    {
+      "name": "судовий лист, інформація щодо заборгування.pdf.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable disguised as a PDF document that installs Remcos."
+    },
+    {
+      "name": "2.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable associated with the Remcos remote access tool."
+    },
+    {
+      "name": "sql.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable associated with the Remcos remote access tool."
+    },
+    {
+      "name": "info@telecomds.online",
+      "kind": "email address",
+      "gloss": "An email address used in malicious email distribution."
+    },
+    {
+      "name": "gluschko.i.k@ukrtelecom.ua",
+      "kind": "email address",
+      "gloss": "A spoofed email address used in a phishing campaign."
+    },
+    {
+      "name": "telecomds.online",
+      "kind": "domain name",
+      "gloss": "A domain name associated with malicious cyber activity."
+    },
+    {
+      "name": "80.78.254.28",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure in the incident."
+    },
+    {
+      "name": "101.99.91.158",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure."
+    },
+    {
+      "name": "94.131.99.153",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure."
+    },
+    {
+      "name": "124.88.67.67",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure."
+    },
+    {
+      "name": "124.88.67.98",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure."
+    },
+    {
+      "name": "94.131.99.156",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure."
+    },
+    {
+      "name": "94.131.99.89",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure."
+    },
+    {
+      "name": "94.131.99.56",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure."
+    },
+    {
+      "name": "178.23.190.252",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure."
+    },
+    {
+      "name": "178.23.190.253",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure."
+    },
+    {
+      "name": "178.23.190.254",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure."
+    },
+    {
+      "name": "178.23.190.54",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "судовий лист, інформація щодо заборгування.pdf.exe",
+      "type": "delivers",
+      "tail": "Remcos",
+      "evidence": "Запуск EXE-файлу призведе до встановлення на комп'ютері жертви програми для віддаленого контролю та спостереження Remcos"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses",
+      "tail": "Remcos",
+      "evidence": "Виявлена активність відстежується за ідентифікатором UAC-0050"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses",
+      "tail": "RemoteUtilities",
+      "evidence": "Попередні кібератаки згаданої групи здійснювалися із застосуванням програми для віддаленого адміністрування RemoteUtilities"
+    }
+  ],
+  "newRelationTypes": []
+}

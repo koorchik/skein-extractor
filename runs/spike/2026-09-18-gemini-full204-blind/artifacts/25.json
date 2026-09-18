@@ -1,0 +1,194 @@
+{
+  "docId": 25,
+  "date": "24.03.2020",
+  "title": "Фішингові листи на тему коронавірусу, що приховують у собі ШПЗ",
+  "entities": [
+    {
+      "id": "25:0",
+      "name": "CoronaMap.exe",
+      "kind": "malware payload",
+      "gloss": "A malicious executable disguised as a COVID-19 map application used to deliver information-stealing malware.",
+      "scheme": null,
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "25:1",
+      "name": "Університет Джона Хопкінса",
+      "kind": "university",
+      "gloss": "A private research university in Baltimore, Maryland, known for its public health tracking maps.",
+      "scheme": null,
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "25:2",
+      "name": "AZORult",
+      "kind": "malware family",
+      "gloss": "An information-stealing Trojan designed to exfiltrate credentials, browser data, cryptocurrency keys, and system information.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "25:3",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "25:4",
+      "name": "Windows",
+      "kind": "operating system family",
+      "gloss": "A family of proprietary graphical operating systems developed by Microsoft.",
+      "scheme": "S4",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "25:5",
+      "name": "Windows XP",
+      "kind": "operating system",
+      "gloss": "A legacy version of the Microsoft Windows operating system released in 2001.",
+      "scheme": "S4",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "25:6",
+      "name": "Windows 10",
+      "kind": "operating system",
+      "gloss": "A major release of the Microsoft Windows operating system released in 2015.",
+      "scheme": "S4",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "25:7",
+      "name": "Java",
+      "kind": "software platform",
+      "gloss": "A set of software products and specifications for application development and cross-platform execution.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "25:8",
+      "name": "MS Office",
+      "kind": "office suite",
+      "gloss": "A suite of productivity software applications developed by Microsoft.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "25:9",
+      "name": ".NET",
+      "kind": "software framework",
+      "gloss": "A free, open-source developer platform created by Microsoft for building various types of applications.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "25:10",
+      "name": "VirusTotal",
+      "kind": "security service",
+      "gloss": "A free online service that analyzes suspicious files and URLs for malicious content using antivirus engines.",
+      "scheme": null,
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "25:11",
+      "name": "Державний центр кіберзахисту та протидії кіберзагрозам Держспецзв’язку",
+      "kind": "government body",
+      "gloss": "A Ukrainian state cybersecurity center operating under SSSCIP to protect state information resources.",
+      "scheme": null,
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "25:12",
+      "name": "Держспецзв’язок",
+      "kind": "government body",
+      "gloss": "The State Service of Special Communications and Information Protection of Ukraine.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "25:13",
+      "name": "Corona-virus-Map.com.exe",
+      "kind": "malware payload",
+      "gloss": "A malicious executable file masquerading as a coronavirus tracking tool.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "25:14",
+      "name": "2b35aa9c70ef66197abfb9bc409952897f9f70818633ab43da85b3825b256307",
+      "kind": "cryptographic hash",
+      "gloss": "A SHA-256 hash identifying a malicious Corona-virus-Map.com.exe file.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "25:15",
+      "name": "f195f28ad0823fd6430b8999fb112bbecba81538b7eb28b88d0925ea4e8e5c95",
+      "kind": "cryptographic hash",
+      "gloss": "A SHA-256 hash identifying a CoronaMap AZORult Trojan file.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "25:16",
+      "name": "63fcf6b19ac3a6a232075f65b4b58d69cfd4e7f396f573d4da46aaf210f82564",
+      "kind": "cryptographic hash",
+      "gloss": "A SHA-256 hash identifying a CoronaMap AZORult Trojan file.",
+      "scheme": null,
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "CoronaMap.exe",
+      "type": "delivers",
+      "tail": "AZORult",
+      "evidence": "при запуску зловмисної програми CoronaMap.exe ... ініціюється запуск шкідливого програмного забезпечення, відомого як AZORult"
+    },
+    {
+      "head": "Державний центр кіберзахисту та протидії кіберзагрозам Держспецзв’язку",
+      "type": "part-of",
+      "tail": "Держспецзв’язок",
+      "evidence": "Державного центру кіберзахисту та протидії кіберзагрозам Держспецзв’язку"
+    },
+    {
+      "head": "Держспецзв’язок",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Держспецзв’язку"
+    }
+  ],
+  "unclassified": [
+    "25:0",
+    "25:1",
+    "25:2",
+    "25:7",
+    "25:9",
+    "25:10",
+    "25:11",
+    "25:12",
+    "25:13",
+    "25:14",
+    "25:15",
+    "25:16"
+  ]
+}

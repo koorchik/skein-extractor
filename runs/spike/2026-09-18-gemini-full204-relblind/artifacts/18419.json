@@ -1,0 +1,199 @@
+{
+  "docId": 18419,
+  "date": "02.02.2022",
+  "title": "Кібератака групи UAC-0056 на державні організації України з використанням шкідливих програм SaintBot та OutSteel (CERT-UA#3799) ",
+  "entities": [
+    {
+      "id": "18419:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "18419:1",
+      "name": "Національна поліція України",
+      "kind": "government body",
+      "gloss": "The national police service of Ukraine.",
+      "scheme": "S7",
+      "category": "Government Body",
+      "role": "target"
+    },
+    {
+      "id": "18419:2",
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyberespionage threat group known for targeting Ukrainian organizations.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "18419:3",
+      "name": "OutSteel",
+      "kind": "malware family",
+      "gloss": "A document-stealing malware family used to exfiltrate files.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "18419:4",
+      "name": "SaintBot",
+      "kind": "malware family",
+      "gloss": "A downloader malware family used to fetch additional payloads.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "18419:5",
+      "name": "Discord",
+      "kind": "software product",
+      "gloss": "An instant messaging and digital distribution platform.",
+      "scheme": "S1",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "18419:6",
+      "name": "cdn.discordapp.com",
+      "kind": "internet domain",
+      "gloss": "A content delivery domain for the Discord messaging platform.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "18419:7",
+      "name": "185.244.41.109",
+      "kind": "ip address",
+      "gloss": "An IP address used for malicious command and control or staging.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "18419:8",
+      "name": "eumr.site",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious payload delivery.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "18419:9",
+      "name": "mariaparsons10811@gmail.com",
+      "kind": "email address",
+      "gloss": "An email address identified as an indicator of compromise.",
+      "scheme": "S14",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "18419:10",
+      "name": "Повідомлення про вчинення злочину (Білоус Олексій Сергійович).docx",
+      "kind": "file",
+      "gloss": "A malicious password-protected document used as a phishing lure.",
+      "scheme": "S12",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "18419:11",
+      "name": "Повідомлення про вчинення злочину.docx",
+      "kind": "file",
+      "gloss": "A malicious password-protected document used as a phishing lure.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "18419:12",
+      "name": "GSU207@POLICE.GOV.UA - Повідомлення (2).js",
+      "kind": "file",
+      "gloss": "A malicious JavaScript file dropped to execute PowerShell download commands.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "18419:13",
+      "name": "GSU207@POLICE.GOV.UA - Повідомлення (17).js",
+      "kind": "file",
+      "gloss": "A malicious JavaScript file dropped to execute PowerShell download commands.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "18419:14",
+      "name": "putty.exe",
+      "kind": "file",
+      "gloss": "A malicious executable payload disguised as PuTTY software.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "18419:15",
+      "name": "puttyjejfrwu.exe",
+      "kind": "file",
+      "gloss": "A malicious executable payload downloaded during the infection.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "18419:16",
+      "name": "GoogleChromeUpdate.exe",
+      "kind": "file",
+      "gloss": "A malicious payload dropped and executed under the public directory.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "impersonates",
+      "tail": "Національна поліція України",
+      "evidence": "розповсюдження, начебто, від імені Національної поліції України, електронних листів"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "distributes-malware",
+      "tail": "Повідомлення про вчинення злочину (Білоус Олексій Сергійович).docx",
+      "evidence": "розповсюдження, начебто, від імені Національної поліції України, електронних листів, із вкладеннями"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "distributes-malware",
+      "tail": "OutSteel",
+      "evidence": "Активність асоційовано з діяльністю групи UAC-0056"
+    },
+    {
+      "head": "Повідомлення про вчинення злочину (Білоус Олексій Сергійович).docx",
+      "type": "drops-and-executes",
+      "tail": "GSU207@POLICE.GOV.UA - Повідомлення (2).js",
+      "evidence": "призведе до створення і запуску на комп’ютері Javascript-файлу"
+    },
+    {
+      "head": "GSU207@POLICE.GOV.UA - Повідомлення (2).js",
+      "type": "connects-to",
+      "tail": "Discord",
+      "evidence": "за допомогою powershell здійснить підключення до сервісу Discord"
+    },
+    {
+      "head": "GSU207@POLICE.GOV.UA - Повідомлення (2).js",
+      "type": "downloads-payload",
+      "tail": "putty.exe",
+      "evidence": "завантажить і виконає EXE-файл"
+    }
+  ],
+  "unclassified": []
+}

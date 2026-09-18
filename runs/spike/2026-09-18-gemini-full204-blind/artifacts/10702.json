@@ -1,0 +1,219 @@
+{
+  "docId": 10702,
+  "date": "03.03.2021",
+  "title": "Поновлення кібератак з використанням ШПЗ Pterodo хакерського угрупування Armageddon/Gamaredon",
+  "entities": [
+    {
+      "id": "10702:0",
+      "name": "Armageddon/Gamaredon",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group primarily targeting Ukrainian government and military entities.",
+      "scheme": null,
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "10702:1",
+      "name": "Pterodo",
+      "kind": "malware family",
+      "gloss": "A customized backdoor and downloader malware family used extensively by the Gamaredon threat group.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "10702:2",
+      "name": "РФ",
+      "kind": "country",
+      "gloss": "The Russian Federation, a country spanning Eastern Europe and Northern Asia.",
+      "scheme": "S5",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "10702:3",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe whose government bodies and infrastructure are targeted in the incident.",
+      "scheme": "S5",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "10702:4",
+      "name": "АСКОД",
+      "kind": "software product",
+      "gloss": "An electronic document management system widely used by Ukrainian government bodies and organizations.",
+      "scheme": "S3",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "10702:5",
+      "name": "Microsoft Word",
+      "kind": "software product",
+      "gloss": "A word processing software developed by Microsoft.",
+      "scheme": "S3",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "10702:6",
+      "name": "Microsoft Office",
+      "kind": "software suite",
+      "gloss": "A suite of office productivity software developed by Microsoft.",
+      "scheme": "S3",
+      "category": "Organization",
+      "role": "target"
+    },
+    {
+      "id": "10702:7",
+      "name": "CVE-2017-0199",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in Microsoft Office and WordPad allowing arbitrary code execution via crafted files.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "10702:8",
+      "name": "melitaeas.online",
+      "kind": "internet domain",
+      "gloss": "A domain name used as command-and-control infrastructure for Pterodo malware distribution.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "10702:9",
+      "name": "tridiuma.ru",
+      "kind": "internet domain",
+      "gloss": "A domain name under the .ru TLD utilized for hosting and delivering malicious payloads.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "10702:10",
+      "name": "barbatus.online",
+      "kind": "internet domain",
+      "gloss": "A domain name used to distribute malicious code and payloads.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "10702:11",
+      "name": "188.225.37.128",
+      "kind": "ip address",
+      "gloss": "An IP address located in Russia used as command-and-control infrastructure.",
+      "scheme": "S11",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "10702:12",
+      "name": "optica-rd.myftp.biz",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS domain used as command-and-control infrastructure.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "10702:13",
+      "name": "188.225.58.175",
+      "kind": "ip address",
+      "gloss": "An IP address located in Russia used as a command-and-control server.",
+      "scheme": "S11",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "10702:14",
+      "name": "graphiuma.online",
+      "kind": "internet domain",
+      "gloss": "A domain name used as a command-and-control server for payload distribution.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "10702:15",
+      "name": "185.119.59.227",
+      "kind": "ip address",
+      "gloss": "An IP address used as a command-and-control server in malicious campaigns.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "10702:16",
+      "name": "dipteran.online",
+      "kind": "internet domain",
+      "gloss": "A domain name used to communicate with infected endpoints and deliver payloads.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "10702:17",
+      "name": "apoxipodes.ru",
+      "kind": "internet domain",
+      "gloss": "A domain name used as command-and-control infrastructure.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "10702:18",
+      "name": "scorpiones.online",
+      "kind": "internet domain",
+      "gloss": "A domain name used to host and deliver malicious template files.",
+      "scheme": "S12",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "Armageddon/Gamaredon",
+      "type": "attacks",
+      "tail": "Україна",
+      "evidence": "використовувались у недавніх кібератаках на державні органи України."
+    },
+    {
+      "head": "Armageddon/Gamaredon",
+      "type": "uses-malware",
+      "tail": "Pterodo",
+      "evidence": "кібератак з використанням шкідливого програмного забезпечення (далі - ШПЗ) Pterodo хакерського угрупування Armageddon/Gamaredon"
+    },
+    {
+      "head": "Pterodo",
+      "type": "exploits",
+      "tail": "CVE-2017-0199",
+      "evidence": "експлуатації відомої вразливості «Microsoft Office» CVE-2017-0199"
+    },
+    {
+      "head": "CVE-2017-0199",
+      "type": "affects",
+      "tail": "Microsoft Office",
+      "evidence": "відомої вразливості «Microsoft Office» CVE-2017-0199"
+    },
+    {
+      "head": "188.225.37.128",
+      "type": "located-in",
+      "tail": "РФ",
+      "evidence": "188.225.37.128/index.php (РФ)"
+    },
+    {
+      "head": "188.225.58.175",
+      "type": "located-in",
+      "tail": "РФ",
+      "evidence": "188.225.58.175/savagely.php (домен та ІР адреса знаходяться в РФ)"
+    }
+  ],
+  "unclassified": [
+    "10702:0"
+  ]
+}

@@ -1,0 +1,220 @@
+{
+  "docId": 5628441,
+  "date": "28.08.2023",
+  "title": "UAC-0173: органи юстиції та нотаріат \"під прицілом\" (CERT-UA#7372)",
+  "entities": [
+    {
+      "id": "5628441:0",
+      "name": "UAC-0173",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA targeting Ukrainian justice and notary organizations.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "5628441:1",
+      "name": "UAC-0007",
+      "kind": "threat actor",
+      "gloss": "A threat actor also known as BlackNotary associated with fraudulent activities targeting notary systems.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "related"
+    },
+    {
+      "id": "5628441:2",
+      "name": "ScrubCrypt",
+      "kind": "crypter software",
+      "gloss": "A commercial obfuscation tool and crypter used to protect and execute malicious payloads.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "5628441:3",
+      "name": "AsyncRAT",
+      "kind": "malware family",
+      "gloss": "An open-source remote access trojan designed to remotely control infected systems.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "5628441:4",
+      "name": "GitHub",
+      "kind": "software hosting platform",
+      "gloss": "A web-based platform for version control and software development collaboration.",
+      "scheme": "S21",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "5628441:5",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "5628441:6",
+      "name": "PowerShell",
+      "kind": "command-line shell",
+      "gloss": "A task automation and configuration management framework developed by Microsoft.",
+      "scheme": null,
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "5628441:7",
+      "name": "minijusfil[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious payload hosting and delivery.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "5628441:8",
+      "name": "filetransrediremin[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain used to distribute malicious files and components.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "5628441:9",
+      "name": "barnsertr[.]com",
+      "kind": "internet domain",
+      "gloss": "A malicious internet domain identified in connection with the cyber attack.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "5628441:10",
+      "name": "179[.]43.154.184",
+      "kind": "ip address",
+      "gloss": "An IP address located in Switzerland used as a command-and-control server for AsyncRAT.",
+      "scheme": "S13",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "5628441:11",
+      "name": "195[.]123.225.51",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious network infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5628441:12",
+      "name": "195[.]123.226.166",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious network infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5628441:13",
+      "name": "195[.]123.226.180",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious network infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "5628441:14",
+      "name": "riuscos88@gmail.com",
+      "kind": "email address",
+      "gloss": "An email address used to register malicious domain infrastructure.",
+      "scheme": "S14",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "5628441:15",
+      "name": "amandarecz75@gmail.com",
+      "kind": "email address",
+      "gloss": "An email address used to register malicious domain infrastructure.",
+      "scheme": "S14",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "5628441:16",
+      "name": "barno2715@gmail.com",
+      "kind": "email address",
+      "gloss": "An email address used to register malicious domain infrastructure.",
+      "scheme": "S14",
+      "category": null,
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0173",
+      "type": "uses-malware",
+      "tail": "ScrubCrypt",
+      "evidence": "BAT-файли, створені за допомогою криптора ScrubCrypt"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "uses-malware",
+      "tail": "AsyncRAT",
+      "evidence": "запуск яких забезпечить ураження ЕОМ шкідливою програмою AsyncRAT"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "targets-region",
+      "tail": "Україна",
+      "evidence": "щодо спрямованості кібератак на органи юстиції та нотаріату України"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "potentially-linked-to",
+      "tail": "UAC-0007",
+      "evidence": "може бути пов'язана з діяльністю UAC-0007"
+    },
+    {
+      "head": "AsyncRAT",
+      "type": "communicates-with-c2",
+      "tail": "179[.]43.154.184",
+      "evidence": "179[.]43.154.184 (AsyncRAT C2; CH; @privatelayer.com)"
+    },
+    {
+      "head": "AsyncRAT",
+      "type": "hosted-on",
+      "tail": "GitHub",
+      "evidence": "AsyncRAT (вихідний код опубліковано на GitHub)"
+    },
+    {
+      "head": "riuscos88@gmail.com",
+      "type": "registered-domain",
+      "tail": "minijusfil[.]com",
+      "evidence": "minijusfil[.]com (2023-03-26; @namecheap.com; riuscos88@gmail.com)"
+    },
+    {
+      "head": "amandarecz75@gmail.com",
+      "type": "registered-domain",
+      "tail": "filetransrediremin[.]com",
+      "evidence": "filetransrediremin[.]com (2023-08-06; @namecheap.com; amandarecz75@gmail.com)"
+    },
+    {
+      "head": "barno2715@gmail.com",
+      "type": "registered-domain",
+      "tail": "barnsertr[.]com",
+      "evidence": "barnsertr[.]com (2023-08-25; @namecheap.com; barno2715@gmail.com)"
+    }
+  ],
+  "unclassified": [
+    "5628441:2",
+    "5628441:6"
+  ]
+}

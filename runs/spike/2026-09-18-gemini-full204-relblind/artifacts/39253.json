@@ -1,0 +1,159 @@
+{
+  "docId": 39253,
+  "date": "05.04.2022",
+  "title": "Інформація щодо кібератак, спрямованих на отримання доступу до облікових записів Telegram (CERT-UA#4360)",
+  "entities": [
+    {
+      "id": "39253:0",
+      "name": "Департамент кіберполіції Національної поліції України",
+      "kind": "government body",
+      "gloss": "The specialized law enforcement division of the National Police of Ukraine responsible for investigating cybercrime.",
+      "scheme": "S7",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "39253:1",
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S6",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "39253:2",
+      "name": "Telegram",
+      "kind": "messaging service",
+      "gloss": "A widely used cloud-based instant messaging and voice-over-IP service.",
+      "scheme": null,
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "39253:3",
+      "name": "UAC-0094",
+      "kind": "threat actor",
+      "gloss": "A threat actor cluster tracked by CERT-UA involved in credential phishing attacks against Telegram users.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "39253:4",
+      "name": "hxxps://telegram.org.security[.]ohsxy.com/?access=true&check=",
+      "kind": "url",
+      "gloss": "A malicious URL used to phish Telegram account credentials and session data.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "39253:5",
+      "name": "security-check.telegram.org.ohsxy[.]com",
+      "kind": "domain name",
+      "gloss": "A malicious domain name masquerading as a Telegram security check service.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "39253:6",
+      "name": "telegram.org.security.ohsxy[.]com",
+      "kind": "domain name",
+      "gloss": "A malicious domain name used in phishing campaigns targeting Telegram users.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "39253:7",
+      "name": "ohsxy[.]com",
+      "kind": "domain name",
+      "gloss": "A malicious domain name used as base infrastructure for Telegram-themed phishing pages.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "39253:8",
+      "name": "telsec[.]org",
+      "kind": "domain name",
+      "gloss": "A domain name associated with malicious activity targeting Telegram accounts.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "39253:9",
+      "name": "45[.]150.67.87",
+      "kind": "ip address",
+      "gloss": "An IP address associated with phishing infrastructure in attacks on Telegram accounts.",
+      "scheme": "S13",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "39253:10",
+      "name": "193[.]106.191.202",
+      "kind": "ip address",
+      "gloss": "An IP address associated with infrastructure used by the threat actor UAC-0094.",
+      "scheme": "S13",
+      "category": null,
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0094",
+      "type": "attributed-to-country",
+      "tail": "України",
+      "evidence": "атак, спрямованих на громадян України... активність відстежується за ідентифікатором UAC-0094"
+    },
+    {
+      "head": "UAC-0094",
+      "type": "uses-service",
+      "tail": "Telegram",
+      "evidence": "отримання несанкціонованого доступу до облікових записів згаданого сервісу... відстежується за ідентифікатором UAC-0094"
+    },
+    {
+      "head": "UAC-0094",
+      "type": "hosts-infrastructure-on",
+      "tail": "security-check.telegram.org.ohsxy[.]com",
+      "evidence": "Згадана активність відстежується за ідентифікатором UAC-0094... security-check.telegram.org.ohsxy[.]com"
+    },
+    {
+      "head": "UAC-0094",
+      "type": "hosts-infrastructure-on",
+      "tail": "telegram.org.security.ohsxy[.]com",
+      "evidence": "Згадана активність відстежується за ідентифікатором UAC-0094... telegram.org.security.ohsxy[.]com"
+    },
+    {
+      "head": "UAC-0094",
+      "type": "hosts-infrastructure-on",
+      "tail": "ohsxy[.]com",
+      "evidence": "Згадана активність відстежується за ідентифікатором UAC-0094... ohsxy[.]com"
+    },
+    {
+      "head": "UAC-0094",
+      "type": "hosts-infrastructure-on",
+      "tail": "telsec[.]org",
+      "evidence": "Згадана активність відстежується за ідентифікатором UAC-0094... telsec[.]org"
+    },
+    {
+      "head": "UAC-0094",
+      "type": "hosts-infrastructure-on",
+      "tail": "45[.]150.67.87",
+      "evidence": "Згадана активність відстежується за ідентифікатором UAC-0094... 45[.]150.67.87"
+    },
+    {
+      "head": "UAC-0094",
+      "type": "hosts-infrastructure-on",
+      "tail": "193[.]106.191.202",
+      "evidence": "Згадана активність відстежується за ідентифікатором UAC-0094... 193[.]106.191.202"
+    }
+  ],
+  "unclassified": [
+    "39253:2"
+  ]
+}

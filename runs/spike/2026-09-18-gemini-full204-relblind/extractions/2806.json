@@ -1,0 +1,111 @@
+{
+  "entities": [
+    {
+      "name": "AZORult",
+      "kind": "malware family",
+      "gloss": "A commodity information stealer and malware downloader targeting Windows systems."
+    },
+    {
+      "name": "Outlook",
+      "kind": "software product",
+      "gloss": "A widely used email client and personal information manager developed by Microsoft."
+    },
+    {
+      "name": "Thunderbird",
+      "kind": "software product",
+      "gloss": "A free and open-source email and news client developed by the Mozilla community."
+    },
+    {
+      "name": "Filezilla",
+      "kind": "software product",
+      "gloss": "A free and open-source cross-platform FTP application."
+    },
+    {
+      "name": "WinSCP",
+      "kind": "software product",
+      "gloss": "A popular free and open-source SFTP and FTP client for Microsoft Windows."
+    },
+    {
+      "name": "QUOTATION N0AB.doc",
+      "kind": "file name",
+      "gloss": "A malicious Microsoft Word document distributed in email attacks to deliver malware."
+    },
+    {
+      "name": "PO.jpg",
+      "kind": "file name",
+      "gloss": "A malicious executable payload disguised with an image file extension."
+    },
+    {
+      "name": "office.exe",
+      "kind": "file name",
+      "gloss": "An executable file installed in the Windows startup folder to maintain persistence."
+    },
+    {
+      "name": "office.lnk",
+      "kind": "file name",
+      "gloss": "A Windows shortcut file used to achieve startup persistence for malware."
+    },
+    {
+      "name": "67.199.248.10",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure in malware campaigns."
+    },
+    {
+      "name": "67.199.248.11",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure in malware campaigns."
+    },
+    {
+      "name": "192.198.87.130",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure in malware campaigns."
+    },
+    {
+      "name": "185.193.38.78",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure in malware campaigns."
+    },
+    {
+      "name": "CVE-2017-11882",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in Microsoft Office Equation Editor."
+    },
+    {
+      "name": "Syenergy Consulting & Representation Ltd",
+      "kind": "company",
+      "gloss": "A company name observed in the file description metadata of a malicious binary."
+    }
+  ],
+  "relations": [
+    {
+      "head": "AZORult",
+      "type": "steals-credentials-from",
+      "tail": "Outlook",
+      "evidence": "збору збережених паролів в браузерах, поштових клієнтах (Outlook, Thunderbird)"
+    },
+    {
+      "head": "AZORult",
+      "type": "steals-credentials-from",
+      "tail": "Thunderbird",
+      "evidence": "збору збережених паролів в браузерах, поштових клієнтах (Outlook, Thunderbird)"
+    },
+    {
+      "head": "AZORult",
+      "type": "steals-credentials-from",
+      "tail": "Filezilla",
+      "evidence": "FTP клієнтах (Filezilla, WinSCP)"
+    },
+    {
+      "head": "AZORult",
+      "type": "steals-credentials-from",
+      "tail": "WinSCP",
+      "evidence": "FTP клієнтах (Filezilla, WinSCP)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "steals-credentials-from",
+      "definition": "The subject malware contains functionality specifically designed to harvest stored passwords or authentication data from the target software product."
+    }
+  ]
+}

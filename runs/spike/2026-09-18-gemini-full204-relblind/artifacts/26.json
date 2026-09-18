@@ -1,0 +1,55 @@
+{
+  "docId": 26,
+  "date": "01.04.2020",
+  "title": "Звертаємо увагу на використання зловмисниками епідеміологічної ситуації в світі",
+  "entities": [
+    {
+      "id": "26:0",
+      "name": "moz_ukraine@i.ua",
+      "kind": "email address",
+      "gloss": "An email address used to send phishing messages impersonating official communications.",
+      "scheme": null,
+      "category": "Domain",
+      "role": "attacker"
+    },
+    {
+      "id": "26:1",
+      "name": "Міністерство охорони здоров’я",
+      "kind": "government body",
+      "gloss": "The central executive body of Ukraine responsible for public healthcare.",
+      "scheme": "S7",
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "26:2",
+      "name": "VirusTotal",
+      "kind": "online service",
+      "gloss": "A free online service that analyzes files and URLs to detect malware and suspicious content.",
+      "scheme": null,
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "26:3",
+      "name": "MS Office",
+      "kind": "software suite",
+      "gloss": "A suite of productivity software applications developed by Microsoft.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "moz_ukraine@i.ua",
+      "type": "impersonates",
+      "tail": "Міністерство охорони здоров’я",
+      "evidence": "листи з нібито офіційних поштових скриньок (наприклад, moz_ukraine@i.ua)... атрибути офіційних документів Міністерства охорони здоров’я"
+    }
+  ],
+  "unclassified": [
+    "26:0",
+    "26:2"
+  ]
+}

@@ -1,0 +1,246 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Використання публічних поштових сервісів, поряд з корпоративними електронними поштовими скриньками, є доволі розповсюдженою практикою серед працівників державних органів, військовослужбовців, а також співробітників інших українських підприємств та організацій.</p><p>Ураховуючи зазначене, та, беручи до уваги відсутність засобів захисту для перевірки електронних листів, такі сервіси використовуються, в тому числі, як додатковий спосіб реалізації зловмисного задуму.</p><p>Так, угрупуванням UAC-0102 протягом липня 2024 року здійснюється розповсюдження електронних листів із вкладеннями у вигляді архівів, що містять HTML-файл, відкриття якого забезпечує перенаправлення користувача на вебресурс, який імітує вебсторінку сервісу UKR.NET.</p><p>У випадку введення логіну та паролю, автентифікаційні дані будуть відправлені зловмисникам, а на комп'ютер жертві, у якості приманки, буде завантажено документ.</p><p>З метою скорочення поверхні атаки рекомендуємо:</p><ul><li>увімкнути двохфакторну автентифікацію (<a href="https://cert.gov.ua/article/6278274" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/article/6278274</a>);</li><li>уникнути використання публічних поштових сервісів зі службових ЕОМ;</li><li>налаштувати фільтр для перенаправлення копій вхідних листів на корпоративну email-адресу, що дозволить, хоч і ретроспективно, здійснити аналіз електронного листа наявними засобами захисту.</li></ul><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">85f0b3fe0ff5954b826c0851af48b209&nbsp; &nbsp; 5157bdce538e7eeaa4bb7d9e05f42c9ea4da92b314b5445a9d004b66a2a39064&nbsp; &nbsp; kyiv-zvern-1707.zip&nbsp;
+d23a122f3594aed542f40204fba7e971&nbsp; &nbsp; f6ba9368caa2cc1ea367d6214f58456c4e9047f36cb0776a67ebf8eeb45ff21b&nbsp; &nbsp; kyiv-zvern-1707.html
+1fdf1b572f066b552161d1b13d5011bd&nbsp; &nbsp; c16926a74f8d30b4086057241edc46e88bb0cf675ff5b5ced93ea654ea2b4e26&nbsp; &nbsp; терміново_23_07_2024.zip&nbsp;
+d1699825d3fffb91d130ee2c25fe9759&nbsp; &nbsp; 9e49db0eb920e130c0393a87c96434b9f0257025584cf546f623c1cb0b074333&nbsp; &nbsp; терміново_info_23_07_2024.html
+2ce540983499aac5eab6e8b25a26b041&nbsp; &nbsp; f8439752899a3910e85560c9c11f04396a80a0ffb3d4264d0710a52a359cdb4d&nbsp; &nbsp; Терміново 1607.zip
+dcf745727ba64e60912da2f97e1f9420&nbsp; &nbsp; 32743e28066bfbf990fd49a3a7cdca7887dd344737dcb784092d6d95f678777c&nbsp; &nbsp; Терміново 1607.html
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">82[.]221.139.200
+hXXp://82[.]221.139.200/login/enter.html
+hXXp://82[.]221.139.200/login/out.html
+hXXp://82[.]221.139.200/login/php/1308_8711629.html
+hXXp://uasystdoc[.]com/login/doc.html
+hXXp://82[.]221.139.200/login/php/dl2.php
+hXXp://82[.]221.139.200/login/php/dl3.php
+hXXp://82[.]221.139.200/login/php/dl4.php
+hXXp://82[.]221.139.200/login/php/dl5.php
+hXXp://82[.]221.139.200/login/php/dl6.php
+hXXp://82[.]221.139.200/login/php/dl8.php
+hXXp://82[.]221.139.200/login/php/dl.php
+hXXp://82[.]221.139.200/login/php/47.pdf
+hXXp://82[.]221.139.200/login/php/organizations_kharkiv_2021_12_03-1.xlsx
+hXXp://82[.]221.139.200/login/php/tsu-sbu-vid-13042023-131-site.doc
+hXXp://82[.]221.139.200/login/php/zrazok.pdf
+hXXp://uasystdoc[.]com/login/php/dod_zvit_pro_kons_iii_kvartal_2021_.pdf
+hXXps://ukainua[.]com/login/php/d534990-20240427.pdf
+viddkhpolice@ukr.net
+kyivpolice17@ukr.net
+uaccsnet[.]com
+ualogaccs[.]com
+uasettings[.]com
+uasetukr[.]com
+uasystdoc[.]com
+uasystnet[.]com
+ukainua[.]com
+ukenlog[.]com
+uknetlogin[.]com
+ukrsets[.]com
+ukrsett[.]com
+ukrstnet[.]com
+unetset[.]com
+</pre><pre class="hidden" spellcheck="false">82.221.139.200
+http://82.221.139.200/login/enter.html
+http://82.221.139.200/login/out.html
+http://82.221.139.200/login/php/1308_8711629.html
+http://uasystdoc.com/login/doc.html
+http://82.221.139.200/login/php/dl2.php
+http://82.221.139.200/login/php/dl3.php
+http://82.221.139.200/login/php/dl4.php
+http://82.221.139.200/login/php/dl5.php
+http://82.221.139.200/login/php/dl6.php
+http://82.221.139.200/login/php/dl8.php
+http://82.221.139.200/login/php/dl.php
+http://82.221.139.200/login/php/47.pdf
+http://82.221.139.200/login/php/organizations_kharkiv_2021_12_03-1.xlsx
+http://82.221.139.200/login/php/tsu-sbu-vid-13042023-131-site.doc
+http://82.221.139.200/login/php/zrazok.pdf
+http://uasystdoc.com/login/php/dod_zvit_pro_kons_iii_kvartal_2021_.pdf
+https://ukainua.com/login/php/d534990-20240427.pdf
+viddkhpolice@ukr.net
+kyivpolice17@ukr.net
+uaccsnet.com
+ualogaccs.com
+uasettings.com
+uasetukr.com
+uasystdoc.com
+uasystnet.com
+ukainua.com
+ukenlog.com
+uknetlogin.com
+ukrsets.com
+ukrsett.com
+ukrstnet.com
+unetset.com
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис.1 Приклад ланцюга ураження</p><p></p><p>Рис.2 Приклад документів-приманок</p>
+
+=== RESPONSE (7.6s, in 3395 / out 1359 tok, STOP) ===
+UAC-0102 targeted Ukrainian state and military personnel using phishing emails masquerading as official correspondence to harvest UKR.NET credentials, using malicious HTML files and lookalike phishing domains.
+
+{
+  "entities": [
+    {
+      "name": "UAC-0102",
+      "kind": "threat group",
+      "gloss": "A cyberespionage threat group tracked by CERT-UA targeting Ukrainian organizations and individuals."
+    },
+    {
+      "name": "UKR.NET",
+      "kind": "web service",
+      "gloss": "A major Ukrainian internet portal and public email service provider."
+    },
+    {
+      "name": "kyiv-zvern-1707.zip",
+      "kind": "file",
+      "gloss": "A malicious ZIP archive containing an HTML redirect file used in phishing attacks."
+    },
+    {
+      "name": "kyiv-zvern-1707.html",
+      "kind": "file",
+      "gloss": "A malicious HTML file designed to redirect users to a credential-harvesting phishing page."
+    },
+    {
+      "name": "терміново_23_07_2024.zip",
+      "kind": "file",
+      "gloss": "A malicious ZIP archive containing an HTML file used in email-based phishing."
+    },
+    {
+      "name": "терміново_info_23_07_2024.html",
+      "kind": "file",
+      "gloss": "A malicious HTML file used to redirect targets to a fake UKR.NET login page."
+    },
+    {
+      "name": "Терміново 1607.zip",
+      "kind": "file",
+      "gloss": "A malicious ZIP archive used as an email attachment in credential theft operations."
+    },
+    {
+      "name": "Терміново 1607.html",
+      "kind": "file",
+      "gloss": "A malicious HTML redirect file masquerading as urgent correspondence."
+    },
+    {
+      "name": "82.221.139.200",
+      "kind": "ip address",
+      "gloss": "An IP address hosting phishing resources and lure documents."
+    },
+    {
+      "name": "uasystdoc.com",
+      "kind": "domain",
+      "gloss": "A phishing domain used by UAC-0102 to impersonate legitimate services."
+    },
+    {
+      "name": "uaccsnet.com",
+      "kind": "domain",
+      "gloss": "A malicious domain used as infrastructure for credential theft campaigns."
+    },
+    {
+      "name": "ualogaccs.com",
+      "kind": "domain",
+      "gloss": "A phishing domain created to mimic Ukrainian web service login portals."
+    },
+    {
+      "name": "uasettings.com",
+      "kind": "domain",
+      "gloss": "A domain used for malicious credential harvesting operations."
+    },
+    {
+      "name": "uasetukr.com",
+      "kind": "domain",
+      "gloss": "A spoofed domain used to impersonate UKR.NET account settings."
+    },
+    {
+      "name": "uasystnet.com",
+      "kind": "domain",
+      "gloss": "A malicious domain used in UAC-0102 phishing infrastructure."
+    },
+    {
+      "name": "ukainua.com",
+      "kind": "domain",
+      "gloss": "A malicious domain used to host lure documents and phishing pages."
+    },
+    {
+      "name": "ukenlog.com",
+      "kind": "domain",
+      "gloss": "A lookalike domain used by threat actors to steal user credentials."
+    },
+    {
+      "name": "uknetlogin.com",
+      "kind": "domain",
+      "gloss": "A typo-squatted domain mimicking the UKR.NET login interface."
+    },
+    {
+      "name": "ukrsets.com",
+      "kind": "domain",
+      "gloss": "A malicious domain registered to facilitate phishing attacks against UKR.NET users."
+    },
+    {
+      "name": "ukrsett.com",
+      "kind": "domain",
+      "gloss": "A phishing domain simulating UKR.NET configuration and authentication services."
+    },
+    {
+      "name": "ukrstnet.com",
+      "kind": "domain",
+      "gloss": "A deceptive domain used as part of UAC-0102 credential phishing infrastructure."
+    },
+    {
+      "name": "unetset.com",
+      "kind": "domain",
+      "gloss": "A malicious domain associated with cyberattacks targeting Ukrainian email accounts."
+    },
+    {
+      "name": "viddkhpolice@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address used by threat actors to send malicious phishing correspondence."
+    },
+    {
+      "name": "kyivpolice17@ukr.net",
+      "kind": "email address",
+      "gloss": "A fraudulent email address masquerading as Kyiv police to distribute phishing lures."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0102",
+      "type": "impersonates-service",
+      "tail": "UKR.NET",
+      "evidence": "угрупуванням UAC-0102... імітує вебсторінку сервісу UKR.NET"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "impersonates-service",
+      "definition": "The subject threat actor or infrastructure mimics a legitimate service or organization to deceive victims."
+    }
+  ]
+}

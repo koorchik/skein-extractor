@@ -1,0 +1,104 @@
+{
+  "entities": [
+    {
+      "name": "МЗС",
+      "kind": "government body",
+      "gloss": "The Ministry of Foreign Affairs of Ukraine, responsible for foreign relations."
+    },
+    {
+      "name": "МОН",
+      "kind": "government body",
+      "gloss": "The Ministry of Education and Science of Ukraine, responsible for educational and scientific policy."
+    },
+    {
+      "name": "Держспецзв'язку",
+      "kind": "government body",
+      "gloss": "A Ukrainian central executive body responsible for state communications and cyber protection."
+    },
+    {
+      "name": "Служба безпеки України",
+      "kind": "law enforcement agency",
+      "gloss": "The primary security and intelligence agency of the government of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "Кіберполіція",
+      "kind": "law enforcement agency",
+      "gloss": "The cybercrime department of the National Police of Ukraine."
+    },
+    {
+      "name": "October CMS",
+      "kind": "software product",
+      "gloss": "An open-source, self-hosted content management system platform based on PHP and the Laravel framework."
+    },
+    {
+      "name": "CVE-2021-32648",
+      "kind": "vulnerability identifier",
+      "gloss": "An authentication bypass vulnerability in October CMS enabling account takeover via specially crafted requests."
+    },
+    {
+      "name": "GHSA-mxr5-mc97-63rc",
+      "kind": "security advisory",
+      "gloss": "A GitHub Security Advisory detailing the authentication bypass vulnerability CVE-2021-32648 in October CMS."
+    },
+    {
+      "name": "NGINX",
+      "kind": "software product",
+      "gloss": "A web server and reverse proxy software product."
+    },
+    {
+      "name": "APACHE",
+      "kind": "software product",
+      "gloss": "An open-source cross-platform HTTP web server software product."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2021-32648",
+      "type": "affects",
+      "tail": "October CMS",
+      "evidence": "використання зловмисниками вразливості October CMS: https://www.cvedetails.com/cve/CVE-2021-32648/"
+    },
+    {
+      "head": "GHSA-mxr5-mc97-63rc",
+      "type": "addresses-vulnerability-in",
+      "tail": "October CMS",
+      "evidence": "https://github.com/octobercms/october/security/advisories/GHSA-mxr5-mc97-63rc"
+    },
+    {
+      "head": "Служба безпеки України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Службою безпеки України"
+    },
+    {
+      "head": "Держспецзв'язку",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Держспецзв'язку спільно зі Службою безпеки України"
+    },
+    {
+      "head": "МЗС",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "сайтів державних органів, зокрема МЗС"
+    },
+    {
+      "head": "МОН",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "сайтів державних органів, зокрема МЗС, МОН"
+    },
+    {
+      "head": "Кіберполіція",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Службою безпеки України та Кіберполіцією"
+    }
+  ],
+  "newRelationTypes": []
+}

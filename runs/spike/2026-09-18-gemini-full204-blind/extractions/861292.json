@@ -1,0 +1,91 @@
+{
+  "entities": [
+    {
+      "name": "Доповідь_050722_4.ppt",
+      "kind": "malicious file",
+      "gloss": "A malicious PowerPoint presentation file used as a lure to trigger a multistage malware infection chain."
+    },
+    {
+      "name": "оперативне командування \"Південь\"",
+      "kind": "military command",
+      "gloss": "An operational command formation of the Ukrainian Ground Forces in southern Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "gksg023ig.lnk",
+      "kind": "shortcut file",
+      "gloss": "A malicious Windows shortcut file dropped during the infection chain to execute secondary payloads."
+    },
+    {
+      "name": "sgegkseg23mjl.exe",
+      "kind": "malware loader",
+      "gloss": "An obfuscated .NET executable dropped and executed to download and unpack subsequent payload stages."
+    },
+    {
+      "name": "rundll32.exe",
+      "kind": "system utility",
+      "gloss": "A legitimate Windows system binary used to run program code within DLLs and shortcut targets."
+    },
+    {
+      "name": "ConfuserEx",
+      "kind": "software tool",
+      "gloss": "An open-source protector and obfuscator tool for .NET applications."
+    },
+    {
+      "name": "thumb_d_F3D14F4982A256B5CDAE9BD579429AE7.jpg",
+      "kind": "payload file",
+      "gloss": "A JPEG file containing obfuscated and encrypted payload data extracted via steganography."
+    },
+    {
+      "name": "MCMDiction.exe",
+      "kind": "malware loader",
+      "gloss": "An intermediate .NET executable unpacked from the downloaded image to execute the final payload."
+    },
+    {
+      "name": "AgentTesla",
+      "kind": "malware family",
+      "gloss": "A commercial .NET-based information stealer and keylogger used to harvest credentials and system data."
+    },
+    {
+      "name": "onyangdol[.]site",
+      "kind": "internet domain",
+      "gloss": "A malicious internet domain used to host second-stage steganographic payload files."
+    },
+    {
+      "name": "ftp.artrsllc[.]com",
+      "kind": "internet domain",
+      "gloss": "An FTP server domain used in connection with the malicious campaign."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Доповідь_050722_4.ppt",
+      "type": "delivers",
+      "tail": "gksg023ig.lnk",
+      "evidence": "останній забезпечить створення файлів \"gksg023ig.lnk\" та \"sgegkseg23mjl.exe\""
+    },
+    {
+      "head": "Доповідь_050722_4.ppt",
+      "type": "delivers",
+      "tail": "sgegkseg23mjl.exe",
+      "evidence": "останній забезпечить створення файлів \"gksg023ig.lnk\" та \"sgegkseg23mjl.exe\""
+    },
+    {
+      "head": "onyangdol[.]site",
+      "type": "hosts",
+      "tail": "thumb_d_F3D14F4982A256B5CDAE9BD579429AE7.jpg",
+      "evidence": "hXXps://onyangdol[.]site/thumb_d_F3D14F4982A256B5CDAE9BD579429AE7.jpg"
+    },
+    {
+      "head": "оперативне командування \"Південь\"",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "оперативне командування \"Південь\"... державні організації України"
+    }
+  ],
+  "newRelationTypes": []
+}

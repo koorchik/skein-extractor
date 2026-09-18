@@ -1,0 +1,85 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0100",
+      "kind": "threat actor",
+      "gloss": "A financially motivated threat group or activity cluster conducting phishing and banking fraud targeting Ukrainian citizens."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "hXXps://mono.gg-pay[.]me/",
+      "kind": "url",
+      "gloss": "A phishing URL used to harvest online banking credentials."
+    },
+    {
+      "name": "hXXps://next24.gg-pay[.]me/",
+      "kind": "url",
+      "gloss": "A phishing URL used to harvest online banking credentials."
+    },
+    {
+      "name": "hXXps://privat24.ua-wallet[.]pw/",
+      "kind": "url",
+      "gloss": "A phishing URL used to harvest online banking credentials."
+    },
+    {
+      "name": "Платформи єДопомога",
+      "kind": "web portal",
+      "gloss": "An official Ukrainian government platform providing social assistance and aid to citizens."
+    },
+    {
+      "name": "https://aid.edopomoga.gov.ua/",
+      "kind": "url",
+      "gloss": "The official website URL of the Ukrainian eDopomoga social aid platform."
+    },
+    {
+      "name": "Мінсоцполітики",
+      "kind": "government body",
+      "gloss": "The Ministry of Social Policy of Ukraine responsible for social security and welfare administration."
+    },
+    {
+      "name": "Національного банку України",
+      "kind": "central bank",
+      "gloss": "The central bank of Ukraine responsible for monetary policy and financial system regulation."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0100",
+      "type": "uses-infrastructure",
+      "tail": "hXXps://mono.gg-pay[.]me/",
+      "evidence": "Згадана шахрайська активність має систематичний характер та відстежується за ідентифікатором UAC-0100. Індикатори компрометації hXXps://mono.gg-pay[.]me/"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses-infrastructure",
+      "tail": "hXXps://next24.gg-pay[.]me/",
+      "evidence": "Згадана шахрайська активність має систематичний характер та відстежується за ідентифікатором UAC-0100. Індикатори компрометації hXXps://next24.gg-pay[.]me/"
+    },
+    {
+      "head": "UAC-0100",
+      "type": "uses-infrastructure",
+      "tail": "hXXps://privat24.ua-wallet[.]pw/",
+      "evidence": "Згадана шахрайська активність має систематичний характер та відстежується за ідентифікатором UAC-0100. Індикатори компрометації hXXps://privat24.ua-wallet[.]pw/"
+    },
+    {
+      "head": "Платформи єДопомога",
+      "type": "has-website",
+      "tail": "https://aid.edopomoga.gov.ua/",
+      "evidence": "Офіційний сайт Платформи єДопомога: https://aid.edopomoga.gov.ua/"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-infrastructure",
+      "definition": "The threat actor operates, deploys, or leverages the specified network infrastructure or URL."
+    },
+    {
+      "name": "has-website",
+      "definition": "The entity maintains or is accessible via the specified web address."
+    }
+  ]
+}

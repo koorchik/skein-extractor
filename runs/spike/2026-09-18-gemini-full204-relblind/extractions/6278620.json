@@ -1,0 +1,178 @@
+{
+  "entities": [
+    {
+      "name": "Сили оборони України",
+      "kind": "military organization",
+      "gloss": "The combined military forces and defense sector responsible for the security and defense of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "Signal",
+      "kind": "software product",
+      "gloss": "A cross-platform encrypted messaging service."
+    },
+    {
+      "name": "Департамент операцій з підтримки миру ООН",
+      "kind": "international organization department",
+      "gloss": "A department of the United Nations responsible for planning, preparing, and directing UN peacekeeping operations."
+    },
+    {
+      "name": "ООН",
+      "kind": "international organization",
+      "gloss": "An intergovernmental organization whose stated purposes are to maintain international peace and security."
+    },
+    {
+      "name": "Супровід.rar",
+      "kind": "malicious archive file",
+      "gloss": "A malicious RAR archive containing an exploit and staging scripts sent via messaging services."
+    },
+    {
+      "name": "WinRAR",
+      "kind": "software product",
+      "gloss": "A file archiver utility for Windows developed by Eugene Roshal."
+    },
+    {
+      "name": "CVE-2023-38831",
+      "kind": "vulnerability identifier",
+      "gloss": "A code execution vulnerability in RARLAB WinRAR before version 6.23 triggered when processing specially crafted archives."
+    },
+    {
+      "name": "супровід.pdf .cmd",
+      "kind": "malicious script file",
+      "gloss": "A malicious CMD script contained within an archive to initiate infection upon archive extraction."
+    },
+    {
+      "name": "DPO_SEC23-1_OMA_P-3_16-ENG.pdf",
+      "kind": "decoy document file",
+      "gloss": "A decoy PDF document displayed to targets to conceal malicious execution."
+    },
+    {
+      "name": "DPO_SEC23-1_OMA_P-3_18-ENG.pdf.cmd",
+      "kind": "malicious script file",
+      "gloss": "A malicious CMD script associated with the attack chain."
+    },
+    {
+      "name": "супровід.pdf",
+      "kind": "decoy document file",
+      "gloss": "A decoy document file used in the phishing chain."
+    },
+    {
+      "name": "COOKBOX",
+      "kind": "malware family",
+      "gloss": "A PowerShell-based malware family used for staging commands and remote control."
+    },
+    {
+      "name": "NoIP",
+      "kind": "dynamic dns service",
+      "gloss": "A dynamic DNS service provider often abused by threat actors for command and control infrastructure."
+    },
+    {
+      "name": "netman.servehttp.com",
+      "kind": "internet domain",
+      "gloss": "A dynamic DNS domain used as command and control infrastructure for COOKBOX malware."
+    },
+    {
+      "name": "worker-misty-mouse-6ac7.aky15825.workers.dev",
+      "kind": "internet domain",
+      "gloss": "A Cloudflare Workers domain utilized in the malware delivery and command infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Сили оборони України",
+      "type": "belongs-to-country",
+      "tail": "Україна",
+      "evidence": "представника Сил оборони України"
+    },
+    {
+      "head": "Департамент операцій з підтримки миру ООН",
+      "type": "subdivision-of",
+      "tail": "ООН",
+      "evidence": "Департаменті операцій з підтримки миру ООН"
+    },
+    {
+      "head": "Супровід.rar",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2023-38831",
+      "evidence": "Згаданий архів містить експлойт для вразливості у програмному забезпеченні WinRAR (CVE-2023-38831)"
+    },
+    {
+      "head": "CVE-2023-38831",
+      "type": "affects-software",
+      "tail": "WinRAR",
+      "evidence": "вразливості у програмному забезпеченні WinRAR (CVE-2023-38831)"
+    },
+    {
+      "head": "Супровід.rar",
+      "type": "contains-file",
+      "tail": "супровід.pdf .cmd",
+      "evidence": "випадку відкриття архіву та успішної експлуатації вразливості буде виконано CMD-файл \"супровід.pdf .cmd\""
+    },
+    {
+      "head": "супровід.pdf .cmd",
+      "type": "drops-decoy",
+      "tail": "DPO_SEC23-1_OMA_P-3_16-ENG.pdf",
+      "evidence": "призведе до відкриття документу-приманки \"DPO_SEC23-1_OMA_P-3_16-ENG.pdf\""
+    },
+    {
+      "head": "супровід.pdf .cmd",
+      "type": "executes-malware",
+      "tail": "COOKBOX",
+      "evidence": "запуску PowerShell-скриптів, що класифіковано як шкідливу програму COOKBOX"
+    },
+    {
+      "head": "COOKBOX",
+      "type": "uses-service",
+      "tail": "NoIP",
+      "evidence": "для забезпечення функціонування серверу управління COOKBOX використовується сервіс динамічного DNS NoIP"
+    },
+    {
+      "head": "COOKBOX",
+      "type": "communicates-with-c2",
+      "tail": "netman.servehttp.com",
+      "evidence": "для забезпечення функціонування серверу управління COOKBOX використовується сервіс динамічного DNS NoIP. За сприяння останніх відповідне доменне ім'я було заблоковане."
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "belongs-to-country",
+      "definition": "Identifies the country to which an organization or entity belongs."
+    },
+    {
+      "name": "subdivision-of",
+      "definition": "Identifies the parent organization of a subordinate department or entity."
+    },
+    {
+      "name": "exploits-vulnerability",
+      "definition": "Specifies that a file or exploit targets a particular security vulnerability."
+    },
+    {
+      "name": "affects-software",
+      "definition": "Indicates the software product impacted by a specific security vulnerability."
+    },
+    {
+      "name": "contains-file",
+      "definition": "Specifies a file packed within an archive or container."
+    },
+    {
+      "name": "drops-decoy",
+      "definition": "Indicates that an executable or script opens or drops a decoy document to mislead the target."
+    },
+    {
+      "name": "executes-malware",
+      "definition": "Specifies that a script, dropper, or loader launches a malware payload."
+    },
+    {
+      "name": "uses-service",
+      "definition": "Specifies an online or third-party service leveraged by malware or infrastructure."
+    },
+    {
+      "name": "communicates-with-c2",
+      "definition": "Indicates that malware communicates with a command and control host or domain."
+    }
+  ]
+}

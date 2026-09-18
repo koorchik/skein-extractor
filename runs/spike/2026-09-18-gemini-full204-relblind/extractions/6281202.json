@@ -1,0 +1,190 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "Державна податкова служба України",
+      "kind": "government body",
+      "gloss": "The central executive body of Ukraine responsible for administering taxes, fees, and state revenue."
+    },
+    {
+      "name": "UAC-0050",
+      "kind": "threat actor",
+      "gloss": "A financially motivated cybercriminal threat group known for targeting Ukrainian entities, often using legitimate remote management utilities."
+    },
+    {
+      "name": "LITEMANAGER",
+      "kind": "software product",
+      "gloss": "A legitimate remote administration software tool frequently abused by threat actors for unauthorized remote access."
+    },
+    {
+      "name": "dps_tax_gov_ua_0739220983.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive disguised as tax service documentation, containing further nested archives."
+    },
+    {
+      "name": "Електронний запит документів податкової служби.pdf.rar",
+      "kind": "file",
+      "gloss": "A password-protected RAR archive containing a malicious SFX executable disguised as a PDF document."
+    },
+    {
+      "name": "Електронний запит документів податкової служби.pdf.exe",
+      "kind": "file",
+      "gloss": "A self-extracting (SFX) executable file that displays a decoy document and launches LiteManager."
+    },
+    {
+      "name": "pdf.msi",
+      "kind": "file",
+      "gloss": "An MSI installer package used to deploy the LiteManager remote administration tool."
+    },
+    {
+      "name": "Doc.pdf",
+      "kind": "file",
+      "gloss": "A decoy PDF document displayed to the victim to conceal malicious software installation."
+    },
+    {
+      "name": "ROMFUSClient.exe",
+      "kind": "file",
+      "gloss": "An executable component of the LiteManager remote management utility."
+    },
+    {
+      "name": "ROMServer.exe",
+      "kind": "file",
+      "gloss": "A server component executable of the LiteManager remote management utility."
+    },
+    {
+      "name": "qaz.im",
+      "kind": "domain",
+      "gloss": "A file-sharing service domain used to host malicious archives."
+    },
+    {
+      "name": "qaz.is",
+      "kind": "domain",
+      "gloss": "A file-sharing service domain used to host malicious archives."
+    },
+    {
+      "name": "qaz.su",
+      "kind": "domain",
+      "gloss": "A file-sharing service domain used to host malicious archives."
+    },
+    {
+      "name": "tax-gov-ua.com",
+      "kind": "domain",
+      "gloss": "A typosquatted domain impersonating the Ukrainian State Tax Service used for hosting malicious payloads."
+    },
+    {
+      "name": "dpsu-gov-ua.com",
+      "kind": "domain",
+      "gloss": "A typosquatted domain impersonating Ukrainian government services."
+    },
+    {
+      "name": "christine@rozsenich.com",
+      "kind": "email address",
+      "gloss": "An email address observed as an indicator in phishing activity."
+    },
+    {
+      "name": "111.90.140.76",
+      "kind": "ip address",
+      "gloss": "An IP address identified as a command and control server for UAC-0050."
+    },
+    {
+      "name": "65.21.245.7",
+      "kind": "ip address",
+      "gloss": "An IP address identified as a command and control server for UAC-0050."
+    },
+    {
+      "name": "91.240.86.200",
+      "kind": "ip address",
+      "gloss": "An IP address commonly associated with LiteManager traffic."
+    },
+    {
+      "name": "109.71.247.168",
+      "kind": "ip address",
+      "gloss": "An IP address observed as the originating IP in phishing communications."
+    },
+    {
+      "name": "31.214.157.49",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure associated with the threat campaign."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0050",
+      "type": "impersonates",
+      "tail": "Державна податкова служба України",
+      "evidence": "вкладеннями у вигляді PDF-документів, що імітували запити Державної податкової служби України"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-tool",
+      "tail": "LITEMANAGER",
+      "evidence": "описана активність є фінансово мотивованою та здійснюється угрупуванням UAC-0050... програми для віддаленого управління LITEMANAGER"
+    },
+    {
+      "head": "dps_tax_gov_ua_0739220983.rar",
+      "type": "contains-file",
+      "tail": "Електронний запит документів податкової служби.pdf.rar",
+      "evidence": "завантажено архів \"dps_tax_gov_ua_0739220983.rar\", в якому, з кількома рівнями вкладеності, знаходитиметься... \"Електронний запит документів податкової служби.pdf.rar\""
+    },
+    {
+      "head": "Електронний запит документів податкової служби.pdf.rar",
+      "type": "contains-file",
+      "tail": "Електронний запит документів податкової служби.pdf.exe",
+      "evidence": "архів \"Електронний запит документів податкової служби.pdf.rar\", який, у свою чергу, буде містити SFX-файл \"Електронний запит документів податкової служби.pdf.exe\""
+    },
+    {
+      "head": "Електронний запит документів податкової служби.pdf.exe",
+      "type": "installs-file",
+      "tail": "pdf.msi",
+      "evidence": "Відкриття останнього призведе до... запуску на комп'ютері MSI-пакету програми для віддаленого управління LITEMANAGER"
+    },
+    {
+      "head": "tax-gov-ua.com",
+      "type": "hosts-file",
+      "tail": "dps_tax_gov_ua_0739220983.rar",
+      "evidence": "hXXp://tax-gov-ua[.]com/dps_tax_gov_ua_0739220983.rar"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-c2-server",
+      "tail": "111.90.140.76",
+      "evidence": "111[.]90.140.76 (C2)"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses-c2-server",
+      "tail": "65.21.245.7",
+      "evidence": "65[.]21.245.7 (C2)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "impersonates",
+      "definition": "A threat actor or artifact pretends to be a legitimate organization or individual."
+    },
+    {
+      "name": "uses-tool",
+      "definition": "A threat actor uses a specific piece of software or tool to perform operations."
+    },
+    {
+      "name": "contains-file",
+      "definition": "An archive or package encapsulates another file inside it."
+    },
+    {
+      "name": "installs-file",
+      "definition": "An executable drops or runs another file or installer package."
+    },
+    {
+      "name": "hosts-file",
+      "definition": "A domain or server hosts a specific file for download."
+    },
+    {
+      "name": "uses-c2-server",
+      "definition": "A threat actor uses an IP address or server as a command and control node."
+    }
+  ]
+}

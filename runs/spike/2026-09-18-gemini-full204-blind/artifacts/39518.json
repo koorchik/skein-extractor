@@ -1,0 +1,172 @@
+{
+  "docId": 39518,
+  "date": "12.04.2022",
+  "title": "Кібератака групи Sandworm (UAC-0082) на об’єкти енергетики України з використанням шкідливих програм INDUSTROYER2 та CADDYWIPER (CERT-UA#4435)",
+  "entities": [
+    {
+      "id": "39518:0",
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe.",
+      "scheme": "S5",
+      "category": "Sector",
+      "role": null
+    },
+    {
+      "id": "39518:1",
+      "name": "INDUSTROYER2",
+      "kind": "malware family",
+      "gloss": "A specialized ICS malware designed to manipulate and disrupt high-voltage electrical substation equipment.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "39518:2",
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A widely used family of proprietary graphical operating systems developed by Microsoft.",
+      "scheme": "S4",
+      "category": "Device",
+      "role": null
+    },
+    {
+      "id": "39518:3",
+      "name": "CADDYWIPER",
+      "kind": "malware family",
+      "gloss": "A destructive data wiper malware targeting Windows operating systems.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "39518:4",
+      "name": "ARGUEPATCH",
+      "kind": "malware loader",
+      "gloss": "A malware loader used to decrypt and launch destructive payloads.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "39518:5",
+      "name": "TAILJUMP",
+      "kind": "malware component",
+      "gloss": "A shellcode component used in payload execution chains.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "39518:6",
+      "name": "Linux",
+      "kind": "operating system",
+      "gloss": "An open-source Unix-like operating system kernel and family of operating systems.",
+      "scheme": "S4",
+      "category": "Device",
+      "role": null
+    },
+    {
+      "id": "39518:7",
+      "name": "ORCSHRED",
+      "kind": "malware family",
+      "gloss": "A destructive wiper script designed to destroy data on Linux server equipment.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "39518:8",
+      "name": "SOLOSHRED",
+      "kind": "malware family",
+      "gloss": "A destructive wiper script designed to target Linux operating systems.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "39518:9",
+      "name": "AWFULSHRED",
+      "kind": "malware family",
+      "gloss": "A destructive wiper script designed to target Linux server infrastructure.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "39518:10",
+      "name": "POWERGAP",
+      "kind": "malware script",
+      "gloss": "A PowerShell script used to deploy group policies and schedule malicious payload execution.",
+      "scheme": "S9",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "39518:11",
+      "name": "IMPACKET",
+      "kind": "software framework",
+      "gloss": "A collection of Python classes for working with network protocols, frequently abused for lateral movement.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "39518:12",
+      "name": "Microsoft",
+      "kind": "technology company",
+      "gloss": "An American multinational corporation that develops computer software, consumer electronics, and related services.",
+      "scheme": "S1",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "39518:13",
+      "name": "ESET",
+      "kind": "cybersecurity company",
+      "gloss": "A Slovak cybersecurity software and services company known for antivirus products.",
+      "scheme": "S10",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "39518:14",
+      "name": "91.245.255[.]243",
+      "kind": "ip address",
+      "gloss": "An IPv4 address identified as network infrastructure in malicious activity.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "39518:15",
+      "name": "195.230.23[.]19",
+      "kind": "ip address",
+      "gloss": "An IPv4 address identified as network infrastructure in malicious activity.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "ARGUEPATCH",
+      "type": "delivers",
+      "tail": "CADDYWIPER",
+      "evidence": "для дешифрування і запуску останнього передбачено використання лоадеру ARGUEPATCH"
+    },
+    {
+      "head": "TAILJUMP",
+      "type": "delivers",
+      "tail": "CADDYWIPER",
+      "evidence": "для дешифрування і запуску останнього передбачено використання лоадеру ARGUEPATCH та шелкоду TAILJUMP"
+    },
+    {
+      "head": "POWERGAP",
+      "type": "delivers",
+      "tail": "CADDYWIPER",
+      "evidence": "передбачає завантаження компонентів файлового деструктору з контролеру домену... використано PowerShell-скрипт POWERGAP"
+    }
+  ],
+  "unclassified": []
+}

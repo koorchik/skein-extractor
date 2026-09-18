@@ -1,0 +1,115 @@
+{
+  "entities": [
+    {
+      "name": "Troldesh",
+      "kind": "malware",
+      "gloss": "A ransomware strain also known as Shade, XTBL, or Trojan.Encoder.858 that encrypts victim files."
+    },
+    {
+      "name": "GandCrab",
+      "kind": "malware",
+      "gloss": "A prominent ransomware family operating on a ransomware-as-a-service model."
+    },
+    {
+      "name": "WordPress",
+      "kind": "software product",
+      "gloss": "A widely used open-source content management system."
+    },
+    {
+      "name": "Tor Browser",
+      "kind": "software product",
+      "gloss": "An open-source web browser designed for anonymous web browsing over the Tor network."
+    },
+    {
+      "name": "ricardodiniz@iol.pt",
+      "kind": "email address",
+      "gloss": "An email address used to distribute phishing messages containing malicious links."
+    },
+    {
+      "name": "schmarbutzken@arcor.de",
+      "kind": "email address",
+      "gloss": "An email address used to distribute phishing messages containing malicious links."
+    },
+    {
+      "name": "werner.mock@arcor.de",
+      "kind": "email address",
+      "gloss": "An email address used to distribute phishing messages containing malicious links."
+    },
+    {
+      "name": "VladimirScherbinin1991@gmail.com",
+      "kind": "email address",
+      "gloss": "An email address provided in ransom notes for victims to contact the attackers."
+    },
+    {
+      "name": "0297_docs_tre_88.zip",
+      "kind": "malware",
+      "gloss": "A malicious ZIP archive containing executable ransomware payloads."
+    },
+    {
+      "name": "docs_spwo_374.zip",
+      "kind": "malware",
+      "gloss": "A malicious ZIP archive containing executable ransomware payloads."
+    },
+    {
+      "name": "eoplata007.zip",
+      "kind": "malware",
+      "gloss": "A malicious ZIP archive containing executable ransomware payloads."
+    },
+    {
+      "name": "Prvd_docs.zip",
+      "kind": "malware",
+      "gloss": "A malicious ZIP archive containing executable ransomware payloads."
+    },
+    {
+      "name": "0297_docs_tre_88.scr.exe",
+      "kind": "malware",
+      "gloss": "A malicious executable payload that installs and executes Troldesh ransomware."
+    },
+    {
+      "name": "docs_spwo_374.scr.exe",
+      "kind": "malware",
+      "gloss": "A malicious executable payload that installs and executes Troldesh ransomware."
+    },
+    {
+      "name": "ftp://thestore:Soot777!@thestoreroomnsw.com.au/public_html/administrator/templates/khepri/html/0297_docs_tre_88.zip",
+      "kind": "uniform resource locator",
+      "gloss": "A compromised FTP URL used to host and distribute malicious ZIP archives."
+    },
+    {
+      "name": "ftp://howgrim7:BVH4iOo8IE@www.dstruct.net/public_html/doomsdayfilms.com.au/administrator/templates/khepri/html/eoplata007.zip",
+      "kind": "uniform resource locator",
+      "gloss": "A compromised FTP URL used to host and distribute malicious ZIP archives."
+    },
+    {
+      "name": "ftp://thefooda:tZu89(!pi[n6@ftp.thefoodplace.net/public_html/images/docs_spwo_374.zip",
+      "kind": "uniform resource locator",
+      "gloss": "A compromised FTP URL used to host and distribute malicious ZIP archives."
+    },
+    {
+      "name": "hxxp://cryptsen7fo43rr6[.]onion/",
+      "kind": "uniform resource locator",
+      "gloss": "A Tor hidden service URL used as a victim payment and contact portal."
+    }
+  ],
+  "relations": [
+    {
+      "head": "ftp://thestore:Soot777!@thestoreroomnsw.com.au/public_html/administrator/templates/khepri/html/0297_docs_tre_88.zip",
+      "type": "hosts",
+      "tail": "0297_docs_tre_88.zip",
+      "evidence": "Links: [1] ftp://thestore:Soot777!@thestoreroomnsw.com.au/.../0297_docs_tre_88.zip"
+    },
+    {
+      "head": "ftp://howgrim7:BVH4iOo8IE@www.dstruct.net/public_html/doomsdayfilms.com.au/administrator/templates/khepri/html/eoplata007.zip",
+      "type": "hosts",
+      "tail": "eoplata007.zip",
+      "evidence": "ftp[:]//howgrim7:BVH4iOo8IE@www.dstruct.net/.../eoplata007.zip"
+    },
+    {
+      "head": "ftp://thefooda:tZu89(!pi[n6@ftp.thefoodplace.net/public_html/images/docs_spwo_374.zip",
+      "type": "hosts",
+      "tail": "docs_spwo_374.zip",
+      "evidence": "ftp[:]//thefooda:tZu89(!pi[n6@ftp.thefoodplace.net/.../docs_spwo_374.zip"
+    }
+  ],
+  "newRelationTypes": []
+}

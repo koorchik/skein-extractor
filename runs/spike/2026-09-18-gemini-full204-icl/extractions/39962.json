@@ -1,0 +1,140 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state located in Eastern Europe."
+    },
+    {
+      "name": "Служба безпеки України",
+      "kind": "government organization",
+      "gloss": "The state security and counterintelligence agency of Ukraine."
+    },
+    {
+      "name": "Національний координаційний центр кібербезпеки РНБО України",
+      "kind": "government organization",
+      "gloss": "A working body of the National Security and Defense Council of Ukraine coordinating cybersecurity activities."
+    },
+    {
+      "name": "РНБО України",
+      "kind": "government organization",
+      "gloss": "The National Security and Defense Council of Ukraine, a state body coordinating national security policy."
+    },
+    {
+      "name": "Національний банк України",
+      "kind": "government organization",
+      "gloss": "The central bank and monetary authority of Ukraine."
+    },
+    {
+      "name": "Держспецзв'язку",
+      "kind": "government organization",
+      "gloss": "The Ukrainian state service responsible for secure government communications and cybersecurity."
+    },
+    {
+      "name": "MISP",
+      "kind": "software product",
+      "gloss": "An open-source threat intelligence platform for sharing, storing, and correlating indicators of compromise."
+    },
+    {
+      "name": "OpenPGP",
+      "kind": "software product",
+      "gloss": "An open standard for encryption used for signing, encrypting, and decrypting texts and emails."
+    },
+    {
+      "name": "UAC-0010",
+      "kind": "threat actor",
+      "gloss": "A cyber threat actor group tracked by Ukrainian cybersecurity authorities (also known as Gamaredon)."
+    },
+    {
+      "name": "https://cert.gov.ua",
+      "kind": "uniform resource locator",
+      "gloss": "The official website URL of the CERT-UA cybersecurity team."
+    },
+    {
+      "name": "https://misp.cert.gov.ua/",
+      "kind": "uniform resource locator",
+      "gloss": "The web address for the MISP threat sharing portal operated by CERT-UA."
+    },
+    {
+      "name": "https://cert.gov.ua/recommendation/16894",
+      "kind": "uniform resource locator",
+      "gloss": "A web link to a CERT-UA advisory explaining the Traffic Light Protocol."
+    },
+    {
+      "name": "https://www.cisa.gov/tlp",
+      "kind": "uniform resource locator",
+      "gloss": "A web link to CISA's official Traffic Light Protocol documentation."
+    },
+    {
+      "name": "support@dis.gov[.]ua",
+      "kind": "email address",
+      "gloss": "A contact email address associated with the Security Service of Ukraine's cybersecurity department."
+    },
+    {
+      "name": "csirt-nbu@bank.gov[.]ua",
+      "kind": "email address",
+      "gloss": "The contact email address for the National Bank of Ukraine's computer security incident response team."
+    },
+    {
+      "name": "report@ncscc.gov[.]ua",
+      "kind": "email address",
+      "gloss": "The contact email address for the National Cyber Security Coordination Center of Ukraine."
+    },
+    {
+      "name": "cert@cert.gov[.]ua",
+      "kind": "email address",
+      "gloss": "The contact email address for the CERT-UA response team under Derzhspetszvyazok."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Служба безпеки України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Службі безпеки України"
+    },
+    {
+      "head": "Національний координаційний центр кібербезпеки РНБО України",
+      "type": "part-of",
+      "tail": "РНБО України",
+      "evidence": "Національному координаційному центрі кібербезпеки РНБО України"
+    },
+    {
+      "head": "РНБО України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "РНБО України"
+    },
+    {
+      "head": "Національний банк України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Національному банку України"
+    },
+    {
+      "head": "Служба безпеки України",
+      "type": "uses",
+      "tail": "MISP",
+      "evidence": "вузлів MISP, розгорнутих в Службі безпеки України"
+    },
+    {
+      "head": "Національний координаційний центр кібербезпеки РНБО України",
+      "type": "uses",
+      "tail": "MISP",
+      "evidence": "вузлів MISP, розгорнутих в ... Національному координаційному центрі кібербезпеки"
+    },
+    {
+      "head": "Національний банк України",
+      "type": "uses",
+      "tail": "MISP",
+      "evidence": "вузлів MISP, розгорнутих в ... Національному банку України"
+    },
+    {
+      "head": "Держспецзв'язку",
+      "type": "uses",
+      "tail": "MISP",
+      "evidence": "вузлів MISP, розгорнутих в ... Держспецзв'язку"
+    }
+  ],
+  "newRelationTypes": []
+}

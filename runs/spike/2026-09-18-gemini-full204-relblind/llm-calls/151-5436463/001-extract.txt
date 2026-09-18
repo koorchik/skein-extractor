@@ -1,0 +1,214 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p class="content">      Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA, на виконання Закону України "Про основні засади забезпечення кібербезпеки України" серед іншого проводяться заходи, спрямовані на виявлення та      протидію кіберзагрозам, a також надання практичної допомоги з питань усунення наслідків кіберінцидентів.    </p>    <p class="content">      Зазначене передбачає безпосередню взаємодію фахівців CERT-UA з представниками державних органів, органів місцевого      самоврядування, військових формувань, утворених відповідно до закону, підприємств, установ та організацій незалежно      від форми власності.    </p>    <p class="content">      Зазвичай така взаємодія полягає у дослідженні журнальних файлів, зразків шкідливих програм, інформаційних систем,      електронно-обчислювальних машин з метою встановлення первинного вектору компрометації та прийняття відповідних рішень,      спрямованих на недопущення реалізації зловмисного задуму та підвищення рівня інформаційної безпеки IKC.    </p><p class="content">      За період з 01.01.2022 по 31.07.2023 CERT-UA вжито заходів з реагування більше ніж на 150 цільових кібератак      <b>деструктивного</b> характеру. Здебільшого за умови сприяння суб’єкту координації та виконання наданих      рекомендацій, реалізації зловмисного задуму <b>вдалося запобігти</b>. Разом з тим, не менше ніж на 35 обʼєктах зловмисникам вдалося досягти поставленої мети (відповідна інформація опублікована в телеграм-каналах: @xaknet_team, @CyberArmyofRussia_Reborn, @solntsepekZ, @informZarya, @frwl_team).</p><p class="content"> Результати дослідження згаданих інцидентів дозволяють дійти висновку про те, що успішній реалізації зловмисного задуму сприяє <b>не виконання типових вимог</b>, що є актуальними      для ландшафту кіберзагроз протягом останніх <b>7 років</b>. Так, найбільш розповсюдженими векторами первинної      компрометації є:    </p><ol class="list">      <li class="list_item">Відомі вразливості ("PHP", MS Exchange, FortiGate, Zimbra)</li>      <li class="list_item">Скомпрометовані облікові записи (-> VPN -> LAN)</li>      <li class="list_item">Спір-фішинг</li>      <li class="list_item">Самоінфікування (операційні системи, пакети програм, завантажені з трекерів)</li>    </ol><p class="content"> З метою вжиття релевантних заходів кіберзахисту CERT-UA підготовлено відповідну інфографіку. Зауважимо,       що наведений перелік рекомендацій не є вичерпним і може оновлюватись. Крім того, в статті немає базових норм, таких як парольна політика, обмеження прав облікових записів користувачів, своєчасне оновлення програмного забезпечення,       уникнення використання застарілих операційних систем тощо, що в свою чергу не виключає необхідності їх дотримання.    </p><p class="content">      Незважаючи на категорію обʼєкта, відповідальність за забезпечення захисту інформації в системі покладається на      <b>власника</b> системи.    </p><p class="content"> У зв'язку з викладеним вкотре наголошуємо на <b>персональній відповідальності</b> керівників, системних адміністраторів,      адміністраторів інформаційної безпеки, а також осіб, які обіймають посади, пов'язані з безпосереднім виконанням      завдань із забезпечення кібербезпеки та кіберзахисту, та закликаємо <b>невідкладно</b> врахувати в роботі надані      рекомендації.    </p><div class="cards">    <div class="faq_card">      <div class="faq_card__description">        <h3 class="faq_card__title">Наскільки велика "поверхня атаки" (attack surface) у вашій організації?​</h3>        <p class="faq_card__subtitle">Зменшення кількості інформаційних систем та сервісів ("відкритих мережевих          портів"), що доступні з мережі Інтернет підвищує захищеність периметра.​ Скористайтеся інструментами: censys.io, shodan.io,          Nmap та перевірте свою поверхню атаки або зверніться за допомогою <a href="https://cert.gov.ua/article/1751036">[1]</a>.</p>      </div>      <div class="faq_card__img_wrapper">              </div>    </div><div class="faq_card">      <div class="faq_card__description">        <h3 class="faq_card__title">Чи використовуєте ви багатофакторну автентифікацію (2FA)?​</h3>        <p class="faq_card__subtitle">Доступ до корпоративних ресурсів, особливо VPN та MAIL, повинен передбачати          використання двофакторної автентифікації за одноразовим (OTP) кодом. В іншому випадку, викрадення логіна/пароля/сертифіката           гарантуватиме отримання несанкціонованого доступу до пошти і/або локальної мережі.​</p>      </div>      <div class="faq_card__img_wrapper">              </div>    </div><div class="faq_card">      <div class="faq_card__description">        <h3 class="faq_card__title">"Демілітаризована" зона (DMZ)</h3>        <p class="faq_card__subtitle">Інформаційні системи, які передбачають доступ з мережі Інтернет та розгорнуті в межах          периметру ІКС організації (WEB, MAIL, etc) повинні знаходитись в DMZ. При цьому умовна компрометація будь-якого з          елементів такої системи не повинна створити передумов для розвитку атаки вглиб локальної мережі і/або у відношенні          інших активів.​</p>      </div>      <div class="faq_card__img_wrapper">              </div>    </div><div class="faq_card">      <div class="faq_card__description">        <h3 class="faq_card__title">Чи обмежено віддалений/адміністративний доступ?​</h3>        <p class="faq_card__subtitle">Віддалений доступ (наприклад, RDP) і особливо доступ до інтерфейсів адміністрування серверного та мережевого обладнання має бути  дозволений для конкретних користувачів з визначених робочих місць (IP-адрес).</br>Фільтрація інформаційних потоків здійснюється засобами штатних (хостових) і окремих міжмережевих екранів, а також інших механізмів (наприклад, TCP Wrappers).</p>      </div>      <div class="faq_card__img_wrapper">              </div>    </div><div class="faq_card">      <div class="faq_card__description">        <h3 class="faq_card__title">Фільтрація вихідних ("egress") інформаційних потоків?</h3>        <p class="faq_card__subtitle">Доступ <b>користувачів</b> до ресурсів мережі Інтернет має бути реалізовано через          міжмережевий екран (проксі-сервер) з підтримкою автентифікації та з обмеженням за типовими портами.​           Можливість встановлення вихідних мережевих з'єднань із <b>серверного</b> обладнання (в т.ч. DMZ) має бути відсутня           або обмежена за принципом "заборонено все, що явно не дозволено" з урахуванням <b>мінімальної необхідності</b>.</p>      </div>      <div class="faq_card__img_wrapper">              </div>    </div><div class="faq_card">      <div class="faq_card__description">        <h3 class="faq_card__title">Функціонуючі програмні засоби захисту: на ПК та серверах​</h3>        <p class="faq_card__subtitle">Чи знаєте Ви, що означають події з ідентифікаторами 1116, 1117 в журналі Windows          Defender?​ Чи налаштовано "антивіруси" на серверах?​ Чи маєте змогу централізованого моніторингу та керування          засобами захисту?</p>        </div>        <div class="faq_card__img_wrapper">                  </div>        </div>    <div class="faq_card">          <div class="faq_card__description">            <h3 class="faq_card__title">Чи знаєте, що для засобів захисту ESET розроблено дієві правила HIPS <a href="https://support.eset.com/en/kb6119-configure-hips-rules-for-eset-business-products-to-protect-against-ransomware">[2]</a>?</h3>            <p class="faq_card__subtitle">Імплементація рекомендованої політики, що складається з 7 правил, дозволяє              радикально зменшити вірогідність успішної реалізації найбільш поширених методів первинної компрометації.               Дізнайтеся у вашого вендора про наявність аналогічних політик для відповідного засобу захисту.</p>          </div>          <div class="faq_card__img_wrapper">                      </div>        </div>    <div class="faq_card">          <div class="faq_card__description">            <h3 class="faq_card__title">Контроль програм, у т.ч. легітимних утиліт​​​</h3>            <p class="faq_card__subtitle">Для здійснення кібератак дедалі частіше використовуються штатні компоненти              операційної системи.​               Можливість запуску звичайними користувачами таких утиліт повинна бути обмежена: wscript.exe, cscript.exe,              mshta.exe, powershell.exe.​ Кращою практикою є використанням AppLocker на основі білого списку.</p>          </div>          <div class="faq_card__img_wrapper">                      </div>        </div>    <div class="faq_card">          <div class="faq_card__description">            <h3 class="faq_card__title">Невже розмір журналів на ваших Windows-серверах складає 21МБ?​</h3>            <p class="faq_card__subtitle">За замовчуванням розмір основних журналів Windows (Security, System,              Application) обмежено 21МБ, чого вистачає для реєстрації подій протягом декількох останніх годин.               Типовий розмір журналів рекомендовано підвищити до 2ГБ.               Крім того, використання інструменту Sysmon надасть значних переваг <a href="https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon">[3]</a>.​</p>      </div>      <div class="faq_card__img_wrapper">              </div>    </div><div class="faq_card">      <div class="faq_card__description">        <h3 class="faq_card__title">Уявна кібератака: чи є "логи" для дослідження?​</h3>        <p class="faq_card__subtitle">Одна з проблем під час реагування - відсутність і/або недостатня повнота і часова          ємність журнальних файлів.​ Рекомендовано зберігати журнали подій протягом 180 - 360 діб, для чого доцільно розгорнути          окремий syslog-сервер; налаштувати формат часу згідно RFC3339.           Звертаємо увагу, що на pfSense/Mikrotik за замовчуванням розмір логів значно обмежено.</p>      </div>      <div class="faq_card__img_wrapper">              </div>    </div><div class="faq_card">      <div class="faq_card__description">        <h3 class="faq_card__title">Будьте готові до "ізоляції"​​</h3>        <p class="faq_card__subtitle">Якщо завтра ви отримуєте нотифікацію щодо присутності зловмисників у мережі - чи          готові до заборони вхідних та вихідних інформаційних потоків за умови забезпечення контрольованого функціонування          критичних підсистем?​ Чи передбачена, при цьому, можливість виконання технічних робіт, у т.ч.,           в режимі віддаленого доступу?​</p>      </div>      <div class="faq_card__img_wrapper">              </div>    </div><div class="faq_card">      <div class="faq_card__description">        <h3 class="faq_card__title">Маєте можливість оперативного обміну інформацією із CERT-UA?​</h3>        <p class="faq_card__subtitle">Під час реагування на інцидент значна кількість часу витрачається на пошук          контактів та організацію взаємодії. Зв'яжіться із CERT-UA заздалегідь, організуйте канали зв'язку, надайте           ідентифікатори вашої ІКС та активів для додаткового моніторингу та своєчасного інформування.</br>Щодо інцидентів у відповідних секторах також можуть допомогти:</br>ЗСУ: csoc@post.mil.gov.ua</br>СБУ: support@dis.gov.ua</br>НБУ: csirt-nbu@nbu.gov.ua</p>      </div>      <div class="faq_card__img_wrapper">              </div>    </div>    </div></div>
+
+=== RESPONSE (8.0s, in 4144 / out 1592 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "Закон України \"Про основні засади забезпечення кібербезпеки України\"",
+      "kind": "legislation",
+      "gloss": "Ukrainian law establishing the legal and organizational framework for national cybersecurity."
+    },
+    {
+      "name": "@xaknet_team",
+      "kind": "telegram channel",
+      "gloss": "A pro-Russian hacktivist Telegram channel and threat group."
+    },
+    {
+      "name": "@CyberArmyofRussia_Reborn",
+      "kind": "telegram channel",
+      "gloss": "A pro-Russian hacktivist Telegram channel."
+    },
+    {
+      "name": "@solntsepekZ",
+      "kind": "telegram channel",
+      "gloss": "A pro-Russian hacktivist Telegram channel associated with cyberattacks."
+    },
+    {
+      "name": "@informZarya",
+      "kind": "telegram channel",
+      "gloss": "A pro-Russian Telegram channel publishing information on cyber incidents."
+    },
+    {
+      "name": "@frwl_team",
+      "kind": "telegram channel",
+      "gloss": "A pro-Russian hacktivist Telegram channel."
+    },
+    {
+      "name": "PHP",
+      "kind": "programming language",
+      "gloss": "A widely used open-source general-purpose scripting language especially suited for web development."
+    },
+    {
+      "name": "MS Exchange",
+      "kind": "software product",
+      "gloss": "A mail and calendaring server developed by Microsoft."
+    },
+    {
+      "name": "FortiGate",
+      "kind": "software product",
+      "gloss": "A line of network security appliances and firewalls by Fortinet."
+    },
+    {
+      "name": "Zimbra",
+      "kind": "software product",
+      "gloss": "An open-source software suite for email collaboration and messaging."
+    },
+    {
+      "name": "censys.io",
+      "kind": "internet service",
+      "gloss": "A search engine and platform for attack surface management and internet intelligence."
+    },
+    {
+      "name": "shodan.io",
+      "kind": "internet service",
+      "gloss": "A search engine that lets users search for internet-connected devices."
+    },
+    {
+      "name": "Nmap",
+      "kind": "software tool",
+      "gloss": "A free and open-source network scanner for vulnerability scanning and network discovery."
+    },
+    {
+      "name": "Windows Defender",
+      "kind": "software product",
+      "gloss": "An antivirus and security component built into Microsoft Windows."
+    },
+    {
+      "name": "ESET",
+      "kind": "software vendor",
+      "gloss": "A cybersecurity company offering antivirus and endpoint security products."
+    },
+    {
+      "name": "wscript.exe",
+      "kind": "executable file",
+      "gloss": "A Windows Script Host executable used to run VBScript and JScript files."
+    },
+    {
+      "name": "cscript.exe",
+      "kind": "executable file",
+      "gloss": "A command-line version of the Windows Script Host."
+    },
+    {
+      "name": "mshta.exe",
+      "kind": "executable file",
+      "gloss": "A native Windows utility used to execute Microsoft HTML Application (.hta) files."
+    },
+    {
+      "name": "powershell.exe",
+      "kind": "executable file",
+      "gloss": "The command-line interface executable for Microsoft PowerShell."
+    },
+    {
+      "name": "AppLocker",
+      "kind": "software feature",
+      "gloss": "A Microsoft Windows application whitelisting and control feature."
+    },
+    {
+      "name": "Sysmon",
+      "kind": "software tool",
+      "gloss": "A Windows system service and device driver that monitors and logs system activity."
+    },
+    {
+      "name": "pfSense",
+      "kind": "software product",
+      "gloss": "An open-source firewall and router software distribution based on FreeBSD."
+    },
+    {
+      "name": "Mikrotik",
+      "kind": "software vendor",
+      "gloss": "A Latvian manufacturer of network equipment and RouterOS software."
+    },
+    {
+      "name": "ЗСУ",
+      "kind": "military organization",
+      "gloss": "The Armed Forces of Ukraine."
+    },
+    {
+      "name": "csoc@post.mil.gov.ua",
+      "kind": "email address",
+      "gloss": "A contact email address for the cybersecurity operations center of the Armed Forces of Ukraine."
+    },
+    {
+      "name": "СБУ",
+      "kind": "government body",
+      "gloss": "The Security Service of Ukraine, the national security intelligence agency."
+    },
+    {
+      "name": "support@dis.gov.ua",
+      "kind": "email address",
+      "gloss": "A contact email address for the Security Service of Ukraine cybersecurity center."
+    },
+    {
+      "name": "НБУ",
+      "kind": "government body",
+      "gloss": "The National Bank of Ukraine, the central bank of Ukraine."
+    },
+    {
+      "name": "csirt-nbu@nbu.gov.ua",
+      "kind": "email address",
+      "gloss": "The CSIRT contact email address for the National Bank of Ukraine."
+    }
+  ],
+  "relations": [
+    {
+      "head": "ЗСУ",
+      "type": "uses-contact-email",
+      "tail": "csoc@post.mil.gov.ua",
+      "evidence": "ЗСУ: csoc@post.mil.gov.ua"
+    },
+    {
+      "head": "СБУ",
+      "type": "uses-contact-email",
+      "tail": "support@dis.gov.ua",
+      "evidence": "СБУ: support@dis.gov.ua"
+    },
+    {
+      "head": "НБУ",
+      "type": "uses-contact-email",
+      "tail": "csirt-nbu@nbu.gov.ua",
+      "evidence": "НБУ: csirt-nbu@nbu.gov.ua"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-contact-email",
+      "definition": "Specifies an official email contact address used by or designated for an organization."
+    }
+  ]
+}

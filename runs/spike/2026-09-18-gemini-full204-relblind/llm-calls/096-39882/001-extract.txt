@@ -1,0 +1,162 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація:</strong></p><p>Урядовою командою реагування на комп’ютерні надзвичайні події України CERT-UA від суб'єкту координації отримано електронний лист із вкладенням у вигляді XLS-документу "Aid request COVID-19-04_5_22.xls", що містить макрос. У випадку активації макросу, останній здійснить декодування пейлоаду, що знаходиться в прихованому аркуші документу, а також створення на диску і запуск Go-завантажувача. В подальшому, на комп'ютер будуть завантажені та виконані шкідливі програми GraphSteel (дата компіляції: 2022-04-21) та GrimPlant.</p><p>Звертаємо увагу на той факт, що розсилання електронних листів здійснено зі скомпрометованого облікового запису співробітника державного органу України.</p><p>Активність асоційовано з діяльністю групи UAC-0056.</p><p><br></p><p><strong>Індикатори компрометації:</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">0895c2181b8a04145b00a395da5b18dc	8cdd84285c936da43cf7c4506b6372a4806b0a90d3db29a72eaa7626dc83896b	Aid request COVID-19-04_5_22.xls
+539a3b02f2f29b8c62353f729e636813	ed448b9c4e604c7c6531864ac023cdd8865affab409d581db66281179532fc69	base_update.exe (Go-downloader)
+1f4233970e9dead730db799b19b1d1f7	f2a09b611b6fca3e82b8c3098abc35929779685a9e3f851a6acf4040be002f41	java-sdk.exe (Go-downloader)
+eee2f9fab737eef8884e0b9432055edc	47a734e624dac47b9043606c8833001dde8f341d71f77129da2eade4e02b3878	microsoft-cortana.exe (2022-04-21) (GraphSteel)
+425e69953feda05c25bb5c922f23ac6e	aca731d34c3e99d07af79847db369409e92e387520e44285608f18877b3a1d79	oracle-java.exe (GrimPlant)
+</pre><p><br></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">hxxps://212[.]192.246.115/i
+hxxps://212[.]192.246.115/m
+hxxps://212[.]192.246.115/p
+ws://212[.]192.246.115:443/c
+212[.]192.246.115
+</pre><p><br></p><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%USERPROFILE%\.java-sdk\java-sdk.exe
+%USERPROFILE%\.java-sdk\microsoft-cortana.exe
+%USERPROFILE%\.java-sdk\oracle-java.exe
+</pre><p><br></p><p><strong>Рекомендації:</strong></p><p>1. Вжити заходів з налаштування двофакторної автентифікації для облікових записів електронної пошти.</p><p>2. Заборонити офісним програмам (EXCEL.EXE, WINWORD.EXE тощо) створювати небезпечні процеси (наприклад, rundll32.exe, wscript.exe та інші).</p><p><br></p><p><strong>Графічні зображення:</strong></p><p><strong><span class="ql-cursor">﻿</span></strong></p>
+
+=== RESPONSE (5.8s, in 2026 / out 1124 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyberespionage threat group targeting Ukrainian organizations and government bodies."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "державного органу України",
+      "kind": "government body",
+      "gloss": "A governmental authority or agency of Ukraine."
+    },
+    {
+      "name": "Aid request COVID-19-04_5_22.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious Excel document containing macros used to deploy downloaders."
+    },
+    {
+      "name": "GraphSteel",
+      "kind": "malware family",
+      "gloss": "A Go-based malware strain designed to exfiltrate sensitive files and credentials."
+    },
+    {
+      "name": "GrimPlant",
+      "kind": "malware family",
+      "gloss": "A Go-based backdoor malware used for remote command execution."
+    },
+    {
+      "name": "base_update.exe",
+      "kind": "malicious file",
+      "gloss": "A Go-based loader executable used to download and execute secondary malware payloads."
+    },
+    {
+      "name": "java-sdk.exe",
+      "kind": "malicious file",
+      "gloss": "A Go-based loader executable disguised as a Java SDK component."
+    },
+    {
+      "name": "microsoft-cortana.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file delivering the GraphSteel malware payload."
+    },
+    {
+      "name": "oracle-java.exe",
+      "kind": "malicious file",
+      "gloss": "A malicious executable file delivering the GrimPlant malware payload."
+    },
+    {
+      "name": "212.192.246.115",
+      "kind": "ip address",
+      "gloss": "An IP address used for malicious command and control communications."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0056",
+      "type": "associated-with",
+      "tail": "Aid request COVID-19-04_5_22.xls",
+      "evidence": "Активність асоційовано з діяльністю групи UAC-0056."
+    },
+    {
+      "head": "державного органу України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "облікового запису співробітника державного органу України."
+    },
+    {
+      "head": "Aid request COVID-19-04_5_22.xls",
+      "type": "delivers",
+      "tail": "GraphSteel",
+      "evidence": "будуть завантажені та виконані шкідливі програми GraphSteel"
+    },
+    {
+      "head": "Aid request COVID-19-04_5_22.xls",
+      "type": "delivers",
+      "tail": "GrimPlant",
+      "evidence": "будуть завантажені та виконані шкідливі програми GraphSteel (дата компіляції: 2022-04-21) та GrimPlant."
+    },
+    {
+      "head": "microsoft-cortana.exe",
+      "type": "instance-of",
+      "tail": "GraphSteel",
+      "evidence": "microsoft-cortana.exe (2022-04-21) (GraphSteel)"
+    },
+    {
+      "head": "oracle-java.exe",
+      "type": "instance-of",
+      "tail": "GrimPlant",
+      "evidence": "oracle-java.exe (GrimPlant)"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "associated-with",
+      "definition": "Specifies that an activity, tool, or artifact is attributed to or associated with a threat actor."
+    },
+    {
+      "name": "located-in",
+      "definition": "Indicates the physical or administrative country or jurisdiction where an organization is situated."
+    },
+    {
+      "name": "delivers",
+      "definition": "Indicates that a malicious file or loader results in the installation or execution of another malware."
+    },
+    {
+      "name": "instance-of",
+      "definition": "Specifies that a particular executable file sample belongs to a specific malware family."
+    }
+  ]
+}

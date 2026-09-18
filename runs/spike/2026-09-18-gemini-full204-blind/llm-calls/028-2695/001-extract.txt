@@ -1,0 +1,128 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN RELATION TYPES ###
+- publishes: An organization or vendor officially releases or issues a security advisory, bulletin, or patch.
+- addresses-vulnerability-in: A security advisory or patch provides fixes for security vulnerabilities affecting a software product.
+- affects: A security vulnerability compromises or impacts a specific software product or component.
+- located-in: An organization, entity, or infrastructure is geographically or administratively based in a country or location.
+- part-of: An entity or component is a constituent sub-part of a larger system, suite, or organization.
+- hosts: An IP address, server, or domain hosts a specific file, malware payload, or service.
+- delivers: An exploit, campaign, or delivery mechanism drops or downloads a payload onto a target system.
+- exploits: A threat actor, malware, or campaign leverages a specific security vulnerability to compromise systems.
+- attacks: A threat actor compromises, targets, or executes unauthorized actions against a system, service, or organization.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p>Фахівці компанії Check Point розповсюдили&nbsp;інформацію про критичну вразливість в архіваторі для Windows. Для успішної атаки зловмисникові потрібно всього лише обманом змусити жертву розпакувати шкідливий архів.</p><p>Наприклад,&nbsp;розсилка архіву&nbsp;zakon.rar&nbsp;в якому міститься PDF документ із законом про державне партнерство. Вірус завантажує powershell скрипти з їх подальшим виконанням.</p><p>Вразливість обходу каталогу, що отримала кілька ідентифікаторів (CVE-2018-20250, CVE-2018-20251, CVE-2018-20252 і CVE-2018-20253), зачіпає всі версії WinRAR, випущені за останні 19 років.&nbsp;</p><p>Дана вразливість надає можливість розпакувати&nbsp;файли з архіву в потрібну зловмисникам&nbsp;папку, а не призначену користувачем. Таким чином вони можуть помістити шкідливий код в&nbsp;папку&nbsp;автозавантаження Windows, який буде автоматично виконуватися при кожному завантаженні системи.</p><p>В кінці січня 2019 року розробники WinRAR випустили версію WinRAR 5.70 Beta 1, яка усуває цю вразливість.</p><p>Корисні посилання:</p><p><a href="https://research.checkpoint.com/extracting-code-execution-from-winrar/" rel="noopener noreferrer" target="_blank" style="color: rgb(0, 123, 255);">https://research.checkpoint.com/extracting-code-execution-from-winrar/</a></p><p><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-20250" rel="noopener noreferrer" target="_blank" style="color: rgb(0, 123, 255);">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-20250</a></p><p>Рекомендуємо оновити програмне забезпечення&nbsp;WinRAR до останнюї версії.</p><p><a href="https://www.win-rar.com/singlenewsview.html?&amp;tx_ttnews%5Btt_news%5D=113&amp;cHash=636c53b16e1726382668533e7b7c737f" rel="noopener noreferrer" target="_blank" style="color: rgb(0, 123, 255);">https://www.win-rar.com/singlenewsview.html?&amp;tx_ttnews%5Btt_news%5D=113&amp;cHash=636c53b16e1726382668533e7b7c737f</a></p>
+
+=== RESPONSE (5.3s, in 1871 / out 841 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Check Point",
+      "kind": "cybersecurity company",
+      "gloss": "An American-Israeli multinational provider of software and combined hardware and software products for IT security."
+    },
+    {
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A family of proprietary graphical operating systems developed and marketed by Microsoft."
+    },
+    {
+      "name": "zakon.rar",
+      "kind": "malicious archive file",
+      "gloss": "A malicious RAR archive file used in an attack campaign to deliver secondary payloads."
+    },
+    {
+      "name": "CVE-2018-20250",
+      "kind": "vulnerability identifier",
+      "gloss": "A path traversal vulnerability in the UNACEV2.DLL library used in WinRAR."
+    },
+    {
+      "name": "CVE-2018-20251",
+      "kind": "vulnerability identifier",
+      "gloss": "A path traversal vulnerability in older versions of WinRAR."
+    },
+    {
+      "name": "CVE-2018-20252",
+      "kind": "vulnerability identifier",
+      "gloss": "A vulnerability in WinRAR allowing arbitrary code execution or file placement."
+    },
+    {
+      "name": "CVE-2018-20253",
+      "kind": "vulnerability identifier",
+      "gloss": "A security vulnerability affecting WinRAR extraction mechanisms."
+    },
+    {
+      "name": "WinRAR",
+      "kind": "software product",
+      "gloss": "A trialware file archiver utility for Windows developed by Eugene Roshal."
+    },
+    {
+      "name": "WinRAR 5.70 Beta 1",
+      "kind": "software product version",
+      "gloss": "A beta update release of the WinRAR file archiver providing security fixes."
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2018-20250",
+      "type": "affects",
+      "tail": "WinRAR",
+      "evidence": "зачіпає всі версії WinRAR, випущені за останні 19 років"
+    },
+    {
+      "head": "CVE-2018-20251",
+      "type": "affects",
+      "tail": "WinRAR",
+      "evidence": "зачіпає всі версії WinRAR, випущені за останні 19 років"
+    },
+    {
+      "head": "CVE-2018-20252",
+      "type": "affects",
+      "tail": "WinRAR",
+      "evidence": "зачіпає всі версії WinRAR, випущені за останні 19 років"
+    },
+    {
+      "head": "CVE-2018-20253",
+      "type": "affects",
+      "tail": "WinRAR",
+      "evidence": "зачіпає всі версії WinRAR, випущені за останні 19 років"
+    },
+    {
+      "head": "WinRAR 5.70 Beta 1",
+      "type": "addresses-vulnerability-in",
+      "tail": "WinRAR",
+      "evidence": "випустили версію WinRAR 5.70 Beta 1, яка усуває цю вразливість"
+    }
+  ],
+  "newRelationTypes": []
+}

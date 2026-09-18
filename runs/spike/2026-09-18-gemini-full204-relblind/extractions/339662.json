@@ -1,0 +1,173 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0098",
+      "kind": "threat actor",
+      "gloss": "A threat actor group known for conducting cyber attacks against Ukrainian organizations and government entities."
+    },
+    {
+      "name": "Накладення штрафних санкцій.docx",
+      "kind": "file name",
+      "gloss": "A malicious Microsoft Word document used as a lure to exploit CVE-2022-30190 and deliver malware."
+    },
+    {
+      "name": "CVE-2022-30190",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in Microsoft Windows Support Diagnostic Tool (MSDT), also known as Follina."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware family",
+      "gloss": "A malicious agent component of the Cobalt Strike adversary simulation framework used for post-exploitation and command execution."
+    },
+    {
+      "name": "НакладенняШтрафнихСанкцiй.zip",
+      "kind": "file name",
+      "gloss": "A password-protected ZIP archive distributed via email containing a malicious DOCX lure document."
+    },
+    {
+      "name": "Державної податкової служби України",
+      "kind": "government body",
+      "gloss": "The central government body responsible for implementing state tax policy in Ukraine."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "index.html",
+      "kind": "file name",
+      "gloss": "A malicious HTML file containing exploit code downloaded by the malicious document."
+    },
+    {
+      "name": "ked.dll",
+      "kind": "file name",
+      "gloss": "A dynamic link library payload containing Cobalt Strike Beacon."
+    },
+    {
+      "name": "rostyslav.nal0g@gmail[.]com",
+      "kind": "email address",
+      "gloss": "A phishing email address masquerading as tax authority personnel."
+    },
+    {
+      "name": "baidenfree[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain name used for adversary network infrastructure."
+    },
+    {
+      "name": "golgba[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain name used for adversary network infrastructure."
+    },
+    {
+      "name": "domtern[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain name used for adversary network infrastructure."
+    },
+    {
+      "name": "jorgava[.]com",
+      "kind": "internet domain",
+      "gloss": "A domain name used for adversary network infrastructure."
+    },
+    {
+      "name": "185[.]143.223.29",
+      "kind": "ip address",
+      "gloss": "An IP address observed in email headers sending phishing messages."
+    },
+    {
+      "name": "64[.]190.113.51",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious stage files."
+    },
+    {
+      "name": "5[.]199.173.152",
+      "kind": "ip address",
+      "gloss": "An IP address used to host payload files."
+    },
+    {
+      "name": "5[.]199.174.219",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat infrastructure."
+    },
+    {
+      "name": "185[.]170.144.159",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat infrastructure."
+    },
+    {
+      "name": "87[.]251.64.5",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat infrastructure."
+    },
+    {
+      "name": "185[.]170.144.158",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious threat infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "НакладенняШтрафнихСанкцiй.zip",
+      "type": "contains-file",
+      "tail": "Накладення штрафних санкцій.docx",
+      "evidence": "згаданий DOCX-документ містився в захищеному паролем архіві \"НакладенняШтрафнихСанкцiй.zip\""
+    },
+    {
+      "head": "Накладення штрафних санкцій.docx",
+      "type": "exploits-vulnerability",
+      "tail": "CVE-2022-30190",
+      "evidence": "виконання JavaScript-коду (CVE-2022-30190)"
+    },
+    {
+      "head": "Накладення штрафних санкцій.docx",
+      "type": "downloads-and-executes",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "забезпечить завантаження та запуск шкідливої програми Cobalt Strike Beacon"
+    },
+    {
+      "head": "UAC-0098",
+      "type": "impersonates",
+      "tail": "Державної податкової служби України",
+      "evidence": "розповсюджувався засобами електронної пошти, начебто, від імені \"Державної податкової служби України\""
+    },
+    {
+      "head": "UAC-0098",
+      "type": "distributes-file",
+      "tail": "НакладенняШтрафнихСанкцiй.zip",
+      "evidence": "\"НакладенняШтрафнихСанкцiй.zip\", який, в свою чергу, розповсюджувався... відстежується за ідентифікатором UAC-0098"
+    },
+    {
+      "head": "Державної податкової служби України",
+      "type": "located-in-country",
+      "tail": "України",
+      "evidence": "Державної податкової служби України"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "contains-file",
+      "definition": "The head container or archive file contains the tail file."
+    },
+    {
+      "name": "exploits-vulnerability",
+      "definition": "The head entity leverages the specified vulnerability in the tail entity to execute code or gain unauthorized access."
+    },
+    {
+      "name": "downloads-and-executes",
+      "definition": "The head file or process retrieves and executes the tail payload or executable."
+    },
+    {
+      "name": "impersonates",
+      "definition": "The head threat actor or sender pretends to be or sends communications under the guise of the tail organization or entity."
+    },
+    {
+      "name": "distributes-file",
+      "definition": "The head actor or campaign transmits or distributes the tail file to targets."
+    },
+    {
+      "name": "located-in-country",
+      "definition": "The head entity belongs to, operates in, or is based within the tail country."
+    }
+  ]
+}

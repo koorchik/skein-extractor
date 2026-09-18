@@ -1,0 +1,221 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0001",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group also known as APT28."
+    },
+    {
+      "name": "Browser.ps1",
+      "kind": "malware script",
+      "gloss": "A PowerShell script designed to establish SSH tunnels, exfiltrate browser data, and execute Metasploit."
+    },
+    {
+      "name": "browser.hta",
+      "kind": "malware file",
+      "gloss": "An HTML Application file executed during the attack to clear clipboard content and assist infection."
+    },
+    {
+      "name": "zapit.exe",
+      "kind": "malware payload",
+      "gloss": "An executable payload implementing Metasploit framework capabilities."
+    },
+    {
+      "name": "METASPLOIT",
+      "kind": "penetration testing software",
+      "gloss": "A penetration testing framework commonly abused by attackers for post-exploitation."
+    },
+    {
+      "name": "rdp.exe",
+      "kind": "executable file",
+      "gloss": "A suspicious executable observed in connection with the cyber incident."
+    },
+    {
+      "name": "Roundcube",
+      "kind": "software product",
+      "gloss": "A widely used open-source webmail software client."
+    },
+    {
+      "name": "CVE-2023-43770",
+      "kind": "vulnerability",
+      "gloss": "A cross-site scripting vulnerability in Roundcube webmail allowing information theft."
+    },
+    {
+      "name": "ManageSiev",
+      "kind": "software plugin",
+      "gloss": "A Roundcube plugin used to manage Sieve mail filtering rules."
+    },
+    {
+      "name": "SystemHealthChek",
+      "kind": "mail filter",
+      "gloss": "A malicious email forwarding filter created using the Roundcube ManageSiev plugin."
+    },
+    {
+      "name": "mail.zhblz[.]com",
+      "kind": "domain",
+      "gloss": "A compromised domain and server used as command and control infrastructure."
+    },
+    {
+      "name": "203.161.50[.]145",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious command and control infrastructure."
+    },
+    {
+      "name": "45[.]61.169.221",
+      "kind": "ip address",
+      "gloss": "An IP address observed hosting network services and resources during the attack."
+    },
+    {
+      "name": "doc.gmail.com.gyehddhrggdii323sdhnshiswh2udhqjwdhhfjcjeuejcj.zhblz[.]com",
+      "kind": "domain",
+      "gloss": "A subdomain used in phishing or malicious delivery chains."
+    },
+    {
+      "name": "docs.google.com.spreadsheets.d.1ip6eeakdebmwteh36vana4hu-glaeksstsht-boujdk.zhblz[.]com",
+      "kind": "domain",
+      "gloss": "A spoofed Google Sheets subdomain used in phishing links."
+    },
+    {
+      "name": "Chrome",
+      "kind": "web browser",
+      "gloss": "A web browser developed by Google."
+    },
+    {
+      "name": "Edge",
+      "kind": "web browser",
+      "gloss": "A web browser developed by Microsoft."
+    },
+    {
+      "name": "Opera",
+      "kind": "web browser",
+      "gloss": "A web browser developed by Opera Software."
+    },
+    {
+      "name": "Firefox",
+      "kind": "web browser",
+      "gloss": "A web browser developed by the Mozilla Foundation."
+    },
+    {
+      "name": "CERT-UA#10859",
+      "kind": "incident identifier",
+      "gloss": "A CERT-UA tracking identifier for a cyber incident investigated in September 2024."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0001",
+      "type": "associated-with-activity",
+      "tail": "Browser.ps1",
+      "evidence": "З середнім рівнем впевненості описана активність асоційована з діяльністю угрупування UAC-0001"
+    },
+    {
+      "head": "Browser.ps1",
+      "type": "deploys-and-executes",
+      "tail": "METASPLOIT",
+      "evidence": "завантаження та запуск програмного засобу METASPLOIT"
+    },
+    {
+      "head": "Browser.ps1",
+      "type": "targets-browser-data",
+      "tail": "Chrome",
+      "evidence": "викрадення та ексфільтрацію автентифікаційних та інших даних браузерів Chrome"
+    },
+    {
+      "head": "Browser.ps1",
+      "type": "targets-browser-data",
+      "tail": "Edge",
+      "evidence": "викрадення та ексфільтрацію автентифікаційних та інших даних браузерів Chrome, Edge"
+    },
+    {
+      "head": "Browser.ps1",
+      "type": "targets-browser-data",
+      "tail": "Opera",
+      "evidence": "викрадення та ексфільтрацію автентифікаційних та інших даних браузерів Chrome, Edge, Opera"
+    },
+    {
+      "head": "Browser.ps1",
+      "type": "targets-browser-data",
+      "tail": "Firefox",
+      "evidence": "викрадення та ексфільтрацію автентифікаційних та інших даних браузерів Chrome, Edge, Opera, Firefox"
+    },
+    {
+      "head": "CERT-UA#10859",
+      "type": "involves-vulnerability",
+      "tail": "CVE-2023-43770",
+      "evidence": "досліджено інцидент (CERT-UA#10859), пов'язаний із розповсюдженням електронних листів, що містили експлойт для вразливості в Roundcube (CVE-2023-43770)"
+    },
+    {
+      "head": "CVE-2023-43770",
+      "type": "affects-software",
+      "tail": "Roundcube",
+      "evidence": "вразливості в Roundcube (CVE-2023-43770)"
+    },
+    {
+      "head": "CERT-UA#10859",
+      "type": "created-filter",
+      "tail": "SystemHealthChek",
+      "evidence": "призводило до створення фільтру \"SystemHealthChek\""
+    },
+    {
+      "head": "SystemHealthChek",
+      "type": "uses-plugin",
+      "tail": "ManageSiev",
+      "evidence": "фільтру \"SystemHealthChek\" (плагін \"ManageSiev\")"
+    },
+    {
+      "head": "mail.zhblz[.]com",
+      "type": "resolves-to-ip",
+      "tail": "203.161.50[.]145",
+      "evidence": "сервер \"mail.zhblz[.]com\" (203.161.50[.]145)"
+    },
+    {
+      "head": "UAC-0001",
+      "type": "uses-infrastructure",
+      "tail": "mail.zhblz[.]com",
+      "evidence": "у якості управляючої інфраструктури використовувався (скомпрометований) сервер \"mail.zhblz[.]com\""
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "associated-with-activity",
+      "definition": "The threat actor is linked or attributed to the specified malicious activity or tool."
+    },
+    {
+      "name": "deploys-and-executes",
+      "definition": "The source malware or script downloads, drops, or executes the target tool or payload."
+    },
+    {
+      "name": "targets-browser-data",
+      "definition": "The malware extracts stored credentials or session information from the specified web browser."
+    },
+    {
+      "name": "involves-vulnerability",
+      "definition": "The incident report or attack chain leveraged the specified security vulnerability."
+    },
+    {
+      "name": "affects-software",
+      "definition": "The vulnerability exists in or affects the specified software application."
+    },
+    {
+      "name": "created-filter",
+      "definition": "The exploit or incident resulted in the creation of the specified email filter rule."
+    },
+    {
+      "name": "uses-plugin",
+      "definition": "The rule or mechanism was implemented using the specified software plugin."
+    },
+    {
+      "name": "resolves-to-ip",
+      "definition": "The domain name resolves to or is hosted on the specified IP address."
+    },
+    {
+      "name": "uses-infrastructure",
+      "definition": "The threat actor or campaign utilized the specified domain or server infrastructure."
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "docId": 17961,
+  "date": "18.01.2022",
+  "title": "Інформація щодо вразливості в продуктах Microsoft CVE-2022-21907",
+  "entities": [
+    {
+      "id": "17961:0",
+      "name": "Microsoft",
+      "kind": "software vendor",
+      "gloss": "A multinational technology corporation producing computer software, consumer electronics, and operating systems.",
+      "scheme": "S3",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "17961:1",
+      "name": "CVE-2022-21907",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in the Windows HTTP Protocol Stack (http.sys).",
+      "scheme": "S4",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "17961:2",
+      "name": "HTTP Protocol Stack (http.sys)",
+      "kind": "software component",
+      "gloss": "A Windows kernel-mode device driver that processes HTTP requests.",
+      "scheme": "S17",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "17961:3",
+      "name": "IIS",
+      "kind": "software product",
+      "gloss": "An extensible web server software created by Microsoft for use with the Windows NT family.",
+      "scheme": "S1",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "17961:4",
+      "name": "Windows Server 2019",
+      "kind": "operating system",
+      "gloss": "A server operating system developed by Microsoft as part of the Windows NT family.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "17961:5",
+      "name": "Windows 10 версії 1809",
+      "kind": "operating system",
+      "gloss": "A major release of the Microsoft Windows 10 operating system.",
+      "scheme": "S2",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "17961:6",
+      "name": "Windows",
+      "kind": "operating system",
+      "gloss": "A family of proprietary graphical operating systems developed and marketed by Microsoft.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "17961:7",
+      "name": "https://msrc.microsoft.com/update-guide/en-US/vulnerability/CVE-2022-21907",
+      "kind": "url",
+      "gloss": "A web link to Microsoft's security update advisory for vulnerability CVE-2022-21907.",
+      "scheme": "S5",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "17961:8",
+      "name": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-21907",
+      "kind": "url",
+      "gloss": "A web link to the MITRE CVE database entry for vulnerability CVE-2022-21907.",
+      "scheme": "S5",
+      "category": "Software",
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "Microsoft",
+      "type": "disclosed-vulnerability",
+      "tail": "CVE-2022-21907",
+      "evidence": "Компанія Microsoft опублікувала інформацію про вразливість CVE-2022-21907"
+    },
+    {
+      "head": "CVE-2022-21907",
+      "type": "addresses-vulnerability-in",
+      "tail": "HTTP Protocol Stack (http.sys)",
+      "evidence": "Ця вразливість стосується файлу HTTP Protocol Stack (http.sys)"
+    },
+    {
+      "head": "HTTP Protocol Stack (http.sys)",
+      "type": "used-by-software",
+      "tail": "IIS",
+      "evidence": "який використовується для прослуховування HTTP-запитів на серверах IIS"
+    },
+    {
+      "head": "CVE-2022-21907",
+      "type": "addresses-vulnerability-in",
+      "tail": "Windows Server 2019",
+      "evidence": "Для зменшення впливу вразливості на Windows Server 2019"
+    },
+    {
+      "head": "CVE-2022-21907",
+      "type": "addresses-vulnerability-in",
+      "tail": "Windows 10 версії 1809",
+      "evidence": "Для зменшення впливу вразливості на Windows Server 2019 та Windows 10 версії 1809"
+    },
+    {
+      "head": "https://msrc.microsoft.com/update-guide/en-US/vulnerability/CVE-2022-21907",
+      "type": "provides-information-on",
+      "tail": "CVE-2022-21907",
+      "evidence": "Радимо негайно оновити ваші ОС Windows до актуальної версії: https://msrc.microsoft.com/update-guide/en-US/vulnerability/CVE-2022-21907"
+    },
+    {
+      "head": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-21907",
+      "type": "provides-information-on",
+      "tail": "CVE-2022-21907",
+      "evidence": "Більш детальна інформація щодо вразливості: https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-21907"
+    }
+  ],
+  "unclassified": []
+}

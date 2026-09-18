@@ -1,0 +1,97 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0200",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA targeting Ukrainian defense and military entities."
+    },
+    {
+      "name": "Сили оборони України",
+      "kind": "military organization",
+      "gloss": "The combined military forces and defense sector bodies of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "Signal",
+      "kind": "software product",
+      "gloss": "A cross-platform encrypted messaging service."
+    },
+    {
+      "name": "DarkTortilla",
+      "kind": "malware family",
+      "gloss": "A complex .NET-based crypter and loader used to deliver secondary payloads."
+    },
+    {
+      "name": "Dark Crystal RAT",
+      "kind": "malware family",
+      "gloss": "A commercial remote access trojan also known as DCRAT."
+    },
+    {
+      "name": "45.130.214.237",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure in the attack."
+    },
+    {
+      "name": "62.60.235.190",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure in the attack."
+    },
+    {
+      "name": "87.249.50.64",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure in the attack."
+    },
+    {
+      "name": "217.25.91.61",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure in the attack."
+    },
+    {
+      "name": "83.147.253.138",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure in the attack."
+    },
+    {
+      "name": "imgurl.ir",
+      "kind": "internet domain",
+      "gloss": "An Iranian domain name observed hosting malicious files."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0200",
+      "type": "attacks",
+      "tail": "Сили оборони України",
+      "evidence": "цільових кібератак як у відношенні співробітників підприємств оборонно-промислового комплексу, так й окремих представників Сил оборони України"
+    },
+    {
+      "head": "UAC-0200",
+      "type": "uses-malware",
+      "tail": "DarkTortilla",
+      "evidence": "активність відслідковується за ідентифікатором UAC-0200... виконуваний файл, класифікований як DarkTortilla"
+    },
+    {
+      "head": "UAC-0200",
+      "type": "uses-malware",
+      "tail": "Dark Crystal RAT",
+      "evidence": "активність відслідковується за ідентифікатором UAC-0200... програмного засобу для віддаленого керування Dark Crystal RAT"
+    },
+    {
+      "head": "DarkTortilla",
+      "type": "delivers",
+      "tail": "Dark Crystal RAT",
+      "evidence": "DarkTortilla, що є програмним засобом типу криптор/лоадер, призначенням якого є розшифрування та запуск... Dark Crystal RAT"
+    },
+    {
+      "head": "Сили оборони України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Сил оборони України"
+    }
+  ],
+  "newRelationTypes": []
+}

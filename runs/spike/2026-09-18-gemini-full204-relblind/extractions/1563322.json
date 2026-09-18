@@ -1,0 +1,221 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0120",
+      "kind": "threat actor",
+      "gloss": "A threat group tracked by CERT-UA associated with malicious email campaigns distributing AgentTesla."
+    },
+    {
+      "name": "AgentTesla",
+      "kind": "malware family",
+      "gloss": "A widely used .NET-based information stealer and keylogger malware."
+    },
+    {
+      "name": "PowerShell",
+      "kind": "software tool",
+      "gloss": "A task automation and configuration management framework developed by Microsoft."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Австрія",
+      "kind": "country",
+      "gloss": "A country in Central Europe."
+    },
+    {
+      "name": "Німеччина",
+      "kind": "country",
+      "gloss": "A country in Central Europe."
+    },
+    {
+      "name": "Технічне креслення.img",
+      "kind": "file name",
+      "gloss": "A malicious disk image file used as an email attachment."
+    },
+    {
+      "name": "Technisches Zeichnen.img",
+      "kind": "file name",
+      "gloss": "A malicious disk image file containing a compiled HTML help file."
+    },
+    {
+      "name": "Dessin technique.img",
+      "kind": "file name",
+      "gloss": "A malicious disk image file used in phishing campaigns."
+    },
+    {
+      "name": "Technisches Zeichnen.chm",
+      "kind": "file name",
+      "gloss": "A malicious Compiled HTML Help file containing JavaScript code."
+    },
+    {
+      "name": "gtrhgfh.htm",
+      "kind": "file name",
+      "gloss": "A malicious HTML file component extracted during infection."
+    },
+    {
+      "name": "j1fgh00.htm",
+      "kind": "file name",
+      "gloss": "A malicious HTML file component extracted during infection."
+    },
+    {
+      "name": "node.txt",
+      "kind": "file name",
+      "gloss": "A downloaded payload file containing PowerShell script to unpack further stages."
+    },
+    {
+      "name": "y74gh00rffd.dll",
+      "kind": "file name",
+      "gloss": "A malicious injector dynamic-link library."
+    },
+    {
+      "name": "RegAsm.exe",
+      "kind": "file name",
+      "gloss": "An executable payload file executing AgentTesla."
+    },
+    {
+      "name": "academiadutygroup.com.br",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host malicious payload stages."
+    },
+    {
+      "name": "sackmeister.de",
+      "kind": "internet domain",
+      "gloss": "An internet domain used to host malicious payload files."
+    },
+    {
+      "name": "ssttekstil.com",
+      "kind": "internet domain",
+      "gloss": "An internet domain identified in malicious infrastructure."
+    },
+    {
+      "name": "ftp.ssttekstil.com",
+      "kind": "internet domain",
+      "gloss": "An FTP server domain identified as malicious infrastructure."
+    },
+    {
+      "name": "eric.fehling@t-online.de",
+      "kind": "email address",
+      "gloss": "An email address observed in the malicious campaign."
+    },
+    {
+      "name": "bondar_mob@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address observed in the malicious campaign."
+    },
+    {
+      "name": "bonitet_ltd@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address observed in the malicious campaign."
+    },
+    {
+      "name": "adv.rsnord@westafrance.com",
+      "kind": "email address",
+      "gloss": "An email address observed in the malicious campaign."
+    },
+    {
+      "name": "a.bindhammer@aon.at",
+      "kind": "email address",
+      "gloss": "An email address observed in the malicious campaign."
+    },
+    {
+      "name": "a.ehrnhofer@aon.at",
+      "kind": "email address",
+      "gloss": "An email address observed in the malicious campaign."
+    },
+    {
+      "name": "a.bernsteiner@aon.at",
+      "kind": "email address",
+      "gloss": "An email address observed in the malicious campaign."
+    },
+    {
+      "name": "pro@ssttekstil.com",
+      "kind": "email address",
+      "gloss": "An email address observed in the malicious campaign."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0120",
+      "type": "targets-organizations-in",
+      "tail": "Україна",
+      "evidence": "масові розсилки електронних листів... серед українських, австрійських та німецьких організацій"
+    },
+    {
+      "head": "UAC-0120",
+      "type": "targets-organizations-in",
+      "tail": "Австрія",
+      "evidence": "розсилки електронних листів... серед українських, австрійських та німецьких організацій"
+    },
+    {
+      "head": "UAC-0120",
+      "type": "targets-organizations-in",
+      "tail": "Німеччина",
+      "evidence": "розсилки електронних листів... серед українських, австрійських та німецьких організацій"
+    },
+    {
+      "head": "UAC-0120",
+      "type": "distributes",
+      "tail": "AgentTesla",
+      "evidence": "Файл EXE є шкідливою програмою AgentTesla. Активність тимчасово відстежується за ідентифікатором UAC-0120."
+    },
+    {
+      "head": "Technisches Zeichnen.chm",
+      "type": "executes-via",
+      "tail": "PowerShell",
+      "evidence": "забезпечить завантаження та виконання файлу node.txt за допомогою PowerShell"
+    },
+    {
+      "head": "node.txt",
+      "type": "drops-and-executes",
+      "tail": "y74gh00rffd.dll",
+      "evidence": "здійснить декодування, декомпресію (Gzip) і виконання DLL та EXE файлів"
+    },
+    {
+      "head": "node.txt",
+      "type": "drops-and-executes",
+      "tail": "RegAsm.exe",
+      "evidence": "здійснить декодування, декомпресію (Gzip) і виконання DLL та EXE файлів"
+    },
+    {
+      "head": "RegAsm.exe",
+      "type": "executes-malware",
+      "tail": "AgentTesla",
+      "evidence": "RegAsm.exe (AgentTesla)"
+    },
+    {
+      "head": "sackmeister.de",
+      "type": "hosts-file",
+      "tail": "node.txt",
+      "evidence": "https://sackmeister[.]de/node.txt"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "targets-organizations-in",
+      "definition": "The threat actor directs attacks against organizations located in a specific country."
+    },
+    {
+      "name": "distributes",
+      "definition": "The threat actor or campaign disseminates a specific malware family."
+    },
+    {
+      "name": "executes-via",
+      "definition": "A file or process executes malicious payload using a specified software tool or interpreter."
+    },
+    {
+      "name": "drops-and-executes",
+      "definition": "A script or process decodes, unpacks, or drops and then executes a specific file."
+    },
+    {
+      "name": "executes-malware",
+      "definition": "An executable file runs or contains a specific malware family."
+    },
+    {
+      "name": "hosts-file",
+      "definition": "A domain or server hosts a specific file."
+    }
+  ]
+}

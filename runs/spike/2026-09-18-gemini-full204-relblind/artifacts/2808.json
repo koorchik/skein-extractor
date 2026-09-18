@@ -1,0 +1,66 @@
+{
+  "docId": 2808,
+  "date": "07.08.2018",
+  "title": "Як убезпечитися від фішингового сайта?",
+  "entities": [
+    {
+      "id": "2808:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe.",
+      "scheme": "S6",
+      "category": "Country",
+      "role": null
+    },
+    {
+      "id": "2808:1",
+      "name": "Єдиний державний реєстр декларацій осіб, уповноважених на виконання функцій держави або місцевого самоврядування",
+      "kind": "state register",
+      "gloss": "A Ukrainian state electronic register used by public officials for asset declaration.",
+      "scheme": null,
+      "category": "Infrastructure",
+      "role": "target"
+    },
+    {
+      "id": "2808:2",
+      "name": "portal.nazk.gov.ua",
+      "kind": "internet domain",
+      "gloss": "The official web portal address for the Ukrainian asset declaration system.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "related"
+    },
+    {
+      "id": "2808:3",
+      "name": "portal.nazk.org.ua",
+      "kind": "internet domain",
+      "gloss": "A phishing domain spoofing the official Ukrainian asset declaration portal.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": "attacker"
+    }
+  ],
+  "relations": [
+    {
+      "head": "portal.nazk.gov.ua",
+      "type": "official-domain-of",
+      "tail": "Єдиний державний реєстр декларацій осіб, уповноважених на виконання функцій держави або місцевого самоврядування",
+      "evidence": "єдиною офіційною адресою Реєстру в мережі Інтернет є portal.nazk.gov.ua"
+    },
+    {
+      "head": "portal.nazk.org.ua",
+      "type": "spoofs",
+      "tail": "portal.nazk.gov.ua",
+      "evidence": "СПРАВЖНЯ: portal.nazk.gov.ua Фішингова: portal.nazk.org.ua"
+    },
+    {
+      "head": "portal.nazk.org.ua",
+      "type": "impersonates",
+      "tail": "Єдиний державний реєстр декларацій осіб, уповноважених на виконання функцій держави або місцевого самоврядування",
+      "evidence": "було розміщено фішинговий ресурс Єдиного державного реєстру декларацій"
+    }
+  ],
+  "unclassified": [
+    "2808:1"
+  ]
+}

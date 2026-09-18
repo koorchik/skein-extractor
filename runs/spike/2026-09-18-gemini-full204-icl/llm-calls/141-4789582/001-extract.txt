@@ -1,0 +1,241 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+- Country: A distinct territorial body or sovereign state with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Government Organization: An official agency, ministry, or administrative body operating as part of a national or state government. (also: Government Agency, Government Body, State Authority)
+- Malware: Malicious software, code, or executables designed to infiltrate, damage, or compromise computer systems and data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address specifying the location and retrieval mechanism of a resource on a computer network. (also: URL, Web Address, Web Link)
+- Person: An individual human being, such as a government official, cybersecurity expert, researcher, or executive. (also: Individual, Natural Person)
+- IP Address: A numerical label assigned to a device connected to a computer network that uses the Internet Protocol for communication. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Electronic Mail Address)
+- Computer File: A digital resource or named item stored on a computer system, containing data, code, or instructions. (also: File, Digital File, Filename)
+- Company: A commercial business, corporation, or enterprise operating in any economic sector or industry. (also: Enterprise, Corporation, Commercial Organization)
+- Domain Name: A human-readable identification string defining a realm of administrative autonomy or resource location within the Internet Domain Name System. (also: Internet Domain, FQDN, Fully Qualified Domain Name)
+- Threat Actor: An individual, group, or organization responsible for malicious cyber activities, attacks, or cyber espionage operations. (also: Threat Group, Cyber Threat Actor, Hacker Group)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA від учасників інформаційного обміну отримано інформацію щодо фактів розповсюдження SMS-повідомлень з використанням підробного альфа-імені "SUDpovistka" (легітимне альфа-ім'я: "SUDPOVISTKA").</p><p>Згадані повідомлення містять посилання, створене за допомогою одного з сервісів скорочення URL-адрес (bit.ly), відвідування якого здійснить перенаправлення на шахрайський вебсайт, що імітує вебсторінку підсистеми "Електронний суд" Єдиної судової інформаційно-телекомунікаційної системи (ЄСІТС, https://id.court.gov.ua/).</p><p>Задум зловмисників полягає в спонуканні користувача, під виглядом авторизації в системі, ввести номер мобільного телефону, після чого в додаток Telegram надійде код для автентифікації. У випадку введення на шахрайському вебресурсі отриманого коду, за умови відсутності додатково налаштованої двофакторної автентифікації, третіми особами буде отримано доступ до облікового запису Telegram жертви.</p><p>Наголошуємо на необхідності використання двохфакторної автентифікації на всіх без виключення пристроях та сервісах. Принагідно звертаємо увагу на доцільність перевірки активних сесій в Telegram ("Налаштування" &gt; "Пристрої").</p><p>CERT-UA, ураховуючи технічні особливості підробних вебресурсів, додатково вжито заходів з ідентифікації інших вебсайтів (не пов'язаних з описаним фактом розсилання SMS-повідомлень), що імітують сторінки для автентифікації за допомогою Telegram.</p><p>З метою мінімізації вірогідності реалізації кіберзагроз у відношенні громадян України із залученням функціонуючої інфраструктури шахраїв, перелік ідентифікованих підробних вебресурсів передано фахівцям CSIRT-NBU.</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">hxxps://bit[.]ly/3otvelp
+hxxps://sec-t[.]info/7940d162-fe1a-11ed-8e70-f12c9b23118a
+sec-t[.]info (@namecheap.com; 2023-02-24)
+5[.]255.112.246 (@liteserver.nl; NL)
+
+80[.]78.24.83 (@cyberdyne.is; SE)
+185[.]193.125.144 (@njalla.net; SE)
+185[.]193.127.152 (@njalla.net; SE)
+2a0a:3840:1337:125:0:b9c1:7d42:1337
+2a0a:3840:1337:125:0:b9c1:7d90:1337
+2a0a:3840:8078:24:0:504e:1853:1337
+telegram.org-a0dk3dm91iu.tgeo[.]link
+telegram.org-a0dm91dk31i.cloue[.]link
+telegram.org.t.me-cloud[.]link
+telegram.account[.]associates
+tgeo[.]link (@tucows.com; 2023-04-18)
+me-cloud[.]link (@tucows.com; 2023-05-23)
+account[.]associates (@tucows.com; 2023-05-03)
+cloue[.]link (@tucows.com; 2023-04-18)
+
+4-t[.]me (2023-01-01)
+i1t[.]me (2023-01-01)
+t--t[.]me (2023-01-01)
+0-t[.]me (2023-01-02)
+7tt[.]me (2023-01-02)
+vljsport[.]eu[.]com (2023-01-05)
+pomoshnikrbx[.]site (2023-01-08)
+telegrad[.]info (2023-01-09)
+chimeramarket24[.]online (2023-01-11)
+chimeramarketplace24[.]online (2023-01-11)
+chimeramarketplace[.]online (2023-01-11)
+chimera-shop24[.]online (2023-01-11)
+elyslink[.]online (2023-01-13)
+tg[.]cyou (2023-01-16)
+telegraom[.]me (2023-01-17)
+tme-id[.]ru (2023-01-22)
+tme-id[.]com (2023-02-02)
+apitelegram[.]org (2023-02-04)
+tronogram[.]com (2023-02-06)
+jokoloret[.]ru (2023-02-20)
+sec-t[.]info (2023-02-24)
+teleqram[.]info (2023-03-06)
+cloudlnk[.]org (2023-03-10)
+lolifans[.]ru (2023-03-14)
+00-l[.]ru (2023-03-16)
+swinj[.]online (2023-03-18)
+claud[.]in (2023-03-20)
+tsecurity[.]sbs (2023-03-25)
+vote-me[.]top (2023-03-25)
+konkurs-events[.]top (2023-04-06)
+freeusadatingxxx[.]online (2023-04-15)
+webk-telegram[.]icu (2023-04-15)
+webk-telegram[.]sbs (2023-04-15)
+golos2023q[.]ru (2023-04-17)
+tgeo[.]link (2023-04-18)
+telegram-click[.]ru (2023-04-20)
+confirm-agent[.]online (2023-04-22)
+microjob[.]mn (2023-04-27)
+teierqam[.]org (2023-05-03)
+telegram-mobile[.]ru (2023-05-03)
+telegram-wed[.]id (2023-05-03)
+tg-me[.]pro (2023-05-10)
+telegram-wap[.]me (2023-05-13)
+telesecurity[.]org (2023-05-17)
+truffa[.]online (2023-05-19)
+t-me[.]io (2023-05-20)
+golosdruga[.]ru (2023-05-21)
+webz-telegram[.]sbs (2023-05-21)
+telegram[.]uk[.]net (2023-05-13; inactive)
+teiegram1[.]me (2023-01-11; inactive)
+teiergam[.]com (2023-01-30; inactive)
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p></p><p>Рис. 1 Приклад офіційного вебресурсу підсистеми "Електронний суд", а також шахрайського SMS-повідомлення та підробної вебсторінки</p>
+
+=== RESPONSE (7.2s, in 3757 / out 1094 tok, STOP) ===
+The incident involves a phishing campaign targeting Ukrainian citizens by sending fake SMS messages under the sender name "SUDpovistka" containing shortened bit.ly links that redirect victims to phishing pages mimicking the "Electronic Court" (Електронний суд) subsystem of the Unified Information and Telecommunication System (ЄСІТС). The objective is to harvest authentication codes and hijack Telegram accounts.
+
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "Country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "Електронний суд",
+      "kind": "Software Product",
+      "gloss": "A Ukrainian judicial electronic subsystem used for exchanging procedural documents and information."
+    },
+    {
+      "name": "ЄСІТС",
+      "kind": "Software Product",
+      "gloss": "The Unified Information and Telecommunication System of the judiciary in Ukraine."
+    },
+    {
+      "name": "Telegram",
+      "kind": "Software Product",
+      "gloss": "A globally accessible cloud-based instant messaging and voice over IP service."
+    },
+    {
+      "name": "CSIRT-NBU",
+      "kind": "Government Organization",
+      "gloss": "The Computer Security Incident Response Team of the National Bank of Ukraine."
+    },
+    {
+      "name": "https://id.court.gov.ua/",
+      "kind": "Uniform Resource Locator",
+      "gloss": "The official authentication portal URL for the Ukrainian Electronic Court subsystem."
+    },
+    {
+      "name": "hxxps://bit[.]ly/3otvelp",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A shortened URL distributed via fraudulent SMS messages redirecting to a phishing site."
+    },
+    {
+      "name": "hxxps://sec-t[.]info/7940d162-fe1a-11ed-8e70-f12c9b23118a",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A phishing URL mimicking the Ukrainian Electronic Court login page to harvest Telegram credentials."
+    },
+    {
+      "name": "sec-t[.]info",
+      "kind": "Domain Name",
+      "gloss": "A domain name used to host phishing pages impersonating judicial authentication services."
+    },
+    {
+      "name": "5[.]255.112.246",
+      "kind": "IP Address",
+      "gloss": "An IP address associated with the infrastructure hosting fraudulent websites."
+    },
+    {
+      "name": "80[.]78.24.83",
+      "kind": "IP Address",
+      "gloss": "An IP address associated with phishing infrastructure impersonating Telegram authentication."
+    },
+    {
+      "name": "185[.]193.125.144",
+      "kind": "IP Address",
+      "gloss": "An IP address linked to phishing infrastructure."
+    },
+    {
+      "name": "185[.]193.127.152",
+      "kind": "IP Address",
+      "gloss": "An IP address linked to phishing infrastructure."
+    },
+    {
+      "name": "tgeo[.]link",
+      "kind": "Domain Name",
+      "gloss": "A domain name registered and used in phishing campaigns targeting Telegram users."
+    },
+    {
+      "name": "cloue[.]link",
+      "kind": "Domain Name",
+      "gloss": "A domain name used in phishing campaigns targeting Telegram users."
+    },
+    {
+      "name": "me-cloud[.]link",
+      "kind": "Domain Name",
+      "gloss": "A domain name used in phishing campaigns targeting Telegram users."
+    },
+    {
+      "name": "account[.]associates",
+      "kind": "Domain Name",
+      "gloss": "A domain name used in phishing campaigns targeting Telegram users."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Електронний суд",
+      "type": "part-of",
+      "tail": "ЄСІТС",
+      "evidence": "підсистеми \"Електронний суд\" Єдиної судової інформаційно-телекомунікаційної системи"
+    },
+    {
+      "head": "CSIRT-NBU",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "перелік ідентифікованих підробних вебресурсів передано фахівцям CSIRT-NBU"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,194 @@
+{
+  "entities": [
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "PicassoLoader",
+      "kind": "malware family",
+      "gloss": "A malware loader designed to decrypt and execute secondary payloads."
+    },
+    {
+      "name": "Avast",
+      "kind": "software product",
+      "gloss": "A cybersecurity and antivirus software product family."
+    },
+    {
+      "name": "FireEye",
+      "kind": "software product",
+      "gloss": "An enterprise cybersecurity and threat detection product family."
+    },
+    {
+      "name": "Fortinet",
+      "kind": "software product",
+      "gloss": "A family of network security and cybersecurity solutions."
+    },
+    {
+      "name": "njRAT",
+      "kind": "malware family",
+      "gloss": "A remote access trojan providing backdoor access and remote control capabilities."
+    },
+    {
+      "name": "UAC-0057",
+      "kind": "threat actor",
+      "gloss": "A threat group tracking identifier associated with UNC1151 and GhostWriter activities."
+    },
+    {
+      "name": "GhostWriter",
+      "kind": "cyber campaign",
+      "gloss": "An information operation and cyber campaign attributed to UNC1151."
+    },
+    {
+      "name": "UNC1151",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage group often associated with Belarusian state interests."
+    },
+    {
+      "name": "Mandiant",
+      "kind": "cybersecurity company",
+      "gloss": "An American cybersecurity and threat intelligence firm."
+    },
+    {
+      "name": "PerekazF173_04072023.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious XLS document containing macros to deploy PicassoLoader."
+    },
+    {
+      "name": "Rahunok_05072023.xls",
+      "kind": "malicious file",
+      "gloss": "A malicious XLS document containing macros designed to execute PicassoLoader."
+    },
+    {
+      "name": "gk40jklkgt3w094gh.dll",
+      "kind": "malicious file",
+      "gloss": "A DLL file corresponding to the PicassoLoader malware."
+    },
+    {
+      "name": "Carpet_Shop_3b09adf.jpg",
+      "kind": "malicious file",
+      "gloss": "A file hosted on external infrastructure containing an encrypted payload."
+    },
+    {
+      "name": "Carpet_Shop_3b09adf.exe",
+      "kind": "malicious file",
+      "gloss": "An executable payload corresponding to njRAT."
+    },
+    {
+      "name": "PerekazF173_04072023.zip",
+      "kind": "malicious file",
+      "gloss": "A ZIP archive containing a malicious spreadsheet lure."
+    },
+    {
+      "name": "04072023_2.jpg",
+      "kind": "malicious file",
+      "gloss": "An image or decoy file related to the incident."
+    },
+    {
+      "name": "04072023_1.jpg",
+      "kind": "malicious file",
+      "gloss": "An image or decoy file related to the incident."
+    },
+    {
+      "name": "Rahunok_05072023 (1).zip",
+      "kind": "malicious file",
+      "gloss": "A ZIP archive containing malicious files associated with the attack."
+    },
+    {
+      "name": "Rahunok_05072023.zip",
+      "kind": "malicious file",
+      "gloss": "A ZIP archive used to distribute malicious spreadsheets."
+    },
+    {
+      "name": "Pidtvird.JPG",
+      "kind": "malicious file",
+      "gloss": "An image or decoy file used in the phishing campaign."
+    },
+    {
+      "name": "sgsdgkjsgkljsegseuigh38g.dll",
+      "kind": "malicious file",
+      "gloss": "A DLL file representing a sample of PicassoLoader."
+    },
+    {
+      "name": "carpetmarker[.]pw",
+      "kind": "hostname",
+      "gloss": "A malicious domain used to distribute encrypted malware payloads."
+    },
+    {
+      "name": "everything-everywhere.at.ply[.]gg",
+      "kind": "hostname",
+      "gloss": "A network host used for command and control or data relay."
+    }
+  ],
+  "relations": [
+    {
+      "head": "PerekazF173_04072023.xls",
+      "type": "executes",
+      "tail": "PicassoLoader",
+      "evidence": "PerekazF173_04072023.xls... запуск шкідливої програми PicassoLoader"
+    },
+    {
+      "head": "Rahunok_05072023.xls",
+      "type": "executes",
+      "tail": "PicassoLoader",
+      "evidence": "Rahunok_05072023.xls... запуск шкідливої програми PicassoLoader"
+    },
+    {
+      "head": "PicassoLoader",
+      "type": "downloads-and-executes",
+      "tail": "njRAT",
+      "evidence": "PicassoLoader забезпечував завантаження, дешифрування (AES) та запуск шкідливої програми njRAT"
+    },
+    {
+      "head": "UAC-0057",
+      "type": "operates",
+      "tail": "PicassoLoader",
+      "evidence": "Активність здійснюється угрупуванням UAC-0057."
+    },
+    {
+      "head": "UNC1151",
+      "type": "conducted",
+      "tail": "GhostWriter",
+      "evidence": "GhostWriter є назвою інформаційної операції, що була проведена угрупуванням UNC1151"
+    },
+    {
+      "head": "Mandiant",
+      "type": "reported-on",
+      "tail": "GhostWriter",
+      "evidence": "про яку публічно інформувала компанія Mandiant у 2020 році"
+    },
+    {
+      "head": "carpetmarker[.]pw",
+      "type": "hosts-payload",
+      "tail": "Carpet_Shop_3b09adf.jpg",
+      "evidence": "hXXps://carpetmarker[.]pw/images/carpet_shop_3b09adf.jpg"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "executes",
+      "definition": "The head entity decodes, extracts, or launches the tail entity."
+    },
+    {
+      "name": "downloads-and-executes",
+      "definition": "The head entity retrieves and initiates execution of the tail malware."
+    },
+    {
+      "name": "operates",
+      "definition": "The threat group uses or deploys the specified software or campaign."
+    },
+    {
+      "name": "conducted",
+      "definition": "The threat actor carried out the specified campaign or operation."
+    },
+    {
+      "name": "reported-on",
+      "definition": "The entity publicly disclosed or published research regarding the specified activity."
+    },
+    {
+      "name": "hosts-payload",
+      "definition": "The network host or domain serves the specified malicious file."
+    }
+  ]
+}

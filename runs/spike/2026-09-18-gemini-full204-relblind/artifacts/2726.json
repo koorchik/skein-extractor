@@ -1,0 +1,160 @@
+{
+  "docId": 2726,
+  "date": "22.03.2018",
+  "title": "Поширення банківського трояна Ursnif",
+  "entities": [
+    {
+      "id": "2726:0",
+      "name": "anketa_21_3_2018 (4).zip",
+      "kind": "malicious archive file",
+      "gloss": "A malicious ZIP archive distributed as an email attachment containing a malicious JavaScript script.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "2726:1",
+      "name": "anketa_21_3_2018 (4).js",
+      "kind": "malicious script file",
+      "gloss": "An obfuscated malicious JavaScript file designed to download and drop executable malware.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2726:2",
+      "name": "documents (5).zip",
+      "kind": "malicious archive file",
+      "gloss": "A malicious ZIP archive distributed in phishing emails containing a malicious JavaScript dropper.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "2726:3",
+      "name": "documents (5).js",
+      "kind": "malicious script file",
+      "gloss": "An obfuscated malicious JavaScript file used to download and execute secondary malware payloads.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2726:4",
+      "name": "ADODB.Stream",
+      "kind": "software component",
+      "gloss": "A COM object in Microsoft Windows used for reading and writing binary data streams.",
+      "scheme": "S17",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2726:5",
+      "name": "hxxp://chernilis.win/filename94.bin?ff1",
+      "kind": "url",
+      "gloss": "A malicious URL hosting a binary payload downloaded by the dropper script.",
+      "scheme": "S5",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "2726:6",
+      "name": "62ea.exe",
+      "kind": "malicious executable file",
+      "gloss": "A malicious Windows executable file dropped into the user Temp directory containing the Ursnif banking Trojan.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2726:7",
+      "name": "Ursnif",
+      "kind": "malware family",
+      "gloss": "A banking Trojan and data-theft malware family also known as Gozi.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2726:8",
+      "name": "explorer.exe",
+      "kind": "system executable file",
+      "gloss": "The core Windows shell executable file frequently targeted for process injection by malware.",
+      "scheme": "S12",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2726:9",
+      "name": "35.189.126.95",
+      "kind": "ip address",
+      "gloss": "An IP address acting as command and control infrastructure for the Ursnif Trojan.",
+      "scheme": "S13",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "2726:10",
+      "name": "119.28.108.16",
+      "kind": "ip address",
+      "gloss": "An IP address contacted by the Ursnif malware for command and control communication.",
+      "scheme": "S13",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "2726:11",
+      "name": "86.59.21.38",
+      "kind": "ip address",
+      "gloss": "An IP address used for network communications by the Ursnif malware.",
+      "scheme": "S13",
+      "category": null,
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "anketa_21_3_2018 (4).zip",
+      "type": "contains-file",
+      "tail": "anketa_21_3_2018 (4).js",
+      "evidence": "У вкладеному архіві anketa_21_3_2018 (4).zip міститься шкідливий Javascript: anketa_21_3_2018 (4).js"
+    },
+    {
+      "head": "documents (5).zip",
+      "type": "contains-file",
+      "tail": "documents (5).js",
+      "evidence": "вкладених в архів documents (5).zip з назвою шкідливого Javascipt documents (5).js"
+    },
+    {
+      "head": "62ea.exe",
+      "type": "is-instance-of",
+      "tail": "Ursnif",
+      "evidence": "Даний вірус є Ursnif(або Gozi)"
+    },
+    {
+      "head": "Ursnif",
+      "type": "injects-into-process",
+      "tail": "explorer.exe",
+      "evidence": "інфікує процес explorer.exe"
+    },
+    {
+      "head": "Ursnif",
+      "type": "communicates-with-c2",
+      "tail": "35.189.126.95",
+      "evidence": "вірус з’єднується з адресами 35.189.126.95"
+    },
+    {
+      "head": "Ursnif",
+      "type": "communicates-with-c2",
+      "tail": "119.28.108.16",
+      "evidence": "вірус з’єднується з адресами 35.189.126.95, 119.28.108.16"
+    },
+    {
+      "head": "Ursnif",
+      "type": "communicates-with-c2",
+      "tail": "86.59.21.38",
+      "evidence": "вірус з’єднується з адресами 35.189.126.95, 119.28.108.16, 86.59.21.38"
+    }
+  ],
+  "unclassified": []
+}

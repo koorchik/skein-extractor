@@ -1,0 +1,86 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign state in Eastern Europe."
+    },
+    {
+      "name": "RemcosRAT",
+      "kind": "malware family",
+      "gloss": "A commercial remote access trojan frequently abused by threat actors for unauthorized surveillance and control."
+    },
+    {
+      "name": "SmartAssembly",
+      "kind": "software product",
+      "gloss": "An obfuscator and build-time protection tool for .NET applications."
+    },
+    {
+      "name": "Господарський суд Одеської області Повістка до суду.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive distributed as an email attachment containing a nested password-protected archive."
+    },
+    {
+      "name": "Повістка до суду.rar",
+      "kind": "file",
+      "gloss": "A password-protected RAR archive containing a malicious Word document with macros."
+    },
+    {
+      "name": "Повістка до суду.doc",
+      "kind": "file",
+      "gloss": "A malicious Microsoft Word document with macros designed to download secondary payloads over SMB."
+    },
+    {
+      "name": "scandoc.exe",
+      "kind": "file",
+      "gloss": "An obfuscated .NET executable loader that decrypts and executes the RemcosRAT payload."
+    },
+    {
+      "name": "remcos.exe",
+      "kind": "file",
+      "gloss": "An executable payload file containing the RemcosRAT malware."
+    },
+    {
+      "name": "Персональний код доступу-8161.txt",
+      "kind": "file",
+      "gloss": "A text file associated with the malicious campaign containing an access code."
+    },
+    {
+      "name": "89.23.98.22",
+      "kind": "ip address",
+      "gloss": "An IP address hosting an SMB share used to distribute the scandoc.exe malware loader."
+    },
+    {
+      "name": "SmartApe LLC",
+      "kind": "company",
+      "gloss": "A hosting and infrastructure service provider."
+    }
+  ],
+  "relations": [
+    {
+      "head": "89.23.98.22",
+      "type": "hosts",
+      "tail": "scandoc.exe",
+      "evidence": "\\\\89[.]23.98.22\\LN\\scandoc[.]exe"
+    },
+    {
+      "head": "Повістка до суду.doc",
+      "type": "delivers",
+      "tail": "scandoc.exe",
+      "evidence": "код макросу... здійснить завантаження на ЕОМ та запуск файлу \"scandoc.exe\""
+    },
+    {
+      "head": "scandoc.exe",
+      "type": "delivers",
+      "tail": "RemcosRAT",
+      "evidence": "призначенням якої є дешифрування та запуск програми для віддаленого управління RemcosRAT"
+    },
+    {
+      "head": "89.23.98.22",
+      "type": "part-of",
+      "tail": "SmartApe LLC",
+      "evidence": "89[.]23.98.22 (AS56694; @smartape.ru; SmartApe LLC)"
+    }
+  ],
+  "newRelationTypes": []
+}

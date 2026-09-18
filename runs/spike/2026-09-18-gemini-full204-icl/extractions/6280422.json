@@ -1,0 +1,112 @@
+{
+  "entities": [
+    {
+      "name": "spysok_kursk.zip",
+      "kind": "computer file",
+      "gloss": "A malicious ZIP archive distributed via phishing emails containing a weaponized CHM file."
+    },
+    {
+      "name": "список вп, що вибувають. курск.chm",
+      "kind": "computer file",
+      "gloss": "A malicious compiled HTML help file used to trigger script execution."
+    },
+    {
+      "name": "part.html",
+      "kind": "computer file",
+      "gloss": "An HTML file embedded within a CHM file containing malicious JavaScript code."
+    },
+    {
+      "name": "SPECTR",
+      "kind": "malware",
+      "gloss": "An information-stealing malware family capable of capturing documents, screenshots, and browser data."
+    },
+    {
+      "name": "FIRMACHAGENT",
+      "kind": "malware",
+      "gloss": "A malware program designed to exfiltrate stolen data to a command and control server."
+    },
+    {
+      "name": "chrome_updater.dll",
+      "kind": "computer file",
+      "gloss": "A DLL file implementing the FIRMACHAGENT malware payload."
+    },
+    {
+      "name": "IDCLIPNET_x86.dll",
+      "kind": "computer file",
+      "gloss": "A DLL file serving as an orchestrator module that manages SPECTR malware plugins."
+    },
+    {
+      "name": "stalenna2006@ukr.net",
+      "kind": "email address",
+      "gloss": "An email address used in connection with cyberattack operations."
+    },
+    {
+      "name": "171.22.120.50",
+      "kind": "ip address",
+      "gloss": "An IP address hosting malicious payload files."
+    },
+    {
+      "name": "91.225.219.185",
+      "kind": "ip address",
+      "gloss": "An IP address identified as part of the attack infrastructure."
+    },
+    {
+      "name": "prozorro.online",
+      "kind": "domain name",
+      "gloss": "A domain name used to distribute malicious archives and payloads."
+    },
+    {
+      "name": "ukraero.space",
+      "kind": "domain name",
+      "gloss": "A domain name utilized for payload delivery and data exfiltration jobs."
+    },
+    {
+      "name": "https://prozorro.online/data/spysok_kursk.zip",
+      "kind": "uniform resource locator",
+      "gloss": "A URL hosting the malicious spysok_kursk.zip archive."
+    },
+    {
+      "name": "https://ukraero.space/jobs/download",
+      "kind": "uniform resource locator",
+      "gloss": "A URL endpoint used by malware to download tasks or components."
+    },
+    {
+      "name": "https://ukraero.space/jobs/upload",
+      "kind": "uniform resource locator",
+      "gloss": "A URL endpoint used by malware to upload stolen information."
+    }
+  ],
+  "relations": [
+    {
+      "head": "spysok_kursk.zip",
+      "type": "delivers",
+      "tail": "список вп, що вибувають. курск.chm",
+      "evidence": "архів містить CHM-файл \"список вп, що вибувають. курск.chm\""
+    },
+    {
+      "head": "список вп, що вибувають. курск.chm",
+      "type": "delivers",
+      "tail": "part.html",
+      "evidence": "в якому, серед іншого, знаходиться HTML-файл \"part.html\""
+    },
+    {
+      "head": "https://prozorro.online/data/spysok_kursk.zip",
+      "type": "delivers",
+      "tail": "spysok_kursk.zip",
+      "evidence": "https://prozorro.online/data/spysok_kursk.zip"
+    },
+    {
+      "head": "IDCLIPNET_x86.dll",
+      "type": "part-of",
+      "tail": "SPECTR",
+      "evidence": "оркестратору \"IDCLIPNET_x86.dll\" (управляє плагінами SPECTR)"
+    },
+    {
+      "head": "chrome_updater.dll",
+      "type": "part-of",
+      "tail": "FIRMACHAGENT",
+      "evidence": "нової програми FIRMACHAGENT (\"chrome_updater.dll\""
+    }
+  ],
+  "newRelationTypes": []
+}

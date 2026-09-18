@@ -1,0 +1,208 @@
+{
+  "docId": 3192088,
+  "date": "08.12.2022",
+  "title": "Кібератака на державні організації з використанням тематики іранських дронів-камікадзе Shahed-136 та шкідливої програми DolphinCape (CERT-UA#5683)",
+  "entities": [
+    {
+      "id": "3192088:0",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country located in Eastern Europe.",
+      "scheme": "S4",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "3192088:1",
+      "name": "АТ \"Укрзалізниця\"",
+      "kind": "company",
+      "gloss": "The state-owned joint-stock company operating the national railway system in Ukraine.",
+      "scheme": "S12",
+      "category": "Organization",
+      "role": "related"
+    },
+    {
+      "id": "3192088:2",
+      "name": "Державна служба України з надзвичайних ситуацій",
+      "kind": "government organization",
+      "gloss": "The central executive body of Ukraine responsible for civil defense, rescue operations, and fire safety.",
+      "scheme": "S5",
+      "category": "Government Body",
+      "role": "related"
+    },
+    {
+      "id": "3192088:3",
+      "name": "morgunov.a@dsns.com.ua",
+      "kind": "email address",
+      "gloss": "A spoofed email address used to distribute malicious emails.",
+      "scheme": "S10",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "3192088:4",
+      "name": "dsns.com.ua",
+      "kind": "domain name",
+      "gloss": "A typosquatted domain name registered to impersonate the State Emergency Service of Ukraine.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "3192088:5",
+      "name": "shahed-136.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive distributed as an email attachment containing a presentation document.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "3192088:6",
+      "name": "shahed.ppsx",
+      "kind": "computer file",
+      "gloss": "A malicious PowerPoint slide show file containing VBScript code.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "3192088:7",
+      "name": "SearchEmbdIndex.ps1",
+      "kind": "computer file",
+      "gloss": "A malicious PowerShell script executed to download secondary payload files.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "3192088:8",
+      "name": "CodeMeter.exe",
+      "kind": "computer file",
+      "gloss": "A legitimate executable file abused to execute malicious code via DLL side-loading.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "3192088:9",
+      "name": "WibuCm32.dll",
+      "kind": "computer file",
+      "gloss": "A malicious DLL file implementing the DolphinCape malware.",
+      "scheme": "S11",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "3192088:10",
+      "name": "DolphinCape",
+      "kind": "malware",
+      "gloss": "A Delphi-based backdoor malware capable of system reconnaissance, file execution, and screenshot exfiltration.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "3192088:11",
+      "name": "UAC-0140",
+      "kind": "threat actor",
+      "gloss": "A threat actor cluster tracked by CERT-UA associated with cyberattacks against Ukrainian organizations.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "3192088:12",
+      "name": "195.123.237.147",
+      "kind": "ip address",
+      "gloss": "An IP address used in the attack infrastructure for hosting or command-and-control operations.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "3192088:13",
+      "name": "202.157.187.190",
+      "kind": "ip address",
+      "gloss": "An IP address used as network infrastructure during the cyber attack.",
+      "scheme": "S9",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "3192088:14",
+      "name": "http://195.123.237.147/manifests/win/WIBU/Manifest?r=rev1&role=",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL used as network infrastructure for malware communication.",
+      "scheme": "S7",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "3192088:15",
+      "name": "http://202.157.187.190/cgi-bin/rarcheckcert.cgi/http/20221208011644645.stc",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL observed as network indicator of compromise.",
+      "scheme": "S7",
+      "category": null,
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "Державна служба України з надзвичайних ситуацій",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Державної служби України з надзвичайних ситуацій"
+    },
+    {
+      "head": "АТ \"Укрзалізниця\"",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "фахівців підрозділу кібербезпеки АТ \"Укрзалізниця\""
+    },
+    {
+      "head": "UAC-0140",
+      "type": "uses",
+      "tail": "DolphinCape",
+      "evidence": "Файл \"WibuCm32.dll\" класифіковано як шкідливу програму DolphinCape... Активність відстежується за ідентифікатором UAC-0140."
+    },
+    {
+      "head": "shahed-136.rar",
+      "type": "delivers",
+      "tail": "shahed.ppsx",
+      "evidence": "RAR-архів \"shahed-136.rar\", що містить PPSX-документ \"shahed.ppsx\""
+    },
+    {
+      "head": "shahed.ppsx",
+      "type": "delivers",
+      "tail": "SearchEmbdIndex.ps1",
+      "evidence": "shahed.ppsx\", який, у свою чергу, містить VBScript-код... та запуску PowerShell-скрипта"
+    },
+    {
+      "head": "SearchEmbdIndex.ps1",
+      "type": "delivers",
+      "tail": "WibuCm32.dll",
+      "evidence": "PowerShell-скрипт за допомогою командлету BitsTransfer... здійснить завантаження виконуваних файлів \"WibuCm32.dll\""
+    },
+    {
+      "head": "SearchEmbdIndex.ps1",
+      "type": "delivers",
+      "tail": "CodeMeter.exe",
+      "evidence": "PowerShell-скрипт за допомогою командлету BitsTransfer... здійснить завантаження виконуваних файлів \"WibuCm32.dll\", \"CodeMeter.exe\""
+    },
+    {
+      "head": "195.123.237.147",
+      "type": "hosts",
+      "tail": "http://195.123.237.147/manifests/win/WIBU/Manifest?r=rev1&role=",
+      "evidence": "hXXp://195[.]123.237.147/manifests/win/WIBU/Manifest?r=rev1&role="
+    },
+    {
+      "head": "202.157.187.190",
+      "type": "hosts",
+      "tail": "http://202.157.187.190/cgi-bin/rarcheckcert.cgi/http/20221208011644645.stc",
+      "evidence": "hXXp://202[.]157.187.190/cgi-bin/rarcheckcert[.]cgi/http/20221208011644645.stc"
+    }
+  ],
+  "unclassified": []
+}

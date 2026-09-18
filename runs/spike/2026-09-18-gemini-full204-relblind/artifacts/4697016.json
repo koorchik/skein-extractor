@@ -1,0 +1,345 @@
+{
+  "docId": 4697016,
+  "date": "22.05.2023",
+  "title": "Шпигунська активність UAC-0063 у відношенні України, Казахстану, Киргизстану, Монголії, Ізраїлю, Індії (CERT-UA#6549)",
+  "entities": [
+    {
+      "id": "4697016:0",
+      "name": "UAC-0063",
+      "kind": "threat actor",
+      "gloss": "A cyber espionage threat group active since at least 2021 targeting entities across Central Asia and Eastern Europe.",
+      "scheme": "S19",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "4697016:1",
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "4697016:2",
+      "name": "Таджикистан",
+      "kind": "country",
+      "gloss": "A landlocked country in Central Asia.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4697016:3",
+      "name": "Посольство Таджикистану в Україні",
+      "kind": "diplomatic mission",
+      "gloss": "The diplomatic mission of Tajikistan located in Ukraine.",
+      "scheme": null,
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "4697016:4",
+      "name": "Монголія",
+      "kind": "country",
+      "gloss": "A landlocked country in East Asia.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4697016:5",
+      "name": "Казахстан",
+      "kind": "country",
+      "gloss": "A transcontinental country in Central Asia and Eastern Europe.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4697016:6",
+      "name": "Киргизстан",
+      "kind": "country",
+      "gloss": "A landlocked country in Central Asia.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4697016:7",
+      "name": "Ізраїль",
+      "kind": "country",
+      "gloss": "A country in Western Asia.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4697016:8",
+      "name": "Індія",
+      "kind": "country",
+      "gloss": "A country in South Asia.",
+      "scheme": "S6",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4697016:9",
+      "name": "HATVIBE",
+      "kind": "malware family",
+      "gloss": "A malicious encoded VBScript downloader used to fetch and execute additional payloads.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "4697016:10",
+      "name": "LOGPIE",
+      "kind": "malware family",
+      "gloss": "A Python-based keylogger malware that records keystrokes and clipboard data to temporary files.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "4697016:11",
+      "name": "CHERRYSPY",
+      "kind": "malware family",
+      "gloss": "A Python-based backdoor malware capable of executing Python code received from a command-and-control server.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "4697016:12",
+      "name": "STILLARCH",
+      "kind": "malware family",
+      "gloss": "A malware family, also known as DOWNEX, used for searching and exfiltrating files of various extensions.",
+      "scheme": "S16",
+      "category": "Software",
+      "role": "attacker"
+    },
+    {
+      "id": "4697016:13",
+      "name": "PyArmor",
+      "kind": "software product",
+      "gloss": "A command-line tool used to obfuscate and protect Python scripts.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "4697016:14",
+      "name": "Themida",
+      "kind": "software product",
+      "gloss": "A commercial software protection system designed to protect Windows executable files from reverse engineering.",
+      "scheme": "S1",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "4697016:15",
+      "name": "SvcRestartTaskLogon",
+      "kind": "file",
+      "gloss": "A malicious Microsoft Word document containing a macro that generates additional payload stages.",
+      "scheme": "S12",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "4697016:16",
+      "name": "WsSwapAssessmentTask",
+      "kind": "file",
+      "gloss": "An intermediate file containing a macro designed to create and schedule the HATVIBE payload.",
+      "scheme": "S12",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "4697016:17",
+      "name": "SoftwareProtectionPlatform",
+      "kind": "file",
+      "gloss": "A malicious VBScript file representing the HATVIBE payload.",
+      "scheme": "S12",
+      "category": null,
+      "role": "related"
+    },
+    {
+      "id": "4697016:18",
+      "name": "slmgr.vbe",
+      "kind": "file",
+      "gloss": "A malicious encoded VBScript file related to the HATVIBE infection chain.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4697016:19",
+      "name": "WinTime.py",
+      "kind": "file",
+      "gloss": "A Python script implementing the LOGPIE keylogger functionality.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4697016:20",
+      "name": "help.py",
+      "kind": "file",
+      "gloss": "A Python script implementing the CHERRYSPY backdoor functionality.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4697016:21",
+      "name": "Diagsvc.exe",
+      "kind": "file",
+      "gloss": "An executable file identified as the STILLARCH malware.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4697016:22",
+      "name": "driver.vbs",
+      "kind": "file",
+      "gloss": "A malicious VBScript file associated with the threat campaign.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4697016:23",
+      "name": "diagnostic-resolver[.]com",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used for command-and-control communication.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4697016:24",
+      "name": "net-certificate[.]services",
+      "kind": "internet domain",
+      "gloss": "A malicious domain associated with the threat group's infrastructure.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4697016:25",
+      "name": "ms-webdav-miniredir[.]com",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used for command-and-control interactions and data exchange.",
+      "scheme": "S15",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "4697016:26",
+      "name": "206.166.251[.]216",
+      "kind": "ip address",
+      "gloss": "An IP address utilized in the attacker's network infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4697016:27",
+      "name": "84.32.188[.]123",
+      "kind": "ip address",
+      "gloss": "An IP address utilized in the attacker's network infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4697016:28",
+      "name": "185.203.117[.]6",
+      "kind": "ip address",
+      "gloss": "An IP address utilized in the attacker's network infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4697016:29",
+      "name": "79.124.60[.]180",
+      "kind": "ip address",
+      "gloss": "An IP address utilized in the attacker's network infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "4697016:30",
+      "name": "172.104.62[.]59",
+      "kind": "ip address",
+      "gloss": "An IP address utilized in the attacker's network infrastructure.",
+      "scheme": "S13",
+      "category": null,
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0063",
+      "type": "tracks-activity-using",
+      "tail": "Україна",
+      "evidence": "кібератаку в інформаційно-комунікаційній системі одного з державних органів України"
+    },
+    {
+      "head": "UAC-0063",
+      "type": "compromised",
+      "tail": "Посольство Таджикистану в Україні",
+      "evidence": "з офіційної поштової скриньки Посольства Таджикистану в Україні (вірогідно, в результаті компрометації"
+    },
+    {
+      "head": "SvcRestartTaskLogon",
+      "type": "drops-and-executes",
+      "tail": "WsSwapAssessmentTask",
+      "evidence": "SvcRestartTaskLogon, який також містить макрос, що забезпечить створення ще одного файлу з макросом WsSwapAssessmentTask"
+    },
+    {
+      "head": "WsSwapAssessmentTask",
+      "type": "drops-and-executes",
+      "tail": "SoftwareProtectionPlatform",
+      "evidence": "Призначенням останнього є створення файлу SoftwareProtectionPlatform, що класифіковано як HATVIBE"
+    },
+    {
+      "head": "HATVIBE",
+      "type": "drops-malware",
+      "tail": "LOGPIE",
+      "evidence": "вірогідно, за допомогою HATVIBE) на ЕОМ створено додаткові програми: кейлогер LOGPIE"
+    },
+    {
+      "head": "HATVIBE",
+      "type": "drops-malware",
+      "tail": "CHERRYSPY",
+      "evidence": "вірогідно, за допомогою HATVIBE) на ЕОМ створено додаткові програми: ... бекдор CHERRYSPY"
+    },
+    {
+      "head": "CHERRYSPY",
+      "type": "protected-by",
+      "tail": "PyArmor",
+      "evidence": "Згадані файли розроблено з використанням мови програмування Python та захищено за допомогою утиліти PyArmor"
+    },
+    {
+      "head": "LOGPIE",
+      "type": "protected-by",
+      "tail": "PyArmor",
+      "evidence": "Згадані файли розроблено з використанням мови програмування Python та захищено за допомогою утиліти PyArmor"
+    },
+    {
+      "head": "STILLARCH",
+      "type": "exfiltrates-data-from",
+      "tail": "LOGPIE",
+      "evidence": "для пошуку та ексфільтрації файлів, в тому числі результатів роботи кейлогеру LOGPIE"
+    }
+  ],
+  "unclassified": [
+    "4697016:3"
+  ]
+}

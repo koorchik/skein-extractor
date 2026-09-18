@@ -1,0 +1,148 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0133",
+      "kind": "threat actor cluster",
+      "gloss": "A threat actor cluster tracked by CERT-UA associated with cyberattacks on Ukrainian infrastructure."
+    },
+    {
+      "name": "UAC-0002",
+      "kind": "threat group",
+      "gloss": "A Russian state-sponsored cyber espionage and sabotage group also known as Sandworm, APT44, or Seashell Blizzard."
+    },
+    {
+      "name": "UAC-0212",
+      "kind": "threat actor cluster",
+      "gloss": "A sub-cluster of UAC-0002 targeting supply chain entities and critical infrastructure in Ukraine and Europe."
+    },
+    {
+      "name": "CVE-2024-38213",
+      "kind": "vulnerability identifier",
+      "gloss": "A security feature bypass vulnerability in Microsoft Windows SmartScreen."
+    },
+    {
+      "name": "SECONDBEST",
+      "kind": "malware family",
+      "gloss": "A malware tool used in cyberespionage campaigns associated with Sandworm."
+    },
+    {
+      "name": "EMPIREPAST",
+      "kind": "malware family",
+      "gloss": "A malicious payload family deployed by threat actors in cyber operations."
+    },
+    {
+      "name": "SPARK",
+      "kind": "malware family",
+      "gloss": "A malware tool utilized by threat actors for system compromise."
+    },
+    {
+      "name": "CROOKBAG",
+      "kind": "malware loader",
+      "gloss": "A loader malware written in GoLang used to stage additional malicious tools."
+    },
+    {
+      "name": "PEAKLIGHT",
+      "kind": "malware family",
+      "gloss": "A malware component deployed in cyberattack delivery chains."
+    },
+    {
+      "name": "RSYNC",
+      "kind": "software tool",
+      "gloss": "A file copying and synchronization tool abused by threat actors for data exfiltration."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A sovereign country located in Eastern Europe."
+    },
+    {
+      "name": "Сербії",
+      "kind": "country",
+      "gloss": "A landlocked sovereign state located at the crossroads of Central and Southeast Europe."
+    },
+    {
+      "name": "Чехії",
+      "kind": "country",
+      "gloss": "A landlocked country in Central Europe."
+    },
+    {
+      "name": "Microsoft",
+      "kind": "software vendor",
+      "gloss": "An American multinational technology corporation producing software, hardware, and cybersecurity solutions."
+    },
+    {
+      "name": "Strike Ready",
+      "kind": "cybersecurity company",
+      "gloss": "A cybersecurity company providing threat intelligence and security posture management."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0133",
+      "type": "attributed-to",
+      "tail": "UAC-0002",
+      "evidence": "UAC-0133, який з високим рівнем впевненості мав відношення до UAC-0002"
+    },
+    {
+      "head": "UAC-0212",
+      "type": "part-of",
+      "tail": "UAC-0002",
+      "evidence": "UAC-0212, який є субкластером UAC-0002"
+    },
+    {
+      "head": "UAC-0212",
+      "type": "exploits",
+      "tail": "CVE-2024-38213",
+      "evidence": "у поєднанні з експлуатацією вразливості CVE-2024-38213"
+    },
+    {
+      "head": "UAC-0212",
+      "type": "uses-malware",
+      "tail": "SECONDBEST",
+      "evidence": "використовувалися такі: SECONDBEST / EMPIREPAST, SPARK, CROOKBAG"
+    },
+    {
+      "head": "UAC-0212",
+      "type": "uses-malware",
+      "tail": "EMPIREPAST",
+      "evidence": "використовувалися такі: SECONDBEST / EMPIREPAST, SPARK, CROOKBAG"
+    },
+    {
+      "head": "UAC-0212",
+      "type": "uses-malware",
+      "tail": "SPARK",
+      "evidence": "використовувалися такі: SECONDBEST / EMPIREPAST, SPARK, CROOKBAG"
+    },
+    {
+      "head": "UAC-0212",
+      "type": "uses-malware",
+      "tail": "CROOKBAG",
+      "evidence": "використовувалися такі: SECONDBEST / EMPIREPAST, SPARK, CROOKBAG"
+    },
+    {
+      "head": "UAC-0212",
+      "type": "uses-malware",
+      "tail": "RSYNC",
+      "evidence": "з метою довготривалого викрадення документів, також було застосовано RSYNC"
+    },
+    {
+      "head": "UAC-0212",
+      "type": "attacks",
+      "tail": "України",
+      "evidence": "здійснено цільові атаки у відношенні підприємств-постачальників з Сербії, Чехії, України"
+    },
+    {
+      "head": "UAC-0212",
+      "type": "attacks",
+      "tail": "Сербії",
+      "evidence": "здійснено цільові атаки у відношенні підприємств-постачальників з Сербії, Чехії, України"
+    },
+    {
+      "head": "UAC-0212",
+      "type": "attacks",
+      "tail": "Чехії",
+      "evidence": "здійснено цільові атаки у відношенні підприємств-постачальників з Сербії, Чехії, України"
+    }
+  ],
+  "newRelationTypes": []
+}

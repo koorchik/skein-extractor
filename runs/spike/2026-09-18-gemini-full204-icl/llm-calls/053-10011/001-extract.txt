@@ -1,0 +1,179 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+- Country: A distinct territorial body or sovereign state with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Government Organization: An official agency, ministry, or administrative body operating as part of a national or state government. (also: Government Agency, Government Body, State Authority)
+- Malware: Malicious software, code, or executables designed to infiltrate, damage, or compromise computer systems and data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address specifying the location and retrieval mechanism of a resource on a computer network. (also: URL, Web Address, Web Link)
+- Person: An individual human being, such as a government official, cybersecurity expert, researcher, or executive. (also: Individual, Natural Person)
+- IP Address: A numerical label assigned to a device connected to a computer network that uses the Internet Protocol for communication. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Electronic Mail Address)
+- Computer File: A digital resource or named item stored on a computer system, containing data, code, or instructions. (also: File, Digital File, Filename)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p>Вночі 19.01.2021 відбулася масова розсилка фішингових електронних листів на державні установи України. Листи відправлялися, начебто, від імені Адміністрації Держспецзв’язку з поштової скриньки&nbsp;zapros@dsszzi.gov.ua&nbsp;та містили в собі вкладення зі шкідливим програмним забезпеченням&nbsp;(далі - ШПЗ). Варто зазначити, що поштової скриньки zapros@dsszzi.gov.ua в Держспецзв’язку не існує, як і «департаменту перевірок».&nbsp;</p><p></p><p class="ql-align-center">Мал 1. Зміст фішингового листа</p><p>Усі фішингові листи на різні державні установи відправлялися з однієї ІР-адреси 212.44.151.60, яка належить до пулу адрес провайдера "Vimpelcom" Російської Федерації.</p><p></p><p class="ql-align-center">Мал.2 Вихідний код фішингового листа</p><p></p><p class="ql-align-center">Мал.3 Інформація про ІР-адресу (whois)</p><p></p><p>Мал.4 Інформація про ІР-адресу (ripe)</p><p>Вкладення - це RAR-архів «Електронний запит.rar», в якому знаходиться запаролений архів «Електронний запит.rar» та текстовий файл з паролем до нього «2021». Запаролений архів містить файл «Електронний запит.exe», який є трояном для віддаленого доступу (RAT).</p><p>Мал.5 «Електронний запит.ехе»</p><p>В свою чергу «Електронний запит.ехе» містить в собі файли «installer.exe» та «host_news_mod_mod.msi». Файл «installer.exe» є старою версією легального програмного забезпечення для віддаленого доступу Remote Utilities (https://www.remoteutilities.com/&nbsp;або https://rmansys.ru/)&nbsp;(Мал.6, Мал.7, Мал.8, Мал.9).</p><p>Мал.6 «installer.exe»</p><p></p><p>Мал.7 «installer.exe» sig</p><p></p><p>Мал.8 «host_news_mod_mod.msi»</p><p></p><p>Мал.9 «host_news_mod_mod.msi» sig</p><p><strong>Зазначені файли на VirusTotal:</strong></p><p><a href="https://www.virustotal.com/gui/file/d9912f37e0b60988891550546dea6dc47fbfaffeaea8ce3de2cf68f15b8de986/detection" rel="noopener noreferrer" target="_blank">https://www.virustotal.com/gui/file/d9912f37e0b60988891550546dea6dc47fbfaffeaea8ce3de2cf68f15b8de986/detection</a></p><p>«installer.exe»</p><p><a href="https://www.virustotal.com/gui/file/99de2f7653107a227a79993aeb03b1bb443b66376c49ec590cf3a91d6cf184c8/detection" rel="noopener noreferrer" target="_blank">https://www.virustotal.com/gui/file/99de2f7653107a227a79993aeb03b1bb443b66376c49ec590cf3a91d6cf184c8/detection</a></p><p>«host_news_mod_mod.msi»</p><p><a href="https://www.virustotal.com/gui/file/723d75c50423cbeed8b0940f051484dd8eb90e56c2fdcd961aea593e8d132efc/detection" rel="noopener noreferrer" target="_blank">https://www.virustotal.com/gui/file/723d75c50423cbeed8b0940f051484dd8eb90e56c2fdcd961aea593e8d132efc/detection</a></p><p><strong>Аналіз отриманого ШПЗ</strong></p><p>Зазначене ШПЗ під час запуску розпаковується на дві складові, що відповідають за ініціалізацію програмного забезпечення RMS, зміни конфігурації системи та зв'язок з командно-контрольним сервером, якому передаються сформовані дані для віддаленого доступу. Одразу після ініціалізації виконуються команди, що видаляють індикатори компрометації з робочих директорій ШПЗ за допомогою файлу «killself.bat» (Мал.10).&nbsp;</p><p>Мал. 10 Видалення файлів</p><p>Під час ініціалізації ШПЗ відбувається реплікація його складових до директорії %TEMP%\7ZipSfx.000\. Після чого ініціюється інсталяція програмного забезпечення RMS, встановлюється його клієнт-серверна частина та починається запуск.&nbsp;</p><p>'C:\Program Files (x86)\Remote Utilities - Host\rutserv.exe' /silentinstall</p><p>'C:\Program Files (x86)\Remote Utilities - Host\rutserv.exe' /firewall</p><p>'C:\Program Files (x86)\Remote Utilities - Host\rutserv.exe' /start</p><p>C:\Program Files (x86)\Remote Utilities - Host\rutserv.exe</p><p>C:\Program Files (x86)\Remote Utilities - Host\rfusclient.exe</p><p>'C:\Program Files (x86)\Remote Utilities - Host\rfusclient.exe' /tray</p><p>В реєстрах створюються та модифікуються відповідні значення для інсталяції та деінсталяції ШПЗ і його компонент, отримання значень мережевих налаштувань, встановлення значень для віддаленого доступу та іншого (Мал. 11).</p><p></p><p></p><p>Мал.11 Зміни до ключів реєстру</p><p><span style="color: rgb(0, 0, 0); background-color: transparent;"></span></p><p>Мал.12 Дерево процесів</p><p>Після встановлення ШПЗ та модифікації записів в реєстрах встановлюється зв'язок з C2-сервером 185.161.208.186.</p><p><br></p><p><strong>Рекомендації:</strong></p><p>1.	Налаштувати фільтрування вхідних/вихідних інформаційних потоків, зокрема поштового веб-трафіку. Адміністраторам поштових серверів налаштувати заборону отримання повідомлень із вкладеннями, які мають розширення .exe, .bin, .ini, .dll, .com, .sys, .bat, .js, .zip, .rar тощо.</p><p>2.	Будьте особливо обережними з відкриттям вкладень до електронної пошти від невідомих осіб. Сьогодні популярним засобом розсилання шкідливого програмного забезпечення є електронна пошта. Під час роботи з поштою потрібно перевіряти розширення вкладених файлів. Звертайте увагу на ім'я видправника електронної пошти: якщо ви не очикуєте листа доцільно перевірити факт відправлення листа (у телефонному режимі або в будь-який інший спосіб), чи дійсно ця особа відправляла вам повідомлення з вкладенням.</p><p>3.	Адміністраторам організацій перевірити факт отримання працівниками зазначених фішингових листів. Провести заходи з визначення факту запуску ШПЗ.</p><p>4.	Адміністраторам організацій перевірити факт з’єднання з мережі до ІР-адреси С2 серверу 185.161.208.186 для виявлення потенційно заражених комп’ютерів.</p><p>5.	Повідомити керівництво та відповідні підрозділи про інцидент, якщо він має місце. Провести з користувачами поштового сервісу співбесіду стосовно основних правил кібергігієни.</p><p>6.	Важливо розуміти, якщо зловмисники отримали віддалений доступ до комп’ютера, то вони могли викрасти чутливу інформацію, або встановити інше ШПЗ для віддаленого доступу. Змінити облікові дані (паролі) до всіх ресурсів та сервісів, що використовуються на потенційно зараженому комп’ютері.</p><p>7.	Обмежити можливість запуску виконуваних файлів з директорій //Temp, //AppData.</p><p>8.	Видалити ШПЗ Remote Manipulator System з системи (\Program Files (x86)\Remote Utilities - Host\). Провесті повне сканування потенційно заражених комп'ютерів антівірусним програмним забезпеченням.</p><p>9.	Систематично оновлювати програмне забезпечення.</p><p>10.	Обмежити права користувача,&nbsp;заборонити використання звичайними користувачами прав адміністратора.</p><p>11.	Систематично та своєчасно робити резервні копії чутливої інформації.</p><p><strong>Індикатори компрометації:</strong></p><p>SHA-1: f55357dd19182889c22cc72d608badf6a02e2679 (Електронний запит.rar)</p><p>SHA-1: 0fa82ee93797c30d21be812591095711de67dc2d (Електронний запит.rar)</p><p>SHA-1: 8c64eead4a62011d98a6fb8b79fae2a11cb17a15 (Електронний запит.exe)</p><p>SHA-1: 5a9d6b1fcdaf4b2818a6eeca4f1c16a5c24dd9cf (installer.exe)</p><p>SHA-1: 893630944f020fff0e700160402615d049716a51 (host_news_mod_mod.msi)</p><p>SHA-1: e6f61438fcd4c790e2ec9664948363407da17d51 (killself.bat)</p><p><strong>e-mail</strong>: zapros@dsszzi.gov.ua</p><p><strong>IP</strong></p><p>212.44.151.60 (з якого відсилався фішинговий лист)</p><p>185.161.208.186 (С2 сервер)</p><p><strong>Файлова система:</strong></p><p>\Program Files (x86)\Remote Utilities - Host</p><p>%TEMP%\7ZipSfx.000\</p><p>\Windows\Installer\MSI33C6.tmp</p><p>\Windows\Installer\fa1d2b5a.msi</p><p><strong>Корисні посилання:</strong></p><p><a href="https://cert.gov.ua/recommendation/31" rel="noopener noreferrer" target="_blank" style="background-color: rgb(255, 255, 255);">https://cert.gov.ua/recommendation/31</a></p><p><a href="https://cert.gov.ua/recommendation/2502" rel="noopener noreferrer" target="_blank" style="background-color: rgb(255, 255, 255);">https://cert.gov.ua/recommendation/2502</a></p><p><strong>Онлайн-сервіси для аналізу підозрілих файлів:</strong></p><p><a href="https://www.virustotal.com/" rel="noopener noreferrer" target="_blank">https://www.virustotal.com/</a></p><p><a href="https://app.any.run/" rel="noopener noreferrer" target="_blank">https://app.any.run/</a></p><p><a href="https://analyze.intezer.com/" rel="noopener noreferrer" target="_blank">https://analyze.intezer.com</a></p><p class="ql-align-justify"><a href="https://cuckoo.cert.ee/" rel="noopener noreferrer" target="_blank">https://cuckoo.cert.ee</a></p>
+
+=== RESPONSE (6.4s, in 4782 / out 1212 tok, STOP) ===
+{
+  "entities": [
+    {
+      "name": "Адміністрація Держспецзв’язку",
+      "kind": "Government Organization",
+      "gloss": "A Ukrainian state authority responsible for communications, cyber security, and government information protection."
+    },
+    {
+      "name": "України",
+      "kind": "Country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "zapros@dsszzi.gov.ua",
+      "kind": "Email Address",
+      "gloss": "A spoofed email address used as the sender in a phishing campaign."
+    },
+    {
+      "name": "212.44.151.60",
+      "kind": "IP Address",
+      "gloss": "An IP address belonging to Vimpelcom used to send phishing emails."
+    },
+    {
+      "name": "Vimpelcom",
+      "kind": "Software Vendor",
+      "gloss": "A Russian telecommunications provider and internet service provider."
+    },
+    {
+      "name": "Російської Федерації",
+      "kind": "Country",
+      "gloss": "A country in Eastern Europe and Northern Asia."
+    },
+    {
+      "name": "Електронний запит.rar",
+      "kind": "Computer File",
+      "gloss": "A malicious RAR archive distributed as a phishing email attachment."
+    },
+    {
+      "name": "Електронний запит.exe",
+      "kind": "Malware",
+      "gloss": "A remote access trojan executable delivered inside a malicious archive."
+    },
+    {
+      "name": "installer.exe",
+      "kind": "Computer File",
+      "gloss": "A dropper executable containing a legitimate remote administration utility component."
+    },
+    {
+      "name": "host_news_mod_mod.msi",
+      "kind": "Computer File",
+      "gloss": "A malicious MSI installer file bundled with the remote access payload."
+    },
+    {
+      "name": "Remote Utilities",
+      "kind": "Software Product",
+      "gloss": "A legitimate remote desktop and administration software suite abused by attackers."
+    },
+    {
+      "name": "RMS",
+      "kind": "Software Product",
+      "gloss": "Remote Manipulator System, a remote desktop management software suite abused for unauthorized access."
+    },
+    {
+      "name": "killself.bat",
+      "kind": "Computer File",
+      "gloss": "A batch script executed to remove indicators of compromise after payload initialization."
+    },
+    {
+      "name": "185.161.208.186",
+      "kind": "IP Address",
+      "gloss": "A command and control server IP address used by the malware."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Адміністрація Держспецзв’язку",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "державні установи України. Листи відправлялися, начебто, від імені Адміністрації Держспецзв’язку"
+    },
+    {
+      "head": "Vimpelcom",
+      "type": "located-in",
+      "tail": "Російської Федерації",
+      "evidence": "провайдера \"Vimpelcom\" Російської Федерації."
+    },
+    {
+      "head": "212.44.151.60",
+      "type": "part-of",
+      "tail": "Vimpelcom",
+      "evidence": "ІР-адреси 212.44.151.60, яка належить до пулу адрес провайдера \"Vimpelcom\""
+    },
+    {
+      "head": "Електронний запит.rar",
+      "type": "delivers",
+      "tail": "Електронний запит.exe",
+      "evidence": "Запаролений архів містить файл «Електронний запит.exe»"
+    },
+    {
+      "head": "Електронний запит.exe",
+      "type": "delivers",
+      "tail": "installer.exe",
+      "evidence": "«Електронний запит.ехе» містить в собі файли «installer.exe»"
+    },
+    {
+      "head": "Електронний запит.exe",
+      "type": "delivers",
+      "tail": "host_news_mod_mod.msi",
+      "evidence": "«Електронний запит.ехе» містить в собі файли «installer.exe» та «host_news_mod_mod.msi»."
+    },
+    {
+      "head": "Електронний запит.exe",
+      "type": "delivers",
+      "tail": "killself.bat",
+      "evidence": "видаляють індикатори компрометації з робочих директорій ШПЗ за допомогою файлу «killself.bat»"
+    }
+  ],
+  "newRelationTypes": []
+}

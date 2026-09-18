@@ -1,0 +1,171 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is. REUSE a label from the KNOWN KINDS list below whenever one fits; only when nothing fits, write your own phrase (e.g. "hacking group", "malware family", "software vendor"). Use the same phrase for entities of the same kind.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens (e.g. `attacks`, `uses`, `delivers`, `targets-sector`, `exploits`, `hosts`, `attributed-to`, `affects`, `located-in`, `part-of`, `sends-email-to`).
+   - REUSE a type from the KNOWN RELATION TYPES below whenever it fits. Introduce a new type only when none fits; then also list it in `newRelationTypes` with a one-line definition.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] for relation types you introduced; an empty array is the normal case.
+
+### KNOWN KINDS ###
+Kinds discovered from previously processed reports (label: definition). Reuse them when they fit.
+- Security Vulnerability: A flaw or weakness in software, hardware, or a system that can be exploited to compromise security. (also: Software Vulnerability, Vulnerability, Common Vulnerabilities and Exposures)
+- Software Product: An application, operating system, or suite of computer programs designed to perform specific tasks or functions. (also: Software, Software Application)
+- Software Vendor: An organization or company that develops, distributes, or maintains software, hardware, or related technology products and services. (also: Technology Vendor, Software Developer, Vendor)
+- Country: A distinct territorial body or sovereign state with its own government and defined geographical borders. (also: Nation, Sovereign State)
+- Government Organization: An official agency, ministry, or administrative body operating as part of a national or state government. (also: Government Agency, Government Body, State Authority)
+- Malware: Malicious software, code, or executables designed to infiltrate, damage, or compromise computer systems and data. (also: Malicious Software, Malware Family, Malware Strain)
+- Uniform Resource Locator: A standardized web address specifying the location and retrieval mechanism of a resource on a computer network. (also: URL, Web Address, Web Link)
+- Person: An individual human being, such as a government official, cybersecurity expert, researcher, or executive. (also: Individual, Natural Person)
+- IP Address: A numerical label assigned to a device connected to a computer network that uses the Internet Protocol for communication. (also: Internet Protocol Address)
+- Email Address: A unique identifier used to send and receive electronic mail messages over a computer network. (also: E-mail Address, Electronic Mail Address)
+- Computer File: A digital resource or named item stored on a computer system, containing data, code, or instructions. (also: File, Digital File, Filename)
+- Company: A commercial business, corporation, or enterprise operating in any economic sector or industry. (also: Enterprise, Corporation, Commercial Organization)
+- Domain Name: A human-readable identification string defining a realm of administrative autonomy or resource location within the Internet Domain Name System. (also: Internet Domain, FQDN, Fully Qualified Domain Name)
+- Threat Actor: An individual, group, or organization responsible for malicious cyber activities, attacks, or cyber espionage operations. (also: Threat Group, Cyber Threat Actor, Hacker Group)
+
+### KNOWN RELATION TYPES ###
+- publishes-advisory: The subject vendor or organization releases or issues a security advisory or patch update.
+- fixes-vulnerability-in: The subject security advisory or update remediates vulnerabilities found in the object software product.
+- affects: The subject vulnerability or malware impacts, targets, or compromises the object software, system, or organization.
+- located-in: The subject entity is based in, operates within, or belongs to the object country or geographic area.
+- part-of: The head entity is a component, sub-application, or structural member of the tail entity.
+- hosts: The subject network infrastructure, host, or server hosts or provides access to the object resource or payload.
+- delivers: The subject malware, file, or campaign installs, drops, or initiates the execution of the object malware payload.
+- redirects-to: The subject script, webpage, or file redirects user traffic or execution to the object URL or host.
+- exploits: The subject threat actor or malware leverages or abuses the object security vulnerability to compromise systems.
+- uses: The subject threat actor or malware utilizes the object tool, infrastructure, or malware.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA у соціальній мережі Facebook виявлено низку шахрайських сторінок, що містять посилання на так званий "Єдиний Компенсаційний Центр Повернення Невиплачених Грошових Коштів". На згаданому ресурсі пропонується надати персональну інформацію та здійснити додатковий платіж, в результаті чого дані платіжної картки буде скомпрометовано.</p><p>Згадана шахрайська активність має систематичний характер та відстежується за ідентифікатором UAC-0100.</p><p>&nbsp;</p><p><strong>Індикатори компрометації</strong></p><pre class="ql-syntax" spellcheck="false">hXXp://kohhd[.]com/
+hXXps://rivierafamily[.]com/
+hXXps://compensationukr[.]com/
+hXXps://compensations-ukrain[.]bar/
+hXXps://compensation-ukr[.]com/
+hXXps://europadonnaireland[.]org/
+hXXps://foundpomoshi[.]com/
+hXXps://peer-gos[.]top/
+hXXps://helpzzfound[.]site/
+hXXps://uacompensation[.]xyz/
+hXXps://pay.uacompensation[.]xyz/
+</pre><p><br></p><p><strong>Рекомендації</strong></p><p>1. Ніколи&nbsp;не&nbsp;вводьте&nbsp;реквізити&nbsp;платіжних&nbsp;карток&nbsp;на&nbsp;незнайомих&nbsp;та&nbsp;підозрілих&nbsp;веб-сайтах, а&nbsp;також&nbsp;налаштуйте&nbsp;контроль&nbsp;руху&nbsp;коштів&nbsp;(підключіть&nbsp;SMS-інформування, встановіть&nbsp;ліміти&nbsp;на&nbsp;операції).</p><p>2. Якщо дані платіжної картки помилково введено на шахрайському веб-сайті - НЕГАЙНО заблокувати платіжну картку за допомогою мобільного застосунку, гарячої лінії банку (телефон зазначено на звороті картки) або через Інтернет-банкінг.</p><p>3. Скористайтеся основними порадами платіжної безпеки Національного банку України <a href="https://bank.gov.ua/promo/stopfraud/" rel="noopener noreferrer" target="_blank">https://bank.gov.ua/promo/stopfraud/</a> та правилами кібергігієни <a href="https://cert.gov.ua/recommendation/31" rel="noopener noreferrer" target="_blank">https://cert.gov.ua/recommendation/31</a>.</p><p><br></p><p><strong>Графічні зображення</strong></p><p></p>
+
+=== RESPONSE (5.8s, in 2364 / out 884 tok, STOP) ===
+```json
+{
+  "entities": [
+    {
+      "name": "Facebook",
+      "kind": "Software Product",
+      "gloss": "An online social media and social networking service owned by Meta."
+    },
+    {
+      "name": "UAC-0100",
+      "kind": "Threat Actor",
+      "gloss": "A threat group tracked by CERT-UA associated with financial fraud and credential theft campaigns."
+    },
+    {
+      "name": "hXXp://kohhd[.]com/",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL associated with fraudulent financial compensation scams."
+    },
+    {
+      "name": "hXXps://rivierafamily[.]com/",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL associated with fraudulent financial compensation scams."
+    },
+    {
+      "name": "hXXps://compensationukr[.]com/",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL associated with fraudulent financial compensation scams."
+    },
+    {
+      "name": "hXXps://compensations-ukrain[.]bar/",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL associated with fraudulent financial compensation scams."
+    },
+    {
+      "name": "hXXps://compensation-ukr[.]com/",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL associated with fraudulent financial compensation scams."
+    },
+    {
+      "name": "hXXps://europadonnaireland[.]org/",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL associated with fraudulent financial compensation scams."
+    },
+    {
+      "name": "hXXps://foundpomoshi[.]com/",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL associated with fraudulent financial compensation scams."
+    },
+    {
+      "name": "hXXps://peer-gos[.]top/",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL associated with fraudulent financial compensation scams."
+    },
+    {
+      "name": "hXXps://helpzzfound[.]site/",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL associated with fraudulent financial compensation scams."
+    },
+    {
+      "name": "hXXps://uacompensation[.]xyz/",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL associated with fraudulent financial compensation scams."
+    },
+    {
+      "name": "hXXps://pay.uacompensation[.]xyz/",
+      "kind": "Uniform Resource Locator",
+      "gloss": "A malicious URL associated with fraudulent payment operations."
+    },
+    {
+      "name": "Національний банк України",
+      "kind": "Government Organization",
+      "gloss": "The central bank and monetary authority of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "Country",
+      "gloss": "A sovereign country located in Eastern Europe."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0100",
+      "type": "uses",
+      "tail": "Facebook",
+      "evidence": "у соціальній мережі Facebook виявлено низку шахрайських сторінок... відстежується за ідентифікатором UAC-0100"
+    },
+    {
+      "head": "Національний банк України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Національного банку України"
+    }
+  ],
+  "newRelationTypes": []
+}
+```

@@ -1,0 +1,21 @@
+{
+  "runId": "2026-09-18-gemini-full204-relblind",
+  "seq": 2,
+  "timestamp": "2026-09-18T11:08:31.992Z",
+  "operator": "scheme-name",
+  "docId": 20,
+  "provider": "gemini",
+  "model": "gemini-3.7-flash",
+  "sampling": {
+    "temperature": 0
+  },
+  "instructions": "### ROLE ###\nYou maintain a small, growing set of CONCEPT SCHEMES (entity categories) for a knowledge registry built from cybersecurity incident reports. A group of entities extracted from several reports has just been found to be close to each other and far from every existing scheme. Decide whether the group is a genuinely new scheme or an alias of an existing one, and name it.\n\n### EXISTING SCHEMES ###\n(none yet)\n\n### THE GROUP ###\nEach line is one entity with the description written at extraction time:\n- WP Data Reset [software product] — An open-source WordPress plugin designed to reset database tables to default settings.\n- VMware Tools [software product] — A suite of utilities that enhances the performance and management of VMware virtual machines.\n- MS PowerPoint [software product] — A presentation software application developed by Microsoft, part of the MS Office suite.\n- MS Word [software product] — A word processing software application developed by Microsoft, part of the MS Office suite.\n- MS Excel [software product] — A spreadsheet software application developed by Microsoft, part of the MS Office suite.\n- Illustrator CC [software product] — A vector graphics editor and design program developed and marketed by Adobe.\n- Experience Manager [software product] — A comprehensive enterprise content management solution developed by Adobe.\n- WordPress [software product] — A popular open-source content management system.\n\n### RULES ###\n- A scheme is a KIND of entity (e.g. \"Hacker group\", \"Malware family\", \"Software product\", \"Government body\", \"Internet domain\", \"Country\"), never a role in an incident and never a single entity.\n- Return `\"verdict\": \"alias-of\"` with `\"target\"` set to an existing scheme's label when the group is the same kind as that scheme (different wording, same meaning). Judge by MEANING of the descriptions, not by surface words.\n- Return `\"verdict\": \"new\"` when no existing scheme covers the group. Then give:\n  - `prefLabel`: a short English noun phrase, 1–3 words, singular, Title Case (e.g. \"Malware Family\").\n  - `definition`: one sentence, at most 25 words, stating what belongs to the scheme, general enough to hold across reports.\n  - `altLabels`: 0–3 alternative English labels.\n- If the group mixes clearly different kinds, name the kind of the MAJORITY and list the minority entity names in `outliers`.\n- If uncertain between alias and new, prefer `new`: an extra scheme can be merged later; a wrong merge cannot be undone cheaply.\n\n### OUTPUT ###\nA single raw JSON object, no markdown fences, no commentary:\n{ \"verdict\": \"new\" | \"alias-of\", \"target\": \"<existing label or null>\", \"prefLabel\": \"...\", \"definition\": \"...\", \"altLabels\": [...], \"outliers\": [...] }\n",
+  "text": "Decide and name the group now.",
+  "response": "{\"verdict\": \"new\", \"target\": null, \"prefLabel\": \"Software Product\", \"definition\": \"A software application, program, plugin, utility, or suite developed to perform specific computing tasks or services.\", \"altLabels\": [\"Software Application\", \"Software Program\", \"Software\"], \"outliers\": []}",
+  "usage": {
+    "inputTokens": 627,
+    "outputTokens": 66
+  },
+  "latencyMs": 1762,
+  "finishReason": "STOP"
+}

@@ -1,0 +1,261 @@
+{
+  "docId": 6277063,
+  "date": "11.01.2024",
+  "title": "RemcosRAT, QuasarRAT, RemoteUtilities на озброєнні UAC-0050 (CERT-UA#8453, CERT-UA#8494)",
+  "entities": [
+    {
+      "id": "6277063:0",
+      "name": "UAC-0050",
+      "kind": "threat actor",
+      "gloss": "A threat actor group known for conducting cyberattacks and cyberespionage against Ukrainian organizations.",
+      "scheme": "S14",
+      "category": "HackerGroup",
+      "role": "attacker"
+    },
+    {
+      "id": "6277063:1",
+      "name": "RemcosRAT",
+      "kind": "malware",
+      "gloss": "A commercial remote access trojan frequently used by cybercriminals for unauthorized remote access and surveillance.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6277063:2",
+      "name": "QuasarRAT",
+      "kind": "malware",
+      "gloss": "An open-source remote access trojan written in C# used for system reconnaissance and control.",
+      "scheme": "S6",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6277063:3",
+      "name": "Remote Utilities",
+      "kind": "software product",
+      "gloss": "A legitimate remote desktop software program often abused by threat actors for unauthorized access.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "6277063:4",
+      "name": "Медок",
+      "kind": "company",
+      "gloss": "A Ukrainian software company that develops accounting and electronic document management software.",
+      "scheme": "S12",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277063:5",
+      "name": "Bitbucket",
+      "kind": "software product",
+      "gloss": "A web-based Git version control repository hosting service operated by Atlassian.",
+      "scheme": "S2",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6277063:6",
+      "name": "Google Диск",
+      "kind": "software product",
+      "gloss": "A cloud storage and file synchronization service developed by Google.",
+      "scheme": "S2",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277063:7",
+      "name": "AS215939",
+      "kind": "infrastructure",
+      "gloss": "An autonomous system routing prefix associated with network infrastructure.",
+      "scheme": null,
+      "category": "Infrastructure",
+      "role": "related"
+    },
+    {
+      "id": "6277063:8",
+      "name": "Запит.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive distributed via phishing emails.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277063:9",
+      "name": "Запит документів.pdf.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable disguised as a PDF file designed to deploy RemcosRAT.",
+      "scheme": "S11",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "6277063:10",
+      "name": "Електронний запит.EXE",
+      "kind": "computer file",
+      "gloss": "A malicious executable used to initiate the download and execution of QuasarRAT.",
+      "scheme": "S11",
+      "category": null,
+      "role": "attacker"
+    },
+    {
+      "id": "6277063:11",
+      "name": "Електронний запит Medoc.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable designed to install Remote Utilities on victim systems.",
+      "scheme": "S11",
+      "category": "Organization",
+      "role": "attacker"
+    },
+    {
+      "id": "6277063:12",
+      "name": "reportservlet.pdf",
+      "kind": "computer file",
+      "gloss": "A decoy PDF file contained within malicious archives.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277063:13",
+      "name": "zapit_medoc.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive hosted on remote services.",
+      "scheme": "S11",
+      "category": "Organization",
+      "role": null
+    },
+    {
+      "id": "6277063:14",
+      "name": "gbquas.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable associated with QuasarRAT malware.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277063:15",
+      "name": "remcos.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable payload of the RemcosRAT malware family.",
+      "scheme": "S11",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277063:16",
+      "name": "rmssrv.ru",
+      "kind": "domain name",
+      "gloss": "A domain name used as command and control infrastructure.",
+      "scheme": "S13",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6277063:17",
+      "name": "77.105.132.124",
+      "kind": "ip address",
+      "gloss": "An IP address utilized for command and control communications.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277063:18",
+      "name": "77.105.132.70",
+      "kind": "ip address",
+      "gloss": "An IP address utilized for command and control communications.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277063:19",
+      "name": "188.127.224.64",
+      "kind": "ip address",
+      "gloss": "An IP address identified in the threat actor's network infrastructure.",
+      "scheme": "S9",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "6277063:20",
+      "name": "hXXps://bitbucket[.]org/yener3/yener3/downloads/gbquas.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A URL on Bitbucket used to download the malicious QuasarRAT payload.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6277063:21",
+      "name": "hXXps://bitbucket[.]org/dvsvc/medoc_doc/downloads/zapit_medoc.rar",
+      "kind": "uniform resource locator",
+      "gloss": "A URL on Bitbucket used to host a malicious RAR archive.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": null
+    },
+    {
+      "id": "6277063:22",
+      "name": "hXXps://drive.google[.]com/file/d/1juaof0k-j1uvpy1dcfxa-kobd-csur-f/view?usp=sharing",
+      "kind": "uniform resource locator",
+      "gloss": "A Google Drive link used to distribute malicious archives.",
+      "scheme": "S7",
+      "category": "Domain",
+      "role": null
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0050",
+      "type": "uses",
+      "tail": "RemcosRAT",
+      "evidence": "забезпечує встановлення програми для віддаленого управління RemcosRAT... Активність відстежується за ідентифікатором UAC-0050"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses",
+      "tail": "QuasarRAT",
+      "evidence": "запуск шкідливої програми QuasarRAT... Активність відстежується за ідентифікатором UAC-0050"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses",
+      "tail": "Remote Utilities",
+      "evidence": "встановлення в системі програми для віддаленого управління Remote Utilities... UAC-0050"
+    },
+    {
+      "head": "Запит документів.pdf.exe",
+      "type": "delivers",
+      "tail": "RemcosRAT",
+      "evidence": "Запит документів.pdf.exe, що призначений для створення та запуску AutoIt-скрипта, який в свою чергу забезпечує встановлення програми для віддаленого управління RemcosRAT"
+    },
+    {
+      "head": "Електронний запит.EXE",
+      "type": "delivers",
+      "tail": "QuasarRAT",
+      "evidence": "Електронний запит.EXE, який з використанням команд PowerShell ініціює завантаження з легітимного сервісу Bitbucket та запуск шкідливої програми QuasarRAT"
+    },
+    {
+      "head": "Електронний запит Medoc.exe",
+      "type": "delivers",
+      "tail": "Remote Utilities",
+      "evidence": "Електронний запит Medoc.exe. Запуск останнього призведе до встановлення в системі програми для віддаленого управління Remote Utilities"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses",
+      "tail": "AS215939",
+      "evidence": "було використано одні і ті ж сервери управління, розміщені в межах автономної системи AS215939"
+    }
+  ],
+  "unclassified": [
+    "6277063:7"
+  ]
+}

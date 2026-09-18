@@ -1,0 +1,173 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Держспецзв'язку",
+      "kind": "government organization",
+      "gloss": "The State Service of Special Communications and Information Protection of Ukraine."
+    },
+    {
+      "name": "UAC-0010 (Armageddon)",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage threat group targeting Ukrainian entities, also known as Gamaredon."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cross-platform cloud-based instant messaging service frequently abused by threat actors for command and control resolution."
+    },
+    {
+      "name": "08362793@mail.gov.ua",
+      "kind": "email address",
+      "gloss": "A compromised or spoofed Ukrainian government email address used in malicious email distributions."
+    },
+    {
+      "name": "cloudflare-dns.com",
+      "kind": "domain name",
+      "gloss": "A legitimate public DNS service domain operated by Cloudflare, abused for IP address resolution."
+    },
+    {
+      "name": "hilr.ru",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure to deliver threat payloads."
+    },
+    {
+      "name": "civh.ru",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure to host and deliver threat payloads."
+    },
+    {
+      "name": "rubidiumo.ru",
+      "kind": "domain name",
+      "gloss": "A malicious domain name associated with threat actor network infrastructure."
+    },
+    {
+      "name": "shapurt.ru",
+      "kind": "domain name",
+      "gloss": "A malicious domain name associated with threat actor network infrastructure."
+    },
+    {
+      "name": "ardeas.ru",
+      "kind": "domain name",
+      "gloss": "A malicious domain name associated with threat actor network infrastructure."
+    },
+    {
+      "name": "tzi.info-cip.org",
+      "kind": "domain name",
+      "gloss": "A malicious domain name spoofing official Ukrainian technical information protection resources."
+    },
+    {
+      "name": "arhiv.ua-cip.org",
+      "kind": "domain name",
+      "gloss": "A malicious subdomain used to deliver archive files in cyberattacks."
+    },
+    {
+      "name": "ua-cip.org",
+      "kind": "domain name",
+      "gloss": "A malicious spoofed domain mimicking Ukrainian government information protection infrastructure."
+    },
+    {
+      "name": "info-cip.org",
+      "kind": "domain name",
+      "gloss": "A malicious spoofed domain used in cyber attacks targeting Ukrainian entities."
+    },
+    {
+      "name": "154.111.181.171",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious command and control infrastructure."
+    },
+    {
+      "name": "173.199.90.103",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious network infrastructure."
+    },
+    {
+      "name": "45.32.171.4",
+      "kind": "ip address",
+      "gloss": "An IP address associated with malicious network infrastructure."
+    },
+    {
+      "name": "08.11.2022.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive file delivered during the phishing campaign."
+    },
+    {
+      "name": "07.11.2022.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive file used in phishing operations."
+    },
+    {
+      "name": "07-11-2022.xhtml",
+      "kind": "computer file",
+      "gloss": "A malicious HTML/XHTML file used to drop archive payloads."
+    },
+    {
+      "name": "07_11_2022.xhtml",
+      "kind": "computer file",
+      "gloss": "A malicious HTML/XHTML file containing JavaScript code to generate archive payloads."
+    },
+    {
+      "name": "08.11.2022.arhiv",
+      "kind": "computer file",
+      "gloss": "A malicious archive file hosted on adversary infrastructure."
+    },
+    {
+      "name": "Засоби ТЗІ, які мають експертний висновок про відповідність до вимог технічного захисту інформації.lnk",
+      "kind": "computer file",
+      "gloss": "A malicious LNK shortcut file packaged inside an archive to trigger HTA payload execution."
+    },
+    {
+      "name": "growth.rtf",
+      "kind": "computer file",
+      "gloss": "A malicious file payload hosted on remote infrastructure."
+    },
+    {
+      "name": "jersey",
+      "kind": "computer file",
+      "gloss": "A malicious file dropped onto a victim's host system."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Держспецзв'язку",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "від імені Держспецзв'язку"
+    },
+    {
+      "head": "UAC-0010 (Armageddon)",
+      "type": "uses",
+      "tail": "Telegram",
+      "evidence": "для визначення IP-адреси серверу управління використовується або третьосторонній сервіс (cloudflare-dns[.]com) або Telegram"
+    },
+    {
+      "head": "UAC-0010 (Armageddon)",
+      "type": "uses",
+      "tail": "cloudflare-dns.com",
+      "evidence": "для визначення IP-адреси серверу управління використовується або третьосторонній сервіс (cloudflare-dns[.]com)"
+    },
+    {
+      "head": "08.11.2022.rar",
+      "type": "delivers",
+      "tail": "Засоби ТЗІ, які мають експертний висновок про відповідність до вимог технічного захисту інформації.lnk",
+      "evidence": "архів містить файл-ярлик \"Засоби ТЗІ, які мають експертний висновок"
+    },
+    {
+      "head": "arhiv.ua-cip.org",
+      "type": "part-of",
+      "tail": "ua-cip.org",
+      "evidence": "arhiv.ua-cip[.]org"
+    },
+    {
+      "head": "tzi.info-cip.org",
+      "type": "part-of",
+      "tail": "info-cip.org",
+      "evidence": "tzi.info-cip[.]org"
+    }
+  ],
+  "newRelationTypes": []
+}

@@ -1,0 +1,85 @@
+{
+  "entities": [
+    {
+      "name": "Департамент кіберполіції Національної поліції України",
+      "kind": "government organization",
+      "gloss": "A structural subdivision of the National Police of Ukraine responsible for combating cybercrime."
+    },
+    {
+      "name": "Національної поліції України",
+      "kind": "government organization",
+      "gloss": "The central government body that provides policing services in Ukraine."
+    },
+    {
+      "name": "України",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cross-platform cloud-based instant messaging service and application."
+    },
+    {
+      "name": "UAC-0094",
+      "kind": "threat actor",
+      "gloss": "A threat actor tracked by CERT-UA involved in cyber attacks targeting Telegram accounts."
+    },
+    {
+      "name": "hxxps://telegram.org.security[.]ohsxy.com/?access=true&check=",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious phishing URL impersonating Telegram security verification to harvest account credentials."
+    },
+    {
+      "name": "security-check.telegram.org.ohsxy[.]com",
+      "kind": "domain name",
+      "gloss": "A phishing domain used in attacks to impersonate Telegram security services."
+    },
+    {
+      "name": "telegram.org.security.ohsxy[.]com",
+      "kind": "domain name",
+      "gloss": "A phishing domain used to steal Telegram account sessions and verification codes."
+    },
+    {
+      "name": "ohsxy[.]com",
+      "kind": "domain name",
+      "gloss": "A domain name used as malicious infrastructure in phishing attacks."
+    },
+    {
+      "name": "telsec[.]org",
+      "kind": "domain name",
+      "gloss": "A malicious domain used in cyber attacks targeting Telegram users."
+    },
+    {
+      "name": "45[.]150.67.87",
+      "kind": "ip address",
+      "gloss": "An IP address identified as network infrastructure used in malicious cyber operations."
+    },
+    {
+      "name": "193[.]106.191.202",
+      "kind": "ip address",
+      "gloss": "An IP address associated with phishing and threat infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Департамент кіберполіції Національної поліції України",
+      "type": "part-of",
+      "tail": "Національної поліції України",
+      "evidence": "Департаменту кіберполіції Національної поліції України"
+    },
+    {
+      "head": "Національної поліції України",
+      "type": "located-in",
+      "tail": "України",
+      "evidence": "Національної поліції України"
+    },
+    {
+      "head": "UAC-0094",
+      "type": "affects",
+      "tail": "Telegram",
+      "evidence": "отримання несанкціонованого доступу до облікових записів згаданого сервісу"
+    }
+  ],
+  "newRelationTypes": []
+}

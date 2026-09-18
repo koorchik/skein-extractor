@@ -1,0 +1,117 @@
+{
+  "entities": [
+    {
+      "name": "Armageddon",
+      "kind": "threat actor",
+      "gloss": "A Russian state-sponsored cyber espionage group targeting Ukrainian organizations, also tracked as UAC-0010."
+    },
+    {
+      "name": "GammaLoad",
+      "kind": "malware",
+      "gloss": "A VBScript-based reconnaissance and downloader malware associated with the Armageddon threat group."
+    },
+    {
+      "name": "Кіберцентр Державної прикордонної служби України",
+      "kind": "government organization",
+      "gloss": "The cybersecurity subdivision of the State Border Guard Service of Ukraine."
+    },
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A sovereign country in Eastern Europe."
+    },
+    {
+      "name": "ДП «Адміністрація морських портів України»",
+      "kind": "government organization",
+      "gloss": "A Ukrainian state enterprise managing sea port infrastructure across Ukraine."
+    },
+    {
+      "name": "порти АРК.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive containing malicious Word documents distributed in spear-phishing emails."
+    },
+    {
+      "name": "Щодо заходження суден під державним прапором в порти АР Крим на 27.01.2022.docx",
+      "kind": "computer file",
+      "gloss": "A malicious DOCX document containing an embedded URL used to download a secondary payload."
+    },
+    {
+      "name": "Щодо заходження суден під іноземним прапором в порти АР Крим на 27.01.2022.docx",
+      "kind": "computer file",
+      "gloss": "A malicious DOCX document with an embedded URL used to retrieve malicious macro-enabled templates."
+    },
+    {
+      "name": "derg.gif",
+      "kind": "computer file",
+      "gloss": "A malicious payload file disguised as a GIF image."
+    },
+    {
+      "name": "hxxp://surname192.temp.swtest[.]ru/prapor/su/derg.gif",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL used to distribute payloads in the campaign."
+    },
+    {
+      "name": "hxxp://surname192.temp.swtest[.]ru/prapor/su/ino.gif",
+      "kind": "uniform resource locator",
+      "gloss": "A malicious URL used to download payloads in the attack."
+    },
+    {
+      "name": "surname192.temp.swtest[.]ru",
+      "kind": "domain name",
+      "gloss": "A network domain used to host malicious files in the attack."
+    },
+    {
+      "name": "coagula[.]online",
+      "kind": "domain name",
+      "gloss": "A malicious domain used in the threat actor's infrastructure."
+    },
+    {
+      "name": "tortunas[.]ru",
+      "kind": "domain name",
+      "gloss": "A malicious domain identified as an indicator of compromise."
+    },
+    {
+      "name": "phymateus[.]online",
+      "kind": "domain name",
+      "gloss": "A malicious domain name associated with the threat campaign."
+    },
+    {
+      "name": "stopcovid@email[.]cz",
+      "kind": "email address",
+      "gloss": "An email address used by the threat actor in malicious activity."
+    }
+  ],
+  "relations": [
+    {
+      "head": "Armageddon",
+      "type": "uses",
+      "tail": "GammaLoad",
+      "evidence": "Атаку асоційовано з діяльністю групи Armageddon"
+    },
+    {
+      "head": "порти АРК.rar",
+      "type": "delivers",
+      "tail": "Щодо заходження суден під державним прапором в порти АР Крим на 27.01.2022.docx",
+      "evidence": "Згаданий RAR-архів містить шкідливі DOCX-документи"
+    },
+    {
+      "head": "порти АРК.rar",
+      "type": "delivers",
+      "tail": "Щодо заходження суден під іноземним прапором в порти АР Крим на 27.01.2022.docx",
+      "evidence": "Згаданий RAR-архів містить шкідливі DOCX-документи"
+    },
+    {
+      "head": "Кіберцентр Державної прикордонної служби України",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "Кіберцентр Державної прикордонної служби України"
+    },
+    {
+      "head": "ДП «Адміністрація морських портів України»",
+      "type": "located-in",
+      "tail": "Україна",
+      "evidence": "ДП «Адміністрація морських портів України»"
+    }
+  ],
+  "newRelationTypes": []
+}

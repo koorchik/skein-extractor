@@ -1,0 +1,189 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0010",
+      "kind": "threat actor",
+      "gloss": "A cyberespionage group linked to the Russian FSB, also known as Armageddon or Gamaredon."
+    },
+    {
+      "name": "Держспецзв'язку",
+      "kind": "government body",
+      "gloss": "The State Service of Special Communications and Information Protection of Ukraine."
+    },
+    {
+      "name": "Telegram",
+      "kind": "software product",
+      "gloss": "A cloud-based instant messaging and voice over IP service."
+    },
+    {
+      "name": "cloudflare-dns.com",
+      "kind": "internet domain",
+      "gloss": "A public DNS resolver service provided by Cloudflare."
+    },
+    {
+      "name": "mail.gov.ua",
+      "kind": "internet domain",
+      "gloss": "An official email service domain used by Ukrainian government institutions."
+    },
+    {
+      "name": "08362793@mail.gov.ua",
+      "kind": "email address",
+      "gloss": "An email address used to distribute malicious phishing emails."
+    },
+    {
+      "name": "154.111.181.171",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure."
+    },
+    {
+      "name": "173.199.90.103",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure."
+    },
+    {
+      "name": "45.32.171.4",
+      "kind": "ip address",
+      "gloss": "An IP address identified as command and control infrastructure."
+    },
+    {
+      "name": "hilr.ru",
+      "kind": "internet domain",
+      "gloss": "A domain used for hosting malicious payloads."
+    },
+    {
+      "name": "civh.ru",
+      "kind": "internet domain",
+      "gloss": "A domain used for hosting malicious payloads."
+    },
+    {
+      "name": "rubidiumo.ru",
+      "kind": "internet domain",
+      "gloss": "A domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "shapurt.ru",
+      "kind": "internet domain",
+      "gloss": "A domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "ardeas.ru",
+      "kind": "internet domain",
+      "gloss": "A domain identified as malicious network infrastructure."
+    },
+    {
+      "name": "tzi.info-cip.org",
+      "kind": "internet domain",
+      "gloss": "A subdomain used to host malicious files."
+    },
+    {
+      "name": "arhiv.ua-cip.org",
+      "kind": "internet domain",
+      "gloss": "A subdomain used to host malicious files."
+    },
+    {
+      "name": "ua-cip.org",
+      "kind": "internet domain",
+      "gloss": "A domain used by threat actors to host malicious resources."
+    },
+    {
+      "name": "info-cip.org",
+      "kind": "internet domain",
+      "gloss": "A domain used by threat actors to host malicious resources."
+    },
+    {
+      "name": "07-11-2022.xhtml",
+      "kind": "file",
+      "gloss": "A malicious HTML/XHTML file used to drop archive payloads."
+    },
+    {
+      "name": "07_11_2022.xhtml",
+      "kind": "file",
+      "gloss": "A malicious HTML/XHTML file used to drop archive payloads."
+    },
+    {
+      "name": "07.11.2022.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive containing a shortcut file."
+    },
+    {
+      "name": "08.11.2022.rar",
+      "kind": "file",
+      "gloss": "A malicious RAR archive containing a shortcut file."
+    },
+    {
+      "name": "08.11.2022.arhiv",
+      "kind": "file",
+      "gloss": "A malicious archive file hosted on adversary infrastructure."
+    },
+    {
+      "name": "Засоби ТЗІ, які мають експертний висновок про відповідність до вимог технічного захисту інформації.lnk",
+      "kind": "file",
+      "gloss": "A malicious Windows shortcut file used to execute HTA payloads."
+    },
+    {
+      "name": "growth.rtf",
+      "kind": "file",
+      "gloss": "A malicious payload file disguised with an RTF extension."
+    },
+    {
+      "name": "band.rtf",
+      "kind": "file",
+      "gloss": "A malicious payload file executed via mshta."
+    },
+    {
+      "name": "sent.rtf",
+      "kind": "file",
+      "gloss": "A malicious payload file disguised with an RTF extension."
+    },
+    {
+      "name": "jersey",
+      "kind": "file",
+      "gloss": "A malware payload dropped to the user profile directory."
+    }
+  ],
+  "relations": [
+    {
+      "head": "arhiv.ua-cip.org",
+      "type": "hosts",
+      "tail": "08.11.2022.arhiv",
+      "evidence": "hXXp://arhiv.ua-cip[.]org/08.11.2022.arhiv"
+    },
+    {
+      "head": "tzi.info-cip.org",
+      "type": "hosts",
+      "tail": "07_11_2022.xhtml",
+      "evidence": "hXXp://tzi.info-cip[.]org/07_11_2022.xhtml"
+    },
+    {
+      "head": "civh.ru",
+      "type": "hosts",
+      "tail": "band.rtf",
+      "evidence": "hXXps://civh[.]ru/08.11/band.rtf"
+    },
+    {
+      "head": "hilr.ru",
+      "type": "hosts",
+      "tail": "growth.rtf",
+      "evidence": "hXXps://hilr[.]ru/07.11/growth.rtf"
+    },
+    {
+      "head": "hilr.ru",
+      "type": "hosts",
+      "tail": "sent.rtf",
+      "evidence": "hXXps://hilr[.]ru/07.11/sent.rtf"
+    },
+    {
+      "head": "arhiv.ua-cip.org",
+      "type": "part-of",
+      "tail": "ua-cip.org",
+      "evidence": "arhiv.ua-cip[.]org"
+    },
+    {
+      "head": "tzi.info-cip.org",
+      "type": "part-of",
+      "tail": "info-cip.org",
+      "evidence": "tzi.info-cip[.]org"
+    }
+  ],
+  "newRelationTypes": []
+}

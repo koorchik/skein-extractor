@@ -1,0 +1,231 @@
+{
+  "docId": 2722,
+  "date": "15.05.2018",
+  "title": "Популярні вразливості в українському сегменті мережі Інтернет",
+  "entities": [
+    {
+      "id": "2722:0",
+      "name": "Україні",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe.",
+      "scheme": "S5",
+      "category": null,
+      "role": null
+    },
+    {
+      "id": "2722:1",
+      "name": "POODLE",
+      "kind": "vulnerability identifier",
+      "gloss": "A security vulnerability affecting the SSL 3.0 protocol, tracked as CVE-2014-3566.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2722:2",
+      "name": "CVE-2014-3566",
+      "kind": "vulnerability identifier",
+      "gloss": "A common vulnerability enumeration identifier for the POODLE attack affecting SSL 3.0.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2722:3",
+      "name": "SSL 3.0",
+      "kind": "communication protocol",
+      "gloss": "A deprecated cryptographic protocol designed to provide secure communications over a computer network.",
+      "scheme": null,
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2722:4",
+      "name": "Apache",
+      "kind": "software product",
+      "gloss": "A widely used open-source cross-platform web server software.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2722:5",
+      "name": "nginx",
+      "kind": "software product",
+      "gloss": "A high-performance open-source HTTP web server and reverse proxy.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2722:6",
+      "name": "Logjam",
+      "kind": "vulnerability identifier",
+      "gloss": "A security vulnerability in the TLS protocol allowing downgrade of Diffie-Hellman key exchanges.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2722:7",
+      "name": "CVE-2015-4000",
+      "kind": "vulnerability identifier",
+      "gloss": "A vulnerability identifier for the Logjam attack against TLS connections using export-grade Diffie-Hellman parameters.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2722:8",
+      "name": "OpenSSL",
+      "kind": "software library",
+      "gloss": "An open-source software library implementing cryptographic functions and the SSL/TLS protocols.",
+      "scheme": null,
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2722:9",
+      "name": "FREAK",
+      "kind": "vulnerability identifier",
+      "gloss": "A security vulnerability that allows attackers to downgrade TLS connections to export-grade RSA cryptography.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2722:10",
+      "name": "cve-2015-0204",
+      "kind": "vulnerability identifier",
+      "gloss": "A vulnerability identifier associated with the FREAK attack in OpenSSL.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2722:11",
+      "name": "DROWN",
+      "kind": "vulnerability identifier",
+      "gloss": "A cross-protocol security vulnerability attacking servers supporting modern TLS via legacy SSLv2.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2722:12",
+      "name": "CVE-2016-0800",
+      "kind": "vulnerability identifier",
+      "gloss": "A vulnerability identifier for the DROWN attack affecting SSLv2 implementations.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2722:13",
+      "name": "SSLv2",
+      "kind": "communication protocol",
+      "gloss": "An obsolete and insecure version of the Secure Sockets Layer protocol.",
+      "scheme": null,
+      "category": null,
+      "role": "target"
+    },
+    {
+      "id": "2722:14",
+      "name": "CVE-2017-14491",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution and denial-of-service buffer overflow vulnerability in dnsmasq.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2722:15",
+      "name": "dnsmasq",
+      "kind": "software product",
+      "gloss": "A lightweight, easy-to-configure DNS forwarder and DHCP server package.",
+      "scheme": "S3",
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2722:16",
+      "name": "CVE-2017-0144",
+      "kind": "vulnerability identifier",
+      "gloss": "A remote code execution vulnerability in Microsoft Windows SMBv1 server, exploited by EternalBlue.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    },
+    {
+      "id": "2722:17",
+      "name": "SMBv1",
+      "kind": "communication protocol",
+      "gloss": "Version 1 of the Server Message Block network communication protocol.",
+      "scheme": null,
+      "category": "Software",
+      "role": "target"
+    },
+    {
+      "id": "2722:18",
+      "name": "Heartbleed",
+      "kind": "vulnerability identifier",
+      "gloss": "A severe security vulnerability in the OpenSSL cryptography library affecting TLS heartbeat extension.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": null
+    },
+    {
+      "id": "2722:19",
+      "name": "CVE-2014-0160",
+      "kind": "vulnerability identifier",
+      "gloss": "A vulnerability identifier for the Heartbleed memory disclosure bug in OpenSSL.",
+      "scheme": "S2",
+      "category": "Software",
+      "role": "related"
+    }
+  ],
+  "relations": [
+    {
+      "head": "CVE-2014-3566",
+      "type": "affects",
+      "tail": "SSL 3.0",
+      "evidence": "POODLE (Padding Oracle On Downgraded Legacy Encryption, CVE-2014-3566) дозволяє розшифровувати вміст закритого каналу зв'язку. ... блокувати використання SSL 3.0"
+    },
+    {
+      "head": "CVE-2015-4000",
+      "type": "affects",
+      "tail": "OpenSSL",
+      "evidence": "Вразливість поширюється як на серверне ПЗ, що використовує OpenSSL (Logjam, FREAK and Upcoming Changes in OpenSSL)"
+    },
+    {
+      "head": "CVE-2016-0800",
+      "type": "affects",
+      "tail": "SSLv2",
+      "evidence": "Мережеві адміністратори повинні відключити підтримку SSLv2."
+    },
+    {
+      "head": "CVE-2017-14491",
+      "type": "affects",
+      "tail": "dnsmasq",
+      "evidence": "Переповнення буфера було знайдено у коді dnsmasq включно до версії 2.78"
+    },
+    {
+      "head": "CVE-2017-0144",
+      "type": "affects",
+      "tail": "SMBv1",
+      "evidence": "SMBv1 сервер у Microsoft Windows Vista SP2 ... дає змогу зловмисникам виконувати довільний код"
+    },
+    {
+      "head": "CVE-2014-0160",
+      "type": "affects",
+      "tail": "OpenSSL",
+      "evidence": "Heartbleed — помилка в криптографічному програмному забезпеченні OpenSSL"
+    }
+  ],
+  "unclassified": [
+    "2722:3",
+    "2722:8",
+    "2722:13",
+    "2722:17"
+  ]
+}

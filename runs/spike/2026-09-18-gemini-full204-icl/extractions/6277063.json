@@ -1,0 +1,164 @@
+{
+  "entities": [
+    {
+      "name": "UAC-0050",
+      "kind": "threat actor",
+      "gloss": "A threat actor group known for conducting cyberattacks and cyberespionage against Ukrainian organizations."
+    },
+    {
+      "name": "RemcosRAT",
+      "kind": "malware",
+      "gloss": "A commercial remote access trojan frequently used by cybercriminals for unauthorized remote access and surveillance."
+    },
+    {
+      "name": "QuasarRAT",
+      "kind": "malware",
+      "gloss": "An open-source remote access trojan written in C# used for system reconnaissance and control."
+    },
+    {
+      "name": "Remote Utilities",
+      "kind": "software product",
+      "gloss": "A legitimate remote desktop software program often abused by threat actors for unauthorized access."
+    },
+    {
+      "name": "Медок",
+      "kind": "company",
+      "gloss": "A Ukrainian software company that develops accounting and electronic document management software."
+    },
+    {
+      "name": "Bitbucket",
+      "kind": "software product",
+      "gloss": "A web-based Git version control repository hosting service operated by Atlassian."
+    },
+    {
+      "name": "Google Диск",
+      "kind": "software product",
+      "gloss": "A cloud storage and file synchronization service developed by Google."
+    },
+    {
+      "name": "AS215939",
+      "kind": "infrastructure",
+      "gloss": "An autonomous system routing prefix associated with network infrastructure."
+    },
+    {
+      "name": "Запит.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive distributed via phishing emails."
+    },
+    {
+      "name": "Запит документів.pdf.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable disguised as a PDF file designed to deploy RemcosRAT."
+    },
+    {
+      "name": "Електронний запит.EXE",
+      "kind": "computer file",
+      "gloss": "A malicious executable used to initiate the download and execution of QuasarRAT."
+    },
+    {
+      "name": "Електронний запит Medoc.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable designed to install Remote Utilities on victim systems."
+    },
+    {
+      "name": "reportservlet.pdf",
+      "kind": "computer file",
+      "gloss": "A decoy PDF file contained within malicious archives."
+    },
+    {
+      "name": "zapit_medoc.rar",
+      "kind": "computer file",
+      "gloss": "A malicious RAR archive hosted on remote services."
+    },
+    {
+      "name": "gbquas.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable associated with QuasarRAT malware."
+    },
+    {
+      "name": "remcos.exe",
+      "kind": "computer file",
+      "gloss": "A malicious executable payload of the RemcosRAT malware family."
+    },
+    {
+      "name": "rmssrv.ru",
+      "kind": "domain name",
+      "gloss": "A domain name used as command and control infrastructure."
+    },
+    {
+      "name": "77.105.132.124",
+      "kind": "ip address",
+      "gloss": "An IP address utilized for command and control communications."
+    },
+    {
+      "name": "77.105.132.70",
+      "kind": "ip address",
+      "gloss": "An IP address utilized for command and control communications."
+    },
+    {
+      "name": "188.127.224.64",
+      "kind": "ip address",
+      "gloss": "An IP address identified in the threat actor's network infrastructure."
+    },
+    {
+      "name": "hXXps://bitbucket[.]org/yener3/yener3/downloads/gbquas.exe",
+      "kind": "uniform resource locator",
+      "gloss": "A URL on Bitbucket used to download the malicious QuasarRAT payload."
+    },
+    {
+      "name": "hXXps://bitbucket[.]org/dvsvc/medoc_doc/downloads/zapit_medoc.rar",
+      "kind": "uniform resource locator",
+      "gloss": "A URL on Bitbucket used to host a malicious RAR archive."
+    },
+    {
+      "name": "hXXps://drive.google[.]com/file/d/1juaof0k-j1uvpy1dcfxa-kobd-csur-f/view?usp=sharing",
+      "kind": "uniform resource locator",
+      "gloss": "A Google Drive link used to distribute malicious archives."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0050",
+      "type": "uses",
+      "tail": "RemcosRAT",
+      "evidence": "забезпечує встановлення програми для віддаленого управління RemcosRAT... Активність відстежується за ідентифікатором UAC-0050"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses",
+      "tail": "QuasarRAT",
+      "evidence": "запуск шкідливої програми QuasarRAT... Активність відстежується за ідентифікатором UAC-0050"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses",
+      "tail": "Remote Utilities",
+      "evidence": "встановлення в системі програми для віддаленого управління Remote Utilities... UAC-0050"
+    },
+    {
+      "head": "Запит документів.pdf.exe",
+      "type": "delivers",
+      "tail": "RemcosRAT",
+      "evidence": "Запит документів.pdf.exe, що призначений для створення та запуску AutoIt-скрипта, який в свою чергу забезпечує встановлення програми для віддаленого управління RemcosRAT"
+    },
+    {
+      "head": "Електронний запит.EXE",
+      "type": "delivers",
+      "tail": "QuasarRAT",
+      "evidence": "Електронний запит.EXE, який з використанням команд PowerShell ініціює завантаження з легітимного сервісу Bitbucket та запуск шкідливої програми QuasarRAT"
+    },
+    {
+      "head": "Електронний запит Medoc.exe",
+      "type": "delivers",
+      "tail": "Remote Utilities",
+      "evidence": "Електронний запит Medoc.exe. Запуск останнього призведе до встановлення в системі програми для віддаленого управління Remote Utilities"
+    },
+    {
+      "head": "UAC-0050",
+      "type": "uses",
+      "tail": "AS215939",
+      "evidence": "було використано одні і ті ж сервери управління, розміщені в межах автономної системи AS215939"
+    }
+  ],
+  "newRelationTypes": []
+}

