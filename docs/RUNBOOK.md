@@ -60,6 +60,8 @@ calls are then spent. `…-mid20-kindfirst` was produced this way from `…-mid2
 npm run make-view -- --run runs/spike/<dir>          # the viewer that fits the run
 npm run make-view -- --all runs/spike                # every run directory
 npm run scheme-view -- --run runs/spike/<dir>        # scheme viewer only, with --out
+npm run make-view -- --compare runs/spike            # one page per run kind, with a run switcher
+npm run make-view -- --run <runA> --run <runB> --out <file>   # a chosen set of runs of one kind
 ```
 
 Every run directory carries one self-contained HTML viewer; both drivers write it at the end of a
@@ -67,11 +69,32 @@ run (`src/RunViews/runViews.ts` picks it from the kind in `run-card.json`). `mak
 after a viewer changes; it makes no LLM calls. A new kind of run needs a new viewer module and one
 entry in `runViews.ts`: a run without something to open in a browser is not finished.
 
+**Run switcher.** Several runs of one kind go into ONE page (`runs/spike/scheme-runs.html`,
+`runs/spike/relation-runs.html`), as in the SKEIN-R viewer: a `run` select, a `compare with`
+select, and the reading position carried across by document id. Nothing is merged; every run keeps
+its own schemes, events and curves. `#run=<runId>&cmp=<runId>` in the URL opens a comparison
+directly. Items are aligned between runs for the viewer only (`src/RunViews/crossRun.ts`): same
+document and every surface part equal after `normSurface`, otherwise one surface containing the
+other (a mention: its name; a statement: head and tail). The counts that the page shows under this
+rule are a reading aid, not the mention-level agreement of E0d or E5. The compare pages are
+regenerated after a new run (`--compare`); they live outside the run directories.
+
 **`scheme-view.html`** (scheme runs, `src/SchemeView/`).
 
 One self-contained HTML file: document stepper with playback, scheme cards (label, definition,
-altLabels, members with glosses, birth document), 2-D embedding map coloured by scheme or by
-hand category, ν(t) and inventory curves, per-document triples, scheme × hand-category cross-tab.
+altLabels, members with glosses, birth document), 2-D embedding map, ν(t) and inventory curves,
+per-document triples, scheme × hand-category cross-tab. The map keeps three things apart. Colour
+is the chosen colouring: emergent scheme (the result of the run), frozen hand category (the
+reference) or extractor kind phrase (the input; the 14 most frequent phrases get a colour). Fill is
+the state in the run: filled for a mention in a scheme, hollow for a mention in the pool. A kind
+phrase is the extractor's own words and every mention has one, so a pooled (hollow, neutral) point
+still shows a kind phrase. Shape exists on a multi-run page: a diamond is a mention that only this
+run extracted, a cross is a mention that only the compared run extracted, drawn at its place in
+the common projection (one PCA is fitted over all the runs of the page). Hovering a point explains
+it in labelled parts: what the extractor said, the route in this run step by step (pooled because
+no scheme existed, kind-first, kNN vote, mint, alias, drain, with cosines), the hand reference,
+and what every other run made of the same mention. A click pins the explanation; filter chips dim
+everything except one group (only here, absent here, kind phrase differs).
 
 **`relation-view.html`** (relation-layer runs, `src/RelationView/`). Document stepper with
 playback; relation-type cards grouped by cell (label, definition, broader type, alt labels,
@@ -79,7 +102,12 @@ phrases, member statements with evidence); the argument-type matrix (head scheme
 laid out by the final schemes of the arguments so that every arm looks the same) with typed /
 pool / pending bars, click a cell to filter; growth curves; the statement table with the final
 cell, type, assignment route and similarity; the current document's statements and events
-(release, mint, alias, cross-cell name reuse).
+(release, mint, alias, cross-cell name reuse). On a multi-run page the statement table has a
+`compared run` column (the phrase and the outcome of the same statement there, highlighted when
+the outcome differs), rows for the statements that only the compared run extracted, and filter
+chips; a click on a row explains the statement in the same labelled parts as the scheme map.
+Route codes are spelled out from `src/RunViews/howLabels.ts`; a driver that records a new code
+fails `howLabels.test.ts` until the code has a label.
 
 ### 1.3 Run README
 

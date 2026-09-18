@@ -31,7 +31,8 @@ relation types) and as a family indexed by the thresholds.
 - **Planned experiments E0–E9 and their status:** [`docs/EXPERIMENT-PLAN.md`](docs/EXPERIMENT-PLAN.md).
 - **How to run anything:** [`docs/RUNBOOK.md`](docs/RUNBOOK.md).
 - **Look at a run:** read `runs/spike/<run>/README.md` (purpose plus numbers generated from the run
-  card), or open the run's viewer in a browser (`scheme-view.html` or `relation-view.html`, self-contained, no server); one
+  card), or open the run's viewer in a browser (`scheme-view.html` or `relation-view.html`, self-contained, no server); to read one run against
+  another open `runs/spike/scheme-runs.html` or `runs/spike/relation-runs.html` (run switcher); one
   line per run in [`runs/spike/README.md`](runs/spike/README.md).
 - **Paper vocabulary versus code vocabulary:** [`docs/TERMINOLOGY-ALIGNMENT.md`](docs/TERMINOLOGY-ALIGNMENT.md).
 

@@ -8,6 +8,11 @@ for scheme runs, `<run>/relation-view.html` for relation-layer runs (regenerate 
 `npm run make-view -- --run <run>` or `--all runs/spike`). Each run directory has its own
 `README.md` with purpose, configuration, schemes and growth table (`npm run run-readme -- --run <run>`).
 
+Two pages hold all the runs of a kind behind a run switcher, for reading one run against another
+on the same document: `scheme-runs.html` (the six scheme runs) and `relation-runs.html` (the eight
+relation-layer runs). Regenerate with `npm run make-view -- --compare runs/spike` after a new run.
+They are views, not runs: no run card, nothing to cite.
+
 | run | documents | differs in | mentions | schemes | pool | relation types | naming calls |
 |---|---|---|---|---|---|---|---|
 | `2026-09-16-gemini-20` | 1–20 (2019–2020 advisories) | lenient thresholds: τ 0.78, pool link 0.80 | 236 | 9 | 15 | 7 | 9 |

@@ -65,7 +65,9 @@ disagree on a number, the run card wins.
 
 - Article-3 code: `bin/spike-schemes.ts` (driver; exports `averageLinkage`, `reprText`),
   `bin/spike-repr.ts`, `bin/spike-relcanon.ts`, `bin/scheme-view.ts`, `src/SchemeView/`, `src/RelationView/`,
-  `bin/make-view.ts`, `src/RunViews/` (picks the viewer by run kind),
+  `bin/make-view.ts`, `src/RunViews/` (picks the viewer by run kind; several runs of one kind go
+  into one page with a run switcher, `crossRun.ts` aligns mentions and statements between runs,
+  `howLabels.ts` spells out assignment routes, `viewerHarness.ts` drives a page in tests),
   `bin/run-readme.ts`, `src/RunReadme/` (per-run `README.md`, generated below its marker),
   `bin/spike-relations.ts`, `bin/spike-relcompare.ts`, `src/RelationDiscovery/` (relation layer
   replayed over a finished scheme run: blind per cell, blind global, typed in-context). Spike
@@ -79,7 +81,7 @@ disagree on a number, the run card wins.
   stream curves), `bin/evaluate.ts`, `bin/stats.ts`, `bin/order-ari.ts`. Do not refactor it for
   taste; change it only when an experiment needs it.
 - TypeScript through ts-node, no build step, Node ≥ 22. `npm run typecheck` and `npm test`
-  (node:test, 761 tests) must pass before any hand-off.
+  (node:test, 790 tests) must pass before any hand-off.
 
 ## Working conventions
 
@@ -91,7 +93,8 @@ disagree on a number, the run card wins.
   missing from `config/model-prices.json`: token counts are recorded, USD is not.
 - Every run directory ends with a self-contained HTML viewer (`writeRunView`, called by the
   drivers). A new kind of run gets a new viewer in `src/RunViews/runViews.ts` before its first run
-  is handed over.
+  is handed over. After a new run, `npm run make-view -- --compare runs/spike` refreshes the
+  multi-run pages.
 - Every new run gets a line in `runs/spike/README.md` (or `runs/experiments/README.md` once
   pre-registered runs start) stating its purpose and what it differs in.
 - Figures follow the TACS column contract of `analysis/figures.py`: 3.0 in wide, STIXGeneral,
